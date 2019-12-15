@@ -397,6 +397,7 @@ function ding_adgangsplatformen_callback() {
           // another client.
           $token_provider = ding_adgangsplatformen_get_provider();
           $auth = [
+            'agency' => variable_get('ting_agency', ''),
             'username' => $user_info['attributes']['userId'],
             'password' => $user_info['attributes']['pincode'],
           ];
@@ -478,12 +479,12 @@ function ding_adgangsplatformen_callback() {
 function ding_adgangsplatformen_get_provider($auth = FALSE) {
   $configuration = ding_adgangsplatformen_get_configuration();
 
-  $clientId = variable_get('ding_adgangsplatformen_auth_client_id', NULL);
-  $clientSecret = variable_get('ding_adgangsplatformen_auth_client_secret', NULL);
+  $clientId = variable_get('ding_adgangsplatformen_token_client_id', NULL);
+  $clientSecret = variable_get('ding_adgangsplatformen_token_client_secret', NULL);
 
-  if ($auth && $clientId && $clientSecret) {
-    $configuration['clientId'] = $$clientId;
-    $configuration['clientSecret'] = $$clientSecret;
+  if (!$auth && $clientId && $clientSecret) {
+    $configuration['clientId'] = $clientId;
+    $configuration['clientSecret'] = $clientSecret;
   }
 
   return new GenericProvider($configuration);
@@ -496,8 +497,8 @@ function ding_adgangsplatformen_get_provider($auth = FALSE) {
  *   Do we have clientId?
  */
 function ding_adgangsplatformen_has_token_client() {
-  $clientId = variable_get('ding_adgangsplatformen_auth_client_id', NULL);
-  $clientSecret = variable_get('ding_adgangsplatformen_auth_client_secret', NULL);
+  $clientId = variable_get('ding_adgangsplatformen_token_client_id', NULL);
+  $clientSecret = variable_get('ding_adgangsplatformen_token_client_secret', NULL);
 
   return $clientId && $clientSecret;
 }
