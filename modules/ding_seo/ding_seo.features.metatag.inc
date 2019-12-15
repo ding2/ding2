@@ -25,7 +25,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[ting_object:title]',
       ),
       'schema_book.author' => array(
-        'value' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:36:"[ting_object:creators_contributers],";}',
+        'value' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:58:"[ting_object:ding_seo_creators_contributers:author_names],";}',
       ),
       'schema_book.@id' => array(
         'value' => '[ting_object:ding_seo_work_url]',
@@ -40,7 +40,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[ting_object:ding_seo_work_url]',
       ),
       'schema_book.workExample' => array(
-        'value' => 'a:9:{s:5:"pivot";s:1:"1";s:5:"@type";s:4:"Book";s:3:"@id";s:70:"[ting_object:ding_seo_ting_object_collection_objects:ting_object_url],";s:4:"name";s:60:"[ting_object:ding_seo_ting_object_collection_objects:title],";s:3:"url";s:70:"[ting_object:ding_seo_ting_object_collection_objects:ting_object_url],";s:13:"datePublished";s:69:"[ting_object:ding_seo_ting_object_collection_objects:date_published],";s:4:"isbn";s:59:"[ting_object:ding_seo_ting_object_collection_objects:isbn],";s:11:"bookEdition";s:62:"[ting_object:ding_seo_ting_object_collection_objects:version],";s:10:"bookFormat";s:66:"[ting_object:ding_seo_ting_object_collection_objects:book_format],";}',
+        'value' => 'a:10:{s:5:"pivot";s:1:"1";s:5:"@type";s:4:"Book";s:3:"@id";s:70:"[ting_object:ding_seo_ting_object_collection_objects:ting_object_url],";s:4:"name";s:60:"[ting_object:ding_seo_ting_object_collection_objects:title],";s:3:"url";s:70:"[ting_object:ding_seo_ting_object_collection_objects:ting_object_url],";s:13:"datePublished";s:69:"[ting_object:ding_seo_ting_object_collection_objects:date_published],";s:4:"isbn";s:59:"[ting_object:ding_seo_ting_object_collection_objects:isbn],";s:11:"bookEdition";s:62:"[ting_object:ding_seo_ting_object_collection_objects:version],";s:10:"bookFormat";s:66:"[ting_object:ding_seo_ting_object_collection_objects:book_format],";s:6:"author";a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:58:"[ting_object:ding_seo_creators_contributers:author_names],";}}',
       ),
     ),
   );
@@ -64,6 +64,21 @@ function ding_seo_metatag_export_default() {
       ),
       'schema_movie.description' => array(
         'value' => '[ting_object:abstract]',
+      ),
+      'schema_movie.image' => array(
+        'value' => 'a:5:{s:5:"@type";s:11:"ImageObject";s:20:"representativeOfPage";s:4:"True";s:3:"url";s:37:"[ting_object:ding_seo_ting_cover:url]";s:5:"width";s:39:"[ting_object:ding_seo_ting_cover:width]";s:6:"height";s:40:"[ting_object:ding_seo_ting_cover:height]";}',
+      ),
+      'schema_movie.actor' => array(
+        'value' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:57:"[ting_object:ding_seo_creators_contributers:actor_names],";}',
+      ),
+      'schema_movie.director' => array(
+        'value' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:60:"[ting_object:ding_seo_creators_contributers:director_names],";}',
+      ),
+      'schema_movie.musicBy' => array(
+        'value' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:60:"[ting_object:ding_seo_creators_contributers:composer_names],";}',
+      ),
+      'schema_movie.producer' => array(
+        'value' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:60:"[ting_object:ding_seo_creators_contributers:producer_names],";}',
       ),
     ),
   );

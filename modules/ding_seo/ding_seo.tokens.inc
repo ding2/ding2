@@ -9,10 +9,7 @@
  * Implements hook_token_info()
  */
 function ding_seo_token_info() {
-  // Define a pseudo token type for covers on ting_object entities. Note that
-  // we do not supply a separate description and needs-data, since this token
-  // type is only added to ting_cover tokens and is not meant to be used on
-  // its own.
+  // Define ding_seo_ting_cover token type.
   $info['types']['ding_seo_ting_cover'] = [
     'name' => t('Ding SEO ting cover'),
     'needs-data' => 'ting_object',
@@ -22,8 +19,7 @@ function ding_seo_token_info() {
     'description' => t('Pseudo token type for ting object covers'),
     'type' => 'ding_seo_ting_cover',
   ];
-
-  // Define the tokens supported on ding_seo_ting_cover pseudo token type.
+  // Define the tokens supported on ding_seo_ting_cover token type.
   $info['tokens']['ding_seo_ting_cover']['path'] = [
     'name' => t('Path'),
     'description' => t('Path of the cover'),
@@ -41,6 +37,7 @@ function ding_seo_token_info() {
     'description' => t('Height of the cover'),
   ];
 
+  // Define ding_seo_ting_object_collection_objects
   $info['types']['ding_seo_ting_object_collection_objects'] = [
     'name' => t('Ding SEO ting_object collection objects'),
     'needs-data' => 'ting_object',
@@ -50,7 +47,6 @@ function ding_seo_token_info() {
     'description' => t("Token type that generates lists of values using the properties from the objects on the ting_collection generated when using the passed ting_object as primary object."),
     'type' => 'ding_seo_ting_object_collection_objects',
   ];
-
   // Define the tokens supported on ding_seo_ting_object_collection_objects token type.
   $info['tokens']['ding_seo_ting_object_collection_objects']['title'] = [
     'name' => t('Title'),
@@ -77,6 +73,46 @@ function ding_seo_token_info() {
     'description' => t("Comma-separated list of each object's bookFormat"),
   ];
 
+  // Define ding_seo_creators_contributers token type.
+  $info['types']['ding_seo_creators_contributers'] = [
+    'name' => t('Ding SEO creators and contributers'),
+    'description' => t('Provides several ways of getting creators and/or contributers for a ting_object. Is also aware of different types of creators and contributers.'),
+    'needs-data' => 'ting_object',
+  ];
+  $info['tokens']['ting_object']['ding_seo_creators_contributers'] = [
+    'name' => t('Ding SEO creators and contributers'),
+    'type' => 'ding_seo_creators_contributers',
+  ];
+  // Define tokens supported on ding_seo_creators_contributers.
+  $info['tokens']['ding_seo_creators_contributers']['names'] = [
+    'name' => t('Names'),
+    'description' => t('Comma-separated list of names of all creators and contributers combined'),
+  ];
+  $info['tokens']['ding_seo_creators_contributers']['author_names'] = [
+    'name' => t('Names'),
+    'description' => t('Comma-separated list of names of author names'),
+  ];
+  $info['tokens']['ding_seo_creators_contributers']['translator_names'] = [
+    'name' => t('Names'),
+    'description' => t('Comma-separated list of names of translator names'),
+  ];
+  $info['tokens']['ding_seo_creators_contributers']['director_names'] = [
+    'name' => t('Director names'),
+    'description' => t('Comma-separated list of director names'),
+  ];
+  $info['tokens']['ding_seo_creators_contributers']['actor_names'] = [
+    'name' => t('Actor names'),
+    'description' => t('Comma-separated list of actor names'),
+  ];
+  $info['tokens']['ding_seo_creators_contributers']['producer_names'] = [
+    'name' => t('Producer names'),
+    'description' => t('Comma-separated list of producer names'),
+  ];
+  $info['tokens']['ding_seo_creators_contributers']['composer_names'] = [
+    'name' => t('Composer names'),
+    'description' => t('Comma-separated list of composer names'),
+  ];
+
   // Define general SEO-related tokens on ting_object.
   $info['tokens']['ting_object']['ding_seo_work_url'] = [
     'name' => t('Ding SEO work URL'),
@@ -100,6 +136,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
     $ting_object = $data['ting_object'];
     $path = ting_covers_object_path($ting_object->getId());
 
+    // Handle ding_seo_ting_cover token type.
     foreach (token_find_with_prefix($tokens, 'ding_seo_ting_cover') as $name => $original) {
       if ($name == 'path') {
         $replacements[$original] = $path;
@@ -124,7 +161,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
       }
     }
 
-    // Handle ding_seo_ting_object_collection_objects tokens.
+    // Handle ding_seo_ting_object_collection_objects token type.
     $collection_tokens = token_find_with_prefix($tokens, 'ding_seo_ting_object_collection_objects');
     // Only fetch collections if there's any applicable tokens.
     if (!empty($collection_tokens)) {
@@ -173,6 +210,43 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
       }
     }
 
+    // Handle ding_seo_creators_contributers token type.
+    foreach (token_find_with_prefix($tokens, 'ding_seo_creators_contributers') as $name => $original) {
+      // TODO: Make this search provider non-specific or depend on opensearch?
+      $record = $ting_object->getTingObject()->record;
+      $creators = $record['dc:creator'] ?? [];
+      $contributers = $record['dc:contributor'] ?? [];
+      // We don't know if a given function code can be on both so merge them
+      // recursively to ensure we don't miss any.
+      $combined = array_merge_recursive($creators, $contributers);
+
+      $value = [];
+      switch ($name) {
+        case 'author_names':
+          $value = $combined['dkdcplus:aut'] ?? [];
+          break;
+        case 'director_names':
+          $value = $combined['dkdcplus:drt'] ?? [];
+          break;
+        case 'actor_names':
+          $value = $combined['dkdcplus:act'] ?? [];
+          break;
+        case 'producer_names':
+          $value = $combined['dkdcplus:pro'] ?? [];
+          break;
+        case 'composer_names':
+          $value = $combined['dkdcplus:cmp'] ?? [];
+          break;
+        case 'translator_names':
+          $value = $combined['dkdcplus:trl'] ?? [];
+          break;
+      }
+
+      if (is_array($value) && !empty($value)) {
+        $replacements[$original] = implode(', ', $value);
+      }
+
+    }
 
     // Handle general "ungrouped" SEO-related tokens on ting_object.
     foreach ($tokens as $name => $original) {
