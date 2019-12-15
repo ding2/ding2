@@ -158,7 +158,7 @@ function ding_react_app($name, array $data = []) {
 
   if (file_exists(libraries_get_path('ddb-react') . '/' . $name . '.css')) {
     $attachments['css'] = [
-      libraries_get_path('ddb-react') . '/' . $name . '.css',
+      libraries_get_path('ddb-react') . '/' . $name . '.css' => ['weight' => 1]
     ];
   }
 
