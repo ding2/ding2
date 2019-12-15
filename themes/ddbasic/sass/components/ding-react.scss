@@ -2,6 +2,28 @@
 
 @import '../base.scss';
 
+.ddb-btn {
+  font-size: 14px;
+}
+
+// Checklist
+.field-name-ding-entity-buttons .ddb-btn,
+.field-name-ding-entity-buttons .ddb-alert {
+  // Add default spacing between buttons to match action button styling.
+  margin-bottom: 15px;
+}
+
+.ddb-simple-material {
+  font-size: 14px;
+
+  &__title {
+    font-size: 18px;
+    line-height: 24px;
+    margin: 0;
+  }
+}
+
+// Searchlist
 .has-add-to-searchlist .form-item-search-block-form {
   position: relative;
 
@@ -42,13 +64,24 @@
   }
 }
 
-.ddb-dialog__overlay {
-  // Make dialog appear on top of site header.
-  z-index: 902;
+.ddb-dialog {
+  &__overlay {
+    // Make dialog appear on top of site header.
+    z-index: 902;
+  }
+
+  &__close {
+    box-sizing: content-box;
+  }
 }
 
-.field-name-ding-entity-buttons .ddb-btn,
-.field-name-ding-entity-buttons .ddb-alert {
-  // Add default spacing between buttons to match action button styling.
-  margin-bottom: 15px;
+.ddb-searchlist {
+  &__item {
+    font-size: 14px;
+  }
+
+  &__header a {
+    color: $color-text-link;
+    font-size: 18px;
+  }
 }
