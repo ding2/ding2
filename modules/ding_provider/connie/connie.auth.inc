@@ -16,11 +16,6 @@ function connie_auth_single_sign_on($name) {
   // what we do at single sign on as log in is validated external.
   if (isset($passes[$name])) {
     $res['success'] = TRUE;
-    if (preg_match('/blocked/', $name)) {
-      $res['success'] = FALSE;
-      $res['messages'][] = t("Sorry, you're blocked");
-    }
-
     $res['creds'] = array(
       'name' => $name,
     );
