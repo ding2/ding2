@@ -31,9 +31,9 @@ function connie_auth_single_sign_on($name) {
     );
 
     $res['user'] = array(
-      'mail' => $name . '@example.com',
+      'mail' => hash('crc32', $name) . '@example.com',
       'data' => array(
-        'display_name' => drupal_ucfirst($name),
+        'display_name' => hash('crc32', $name),
       ),
     );
 
