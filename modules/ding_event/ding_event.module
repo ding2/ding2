@@ -194,17 +194,14 @@ function ding_event_install_menu_position($op = 'install') {
  */
 function ding_event_views_pre_execute(&$view) {
   if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list'))) {
-    // Skip for term_view page. The BEF filter is not used here.
-    if ($view->args) {
-      return;
-    }
     $view->build_info['query']->groupBy('node.nid');
     $view->build_info['count_query']->groupBy('node.nid');
   }
 
   // Handle the "show_all" type of events, so they filter by end date instead of
   // start date.
-  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list', 'ding_event_list_frontpage'))) {
+  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list', 'ding_event_list_frontpage'))
+    && in_array(current_path(), array('ding_frontpage', 'arrangementer'))) {
     // Add the field_ding_event_list_filter field, so it can be used in the
     // filter.
     $view->build_info['query']->leftJoin(
