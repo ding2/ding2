@@ -101,8 +101,11 @@ function ding_seo_metatag_get_entity_metatags_instance_alter(&$instance, $entity
         'dvd',
         'dvd (film)',
         'blu-ray',
+        'blu-ray 4k',
+        'blu-ray 3d',
         'film',
         'film (net)',
+        'video',
       ]
     ];
 
