@@ -65,6 +65,10 @@ function ting_token_info() {
     'name' => t('Version'),
     'description' => t('The revision of the material'),
   ];
+  $info['tokens']['ting_object']['extent'] = [
+    'name' => t('Extent'),
+    'description' => t('The size or duration of the material'),
+  ];
 
   return $info;
 }
@@ -108,6 +112,9 @@ function ting_tokens($type, $tokens, array $data, array $options) {
           break;
         case 'version':
           $replacements[$original] = implode(', ', $ting_object->getTingObject()->getVersion());
+          break;
+        case 'extent':
+          $replacements[$original] = $ting_object->getTingObject()->getExtent();
           break;
       }
 

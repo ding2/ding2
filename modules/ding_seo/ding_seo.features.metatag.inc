@@ -68,6 +68,9 @@ function ding_seo_metatag_export_default() {
       'schema_movie.image' => array(
         'value' => 'a:5:{s:5:"@type";s:11:"ImageObject";s:20:"representativeOfPage";s:4:"True";s:3:"url";s:37:"[ting_object:ding_seo_ting_cover:url]";s:5:"width";s:39:"[ting_object:ding_seo_ting_cover:width]";s:6:"height";s:40:"[ting_object:ding_seo_ting_cover:height]";}',
       ),
+      'schema_movie.duration' => array(
+        'value' => '[ting_object:ding_seo_extent]',
+      ),
       'schema_movie.actor' => array(
         'value' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:57:"[ting_object:ding_seo_creators_contributers:actor_names],";}',
       ),

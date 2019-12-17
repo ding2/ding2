@@ -122,6 +122,10 @@ function ding_seo_token_info() {
     'name' => t('Ding SEO bookFormat'),
     'description' => t('The schema.org the bookFormat of the ting_object (if any)'),
   ];
+  $info['tokens']['ting_object']['ding_seo_extent'] = [
+    'name' => t('Ding SEO Extent'),
+    'description' => t('The size or duration of the material in ISO 8601'),
+  ];
 
   return $info;
 }
@@ -264,6 +268,44 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
             $replacements[$original] = $book_format;
           }
           break;
+        case 'ding_seo_extent':
+          $extent = $ting_object->getTingObject()->getExtent();
+          // Is it always array? Is there an error in OpenSearchTingObject we
+          // should fix?
+          if (is_array($extent)) {
+            $extent = reset($extent);
+          }
+
+          // The format is "<hh> t. <mm> min.", but can have variations:
+          // - 2 t. 26 min.
+          // - 88 min.
+          // - 82 min.
+          // - ca. 3 t., 15 min.
+          // - 2 t., 10 min.
+          // - Ca. 97 min.
+          // We use two capture groups to capture the value and unit separately.
+          $pattern = '/(\d+)\s*(t|min)/';
+          if (preg_match_all($pattern, $extent, $matches)) {
+            $hours = 0;
+            $minutes = 0;
+            foreach ($matches[1] as $key => $value) {
+              $unit = $matches[2][$key];
+              if ($unit == 't') {
+                $hours += $value;
+              }
+              else {
+                $minutes += $value;
+              }
+            }
+            $hours += floor($minutes / 60);
+            $minutes = $minutes % 60;
+
+            // ISO 8601 duration.
+            // See: https://en.wikipedia.org/wiki/ISO_8601#Durations
+            $replacements[$original] = "PT{$hours}H{$minutes}M";
+          }
+          break;
+
       }
     }
   }
