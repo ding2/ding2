@@ -221,6 +221,24 @@ function ding_ill_ding_entity_buttons($type, $entity) {
     $GLOBALS['ding_ill_material_available'] = FALSE;
   }
 
+  // If this is a "tidsskriftsartikel", link to bibliotek.dk.
+  if ($ting_object->getType() === 'Tidsskriftsartikel') {
+    $options = array(
+      'attributes' => array(
+        'class' => 'action-button button-order use-ajax',
+      ),
+    );
+
+    return array(
+      '#type' => 'markup',
+      '#markup' => l(
+        t('Order at bibliotek.dk'),
+        'https://bibliotek.dk/linkme.php?rec.id=' . $ting_object->getId(),
+        $options
+      ),
+    );
+  }
+
   $options = array(
     'attributes' => array(
       'class' => 'action-button button-order use-ajax',
