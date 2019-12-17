@@ -25,10 +25,13 @@ function connie_auth_single_sign_on($name) {
       'name' => $name,
     );
 
+    // Hide last 4 digits in case name looks like a CPR number.
+    $display_name = preg_replace('/(\d{6})(\d{4})/', '\1XXXX', $name);
+
     $res['user'] = array(
       'mail' => hash('crc32', $name) . '@example.com',
       'data' => array(
-        'display_name' => hash('crc32', $name),
+        'display_name' => $display_name,
       ),
     );
 
