@@ -12,9 +12,14 @@ function connie_auth_single_sign_on($name) {
 
   $passes = variable_get('connie_user_passes', array());
 
-  // We simply check that the name existed in the $passes, which is basically
-  // what we do at single sign on as log in is validated external.
-  if (isset($passes[$name])) {
+  $auth_patterns = variable_get('connie_auth_patterns', array());
+  $pattern_match = array_reduce($auth_patterns, function(bool $carry, string $pattern) use ($name)  {
+    return $carry || preg_match($pattern, $name);
+  }, FALSE);
+
+  // Allow users in connie_user_passes or who matches connie_auth_patterns.
+  // Password has already been validated by single signon system.
+  if (isset($passes[$name]) || $pattern_match) {
     $res['success'] = TRUE;
     $res['creds'] = array(
       'name' => $name,
