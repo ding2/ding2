@@ -307,7 +307,7 @@ div.search-field-in-content--message {
 .ting-reference-item {
   .placeholder {
     @include linear-gradient(to top, $grey-light 30px, $grey-medium 100%);
-    min-height: 336px;
+    min-height: 266px;
 
     .icon-spinner {
       position: relative;
