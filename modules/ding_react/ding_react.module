@@ -78,6 +78,8 @@ function ding_react_page_build() {
 
   if ($token) {
     drupal_add_js('window.localStorage.setItem("ddb-token", "' . $token . '")', 'inline');
+  } else {
+    drupal_add_js('window.localStorage.removeItem("ddb-token", "' . $token . '")', 'inline');
   }
 
   $authenticated = ($token) ? 'true' : 'false';
