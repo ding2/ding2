@@ -147,7 +147,7 @@ function ding_adgangsplatformen_ajax_login_command($path) {
  * Provider function.
  */
 function ding_adgangsplatformen_openplatform_token_get() {
-  $token = variable_get('ding_adgangsplatformen_openplatform_token_debug_override', NULL);
+  $token = NULL;
 
   if (!$token && isset($_SESSION['ding_adgangsplatformen_openplatform_token_get'])) {
     $token = $_SESSION['ding_adgangsplatformen_openplatform_token_get'];
