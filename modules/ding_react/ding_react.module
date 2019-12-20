@@ -57,6 +57,70 @@ function ding_react_ding_provider_user() {
 }
 
 /**
+ * Implements hook_user_login().
+ */
+function ding_react_user_login(&$edit, $account) {
+  $migrated_prefix = 'migrated-';
+
+  $legacy_uid = $account->openlist_uid;
+
+  $token = ding_provider_invoke('openplatform_token', 'get');
+
+  if (!empty($legacy_uid)
+    && !preg_match("/${migrated_prefix}/", $legacy_uid)
+    && !empty($token)) {
+    $migrate_request_options = [
+      'method' => 'PUT',
+      // Use a relatively low timeout. We do not what login to stall if services
+      // are slow to respond. Then migration will have to wait.
+      'timeout' => 5,
+      'headers' => [
+        'Authorization' => "Bearer ${token}",
+      ]
+    ];
+
+    $material_list_url = variable_get('ding_react_material_list_url');
+    $response = drupal_http_request("${material_list_url}/migrate/${legacy_uid}", $migrate_request_options);
+    if (!empty($response->error)) {
+      watchdog(
+        'ding_react',
+        'Unable to migrate user data in material list: (%code) %message %data',
+        [
+          '%code' => $response->code,
+          '%message' => $response->error,
+          '%data' => $response->data
+        ],
+        WATCHDOG_ERROR
+      );
+      return;
+    }
+
+    $follow_searches_url = variable_get('ding_react_follow_searches_url');
+    $response = drupal_http_request("${follow_searches_url}/migrate/${legacy_uid}", $migrate_request_options);
+    if (!empty($response->error)) {
+      watchdog(
+        'ding_react',
+        'Unable to migrate user data in Follow Searches: (%code) %message %data',
+        [
+          '%code' => $response->code,
+          '%message' => $response->error,
+          '%data' => $response->data
+        ],
+        WATCHDOG_ERROR
+      );
+      return;
+    }
+
+    // Add a prefix to show the user has been migrated. This way we do not
+    // throw away data yet but avoid migrating users multiple times.
+    $account->openlist_uid = $migrated_prefix . $legacy_uid;
+    user_save($account);
+
+    watchdog('ding_react', 'Migrated user data for material list og follow searches', [], WATCHDOG_NOTICE);
+  }
+}
+
+/**
  * Implements hook_ding_entity_buttons().
  */
 function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', $widget = 'default') {
