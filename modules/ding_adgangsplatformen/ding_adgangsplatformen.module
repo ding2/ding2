@@ -392,21 +392,23 @@ function ding_adgangsplatformen_callback() {
       $user_info = drupal_json_decode($user_info);
 
       if (ding_adgangsplatformen_has_token_client()) {
-        if (!empty($user_info['attributes']['userId']) && !empty($user_info['attributes']['pincode'])) {
+        $username = empty($user_info['attributes']['cpr']) ? $user_info['attributes']['userId'] : $user_info['attributes']['cpr'];
+        $pincode = $user_info['attributes']['pincode'];
+        if (!empty($username) && !empty($pincode)) {
           // Get a token with less privileges by logging in with name and pin on
           // another client.
           $token_provider = ding_adgangsplatformen_get_provider();
           $auth = [
             'agency' => variable_get('ting_agency', ''),
-            'username' => $user_info['attributes']['userId'],
-            'password' => $user_info['attributes']['pincode'],
+            'username' => $username,
+            'password' => $pincode,
           ];
           $token_access_token = $token_provider->getAccessToken('password', $auth);
 
           ding_adgangsplatformen_openplatform_token_set($token_access_token->getToken());
         }
         else {
-          watchdog('ding_adgangsplatformen', "Cannot get authentication token, missing userId and/or pincode", NULL, WATCHDOG_WARNING);
+          watchdog('ding_adgangsplatformen', "Cannot get authentication token, missing username and/or pincode", NULL, WATCHDOG_WARNING);
           ding_adgangsplatformen_openplatform_token_set(NULL);
         }
       }
