@@ -13,6 +13,14 @@
   margin-bottom: 15px;
 }
 
+.ting-object.list-item-style .field-name-ding-entity-buttons .ddb-btn,
+.ting-object.list-item-style .field-name-ding-entity-buttons .ddb-alert {
+  // Resemble other horizontally action buttons when in lists.
+  float: left;
+  width: auto;
+  margin-right: 15px;
+}
+
 .ddb-simple-material {
   font-size: 14px;
 
