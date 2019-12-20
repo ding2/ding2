@@ -30,6 +30,22 @@ function ding_react_libraries_info() {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function ding_react_menu() {
+  $items['admin/config/ding/react'] = array(
+    'title' => 'React components',
+    'description' => 'Configure integration with React components.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_react_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_ding_provider_user().
  */
 function ding_react_ding_provider_user() {
@@ -204,4 +220,39 @@ function ding_react_login_url() {
     'login_url',
     ['query' => ['destination' => current_path()]]
   );
+}
+
+function ding_react_admin_settings_form() {
+  $form = [];
+
+  $form['services'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Services')
+  ];
+
+  $form['services']['ding_react_material_list_url'] = [
+    '#type' => 'textfield',
+    '#title' => t('Material List'),
+    '#description' => t('Url to the Material List service instance to use.'),
+    '#default_value' => variable_get('ding_react_material_list_url', ''),
+    '#required' => TRUE,
+    '#element_validate' => [ 'ding_react_element_validate_url' ],
+  ];
+
+  $form['services']['ding_react_follow_searches_url'] = [
+    '#type' => 'textfield',
+    '#title' => t('Follow Searches'),
+    '#description' => t('Url to the Follow Searches service instance to use.'),
+    '#default_value' => variable_get('ding_react_follow_searches_url', ''),
+    '#required' => TRUE,
+    '#element_validate' => [ 'ding_react_element_validate_url' ],
+  ];
+
+  return system_settings_form($form);
+}
+
+function ding_react_element_validate_url($element, &$form_state, $form) {
+  if (!empty($element['#value']) && !valid_url($element['#value'], true)) {
+    form_error($element, t('Please enter a valid url.'));
+  }
 }
