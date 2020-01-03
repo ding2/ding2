@@ -79,7 +79,8 @@ function ting_openlist_uninstall() {
   variable_del('ting_openlist_cache_default_ttl');
 
   // This would be the proper thing to do when uninstalling, but we need the uid
-  // to migrate lists to the new system, so leave it in place.
+  // to migrate lists to the new system, so the field is now handled by the
+  // ding_react module.
   // db_drop_field('users', 'openlist_uid');
 }
 

@@ -329,3 +329,20 @@ function ding_react_element_validate_url($element, &$form_state, $form) {
     form_error($element, t('Please enter a valid url.'));
   }
 }
+
+/**
+ * Implements hook_schema_alter().
+ */
+function ding_react_schema_alter(&$schema) {
+  if (db_field_exists('users', 'openlist_uid')) {
+    // Migration on existing sites requires the openlist_uid user field
+    // originally defined by the now obsolete ting_openlist module.
+    $schema['users']['fields']['openlist_uid'] = array(
+      'type' => 'char',
+      'not null' => TRUE,
+      'default' => 0,
+      'length' => 255,
+      'description' => 'The openlist user id',
+    );
+  }
+}
