@@ -284,7 +284,13 @@ function ding_react_user_migrate(stdClass $account) {
 
   $legacy_uid = $account->openlist_uid;
 
-  $token = ding_provider_invoke('openplatform_token', 'get');
+  try {
+    $token = ding_provider_invoke('openplatform_token', 'get');
+  } catch (DingProviderNoProvider $e) {
+    $token = NULL;
+  } catch (DingProviderDoesntImplement $e) {
+    $token = NULL;
+  }
 
   if (!empty($legacy_uid)
     && !preg_match("/${migrated_prefix}/", $legacy_uid)
