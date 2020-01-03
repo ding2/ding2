@@ -30,6 +30,22 @@ function ding_react_libraries_info() {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function ding_react_menu() {
+  $items['admin/config/ding/react'] = array(
+    'title' => 'React components',
+    'description' => 'Configure integration with React components.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_react_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_ding_provider_user().
  */
 function ding_react_ding_provider_user() {
@@ -38,6 +54,13 @@ function ding_react_ding_provider_user() {
       'required' => TRUE,
     ]
   ];
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function ding_react_user_login(&$edit, $account) {
+  ding_react_user_migrate($account);
 }
 
 /**
@@ -204,4 +227,145 @@ function ding_react_login_url() {
     'login_url',
     ['query' => ['destination' => current_path()]]
   );
+}
+
+function ding_react_admin_settings_form() {
+  $form = [];
+
+  $form['services'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Services')
+  ];
+
+  $form['services']['ding_react_material_list_url'] = [
+    '#type' => 'textfield',
+    '#title' => t('Material List'),
+    '#description' => t('Url to the Material List service instance to use.'),
+    '#default_value' => variable_get('ding_react_material_list_url', ''),
+    '#required' => TRUE,
+    '#element_validate' => [ 'ding_react_element_validate_url' ],
+  ];
+
+  $form['services']['ding_react_follow_searches_url'] = [
+    '#type' => 'textfield',
+    '#title' => t('Follow Searches'),
+    '#description' => t('Url to the Follow Searches service instance to use.'),
+    '#default_value' => variable_get('ding_react_follow_searches_url', ''),
+    '#required' => TRUE,
+    '#element_validate' => [ 'ding_react_element_validate_url' ],
+  ];
+
+  $form['services']['ding_react_migrate_timeout'] = [
+    '#type' => 'textfield',
+    '#title' => t('Migration timeout'),
+    '#description' => t('The number of seconds to wait for an external service to complete a migration during login. A high timeout reduces risk of the migration not completing. A low timeout prevents the login procedure from stalling. Incomplete migrations will be retried the next time the user logs in.'),
+    '#default_value' => variable_get('ding_react_migrate_timeout', 5),
+    '#required' => TRUE,
+    '#element_validate' => [ 'element_validate_integer_positive' ],
+  ];
+
+  return system_settings_form($form);
+}
+
+function ding_react_element_validate_url($element, &$form_state, $form) {
+  if (!empty($element['#value']) && !valid_url($element['#value'], true)) {
+    form_error($element, t('Please enter a valid url.'));
+  }
+}
+
+/**
+ * Migrate a user account from using a legacy user id to new token-based one.
+ *
+ * @param \stdClass $account
+ *   The user account to migrate.
+ */
+function ding_react_user_migrate(stdClass $account) {
+  $migrated_prefix = 'migrated-';
+
+  $legacy_uid = $account->openlist_uid;
+
+  try {
+    $token = ding_provider_invoke('openplatform_token', 'get');
+  } catch (DingProviderNoProvider $e) {
+    $token = NULL;
+  } catch (DingProviderDoesntImplement $e) {
+    $token = NULL;
+  }
+
+  if (!empty($legacy_uid)
+    && !preg_match("/${migrated_prefix}/", $legacy_uid)
+    && !empty($token)) {
+    $migrate_request_options = [
+      'method' => 'PUT',
+      // Use a relatively low timeout. We do not what login to stall if services
+      // are slow to respond. Then migration will have to wait.
+      'timeout' => variable_get('ding_react_migrate_timeout', 5),
+      'headers' => [
+        'Authorization' => "Bearer ${token}",
+      ]
+    ];
+
+    $material_list_url = variable_get('ding_react_material_list_url');
+    $response = drupal_http_request("${material_list_url}/migrate/${legacy_uid}",
+      $migrate_request_options);
+    if (!empty($response->error)) {
+      watchdog(
+        'ding_react',
+        'Unable to migrate user data in material list: (%code) %message %data',
+        [
+          '%code' => $response->code,
+          '%message' => $response->error,
+          '%data' => $response->data
+        ],
+        WATCHDOG_ERROR
+      );
+      return;
+    }
+
+    $follow_searches_url = variable_get('ding_react_follow_searches_url');
+    $response = drupal_http_request("${follow_searches_url}/migrate/${legacy_uid}",
+      $migrate_request_options);
+    if (!empty($response->error)) {
+      watchdog(
+        'ding_react',
+        'Unable to migrate user data in Follow Searches: (%code) %message %data',
+        [
+          '%code' => $response->code,
+          '%message' => $response->error,
+          '%data' => $response->data
+        ],
+        WATCHDOG_ERROR
+      );
+      return;
+    }
+
+    // Add a prefix to show the user has been migrated. This way we do not
+    // throw away data yet but avoid migrating users multiple times.
+    $account->openlist_uid = $migrated_prefix . $legacy_uid;
+    user_save($account);
+
+    watchdog(
+      'ding_react',
+      'Migrated user data for material list og follow searches',
+      [],
+      WATCHDOG_NOTICE
+    );
+  }
+}
+
+/**
+ * Implements hook_schema_alter().
+ */
+function ding_react_schema_alter(&$schema) {
+  if (db_field_exists('users', 'openlist_uid')) {
+    // Migration on existing sites requires the openlist_uid user field
+    // originally defined by the now obsolete ting_openlist module.
+    $schema['users']['fields']['openlist_uid'] = array(
+      'type' => 'char',
+      'not null' => TRUE,
+      'default' => 0,
+      'length' => 255,
+      'description' => 'The openlist user id',
+    );
+  }
 }
