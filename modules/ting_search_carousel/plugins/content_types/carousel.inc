@@ -33,23 +33,18 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
         'available' => '',
       );
       $query = new TingSearchCarouselQuery($search['query'], $search['sort'], $search['available']);
-      $chunk = ting_search_carousel_get_entities($query, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
-      $items = array();
-      foreach ($chunk['entities'] as $entity) {
-        $items[] = ting_object_view($entity, 'teaser');
-      }
 
-      $placeholders = count($items) ? count($items) : TING_SEARCH_CAROUSEL_CHUNK_SIZE;
-      $placeholders = $chunk['next_offset'] > -1 ? ($placeholders) + 1 : 0;
       $carousels[] = array(
         '#type' => 'ding_carousel',
         '#title' => $search['title'],
         '#path' => ting_search_carousel_ajax_path($query),
-        '#items' => $items,
-        '#offset' => $chunk['next_offset'],
-        // Add a single placeholder to fetch more content later if there is more
-        // content.
-        '#placeholders' => $placeholders,
+        // Start without any covers, but load them all via AJAX. This eliminates
+        // rendering covers and hitting the availability service, which slows
+        // down page rendering.
+        '#items' => [],
+        '#offset' => 0,
+        // Add placeholders instead.
+        '#placeholders' => TING_SEARCH_CAROUSEL_CHUNK_SIZE,
       );
     }
 
