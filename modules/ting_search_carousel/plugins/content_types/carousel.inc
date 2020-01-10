@@ -167,13 +167,6 @@ function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$f
   }
   $form_state['conf']['searches'] = $searches;
   $form_state['conf']['settings'] = $form_state['values']['settings'];
-  // Pre-request first set of results so the caching will be done while form
-  // submit and the client will not have to wait until those requests are
-  // happening when page is opened.
-  foreach ($searches as $search) {
-    $query = new TingSearchCarouselQuery($search['query'], $search['sort'], $search['available']);
-    ting_search_carousel_get_entities($query, 0, 8, FALSE);
-  }
 }
 
 /**
