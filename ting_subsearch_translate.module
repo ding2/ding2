@@ -99,8 +99,7 @@ function ting_subsearch_translate_get_message($keys, $conditions, $results) {
         $ratio = $num_total_objects / $results->getNumTotalObjects();
 
         if ($ratio > variable_get('ting_subsearch_translate_ps_factor', 10)) {
-          $limit = variable_get('ting_subsearch_translate_min_hits', 0);
-          if (!empty($num_total_objects) && ($limit == 0 || $num_total_objects >= $limit)) {
+          if (!empty($num_total_objects)) {
             $options = ['query' => ''];
             if (module_exists('ting_field_search')) {
               $profile = ting_field_search_get_active_profile();
