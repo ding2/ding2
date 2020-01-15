@@ -8,9 +8,7 @@
  * @var $bibdk_url_text
  */
 ?>
-<div id="ting-subsearch-secondary"
-     class="message-box search-field-in-content--message-tss"
-     data-href="<?php print $bibdk_url; ?>">
+<div id="ting-subsearch-secondary" class="message-box search-field-in-content--message-tss">
   <div class="message-box--title">
     <?php print $message; ?>
   </div>
