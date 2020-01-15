@@ -251,7 +251,7 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
 
     case 'kpi':
       $keys_lowered = strtolower($keys);
-      $ting_kpi_minimum_searches = variable_get('ting_subsearch_kpi_minimum_searches', 10);
+      $ting_kpi_minimum_searches = variable_get('ting_subsearch_kpi_minimum_searches', 100);
       $ting_kpi_distance = variable_get('ting_subsearch_kpi_distance', 0);
       $weeks_selected = variable_get('ting_subsearch_kpi_week_nrs', 1);
 

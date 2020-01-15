@@ -15,7 +15,7 @@
   wrapper.text(progressText);
 
   if (originalSearch !== null) {
-    let message = Drupal.t('See results for "' + keys + '", the search for "' + originalSearch + '" returned 0 hits.');
+    let message = Drupal.t('See results for "!keys", the search for "!originalSearch" returned 0 hits.', {'!keys': keys, '!originalSearch': originalSearch});
     message = '<div id="subsearch-suggestions-first">' + message + '</div>';
     wrapper.html(message);
   }
@@ -29,7 +29,7 @@
         'results': results
       },
     })
-      .done(r => {
+      .done(function(r) {
         if (r !== '') {
           wrapper.html(r);
         }
@@ -45,7 +45,7 @@
           }
         }
       })
-      .fail(e => {
+      .fail(function(e) {
         console.log(e);
       });
   }
