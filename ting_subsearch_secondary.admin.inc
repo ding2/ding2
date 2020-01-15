@@ -62,6 +62,7 @@ function ting_subsearch_secondary_form_opensearch_admin_settings_alter(&$form, &
   $form['subsearch_settings']['secondary_settings']['trigger']['ting_subsearch_secondary_result_min'] = array(
     '#type' => 'textfield',
     '#title' => t('Minimum number of results for secondary search'),
+    '#description' => t('Minimum of hits in order to trigger secondary search.'),
     '#default_value' => variable_get('ting_subsearch_secondary_result_min', 100),
   );
 

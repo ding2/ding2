@@ -23,12 +23,15 @@
       'results': results
     },
   })
-    .done(r => {
+    .done(function (r) {
       if (r !== '') {
         wrapper.html(r);
       }
+      else {
+        wrapper.hide();
+      }
     })
-    .fail(e => {
+    .fail(function (e) {
       console.log(e);
     });
 

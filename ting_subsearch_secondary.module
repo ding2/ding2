@@ -70,7 +70,6 @@ function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions,
   if (!empty($results->getNumTotalObjects())) {
     if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
       drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/css/ting_subsearch_secondary.css');
-      drupal_add_js(drupal_get_path('module', 'ting_subsearch_secondary') . '/js/ting_subsearch_secondary.js', 'file');
       drupal_add_js(
         [
           'subsearch_secondary' => [
