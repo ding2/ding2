@@ -2,7 +2,6 @@ name = Ding SEO
 description = Provides various SEO functionality to ding2
 core = 7.x
 package = Ding!
-dependencies[] = metatag
 dependencies[] = schema_book
 dependencies[] = schema_movie
 features[features_api][] = api:2
