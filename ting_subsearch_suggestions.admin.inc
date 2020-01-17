@@ -41,6 +41,13 @@ function ting_subsearch_suggestions_form_opensearch_admin_settings_alter(&$form,
     '#description' => t('In order to trigger a subsearch which will provide a suggestion to the user, the user-provided search string must trigger at most this number of hits. NOTE: User-provided searches that trigger 0 hits always trigger a subsearch.'),
   );
 
+  $form['subsearch_settings']['kpi_settings']['trigger']['ting_subsearch_suggestions_ps_factor'] = [
+    '#type' => 'textfield',
+    '#title' => t('Ratio between primary and secondary searches for suggestions'),
+    '#default_value' => variable_get('ting_subsearch_suggestions_ps_factor', 10),
+    '#description' => t('Factor between amount of results from primary and secondary search for displaying suggestions.'),
+  ];
+
   $form['subsearch_settings']['kpi_settings']['ting_subsearch_kpi_webservice_endpoint'] = array(
     '#type' => 'textfield',
     '#title' => t('KPI Webtrekk On-Site Searches Web Service URL'),
@@ -100,13 +107,6 @@ function ting_subsearch_suggestions_form_opensearch_admin_settings_alter(&$form,
     '#default_value' => variable_get('ting_subsearch_os_additional_url_params_inlimit', ''),
     '#description' => t('Parameters goes like this param1=value1&amp;param2=value2. Do not assume that the first parameter is the first actual. The system will figure it out.'),
   );
-
-  $form['subsearch_settings']['ting_subsearch_suggestions_ps_factor'] = [
-    '#type' => 'textfield',
-    '#title' => t('Ratio between primary and secondary searches for suggestions'),
-    '#default_value' => variable_get('ting_subsearch_suggestions_ps_factor', 10),
-    '#description' => t('Factor between amount of results from primary and secondary search for displaying suggestions.'),
-  ];
 
   // Reordering fieldsets.
   $form['subsearch_settings']['secondary_settings']['#weight'] = 3;
