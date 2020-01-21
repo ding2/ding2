@@ -517,7 +517,7 @@ function opensearch_execute(TingClientRequest $request) {
         $request->setLocalIds($original_local_ids);
       }
 
-      // If response is empty array it means ther was no objects found for the
+      // If response is empty array it means there was no objects found for the
       // passed ids. In this case we need to return NULL as expected by the
       // caller.
       if (empty($response)) {
