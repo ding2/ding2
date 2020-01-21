@@ -4,6 +4,3 @@
  * @file
  * Ding SEO module file.
  */
-
-// includes custom ding_seo tokens
-include_once 'ding_seo.tokens.inc';
