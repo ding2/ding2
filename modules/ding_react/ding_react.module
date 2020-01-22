@@ -21,6 +21,7 @@ function ding_react_libraries_info() {
         'js' => [
           'runtime.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
           'bundle.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
+          'polyfills.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
           'mount.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
         ],
         'css' => ['components.css'],
