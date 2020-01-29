@@ -283,7 +283,7 @@ function ding_react_element_validate_url($element, &$form_state, $form) {
 function ding_react_user_migrate(stdClass $account) {
   $migrated_prefix = 'migrated-';
 
-  $legacy_uid = $account->openlist_uid;
+  $legacy_uid = (!empty($account->openlist_uid)) ? $account->openlist_uid : '';
 
   try {
     $token = ding_provider_invoke('openplatform_token', 'get');
