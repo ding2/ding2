@@ -8,11 +8,6 @@
   let results = ssSettings.subsearch_secondary.results;
 
   let wrapper = $('#subsearch-secondary');
-  let placeholder = '<div class="wrapper-placeholder">' +
-    '<div class="preloader"></div>' +
-      Drupal.t('Loading secondary search results') +
-    '</div>';
-  wrapper.html(placeholder);
 
   $.ajax({
     type: 'POST',
@@ -28,7 +23,7 @@
         wrapper.html(r);
       }
       else {
-        wrapper.hide();
+        wrapper.remove();
       }
     })
     .fail(function (e) {
