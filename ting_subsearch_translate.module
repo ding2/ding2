@@ -77,12 +77,12 @@ function ting_subsearch_translate_get_message($keys, $conditions, $results) {
     }
 
     $terms = $facets['facet.genreCategory']->getTerms();
-    $nonfiction = isset($terms['nonfiktion']) ? $terms['nonfiktion']->getCount() : 1;
+    $nonfiction = isset($terms['nonfiktion']) ? $terms['nonfiktion']->getCount() : 0;
     $fiction = isset($terms['fiktion']) ? $terms['fiktion']->getCount() : 0;
 
     // Calculate the ratio of $fiction in relation to non-fiction.
-    $fn_ratio = $fiction / $nonfiction;
-    if ((variable_get('ting_subsearch_translate_factor', 50)) < $fn_ratio) {
+    $fn_ratio = $nonfiction / $fiction;
+    if (ting_subsearch_common_tofloat(variable_get('ting_subsearch_translate_factor', 50)) < $fn_ratio) {
       $translated_keys = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
 
       if ($translated_keys) {
@@ -98,7 +98,7 @@ function ting_subsearch_translate_get_message($keys, $conditions, $results) {
 
         $ratio = $num_total_objects / $results->getNumTotalObjects();
 
-        if ($ratio > variable_get('ting_subsearch_translate_ps_factor', 10)) {
+        if ($ratio > ting_subsearch_common_tofloat(variable_get('ting_subsearch_translate_ps_factor', 10))) {
           if (!empty($num_total_objects)) {
             $options = ['query' => ''];
             if (module_exists('ting_field_search')) {
@@ -160,7 +160,6 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
       'type' => 'file',
       'scope' => 'footer',
     ]);
-    drupal_set_message('<div id="subsearch-translate"></div>', 'status', FALSE);
   }
 }
 

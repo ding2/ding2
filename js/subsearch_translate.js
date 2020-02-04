@@ -7,10 +7,6 @@
   let conditions = stSettings.subsearch_translate.conditions;
   let results = stSettings.subsearch_translate.results;
 
-  let progressText = Drupal.t('Loading translations ...');
-  let wrapper = $('#subsearch-translate');
-  wrapper.text(progressText);
-
   $.ajax({
     type: 'POST',
     url: '/subsearch_translate',
@@ -22,18 +18,10 @@
   })
     .done(r => {
       if (r !== '') {
+        let main = $('.pane-page-content');
+        main.prepend('<div id="subsearch-translate" style="background-color: #F1F2F2; padding-top: 30px;"><div style="max-width: 1124px;margin-left: auto;margin-right: auto;width: 90%;" class="translate inner-content"></div></div>');
+        let wrapper = $('#subsearch-translate .inner-content');
         wrapper.html(r);
-      }
-      else {
-        let messagePane = $('.pane-page-messages');
-        let messagesList = messagePane.find('li');
-        if (messagesList.length === 1) {
-          wrapper.parent('li').remove();
-          messagePane.find('.close-container a').click();
-        }
-        else {
-          wrapper.parent('li').remove();
-        }
       }
     })
     .fail(e => {
