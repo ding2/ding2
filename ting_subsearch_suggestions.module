@@ -188,7 +188,6 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       'type' => 'file',
       'scope' => 'footer',
     ]);
-    drupal_set_message('<div id="subsearch-suggestions"></div>', 'status', FALSE);
   }
   else {
     ting_subsearch_suggestions_get_message($keys, $conditions, $results);
@@ -292,10 +291,20 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
         }
         $distance = levenshtein($keys_lowered, $popular_keys);
 
-        if ($distance > 0 && $distance < $ting_kpi_distance) {
-          return $best_result;
-        }
+        $raw_array[$popular_keys] = $distance;
       }
+
+      $prepared_array = array_filter($raw_array, function ($distance, $key) use ($ting_kpi_distance) {
+        if ($distance > 0 && $distance <= $ting_kpi_distance) {
+          return $prepared_array[$key] = $distance;
+        }
+      }, ARRAY_FILTER_USE_BOTH);
+
+      if (!empty($prepared_array)) {
+        $result = array_keys($prepared_array, min($prepared_array));
+      }
+
+      return isset($result[0]) ? $result[0] : '';
 
       break;
   }
