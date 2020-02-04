@@ -21,6 +21,7 @@ function ding_react_checklist_content_type_render($subtype, $conf, $panel_args, 
   $block->title = t('My checklist');
 
   $data = [
+    'material-list-url' => ding_react_material_list_url(),
     // We cannot use url() here as it will encode the colon in the placeholder.
     'material-url' => '/ting/object/:pid',
     'author-url' => '/search/ting/phrase.creator=":author"',

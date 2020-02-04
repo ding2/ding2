@@ -21,6 +21,7 @@ function ding_react_followed_searches_content_type_render($subtype, $conf, $pane
   $block->title = t('My followed searches');
 
   $data = [
+    'follow-searches-url' => ding_react_follow_searches_url(),
     'search-url' => '/search/ting/:query',
     'empty-list-text' => t('List is empty.'),
     'error-text' => t('An error occurred while trying to fetch list.'),
