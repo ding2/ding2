@@ -1,5 +1,10 @@
 <?php
 
+define('DING_REACT_FOLLOW_SEARCHES_PROD_URL', 'https://prod.followsearches.dandigbib.org');
+define('DING_REACT_FOLLOW_SEARCHES_STAGE_URL', 'https://stage.followsearches.dandigbib.org');
+define('DING_REACT_MATERIAL_LIST_PROD_URL', 'https://prod.materiallist.dandigbib.org');
+define('DING_REACT_MATERIAL_LIST_TEST_URL', 'https://test.materiallist.dandigbib.org');
+
 /**
  * @file
  * Ding React apps.
@@ -78,6 +83,7 @@ function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', 
     $return = [];
 
     $data = [
+      'material-list-url' => ding_react_material_list_url(),
       'id' => $entity->ding_entity_id,
       'text' => t('Add to checklist'),
       'error-text' => t('An error occurred'),
@@ -136,6 +142,7 @@ function ding_react_form_search_block_form_alter(&$form, $form_state) {
   $fullTextQuery = $cqlDoctor->string_to_cql();
 
   $data = [
+    'follow-searches-url' => ding_react_follow_searches_url(),
     'default-title' => $title,
     'search-query' => $fullTextQuery,
     'login-url' => ding_react_login_url(),
@@ -246,6 +253,24 @@ function ding_react_login_url() {
   );
 }
 
+/**
+ * Returns the url to the instance of the Material List service to use.
+ *
+ * @return string
+ */
+function ding_react_material_list_url() {
+  return variable_get('ding_react_material_list_url', DING_REACT_MATERIAL_LIST_TEST_URL);
+}
+
+/**
+ * Returns the url to the instance of the Follow Searches service to use.
+ *
+ * @return string
+ */
+function ding_react_follow_searches_url() {
+  return variable_get('ding_react_follow_searches_url', DING_REACT_FOLLOW_SEARCHES_STAGE_URL);
+}
+
 function ding_react_admin_settings_form() {
   $form = [];
 
@@ -258,7 +283,7 @@ function ding_react_admin_settings_form() {
     '#type' => 'textfield',
     '#title' => t('Material List'),
     '#description' => t('Url to the Material List service instance to use.'),
-    '#default_value' => variable_get('ding_react_material_list_url', ''),
+    '#default_value' => ding_react_material_list_url(),
     '#required' => TRUE,
     '#element_validate' => [ 'ding_react_element_validate_url' ],
   ];
@@ -267,7 +292,7 @@ function ding_react_admin_settings_form() {
     '#type' => 'textfield',
     '#title' => t('Follow Searches'),
     '#description' => t('Url to the Follow Searches service instance to use.'),
-    '#default_value' => variable_get('ding_react_follow_searches_url', ''),
+    '#default_value' => ding_react_follow_searches_url(),
     '#required' => TRUE,
     '#element_validate' => [ 'ding_react_element_validate_url' ],
   ];

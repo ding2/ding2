@@ -920,3 +920,11 @@ function ding2_update_7077() {
 function ding2_update_7078() {
   module_enable(['ding_react']);
 }
+
+/**
+ * Use production services with ding_react.
+ */
+function ding2_update_7079() {
+  variable_set('ding_react_material_list_url', 'https://prod.materiallist.dandigbib.org');
+  variable_set('ding_react_follow_searches_url','https://prod.followsearches.dandigbib.org' );
+}
