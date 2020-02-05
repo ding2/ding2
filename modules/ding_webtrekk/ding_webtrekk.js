@@ -52,7 +52,7 @@
           var eventData = $(this).data('ding-webtrekk-event');
           pushEvent('click', eventData);
         }
-              );
+      );
 
       // Track autocomplete selections.
       $('.js-ding-webtrekk-autocomplete .form-autocomplete', context)
