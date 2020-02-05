@@ -9,14 +9,14 @@
  * Implements hook_menu().
  */
 function ding_app_variables_menu() {
-  $items = array();
+  $items = [];
 
-  $items['ding/variables'] = array(
+  $items['ding/variables'] = [
     'title' => 'Display variables as JSON output',
     'access callback' => TRUE,
     'delivery callback' => 'drupal_json_output',
     'page callback' => 'ding_app_variables_display',
-  );
+  ];
 
   return $items;
 }
@@ -30,7 +30,7 @@ function ding_app_variables_menu() {
 function ding_app_variables_display() {
   $carousel_configs[] = _ding_app_variables_get_carousel_configs();
 
-  $variables = array(
+  $variables = [
     'opensearch_search_profile',
     'ting_search_results_per_page',
     'opensearch_url',
@@ -39,42 +39,43 @@ function ding_app_variables_display() {
     'opensearch_ranking_fields',
     'opensearch_boost_fields',
     'ting_agency',
-  );
-  $variables_configs = array();
+  ];
+  $variables_configs = [];
   foreach ($variables as $variable) {
     $variables_configs[$variable] = variable_get($variable, '');
   }
 
-  return array(
+  return [
     'variables' => $variables_configs,
     'carousels' => $carousel_configs,
-  );
+  ];
 }
 
 /**
  * Get panels configurations.
  *
- * @param string $carousel
- *   Pass subtype of panel pane.
- *
  * @return array
  *   List of carousels pane configurations.
  */
 function _ding_app_variables_get_carousel_configs() {
-  $carousels = array();
+  $carousels = [];
   $query = db_select('panels_pane', 'pp');
   $query->join('page_manager_handlers', 'pmh', 'pp.did = pmh.did');
   $panes = $query
-    ->fields('pp', ['type', 'configuration'])
-    ->fields('pmh', ['name'])
+    ->fields('pp', ['type', 'configuration', 'uuid'])
+    ->fields('pmh', ['name', 'subtask'])
     ->condition('pp.type', 'carousel')
     ->condition('pp.subtype', 'carousel')
     ->condition('pp.shown', 1)
     ->execute();
+
   foreach ($panes as $pane) {
+    // Identify front-page carousels as 'carousel' so mobile app is aware of them.
+    // Otherwise pick whatever unique combination,
+    $key = ('ding_frontpage' === $pane->subtask) ? 'carousel' : $pane->name . '_' . $pane->type;
     $carousels[] = [
-      $pane->type => unserialize($pane->configuration),
-      'name' => $pane->name,
+      $key => unserialize($pane->configuration),
+      'uuid' => $pane->uuid,
     ];
   }
 
