@@ -335,7 +335,7 @@ function ding_react_user_migrate(stdClass $account) {
   }
 
   if (!empty($legacy_uid)
-    && !preg_match("/${migrated_prefix}/", $legacy_uid)
+    && (strpos($legacy_uid, $migrated_prefix) === FALSE)
     && !empty($token)) {
     $migrate_request_options = [
       'method' => 'PUT',
@@ -348,7 +348,7 @@ function ding_react_user_migrate(stdClass $account) {
     ];
 
     $material_list_url = variable_get('ding_react_material_list_url');
-    $response = drupal_http_request("${material_list_url}/migrate/${legacy_uid}",
+    $response = drupal_http_request($material_list_url . '/migrate/' . $legacy_uid,
       $migrate_request_options);
     if (!empty($response->error)) {
       watchdog(
@@ -365,7 +365,7 @@ function ding_react_user_migrate(stdClass $account) {
     }
 
     $follow_searches_url = variable_get('ding_react_follow_searches_url');
-    $response = drupal_http_request("${follow_searches_url}/migrate/${legacy_uid}",
+    $response = drupal_http_request($follow_searches_url . '/migrate/' . $legacy_uid,
       $migrate_request_options);
     if (!empty($response->error)) {
       watchdog(
