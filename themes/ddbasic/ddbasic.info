@@ -57,6 +57,7 @@
   stylesheets[all][] = sass_css/components/panel/pane-menu.css
   stylesheets[all][] = sass_css/components/panel/pane-profile2.css
   stylesheets[all][] = sass_css/components/panel/pane-user-login.css
+  stylesheets[all][] = sass_css/components/panel/pane-user-profile.css
 
   stylesheets[all][] = sass_css/components/ting-object/ting-object.css
   stylesheets[all][] = sass_css/components/ting-object/material-item.css
