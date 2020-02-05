@@ -149,7 +149,7 @@ function ding_adgangsplatformen_ajax_login_command($path) {
 function ding_adgangsplatformen_openplatform_token_get() {
   $token = NULL;
 
-  if (!$token && isset($_SESSION['ding_adgangsplatformen_openplatform_token_get'])) {
+  if (isset($_SESSION['ding_adgangsplatformen_openplatform_token_get'])) {
     $token = $_SESSION['ding_adgangsplatformen_openplatform_token_get'];
   }
 
