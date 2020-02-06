@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ *
+ * Keep update stuff for Subsearch modules.
+ */
+
+/**
+ * Check all "trigger" variables for decimal separator type and fix if necessary.
+ */
+function ting_subsearch_common_update_7001() {
+  $variables_list = [
+    'ting_subsearch_secondary_max',
+    'ting_subsearch_secondary_factor',
+    'ting_subsearch_secondary_result_min',
+    'ting_subsearch_secondary_ps_factor',
+    'ting_subsearch_kpi_distance',
+    'ting_subsearch_kpi_trigger_limit',
+    'ting_subsearch_suggestions_ps_factor',
+    'ting_subsearch_translate_factor',
+    'ting_subsearch_translate_ps_factor',
+  ];
+
+  foreach ($variables_list as $variable) {
+    $value = variable_get($variable);
+
+    if (preg_match('/,/', $value)) {
+      $corrected_value = str_replace(',', '.', $value);
+      variable_set($variable, $corrected_value);
+    }
+  }
+}

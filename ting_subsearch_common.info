@@ -1,5 +1,5 @@
 name = Ting Subsearch - Common
-description = Shared functionallity amongst Ting subsearch modules
+description = Shared functionality amongst Ting subsearch modules
 package = Ding!
 core = 7.x
 version = 0.1
