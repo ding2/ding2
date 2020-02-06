@@ -9,6 +9,8 @@
 
 /**
  * Install translations.
+ *
+ * @throws \FieldException
  */
 function ting_subsearch_secondary_install() {
   // Adding fields to 'minimal' display.
@@ -23,6 +25,8 @@ function ting_subsearch_secondary_install() {
 
 /**
  * Forcing addition of the fields into 'minimal' display of ting_object.
+ *
+ * @throws \FieldException
  */
 function ting_subsearch_secondary_add_fields() {
   $fields = [
