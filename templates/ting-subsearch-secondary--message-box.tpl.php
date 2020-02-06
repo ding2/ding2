@@ -1,6 +1,8 @@
 <?php
+
 /**
  * @file
+ * Secondary search item.
  *
  * @var $content
  * @var $message

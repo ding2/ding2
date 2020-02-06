@@ -27,6 +27,8 @@ function ting_subsearch_secondary_menu() {
 
 /**
  * Custom AJAX menu callback.
+ *
+ * @throws \Exception
  */
 function ting_subsearch_secondary_ajax_callback() {
   $message = '';
@@ -131,7 +133,7 @@ function ting_subsearch_secondary_search($keys, $results) {
   }
   $num_total_objects = $results->getNumTotalObjects();
   if (!empty($num_total_objects)) {
-    if ($num_total_objects > 0 && $num_total_objects < ting_subsearch_common_tofloat(variable_get('ting_subsearch_secondary_max', 100))) {
+    if ($num_total_objects > 0 && $num_total_objects < (float) variable_get('ting_subsearch_secondary_max', 100)) {
       $facets = $results->getFacets();
       $genre_facets = $facets['facet.genreCategory']->getTerms();
       // If any of fiction or non fiction is empty we cannot do the calculation.
@@ -146,18 +148,18 @@ function ting_subsearch_secondary_search($keys, $results) {
         return $message;
       }
 
-      $nonfiction = (int) 1;
+      $nonfiction = 1;
       if (!empty($genre_facets['nonfiktion'])) {
         $nonfiction = $genre_facets['nonfiktion']->getCount();
       }
 
-      $fiction = (int) 0;
+      $fiction = 0;
       if (!empty($genre_facets['fiktion'])) {
         $fiction = $genre_facets['fiktion']->getCount();
       }
 
       // Less than half fiction of nonfiction.
-      if ($nonfiction / ting_subsearch_common_tofloat(variable_get('ting_subsearch_secondary_factor', 2)) > $fiction) {
+      if ($nonfiction / (float) variable_get('ting_subsearch_secondary_factor', 2) > $fiction) {
         $message = ting_subsearch_secondary_execute_secondary_search($keys, $results);
       }
     }
@@ -179,8 +181,8 @@ function ting_subsearch_secondary_search($keys, $results) {
  */
 function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
   $message = '';
-  $secondary_result_min = ting_subsearch_common_tofloat(variable_get('ting_subsearch_secondary_result_min', 100));
-  $secondary_max = ting_subsearch_common_tofloat(variable_get('ting_subsearch_secondary_max', 100));
+  $secondary_result_min = (float) variable_get('ting_subsearch_secondary_result_min', 100);
+  $secondary_max = (float) variable_get('ting_subsearch_secondary_max', 100);
 
   $secondary_result = ting_subsearch_common_do_secondary_search($keys, [
     'agency' => variable_get('ting_subsearch_secondary_agency', ''),
@@ -192,7 +194,7 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
   if ($secondary_num_objects > $secondary_result_min && $secondary_num_objects < $secondary_max) {
     $ratio = $secondary_num_objects / $num_total_objects;
 
-    if ($ratio > ting_subsearch_common_tofloat(variable_get('ting_subsearch_secondary_ps_factor', 2))) {
+    if ($ratio > (float) variable_get('ting_subsearch_secondary_ps_factor', 2)) {
       $items = [];
       $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
       foreach ($secondary_result->collections as &$collection) {

@@ -1,8 +1,10 @@
 <?php
+
 /**
  * @file
+ * Secondary search results list items.
  *
- * @var items
+ * @var $items
  */
 ?>
 <?php foreach ($items as $item) : ?>
