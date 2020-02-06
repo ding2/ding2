@@ -188,7 +188,6 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       'type' => 'file',
       'scope' => 'footer',
     ]);
-    drupal_set_message('<div id="subsearch-suggestions"></div>', 'status', FALSE);
   }
   else {
     ting_subsearch_suggestions_get_message($keys, $conditions, $results);
@@ -292,10 +291,20 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
         }
         $distance = levenshtein($keys_lowered, $popular_keys);
 
-        if ($distance > 0 && $distance < $ting_kpi_distance) {
-          return $best_result;
-        }
+        $raw_array[$popular_keys] = $distance;
       }
+
+      $prepared_array = array_filter($raw_array, function ($distance, $key) use ($ting_kpi_distance) {
+        if ($distance > 0 && $distance <= $ting_kpi_distance) {
+          return $prepared_array[$key] = $distance;
+        }
+      }, ARRAY_FILTER_USE_BOTH);
+
+      if (!empty($prepared_array)) {
+        $result = array_keys($prepared_array, min($prepared_array));
+      }
+
+      return isset($result[0]) ? $result[0] : '';
 
       break;
   }
@@ -337,6 +346,7 @@ function ting_subsearch_suggestions_cron() {
     while (($data = fgetcsv($file))) {
       if ($data[0] != 'year') {
         $normalized_string = mb_convert_encoding($data[2], 'UTF-8', 'ISO-8859-15');
+        /** @var \InsertQuery $query */
         $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields(
           [
             'popular_keys' => $normalized_string,
@@ -376,30 +386,6 @@ function ting_subsearch_suggestions_cron() {
 }
 
 /**
- * Insert kpi keys into table.
- *
- * @param array $result
- *   Data array with results which should be inserted into db.
- */
-function ting_subsearch_suggestions_insert_records(array $result) {
-
-  foreach ($result as $key => $data) {
-    if (is_numeric($data['results']) && !empty($data['oss'])) {
-      $normalized_string = mb_convert_encoding($data['oss'], 'UTF-8', 'ISO-8859-15');
-      $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields(
-        [
-          'popular_keys' => $normalized_string,
-          'numtotalsearches' => (int) $data['results'],
-          'weekno' => $data['weekno'],
-          'year' => $data['year'],
-        ]
-      );
-      $query->execute();
-    }
-  }
-}
-
-/**
  * Copy remote file over HTTP one small chunk at a time.
  *
  * @param string $infile
@@ -407,7 +393,7 @@ function ting_subsearch_suggestions_insert_records(array $result) {
  * @param string $outfile
  *   The path where to save the file
  *
- * @return $cnt
+ * @return bool|false|int $cnt
  */
 function copyfile_chunked($infile, $outfile) {
   $chunksize = 10 * (1024 * 1024); // 10 Megs

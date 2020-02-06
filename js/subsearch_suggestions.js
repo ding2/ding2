@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Subsearch Suggestions JS functionality.
+ */
+
 (function ($) {
   'use strict';
 
@@ -10,12 +15,16 @@
   const urlParams = new URLSearchParams(window.location.search);
   const originalSearch = urlParams.get('original-search');
 
-  let progressText = Drupal.t('Loading suggestions ...');
-  let wrapper = $('#subsearch-suggestions');
-  wrapper.text(progressText);
+  // @TODO: Rework wrapper attaching in more "Drupal" approach.
+  let main = $('.pane-page-content');
+  main.prepend('<div id="subsearch-suggestions" style="background-color: #F1F2F2; padding-top: 30px;"><div style="max-width: 1124px;margin-left: auto;margin-right: auto;width: 90%;" class="suggestions inner-content"></div></div>');
+  let wrapper = $('#subsearch-suggestions .inner-content');
 
   if (originalSearch !== null) {
-    let message = Drupal.t('See results for "!keys", the search for "!originalSearch" returned 0 hits.', {'!keys': keys, '!originalSearch': originalSearch});
+    let message = Drupal.t('See results for "!keys", the search for "!originalSearch" returned 0 hits.', {
+      '!keys': keys,
+      '!originalSearch': originalSearch
+    });
     message = '<div id="subsearch-suggestions-first">' + message + '</div>';
     wrapper.html(message);
   }
@@ -29,24 +38,13 @@
         'results': results
       },
     })
-      .done(function(r) {
-        if (r !== '') {
-          wrapper.html(r);
-        }
-        else {
-          let messagePane = $('.pane-page-messages');
-          let messagesList = messagePane.find('li');
-          if (messagesList.length === 1) {
-            wrapper.parent('li').remove();
-            messagePane.find('.close-container a').click();
+        .done(function (r) {
+          if (r !== '') {
+            wrapper.html(r);
           }
-          else {
-            wrapper.parent('li').remove();
-          }
-        }
-      })
-      .fail(function(e) {
-        console.log(e);
-      });
+        })
+        .fail(function (e) {
+          console.log(e);
+        });
   }
 })(jQuery, Drupal);
