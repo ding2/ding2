@@ -230,6 +230,11 @@ function ting_subsearch_common_build_search_query($keys) {
  * Callback handler for suggested keys.
  *
  * Find suggested keys based on keys and callback.
+ *
+ * @param $keys
+ * @param $callback
+ *
+ * @return bool
  */
 function ting_subsearch_common_suggested_keys($keys, $callback) {
 
@@ -247,10 +252,14 @@ function ting_subsearch_common_suggested_keys($keys, $callback) {
 
 /**
  * Split query string.
+ *
+ * @param $query
+ * @param array $original_query
+ *
+ * @return array
  */
 function ting_subsearch_common_query_params($query, $original_query = []) {
-  $result = array_merge($original_query, drupal_get_query_array($query));
-  return $result;
+  return array_merge($original_query, drupal_get_query_array($query));
 }
 
 /**
@@ -264,6 +273,7 @@ function ting_subsearch_common_libraries_info() {
       'download url' => 'https://github.com/guzzle/guzzle',
       'version' => '6.2',
       'xautoload' => function ($adapter) {
+        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
         $adapter->composerJson('composer.json');
       },
     ],
@@ -273,6 +283,7 @@ function ting_subsearch_common_libraries_info() {
       'download url' => 'https://github.com/guzzle/promises',
       'version' => '1.2',
       'xautoload' => function ($adapter) {
+        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
         $adapter->composerJson('composer.json');
       },
     ],
@@ -282,6 +293,7 @@ function ting_subsearch_common_libraries_info() {
       'download url' => 'https://github.com/php-fig/http-message',
       'version' => '1.0',
       'xautoload' => function ($adapter) {
+        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
         $adapter->composerJson('composer.json');
       },
     ],
@@ -291,6 +303,7 @@ function ting_subsearch_common_libraries_info() {
       'download url' => 'https://github.com/guzzle/psr7',
       'version' => '1.3',
       'xautoload' => function ($adapter) {
+        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
         $adapter->composerJson('composer.json');
       },
     ],
@@ -298,24 +311,18 @@ function ting_subsearch_common_libraries_info() {
 }
 
 /**
- * Transform strings to floats in variables.
+ * Custom trigger fields validation.
  *
- * @param $num
+ * Validate fields which are sensitive to decimals separator.
  *
- * @return float
+ * @param $element
+ * @param $form_state
  */
-function ting_subsearch_common_tofloat($num) {
-  $dotPos = strrpos($num, '.');
-  $commaPos = strrpos($num, ',');
-  $sep = (($dotPos > $commaPos) && $dotPos) ? $dotPos :
-    ((($commaPos > $dotPos) && $commaPos) ? $commaPos : false);
-
-  if (!$sep) {
-    return floatval(preg_replace("/[^0-9]/", "", $num));
+function ting_subsearch_common_sensitive_fields_validate($element, &$form_state) {
+  if (!empty($element['#value']) && preg_match('/,/', $element['#value']) === 1) {
+    form_error($element, t('The <strong>"@name"</strong> field contains wrong decimals separator. Please use <strong>". (dot)"</strong> notation instead of <strong>", (comma)"</strong>.',
+        ['@name' => $element['#title']]
+      )
+    );
   }
-
-  return floatval(
-    preg_replace("/[^0-9]/", "", substr($num, 0, $sep)) . '.' .
-    preg_replace("/[^0-9]/", "", substr($num, $sep+1, strlen($num)))
-  );
 }
