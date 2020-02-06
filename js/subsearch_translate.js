@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Subsearch Translate module JS functionality.
+ */
+
 (function ($) {
   'use strict';
 
@@ -6,10 +11,6 @@
   let keys = stSettings.subsearch_translate.keys;
   let conditions = stSettings.subsearch_translate.conditions;
   let results = stSettings.subsearch_translate.results;
-
-  let progressText = Drupal.t('Loading translations ...');
-  let wrapper = $('#subsearch-translate');
-  wrapper.text(progressText);
 
   $.ajax({
     type: 'POST',
@@ -20,24 +21,16 @@
       'results': results
     },
   })
-    .done(r => {
-      if (r !== '') {
-        wrapper.html(r);
-      }
-      else {
-        let messagePane = $('.pane-page-messages');
-        let messagesList = messagePane.find('li');
-        if (messagesList.length === 1) {
-          wrapper.parent('li').remove();
-          messagePane.find('.close-container a').click();
+      .done(r => {
+        if (r !== '') {
+          // @TODO: Rework wrapper attaching in more "Drupal" approach.
+          let main = $('.pane-page-content');
+          main.prepend('<div id="subsearch-translate" style="background-color: #F1F2F2; padding-top: 30px;"><div style="max-width: 1124px;margin-left: auto;margin-right: auto;width: 90%;" class="translate inner-content"></div></div>');
+          let wrapper = $('#subsearch-translate .inner-content');
+          wrapper.html(r);
         }
-        else {
-          wrapper.parent('li').remove();
-        }
-      }
-    })
-    .fail(e => {
-      console.log(e);
-    });
-})
-(jQuery, Drupal);
+      })
+      .fail(e => {
+        console.log(e);
+      });
+})(jQuery, Drupal);
