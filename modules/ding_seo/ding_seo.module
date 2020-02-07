@@ -192,5 +192,3 @@ function ding_seo_get_schema_book_format($ting_object) {
   return NULL;
 }
 
-
-
