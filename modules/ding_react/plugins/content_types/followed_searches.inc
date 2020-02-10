@@ -22,7 +22,7 @@ function ding_react_followed_searches_content_type_render($subtype, $conf, $pane
 
   $data = [
     'follow-searches-url' => ding_react_follow_searches_url(),
-    'search-url' => '/search/ting/:query',
+    'search-url' => '/search/ting/:query?sort=date_descending',
     'empty-list-text' => t('List is empty.'),
     'error-text' => t('An error occurred while trying to fetch list.'),
     'go-to-search-text' => t('Show search result'),
