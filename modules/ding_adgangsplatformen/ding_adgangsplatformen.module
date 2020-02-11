@@ -277,10 +277,7 @@ function ding_adgangsplatformen_logout($regen_session = FALSE) {
 
   $config = ding_adgangsplatformen_get_configuration();
   $singleLogout = $config['singleLogout'] ? 'true' : 'false';
-  $token = $_SESSION['oauth2token'];
-
-  // Remove token.
-  ding_adgangsplatformen_openplatform_token_set(NULL);
+  $token = ding_adgangsplatformen_openplatform_token_get();
 
   // Generate logout request for the authorization service and send the request.
   $logout_url = url(
