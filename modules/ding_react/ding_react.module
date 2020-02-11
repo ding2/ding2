@@ -107,6 +107,62 @@ function ding_react_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Implements hook_module_implements_alter().
+ */
+function ding_react_module_implements_alter(&$implementations, $hook) {
+  if ($hook !== 'opensearch_pre_execute') {
+    return;
+  }
+
+  // To store the right query we need this module to execute at just the right
+  // time:
+  //
+  //   1. After ting_field_search which modifies the search query based on an url
+  //      query argument.
+  //   2. Before the fbs module which adds a filter for the local library which
+  //      we do not want transferred to our national service.
+  //
+  // Adjust the order order of the implementations accordingly.
+  $pos = array_search('ding_react', array_keys($implementations));
+  $ding_react = array_splice($implementations, $pos, 1);
+
+  // Insert ding_react after ting_field_search
+  $before = array_search('ting_field_search', array_keys($implementations));
+  if ($before !== FALSE) {
+    $implementations = array_merge(
+      array_slice($implementations, 0, $before + 1),
+      $ding_react,
+      array_slice($implementations, $before + 1)
+    );
+  }
+
+  // Move fbs after ding_react if necessary.
+  $after = array_search('fbs', array_keys($implementations));
+  if ($after !== FALSE && $after <= $before) {
+    $fbs = array_splice($implementations, $after, 1);
+    $implementations = array_merge(
+      array_slice($implementations, 0, $before + 2),
+      $fbs,
+      array_slice($implementations, $before + 2)
+    );
+  }
+}
+
+/**
+ * Implements hook_opensearch_pre_execute().
+ */
+function ding_react_opensearch_pre_execute($request) {
+  if (get_class($request) !== TingClientSearchRequest::class) {
+    return;
+  }
+
+  // Set the currently executed query. When saved as a part of hook_pre_execute
+  // we also get any modifications made by other modules.
+  $query = $request->getQuery();
+  ding_react_search_query($query);
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_react_form_search_block_form_alter(&$form, $form_state) {
@@ -114,37 +170,38 @@ function ding_react_form_search_block_form_alter(&$form, $form_state) {
 
   // Check if function exists so we don't need to have a hard dependency on
   // ting_search and opensearch.
-  if (!function_exists('ting_search_current_results') && module_exists('opensearch')) {
+  if (!function_exists('ting_search_current_results')) {
     return;
   }
 
-  $result = ting_search_current_results();
+  // Get the current search query performed after most modifications. It would
+  // be nice if we could rely on the search request but some modules may
+  // modify the query at an even lower level so we use static storage as well.
+  $query = ding_react_search_query();
 
+  $result = ting_search_current_results();
   if (!$result) {
     return;
   }
-
-  $searchRequest = $result->getSearchRequest();
+  $search_request = $result->getSearchRequest();
 
   // This form alter get called a lot, and most of the time the result doesn't
-  // have a searchRequest. Luckily it seems to have in the exact case where we
+  // have a search request. Luckily it seems to have in the exact case where we
   // want to add the button.
-  if (!$searchRequest) {
+  if (!$search_request) {
     return;
   }
 
-  $fullTextQuery = $searchRequest->getFullTextQuery();
-  $title = $fullTextQuery;
-
-  // In order to get the correct CQL query, it needs to be run through
-  // TingSearchCqlDoctor.
-  $cqlDoctor = new TingSearchCqlDoctor($fullTextQuery);
-  $fullTextQuery = $cqlDoctor->string_to_cql();
+  $title = $search_request->getFullTextQuery();
+  // Fall back on query from search request if no static query is available.
+  if (!$query) {
+    $query = $search_request->getFullTextQuery();
+  }
 
   $data = [
     'follow-searches-url' => ding_react_follow_searches_url(),
     'default-title' => $title,
-    'search-query' => $fullTextQuery,
+    'search-query' => $query,
     'login-url' => ding_react_login_url(),
     'button-text' => t('Add to followed searches'),
     'label' => t('Title for followed search'),
@@ -393,6 +450,19 @@ function ding_react_user_migrate(stdClass $account) {
       WATCHDOG_NOTICE
     );
   }
+}
+
+/**
+ * Static storage/retrieval of the currently executed search query.
+ *
+ * @param string $query
+ *   The current search query.
+ *
+ * @return string|mixed
+ *   The current search query - or null if this has not been set.
+ */
+function ding_react_search_query($query = NULL) {
+  return drupal_static(__FUNCTION__, $query);
 }
 
 /**
