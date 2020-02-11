@@ -252,16 +252,3 @@ function connie_search_search_autocomplete($query) {
 
   return $items;
 }
-
-/**
- * Generate a query string corresponding to a query.
- *
- * @param \Ting\Search\TingSearchRequest $ting_query
- *   The query to base the string on.
- *
- * @return string
- *   The query in string form.
- */
-function connie_search_search_query_string(TingSearchRequest $query) {
-  return $query->getFullTextQuery();
-}
