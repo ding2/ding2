@@ -1,4 +1,5 @@
 name = Ding React apps
 description = Adds in DDB React apps.
 core = 7.x
+dependencies[] = ding_provider
 dependencies[] = libraries
