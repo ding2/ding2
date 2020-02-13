@@ -9,6 +9,36 @@
  define('DING_SEO_COMMA_PIVOT_VALUE', '|COMMA|');
 
 /**
+ * Implements hook_menu().
+ */
+function ding_seo_menu() {
+  $items = array();
+
+  $items['admin/config/ding/ding_seo'] = array(
+    'title' => 'Ding SEO',
+    'description' => 'Configure the SEO module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_seo_admin_settings'),
+    'access arguments' => array('configure seo settings'),
+    'file' => 'ding_seo.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_seo_permission() {
+  return array(
+    'configure seo' => array(
+      'title' => t('Configure SEO settings'),
+      'description' => t('Configure settings of the SEO module'),
+    ),
+  );
+}
+
+/**
  * Implements hook_metatag_metatags_view_alter().
  *
  * Schema metatag uses commas as delimiter for multiple values. This poses a
@@ -161,3 +191,4 @@ function ding_seo_get_schema_book_format($ting_object) {
   }
   return NULL;
 }
+
