@@ -4,5 +4,6 @@ core = 7.x
 version = 7.x-0.1
 package = Ding!
 
+dependencies[] = easyddb_frontend_layout
 dependencies[] = ding_sections
 dependencies[] = panels_ipe
