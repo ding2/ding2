@@ -54,13 +54,6 @@ projects[ding_campaign_plus_extra][download][url]    = "git@github.com:easySuite
 ;projects[ding_campaign_plus_extra][download][tag]    = ""
 projects[ding_campaign_plus_extra][download][branch] = "development"
 
-projects[ding_campaign_migrate][type]             = "module"
-projects[ding_campaign_migrate][subdir]           = ""
-projects[ding_campaign_migrate][download][type]   = "git"
-projects[ding_campaign_migrate][download][url]    = "git@github.com:easySuite/ding_campaign_migrate.git"
-;projects[ding_campaign_migrate][download][tag]    = ""
-projects[ding_campaign_migrate][download][branch] = "development"
-
 projects[ding_campaign_mobile][type]             = "module"
 projects[ding_campaign_mobile][subdir]           = ""
 projects[ding_campaign_mobile][download][type]   = "git"
@@ -152,6 +145,13 @@ projects[ding_kultunaut_import][download][url]    = "git@github.com:easySuite/di
 ;projects[ding_kultunaut_import][download][tag]    = ""
 projects[ding_kultunaut_import][download][branch] = "development"
 
+projects[ding_language][type]             = "module"
+projects[ding_language][subdir]           = ""
+projects[ding_language][download][type]   = "git"
+projects[ding_language][download][url]    = "git@github.com:easySuite/ding_language.git"
+;projects[ding_language][download][tag]    = ""
+projects[ding_language][download][branch] = "development"
+
 projects[ding_library_opening_hours][type]             = "module"
 projects[ding_library_opening_hours][subdir]           = ""
 projects[ding_library_opening_hours][download][type]   = "git"
@@ -229,13 +229,6 @@ projects[ding_social][download][url]    = "git@github.com:easySuite/ding_social.
 ;projects[ding_social][download][tag]    = ""
 projects[ding_social][download][branch] = "development"
 
-projects[ding_sections_migrate][type]             = "module"
-projects[ding_sections_migrate][subdir]           = ""
-projects[ding_sections_migrate][download][type]   = "git"
-projects[ding_sections_migrate][download][url]    = "git@github.com:easySuite/ding_sections_migrate.git"
-;projects[ding_sections_migrate][download][tag]    = ""
-projects[ding_sections_migrate][download][branch] = "master"
-
 projects[ding_ting_type_search][type]             = "module"
 projects[ding_ting_type_search][subdir]           = ""
 projects[ding_ting_type_search][download][type]   = "git"
@@ -306,6 +299,13 @@ projects[easyddb_legend][download][url]    = "git@github.com:easySuite/easyddb_l
 ;projects[easyddb_legend][download][tag]    = ""
 projects[easyddb_legend][download][branch] = "development"
 
+projects[easyddb_search_holdings][type]             = "module"
+projects[easyddb_search_holdings][subdir]           = ""
+projects[easyddb_search_holdings][download][type]   = "git"
+projects[easyddb_search_holdings][download][url]    = "git@github.com:easySuite/easyddb_search_holdings.git"
+;projects[easyddb_search_holdings][download][tag]    = ""
+projects[easyddb_search_holdings][download][branch] = "development"
+
 projects[easyddb_search_radios][type]             = "module"
 projects[easyddb_search_radios][subdir]           = ""
 projects[easyddb_search_radios][download][type]   = "git"
@@ -341,13 +341,6 @@ projects[easyddb_zerohit_redirect][download][url]    = "git@github.com:easySuite
 ;projects[easyddb_zerohit_redirect][download][tag]    = ""
 projects[easyddb_zerohit_redirect][download][branch] = "development"
 
-projects[easyopac_facetbrowser_extend][type]             = "module"
-projects[easyopac_facetbrowser_extend][subdir]           = ""
-projects[easyopac_facetbrowser_extend][download][type]   = "git"
-projects[easyopac_facetbrowser_extend][download][url]    = "git@github.com:easySuite/easyopac_facetbrowser_extend.git"
-;projects[easyopac_facetbrowser_extend][download][tag]    = ""
-projects[easyopac_facetbrowser_extend][download][branch] = "development"
-
 projects[easyopac_facets][type]             = "module"
 projects[easyopac_facets][subdir]           = ""
 projects[easyopac_facets][download][type]   = "git"
@@ -375,6 +368,13 @@ projects[emailkanon][download][type]   = "git"
 projects[emailkanon][download][url]    = "git@github.com:easySuite/emailkanon.git"
 ;projects[emailkanon][download][branch] = "master"
 projects[emailkanon][download][branch] = "development"
+
+projects[gronbib_frontend][type]             = "module"
+projects[gronbib_frontend][subdir]           = ""
+projects[gronbib_frontend][download][type]   = "git"
+projects[gronbib_frontend][download][url]    = "git@github.com:easySuite/gronbib_frontend.git"
+;projects[gronbib_frontend][download][tag]    = ""
+projects[gronbib_frontend][download][branch] = "development"
 
 projects[kultunaut_events][type]             = "module"
 projects[kultunaut_events][subdir]           = ""
@@ -502,12 +502,6 @@ projects[ting_titles_decoration][download][url]    = "git@github.com:easySuite/t
 ;projects[ting_titles_decoration][download][tag]    = ""
 projects[ting_titles_decoration][download][branch] = "development"
 
-projects[ding_uninstall_modules][type]             = "module"
-projects[ding_uninstall_modules][download][type]   = "git"
-projects[ding_uninstall_modules][subdir]           = ""
-projects[ding_uninstall_modules][download][url]    = "git@github.com:easySuite/ding_uninstall_modules.git"
-projects[ding_uninstall_modules][download][branch] = "master"
-
 ; Social Services modules and libraries
 projects[social_services][type]             = "module"
 projects[social_services][download][type]   = "git"
@@ -520,31 +514,30 @@ libraries[SocialServices][download][url]    = "git@github.com:inleadmedia/Social
 libraries[SocialServices][download][branch] = "development"
 libraries[SocialServices][destination]      = "modules/social_services/lib"
 
-projects[ding_language][type]             = "module"
-projects[ding_language][subdir]           = ""
-projects[ding_language][download][type]   = "git"
-projects[ding_language][download][url]    = "git@github.com:easySuite/ding_language.git"
-;projects[ding_language][download][tag]    = ""
-projects[ding_language][download][branch] = "development"
-
-projects[gronbib_frontend][type]             = "module"
-projects[gronbib_frontend][subdir]           = ""
-projects[gronbib_frontend][download][type]   = "git"
-projects[gronbib_frontend][download][url]    = "git@github.com:easySuite/gronbib_frontend.git"
-;projects[gronbib_frontend][download][tag]    = ""
-projects[gronbib_frontend][download][branch] = "development"
-
 ; To be removed
+projects[ding_uninstall_modules][type]             = "module"
+projects[ding_uninstall_modules][download][type]   = "git"
+projects[ding_uninstall_modules][subdir]           = ""
+projects[ding_uninstall_modules][download][url]    = "git@github.com:easySuite/ding_uninstall_modules.git"
+projects[ding_uninstall_modules][download][branch] = "master"
+
+projects[ding_sections_migrate][type]             = "module"
+projects[ding_sections_migrate][subdir]           = ""
+projects[ding_sections_migrate][download][type]   = "git"
+projects[ding_sections_migrate][download][url]    = "git@github.com:easySuite/ding_sections_migrate.git"
+;projects[ding_sections_migrate][download][tag]    = ""
+projects[ding_sections_migrate][download][branch] = "master"
+
+projects[ding_campaign_migrate][type]             = "module"
+projects[ding_campaign_migrate][subdir]           = ""
+projects[ding_campaign_migrate][download][type]   = "git"
+projects[ding_campaign_migrate][download][url]    = "git@github.com:easySuite/ding_campaign_migrate.git"
+;projects[ding_campaign_migrate][download][tag]    = ""
+projects[ding_campaign_migrate][download][branch] = "development"
+
 projects[easyddb_search_expand][type]             = "module"
 projects[easyddb_search_expand][subdir]           = ""
 projects[easyddb_search_expand][download][type]   = "git"
 projects[easyddb_search_expand][download][url]    = "git@github.com:easySuite/easyddb_search_expand.git"
 ;projects[easyddb_search_expand][download][tag]    = ""
 projects[easyddb_search_expand][download][branch] = "development"
-
-projects[ding_event_rooms][type]             = "module"
-projects[ding_event_rooms][subdir]           = ""
-projects[ding_event_rooms][download][type]   = "git"
-projects[ding_event_rooms][download][url]    = "git@github.com:easySuite/ding_event_rooms.git"
-;projects[ding_event_rooms][download][tag]    = ""
-projects[ding_event_rooms][download][branch] = "development"
