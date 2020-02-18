@@ -54,6 +54,7 @@ projects[ding_campaign_plus_extra][download][url]    = "git@github.com:easySuite
 ;projects[ding_campaign_plus_extra][download][tag]    = ""
 projects[ding_campaign_plus_extra][download][branch] = "development"
 
+projects[ding_campaign_mobile][type]             = "module"
 projects[ding_campaign_mobile][subdir]           = ""
 projects[ding_campaign_mobile][download][type]   = "git"
 projects[ding_campaign_mobile][download][url]    = "git@github.com:easySuite/ding_campaign_mobile.git"
@@ -228,6 +229,7 @@ projects[ding_social][download][url]    = "git@github.com:easySuite/ding_social.
 ;projects[ding_social][download][tag]    = ""
 projects[ding_social][download][branch] = "development"
 
+projects[ding_ting_type_search][type]             = "module"
 projects[ding_ting_type_search][subdir]           = ""
 projects[ding_ting_type_search][download][type]   = "git"
 projects[ding_ting_type_search][download][url]    = "git@github.com:easySuite/ding_ting_type_search.git"
@@ -304,7 +306,6 @@ projects[easyddb_search_holdings][download][url]    = "git@github.com:easySuite/
 ;projects[easyddb_search_holdings][download][tag]    = ""
 projects[easyddb_search_holdings][download][branch] = "development"
 
-projects[easyddb_search_result_reservation][type]             = "module"
 projects[easyddb_search_radios][type]             = "module"
 projects[easyddb_search_radios][subdir]           = ""
 projects[easyddb_search_radios][download][type]   = "git"
@@ -527,7 +528,6 @@ projects[ding_sections_migrate][download][url]    = "git@github.com:easySuite/di
 ;projects[ding_sections_migrate][download][tag]    = ""
 projects[ding_sections_migrate][download][branch] = "master"
 
-projects[ding_ting_type_search][type]             = "module"
 projects[ding_campaign_migrate][type]             = "module"
 projects[ding_campaign_migrate][subdir]           = ""
 projects[ding_campaign_migrate][download][type]   = "git"
@@ -535,7 +535,6 @@ projects[ding_campaign_migrate][download][url]    = "git@github.com:easySuite/di
 ;projects[ding_campaign_migrate][download][tag]    = ""
 projects[ding_campaign_migrate][download][branch] = "development"
 
-projects[ding_campaign_mobile][type]             = "module"
 projects[easyddb_search_expand][type]             = "module"
 projects[easyddb_search_expand][subdir]           = ""
 projects[easyddb_search_expand][download][type]   = "git"
