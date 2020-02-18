@@ -69,13 +69,6 @@ function ding_react_ding_provider_user() {
 }
 
 /**
- * Implements hook_user_login().
- */
-function ding_react_user_login(&$edit, $account) {
-  ding_react_user_migrate($account);
-}
-
-/**
  * Implements hook_ding_entity_buttons().
  */
 function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', $widget = 'default') {
