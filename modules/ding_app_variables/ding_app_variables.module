@@ -9,14 +9,14 @@
  * Implements hook_menu().
  */
 function ding_app_variables_menu() {
-  $items = array();
+  $items = [];
 
-  $items['ding/variables'] = array(
+  $items['ding/variables'] = [
     'title' => 'Display variables as JSON output',
     'access callback' => TRUE,
     'delivery callback' => 'drupal_json_output',
     'page callback' => 'ding_app_variables_display',
-  );
+  ];
 
   return $items;
 }
@@ -54,9 +54,6 @@ function ding_app_variables_display() {
 /**
  * Get panels configurations.
  *
- * @param string $carousel
- *   Pass subtype of panel pane.
- *
  * @return array
  *   List of carousels pane configurations.
  */
@@ -70,6 +67,7 @@ function _ding_app_variables_get_carousel_configs() {
     ->condition('pp.subtype', 'carousel')
     ->condition('pp.shown', 1)
     ->execute();
+
   foreach ($panes as $pane) {
     $name = "{$pane->name}-{$pane->pid}";
     if (strpos($pane->name, 'frontpage') !== FALSE) {
