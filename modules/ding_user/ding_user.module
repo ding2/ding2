@@ -25,6 +25,24 @@ function ding_user_pathauto_alias_alter(&$alias, $context) {
 }
 
 /**
+ * Implements hook_preprocess_html().
+ */
+function ding_user_preprocess_html(&$variables) {
+  $args = arg();
+  if ($args[0] == 'user') {
+    // Set default title.
+    drupal_set_title('Account');
+
+    // Check if current user is logged in.
+    if (user_is_logged_in()) {
+      // Cache control for user pages.
+      drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
+      drupal_add_http_header('Pragma', 'no-cache');
+    }
+  }
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various
@@ -105,7 +123,7 @@ function ding_user_authenticate(array $user_info) {
   $account = FALSE;
 
   try {
-    if (!array_key_exists('pass', $user_info)) {
+    if (array_key_exists('single_sign_on', $user_info) && $user_info['single_sign_on'] == TRUE) {
       // No password provided by the authentication request (not even the empty
       // string), so we assume that this is a single-sign-on request.
       $auth_res = ding_provider_invoke('auth', 'single_sign_on', $user_info['name']);
@@ -116,7 +134,7 @@ function ding_user_authenticate(array $user_info) {
     }
     else {
       // Normal user log in request.
-      $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass'], $sso);
+      $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass']);
     }
   }
   catch (DingProviderNoProvider $exception) {
@@ -250,7 +268,7 @@ function ding_user_entity_info_alter(&$entity_info) {
  */
 function ding_user_deliver_html_page($page_callback_result) {
   if ($page_callback_result == MENU_ACCESS_DENIED) {
-    drupal_deliver_page(MENU_NOT_FOUND);
+    drupal_goto('<front>');
   }
   else {
     drupal_deliver_html_page($page_callback_result);

@@ -829,3 +829,17 @@ function ding2_update_7072() {
   // Clear cache before continuing update.
   drupal_flush_all_caches();
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7073() {
+  ding2_translation_update();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7074() {
+  ding2_translation_update();
+}

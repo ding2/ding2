@@ -40,7 +40,6 @@ class CreateNewsContext implements Context {
    * Example: When I fill a news page with the following"
    *  | Title     | Batman            |
    *  | Lead      | Superhero returns |
-   *  | Body      | Go Batman!        |
    *  | Keywords  | superheroes       |
    *
    * @When /^(?:|I )fill a news page with the following:$/
@@ -56,10 +55,6 @@ class CreateNewsContext implements Context {
           $lead = $value;
           break;
 
-        case 'Body':
-          $body = $value;
-          break;
-
         case 'Category':
           $category = $value;
           break;
@@ -69,7 +64,7 @@ class CreateNewsContext implements Context {
       }
     }
 
-    $this->createNewsPage->fillNewsContent($title, $lead, $body, $category);
+    $this->createNewsPage->fillNewsContent($title, $lead, $category);
   }
 
   /**

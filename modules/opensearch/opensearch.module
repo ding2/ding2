@@ -423,7 +423,7 @@ function opensearch_xautoload(LocalDirectoryAdapter $adapter) {
  * permissions, a warning if the data well was queried more than once.
  */
 function opensearch_page_alter(&$page) {
-  $calls = &drupal_static('opensearch_execute_cache');
+  $calls = &drupal_static('opensearch_execute_cache', array());
   if (count($calls) > 5) {
     $calls_str = array();
     foreach ($calls as $call) {
@@ -452,16 +452,6 @@ function opensearch_ding_entity_is($object, $class) {
         return in_array(drupal_strtolower($object->getType()), array('tidsskrift', 'periodikum', 'årbog'));
     }
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function opensearch_form_ting_admin_reservable_settings_alter(&$form, &$form_state) {
-  $form['ting_library_material_sources']['#default_value'] = variable_get(
-    'ting_reservable_sources',
-    _opensearch_default_library_material_sources()
-  );
 }
 
 /**

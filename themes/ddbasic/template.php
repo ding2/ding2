@@ -870,7 +870,7 @@ function ddbasic_process_ting_object(&$vars) {
             '#weight' => 9998,
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -878,7 +878,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
@@ -918,7 +918,7 @@ function ddbasic_process_ting_object(&$vars) {
             '#weight' => 9998,
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -926,7 +926,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
@@ -937,7 +937,7 @@ function ddbasic_process_ting_object(&$vars) {
           }
 
           // Truncate default title.
-          $vars['static_title'] = '<div class="field-name-ting-title"><h2>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h2></div>';
+          $vars['static_title'] = '<div class="field-name-ting-title"><h3>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h3></div>';
 
           // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
@@ -948,7 +948,7 @@ function ddbasic_process_ting_object(&$vars) {
           }
 
           break;
-        
+
           // Check if teaser has rating function and remove abstract.
           if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
             unset($vars['content']['group_text']['ting_abstract']);
@@ -981,7 +981,7 @@ function ddbasic_process_ting_object(&$vars) {
             ),
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['buttons']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -989,7 +989,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['buttons']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',

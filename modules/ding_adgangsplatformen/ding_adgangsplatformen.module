@@ -37,7 +37,7 @@ function ding_adgangsplatformen_init() {
 function ding_adgangsplatformen_menu() {
   $items = array();
 
-  $items['admin/config/ding/auth'] = array(
+  $items['admin/config/ding/adgangsplatformen'] = array(
     'title' => 'Adgangsplatform',
     'description' => 'Configure adgangsplatformen login',
     'page callback' => 'drupal_get_form',
@@ -46,7 +46,7 @@ function ding_adgangsplatformen_menu() {
     'file' => 'includes/ding_adgangsplatformen.admin.inc',
   );
 
-  $items['admin/config/ding/auth/settings'] = array(
+  $items['admin/config/ding/adgangsplatformen/settings'] = array(
     'title' => 'Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
@@ -143,7 +143,8 @@ function ding_adgangsplatformen_get_configuration() {
     'urlAccessToken' => 'https://login.bib.dk/oauth/token/',
     'urlResourceOwnerDetails' => 'https://login.bib.dk/userinfo/',
     'urlLogout' => 'https://login.bib.dk/logout/',
-    'singleLogout' => true,
+    'singleLogout' => TRUE,
+    'automaticallyAgency' => TRUE,
     'singleLogoutOrigin' => 'https://login.bib.dk/',
   ));
 
@@ -167,6 +168,8 @@ function ding_adgangsplatformen_get_configuration() {
  *   If required libraries are not loaded.
  */
 function ding_adgangsplatformen_generate_login_url($destination = '') {
+  $configuration = ding_adgangsplatformen_get_configuration();
+
   $provider = ding_adgangsplatformen_get_provider();
   $authorization_url = $provider->getAuthorizationUrl();
 
@@ -178,6 +181,14 @@ function ding_adgangsplatformen_generate_login_url($destination = '') {
   // Check if an identity provider have been set in the request.
   if (!empty($_REQUEST['idp'])) {
     $authorization_url .= '&idp=' . $_REQUEST['idp'];
+  }
+
+  // Add agency to the URL.
+  if (isset($configuration['automaticallyAgency']) && $configuration['automaticallyAgency']) {
+    $agency = variable_get('ting_agency', '');
+    if (!empty($agency)) {
+      $authorization_url .= '&agency=' . $agency;
+    }
   }
 
   return $authorization_url;
@@ -323,6 +334,18 @@ function ding_adgangsplatformen_callback() {
       $user_info = $response->getBody()->getContents();
       $user_info = drupal_json_decode($user_info);
 
+      //
+      // HACK: this invalidates the access token and should be removed later on.
+      //       This only exists to get around pre-authentication issues
+      //       currently in FBS.
+      //
+      $request = $provider->getAuthenticatedRequest('DELETE', 'https://login.bib.dk/oauth/revoke', $access_token);
+      $response = $provider->getResponse($request);
+      if ($response->getStatusCode() != 200) {
+        watchdog('ding_adgangsplatformen', "https://login.bib.dk/oauth/revoke returned status code: %code", array('%code' => $response->getStatusCode()), WATCHDOG_CRITICAL);
+      }
+      unset($_SESSION['oauth2token']);
+
       if (module_exists('ding_registration') && ding_registration_is_registration_request()) {
         // This is an self registration request, so we store the information in
         // the current session. So it can be used to create the user in the
@@ -427,8 +450,21 @@ function _ding_adgangsplatformen_provider_login(array $user_info) {
 
   try {
     $account = ding_user_authenticate(array(
-      'name' => $user_info['attributes']['userId'],
+      //
+      // HACK: Use CPR when exists as users may have both (CPR and card no.)
+      //       attached to their FBS user and both can then be used to login at
+      //       adgangsplatformen. But pre-authenticate can't use the card no.
+      //       so fallback to CPR if it's given.
+      //
+      'name' => is_null($user_info['attributes']['cpr']) ? $user_info['attributes']['userId'] : $user_info['attributes']['cpr'],
+      //
+      // HACK: The pincode used here should be removed later on.
+      //       This only exists to get around pre-authentication issues
+      //       currently in FBS.
+      //
+      'pass' => isset($user_info['attributes']['pincode']) ? $user_info['attributes']['pincode'] : '',
       'extra' => $user_info,
+      'single_sign_on' => !is_null($user_info['attributes']['cpr']),
     ));
 
     if ($account !== FALSE) {

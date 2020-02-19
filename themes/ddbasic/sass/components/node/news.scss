@@ -181,7 +181,7 @@
       // Slide on mobile
       .slide-on-mobile & {
         h3.title {
-          margin: 14px 0 0 0;
+          margin: 14px 0 0;
           color: $color-standard-text;
         }
         .category-and-submitted {
@@ -379,21 +379,12 @@
       @include media($tablet) {
         @include span-columns(6);
         margin-right: 0;
-
-        &.has-paragraphs {
-          @include span-columns(8);
-        }
       }
 
       // Mobile
       @include media($mobile) {
         @include span-columns(12);
         margin-right: 0;
-
-        // Override tablet layout.
-        &.has-paragraphs {
-          @include span-columns(12);
-        }
       }
     }
     h1 {
@@ -501,7 +492,7 @@
   &.alternative-layout-full {
     .ding-news-right {
       float: right;
-      margin-right: getColumn(2) + getGutter(12);
+      margin-right: getColumn(1);
 
       // Tablet
       @include media($tablet) {

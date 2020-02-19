@@ -67,7 +67,7 @@ function ding_reservation_menu() {
     'access arguments' => array('perform reservation'),
   );
 
-  $items['ding_reservation/%ding_entity/is_reservable'] = array(
+  $items['ding_reservation/is_reservable'] = array(
     'title' => 'Check ding entity reservability',
     'page callback' => 'ding_reservation_is_reservable_ajax_callback',
     'page arguments' => array(1),
@@ -113,10 +113,18 @@ function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
 }
 
 /**
- * AJAX callback used to check the reservability of the passed entity.
+ * AJAX callback used to check the reservability of the passed entity ids.
  */
-function ding_reservation_is_reservable_ajax_callback($entity) {
-  drupal_json_output(array('reservable' => $entity->is('reservable')));
+function ding_reservation_is_reservable_ajax_callback() {
+  $result = [];
+
+  if (!empty($_POST['localIds']) && is_array($_POST['localIds'])) {
+    // The reservation provider decides reservability.
+    $result = ding_provider_invoke('reservation', 'is_reservable', $_POST['localIds']);
+  }
+
+  drupal_json_output($result);
+  drupal_exit();
 }
 
 /**
@@ -143,9 +151,9 @@ function ding_reservation_ding_entity_buttons($type, $entity, $view_mode, $widge
                   'action-button',
                   'reserve-button',
                   'use-ajax',
+                  'js-check-reservability',
                 ),
-                'id' => 'reservation-' . $entity->id,
-                'data-entity-id' => $entity->id,
+                'data-local-id' => $entity->localId,
               ),
               'html' => FALSE,
             ),
@@ -164,7 +172,8 @@ function ding_reservation_ding_entity_buttons($type, $entity, $view_mode, $widge
       default:
         // The last parameter to the form below (TRUE) hides the provider
         // options in the form (interest period and branch).
-        if ($entity->is('reservable')) {
+        $reservable = ding_provider_invoke('reservation', 'is_reservable', [$entity->localId]);
+        if (!empty($reservable[$entity->localId])) {
           $button = array(
             ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE),
           );

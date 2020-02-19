@@ -136,7 +136,7 @@ function ting_admin_reservable_settings($form_state) {
   $form['reservation_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Reservation settings'),
-
+    '#tree' => FALSE,
   );
 
   $options = array();

@@ -158,7 +158,7 @@
   .buttons {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding-left: 0;
     li a {
       @extend %button;
       float: right;

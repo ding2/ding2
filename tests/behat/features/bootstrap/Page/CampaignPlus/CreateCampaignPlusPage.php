@@ -26,7 +26,6 @@ class CreateCampaignPlusPage extends Page {
     'Campaign Title' => 'input#edit-title',
     'Campaign Text' => 'textarea#edit-field-ding-campaign-plus-text-und-0-value',
     'Campaign Link' => 'input#edit-field-ding-campaign-plus-link-und-0-url',
-    'Campaign Tags' => 'input#edit-field-ding-campaign-plus-track-und-0-value',
     'Type select' => 'select#edit-field-ding-campaign-plus-type-und',
   );
 
@@ -43,13 +42,11 @@ class CreateCampaignPlusPage extends Page {
    *   The campaign link.
    * @param string $style
    *   The campaign style.
-   * @param string[] $tags
-   *   The campaign tags.
    *
    * @throws ElementNotFoundException
    *   If any of the forms elements are not found.
    */
-  public function fillCampaignContent($title, $type, $text, $link, $style, array $tags = ['campaign']) {
+  public function fillCampaignContent($title, $type, $text, $link, $style) {
     $form = $this->getElement('Create form');
     $typeSelect = $this->getElement('Type select');
     $typeSelect->selectOption($type);
@@ -62,8 +59,6 @@ class CreateCampaignPlusPage extends Page {
     $select = $radioButton->getAttribute('name');
     $option = $radioButton->getAttribute('value');
     $this->selectFieldOption($select, $option);
-
-    $this->getElement('Campaign Tags')->setValue(implode(',', $tags));
   }
 
   /**

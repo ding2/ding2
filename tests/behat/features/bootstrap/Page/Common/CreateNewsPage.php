@@ -36,24 +36,17 @@ class CreateNewsPage extends Page {
    *   The news title.
    * @param string $lead
    *   The news lead.
-   * @param string $body
-   *   The new body.
    * @param string $category
    *   The news category.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
    *   If any of the form elements are not found.
    */
-  public function fillNewsContent($title, $lead, $body, $category) {
+  public function fillNewsContent($title, $lead, $category) {
     $form = $this->getElement('Create form');
 
     $form->fillField('edit-title', $title);
     $form->fillField('edit-field-ding-news-lead-und-0-value', $lead);
-
-    // For Wysiwyg fields we need to use CkeEditor to fill the fill
-    $bodyId = 'edit-field-ding-news-body-und-0-value';
-    $script = sprintf('CKEDITOR.instances["%s"].setData("%s");', $bodyId, $body);
-    $this->getSession()->executeScript($script);
 
     $typeSelect = $this->getElement('Category select');
     $typeSelect->selectOption($category);

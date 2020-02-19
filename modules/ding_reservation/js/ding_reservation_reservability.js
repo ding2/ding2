@@ -8,19 +8,29 @@
 
   Drupal.behaviors.ding_reservation = {
     attach: function(context) {
-      $(".ting-object .reserve-button", context).once('check-reservability', function() {
-        var reserveButton = $(this);
-        var entityId = reserveButton.data("entity-id");
+      var localIds = [];
+      var selector = '.js-check-reservability';
+      $(selector, context).once('js-check-reservability', function() {
+        localIds.push($(this).data("local-id"));
+      });
+
+      if (localIds.length) {
         $.ajax({
-          dataType: "json",
-          url: "/ding_reservation/" + entityId + "/is_reservable",
+          dataType: 'json',
+          type: 'POST',
+          url: '/ding_reservation/is_reservable',
+          data: {
+            localIds: localIds
+          },
           success: function(result) {
-            if (result.reservable) {
-              reserveButton.addClass('reservable');
-            }
+            $.each(result, function(localId, reservable) {
+              if (reservable) {
+                $(selector + '[data-local-id="' + localId + '"]', context).addClass('reservable');
+              }
+            });
           }
         });
-      });
+      }
     }
   };
 

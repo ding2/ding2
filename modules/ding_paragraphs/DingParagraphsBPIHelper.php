@@ -251,11 +251,7 @@ class DingParagraphsBPIHelper {
    *   Id of validated material or FALSE on invalid material.
    */
   private function validateMaterialId($material_id) {
-    preg_match('/[^\:]+\:\s?(?P<id>.*)/', $material_id, $matches);
-    if (!isset($matches['id'])) {
-      return FALSE;
-    }
-    return bpi_validate_material($matches['id']);
+    return bpi_validate_material($material_id);
   }
 
   /**

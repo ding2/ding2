@@ -78,6 +78,13 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
     '#default_value' => $default['singleLogout'],
   );
 
+  $form['ding_adgangsplatformen_settings']['automaticallyAgency'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Automatically select your library at adgangsplatformen (only if agency is detected)'),
+    '#return_value' => TRUE,
+    '#default_value' => $default['automaticallyAgency'],
+  );
+
   $form['ding_adgangsplatformen_settings']['singleLogoutOrigin'] = array(
     '#type' => 'textfield',
     '#title' => t('Iframe url'),

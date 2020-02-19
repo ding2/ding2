@@ -6,15 +6,13 @@ Feature: Automatic creation of campaigns
   Background:
     Given I am logged in as a cms user with the administrators role
 
-  @api @campaign_plus @regression @no_ci
-  # Disabled because our step definition currently does not support paragraphs
+  @api @campaign_plus @regression @cci
   Scenario: Create a news page with automatic campaign and show it on search results
     Given a "News Category" term with the name superhelte
     And I go to the create news page
     And I fill a news page with the following:
       | Title    | Behatman is back  |
       | Lead     | Superhero returns |
-      | Body     | Go Behatman!      |
       | Category | superhelte        |
     And I set the campaign keywords to "superhelte, usa"
     And I save the news page

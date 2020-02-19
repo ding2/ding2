@@ -66,3 +66,45 @@ function ding_campaign_plus_uninstall() {
 
   variable_del('ding_campaign_plus_cron_last_run');
 }
+
+/**
+ * Remove tracking tag field.
+ */
+function ding_campaign_plus_update_7001() {
+  field_delete_field('field_ding_campaign_plus_track');
+  // Do a lightweight purge to catch any issues early in the deployment.
+  field_purge_batch(10);
+}
+
+/**
+ * Replace Relevant Campaign with Relevant Campaign Plus.
+ */
+function ding_campaign_plus_update_7002() {
+  $campaign_panes = db_select('panels_pane', 'pp')
+    ->fields('pp')
+    ->condition('type', 'campaign')
+    ->condition('subtype', 'campaign')
+    ->execute()
+    ->fetchAll();
+
+  foreach ($campaign_panes as $campaign_pane) {
+    $conf = unserialize($campaign_pane->configuration);
+    unset($conf['ding_campaign_count']);
+    unset($conf['ding_campaign_offset']);
+    unset($conf['ding_campaign_image_style']);
+
+    $conf['style'] = 'box';
+
+    $final = serialize($conf);
+
+    db_update('panels_pane')
+      ->fields([
+        'type' => 'ding_campaign_plus',
+        'subtype' => 'ding_campaign_plus',
+        'configuration' => $final,
+      ])
+      ->condition('type', 'campaign')
+      ->condition('subtype', 'campaign')
+      ->execute();
+  }
+}

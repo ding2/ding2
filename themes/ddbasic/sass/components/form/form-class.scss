@@ -12,6 +12,13 @@
   input[type=submit] {
     width: auto;
     margin-bottom: 20px;
+
+    &:disabled,
+    &:disabled:hover {
+      background-color: $grey;
+      color: $grey-dark;
+      cursor: not-allowed;
+    }
   }
   .form-item {
     max-width: 400px;
@@ -86,6 +93,12 @@
     width: auto;
     padding-right: 80px;
   }
+}
+
+// Fix for TOS accept checkbox in ding_debts form. The materials above the
+// checkbox is floated so we need to clear for it to appear correctly.
+.pane-debts .form-item-accept-terms label {
+  clear: both;
 }
 
 .node-ding-event {

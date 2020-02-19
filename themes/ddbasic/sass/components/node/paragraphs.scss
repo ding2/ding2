@@ -20,11 +20,8 @@
   }
 
   .ting-object {
-    @include display(flex);
-    
     .ting-object-left {
       margin-right: 2%;
-      @include flex(0 1 auto);
 
       .ting-cover > img {
         min-width: 50px;
@@ -33,10 +30,6 @@
     }
 
     .ting-object-right {
-      @include display(flex);
-      @include flex-wrap(wrap);
-      @include flex(1 1 auto);
-
       .field-name-ting-type {
         display: none;
       }
@@ -89,14 +82,6 @@
   @include media($notebook) {
     width: 100%;
   }
-
-  @include media($tablet) {
-    width: 100%;
-  }
-
-  @include media($mobile) {
-    width: 100%;
-  }
 }
 
 .paragraphs-block--half-right {
@@ -105,14 +90,6 @@
   width: 50%;
 
   @include media($notebook) {
-    width: 100%;
-  }
-
-  @include media($tablet) {
-    width: 100%;
-  }
-
-  @include media($mobile) {
     width: 100%;
   }
 }
@@ -155,20 +132,27 @@
 // container width.
 .paragraphs-block--carousel,
 .paragraphs-block--materials-list {
-  width: 150%;
 
-  @include media($notebook) {
-    width: 163%;
+  .node-ding-news  & {
+    width: flex-grid(7, 6);
+
+    @include media($tablet) {
+      width: flex-grid(12, 6);
+    }
+    @include media($mobile) {
+      width: 100%;
+    }
   }
+  .node-ding-page & {
+    width: flex-grid(8, 7);
 
-  @include media($tablet) {
-    width: 152%;
+    @include media($tablet) {
+      width: flex-grid(12, 8);
+    }
+    @include media($mobile) {
+      width: 100%;
+    }
   }
-
-  @include media($mobile) {
-    width: 100%;
-  }
-
   .ting-object {
     margin-bottom: 10px;
   }

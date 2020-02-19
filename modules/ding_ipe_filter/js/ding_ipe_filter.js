@@ -59,4 +59,34 @@
       $('body').removeClass('panels-ipe-editing');
     }
   };
+
+  /**
+   * Override the eventResponse on ajax.js so we can add a little extra
+   * behavior.
+   */
+  Drupal.ajax.prototype.dingIpeReplacedEventResponse = Drupal.ajax.prototype.eventResponse;
+  Drupal.ajax.prototype.eventResponse = function (element, event) {
+    var retval = this.dingIpeReplacedEventResponse(element, event);
+    if (this.ajaxing && this.element_settings.ipe_cache_key) {
+      if (this.progress.element) {
+        $(this.progress.element).attr('id', 'ding-ipe-throbber').appendTo($('body'));
+        $('.html').addClass('overlay-is-active');
+      }
+
+      Drupal.PanelsIPE.editors[this.element_settings.ipe_cache_key].hideContainer();
+    }
+    return retval;
+  };
+
+  /**
+   * Override the "success" on ajax.js.
+   */
+  Drupal.ajax.prototype.dingIpeReplacedSuccessResponse = Drupal.ajax.prototype.success;
+  Drupal.ajax.prototype.success = function (element, event) {
+    var retval = this.dingIpeReplacedSuccessResponse(element, event);
+    if (event === 'success') {
+      $('.html').removeClass('overlay-is-active');
+    }
+    return retval;
+  };
 })(jQuery);

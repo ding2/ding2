@@ -274,18 +274,13 @@ function ding_user_frontend_build_menu($path = NULL) {
  */
 function ding_user_frontend_url_outbound_alter(&$path, &$options, $original_path) {
   global $user;
-  if (preg_match('/^user\/(\d+)\/(.*)$/', $path, $matches)) {
+  if (preg_match('/^user\/(\d+)\/?(.*)$/', $path, $matches)) {
     // To allow site administrators to edit other user they have to be filter
     // out of this alter. When accessing another drupal user account.
-    if ($user->uid == $matches[1] && !(in_array("administrators", $user->roles) || in_array("local administrator", $user->roles))) {
+    if ($user->uid == $matches[1]) {
       // This was not the above case, so we change the path to use "me".
-      $path = 'user/me/' . $matches[2];
+      $path = !empty($matches[2]) ? 'user/me/' . $matches[2] : 'user/me';
     }
-  }
-
-  // Fix user path (only for better paths to the user) for provider users.
-  if (preg_match('/^user\/(\d+)$/', $path, $matches) && $user->uid == $matches[0]) {
-    $path = 'user/me';
   }
 }
 
@@ -296,6 +291,9 @@ function ding_user_frontend_url_outbound_alter(&$path, &$options, $original_path
  * ding_user_frontend_build_uniform_menu_link().
  */
 function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_language) {
+  // Store the path. This allows us to check whether we modified it or not.
+  ding_user_frontend_original_path($original_path);
+
   if (preg_match('/^user\/me\/{0,1}(.*)$/', $path, $matches)) {
     global $user;
     $uid = user_is_logged_in() ? $user->uid : 0;
@@ -309,6 +307,44 @@ function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_lang
       }
     }
   }
+}
+
+/**
+ * Implements hook_init().
+ */
+function ding_user_frontend_init() {
+  global $user;
+  // If the original path contains a user id corresponding to a patron instead
+  // of me then assume that the user intend to access their own profile and
+  // redirect to /user/me. drupal_goto() will alter the outbound url before the
+  // redirect.
+  if (preg_match('/^user\/(\d+)\/?(.*)$/', ding_user_frontend_original_path(), $matches)) {
+    if ($user->uid == $matches[1]) {
+      drupal_goto(ding_user_frontend_original_path());
+    }
+  }
+}
+
+/**
+ * Store/retrieve the original path used to access the current page.
+ *
+ * The original path is the one before we and potentially others have modified
+ * it using hook_url_inbound_alter().
+ *
+ * @param string|null $path
+ *   The path to store. If NULl then the path will not be set.
+ *
+ * @return string
+ *   The original path.
+ */
+function ding_user_frontend_original_path($path = NULL) {
+  static $original_path;
+
+  if (!empty($path)) {
+    $original_path = $path;
+  }
+
+  return $original_path;
 }
 
 /**

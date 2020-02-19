@@ -620,7 +620,7 @@
     $_selectors-top-values--search-form: (
       // .admin-menu does not need the base value added.
       '.admin-menu': $admin-menu-height - $_base-top-value,
-      '.admin-menu-with-shortcuts': $toolbar-height,
+      '.admin-menu-with-shortcuts': 0,
       '.toolbar': $toolbar-height,
       '.search-form-extended': $search-form-extended-height,
       '.search-form-extended.admin-menu': $search-form-extended-height + $admin-menu-height,
@@ -687,7 +687,7 @@
     $_selectors-top-values--navigation-wrapper: (
       '.mobile-search-is-open': $header-height,
       '.admin-menu': $topbar-height + $admin-menu-height,
-      '.admin-menu-with-shortcuts': $toolbar-height,
+      '.admin-menu-with-shortcuts': $topbar-height * 2,
       '.toolbar': $toolbar-height,
       '.search-form-extended.admin-menu': $topbar-height + $admin-menu-height,
       '.search-form-extended.admin-menu-with-shortcuts': $topbar-height + $toolbar-height,

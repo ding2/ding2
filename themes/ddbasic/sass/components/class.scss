@@ -162,15 +162,17 @@ body > .ding2-site-template {
   padding: 20px 80px 14px 15px;
   border-radius: $round-corner;
   &.reserve-button,
-  &.button-see-online {
+  &.button-see-online,
+  &.button-order {
     background-color: $black;
     color: $white;
-  }
-  &:hover {
-    background-color: $grey-dark;
-    color: $white;
+    &:hover {
+      background-color: $grey-dark;
+      color: $white;
+    }
   }
   &.button-see-online,
+  &.button-order,
   &.other-formats {
     display: block;
   }
@@ -467,19 +469,19 @@ a.opening-hours-toggle {
   &::after {
     right: 0;
     top: 0;
-    background-color: $grey-dark;
-    color: $white-opacity-dark;
+    background-color: $grey-darker;
+    color: $white;
   }
   &.collapsed {
     &::after {
       content: "\e901";
       background-color: $grey;
-      color: $charcoal-opacity-dark;
+      color: $charcoal;
     }
     &:hover {
       &::after {
-        background-color: $grey-dark;
-        color: $white-opacity-dark;
+        background-color: $grey-darker;
+        color: $white;
       }
     }
   }
@@ -517,6 +519,7 @@ a.opening-hours-toggle {
     }
   }
   .field-group-format-wrapper {
+    @include clearfix;
     width: 100% !important; // field_group module uses toggle to show and hide content. We use !important here to avoid the width to animate
     margin-top: 40px;
   }
@@ -726,27 +729,6 @@ ul.tabs.primary {
     width: 100%;
     height: 100%;
   }
-}
-
-// ==========================================================================
-// Year span
-// ==========================================================================
-.ding-facetbrowser-interval {
-  margin: 6px 2px 0;
-}
-
-.ding-facetbrowser-interval__slider {
-  margin-bottom: 8px;
-}
-
-.ding-facetbrowser-interval__start,
-.ding-facetbrowser-interval__end {
-  width: 50%;
-  float: left;
-}
-
-.ding-facetbrowser-interval__end {
-  text-align: right;
 }
 
 // ==========================================================================
