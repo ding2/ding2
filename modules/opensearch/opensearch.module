@@ -159,6 +159,7 @@ function opensearch_boost_field_element_process($element, $form_state) {
       'term.identifier' => t('ISBN number'),
       'term.subject' => t('Subject'),
       'facet.dk5' => t('Classification'),
+      'dkcclterm.ln' => t('Agency'),
     ),
     '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
     '#attributes' => array('class' => array('field-name')),
