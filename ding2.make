@@ -627,6 +627,6 @@ libraries[smart-app-banner][destination] = "libraries"
 
 ; For ding_react.
 libraries[ddb-react][download][type] = "get"
-libraries[ddb-react][download][url] = https://github.com/reload/ddb-react/releases/download/latest/dist.zip
+libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/latest/dist.zip
 libraries[ddb-react][directory_name] = "ddb-react"
 libraries[ddb-react][destination] = "libraries"
