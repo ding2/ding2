@@ -108,7 +108,7 @@ jobs:
           --site-name=Ding2 --account-name=admin --account-pass=admin \
           install_configure_form.update_status_module='array(FALSE,FALSE)' \
           ding2_module_selection_form.providers_selection=connie \
-          opensearch_admin_settings.opensearch_url=https://opensearch.addi.dk/b3.5_5.0/ \
+          opensearch_admin_settings.opensearch_url=https://opensearch.addi.dk/b3.5_5.2/ \
           ting_covers_addi_admin_settings_form.ting_covers_addi_wsdl_url=http://moreinfo.addi.dk/2.11 \
           ting_covers_addi_admin_settings_form.ting_covers_addi_username=username \
           ting_covers_addi_admin_settings_form.ting_covers_addi_group=group \
