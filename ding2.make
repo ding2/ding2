@@ -77,6 +77,7 @@ projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
 
+; To be removed together with p2.
 projects[eck][subdir] = "contrib"
 projects[eck][version] = "2.0-rc9"
 
@@ -259,6 +260,7 @@ projects[menu_breadcrumb][version] = "1.5"
 projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
 
+; To be removed together with p2.
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.12"
 
@@ -392,6 +394,7 @@ projects[search_api_multi][patch][] = "https://www.drupal.org/files/issues/25809
 projects[search_api_db][subdir] = "contrib"
 projects[search_api_db][version] = "1.5"
 
+; To be removed together with p2.
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
 
@@ -621,3 +624,9 @@ libraries[smart-app-banner][download][type] = "get"
 libraries[smart-app-banner][download][url] = https://github.com/kudago/smart-app-banner/archive/v1.3.0.zip
 libraries[smart-app-banner][directory_name] = "smart-app-banner"
 libraries[smart-app-banner][destination] = "libraries"
+
+; For ding_react.
+libraries[ddb-react][download][type] = "get"
+libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/latest/dist.zip
+libraries[ddb-react][directory_name] = "ddb-react"
+libraries[ddb-react][destination] = "libraries"

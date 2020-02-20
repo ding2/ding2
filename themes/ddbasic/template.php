@@ -495,13 +495,6 @@ function ddbasic_preprocess_menu_link(&$variables) {
           $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $debts . '</span>';
         }
         break;
-
-      case 'my-library':
-        $notifications = ding_message_get_message_count();
-        if (!empty($notifications)) {
-          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $notifications . '</span>';
-        }
-        break;
     }
   }
 }
@@ -886,12 +879,6 @@ function ddbasic_process_ting_object(&$vars) {
 
           // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
-
-          // Check if teaser has rating function and remove abstract.
-          if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
-            unset($vars['content']['group_text']['ting_abstract']);
-          }
-
           break;
 
         // Teaser no overlay.
@@ -937,19 +924,6 @@ function ddbasic_process_ting_object(&$vars) {
 
           // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
-
-          // Check if teaser has rating function and remove abstract.
-          if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
-            unset($vars['content']['group_text']['ting_abstract']);
-          }
-
-          break;
-
-          // Check if teaser has rating function and remove abstract.
-          if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
-            unset($vars['content']['group_text']['ting_abstract']);
-          }
-
           break;
 
         // Reference teaser.
@@ -1018,9 +992,6 @@ function ddbasic_process_ting_object(&$vars) {
     $availability['#title'] = t('Borrowing options');
 
     if (isset($vars['content']['group_ting_right_col_search'])) {
-      if (isset($vars['content']['group_ting_right_col_search']['group_info']['group_rating']['#weight'])) {
-        $availability['#weight'] = $vars['content']['group_ting_right_col_search']['group_info']['group_rating']['#weight'] - 0.5;
-      }
       $vars['content']['group_ting_right_col_search']['group_info']['availability'] = $availability;
     }
     else {
@@ -1185,9 +1156,6 @@ function ddbasic_add_ting_object_behaviour() {
   // automatically include availability, covers and rating handling.
   drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
-
-  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_widget.js');
-  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_ajax.js');
 }
 
 /**

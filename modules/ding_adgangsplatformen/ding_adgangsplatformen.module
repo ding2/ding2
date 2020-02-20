@@ -10,25 +10,39 @@ define('DING_ADGANGSPLATFORMEN_LOGOUT_URL', 'adgangsplatformen/logout');
 define('DING_ADGANGSPLATFORMEN_REDIRECT_URL', 'adgangsplatformen/callback');
 define('DING_ADGANGSPLATFORMEN_LOGOUT_IFRAME_URL', 'adgangsplaformen/logout/iframe');
 
-use \League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use \League\OAuth2\Client\Provider\GenericProvider;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\GenericProvider;
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  *
  * Adds simple JS script that detects if the ajax auth redirect has placed a
  * fragment to redo an ajax request.
  *
  * Also added ctools JS need to do ajax redirect commends.
  *
- * We don't known which pages this will happen one, so we add the script to
- * every page.
+ * We don't known which pages this will happen on, so we add the script to every
+ * page.
  */
-function ding_adgangsplatformen_init() {
+function ding_page_build() {
   if (user_is_anonymous()) {
     ctools_add_js('ajax-responder');
   }
   drupal_add_js(drupal_get_path('module', 'ding_adgangsplatformen') . '/js/ding_adgangsplatformen.js', 'file');
+}
+
+/**
+ * Implements hook_ding_provider().
+ */
+function ding_adgangsplatformen_ding_provider() {
+  return [
+    'title' => 'Openplatform token provider',
+    'provides' => [
+      'openplatform_token' => [
+        'prefix' => 'openplatform_token',
+      ],
+    ],
+  ];
 }
 
 /**
@@ -61,6 +75,7 @@ function ding_adgangsplatformen_menu() {
   $items[DING_ADGANGSPLATFORMEN_LOGOUT_URL] = array(
     'title' => 'Log out',
     'page callback' => 'ding_adgangsplatformen_logout',
+    // Shouldn't have access control.
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -68,12 +83,14 @@ function ding_adgangsplatformen_menu() {
   $items[DING_ADGANGSPLATFORMEN_LOGOUT_IFRAME_URL] = array(
     'title' => 'Log out iframe',
     'page callback' => 'ding_adgangsplatformen_logout_iframe',
+    // Shouldn't have access control.
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
   $items[DING_ADGANGSPLATFORMEN_REDIRECT_URL] = array(
     'page callback' => 'ding_adgangsplatformen_callback',
+    // Shouldn't have access control.
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -114,7 +131,7 @@ function ding_adgangsplatformen_ding_provider_user() {
  * Implements hook_ajax_login_command().
  */
 function ding_adgangsplatformen_ajax_login_command($path) {
-  // Javascript need to do the redirect is loaded in the init hook.
+  // Javascript needed to do the redirect is loaded in the init hook.
   ctools_include('ajax');
 
   // Get authentication url and set the path to be redirected back to.
@@ -127,17 +144,51 @@ function ding_adgangsplatformen_ajax_login_command($path) {
 }
 
 /**
+ * Provider function.
+ */
+function ding_adgangsplatformen_openplatform_token_get() {
+  $token = NULL;
+
+  if (isset($_SESSION['ding_adgangsplatformen_openplatform_token_get'])) {
+    $token = $_SESSION['ding_adgangsplatformen_openplatform_token_get'];
+  }
+
+  return $token;
+}
+
+/**
+ * Provider function.
+ */
+function ding_adgangsplatformen_openplatform_token_login_url($options = []) {
+  return url(DING_ADGANGSPLATFORMEN_LOGIN_URL, $options);
+}
+
+/**
+ * Set token for ding_adgangsplatformen_openplatform_token_get.
+ *
+ * @param string $token
+ *   Token to save.
+ */
+function ding_adgangsplatformen_openplatform_token_set($token) {
+  $_SESSION['ding_adgangsplatformen_openplatform_token_get'] = $token;
+}
+
+/**
  * Get the authentication configuration.
  *
  * @return array
- *   With the default parameters if not overridden in the administration
- *   settings form.
+ *   Default configuration, if not overridden in the administration settings
+ *   form.
  */
 function ding_adgangsplatformen_get_configuration() {
   global $base_url;
-  $config = variable_get('ding_adgangsplatformen_settings', array(
+  $defaults = [
     'clientId' => '',
     'clientSecret' => '',
+    'auth_client' => [
+      'authClientId' => '',
+      'authClientSecret' => '',
+    ],
     'redirectUri' => $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL,
     'urlAuthorize' => 'https://login.bib.dk/oauth/authorize',
     'urlAccessToken' => 'https://login.bib.dk/oauth/token/',
@@ -146,12 +197,14 @@ function ding_adgangsplatformen_get_configuration() {
     'singleLogout' => TRUE,
     'automaticallyAgency' => TRUE,
     'singleLogoutOrigin' => 'https://login.bib.dk/',
-  ));
+  ];
+
+  $config = variable_get('ding_adgangsplatformen_settings', $defaults);
 
   // All-ways set redirect url (editing not allowed) in admin.
-   $config['redirectUri'] = $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL;
+  $config['redirectUri'] = $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL;
 
-   return $config;
+  return $config;
 }
 
 /**
@@ -170,7 +223,7 @@ function ding_adgangsplatformen_get_configuration() {
 function ding_adgangsplatformen_generate_login_url($destination = '') {
   $configuration = ding_adgangsplatformen_get_configuration();
 
-  $provider = ding_adgangsplatformen_get_provider();
+  $provider = ding_adgangsplatformen_get_provider(TRUE);
   $authorization_url = $provider->getAuthorizationUrl();
 
   // Get the state generated for you and store it to the session.
@@ -197,11 +250,8 @@ function ding_adgangsplatformen_generate_login_url($destination = '') {
 /**
  * Login menu callback.
  *
- * Will start the authentication process and redirect the user to the
- * authorization service.
- *
- * @return mixed
- *    If $redirect is FALSE the authentication url or redirect headers.
+ * Starts the authentication process and redirect the user to the authorization
+ * service.
  *
  * @throws Exception
  *   If required libraries are not loaded.
@@ -219,21 +269,21 @@ function ding_adgangsplatformen_login() {
 /**
  * Logout the user from adgangsplatformen.
  *
- * @param bool $hooked
- *   If TRUE new session is generated.
+ * @param bool $regen_session
+ *   Whether to regenerate session.
  */
-function ding_adgangsplatformen_logout($hooked = FALSE) {
+function ding_adgangsplatformen_logout($regen_session = FALSE) {
   global $base_url;
 
   $config = ding_adgangsplatformen_get_configuration();
   $singleLogout = $config['singleLogout'] ? 'true' : 'false';
-  $token = $_SESSION['oauth2token'];
+  $token = ding_adgangsplatformen_openplatform_token_get();
 
   // Generate logout request for the authorization service and send the request.
   $logout_url = url(
     $config['urlLogout'],
     array(
-      'external' => true,
+      'external' => TRUE,
       'query' => array(
         'singlelogout' => $singleLogout,
         'access_token' => $token,
@@ -241,12 +291,12 @@ function ding_adgangsplatformen_logout($hooked = FALSE) {
       ),
     ));
 
-  if (!$hooked) {
+  if (!$regen_session) {
     // If this was called from user registration reset the session.
     drupal_session_regenerate();
   }
 
-  // We known that we will stop the process and this module has the heights
+  // We known that we will stop the process and this module has the highest
   // weight, so we will kill the session before redirect.
   session_destroy();
 
@@ -262,12 +312,13 @@ function ding_adgangsplatformen_logout($hooked = FALSE) {
  */
 function ding_adgangsplatformen_logout_iframe() {
   // Sites which iframe the single logout url can only access the content
-  // of the url. We cannot use default access control for this se we setup a
+  // of the url. We cannot use default access control for this so we setup a
   // response where the return code is mirrored in the content.
   $status_code = 403;
   $reason = 'Forbidden';
-  // Only log out SSO users. The user could in theory be logged in as normal.
-  // In this case Adgangsplatformen should not be allowed to logout the user.
+  // Only log out SSO users. The user could in theory be logged in as a normal
+  // non-SSO user, in this case Adgangsplatformen should not be allowed to
+  // logout the user.
   if (ding_user_is_logged_in_with_sso()) {
     $status_code = 200;
     $reason = 'OK';
@@ -275,6 +326,9 @@ function ding_adgangsplatformen_logout_iframe() {
     // We do not call user_logout_current_user() directly as this would cause
     // ding_adgangsplatformen_logout() to redirect back to Adgangsplatformen.
     session_destroy();
+
+    // Remove token.
+    ding_adgangsplatformen_openplatform_token_set(NULL);
   }
 
   // Logout requests must never be cached. A cached response would cause
@@ -295,7 +349,7 @@ function ding_adgangsplatformen_logout_iframe() {
 /**
  * Implements hook_user_logout().
  *
- * Ensure that the user is logged out off the access platform.
+ * Ensure that the user is logged out of adgangsplatformen.
  */
 function ding_adgangsplatformen_user_logout() {
   global $user;
@@ -307,7 +361,7 @@ function ding_adgangsplatformen_user_logout() {
 /**
  * Redirect menu callback.
  *
- * This is the end-point used when coming back from the access platform login
+ * This is the end-point used when coming back from the adgangsplatformen login
  * and this will try to log the user into the provider and Drupal.
  */
 function ding_adgangsplatformen_callback() {
@@ -321,7 +375,7 @@ function ding_adgangsplatformen_callback() {
   else {
     try {
       // Try to get an access token using the authorization code grant.
-      $provider = ding_adgangsplatformen_get_provider();
+      $provider = ding_adgangsplatformen_get_provider(TRUE);
       $access_token = $provider->getAccessToken('authorization_code', ['code' => $_GET['code']]);
 
       // Store access token for later usage.
@@ -334,10 +388,32 @@ function ding_adgangsplatformen_callback() {
       $user_info = $response->getBody()->getContents();
       $user_info = drupal_json_decode($user_info);
 
+      if (ding_adgangsplatformen_has_token_client()) {
+        $username = empty($user_info['attributes']['cpr']) ? $user_info['attributes']['userId'] : $user_info['attributes']['cpr'];
+        $pincode = $user_info['attributes']['pincode'];
+        if (!empty($username) && !empty($pincode)) {
+          // Get a token with less privileges by logging in with name and pin on
+          // another client.
+          $token_provider = ding_adgangsplatformen_get_provider();
+          $auth = [
+            'agency' => variable_get('ting_agency', ''),
+            'username' => $username,
+            'password' => $pincode,
+          ];
+          $token_access_token = $token_provider->getAccessToken('password', $auth);
+
+          ding_adgangsplatformen_openplatform_token_set($token_access_token->getToken());
+        }
+        else {
+          watchdog('ding_adgangsplatformen', "Cannot get authentication token, missing username and/or pincode", NULL, WATCHDOG_WARNING);
+          ding_adgangsplatformen_openplatform_token_set(NULL);
+        }
+      }
+
       //
       // HACK: this invalidates the access token and should be removed later on.
-      //       This only exists to get around pre-authentication issues
-      //       currently in FBS.
+      // This only exists to get around pre-authentication issues currently in
+      // FBS.
       //
       $request = $provider->getAuthenticatedRequest('DELETE', 'https://login.bib.dk/oauth/revoke', $access_token);
       $response = $provider->getResponse($request);
@@ -355,7 +431,26 @@ function ding_adgangsplatformen_callback() {
       }
       else {
         // Login using the provider.
-        if (!_ding_adgangsplatformen_provider_login($user_info)) {
+        if (_ding_adgangsplatformen_provider_login($user_info)) {
+          // Once the user is logged in then try to migrate all variations of
+          // the user which might exist on the current site.
+          if (module_exists('ding_react') && is_array($user_info['attributes']['agencies'])) {
+            $user_agencies = $user_info['attributes']['agencies'];
+            // Only migrate users belonging to the current site to avoid any
+            // accidental cross-site authname collisions.
+            $local_user_agencies = array_filter($user_agencies, function (array $user_agency) {
+              return $user_agency['agencyId'] == variable_get('ting_agency');
+            });
+            array_map(function (array $user_agency) {
+              // User id can be all types of ids: CPR, borrower card number etc.
+              $authname = ding_user_default_authname($user_agency['userId']);
+              $user = user_external_load($authname);
+              if ($user) {
+                ding_react_user_migrate($user);
+              }
+            }, $local_user_agencies);
+          }
+        } else {
           // This can happen if the user is not synced correctly between the
           // local library system (FBS) and CURL at DBC. Then in some special
           // cases you can login at adgangsplatformen, but the not the local
@@ -368,7 +463,7 @@ function ding_adgangsplatformen_callback() {
         }
       }
 
-      // Redirect user base on values set in the current session.
+      // Redirect user based on values set in the current session.
       _ding_adgangsplatformen_redirect_user();
     }
     catch (IdentityProviderException $e) {
@@ -390,22 +485,47 @@ function ding_adgangsplatformen_callback() {
 /**
  * Get oAuth2 provider.
  *
+ * @param bool $auth
+ *   Whether to get the auth client with elevated permissions.
+ *
  * @return \League\OAuth2\Client\Provider\GenericProvider
  *   Provider with basic configuration.
  *
  * @throws Exception
  *   If required libraries are not loaded.
  */
-function ding_adgangsplatformen_get_provider() {
+function ding_adgangsplatformen_get_provider($auth = FALSE) {
   $configuration = ding_adgangsplatformen_get_configuration();
+
+  $clientId = variable_get('ding_adgangsplatformen_token_client_id', NULL);
+  $clientSecret = variable_get('ding_adgangsplatformen_token_client_secret', NULL);
+
+  if (!$auth && $clientId && $clientSecret) {
+    $configuration['clientId'] = $clientId;
+    $configuration['clientSecret'] = $clientSecret;
+  }
+
   return new GenericProvider($configuration);
+}
+
+/**
+ * Whether we have a less privileged clientId for fetching token.
+ *
+ * @return bool
+ *   Do we have clientId?
+ */
+function ding_adgangsplatformen_has_token_client() {
+  $clientId = variable_get('ding_adgangsplatformen_token_client_id', NULL);
+  $clientSecret = variable_get('ding_adgangsplatformen_token_client_secret', NULL);
+
+  return $clientId && $clientSecret;
 }
 
 /**
  * Redirect the user.
  *
- * If destination exists in the current session the user is redirect to it else
- * send to profile page.
+ * If destination exists in the current session the user is redirect to it, else
+ * they are redirected to their profile page.
  *
  * @param string $url
  *   The url to redirect to if destination is not set in the request. Defaults
@@ -452,19 +572,18 @@ function _ding_adgangsplatformen_provider_login(array $user_info) {
     $account = ding_user_authenticate(array(
       //
       // HACK: Use CPR when exists as users may have both (CPR and card no.)
-      //       attached to their FBS user and both can then be used to login at
-      //       adgangsplatformen. But pre-authenticate can't use the card no.
-      //       so fallback to CPR if it's given.
+      // attached to their FBS user and both can then be used to login at
+      // adgangsplatformen. But pre-authenticate can't use the card no. so
+      // fallback to CPR if it's given.
       //
-      'name' => is_null($user_info['attributes']['cpr']) ? $user_info['attributes']['userId'] : $user_info['attributes']['cpr'],
+      'name' => empty($user_info['attributes']['cpr']) ? $user_info['attributes']['userId'] : $user_info['attributes']['cpr'],
       //
-      // HACK: The pincode used here should be removed later on.
-      //       This only exists to get around pre-authentication issues
-      //       currently in FBS.
+      // HACK: The pincode used here should be removed later on. This only
+      // exists to get around pre-authentication issues currently in FBS.
       //
       'pass' => isset($user_info['attributes']['pincode']) ? $user_info['attributes']['pincode'] : '',
       'extra' => $user_info,
-      'single_sign_on' => !is_null($user_info['attributes']['cpr']),
+      'single_sign_on' => !empty($user_info['attributes']['cpr']),
     ));
 
     if ($account !== FALSE) {
