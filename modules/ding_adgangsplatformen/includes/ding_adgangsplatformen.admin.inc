@@ -98,5 +98,28 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
     ),
   );
 
+  $form['token_client'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Token client'),
+    '#description' => t('This client will be used for deescalating token access after login.'),
+    // Collapse config. This should usually not be touched.
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    // Do not use tree here to keep the token client out of the default config.
+    '#tree' => FALSE,
+  );
+
+  $form['token_client']['ding_adgangsplatformen_token_client_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Client ID'),
+    '#default_value' => variable_get('ding_adgangsplatformen_token_client_id'),
+  );
+
+  $form['token_client']['ding_adgangsplatformen_token_client_secret'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Client secret'),
+    '#default_value' => variable_get('ding_adgangsplatformen_token_client_secret'),
+  );
+
   return system_settings_form($form);
 }
