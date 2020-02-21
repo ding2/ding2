@@ -354,6 +354,18 @@ function ting_subsearch_suggestions_cron() {
     $value_count = 0;
     $fields = [ 'popular_keys', 'numtotalsearches', 'weekno', 'year' ];
     $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields($fields);
+
+    // If there's existing data we need to avoid making duplicates.
+    $existing_data = FALSE;
+    $max_year = db_query("SELECT MAX(year) FROM {ting_subsearch_kpi_index_popular_keys}")->fetchField();
+    $max_week = FALSE;
+    if ($max_year) {
+      $max_week = db_query("SELECT MAX(weekno) FROM {ting_subsearch_kpi_index_popular_keys} WHERE year = {$max_year}")->fetchField();
+      $existing_data = TRUE;
+    }
+
+    $num_rows_inspected = 0;
+    $num_rows_inserted = 0;
     while (($data = fgetcsv($file))) {
       // Skip header.
       if ($data[0] == 'year') {
@@ -361,15 +373,24 @@ function ting_subsearch_suggestions_cron() {
       }
 
       $normalized_string = mb_convert_encoding($data[2], 'UTF-8', 'ISO-8859-15');
+      $year = $data[0];
+      $weekno = $data[1];
 
-      $query->values([
-        'popular_keys' => $normalized_string,
-        'numtotalsearches' => (int) $data[3],
-        'weekno' => $data[1],
-        'year' => $data[0],
-      ]);
+      // If there's no existing data we add everything. Otherwise we make the
+      // reasonable assumption that only new data will be added to the CSV-file
+      // and use that to avoid duplicate data, neglecting all data that is older
+      // than the current $max_year, $max_week in DB.
+      if (!$existing_data || (($year == $max_year && $weekno > $max_week) || $year > $max_year)) {
+        $query->values([
+          'popular_keys' => $normalized_string,
+          'numtotalsearches' => (int) $data[3],
+          'weekno' => $weekno,
+          'year' => $year,
+        ]);
 
-      $value_count++;
+        $value_count++;
+        $num_rows_inserted++;
+      }
 
       // Limit reached. Execute multi insert and reset.
       if ($value_count == $chunk_size) {
@@ -377,16 +398,25 @@ function ting_subsearch_suggestions_cron() {
         $value_count = 0;
         $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields($fields);
       }
+
+      $num_rows_inspected++;
+
+      // This can take long time so print status message each 100.000 rows
+      if ($num_rows_inspected % 100000 == 0) {
+        print_r("Feed import status: $num_rows_inspected inspected. $num_rows_inserted inserted.\n");
+      }
     }
     // Execute remaining inserts if any.
     if ($value_count > 0) {
       $query->execute();
     }
 
-    $prepared = TRUE;
     fclose($file);
 
-    if (!empty($prepared)) {
+    variable_set('subsearch_kpi_cron_run', REQUEST_TIME + TING_SUBSEARCH_SUGGESTIONS_WEEKLY_CRON);
+
+    // TODO: should clean up be performed even though no new data was inserted?
+    if (!empty($num_rows_inserted)) {
       print_r("Start database cleaning.\n");
       // Get general "meta" present in db.
       $min_year = db_query("SELECT MIN(year) FROM {ting_subsearch_kpi_index_popular_keys}")->fetchField();
@@ -395,17 +425,25 @@ function ting_subsearch_suggestions_cron() {
       $max_week = db_query("SELECT MAX(weekno) FROM {ting_subsearch_kpi_index_popular_keys} WHERE year = {$max_year}")->fetchField();
 
       foreach (range($min_week, $max_week - 1) as $week) {
+        print_r("Database cleaning status: deleting $min_year, $week.\n");
         db_delete('ting_subsearch_kpi_index_popular_keys')
           ->condition('weekno', $week)
           ->condition('year', $min_year)
           ->execute();
       }
 
-      variable_set('subsearch_kpi_cron_run', REQUEST_TIME + TING_SUBSEARCH_SUGGESTIONS_WEEKLY_CRON);
-      watchdog('ting_subsearch_suggestions', 'Data fetched from KPI. Will re-run in a week.', [], WATCHDOG_INFO);
+      watchdog('ting_subsearch_suggestions', 'Data fetched from KPI. !num_rows_inspected inspected. !num_rows_inserted inserted. Will re-run in a week.', [
+        '!num_rows_inspected' => $num_rows_inspected,
+        '!num_rows_inserted' => $num_rows_inserted,
+      ], WATCHDOG_INFO);
+    }
+    elseif (!empty($num_rows_inspected)) {
+      watchdog('ting_subsearch_suggestions', 'No new data imported from feed. !num_rows_inspected inspected', [
+        '!num_rows_inspected' => $num_rows_inspected,
+      ], WATCHDOG_INFO);
     }
     else {
-      watchdog('ting_subsearch_suggestions', 'No data fetched from feed', [], WATCHDOG_WARNING);
+      watchdog('ting_subsearch_suggestions', 'There was no data to inpsect from feed.', [], WATCHDOG_WARNING);
     }
   }
 }
