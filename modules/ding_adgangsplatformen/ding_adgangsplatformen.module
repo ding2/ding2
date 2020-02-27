@@ -24,7 +24,7 @@ use League\OAuth2\Client\Provider\GenericProvider;
  * We don't known which pages this will happen on, so we add the script to every
  * page.
  */
-function ding_page_build() {
+function ding_adgangsplatformen_page_build() {
   if (user_is_anonymous()) {
     ctools_add_js('ajax-responder');
   }
