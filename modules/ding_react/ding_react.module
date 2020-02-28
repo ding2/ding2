@@ -475,6 +475,9 @@ function ding_react_user_reset_migration_status(array $form, array &$form_state)
  *
  * @param \stdClass $account
  *   The user account to migrate.
+ *
+ * @return bool
+ *   Whether the user was migrated or not.
  */
 function ding_react_user_migrate(stdClass $account) {
   $migrated_prefix = 'migrated-';
@@ -491,15 +494,17 @@ function ding_react_user_migrate(stdClass $account) {
 
   if (empty($legacy_uid)) {
     ding_react_log('User not migrated. No registered OpenList uid for user.');
-    return;
+    return FALSE;
   }
   if (empty($token)) {
     ding_react_log('User not migrated. No token available');
-    return;
+    return FALSE;
   }
   if (strpos($legacy_uid, $migrated_prefix) === FALSE) {
     ding_react_log('User migration skipped. User has already been migrated previously.');
-    return;
+    // We return true here because nothing failed even if the user was not
+    // actually migrated.
+    return TRUE;
   }
 
   $migrate_request_options = [
@@ -525,7 +530,7 @@ function ding_react_user_migrate(stdClass $account) {
       ],
       WATCHDOG_ERROR
     );
-    return;
+    return FALSE;
   }
 
   $follow_searches_url = variable_get('ding_react_follow_searches_url');
@@ -541,7 +546,7 @@ function ding_react_user_migrate(stdClass $account) {
       ],
       WATCHDOG_ERROR
     );
-    return;
+    return FALSE;
   }
 
   // Add a prefix to show the user has been migrated. This way we do not
@@ -554,6 +559,8 @@ function ding_react_user_migrate(stdClass $account) {
     [],
     WATCHDOG_NOTICE
   );
+
+  return TRUE;
 }
 
 /**

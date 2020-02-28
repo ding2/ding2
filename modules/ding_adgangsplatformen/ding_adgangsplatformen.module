@@ -434,23 +434,38 @@ function ding_adgangsplatformen_callback() {
         if (_ding_adgangsplatformen_provider_login($user_info)) {
           // Once the user is logged in then try to migrate all variations of
           // the user which might exist on the current site.
-          if (module_exists('ding_react') && is_array($user_info['attributes']['agencies'])) {
-            $user_agencies = $user_info['attributes']['agencies'];
+          if (module_exists('ding_react')) {
+            $user_agencies = [];
+            if (isset($user_info['attributes']['agencies'])) {
+              $user_agencies = $user_info['attributes']['agencies'];
+            }
             // Only migrate users belonging to the current site to avoid any
             // accidental cross-site authname collisions.
             $local_user_agencies = array_filter($user_agencies, function (array $user_agency) {
               return $user_agency['agencyId'] == variable_get('ting_agency');
             });
-            array_map(function (array $user_agency) {
+            $accounts = array_filter(array_map(function (array $user_agency) {
               // User id can be all types of ids: CPR, borrower card number etc.
               $authname = ding_user_default_authname($user_agency['userId']);
-              $user = user_external_load($authname);
-              if ($user) {
-                ding_react_user_migrate($user);
-              }
-            }, $local_user_agencies);
+              return user_external_load($authname);
+            }, $local_user_agencies));
+            $migrations = array_map(function (stdClass $account) {
+              return ding_react_user_migrate($account);
+            }, array_filter($accounts));
+            watchdog(
+              'ding_adgangsplatformen',
+              'Migration status: %migration_count completed. %user_count user accounts identified out of %local_agency_count local and %total_agency_count total agencies.',
+              [
+                '%migration_count' => count(array_filter($migrations)),
+                '%user_count' => count($accounts),
+                '%local_agency_count' => count($local_user_agencies),
+                '%total_agency_count' => count($user_agencies),
+              ],
+              WATCHDOG_INFO
+            );
           }
-        } else {
+        }
+        else {
           // This can happen if the user is not synced correctly between the
           // local library system (FBS) and CURL at DBC. Then in some special
           // cases you can login at adgangsplatformen, but the not the local
