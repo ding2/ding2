@@ -500,7 +500,7 @@ function ding_react_user_migrate(stdClass $account) {
     ding_react_log('User not migrated. No token available');
     return FALSE;
   }
-  if (strpos($legacy_uid, $migrated_prefix) === FALSE) {
+  if (strpos($legacy_uid, $migrated_prefix) === 0) {
     ding_react_log('User migration skipped. User has already been migrated previously.');
     // We return true here because nothing failed even if the user was not
     // actually migrated.
