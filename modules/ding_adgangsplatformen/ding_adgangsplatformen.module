@@ -275,20 +275,50 @@ function ding_adgangsplatformen_login() {
 function ding_adgangsplatformen_logout($regen_session = FALSE) {
   global $base_url;
 
+  // Build base options for logging out.
   $config = ding_adgangsplatformen_get_configuration();
   $singleLogout = $config['singleLogout'] ? 'true' : 'false';
   $token = ding_adgangsplatformen_openplatform_token_get();
+
+  $logout_options = [
+    'singlelogout' => $singleLogout,
+    'redirect_uri' => $base_url,
+    'token' => $token,
+  ];
+
+  if (ding_adgangsplatformen_has_token_client()) {
+    // Revoke our current token. It has been retrieved by the token provider using
+    // password grants and will not be revoked by Adgangsplatformen itself during
+    // logout.
+    ding_adgangsplatformen_revoke_token(
+      ding_adgangsplatformen_get_provider(),
+      $token
+    );
+
+    try {
+      // Retrieve a new anonymous token and use that for the logout procedure. By
+      // using the authentication provider we ensure that Adgangsplatformen will
+      // redirect to the right site.
+      $auth_provider = ding_adgangsplatformen_get_provider(TRUE);
+      $token = $auth_provider->getAccessToken('password', [
+        // Using @ as username and password works as an anonymous user.
+        'username' => '@',
+        'password' => '@',
+      ]);
+
+      $logout_options['token'] = $token->getToken();
+    }
+    catch (IdentityProviderException $e) {
+      watchdog('ding_adgangsplatformen', 'Unable to retrieve anonymous token to perform single logout: %message', $e->getMessage(), WATCHDOG_ERROR);
+    }
+  }
 
   // Generate logout request for the authorization service and send the request.
   $logout_url = url(
     $config['urlLogout'],
     array(
       'external' => TRUE,
-      'query' => array(
-        'singlelogout' => $singleLogout,
-        'access_token' => $token,
-        'redirect_uri' => $base_url,
-      ),
+      'query' => $logout_options,
     ));
 
   if (!$regen_session) {
@@ -415,11 +445,7 @@ function ding_adgangsplatformen_callback() {
       // This only exists to get around pre-authentication issues currently in
       // FBS.
       //
-      $request = $provider->getAuthenticatedRequest('DELETE', 'https://login.bib.dk/oauth/revoke', $access_token);
-      $response = $provider->getResponse($request);
-      if ($response->getStatusCode() != 200) {
-        watchdog('ding_adgangsplatformen', "https://login.bib.dk/oauth/revoke returned status code: %code", array('%code' => $response->getStatusCode()), WATCHDOG_CRITICAL);
-      }
+      ding_adgangsplatformen_revoke_token($provider, $access_token->getToken());
       unset($_SESSION['oauth2token']);
 
       if (module_exists('ding_registration') && ding_registration_is_registration_request()) {
@@ -519,6 +545,34 @@ function ding_adgangsplatformen_has_token_client() {
   $clientSecret = variable_get('ding_adgangsplatformen_token_client_secret', NULL);
 
   return $clientId && $clientSecret;
+}
+
+/**
+ * Revoke an OAuth2 access token using a provider.
+ *
+ * @param \League\OAuth2\Client\Provider\GenericProvider $provider
+ *   The OAuth2 provider to use when revoking the token.
+ * @param string $access_token
+ *   The access token to revoke.
+ *
+ * @return bool
+ *   Whether revoking the token succeeded or not.
+ */
+function ding_adgangsplatformen_revoke_token(GenericProvider $provider, $access_token) {
+  $request = $provider->getAuthenticatedRequest('DELETE',
+    'https://login.bib.dk/oauth/revoke', $access_token);
+  $response = $provider->getResponse($request);
+  $success = $response->getStatusCode() == 200;
+  if (!$success) {
+    watchdog('ding_adgangsplatformen',
+      "Unable to revoke token: %code %reason",
+      [
+        '%code' => $response->getStatusCode(),
+        '%reason' => $response->getReasonPhrase(),
+      ],
+      WATCHDOG_CRITICAL);
+  }
+  return $success;
 }
 
 /**
