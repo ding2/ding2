@@ -4,6 +4,7 @@ define('DING_REACT_FOLLOW_SEARCHES_PROD_URL', 'https://prod.followsearches.dandi
 define('DING_REACT_FOLLOW_SEARCHES_STAGE_URL', 'https://stage.followsearches.dandigbib.org');
 define('DING_REACT_MATERIAL_LIST_PROD_URL', 'https://prod.materiallist.dandigbib.org');
 define('DING_REACT_MATERIAL_LIST_TEST_URL', 'https://test.materiallist.dandigbib.org');
+define('DING_REACT_MIGRATED_UID_PREFIX', 'migrated-');
 
 /**
  * @file
@@ -392,7 +393,7 @@ function ding_react_admin_settings_form($form, &$form_state) {
         '#type' => 'item',
         '#title' => t('Openlist user id'),
         '#markup' => (!empty($account->openlist_uid)) ? $account->openlist_uid : t('No OpenList UID for user'),
-        '#description' => t('User ids beginning with "migrated-" have already been migrated.'),
+        '#description' => t('User ids beginning with "@prefix" have already been migrated.', ['@prefix' => DING_REACT_MIGRATED_UID_PREFIX]),
       ];
       $form['migration']['user_status']['user']['reset'] = [
         '#type' => 'submit',
@@ -463,7 +464,7 @@ function ding_react_user_reset_migration_status(array $form, array &$form_state)
 
   // We mark migrated users by prefixing their OpenList uid. Remove the prefix
   // to reset status.
-  $account->openlist_uid = preg_replace('/^' . 'migrated-' . '/', '', $account->openlist_uid);
+  $account->openlist_uid = preg_replace('/^' . DING_REACT_MIGRATED_UID_PREFIX . '/', '', $account->openlist_uid);
   user_save($account);
 
   drupal_set_message(t('Reset migration status for user %uid', ['%uid' => $account->uid]), 'status');
@@ -480,8 +481,6 @@ function ding_react_user_reset_migration_status(array $form, array &$form_state)
  *   Whether the user was migrated or not.
  */
 function ding_react_user_migrate(stdClass $account) {
-  $migrated_prefix = 'migrated-';
-
   $legacy_uid = (!empty($account->openlist_uid)) ? $account->openlist_uid : '';
 
   try {
@@ -500,7 +499,7 @@ function ding_react_user_migrate(stdClass $account) {
     ding_react_log('User not migrated. No token available');
     return FALSE;
   }
-  if (strpos($legacy_uid, $migrated_prefix) === 0) {
+  if (strpos($legacy_uid, DING_REACT_MIGRATED_UID_PREFIX) === 0) {
     ding_react_log('User migration skipped. User has already been migrated previously.');
     // We return true here because nothing failed even if the user was not
     // actually migrated.
@@ -551,7 +550,7 @@ function ding_react_user_migrate(stdClass $account) {
 
   // Add a prefix to show the user has been migrated. This way we do not
   // throw away data yet but avoid migrating users multiple times.
-  $account->openlist_uid = $migrated_prefix . $legacy_uid;
+  $account->openlist_uid = DING_REACT_MIGRATED_UID_PREFIX . $legacy_uid;
   user_save($account);
 
   ding_react_log(
