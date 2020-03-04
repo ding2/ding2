@@ -71,7 +71,7 @@ function ding_periodical_issues_ajax($ding_entity_id) {
 
   // Get availability.
   $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
-  if (isset($availability[$entity->provider_id])) {
+  if (!empty($availability[$entity->provider_id]['issues'])) {
     $issues = $availability[$entity->provider_id]['issues'];
     krsort($issues);
 

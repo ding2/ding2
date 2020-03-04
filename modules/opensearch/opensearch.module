@@ -441,21 +441,6 @@ function opensearch_page_alter(&$page) {
 }
 
 /**
- * Implements hook_ding_entity_is().
- */
-function opensearch_ding_entity_is($object, $class) {
-  if ($object instanceof TingEntity) {
-    /* @var TingEntity $object */
-    switch ($class) {
-      case 'periodical':
-        // @todo make sure that availability information isn't displayed
-        // on the object.
-        return in_array(drupal_strtolower($object->getType()), array('tidsskrift', 'periodikum', 'årbog'));
-    }
-  }
-}
-
-/**
  * Default library material sources.
  *
  * Defined as a function as a define can only be scalars.
