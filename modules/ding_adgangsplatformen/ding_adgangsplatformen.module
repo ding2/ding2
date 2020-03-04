@@ -197,6 +197,7 @@ function ding_adgangsplatformen_get_configuration() {
     'singleLogout' => TRUE,
     'automaticallyAgency' => TRUE,
     'singleLogoutOrigin' => 'https://login.bib.dk/',
+    'revoke' => 'https://login.bib.dk/oauth/revoke',
   ];
 
   $config = variable_get('ding_adgangsplatformen_settings', $defaults);
@@ -559,8 +560,12 @@ function ding_adgangsplatformen_has_token_client() {
  *   Whether revoking the token succeeded or not.
  */
 function ding_adgangsplatformen_revoke_token(GenericProvider $provider, $access_token) {
-  $request = $provider->getAuthenticatedRequest('DELETE',
-    'https://login.bib.dk/oauth/revoke', $access_token);
+  $config = ding_adgangsplatformen_get_configuration();
+  $request = $provider->getAuthenticatedRequest(
+    'DELETE',
+    $config['revoke'],
+    $access_token
+  );
   $response = $provider->getResponse($request);
   $success = $response->getStatusCode() == 200;
   if (!$success) {

@@ -71,6 +71,13 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
     '#default_value' => $default['urlLogout'],
   );
 
+  $form['ding_adgangsplatformen_settings']['revoke'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Revoke service'),
+    '#description' => t('The end-point to use for revoking an access token.'),
+    '#default_value' => $default['revoke'],
+  );
+
   $form['ding_adgangsplatformen_settings']['singleLogout'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable single logout'),
