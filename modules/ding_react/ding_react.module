@@ -410,7 +410,7 @@ function ding_react_admin_settings_form($form, &$form_state) {
   $form['debug']['ding_react_debug'] = [
     '#type' => 'checkbox',
     '#title' => t('Enable debug logging'),
-    '#default_value' => variable_get('ding_react_debug'),
+    '#default_value' => variable_get('ding_react_debug', FALSE),
   ];
 
   $form['actions']['#type'] = 'actions';
@@ -605,7 +605,7 @@ function ding_react_schema_alter(&$schema) {
  *   Severity of the log message. Follows watchdog() standards.
  */
 function ding_react_log($message, array $variables = [], $severity = WATCHDOG_DEBUG) {
-  if (variable_get('ding_react_debug') || $severity > WATCHDOG_DEBUG) {
+  if (variable_get('ding_react_debug', FALSE) || $severity > WATCHDOG_DEBUG) {
     watchdog('ding_react', $message, $variables, $severity);
   }
 }
