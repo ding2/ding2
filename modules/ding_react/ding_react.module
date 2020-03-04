@@ -516,7 +516,7 @@ function ding_react_user_migrate(stdClass $account) {
     ]
   ];
 
-  $material_list_url = variable_get('ding_react_material_list_url');
+  $material_list_url = ding_react_material_list_url();
   $response = drupal_http_request($material_list_url . '/migrate/' . $legacy_uid,
     $migrate_request_options);
   if (!empty($response->error)) {
@@ -532,7 +532,7 @@ function ding_react_user_migrate(stdClass $account) {
     return FALSE;
   }
 
-  $follow_searches_url = variable_get('ding_react_follow_searches_url');
+  $follow_searches_url = ding_react_follow_searches_url();
   $response = drupal_http_request($follow_searches_url . '/migrate/' . $legacy_uid,
     $migrate_request_options);
   if (!empty($response->error)) {
