@@ -1,14 +1,17 @@
 <?php
+
 /**
  * @file
- * Class definition of ag reservable periodical used when making reservations of
- * a given issue.
+ * Class definition of a reservable periodical.
+ *
+ * Used when making reservations of a given issue.
  */
 
 /**
  * Implements DingPeriodicalReservable class.
  */
 class DingAvailabilityPeriodicalReservable extends DingReservationReservableEntity {
+
   /**
    * Default constructor.
    *
@@ -17,7 +20,7 @@ class DingAvailabilityPeriodicalReservable extends DingReservationReservableEnti
    * @param string $volume
    *   The volume the issue is belonging to.
    * @param string $issue
-   *   The issue from the provider
+   *   The issue from the provider.
    * @param string $entity
    *   The ding entity that represents the periodical.
    */
@@ -62,9 +65,16 @@ class DingAvailabilityPeriodicalReservable extends DingReservationReservableEnti
    *   Formatted string with issue and volume information.
    */
   public function getTitle() {
-    $title = '@title, vol @volume';
-    $title .= !empty($this->issue) ? ', issue @issue' : '';
+    $arguments = [
+      '@title' => $this->entity->title,
+      '@volume' => $this->volume,
+    ];
 
-    return t($title, array('@title' => $this->entity->title, '@volume' => $this->volume, '@issue' => $this->issue));
+    if (empty($this->issue)) {
+      return t('@title, vol @volume', $arguments);
+    }
+    $arguments['@issue'] = $this->issue;
+    return t('@title, vol @volume, issue @issue', $arguments);
   }
+
 }

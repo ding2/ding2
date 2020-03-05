@@ -184,17 +184,17 @@ function theme_ding_periodical_issues($variables) {
  *   - provider: Provider identifier, 'alma' here.
  *   - placement: Item placement info.
  *     - location: Actual location string.
- *     - ordered_count
- *     - checked_out_count
- *     - reference_count
- *     - total_count
- *     - available_count
- *     - reservable
+ *     - ordered_count.
+ *     - checked_out_count.
+ *     - reference_count.
+ *     - total_count.
+ *     - available_count.
+ *     - reservable.
  *
  * @return $string
  *   HTML markup for the availability table.
  */
-function ding_periodical_build_table($availability) {
+function ding_periodical_build_table(array $availability) {
   $header = array(
     'placement' => t('Placement'),
     'copies' => t('Copies'),
@@ -235,7 +235,7 @@ function ding_periodical_build_table($availability) {
  * @return bool
  *   If a copy exists it return TRUE else FALSE.
  */
-function ding_periodical_is_reservable($issue) {
+function ding_periodical_is_reservable(array $issue) {
   foreach ($issue['placement'] as $placement) {
     if ($placement['reservable']) {
       // Found on placement that had a reservable copy.

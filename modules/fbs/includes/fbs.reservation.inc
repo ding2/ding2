@@ -445,7 +445,7 @@ function fbs_reservation_is_reservable($provider_ids) {
       // the case we return issues in fbs_availability_holdings() and periodical
       // holdings will be shown. We will therefore mark the main post as not
       // reservable if we find any.
-      $periodical_materials = array_map(function($material) {
+      $periodical_materials = array_map(function ($material) {
         return !empty($material->periodical);
       }, $holdings->materials);
       $periodical_materials = array_filter($periodical_materials);

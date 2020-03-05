@@ -113,7 +113,7 @@ function ding_availability_theme($existing, $type, $theme, $path) {
  * @return array
  *   Render array with Ajax commands.
  */
-function ding_availability_periodical_reserve_ajax($entity, $local_id, $volume, $issue) {
+function ding_availability_periodical_reserve_ajax(TingEntity $entity, $local_id, $volume, $issue) {
   $reservable = new DingAvailabilityPeriodicalReservable(base64_decode($local_id), base64_decode($volume), base64_decode($issue), $entity);
 
   // Use ding reservation logic to create the reservation and ajax commands.
@@ -123,7 +123,7 @@ function ding_availability_periodical_reserve_ajax($entity, $local_id, $volume, 
 /**
  * Output the availability information as json.
  *
- * @param array $provider_ids
+ * @param string $provider_ids
  *   Providers ID's to fetch availability information for.
  */
 function ding_availability_js($provider_ids) {
@@ -133,7 +133,7 @@ function ding_availability_js($provider_ids) {
 /**
  * Output holdings information as json.
  *
- * @param array $provider_ids
+ * @param string $provider_ids
  *   Providers ID's to fetch holdings information for.
  */
 function ding_availability_holdings_js($provider_ids) {
@@ -149,7 +149,7 @@ function ding_availability_holdings_js($provider_ids) {
  * @return array
  *   Availability information.
  */
-function ding_availability_items($provider_ids) {
+function ding_availability_items(array $provider_ids) {
   if (ding_provider_implements('availability', 'items')) {
     $items = ding_provider_invoke('availability', 'items', $provider_ids);
     if (!$items) {
@@ -185,7 +185,7 @@ function ding_availability_items($provider_ids) {
  * @return array
  *   Render array with rendered holdings information.
  */
-function ding_availability_holdings($provider_ids) {
+function ding_availability_holdings(array $provider_ids) {
   $items = ding_provider_invoke('availability', 'holdings', $provider_ids);
   if (!$items) {
     return array();
@@ -296,7 +296,7 @@ function ding_availability_holdings($provider_ids) {
       $entity = NULL;
       // It's unfortunate that we need to make this call, but it will only be
       // for holdings with periodical information.
-      $datawell_pid = ding_provider_build_entity_id([ $provider_id ]);
+      $datawell_pid = ding_provider_build_entity_id([$provider_id]);
       if (isset($datawell_pid[$provider_id])) {
         // This call should not be an issue, since the entity was just shown and
         // will most likely be in cache.
@@ -401,7 +401,7 @@ function _ding_availability_text(&$item) {
 }
 
 /**
- * Implements theme_ding_holdings_periodical().
+ * Returns HTML for the ding_holdings_periodical theme hook.
  *
  * Create list of periodical issues order by year.
  */
@@ -508,17 +508,17 @@ function theme_ding_holdings_periodical($variables) {
  *   - provider: Provider identifier, 'alma' here.
  *   - placement: Item placement info.
  *     - location: Actual location string.
- *     - ordered_count
- *     - checked_out_count
- *     - reference_count
- *     - total_count
- *     - available_count
- *     - reservable
+ *     - ordered_count.
+ *     - checked_out_count.
+ *     - reference_count.
+ *     - total_count.
+ *     - available_count.
+ *     - reservable.
  *
- * @return $string
+ * @return string
  *   HTML markup for the availability table.
  */
-function ding_availability_periodical_holdings_build_table($availability) {
+function ding_availability_periodical_holdings_build_table(array $availability) {
   $header = array(
     'placement' => t('Placement'),
     'copies' => t('Copies'),
@@ -559,7 +559,7 @@ function ding_availability_periodical_holdings_build_table($availability) {
  * @return bool
  *   If a copy exists it return TRUE else FALSE.
  */
-function ding_availability_periodical_is_reservable($issue) {
+function ding_availability_periodical_is_reservable(array $issue) {
   foreach ($issue['placement'] as $placement) {
     if ($placement['reservable']) {
       // Found on placement that had a reservable copy.
