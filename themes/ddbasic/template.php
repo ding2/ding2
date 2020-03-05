@@ -606,7 +606,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
           if (!empty($debts)) {
             $notification = array(
               'count' => $debts,
-              'type' => 'debts',
+              'type' => 'warning',
             );
           }
 
@@ -615,7 +615,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
             if (!empty($overdues)) {
               $notification = array(
                 'count' => $overdues,
-                'type' => 'overdue',
+                'type' => 'warning',
               );
             }
           }
@@ -625,13 +625,13 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
             if (!empty($ready)) {
               $notification = array(
                 'count' => $ready,
-                'type' => 'ready',
+                'type' => 'success',
               );
             }
           }
 
           if (!empty($notification)) {
-            $element['#title'] .= '<div class="notification-count notification-count-type-' . $notification['type'] . '">' . $notification['count'] . '</div>';
+            $element['#title'] .= '<div class="menu-item-count menu-item-count-' . $notification['type'] . '">' . $notification['count'] . '</div>';
           }
         }
       }
