@@ -22,37 +22,7 @@ function ding_periodical_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  // Ajax link reservation callback (with local_id, volume and issue).
-  $items['ting/object/%ting_object/reserve/%/%/%'] = array(
-    'page callback' => 'ding_periodical_reserve_ajax',
-    'page arguments' => array(2, 4, 5, 6),
-    'delivery callback' => 'ajax_deliver',
-    'access arguments' => array('access content'),
-  );
-
   return $items;
-}
-
-/**
- * Ajax reservation callback.
- *
- * @param TingEntity $entity
- *   Ting entity for the periodical.
- * @param string $local_id
- *   Local library id (faust) for the issue (base64 encoded).
- * @param string $volume
- *   Volume number (for year books the year, base64 encoded).
- * @param string $issue
- *   The issue in the volume to reserve (base64_encoded).
- *
- * @return array
- *   Render array with Ajax commands.
- */
-function ding_periodical_reserve_ajax($entity, $local_id, $volume, $issue) {
-  $reservable = new DingPeriodicalReservable(base64_decode($local_id), base64_decode($volume), base64_decode($issue), $entity);
-
-  // Use ding reservation logic to create the reservation and ajax commands.
-  return ding_reservation_reserve_ajax($entity, $reservable);
 }
 
 /**
