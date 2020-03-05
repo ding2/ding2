@@ -499,7 +499,13 @@ function theme_ding_holdings_periodical($variables) {
     $items[] = $vol;
   }
 
-  return theme('item_list', array('items' => $items, 'attributes' => array('class' => 'ding-periodical-issues')));
+  // Add a prefix with a caption and some basic information.
+  // TODO: We could include info about reservation status here like with normal
+  // holdings.
+  $prefix = '<h3>' . t('Issues') . '</h3>';
+  $prefix .= '<p>' . t('To make a reservation you need to find an issue below and click a reservation button') . '</p>';
+
+  return $prefix . theme('item_list', array('items' => $items, 'attributes' => array('class' => 'ding-periodical-issues')));
 }
 
 /**
