@@ -716,7 +716,7 @@
         border-top: 1px solid $charcoal-opacity-light;
         .no-holdings & {
           display: none;
-        }cd
+        }
       }
       .group-material-details {
         clear: both;
@@ -738,6 +738,9 @@
       }
       .group-periodical-issues,
       .group-holdings-available {
+        ul {
+          margin-top: 20px;
+        }
         li {
           list-style: none;
           margin: 0;
