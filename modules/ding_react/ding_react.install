@@ -12,6 +12,7 @@ function ding_react_uninstall() {
   variable_del('ding_react_material_list_url');
   variable_del('ding_react_follow_searches_url');
   variable_del('ding_react_migrate_timeout');
+  variable_del('ding_react_debug');
 
   db_drop_field('users', 'openlist_uid');
 }
