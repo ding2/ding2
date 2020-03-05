@@ -39,15 +39,6 @@ function ding_availability_menu() {
     'access arguments' => array('access content'),
   );
 
-  $items['admin/config/ting/holdings'] = array(
-    'title' => 'Provider availability holdings',
-    'description' => 'Configure which ting object types should try to fetch provider holdings information.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_availability_admin_holdings_settings'),
-    'access arguments' => array('administer ting settings'),
-    'file' => 'ding_availability.admin.inc',
-  );
-
   return $items;
 }
 
@@ -644,75 +635,4 @@ function ding_availability_preprocess_ting_object_entities(&$variables) {
       '#weight' => -10,
     );
   }
-}
-
-
-
-/**
- * The defaults types that should display provider holdings information.
- *
- * @return array
- *   List of data well types that should be fetched holdings information if they
- *   have the library material or catalog source.
- */
-function _ding_availability_holdings_default_types() {
-  return array(
-    'bog',
-    'cd (musik)',
-    'node',
-    'dvd',
-    'billedbog',
-    'lydbog (cd)',
-    'lydbog (bånd)',
-    'tegneserie',
-    'cd',
-    'sammensat materiale',
-    'lydbog (cd-mp3)',
-    'video',
-    'bog stor skrift',
-    'årbog',
-    'cd-rom',
-    'periodikum',
-    'pc-spil',
-    'blu-ray',
-    'playstation 3',
-    'playstation 2',
-    'wii',
-    'xbox 360',
-    'nintendo ds',
-    'graphic novel',
-    'grafisk blad',
-    'dvd-rom',
-    'kort',
-    'plakat',
-    'gameboy advance',
-    'xbox',
-    'grammofonplade',
-    'wii u',
-    'serie',
-    'avis',
-    'spil',
-    'playstation',
-    'mikroform',
-    'bånd',
-    'originalkunst',
-    'puslespil',
-    'laborativt materiale',
-    'øvelsesmodel',
-    'foto',
-    'maleri',
-    'teaterdukke',
-    'kassettelydbånd',
-    'transparent',
-    'billedkort',
-    'diskette',
-    'legetøj',
-    'gameboy',
-    'punktskrift',
-    'akvarel',
-    'arkitekturtegning',
-    'emnekasse',
-    'spolelydbånd',
-    'udstillingsmontage',
-  );
 }
