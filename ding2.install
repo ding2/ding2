@@ -845,9 +845,18 @@ function ding2_update_7074() {
 }
 
 /**
- * Remove P2.
+ * Enable user registration module for sites using Adgangsplatformen.
  */
 function ding2_update_7075() {
+  if (module_exists('ding_adgangsplatformen')) {
+    module_enable(array('ding_registration'));
+  }
+}
+
+/**
+ * Remove P2.
+ */
+function ding2_update_7076() {
   // Remove the ding_entity_rating_action field.
   field_delete_field('ding_entity_rating_action');
   field_purge_batch(1);
@@ -887,7 +896,7 @@ function ding2_update_7075() {
 /**
  * Revert modules to remove traces of p2.
  */
-function ding2_update_7076() {
+function ding2_update_7077() {
   // Need to revert variables for these modules to get rid of the
   // ding_serendipity_info extra field.
   $modules = [
@@ -906,7 +915,7 @@ function ding2_update_7076() {
 /**
  * Remove old eck tables.
  */
-function ding2_update_7077() {
+function ding2_update_7078() {
   // Eck doesn't drop it's dynamically created tables, so we'll do it here,
   // just in case.
   foreach (db_query('SHOW TABLES LIKE :pattern', [':pattern' => 'eck_%'])->fetchCol() as $table) {
@@ -917,25 +926,16 @@ function ding2_update_7077() {
 /**
  * Enable ding_react.
  */
-function ding2_update_7078() {
+function ding2_update_7079() {
   module_enable(['ding_react']);
 }
 
 /**
  * Use production services with ding_react.
  */
-function ding2_update_7079() {
+function ding2_update_7080() {
   variable_set('ding_react_material_list_url', 'https://prod.materiallist.dandigbib.org');
   variable_set('ding_react_follow_searches_url','https://prod.followsearches.dandigbib.org' );
-}
-
-/**
- * Enable user registration module for sites using Adgangsplatformen.
- */
-function ding2_update_7080() {
-  if (module_exists('ding_adgangsplatformen')) {
-    module_enable(array('ding_registration'));
-  }
 }
 
 /**
