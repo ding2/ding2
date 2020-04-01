@@ -46,7 +46,7 @@ function ding_user_preprocess_html(&$variables) {
     $robots_noindex = array(
       '#tag' => 'meta',
       '#attributes' => array(
-        'name' =>  'robots',
+        'name' => 'robots',
         'content' => 'noindex, nofollow',
       ),
     );
