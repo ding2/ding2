@@ -343,6 +343,8 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
  * Implements hook_cron().
  */
 function ting_subsearch_suggestions_cron() {
+  // Temporarily disable download and import on cron.
+  return;
   $service = variable_get('ting_subsearch_suggestions_service', 'kpi');
   $prepared = FALSE;
 
