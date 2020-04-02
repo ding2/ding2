@@ -60,7 +60,7 @@ function ting_subsearch_suggestions_schema() {
       'kpi_numtotalsearches' => array('numtotalsearches'),
       'kpi_weekno' => array('weekno'),
       'kpi_year' => array('year'),
-      'kpi_weekno_year' => array('weekno', 'year'),
+      'kpi_year_weekno' => array('year', 'weekno'),
     ),
   );
   return $schema;
@@ -106,4 +106,15 @@ function ting_subsearch_suggestions_update_7002() {
  */
 function ting_subsearch_suggestions_update_7003(&$sandbox) {
   variable_set('ting_subsearch_suggestions_service', 'kpi');
+}
+
+/**
+ * Use year, weekno index instead of weekno, year.
+ */
+function ting_subsearch_suggestions_update_7004() {
+  // This is a much bette index for our use case. We're always
+  // filtering/grouping by year first and then select weekno. Hence, the year
+  // column need to be first in the index for it to be effective.
+  db_drop_index('ting_subsearch_kpi_index_popular_keys', 'kpi_weekno_year');
+  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_year_weekno', ['year', 'weekno']);
 }
