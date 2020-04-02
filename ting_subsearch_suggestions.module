@@ -12,11 +12,40 @@ use Ting\Search\NullSearchResult;
 module_load_include('inc', 'ting_subsearch_suggestions', 'ting_subsearch_suggestions.admin');
 
 define('TING_SUBSEARCH_SUGGESTIONS_WEEKLY_CRON', 604800);
+// Number of rows we inspect in each import batch.
+define('TING_SUBSEARCH_SUGGESTIONS_IMPORT_BATCH_SIZE', 100000);
+// The maximum number of rows to insert in one transaction during CSV-import.
+define('TING_SUBSEARCH_SUGGESTIONS_MULTI_INSERT_LIMIT', 10000);
 
 /**
  * Implements hook_menu().
  */
 function ting_subsearch_suggestions_menu() {
+
+  $items['admin/config/ting/subsearch-suggestions'] = [
+    'title' => 'Ting subsearch suggestions',
+    'description' => 'Administer Ting subsearch suggestions',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ting_subsearch_suggestions_import_form'],
+    'access arguments' => ['administer site configuration'],
+    'file' => 'ting_subsearch_suggestions.admin.inc',
+  ];
+
+  $items['admin/config/ting/subsearch-suggestions/import'] = [
+    'title' => 'Import',
+    'description' => 'Import newest data from feed and check status',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  ];
+
+  $items['admin/config/ting/subsearch-suggestions/import/confirm-reset'] = [
+    'title' => 'Confirm reset',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ting_subsearch_suggestions_reset_index_confirm_form'],
+    'access arguments' => ['administer site configuration'],
+    'file' => 'ting_subsearch_suggestions.admin.inc',
+  ];
+
   $items['subsearch_suggestions'] = [
     'title' => 'Subsearch Suggestions',
     'description' => 'AJAXify request for subsearch suggestions',
