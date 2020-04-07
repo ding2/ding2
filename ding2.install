@@ -950,4 +950,11 @@ function ding2_update_7081() {
  */
 function ding2_update_7082() {
   ding2_set_eu_cookie_compliance_settings();
+  // jquery_update will override the version of jquery.cookie that EU cookie
+  // compliance needs, if module weights are not changed. ECC 1.31 takes care
+  // of this on update and fresh install,  but 1.28 (we used in last release)
+  // only did on update. So we ensure it's called here if someone is testing
+  // from a fresh install on last release.
+  // https://www.drupal.org/project/eu_cookie_compliance/issues/2991113
+  eu_cookie_compliance_module_set_weight();
 }
