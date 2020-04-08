@@ -812,10 +812,10 @@ function ding2_set_eu_cookie_compliance_settings() {
   }
 
   $eu_cookie_compliance = array_merge($eu_cookie_compliance, [
-    'method' => 'opt_out',
+    'method' => 'opt_in',
     'show_disagree_button' => 1,
     'popup_info' => [
-      'value' => '<h2>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse.</h2>',
+      'value' => '<h2>Hjælp os med at forbedre oplevelsen på hjemmesiden ved at acceptere cookies.</h2>',
       'format' => 'ding_wysiwyg',
     ],
     'popup_agree_button_message' => 'Jeg accepterer brugen af cookies',
