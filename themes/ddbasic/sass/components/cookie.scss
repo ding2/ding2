@@ -5,7 +5,18 @@
 
 #sliding-popup {
   &.sliding-popup-bottom {
-    background: $black;
+    &, .eu-cookie-withdraw-banner {
+      background: $black;
+    }
+
+    #popup-text p {
+      a, a:hover {
+        color: $white;
+      }
+    }
+  }
+
+  &.sliding-popup-bottom:not(.eu-cookie-withdraw-wrapper) {
     .popup-content {
       @include wrapper;
       position: relative;
@@ -22,12 +33,6 @@
         margin: 0;
         &:nth-child(1) {
           @include font('display-small');
-        }
-        a {
-          color: $white;
-          &:hover {
-            color: $white;
-          }
         }
       }
 
