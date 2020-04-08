@@ -819,6 +819,8 @@ function ding2_set_eu_cookie_compliance_settings() {
       'format' => 'ding_wysiwyg',
     ],
     'popup_agree_button_message' => 'Jeg accepterer brugen af cookies',
+    'popup_disagree_button_message' => 'Mere info',
+    'disagree_button_label' => 'Afvis',
     'withdraw_enabled' => 1,
     'withdraw_message' => [
       'value' => '<h2>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse</h2><p>Du har givet os samtykke. Tryk her for at tilbagekalde.</p>',
@@ -830,6 +832,7 @@ function ding2_set_eu_cookie_compliance_settings() {
     'popup_bg_hex' => '0D0D26',
     'popup_text_hex' => 'FFFFFF',
     'popup_delay' => 1000,
+    'exclude_admin_pages' => TRUE,
   ]);
   i18n_variable_set('eu_cookie_compliance', $eu_cookie_compliance, 'da');
 }
