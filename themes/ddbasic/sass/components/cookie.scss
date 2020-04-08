@@ -47,7 +47,8 @@
       float: left;
       .agree-button,
       .find-more-button,
-      .hide-popup-button {
+      .hide-popup-button,
+      .decline-button {
         @extend %button;
         @include font('base');
         background: $color-secondary;
