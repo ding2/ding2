@@ -9,9 +9,12 @@
       offset,
       is_mobile;
 
+    $(document).ready(function () {
+      offset = $('.js-content-wrapper').offset().top;
+    })
+
     $(window)
       .bind('resize.actions_container', function (evt) {
-        offset = $('.js-content-wrapper').offset().top;
         is_mobile = ddbasic.breakpoint.is('mobile');
 
         // Set the width of the container, so it matches the form.
@@ -45,6 +48,11 @@
           return;
         }
 
+        $(this).on('resize', function () {
+          offset = $('.js-content-wrapper').offset().top;
+          $('.js-content-wrapper').offset().top = offset;
+        });
+
         // The mark where the container starts sticking.
         var mark = $(window).scrollTop() + offset;
 
@@ -67,6 +75,7 @@
             // Stick it to the top.
             else {
               if (!container.hasClass('is-fixed')) {
+                offset = $('.js-content-wrapper').offset().top;
                 container
                   .addClass('is-fixed')
                   .removeClass('is-bottom')
