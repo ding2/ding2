@@ -492,10 +492,18 @@ function ting_field_search_filter_profiles() {
   foreach (ting_field_search_profiles_sort($profiles) as $name => $profile) {
     // Only exposed and activated profiles should be shown to the user.
     if ($profile->config['user_interaction']['exposed'] && empty($profile->disabled)) {
+
+      if (module_exists('ding_language')) {
+        $profile_title = i18n_string('ting_field_search:' . $profile->name, check_plain($profile->title), ['update' => TRUE]);
+      }
+      else {
+        $profile_title = $profile->title;
+      }
+
       // Filter based on grouping (always show profiles from same group).
       if ($active_profile && $active_profile->config['user_interaction']['grouping'] == $profile->config['user_interaction']['grouping']) {
         $exposed_profiles[$name] = t('Search in @profile', array(
-          '@profile'  => check_plain($profile->title),
+          '@profile'  => $profile_title,
         ));
         continue;
       }
@@ -510,7 +518,7 @@ function ting_field_search_filter_profiles() {
       if ($profile->config['user_interaction']['visibility'] !== 'all' &&
         ting_field_search_profile_matches_current_path($profile)) {
           $exposed_profiles[$name] = t('Search in @profile', array(
-            '@profile'  => check_plain($profile->title),
+            '@profile'  => $profile_title,
           ));
           continue;
       }
@@ -519,13 +527,28 @@ function ting_field_search_filter_profiles() {
       // pages.
       if (!$active_profile && $profile->config['user_interaction']['visibility'] == 'all') {
         $exposed_profiles[$name] = t('Search in @profile', array(
-          '@profile'  => check_plain($profile->title),
+          '@profile'  => $profile_title,
         ));
       }
     }
   }
 
   return $exposed_profiles;
+}
+
+/**
+ * Implements hook_i18n_string_info().
+ */
+function ting_field_search_i18n_string_info() {
+  if (module_exists('ding_language')) {
+    $groups['ting_field_search'] = [
+      'title' => t('Ting Field Search'),
+      'format' => FALSE,
+      'list' => TRUE,
+    ];
+
+    return $groups;
+  }
 }
 
 /**
