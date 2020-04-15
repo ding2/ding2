@@ -102,42 +102,6 @@ function ding_staff_default_page_manager_handlers() {
     $display->content['new-c4b06a7e-01a0-4551-803f-1b654ae9ffbb'] = $pane;
     $display->panels['attachment_1_1'][0] = 'new-c4b06a7e-01a0-4551-803f-1b654ae9ffbb';
     $pane = new stdClass();
-    $pane->pid = 'new-8de0095e-70ec-425c-ba76-a07a2a7dbd58';
-    $pane->panel = 'attachment_1_1';
-    $pane->type = 'lists';
-    $pane->subtype = 'lists';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'compare_users',
-          'settings' => array(
-            'equality' => '1',
-          ),
-          'context' => array(
-            0 => 'argument_entity_id:user_1',
-            1 => 'logged-in-user',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'pane-userlists-and-specials',
-    );
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '8de0095e-70ec-425c-ba76-a07a2a7dbd58';
-    $display->content['new-8de0095e-70ec-425c-ba76-a07a2a7dbd58'] = $pane;
-    $display->panels['attachment_1_1'][1] = 'new-8de0095e-70ec-425c-ba76-a07a2a7dbd58';
-    $pane = new stdClass();
     $pane->pid = 'new-8de3be43-6942-4dca-a179-edf434dc63d9';
     $pane->panel = 'attachment_1_1';
     $pane->type = 'views_panes';
@@ -160,34 +124,11 @@ function ding_staff_default_page_manager_handlers() {
       'css_class' => 'grid-medium',
     );
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '8de3be43-6942-4dca-a179-edf434dc63d9';
     $display->content['new-8de3be43-6942-4dca-a179-edf434dc63d9'] = $pane;
-    $display->panels['attachment_1_1'][2] = 'new-8de3be43-6942-4dca-a179-edf434dc63d9';
-    $pane = new stdClass();
-    $pane->pid = 'new-cf6940f2-a95b-493c-9ed3-37c212957a98';
-    $pane->panel = 'attachment_1_1';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'public_lists-user';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:user_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = array();
-    $pane->uuid = 'cf6940f2-a95b-493c-9ed3-37c212957a98';
-    $display->content['new-cf6940f2-a95b-493c-9ed3-37c212957a98'] = $pane;
-    $display->panels['attachment_1_1'][3] = 'new-cf6940f2-a95b-493c-9ed3-37c212957a98';
+    $display->panels['attachment_1_1'][1] = 'new-8de3be43-6942-4dca-a179-edf434dc63d9';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-c4b06a7e-01a0-4551-803f-1b654ae9ffbb';
   $handler->conf['display'] = $display;

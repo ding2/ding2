@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ding_message_p2_installer module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_message_p2_installer_uninstall() {
+  variable_del('field_bundle_settings_message__new_content');
+}

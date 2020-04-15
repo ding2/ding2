@@ -71,6 +71,13 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
     '#default_value' => $default['urlLogout'],
   );
 
+  $form['ding_adgangsplatformen_settings']['revoke'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Revoke service'),
+    '#description' => t('The end-point to use for revoking an access token.'),
+    '#default_value' => $default['revoke'],
+  );
+
   $form['ding_adgangsplatformen_settings']['singleLogout'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable single logout'),
@@ -96,6 +103,29 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
         ':input[name="ding_adgangsplatformen_settings[singleLogout]"]' => array('checked' => FALSE),
       ),
     ),
+  );
+
+  $form['token_client'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Token client'),
+    '#description' => t('This client will be used for deescalating token access after login.'),
+    // Collapse config. This should usually not be touched.
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    // Do not use tree here to keep the token client out of the default config.
+    '#tree' => FALSE,
+  );
+
+  $form['token_client']['ding_adgangsplatformen_token_client_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Client ID'),
+    '#default_value' => variable_get('ding_adgangsplatformen_token_client_id'),
+  );
+
+  $form['token_client']['ding_adgangsplatformen_token_client_secret'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Client secret'),
+    '#default_value' => variable_get('ding_adgangsplatformen_token_client_secret'),
   );
 
   return system_settings_form($form);

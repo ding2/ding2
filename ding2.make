@@ -70,6 +70,7 @@ projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
 
+; To be removed together with p2.
 projects[eck][subdir] = "contrib"
 projects[eck][version] = "2.0-rc9"
 projects[eck][patch][] = "https://www.drupal.org/files/issues/eck-pdoexception-2109589-17.patch"
@@ -255,6 +256,7 @@ projects[menu_breadcrumb][version] = "1.5"
 projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
 
+; To be removed together with p2.
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.12"
 
@@ -390,6 +392,7 @@ projects[search_api_multi][patch][] = "https://www.drupal.org/files/issues/25809
 projects[search_api_db][subdir] = "contrib"
 projects[search_api_db][version] = "1.5"
 
+; To be removed together with p2.
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
 
@@ -491,7 +494,7 @@ projects[xautoload][version] = "5.7"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-5.0.1"
+libraries[bpi-client][download][tag] = "7.x-6.0.1"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
@@ -568,7 +571,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-5.0.1"
+libraries[ting-client][download][tag] = "7.x-6.0.1"
 
 ; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"
@@ -619,6 +622,12 @@ libraries[smart-app-banner][download][type] = "get"
 libraries[smart-app-banner][download][url] = https://github.com/kudago/smart-app-banner/archive/v1.3.0.zip
 libraries[smart-app-banner][directory_name] = "smart-app-banner"
 libraries[smart-app-banner][destination] = "libraries"
+
+; For ding_react.
+libraries[ddb-react][download][type] = "get"
+libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/1.0.0/dist.zip
+libraries[ddb-react][directory_name] = "ddb-react"
+libraries[ddb-react][destination] = "libraries"
 
 ; easyOPAC contribution modules
 projects[ckeditor_link][subdir]             = "contrib"
@@ -738,4 +747,3 @@ libraries[jsrender][download][type]         = "get"
 libraries[jsrender][download][url]          = https://github.com/BorisMoore/jsrender/archive/master.zip
 libraries[jsrender][directory_name]         = "jsrender"
 libraries[jsrender][destination]            = "libraries"
-

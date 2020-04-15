@@ -1,0 +1,5 @@
+name = Connie OpenPlatform token
+description = An example of how to handle Open Platform tokens. Not for production use.
+core = 7.x
+package = Providers
+dependencies[] = ding_provider

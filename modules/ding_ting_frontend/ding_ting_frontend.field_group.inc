@@ -111,9 +111,8 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Info',
     'weight' => '23',
     'children' => array(
-      0 => 'ting_series',
-      1 => 'ting_abstract',
-      2 => 'group_rating',
+      0 => 'ting_abstract',
+      1 => 'ting_series',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -267,102 +266,6 @@ function ding_ting_frontend_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_rating|ting_object|ting_object|default';
-  $field_group->group_name = 'group_rating';
-  $field_group->entity_type = 'ting_object';
-  $field_group->bundle = 'ting_object';
-  $field_group->mode = 'default';
-  $field_group->parent_name = 'group_ting_object_right_c';
-  $field_group->data = array(
-    'label' => 'Rating',
-    'weight' => '78',
-    'children' => array(
-      0 => 'ding_entity_rating_action',
-    ),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'label' => 'Rating',
-      'instance_settings' => array(
-        'classes' => 'group-rating field-group-div',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-        'id' => 'ting_object_ting_object_full_group_rating',
-      ),
-      'formatter' => 'open',
-    ),
-  );
-  $field_groups['group_rating|ting_object|ting_object|default'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_rating|ting_object|ting_object|search_result';
-  $field_group->group_name = 'group_rating';
-  $field_group->entity_type = 'ting_object';
-  $field_group->bundle = 'ting_object';
-  $field_group->mode = 'search_result';
-  $field_group->parent_name = 'group_info';
-  $field_group->data = array(
-    'label' => 'Rating',
-    'weight' => '23',
-    'children' => array(
-      0 => 'ding_entity_rating_action',
-    ),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'label' => 'Rating',
-      'instance_settings' => array(
-        'classes' => 'group-rating field-group-div',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-        'id' => 'ting_object_ting_object_search_result_group_rating',
-      ),
-      'formatter' => 'open',
-    ),
-  );
-  $field_groups['group_rating|ting_object|ting_object|search_result'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_rating|ting_object|ting_object|teaser';
-  $field_group->group_name = 'group_rating';
-  $field_group->entity_type = 'ting_object';
-  $field_group->bundle = 'ting_object';
-  $field_group->mode = 'teaser';
-  $field_group->parent_name = 'group_text';
-  $field_group->data = array(
-    'label' => 'Rating',
-    'weight' => '45',
-    'children' => array(
-      0 => 'ding_entity_rating_action',
-    ),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'label' => 'Rating',
-      'instance_settings' => array(
-        'classes' => 'group-rating field-group-div',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-        'id' => 'ting_object_ting_object_teaser_group_rating',
-      ),
-      'formatter' => 'open',
-    ),
-  );
-  $field_groups['group_rating|ting_object|ting_object|teaser'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
   $field_group->identifier = 'group_text|ting_object|ting_object|reference_teaser';
   $field_group->group_name = 'group_text';
   $field_group->entity_type = 'ting_object';
@@ -410,7 +313,6 @@ function ding_ting_frontend_field_group_info() {
     'children' => array(
       0 => 'ting_abstract',
       1 => 'group_inner',
-      2 => 'group_rating',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -444,7 +346,6 @@ function ding_ting_frontend_field_group_info() {
     'children' => array(
       0 => 'ting_abstract',
       1 => 'group_inner',
-      2 => 'group_rating',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -638,9 +539,9 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Right column meta',
     'weight' => '1',
     'children' => array(
-      0 => 'ting_title',
-      1 => 'ting_type',
-      2 => 'ting_author',
+      0 => 'ting_author',
+      1 => 'ting_title',
+      2 => 'ting_type',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -704,10 +605,9 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Right column content',
     'weight' => '3',
     'children' => array(
-      0 => 'ting_series',
-      1 => 'ting_abstract',
+      0 => 'ting_abstract',
+      1 => 'ting_series',
       2 => 'ting_subjects',
-      3 => 'group_rating',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -860,8 +760,8 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Right column',
     'weight' => '1',
     'children' => array(
-      0 => 'ting_title',
-      1 => 'ting_author',
+      0 => 'ting_author',
+      1 => 'ting_title',
       2 => 'group_info',
     ),
     'format_type' => 'div',
@@ -890,7 +790,6 @@ function ding_ting_frontend_field_group_info() {
   t('Issues');
   t('Left column');
   t('On this site');
-  t('Rating');
   t('Right column');
   t('Right column actions');
   t('Right column content');
