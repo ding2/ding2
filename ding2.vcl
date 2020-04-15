@@ -53,6 +53,7 @@ sub vcl_recv {
     req.url ~ "^.*/ajax/.*$" ||
     req.url ~ "^.*/ahah/.*$" ||
     req.url ~ "^.*/edit.*$" ||
+    req.url ~ "^.*/ding_react/user.js" ||
     req.url ~ "^.*/ding_availability.*$") {
     return (pass);
   }

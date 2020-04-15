@@ -28,12 +28,6 @@ Connie is a Ding provider which doesn't use any external services and
 makes it easy to log in. The password is the last 4 characters of the
 username.
 
-## Connie Openlist
-
-The module connie_openlist provides a mock for Openlist. It has a
-limited set of Openlist functions which focus on creating lists and
-getting them.
-
 ## OpenSearch
 
 https://opensource.dbc.dk/services/open-search-web-service

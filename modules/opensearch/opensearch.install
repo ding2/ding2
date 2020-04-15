@@ -82,3 +82,10 @@ function opensearch_update_7003() {
 function opensearch_update_7004() {
   variable_set('ting_library_material_sources', _opensearch_default_library_material_sources());
 }
+
+/**
+ * Ensure libraries use the latest version of opensearch (5.2).
+ */
+function opensearch_update_7005() {
+  variable_set('opensearch_url', 'https://opensearch.addi.dk/b3.5_5.2/');
+}
