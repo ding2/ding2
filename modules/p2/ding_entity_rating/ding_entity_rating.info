@@ -16,4 +16,4 @@ features[features_api][] = api:2
 features[field_base][] = ding_entity_rating_action
 features[field_instance][] = ting_object-ting_object-ding_entity_rating_action
 mtime = 1491311541
-required = 1
+# required = 1

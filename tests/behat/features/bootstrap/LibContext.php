@@ -321,20 +321,6 @@ class LibContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * Check for whether the Husk / Tilføj til liste button is shown and visible
-     *
-     * @Then it is possible to add to a list
-     * @Then it should be possible to add to a list
-     *
-     * @throws Exception
-     *    In case of errors.
-     */
-    public function findAddToAList()
-    {
-        $this->check($this->objectPage->hasAddToList());
-    }
-
-    /**
      * The function can be used to return the href to the image as well.
      *
      * @Then I (should) see availability options

@@ -14,3 +14,12 @@ function ding_adgangsplatformen_install() {
     ->condition('name', 'ding_adgangsplatformen', '=')
     ->execute();
 }
+
+/**
+ * Set default revoke end-point url.
+ */
+function ding_adgangsplatformen_update_7001() {
+  $config = ding_adgangsplatformen_get_configuration();
+  $config['revoke'] = 'https://login.bib.dk/oauth/revoke';
+  variable_set('ding_adgangsplatformen_settings', $config);
+}

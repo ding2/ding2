@@ -44,6 +44,16 @@ function ding_list_install() {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function ding_list_uninstall() {
+  $mail_settings = variable_get('mail_system', array());
+  unset($mail_settings['ding_list_share']);
+  variable_set('mail_system', $mail_settings);
+}
+
+
+/**
  * Add ding list share to HTMLMailSystem.
  */
 function ding_list_update_7001() {

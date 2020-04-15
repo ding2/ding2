@@ -54,33 +54,6 @@
         }
       );
 
-      // Special handling for ding entity rating event.
-      //
-      // It would require a complete rework of the ding_entity_rating_display
-      // theme hook to avoid this. It doesn't provide the ability to add custom
-      // attributes/classes in preprocess and is not using using render arrays
-      // for rating elements, making them problematic to modify.
-      $('.js-ding-webtrekk-rating-event', context)
-        .once('js-ding-webtrekk', function() {
-          var contentId = $(this).data('ding-entity-rating-id');
-          $('.js-rating-symbol', this).each(function(index) {
-            var rating = (index + 1) + '';
-            $(this).click(function(e) {
-              e.preventDefault();
-
-              var eventData = {
-
-                linkId: 'Materiale rating',
-                customClickParameter: {}
-              };
-              eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING] = rating;
-              eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING_ID] = contentId;
-              pushEvent('click', eventData);
-            });
-          });
-        }
-      );
-
       // Track autocomplete selections.
       $('.js-ding-webtrekk-autocomplete .form-autocomplete', context)
         .once('js-ding-webtrekk')
