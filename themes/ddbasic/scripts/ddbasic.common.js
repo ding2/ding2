@@ -230,22 +230,27 @@
   // Nodelist "Promoted Nodes".
   Drupal.behaviors.ding_nodelist_promoted_nodes = {
     attach: function (context, settings) {
-      // "Promoted nodes" items classes list.
-      var classes = ['first-left-block', 'first-right-block', 'last-left-block', 'last-right-block'];
-      classes.forEach(function (value) {
-        // Getting item wrapper.
-        var itemWrapper = $('.' + value);
-        // Extracting item's url from wrapper.
-        var href = itemWrapper.data('href');
-        itemWrapper.on('mouseover click', function (event) {
-          // Always display pointer cursor.
-          itemWrapper.css('cursor', 'pointer');
-          // Act as a click on link when "click" event is executed.
-          if (event.type === 'click') {
-            window.location.href = href;
-          }
+      var pnNodelistPanes = $('.pane-ding-nodelist .ding_nodelist', context);
+      if (pnNodelistPanes.length > 0) {
+        $(pnNodelistPanes).each(function (i, block) {
+          // "Promoted nodes" items classes list.
+          var classes = ['first-left-block', 'first-right-block', 'last-left-block', 'last-right-block'];
+          classes.forEach(function (value) {
+            // Getting item wrapper.
+            var itemWrapper = $('.' + value, block);
+            // Extracting item's url from wrapper.
+            var href = itemWrapper.data('href');
+            itemWrapper.on('mouseover click', function (event) {
+              // Always display pointer cursor.
+              itemWrapper.css('cursor', 'pointer');
+              // Act as a click on link when "click" event is executed.
+              if (event.type === 'click') {
+                window.location.href = href;
+              }
+            });
+          });
         });
-      });
+      }
     }
   };
 
