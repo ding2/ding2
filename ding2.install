@@ -944,3 +944,14 @@ function ding2_update_7080() {
 function ding2_update_7081() {
   ding2_translation_update();
 }
+
+/**
+ * Ensure that 'user_my_library' page manager page is removed from db.
+ */
+function ding2_update_7082() {
+  module_load_include('inc', 'page_manager', 'plugins/tasks/page');
+  $page = page_manager_page_load('user_my_library');
+  if (isset($page)) {
+    page_manager_page_delete($page);
+  }
+}
