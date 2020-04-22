@@ -742,7 +742,9 @@ function ding2_set_cookie_page() {
     <p><strong>Nødvendige cookies</strong></p>
     <p>Nødvendige cookies hjælper med at gøre en hjemmeside brugbar og den kan ikke fungerer korrekt uden. Du accepterer dermed disse cookies, når du bruger vores hjemmeside, og de vil blive indstillet selvom du afviser. Disse cookies indeholder ingen personfølsomme oplsyninger.</p>
     <p><strong>Funktionelle cookies</strong></p>
-    <p>Visse stedet bruger vi cookies til at forbedre funktionalitet som f.eks. at huske dine valg, så du ikke skal trykke på samme knap om og om igen. Når du afviser cookies vil disse ikke blive indstillet, og det kan dermed betyde foringelse af brugeroplevelsen.</p>';
+    <p>Visse stedet bruger vi cookies til at forbedre funktionalitet som f.eks. at huske dine valg, så du ikke skal trykke på samme knap om og om igen. Når du afviser cookies vil disse ikke blive indstillet, og det kan dermed betyde foringelse af brugeroplevelsen.</p>
+    <p><strong>Statistik cookies</strong></p>
+    <p>Vi bruger cookies til at føre statistik over trafikken på hjemmesiden. Al indsamlet statistik gemmes anonymiseret. Vi bruger dette statistik til at undersøge brugsadfærd med det formål at forbedre kvaliteten af indhold og brugeroplevelsen på hjemmesiden. Afviser du cookies vil denne tracking blive blokeret.</p>';
 
   $page_lead = 'Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.';
 
