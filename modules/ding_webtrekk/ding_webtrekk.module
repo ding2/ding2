@@ -488,16 +488,12 @@ function ding_webtrekk_paragraphs_item_view(ParagraphsItemEntity $entity, $view_
     return;
   }
 
+  // Inse
   $nid = ding2_get_cookie_node_nid();
   $node = $entity->hostEntity();
   if ($node->nid === $nid && !empty($entity->field_ding_paragraphs_text)) {
-    $webtrekk_info = '<p><strong>Webtrekk</strong></p>
-      <p>Vi bruger Webtrekk til at føre statistik over trafikken på hjemmesiden. Al indsamlet statistik er anonym.<br>(<a class="external" href="https://www.webtrekk.com/en/legal/opt-out-webtrekk/">Webtrekk - om brug af cookies på websider og øvrige forhold omkring persondata</a>)
-      <p><a class="button webtrekk-opt-out" style="display:inline-block" href="#">Fravælg Webtrekk cookie</a></p>
-      <p>Dette vil sætte en opt-out (følg ikke) cookie i din browser. For at aktivere Webtrekk cookies igen kan du slette den pågældende webtrekkOptOut cookie eller alle cookies i din browseren.</p>';
+    $webtrekk_info = '<p><strong>Webtrekk</strong></p>';
+    $webtrekk_info .= '<p>Vi bruger Webtrekk til at føre statistik over trafikken på hjemmesiden. Al indsamlet statistik er anonym.</p>';
     $entity->content['field_ding_paragraphs_text'][0]['#markup'] .= $webtrekk_info;
-
-    // Add scripts for opt-out functionality.
-    drupal_add_js(drupal_get_path('module', 'ding_webtrekk') . '/ding_webtrekk.opt-out.js');
   }
 }
