@@ -290,7 +290,6 @@ jobs:
           else
             echo "No release created. No tag detected for commit."
           fi
-
   docker_db_image:
     docker:
     - image: docker:stable-git
@@ -322,7 +321,6 @@ jobs:
           else
             echo "Not pushing Docker image to Docker Hub. Environment variables DOCKER_USER and/or DOCKER_PASS are not set."
           fi
-
 workflows:
   version: 2
   build-test-package:
