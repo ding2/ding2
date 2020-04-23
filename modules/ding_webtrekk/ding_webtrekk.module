@@ -284,11 +284,11 @@ function ding_webtrekk_preprocess_node(&$variables) {
 function ding_webtrekk_process_node(&$variables) {
   $node = $variables['node'];
   if ($node->type == 'ding_campaign_plus') {
-    // Add u_navigatedby URL-parameter to campaign URLs, to be able to track
+    // Add u_navigatedby_kp URL-parameter to campaign URLs, to be able to track
     // page views triggered from campaigns. We use a process for this because
     // campaign plus adds the variable in preprocess.
     $url = drupal_parse_url($variables['campaign_url']);
-    $url['query']['u_navigatedby'] = check_plain($node->title);
+    $url['query']['u_navigatedby_kp'] = check_plain($node->title);
     $variables['campaign_url'] = url($url['path'], [
       'query' => $url['query'],
       'fragment' => $url['fragment'],
