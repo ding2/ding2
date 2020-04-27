@@ -52,7 +52,7 @@ function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
       array('Cache-Control', 'no-cache, no-store, must-revalidate')
     ),
   );
-  $form['#submit'][] = 'ding_contact_contact_form_stop_redirect';
+  $form['#submit'][] = 'ding_contact_contact_form_submit';
 
   // Add a notice about not inserting personal data in the contact form. It's
   // hardcoded and untranslated on purpose, since it should not be possible to
@@ -64,13 +64,21 @@ function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
 }
 
 /**
- * Prevent default redirect to frontpage ( @see contact.pages.inc::contact_personal_form_submit() )
+ * Ding contact form submission handler for contact_site_form()
  *
  * @param $form
  * @param $form_state
  */
-function ding_contact_contact_form_stop_redirect($form, &$form_state) {
+function ding_contact_contact_form_submit($form, &$form_state) {
+  // Prevent default redirect to frontpage.
+  // See: contact.pages.inc::contact_personal_form_submit()
   unset($form_state['redirect']);
+
+  // Ensure the cookies set by the contact module with the user's name and mail
+  // are removed.
+  // See: contact.pages.inc::contact_personal_form_submit()
+  user_cookie_delete('name');
+  user_cookie_delete('mail');
 }
 
 /**
