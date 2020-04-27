@@ -53,6 +53,14 @@ function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
     ),
   );
   $form['#submit'][] = 'ding_contact_contact_form_stop_redirect';
+
+  // Add a notice about not inserting personal data in the contact form. It's
+  // hardcoded and untranslated on purpose, since it should not be possible to
+  // change the text.
+  $form['privacy_notice'] = [
+    '#type' => 'item',
+    '#markup' => '<p><strong>BEMÆRK</strong>: indsæt ALDRIG persondata (som f.eks. CPR-nummer) eller din pinkode i formularen.</p>',
+  ];
 }
 
 /**
