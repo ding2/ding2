@@ -280,7 +280,7 @@ projects[nanosoap][version] = "1.0"
 projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
 projects[nodequeue][subdir] = "contrib"
-projects[nodequeue][version] = "2.1"
+projects[nodequeue][version] = "2.2"
 
 projects[node_clone][subdir] = "contrib"
 projects[node_clone][version] = "1.0-rc2"
