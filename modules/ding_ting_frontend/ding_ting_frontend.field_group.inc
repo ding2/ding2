@@ -201,38 +201,6 @@ function ding_ting_frontend_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_periodical_issues|ting_object|ting_object|default';
-  $field_group->group_name = 'group_periodical_issues';
-  $field_group->entity_type = 'ting_object';
-  $field_group->bundle = 'ting_object';
-  $field_group->mode = 'default';
-  $field_group->parent_name = 'group_ting_object_right_column';
-  $field_group->data = array(
-    'label' => 'Issues',
-    'weight' => '7',
-    'children' => array(
-      0 => 'ding_periodical_issues',
-    ),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'label' => 'Issues',
-      'instance_settings' => array(
-        'classes' => 'group-periodical-issues field-group-div',
-        'description' => '',
-        'show_label' => '1',
-        'label_element' => 'h2',
-        'effect' => 'none',
-        'speed' => 'fast',
-        'id' => 'ting_object_ting_object_full_group_periodical_issues',
-      ),
-      'formatter' => 'collapsed',
-    ),
-  );
-  $field_groups['group_periodical_issues|ting_object|ting_object|default'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
   $field_group->identifier = 'group_text|ting_object|ting_object|reference_teaser';
   $field_group->group_name = 'group_text';
   $field_group->entity_type = 'ting_object';

@@ -736,7 +736,11 @@
           }
         }
       }
-      .group-periodical-issues {
+      .group-periodical-issues,
+      .group-holdings-available {
+        ul {
+          margin-top: 20px;
+        }
         li {
           list-style: none;
           margin: 0;
