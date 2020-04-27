@@ -315,12 +315,13 @@ function ding_react_user_js() {
   drupal_add_http_header('Content-Type', 'application/javascript');
   echo "window.ddbReact = window.ddbReact || {};\n";
 
-  $authenticated = ding_user_is_logged_in_with_sso() ? 'true' : 'false';
-  echo sprintf("window.ddbReact.userAuthenticated = %s;\n", $authenticated);
-
   $token = ding_provider_invoke('openplatform_token', 'get');
+
   if ($token) {
+    echo sprintf("window.ddbReact.userAuthenticated = true;\n");
     echo sprintf("window.ddbReact.setToken('%s');\n", $token);
+  } else {
+    echo sprintf("window.ddbReact.userAuthenticated = false;\n");
   }
 
   drupal_exit();
