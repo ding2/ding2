@@ -296,9 +296,6 @@ projects[oembed][version] = "1.0-rc2"
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
 ; Added a check to ensure that a menu item exists before trying to alter it in order to fix a PHP error.
 projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch"
-; Embedly scheme regex too long (back-port to rc1)
-projects[oembed][patch][] = "https://raw.githubusercontent.com/ding2/ding2/master/patches/split-up-regex-2739023-1.patch"
-
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
