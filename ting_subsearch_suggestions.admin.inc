@@ -386,14 +386,16 @@ function ting_subsearch_suggestions_import_csv_batch($rows_total, &$context) {
       // and use that to avoid duplicate data, neglecting all data that is older
       // than the current $max_year, $max_week in DB.
       if (!$existing_data || (($year == $max_year && $weekno > $max_week) || $year > $max_year)) {
-        $query->values([
-          'popular_keys' => $popular_keys,
-          'numtotalsearches' => $numtotalsearches,
-          'weekno' => $weekno,
-          'year' => $year,
-        ]);
+        if (strlen($popular_keys) <= TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
+          $query->values([
+            'popular_keys' => $popular_keys,
+            'numtotalsearches' => $numtotalsearches,
+            'weekno' => $weekno,
+            'year' => $year,
+          ]);
 
-        ++$value_count;
+          ++$value_count;
+        }
       }
     }
 

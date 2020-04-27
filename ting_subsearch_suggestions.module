@@ -11,11 +11,17 @@ use Ting\Search\NullSearchResult;
 
 module_load_include('inc', 'ting_subsearch_suggestions', 'ting_subsearch_suggestions.admin');
 
+// The minimum time between imports during cron runs.
 define('TING_SUBSEARCH_SUGGESTIONS_WEEKLY_CRON', 604800);
+
 // Number of rows we inspect in each import batch.
 define('TING_SUBSEARCH_SUGGESTIONS_IMPORT_BATCH_SIZE', 100000);
+
 // The maximum number of rows to insert in one transaction during CSV-import.
 define('TING_SUBSEARCH_SUGGESTIONS_MULTI_INSERT_LIMIT', 10000);
+
+// Max number of chars supported by PHP's levensthein function.
+define('TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT', 255);
 
 /**
  * Implements hook_menu().
