@@ -39,6 +39,18 @@ function ding_user_preprocess_html(&$variables) {
       drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
       drupal_add_http_header('Pragma', 'no-cache');
     }
+
+    // Ensure that search engines doesn't index pages under /user/*. We also add
+    // nofollow since the login page contains links to other pages under /user
+    // that are disallowed in robots.txt.
+    $robots_noindex = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'robots',
+        'content' => 'noindex, nofollow',
+      ),
+    );
+    drupal_add_html_head($robots_noindex, 'ding_user_noindex');
   }
 }
 
