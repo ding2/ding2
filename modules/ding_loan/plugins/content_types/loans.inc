@@ -26,7 +26,6 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   $block->module = 'ding_loan';
   $block->delta = 'loans';
   $block->title = t('Loan list');
-  $block->content = t('You do not currently have any loans.');
 
   // Get loans from the provider.
   $account = isset($context->data) ? $context->data : NULL;
@@ -71,6 +70,17 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   // Set block content, with loans form if any loans exists.
   if (!empty($loans)) {
     $block->content = ding_provider_get_form('ding_loan_loans_form', $account, $loans);
+  }
+  // If we only show either regular or overdue loans, override the standard
+  // empty message with a more specific one.
+  elseif ($conf['overdue'] && !$conf['regular'])  {
+    $block->content = t('You do not currently have any overdue loans.');
+  }
+  elseif ($conf['regular'] && !$conf['overdue'])  {
+    $block->content = t('You do not currently have any regular loans.');
+  }
+  else {
+    $block->content = t('You do not currently have any loans.');
   }
 
   return $block;
