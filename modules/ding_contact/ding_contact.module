@@ -42,11 +42,11 @@ function ding_contact_flooded_form($form, $form_state, $message) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter (contact_site_form)
- * Alter the contact form: make sure no cached page is delivered, and stop redirect
- * Why ? - to make sure no cached page is delivered
+ * Implements hook_form_FORM_ID_alter().
  */
 function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
+  // Alter the contact form: make sure no cached page is delivered, and stop
+  // redirect. Why ? - to make sure no cached page is delivered
   $form['actions']['submit']['#attached'] = array(
     'drupal_add_http_header' => array(
       array('Cache-Control', 'no-cache, no-store, must-revalidate')
