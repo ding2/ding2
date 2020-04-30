@@ -71,7 +71,7 @@ jobs:
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
           source $BASH_ENV
-          composer global require jakub-onderka/php-parallel-lint:^1 --no-interaction
+          composer global require php-parallel-lint/php-parallel-lint:^1 --no-interaction
     - run:
         name: Lint PHP files
         command: parallel-lint -e php,inc,module,theme,install,profile .
@@ -86,7 +86,7 @@ jobs:
           command: |
             echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
             source $BASH_ENV
-            composer global require jakub-onderka/php-parallel-lint:^1 --no-interaction
+            composer global require php-parallel-lint/php-parallel-lint:^1 --no-interaction
       - run:
           name: Lint PHP files
           command: parallel-lint -e php,inc,module,theme,install,profile .
