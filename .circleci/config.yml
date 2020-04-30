@@ -61,7 +61,7 @@ jobs:
           - drupal/profiles/ding2/themes/ddbasic/sass_css
           - drupal/profiles/ding2/themes/ddbasic/scripts/min
 
-  php_lint:
+  php_lint_70:
     docker:
     - image: circleci/php:7.0-cli
     steps:
@@ -75,6 +75,21 @@ jobs:
     - run:
         name: Lint PHP files
         command: parallel-lint -e php,inc,module,theme,install,profile .
+
+  php_lint_56:
+    docker:
+      - image: circleci/php:5.6-cli
+    steps:
+      - checkout
+      - run:
+          name: Install PHP linter
+          command: |
+            echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
+            source $BASH_ENV
+            composer global require jakub-onderka/php-parallel-lint:^1 --no-interaction
+      - run:
+          name: Lint PHP files
+          command: parallel-lint -e php,inc,module,theme,install,profile .
 
   site_install:
     docker:
@@ -329,12 +344,14 @@ workflows:
     jobs:
     - drush_make
     - gulp
-    - php_lint
+    - php_lint_56
+    - php_lint_70
     - site_install:
         requires:
           - drush_make
           - gulp
-          - php_lint
+          - php_lint_56
+          - php_lint_70
     - unit_tests:
         requires:
           - site_install
