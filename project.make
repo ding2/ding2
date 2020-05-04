@@ -630,3 +630,9 @@ libraries[ddb-react][download][type] = "get"
 libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/latest/dist.zip
 libraries[ddb-react][directory_name] = "ddb-react"
 libraries[ddb-react][destination] = "libraries"
+
+; CoverService upload client.
+libraries[ddb-cover-service-upload-client][download][type] = "get"
+libraries[ddb-cover-service-upload-client][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload-php-client/archive/develop.zip
+libraries[ddb-cover-service-upload-client][directory_name] = "ddb-react"
+libraries[ddb-cover-service-upload-client][destination] = "libraries"
