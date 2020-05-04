@@ -190,18 +190,9 @@
   // When user rejects/accepts cookies in the pop-up banner this event will be
   // fired and we act accordingly.
   $(document).on('eu_cookie_compliance.changeStatus', function(event, status) {
-    // If user has agreed we can safely remove our webtrekk opt-out cookie.
+    // If user has agreed we ensure that webtrekkOptOut is removed.
     if (Drupal.eu_cookie_compliance.hasAgreed()) {
       $.removeCookie('webtrekkOptOut');
-
-      // Track the opt-in events in Webtrekk.
-      if (Drupal.settings.eu_cookie_compliance.method === 'opt_in') {
-        var eventData = {
-          linkId: 'event_optin',
-          customClickParameter: {}
-        };
-        pushEvent('click', eventData);
-      }
     }
     else if (Drupal.settings.eu_cookie_compliance.method === 'opt_out') {
       setOptOutCookie();
