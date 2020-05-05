@@ -195,11 +195,7 @@
       $.removeCookie('webtrekkOptOut');
     }
     else {
-      // In the opt-in model we will already have taken care of this.
-      if (Drupal.settings.eu_cookie_compliance.method === 'opt_out') {
-        setOptOutCookie();
-      }
-
+      setOptOutCookie();
       // Track the opt-out events in Webtrekk.
       var eventData = {
         linkId: 'event_optout',
