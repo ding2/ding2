@@ -833,6 +833,7 @@ function ding2_set_eu_cookie_compliance_settings() {
     'popup_text_hex' => 'FFFFFF',
     'popup_delay' => 1000,
     'exclude_admin_pages' => TRUE,
+    'store_consent' => 'basic',
   ]);
   i18n_variable_set('eu_cookie_compliance', $eu_cookie_compliance, 'da');
 }
