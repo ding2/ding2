@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template for showing meta copyright information.

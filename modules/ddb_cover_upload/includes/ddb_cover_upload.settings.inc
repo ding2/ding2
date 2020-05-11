@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Cover upload settings form.
@@ -32,8 +33,8 @@ function ddb_cover_upload_settings_form(array $form, array $form_state) {
   $form['settings']['ddb_cover_upload_terms_of_use'] = array(
     '#type' => 'text_format',
     '#title' => t('Terms of use'),
-    '#default_value' => $default['value'] ?? '',
-    '#text_format' => $default['format'] ?? 'ding_wysiwyg',
+    '#default_value' => isset($default['value']) ? $default['value'] : '',
+    '#text_format' => isset($default['format']) ? $default['format'] : 'ding_wysiwyg',
   );
 
   return system_settings_form($form);

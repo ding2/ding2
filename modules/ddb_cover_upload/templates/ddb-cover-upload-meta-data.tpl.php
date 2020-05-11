@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template for showing material information and image metadata.
@@ -13,11 +14,11 @@
   <div class="content">
     <?php if (!empty($material)) : ?>
       <div class="field field-label-inline">
-        <div class="field-label"><?php print t('Post id') . ':';?>&nbsp;</div>
+        <div class="field-label"><?php print t('Post id');?>:&nbsp;</div>
         <div><?php print $material->getId(); ?></div>
       </div>
       <div class="field field-label-inline">
-        <div class="field-label"><?php print t('Material name') . ':';?>&nbsp;</div>
+        <div class="field-label"><?php print t('Material name');?>:&nbsp</div>
         <div><?php print $material->getTitle(); ?></div>
       </div>
     <?php else : ?>
@@ -31,19 +32,19 @@
 
   <div class="content">
     <div class="field field-label-inline">
-      <div class="field-label"><?php print t('Image dimensions') . ':';?>&nbsp;</div>
+      <div class="field-label"><?php print t('Image dimensions');?>:&nbsp;</div>
       <div><?php print $meta_data['file_dimensions']['x'] . ' x ' . $meta_data['file_dimensions']['y'];?></div>
     </div>
     <div class="field field-label-inline">
-      <div class="field-label"><?php print t('Image file type') . ':';?>&nbsp;</div>
+      <div class="field-label"><?php print t('Image file type');?>:&nbsp;</div>
       <div><?php print $meta_data['file_type'];?></div>
     </div>
     <div class="field field-label-inline">
-      <div class="field-label"><?php print t('Image file size') . ':';?>&nbsp;</div>
+      <div class="field-label"><?php print t('Image file size');?>:&nbsp;</div>
       <div><?php print $meta_data['file_size'] / 1000;?>KB</div>
     </div>
     <div class="field field-label-inline">
-      <div class="field-label"><?php print t('Author') . ':';?>&nbsp;</div>
+      <div class="field-label"><?php print t('Author');?>:&nbsp;</div>
       <div><?php print $meta_data['author']?></div>
     </div>
   </div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Enables option to upload covers to cover service.
@@ -10,6 +11,9 @@ define('DDB_COVER_UPLOAD_STEP3', 2);
 define('DDB_COVER_UPLOAD_STEP4', 3);
 define('DDB_COVER_UPLOAD_STEP5', 4);
 define('DDB_COVER_UPLOAD_FILE_PATH', 'ddb_cover_upload_uploaded');
+
+use CoverServiceUpload\Configuration;
+use GuzzleHttp\Client;
 
 /**
  * Implements hook_menu().
@@ -131,28 +135,28 @@ function ddb_cover_upload_theme($existing, $type, $theme, $path) {
   return array(
     'ddb_cover_upload_conditions' => array(
       'variables' => array(
-        'copyright_text' => NULL
+        'copyright_text' => NULL,
       ),
       'template' => 'ddb-cover-upload-conditions',
-      'path' => $path . '/templates/'
+      'path' => $path . '/templates/',
     ),
     'ddb_cover_upload_image_editor' => array(
       'template' => 'ddb-cover-upload-image-editor',
-      'path' => $path . '/templates/'
+      'path' => $path . '/templates/',
     ),
     'ddb_cover_upload_search_preview' => array(
       'variables' => array(
         'content' => FALSE,
       ),
       'template' => 'ddb-cover-upload-search-preview',
-      'path' => $path . '/templates/'
+      'path' => $path . '/templates/',
     ),
     'ddb_cover_upload_best_result' => array(
       'variables' => array(
         'path' => drupal_get_path('module', 'ddb_cover_upload'),
       ),
       'template' => 'ddb-cover-upload-best-result',
-      'path' => $path . '/templates/'
+      'path' => $path . '/templates/',
     ),
     'ddb_cover_upload_meta_data' => array(
       'variables' => array(
@@ -161,14 +165,14 @@ function ddb_cover_upload_theme($existing, $type, $theme, $path) {
         'image_url' => NULL,
       ),
       'template' => 'ddb-cover-upload-meta-data',
-      'path' => $path . '/templates/'
+      'path' => $path . '/templates/',
     ),
     'ddb_cover_upload_meta_copyright' => array(
       'variables' => array(
-        'copyright_text' => NULL
+        'copyright_text' => NULL,
       ),
       'template' => 'ddb-cover-upload-meta-copyright',
-      'path' => $path . '/templates/'
+      'path' => $path . '/templates/',
     ),
     'ddb_cover_upload_submitted' => array(
       'variables' => array(
@@ -177,7 +181,7 @@ function ddb_cover_upload_theme($existing, $type, $theme, $path) {
         'path' => drupal_get_path('module', 'ddb_cover_upload'),
       ),
       'template' => 'ddb-cover-upload-submitted',
-      'path' => $path . '/templates/'
+      'path' => $path . '/templates/',
     ),
   );
 }
@@ -199,7 +203,7 @@ function ddb_cover_upload_image_upload_ajax() {
       $data = substr($data, strpos($data, ',') + 1);
       $type = strtolower($type[1]);
 
-      if (!in_array($type, [ 'jpg', 'jpeg', 'png' ])) {
+      if (!in_array($type, array('jpg', 'jpeg', 'png'))) {
         $error = t('Invalid image type uploaded.');
       }
 
@@ -269,14 +273,14 @@ function ddb_cover_upload_ding_entity_buttons($type, $entity, $view_mode, $widge
  * Store and retrieve variables from session.
  *
  * @param string $key
- *   Key to be set or got
- * @param $value
- *   Value to set for $key
+ *   Key to be set or got.
+ * @param string $value
+ *   Value to set for the key.
  *
  * @return mixed
  *   If only $key is given, sought-after value for $key
  */
-function _ddb_cover_upload_session(string $key, $value = null) {
+function _ddb_cover_upload_session($key, $value = null) {
   if (!is_null($value)) {
     unset($_SESSION[$key]);
     $_SESSION[$key] = $value;
@@ -295,10 +299,10 @@ function _ddb_cover_upload_session(string $key, $value = null) {
  * @return \CoverServiceUpload\Configuration
  *   API configuration.
  *
- * @throws \GuzzleHttp\Exception\GuzzleException
+ * @throws GuzzleException
  */
 function ddb_cover_upload_client_config() {
-  $config = CoverServiceUpload\Configuration::getDefaultConfiguration();
+  $config = Configuration::getDefaultConfiguration();
 
   // Get access token for the library.
   $token = _ddb_cover_upload_get_library_token();
@@ -331,7 +335,7 @@ function _ddb_cover_upload_get_library_token() {
       $config = ding_adgangsplatformen_get_configuration();
       $agency_id = variable_get('ting_agency', '');
 
-      $client = new \GuzzleHttp\Client();
+      $client = new Client();
       $response = $client->request('POST', $config['urlAccessToken'], [
         'form_params' => [
           'grant_type' => 'password',

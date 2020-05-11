@@ -1,8 +1,15 @@
 <?php
+
 /**
  * @file
  * Cover upload page when form is submitted.
  */
+
+use CoverServiceUpload\ApiException;
+use CoverServiceUpload\Api\CoverApi;
+use CoverServiceUpload\Model\MaterialWrite;
+use CoverServiceUpload\Api\MaterialApi;
+use GuzzleHttp\Client;
 
 /**
  * Check cover service to determine if file has been uploaded.
@@ -33,7 +40,7 @@ function _cover_upload_check_submission() {
     // Clear cover and materials cache.
     cache_clear_all('ddb_cover_upload', 'cache', TRUE);
   }
-  catch (\CoverServiceUpload\ApiException $e) {
+  catch (ApiException $e) {
     drupal_json_output(array(
       'message' => $e->getMessage(),
       'status' => 'error',
@@ -46,7 +53,7 @@ function _cover_upload_check_submission() {
   _ddb_cover_upload_cleanup();
 
   // Notify frontend "Nothing to see yet".
-  drupal_json_output($state = array(
+  drupal_json_output(array(
     'status' => 'success',
   ));
   drupal_exit();
@@ -76,24 +83,24 @@ function _ddb_cover_upload_cleanup() {
  *   The type of identifier (faust, pid, isbn).
  *
  * @throws \CoverServiceUpload\ApiException
- * @throws \GuzzleHttp\Exception\GuzzleException
+ * @throws \GuzzleHttp\Exception\BadResponseException
  */
-function _ddb_cover_upload_client_upload(string $image_uri, string $identifier, string $identifier_type) {
+function _ddb_cover_upload_client_upload($image_uri, $identifier, $identifier_type) {
   $image = drupal_realpath($image_uri);
   $config = ddb_cover_upload_client_config();
-  $apiInstance = new CoverServiceUpload\Api\CoverApi(
-    new GuzzleHttp\Client(),
+  $apiInstance = new CoverApi(
+    new Client(),
     $config
   );
   $cover = $apiInstance->postCoverCollection($image);
 
-  $material = new \CoverServiceUpload\Model\MaterialWrite();
-  $material->setCover('/api/covers/'.$cover->getId());
+  $material = new MaterialWrite();
+  $material->setCover('/api/covers/' . $cover->getId());
   $material->setIsType($identifier_type);
   $material->setIsIdentifier($identifier);
 
-  $apiInstance = new CoverServiceUpload\Api\MaterialApi(
-    new GuzzleHttp\Client(),
+  $apiInstance = new MaterialApi(
+    new Client(),
     $config
   );
   $apiInstance->postMaterialCollection($material);

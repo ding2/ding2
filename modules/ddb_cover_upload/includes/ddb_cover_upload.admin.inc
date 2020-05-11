@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Admin interface for handling uploads to cover service.
@@ -14,23 +15,23 @@ function _ddb_cover_upload_form_steps() {
   return array(
     DDB_COVER_UPLOAD_STEP1 => array(
       'form' => 'ddb_cover_upload_conditions',
-      'step_title' => t('First time use')
+      'step_title' => t('First time use'),
     ),
     DDB_COVER_UPLOAD_STEP2 => array(
       'form' => 'ddb_cover_upload_material',
-      'step_title' => t('Select material')
+      'step_title' => t('Select material'),
     ),
     DDB_COVER_UPLOAD_STEP3 => array(
       'form' => 'ddb_cover_upload_image_upload',
-      'step_title' => t('Select image')
+      'step_title' => t('Select image'),
     ),
     DDB_COVER_UPLOAD_STEP4 => array(
       'form' => 'ddb_cover_upload_meta',
-      'step_title' => t('Verify image')
+      'step_title' => t('Verify image'),
     ),
     DDB_COVER_UPLOAD_STEP5 => array(
       'form' => 'ddb_cover_upload_client_upload',
-      'step_title' => t('Upload image')
+      'step_title' => t('Upload image'),
     ),
   );
 }
@@ -98,7 +99,7 @@ function ddb_cover_upload_form(array $form, array &$form_state) {
     );
 
     // Include each validation function defined for the different steps.
-    $func = $form_state['step_information'][$step]['form'] . '_validate' ?? NULL;
+    $func = isset($form_state['step_information'][$step]['form']) ? $form_state['step_information'][$step]['form'] . '_validate' : NULL;
     if (!is_null($func) && function_exists($func)) {
       $form['next']['#validate'] = array($func);
     }
@@ -106,9 +107,9 @@ function ddb_cover_upload_form(array $form, array &$form_state) {
 
   // Attach global assets to the form.
   $path = drupal_get_path('module', 'ddb_cover_upload');
-  $form['#attached'] = array (
-    'css' => array (
-      $path . '/css/ddb_cover_upload.admin.css'
+  $form['#attached'] = array(
+    'css' => array(
+      $path . '/css/ddb_cover_upload.admin.css',
     ),
     'js' => array(),
     'library' => array(
@@ -143,7 +144,7 @@ function ddb_cover_upload_conditions(array &$form_state) {
 
   $form['ddb_cover_upload_conditions'] = array(
     '#markup' => theme('ddb_cover_upload_conditions', array(
-      'copyright_text' => empty($terms) ? $no_terms_set : $terms
+      'copyright_text' => empty($terms) ? $no_terms_set : $terms,
     ))
   );
 
@@ -173,14 +174,20 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
   $form['ddb_cover_upload'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('wrapper', 'admin', 'clearfix')
+      'class' => array(
+        'wrapper',
+        'admin',
+        'clearfix',
+      ),
     ),
   );
 
   $form['ddb_cover_upload']['left'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('left')
+      'class' => array(
+        'left',
+      ),
     ),
   );
 
@@ -191,13 +198,15 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
     '#description' => t('Use the autocomplete to ensure that this value is always a data well PID.'),
     '#autocomplete_path' => 'admin/config/cover_upload/autocomplete',
     '#required' => TRUE,
-    '#default_value' => $form_state['values']['ddb_cover_upload_material'] ?? '',
+    '#default_value' => isset($form_state['values']['ddb_cover_upload_material']) ? $form_state['values']['ddb_cover_upload_material'] : '',
   );
 
   $form['ddb_cover_upload']['right'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('right')
+      'class' => array(
+        'right',
+      ),
     ),
   );
 
@@ -266,34 +275,34 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
     'data' => array(
       'ddbCoverUpload' => array(
         'bashPath' => $path,
-      )
+      ),
     ),
-    'type' => 'setting'
+    'type' => 'setting',
   );
 
   // Attache Toast TUI image upload/editor.
-  $form['#attached']['css']['https://uicdn.toast.com/tui-color-picker/v2.2.3/tui-color-picker.css'] = array (
+  $form['#attached']['css']['https://uicdn.toast.com/tui-color-picker/v2.2.3/tui-color-picker.css'] = array(
     'type' => 'external',
   );
-  $form['#attached']['css']['https://uicdn.toast.com/tui-image-editor/v3.8.0/tui-image-editor.css'] = array (
+  $form['#attached']['css']['https://uicdn.toast.com/tui-image-editor/v3.8.0/tui-image-editor.css'] = array(
     'type' => 'external',
   );
 
-  $form['#attached']['js']['https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js'] = array (
+  $form['#attached']['js']['https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js'] = array(
     'type' => 'external',
   );
-  $form['#attached']['js']['https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'] = array (
+  $form['#attached']['js']['https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'] = array(
     'type' => 'external',
   );
-  $form['#attached']['js']['https://uicdn.toast.com/tui-color-picker/v2.2.3/tui-color-picker.js'] = array (
+  $form['#attached']['js']['https://uicdn.toast.com/tui-color-picker/v2.2.3/tui-color-picker.js'] = array(
     'type' => 'external',
   );
-  $form['#attached']['js']['https://uicdn.toast.com/tui-image-editor/v3.8.0/tui-image-editor.js'] = array (
+  $form['#attached']['js']['https://uicdn.toast.com/tui-image-editor/v3.8.0/tui-image-editor.js'] = array(
     'type' => 'external',
   );
 
   // Custom JS to handle image upload and configuration of the image editor.
-  $form['#attached']['js'][$path . '/js/ddb_cover_upload_ui.admin.js'] = array (
+  $form['#attached']['js'][$path . '/js/ddb_cover_upload_ui.admin.js'] = array(
     'type' => 'file',
   );
 
@@ -340,14 +349,20 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   $form['ddb_cover_upload_meta'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('wrapper', 'admin', 'clearfix')
+      'class' => array(
+        'wrapper',
+        'admin',
+        'clearfix',
+      ),
     ),
   );
 
   $form['ddb_cover_upload_meta']['right'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('right')
+      'class' => array(
+        'right',
+      ),
     ),
   );
 
@@ -358,12 +373,10 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   $originalImage = getimagesize($originalImagePath);
   $displayedImageUrl = file_create_url($originalImagePath) . '?' . REQUEST_TIME;
 
-
   $form_state['author'] = variable_get('site_name', 'undefined');
 
-  // @TODO: move into template.
   $form['ddb_cover_upload_meta']['left']['ddb_cover_upload_meta_data'] = array(
-      '#markup' => '<div class="left form-wrapper"><img class="img-displayed" src="' . $displayedImageUrl . '"></div>',
+    '#markup' => '<div class="left form-wrapper"><img class="img-displayed" src="' . $displayedImageUrl . '"></div>',
   );
 
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_data'] = array(
@@ -374,7 +387,7 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
         'file_dimensions' => array('x' => $originalImage[0], 'y' => $originalImage[1]),
         'file_type' => $originalImage['mime'],
         'file_size' => filesize($originalImagePath),
-        'author' => $form_state['author']
+        'author' => $form_state['author'],
       ),
     )),
   );
@@ -382,7 +395,7 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_input'] = array(
     '#type' => 'textfield',
     '#title' => t('Image accreditation'),
-    '#default_value' => $form_state['values']['ddb_cover_upload_meta_data'] ?? '',
+    '#default_value' => isset($form_state['values']['ddb_cover_upload_meta_data']) ? $form_state['values']['ddb_cover_upload_meta_data'] : '',
     '#size' => 60,
     '#maxlength' => 128,
   );
@@ -391,7 +404,7 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   $terms = variable_get('ddb_cover_upload_terms_of_use')['value'];
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_copyright'] = array(
     '#markup' => theme('ddb_cover_upload_meta_copyright', array(
-      'copyright_text' => empty($terms) ? $no_terms_set : $terms
+      'copyright_text' => empty($terms) ? $no_terms_set : $terms,
     ))
   );
 
@@ -430,7 +443,11 @@ function ddb_cover_upload_client_upload(array $form, array &$form_state) {
   $form['ddb_cover_upload_client_upload'] = [
     '#type' => 'container',
     '#attributes' => [
-      'class' => ['wrapper', 'admin', 'clearfix']
+      'class' => [
+        'wrapper',
+        'admin',
+        'clearfix',
+      ],
     ],
   ];
 
@@ -439,7 +456,7 @@ function ddb_cover_upload_client_upload(array $form, array &$form_state) {
     $image_url = file_create_url($data['image_uri']);
   }
 
-  $form['ddb_cover_upload_client_upload']['#attached'] = array (
+  $form['ddb_cover_upload_client_upload']['#attached'] = array(
     'css' => array(
       drupal_get_path('module', 'ddb_cover_upload') . '/css/ddb_cover_upload.admin.css',
     ),
@@ -477,7 +494,7 @@ function ddb_cover_upload_previous_submit(array $form, array &$form_state) {
   $form_state['step_information'][$current_step]['stored_values'] = $form_state['input'];
   if ($current_step > DDB_COVER_UPLOAD_STEP2) {
     $current_step--;
-    if(isset($form_state['step_information'][$current_step]['stored_values'])) {
+    if (isset($form_state['step_information'][$current_step]['stored_values'])) {
       $form_state['values'] = $form_state['step_information'][$current_step]['stored_values'];
     }
   }
@@ -536,7 +553,7 @@ function _ddb_cover_upload_determine_step(array $query, array &$form_state) {
     $form_state['step'] = DDB_COVER_UPLOAD_STEP2;
 
     // Also bypass material selection if pid is included as query parameter.
-    if(isset($query['pid'])) {
+    if (isset($query['pid'])) {
       $form_state['step_information'][DDB_COVER_UPLOAD_STEP2]['stored_values']['ddb_cover_upload_material'] = $query['pid'];
       $form_state['step'] = DDB_COVER_UPLOAD_STEP3;
     }
@@ -566,7 +583,7 @@ function _ddb_cover_upload_is_conditions_accepted() {
  * @return bool
  *   TRUE if saved else FALSE.
  */
-function _ddb_cover_upload_save_conditions_acceptance(bool $value = TRUE) {
+function _ddb_cover_upload_save_conditions_acceptance($value = TRUE) {
   global $user;
 
   try {
@@ -594,7 +611,7 @@ function _ddb_cover_upload_save_conditions_acceptance(bool $value = TRUE) {
  * @return string
  *   The title to display.
  */
-function _ddb_cover_upload_get_title(int $step, array $form_state) {
+function _ddb_cover_upload_get_title($step, array $form_state) {
   if ($step == DDB_COVER_UPLOAD_STEP1) {
     $title = t('Upload cover: @step_title', array('@step_title' => $form_state['step_information'][$step]['step_title']));
   }
@@ -614,17 +631,17 @@ function _ddb_cover_upload_get_title(int $step, array $form_state) {
  * @return int
  *   A calculated value of bytes.
  */
-function _ddb_cover_upload_return_bytes(string $val) {
+function _ddb_cover_upload_return_bytes($val) {
   $val = trim($val);
-  $last = strtolower($val[strlen($val)-1]);
+  $last = strtolower($val[strlen($val) - 1]);
   $val = intval($val);
-  switch($last) {
+  switch ($last) {
     case 'g':
-      $val *= 1024*1024*1024;
+      $val *= 1024 * 1024 * 1024;
       break;
 
     case 'm':
-      $val *= 1024*1024;
+      $val *= 1024 * 1024;
       break;
 
     case 'k':

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Autocomplete functionality for ting reference related to cover upload.
@@ -6,17 +7,18 @@
 
 /**
  * Add autocomplete functionality to textfield.
- * @see ddb_cover_upload_material().
  *
  * @param string $string
  *   A string provided through input text field.
+ *
+ * @see ddb_cover_upload_material()
  *
  * @throws \DingProviderDoesntImplement
  *   The provider doesn't implement the given function.
  * @throws \DingProviderNoProvider
  *   No provider is configured for the given provider.
  */
-function _cover_upload_search_autocomplete(string $string) {
+function _cover_upload_search_autocomplete($string) {
   $matches = array();
 
   // Only use auto-complete if more that 3 chars have been written.

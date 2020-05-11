@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template for showing post-submission page.

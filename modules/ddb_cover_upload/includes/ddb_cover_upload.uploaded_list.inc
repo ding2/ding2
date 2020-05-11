@@ -1,8 +1,12 @@
 <?php
+
 /**
  * @file
  * List display of uploaded covers from this library.
  */
+
+use CoverServiceUpload\Api\MaterialApi;
+use GuzzleHttp\Client;
 
 /**
  * Display list of covers uploaded by the library.
@@ -11,7 +15,6 @@
  *   A themed list.
  *
  * @throws \CoverServiceUpload\ApiException
- * @throws \GuzzleHttp\Exception\GuzzleException
  */
 function ddb_cover_upload_list() {
   $rows = array();
@@ -32,7 +35,7 @@ function ddb_cover_upload_list() {
     $rows[] = [
       $material->getId(),
       render($image),
-      $object->getTitle() . ' (' . $object->getType() .')',
+      $object->getTitle() . ' (' . $object->getType() . ')',
       l($material->getIsIdentifier(), $uri['path'], array('html' => TRUE)),
       l(t('Delete'), 'admin/config/cover_upload/upload/list/delete/' . $material->getId(), array('html' => TRUE)),
     ];
@@ -44,7 +47,7 @@ function ddb_cover_upload_list() {
     t('Image'),
     t('Title'),
     t('Material'),
-    t('Actions')
+    t('Actions'),
   );
 
   return array(
@@ -54,7 +57,6 @@ function ddb_cover_upload_list() {
     ))
   );
 }
-
 
 /**
  * Menu callback for deleting an uploaded cover.
@@ -93,9 +95,10 @@ function ddb_cover_upload_delete_submit($form, &$form_state) {
 /**
  * Get materials from the service.
  *
- * @return \CoverServiceUpload\Model\MaterialRead[]
+ * @return CoverServiceUpload\Model\MaterialRead
+ *   Array of materials found at the service.
+ *
  * @throws \CoverServiceUpload\ApiException
- * @throws \GuzzleHttp\Exception\GuzzleException
  */
 function _ddb_cover_upload_get_materials() {
   $materials = &drupal_static(__FUNCTION__);
@@ -106,8 +109,8 @@ function _ddb_cover_upload_get_materials() {
     }
     else {
       $config = ddb_cover_upload_client_config();
-      $apiInstance = new CoverServiceUpload\Api\MaterialApi(
-        new GuzzleHttp\Client(),
+      $apiInstance = new MaterialApi(
+        new Client(),
         $config
       );
 
@@ -125,16 +128,15 @@ function _ddb_cover_upload_get_materials() {
 /**
  * Delete material.
  *
- * @param $id
+ * @param int $id
  *   The id of the material to delete.
  *
  * @throws \CoverServiceUpload\ApiException
- * @throws \GuzzleHttp\Exception\GuzzleException
  */
 function _ddb_cover_upload_delete_material($id) {
   $config = ddb_cover_upload_client_config();
-  $apiInstance = new CoverServiceUpload\Api\MaterialApi(
-    new GuzzleHttp\Client(),
+  $apiInstance = new MaterialApi(
+    new Client(),
     $config
   );
 
