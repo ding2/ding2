@@ -1,0 +1,359 @@
+<?php
+/**
+ * @file
+ * Enables option to upload covers to cover service.
+ */
+
+define('DDB_COVER_UPLOAD_STEP1', 0);
+define('DDB_COVER_UPLOAD_STEP2', 1);
+define('DDB_COVER_UPLOAD_STEP3', 2);
+define('DDB_COVER_UPLOAD_STEP4', 3);
+define('DDB_COVER_UPLOAD_STEP5', 4);
+define('DDB_COVER_UPLOAD_FILE_PATH', 'ddb_cover_upload_uploaded');
+
+/**
+ * Implements hook_menu().
+ */
+function ddb_cover_upload_menu() {
+  $path = drupal_get_path('module', 'ddb_cover_upload') . '/includes';
+
+  $items['admin/config/cover_upload'] = array(
+    'title' => 'Cover service',
+    'description' => 'Upload an image to cover service.',
+    'position' => 'left',
+    'weight' => 0,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('upload cover'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/cover_upload/upload'] = array(
+    'title' => 'Upload cover to cover service',
+    'description' => 'Upload an image to cover service.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ddb_cover_upload_form'),
+    'access arguments' => array('upload cover'),
+    'file' => 'ddb_cover_upload.admin.inc',
+    'file path' => $path,
+  );
+
+  $items['admin/config/cover_upload/autocomplete'] = array(
+    'page callback' => '_cover_upload_search_autocomplete',
+    'page arguments' => array(4),
+    'access arguments' => array('upload cover'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ddb_cover_upload.autocomplete.inc',
+    'file path' => $path,
+  );
+
+  $items['admin/config/cover_upload/ajax'] = array(
+    'title' => 'Upload image',
+    'description' => 'Upload base64 encoded image.',
+    'page callback' => 'ddb_cover_upload_image_upload_ajax',
+    'access arguments' => array('upload cover'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/cover_upload/upload/submitted'] = array(
+    'type' => MENU_CALLBACK,
+    'title' => 'Communicating with cover service',
+    'description' => 'Communicating with cover service.',
+    'page callback' => 'ddb_cover_upload_submitted',
+    'access arguments' => array('upload cover'),
+    'file' => 'ddb_cover_upload.submitted.inc',
+    'file path' => $path,
+  );
+
+  $items['admin/config/cover_upload/submitted/check-submission'] = array(
+    'page callback' => '_cover_upload_check_submission',
+    'access arguments' => array('upload cover'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ddb_cover_upload.submitted.inc',
+    'file path' => $path,
+  );
+
+  $items['admin/config/cover_upload/upload/new'] = array(
+    'title' => 'Upload cover to cover service',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0,
+  );
+
+  $items['admin/config/cover_upload/upload/list'] = array(
+    'title' => 'List uploaded covers',
+    'page callback' => 'ddb_cover_upload_list',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+    'access arguments' => array('upload cover'),
+    'file' => 'ddb_cover_upload.uploaded_list.inc',
+    'file path' => $path,
+  );
+
+  $items['admin/config/cover_upload/upload/list/delete/%'] = array(
+    'title' => 'Delete cover',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ddb_cover_upload_delete', 6),
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('upload cover'),
+    'file' => 'ddb_cover_upload.uploaded_list.inc',
+    'file path' => $path,
+  );
+
+  $items['admin/config/cover_upload/upload/settings'] = array(
+    'title' => 'Cover upload settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ddb_cover_upload_settings_form'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 2,
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ddb_cover_upload.settings.inc',
+    'file path' => $path,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ddb_cover_upload_permission() {
+  return array(
+    'upload cover' => array(
+      'title' => t('Upload cover to cover service'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ddb_cover_upload_theme($existing, $type, $theme, $path) {
+  return array(
+    'ddb_cover_upload_conditions' => array(
+      'variables' => array(
+        'copyright_text' => NULL
+      ),
+      'template' => 'ddb-cover-upload-conditions',
+      'path' => $path . '/templates/'
+    ),
+    'ddb_cover_upload_image_editor' => array(
+      'template' => 'ddb-cover-upload-image-editor',
+      'path' => $path . '/templates/'
+    ),
+    'ddb_cover_upload_search_preview' => array(
+      'variables' => array(
+        'content' => FALSE,
+      ),
+      'template' => 'ddb-cover-upload-search-preview',
+      'path' => $path . '/templates/'
+    ),
+    'ddb_cover_upload_best_result' => array(
+      'variables' => array(
+        'path' => drupal_get_path('module', 'ddb_cover_upload'),
+      ),
+      'template' => 'ddb-cover-upload-best-result',
+      'path' => $path . '/templates/'
+    ),
+    'ddb_cover_upload_meta_data' => array(
+      'variables' => array(
+        'material' => NULL,
+        'meta_data' => NULL,
+        'image_url' => NULL,
+      ),
+      'template' => 'ddb-cover-upload-meta-data',
+      'path' => $path . '/templates/'
+    ),
+    'ddb_cover_upload_meta_copyright' => array(
+      'variables' => array(
+        'copyright_text' => NULL
+      ),
+      'template' => 'ddb-cover-upload-meta-copyright',
+      'path' => $path . '/templates/'
+    ),
+    'ddb_cover_upload_submitted' => array(
+      'variables' => array(
+        'data' => NULL,
+        'image' => NULL,
+        'path' => drupal_get_path('module', 'ddb_cover_upload'),
+      ),
+      'template' => 'ddb-cover-upload-submitted',
+      'path' => $path . '/templates/'
+    ),
+  );
+}
+
+/**
+ * Ajax upload base64 encoded image data.
+ *
+ * Store posted base64 encoded image as file and return json array with url.
+ */
+function ddb_cover_upload_image_upload_ajax() {
+  $error = NULL;
+  $file = NULL;
+
+  if (isset($_POST['is']) && isset($_POST['base64data'])) {
+    $is = $_POST['is'];
+    $data = $_POST['base64data'];
+
+    if (preg_match('/^data:image\/(\w+);base64,/', $data, $type)) {
+      $data = substr($data, strpos($data, ',') + 1);
+      $type = strtolower($type[1]);
+
+      if (!in_array($type, [ 'jpg', 'jpeg', 'png' ])) {
+        $error = t('Invalid image type uploaded.');
+      }
+
+      $data = base64_decode($data);
+      if ($data === false) {
+        $error = t('The uploaded data is not base64 encoded.');
+      }
+    }
+    else {
+      $error = t('The uploaded image did not match data URI with image data.');
+    }
+
+    // Extract fid from filename.
+    $filename = $is . '.' . $type;
+    $uri = 'public://' . DDB_COVER_UPLOAD_FILE_PATH;
+
+    file_prepare_directory($uri, FILE_CREATE_DIRECTORY);
+
+    $file = file_unmanaged_save_data($data, $uri . '/' . $filename, FILE_EXISTS_REPLACE);
+    if ($file === FALSE) {
+      $error = t('Failed to save file to the server.');
+    }
+  }
+
+  drupal_json_output(array(
+    'error' => $error,
+    'uri' => $file,
+    'url' => $file ? file_create_url($file) . '?' . REQUEST_TIME : '',
+  ));
+  drupal_exit();
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ *
+ * Add entity button to allow for faster upload of covers directly from a ting
+ * object view.
+ */
+function ddb_cover_upload_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
+  if (user_access('upload cover') && $type == 'ding_entity') {
+    return array(
+      array(
+        '#theme' => 'link',
+        '#text' => t('Upload cover'),
+        '#path' => 'admin/config/cover_upload/upload',
+        '#options' => array(
+          'query' => array(
+            'pid' => $entity->id,
+          ),
+          'attributes' => array(
+            'class' => array(
+              'action-button',
+            ),
+            'data-local-id' => $entity->localId,
+          ),
+          'html' => FALSE,
+        ),
+        '#weight' => 10,
+      ),
+    );
+  }
+
+  return '';
+}
+
+/**
+ * Store and retrieve variables from session.
+ *
+ * @param string $key
+ *   Key to be set or got
+ * @param $value
+ *   Value to set for $key
+ *
+ * @return mixed
+ *   If only $key is given, sought-after value for $key
+ */
+function _ddb_cover_upload_session(string $key, $value = null) {
+  if (!is_null($value)) {
+    unset($_SESSION[$key]);
+    $_SESSION[$key] = $value;
+  }
+
+  if (isset($_SESSION[$key])) {
+    return $_SESSION[$key];
+  }
+
+  return NULL;
+}
+
+/**
+ * Helper to get configuration for the upload API.
+ *
+ * @return \CoverServiceUpload\Configuration
+ *   API configuration.
+ *
+ * @throws \GuzzleHttp\Exception\GuzzleException
+ */
+function ddb_cover_upload_client_config() {
+  $config = CoverServiceUpload\Configuration::getDefaultConfiguration();
+
+  // Get access token for the library.
+  $token = _ddb_cover_upload_get_library_token();
+  $config->setAccessToken($token);
+
+  $config->setHost(variable_get('ddb_cover_upload_host', 'https://upload.cover.dandigbib.org'));
+
+  return $config;
+}
+
+/**
+ * Get access token for the library.
+ *
+ * @TODO: move this into the provider and adgangsplatformen. Currently not as
+ *        this have to be an module without core changes during first test.
+ *
+ * @return string
+ *   Token for the library.
+ *
+ * @throws \GuzzleHttp\Exception\GuzzleException
+ */
+function _ddb_cover_upload_get_library_token() {
+  $token = &drupal_static(__FUNCTION__);
+  if (!isset($token)) {
+    $cache = cache_get('ddb_cover_upload_token');
+    if ($cache && $cache->expire > REQUEST_TIME) {
+      $token = $cache->data;
+    }
+    else {
+      $config = ding_adgangsplatformen_get_configuration();
+      $agency_id = variable_get('ting_agency', '');
+
+      $client = new \GuzzleHttp\Client();
+      $response = $client->request('POST', $config['urlAccessToken'], [
+        'form_params' => [
+          'grant_type' => 'password',
+          'username' => '@' . $agency_id,
+          'password' => '@' . $agency_id,
+        ],
+        'auth' => [
+          $config['clientId'],
+          $config['clientSecret'],
+        ],
+      ]);
+
+      $content = $response->getBody()->getContents();
+      $json = json_decode($content, true);
+
+      $token = $json['access_token'];
+
+      // Get token expire - one day.
+      $expire = REQUEST_TIME + ($json['expires_in'] - 86400);
+      cache_set('ddb_cover_upload_token', $token, 'cache', $expire);
+    }
+  }
+
+  return $token;
+}
