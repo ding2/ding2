@@ -67751,3 +67751,15 @@ msgstr "Nulstil migreringsstatus"
 #: /system/ajax
 msgid "Enable debug logging"
 msgstr "Aktivér logging af debugging"
+
+#: /ding_availability/holdings/05627591
+msgid "We have 0 copies."
+msgstr "Vi har ingen eksemplarer af dette materiale."
+
+#: /ding_availability/holdings/06373674
+msgid "To make a reservation you need to find an issue below and click a reservation button."
+msgstr "For at reservere skal du finde et eksemplar i nedenstående med en reserverknap."
+
+#: /ding_availability/holdings/45654265,26838525
+msgid "Cannot be reserved."
+msgstr "Kan ikke reserveres."
