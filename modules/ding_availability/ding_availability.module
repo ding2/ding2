@@ -198,6 +198,11 @@ function ding_availability_holdings(array $provider_ids) {
       'ordered_count' => 0,
     );
 
+    if (empty($item['holdings'])) {
+      $item['html'] = '<p>' . t('We have 0 copies.') . '</p>';
+      continue;
+    }
+
     if (empty($item['is_periodical'])) {
       // Marks internet resources as available.
       if (!empty($item['is_internet'])) {
