@@ -630,6 +630,9 @@ libraries[ddb-react][directory_name] = "ddb-react"
 libraries[ddb-react][destination] = "libraries"
 
 ; easyOPAC contribution modules
+projects[add_to_head][version]              = "1.2"
+projects[add_to_head][subdir]               = "contrib"
+
 projects[ckeditor_link][subdir]             = "contrib"
 projects[ckeditor_link][version]            = "2.4"
 
