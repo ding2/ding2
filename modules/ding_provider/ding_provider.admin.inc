@@ -27,7 +27,13 @@ function ding_provider_admin_overview() {
     }
   }
 
-  $build['ding_provider_users_wipe_threshold'] = array(
+  $build['delete_inactive_users'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Delete inactive provider users'),
+    '#tree' => FALSE,
+  );
+
+  $build['delete_inactive_users']['ding_provider_users_wipe_threshold'] = array(
     '#type' => 'select',
     '#title' => t('Delete provider users that are inactive for:'),
     '#options' => array(
@@ -49,7 +55,6 @@ function ding_provider_admin_overview() {
 
   $limits = drupal_map_assoc(array(
     0,
-    100,
     900,
     1800,
     3600,
@@ -63,6 +68,7 @@ function ding_provider_admin_overview() {
 
   $build['session_expire']['ding_provider_session_expire'] = array(
     '#type' => 'select',
+    '#title' => t('Delete provider sessions that are inactive for:'),
     '#description' => t('Select the maximum age for provider sesssions with no activity. Sessions will be pruned on cron runs and cron must therefore be configured accordingly. Alternatively, the lightweight cron option this module provides can be used, if sessions needs to be pruned more often than is practical with core cron.'),
     '#options' => $limits,
     // ding_base features sets the auto-logout for providers to 900 seconds, so we use a default value corresponding to that.
