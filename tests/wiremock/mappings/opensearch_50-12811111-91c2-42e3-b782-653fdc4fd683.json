@@ -1,0 +1,25 @@
+{
+  "id" : "12811111-91c2-42e3-b782-653fdc4fd683",
+  "name" : "opensearch_50",
+  "request" : {
+    "url" : "/opensearch/5.0/",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalTo" : "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n<SOAP-ENV:Body>\n<searchRequest><format>dkabm</format><query>(870970-basis:02062763 OR 820010-katalog:800921 OR 870970-basis:02117118 OR 870970-basis:05097746 OR 870970-basis:01454641 OR 870970-basis:22244566 OR 870970-basis:40961089 OR 870970-basis:05847354 OR 870970-basis:20145250)</query><start>1</start><stepValue>20</stepValue><sort>rank_frequency</sort><allObjects/><allRelations>1</allRelations><relationData>full</relationData><agency>100200</agency><profile>test</profile><facets><facetName>facet.type</facetName><facetName>facet.creator</facetName><facetName>facet.subject</facetName><facetName>facet.language</facetName><facetName>facet.category</facetName><facetName>facet.date</facetName><facetName>facet.acSource</facetName><numberOfTerms>10</numberOfTerms></facets><outputType>json</outputType></searchRequest></SOAP-ENV:Body>\n</SOAP-ENV:Envelope>\n"
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "opensearch_50-12811111-91c2-42e3-b782-653fdc4fd683.json",
+    "headers" : {
+      "Date" : "Fri, 21 Jun 2019 12:57:29 GMT",
+      "Server" : "Apache/2.4.25 (Debian)",
+      "Content-Type" : "application/json",
+      "Keep-Alive" : "timeout=15, max=49",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "12811111-91c2-42e3-b782-653fdc4fd683",
+  "persistent" : true,
+  "insertionIndex" : 2153
+}

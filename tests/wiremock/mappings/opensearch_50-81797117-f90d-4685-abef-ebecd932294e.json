@@ -1,0 +1,25 @@
+{
+  "id" : "81797117-f90d-4685-abef-ebecd932294e",
+  "name" : "opensearch_50",
+  "request" : {
+    "url" : "/opensearch/5.0/",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalTo" : "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n<SOAP-ENV:Body>\n<getObjectRequest><format>dkabm</format><identifier>870970-basis:50774112</identifier><identifier>870970-basis:28792239</identifier><identifier>870970-basis:29654832</identifier><identifier>870970-basis:29976805</identifier><identifier>870970-basis:29604665</identifier><identifier>870970-basis:29553998</identifier><identifier>870970-basis:28949928</identifier><identifier>870970-basis:29189196</identifier><identifier>870970-basis:50795721</identifier><identifier>870970-basis:29365423</identifier><allRelations>1</allRelations><relationData>full</relationData><agency>100200</agency><profile>test</profile><outputType>json</outputType></getObjectRequest></SOAP-ENV:Body>\n</SOAP-ENV:Envelope>\n"
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "opensearch_50-81797117-f90d-4685-abef-ebecd932294e.json",
+    "headers" : {
+      "Date" : "Fri, 21 Jun 2019 12:51:17 GMT",
+      "Server" : "Apache/2.4.25 (Debian)",
+      "Content-Type" : "application/json",
+      "Keep-Alive" : "timeout=15, max=68",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "81797117-f90d-4685-abef-ebecd932294e",
+  "persistent" : true,
+  "insertionIndex" : 1967
+}

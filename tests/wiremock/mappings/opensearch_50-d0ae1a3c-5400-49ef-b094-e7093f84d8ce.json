@@ -1,0 +1,25 @@
+{
+  "id" : "d0ae1a3c-5400-49ef-b094-e7093f84d8ce",
+  "name" : "opensearch_50",
+  "request" : {
+    "url" : "/opensearch/5.0/",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalTo" : "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n<SOAP-ENV:Body>\n<searchRequest><format>dkabm</format><query>(870970-basis:22244566 OR 150008-public:ebr5000969 OR 870970-basis:20145250 OR 870970-basis:02062763 OR 870970-basis:02117118 OR 870970-basis:01454641 OR 150008-public:ebr5000976 OR 150008-public:ebr5001017 OR 150008-public:ebr5000978)</query><start>1</start><stepValue>20</stepValue><sort>rank_frequency</sort><allObjects/><allRelations>1</allRelations><relationData>full</relationData><agency>100200</agency><profile>test</profile><facets><facetName>facet.type</facetName><facetName>facet.creator</facetName><facetName>facet.subject</facetName><facetName>facet.language</facetName><facetName>facet.category</facetName><facetName>facet.date</facetName><facetName>facet.acSource</facetName><numberOfTerms>10</numberOfTerms></facets><outputType>json</outputType></searchRequest></SOAP-ENV:Body>\n</SOAP-ENV:Envelope>\n"
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "opensearch_50-d0ae1a3c-5400-49ef-b094-e7093f84d8ce.json",
+    "headers" : {
+      "Date" : "Fri, 21 Jun 2019 12:56:57 GMT",
+      "Server" : "Apache/2.4.25 (Debian)",
+      "Content-Type" : "application/json",
+      "Keep-Alive" : "timeout=15, max=87",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "d0ae1a3c-5400-49ef-b094-e7093f84d8ce",
+  "persistent" : true,
+  "insertionIndex" : 2137
+}
