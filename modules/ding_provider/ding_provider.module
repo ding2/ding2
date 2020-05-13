@@ -54,6 +54,16 @@ function ding_provider_menu() {
     }
   }
 
+  // Expire provider sessions lightweight cron callback.
+  $items['ding_provider/expire_sessions/cron'] = array(
+    'title' => 'Lightweight expire session cron',
+    'description' => 'Run the lightweight expire inacitve provider sessions cron job',
+    'page callback' => 'ding_provider_expire_sessions_cron',
+    'access callback' => 'ding_provider_expire_sessions_cron_access',
+    'access arguments' => array(3),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -664,7 +674,7 @@ function ding_provider_entity_info_alter(&$entity_info) {
 function ding_provider_cron() {
   $last_cron_time = variable_get('ding_provider_last_cron', 0);
 
-  // Run daily.
+  // Remove inactive provider users (runs daily).
   if ($last_cron_time < REQUEST_TIME - 86400) {
     // Remove inactive users.
     $inactivity_threshold = variable_get('ding_provider_users_wipe_threshold', 0);
@@ -692,5 +702,56 @@ function ding_provider_cron() {
     }
 
     variable_set('ding_provider_last_cron', REQUEST_TIME);
+  }
+
+  // Expire inactive provider sessions.
+  ding_provider_expire_sessions();
+}
+
+/**
+ * Access callback for expires sessions cron endpoint.
+ */
+function ding_provider_expire_sessions_cron_access($cron_key) {
+  return variable_get('cron_key') === $cron_key;
+}
+
+/**
+ * Page callback for expires sessions lightweight cron endpoint.
+ */
+function ding_provider_expire_sessions_cron() {
+  ding_provider_expire_sessions();
+  drupal_exit();
+}
+
+/**
+ * Deletes inactive provider sessions in the database.
+ */
+function ding_provider_expire_sessions() {
+  if (!$limit = variable_get('ding_provider_session_expire', 900)) {
+    // Return now if the session expire functionality is disabled.
+    return;
+  }
+
+  // Delete sessions with no activity since $limit seconds.
+  $timestamp = REQUEST_TIME - $limit;
+
+  // Construct subquere with uids for provider users.
+  $roles = user_roles(TRUE);
+  $rid = array_search('provider', $roles);
+  $subquery = db_select('users_roles', 'ur')
+    ->fields('ur', array('uid'))
+    ->condition('rid', $rid);
+
+  $query = db_delete('sessions')
+    ->condition('timestamp', $timestamp, '<')
+    ->condition('uid', $subquery, 'IN');
+
+  $num_updated = $query->execute();
+
+  // Log a notice if we succesfully deleted any inacitve provider sessions.
+  if ($num_updated) {
+    watchdog('ding_provider', 'Deleted %num_updated inactive provider sessions', array(
+      '%num_updated' => $num_updated,
+    ));
   }
 }
