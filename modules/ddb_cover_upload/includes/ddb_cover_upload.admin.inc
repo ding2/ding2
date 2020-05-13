@@ -127,6 +127,8 @@ function ddb_cover_upload_form(array $form, array &$form_state) {
 /**
  * Accept terms of use of the form.
  *
+ * @param array $form
+ *   The form array.
  * @param array $form_state
  *   The state of the form.
  *
@@ -136,11 +138,9 @@ function ddb_cover_upload_form(array $form, array &$form_state) {
  * @throws \Exception
  *   Theme exception error.
  */
-function ddb_cover_upload_conditions(array &$form_state) {
-  $form = array();
-
+function ddb_cover_upload_conditions(array $form, array &$form_state) {
   $no_terms_set = t('[Contact DDB for copyright information and change module settings]');
-  $terms = variable_get('ddb_cover_upload_terms_of_use')['value'];
+  $terms = variable_get('ddb_cover_upload_terms_of_use', array('value' => 'Not configured yet!'))['value'];
 
   $form['ddb_cover_upload_conditions'] = array(
     '#markup' => theme('ddb_cover_upload_conditions', array(
@@ -237,6 +237,16 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
 
 /**
  * Ajax form callback to render search preview.
+ *
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The state of the form.
+ *
+ * @return string
+ *   The rendered preview.
+ *
+ * @throws \Exception
  */
 function ddb_cover_upload_search_preview(array $form, array $form_state) {
   $id = $form_state['values']['ddb_cover_upload_material'];
@@ -256,7 +266,7 @@ function ddb_cover_upload_search_preview(array $form, array $form_state) {
 
 /**
  * Image upload step of the form.
-
+ *
  * @param array $form
  *   The form array.
  * @param array $form_state
