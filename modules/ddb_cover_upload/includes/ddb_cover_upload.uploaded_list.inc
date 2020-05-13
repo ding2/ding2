@@ -30,13 +30,19 @@ function ddb_cover_upload_list() {
 
     /** @var \Ting\TingObject $object */
     $object = ding_entity_load($material->getIsIdentifier(), 'ting_object');
-    $uri = ding_entity_uri('ding_entity', $object);
+    $title = t('Not found');
+    $link = $material->getIsIdentifier();
+    if (FALSE !== $object) {
+      $uri = ding_entity_uri('ding_entity', $object);
+      $title = $object->getTitle() . ' (' . $object->getType() . ')';
+      $link = l($material->getIsIdentifier(), $uri['path'], array('html' => TRUE));
+    }
 
     $rows[] = [
       $material->getId(),
       render($image),
-      $object->getTitle() . ' (' . $object->getType() . ')',
-      l($material->getIsIdentifier(), $uri['path'], array('html' => TRUE)),
+      $title,
+      $link,
       l(t('Delete'), 'admin/config/cover_upload/upload/list/delete/' . $material->getId(), array('html' => TRUE)),
     ];
   }
