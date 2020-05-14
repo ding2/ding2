@@ -59,7 +59,24 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
+        z-index: 1;
+
+        &::after {
+          @include transition(opacity $speed $ease);
+          content: '';
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: 30px;
+          background-image: url(../../../images/ting-object-gradient.png);
+          opacity: 1;
+          z-index: -1;
+
+          @include hidpi() {
+            background-image: url(../../../images/ting-object-gradient@x2.png);
+            background-size: auto 100%;
+          }
+        }
 
         .has-touch & {
           pointer-events: none;
@@ -68,22 +85,12 @@
         .group-inner {
           position: relative;
           background: linear-gradient($charcoal 0%, $charcoal-opacity-dark 100%);
-          &::after {
-            @include transition(opacity $speed $ease);
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            height: 30px;
-            background-image: url(../../../images/ting-object-gradient.png);
-            opacity: 1;
+          z-index: 1;
 
-            @include hidpi() {
-              background-image: url(../../../images/ting-object-gradient@x2.png);
-              background-size: auto 100%;
-            }
-          }
+          // Making sure that the buttons never get overlayed.
+          // It is possible for two rows of buttons to appear, hence 180px
+          max-height: calc(100% - 180px);
+          overflow: hidden;
         }
       }
       &.is-hovered {
@@ -92,6 +99,7 @@
       &.move-right {
         .group-text {
           left: 100%;
+          height: 100%;
         }
       }
       &.move-left {
@@ -139,19 +147,15 @@
         }
       }
       .action-button {
-        position: absolute;
-        bottom: 20px;
         width: 42%;
+        margin: 4%;
+        margin-bottom: 0;
         padding-right: 0;
+        float: left;
         opacity: 0;
 
-        &.read-more-button {
-          left: 20px;
-        }
-        &.reserve-button,
-        &.button-see-online,
-        &.button-order {
-          right: 20px;
+        &.button-see-online {
+          float: right;
         }
 
         // Make sure that if we have keyboard focus on the element, we can see it.
@@ -188,6 +192,7 @@
             );
             z-index: 10;
             width: getColumn(3 of 2);
+            height: 100%;
             background: $charcoal;
             box-shadow: $box-shadow;
             .group-inner {
