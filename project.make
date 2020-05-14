@@ -500,7 +500,7 @@ libraries[bpi-client][download][branch] = "master"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_standard.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.14.0/ckeditor_4.14.0_standard.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
