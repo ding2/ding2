@@ -5,25 +5,64 @@
 
 #sliding-popup {
   &.sliding-popup-bottom {
-    &, .eu-cookie-withdraw-banner {
-      background: $black;
+    #popup-text {
+      @include font('base');
+      p {
+        a, a:hover {
+          color: $white;
+        }
+      }
+
+      // Mobile
+      @include media($mobile) {
+        float: left;
+        padding-bottom: 10px;
+      }
     }
 
-    #popup-text p {
-      a, a:hover {
-        color: $white;
+    .popup-content {
+      @include wrapper;
+      position: relative;
+    }
+
+    #popup-buttons {
+      .agree-button,
+      .find-more-button,
+      .hide-popup-button,
+      .decline-button,
+      .eu-cookie-withdraw-button {
+        @extend %button;
+        @include font('base');
+        background: $color-secondary;
+        color: $color-text-on-secondary;
+        text-shadow: none;
+        border: none;
+        box-shadow: none;
+        .no-touch & {
+          &:hover {
+            background: none;
+            background-color: $grey-dark;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+
+  &.eu-cookie-withdraw-wrapper {
+    #popup-buttons {
+      margin: 0;
+      .eu-cookie-withdraw-button {
+        padding: 4px 20px 4px 8px;
       }
     }
   }
 
   &.sliding-popup-bottom:not(.eu-cookie-withdraw-wrapper) {
     .popup-content {
-      @include wrapper;
-      position: relative;
       height: 180px;
     }
     #popup-text {
-      @include font('base');
       max-width: calc(100% - 40px);
       float: none;
       padding-top: 20px;
@@ -35,13 +74,8 @@
           @include font('display-small');
         }
       }
-
-      // Mobile
-      @include media($mobile) {
-        float: left;
-        padding-bottom: 10px;
-      }
     }
+
     #popup-buttons {
       max-width: none;
       float: left;
@@ -49,22 +83,8 @@
       .find-more-button,
       .hide-popup-button,
       .decline-button {
-        @extend %button;
-        @include font('base');
-        background: $color-secondary;
-        color: $color-text-on-secondary;
         float: left;
         margin-right: 20px;
-        text-shadow: none;
-        border: none;
-        box-shadow: none;
-        .no-touch & {
-          &:hover {
-            background: none;
-            background-color: $grey-dark;
-            color: $white;
-          }
-        }
 
         // Mobile
         @include media($mobile) {
@@ -74,6 +94,7 @@
         }
       }
     }
+
     .close {
       @include place-icon('close', $white, 60px);
       position: absolute;
