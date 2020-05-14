@@ -36,10 +36,10 @@ function ding_adgangsplatformen_page_build() {
  */
 function ding_adgangsplatformen_ding_provider() {
   return [
-    'title' => 'Openplatform token provider',
+    'title' => 'Openplatform provider',
     'provides' => [
-      'openplatform_token' => [
-        'prefix' => 'openplatform_token',
+      'openplatform' => [
+        'prefix' => 'openplatform',
       ],
     ],
   ];
@@ -145,8 +145,15 @@ function ding_adgangsplatformen_ajax_login_command($path) {
 
 /**
  * Provider function.
+ *
+ * This token give access to information about the user logged in. So this token
+ * should only be used when services needs access to user information.
+ *
+ * To get an library token use the get_agency_token provider function.
+ *
+ * @see ding_adgangsplatformen_openplatform_get_agency_token()
  */
-function ding_adgangsplatformen_openplatform_token_get() {
+function ding_adgangsplatformen_openplatform_get_token() {
   $token = NULL;
 
   if (isset($_SESSION['ding_adgangsplatformen_openplatform_token_get'])) {
@@ -158,8 +165,54 @@ function ding_adgangsplatformen_openplatform_token_get() {
 
 /**
  * Provider function.
+ *
+ * Get token for authentication as the library. Should also be used when the
+ * service called don't need access to user information or if no user is logged
+ * in.
  */
-function ding_adgangsplatformen_openplatform_token_login_url($options = []) {
+function ding_adgangsplatformen_openplatform_get_agency_token() {
+  $token = &drupal_static(__FUNCTION__);
+  if (!isset($token)) {
+    $cache = cache_get('ddb_cover_upload_token');
+    if ($cache && $cache->expire > REQUEST_TIME) {
+      $token = $cache->data;
+    }
+    else {
+      $config = ding_adgangsplatformen_get_configuration();
+      $agency_id = variable_get('ting_agency', '');
+
+      $client = new \GuzzleHttp\Client();
+      $response = $client->request('POST', $config['urlAccessToken'], [
+        'form_params' => [
+          'grant_type' => 'password',
+          'username' => '@' . $agency_id,
+          'password' => '@' . $agency_id,
+        ],
+        'auth' => [
+          $config['clientId'],
+          $config['clientSecret'],
+        ],
+      ]);
+
+      $content = $response->getBody()->getContents();
+      $json = json_decode($content, true);
+
+      $token = $json['access_token'];
+
+      // Get token expire minus one day to ensure token do not expire will in
+      // use by services.
+      $expire = REQUEST_TIME + ($json['expires_in'] - 86400);
+      cache_set('ddb_cover_upload_token', $token, 'cache', $expire);
+    }
+  }
+
+  return $token;
+}
+
+/**
+ * Provider function.
+ */
+function ding_adgangsplatformen_openplatform_login_url($options = []) {
   return url(DING_ADGANGSPLATFORMEN_LOGIN_URL, $options);
 }
 

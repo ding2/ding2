@@ -64,7 +64,7 @@ function ding_react_menu() {
  */
 function ding_react_ding_provider_user() {
   return [
-    'openplatform_token' => [
+    'openplatform' => [
       'required' => TRUE,
     ]
   ];
@@ -315,7 +315,7 @@ function ding_react_user_js() {
   drupal_add_http_header('Content-Type', 'application/javascript');
   echo "window.ddbReact = window.ddbReact || {};\n";
 
-  $token = ding_provider_invoke('openplatform_token', 'get');
+  $token = ding_provider_invoke('openplatform', 'get_token');
 
   if ($token) {
     echo sprintf("window.ddbReact.userAuthenticated = true;\n");
@@ -335,7 +335,7 @@ function ding_react_user_js() {
  */
 function ding_react_login_url() {
   return ding_provider_invoke(
-    'openplatform_token',
+    'openplatform',
     'login_url',
     ['query' => ['destination' => current_path()]]
   );
@@ -372,7 +372,7 @@ function ding_react_user_migrate(stdClass $account) {
   $legacy_uid = (!empty($account->openlist_uid)) ? $account->openlist_uid : '';
 
   try {
-    $token = ding_provider_invoke('openplatform_token', 'get');
+    $token = ding_provider_invoke('openplatform', 'get_token');
   } catch (DingProviderNoProvider $e) {
     $token = NULL;
   } catch (DingProviderDoesntImplement $e) {

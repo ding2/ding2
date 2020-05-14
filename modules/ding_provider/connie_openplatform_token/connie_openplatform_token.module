@@ -12,7 +12,7 @@ function connie_openplatform_token_ding_provider() {
   return array(
     'title' => 'Connie Open Platform token',
     'provides' => array(
-      'openplatform_token' => array(),
+      'openplatform' => array(),
     ),
   );
 }
@@ -34,7 +34,7 @@ function connie_openplatform_token_menu() {
 /**
  * Provider function.
  */
-function connie_openplatform_token_get() {
+function connie_openplatform_token_get_token() {
   $token = FALSE;
 
   if (!empty($_SESSION['connie_openplatform_token'])) {
@@ -49,6 +49,29 @@ function connie_openplatform_token_get() {
  */
 function connie_openplatform_token_login_url($options = []) {
   return url('connie/openplatform_token', $options);
+}
+
+/**
+ * Provider function.
+ */
+function connie_openplatform_token_get_agency_token() {
+  $token = FALSE;
+
+  if (!empty($_SESSION['connie_openplatform_agency_token'])) {
+    $token = $_SESSION['connie_openplatform_agency_token'];
+  }
+
+  return $token;
+}
+
+/**
+ * Set token for connie_openplatform_token_get.
+ *
+ * @param string $token
+ *   Token to save.
+ */
+function connie_openplatform_token_set_agency_token($token) {
+  $_SESSION['connie_openplatform_agency_token'] = $token;
 }
 
 /**
@@ -72,7 +95,15 @@ function connie_openplatform_token_form() {
     '#title' => t('Open Platform token'),
     '#size' => 36,
     '#description' => t('Enter a <a href="https://github.com/DBCDK/hejmdal/blob/master/docs/oauth2.md">access token from Adgansplatformen</a> to register for the current user.'),
-    '#default_value' => connie_openplatform_token_get(),
+    '#default_value' => connie_openplatform_token_get_token(),
+  );
+
+  $form['agency'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Open Platform agency token'),
+    '#size' => 36,
+    '#description' => t('Enter a <a href="https://github.com/DBCDK/hejmdal/blob/master/docs/oauth2.md">access token from Adgansplatformen</a> to register for the current agency.'),
+    '#default_value' => connie_openplatform_token_get_token(),
   );
 
   $form['submit'] = array(
@@ -89,6 +120,7 @@ function connie_openplatform_token_form() {
  */
 function connie_openplatform_token_form_submit($form, &$form_state) {
   connie_openplatform_token_set($form_state['values']['token']);
+  connie_openplatform_token_set_agency_token($form_state['values']['agency']);
 
   drupal_set_message(t('Open Platform token set'), 'success');
   drupal_redirect_form($form_state);
