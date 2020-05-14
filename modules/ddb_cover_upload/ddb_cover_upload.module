@@ -299,65 +299,17 @@ function _ddb_cover_upload_session($key, $value = null) {
  * @return \CoverServiceUpload\Configuration
  *   API configuration.
  *
- * @throws GuzzleException
+ * @throws \DingProviderDoesntImplement
+ * @throws \DingProviderNoProvider
  */
 function ddb_cover_upload_client_config() {
   $config = Configuration::getDefaultConfiguration();
 
   // Get access token for the library.
-  $token = _ddb_cover_upload_get_library_token();
+  $token = ding_provider_invoke('openplatform', 'get_agency_token');;
   $config->setAccessToken($token);
 
   $config->setHost(variable_get('ddb_cover_upload_host', 'https://upload.cover.dandigbib.org'));
 
   return $config;
-}
-
-/**
- * Get access token for the library.
- *
- * @TODO: move this into the provider and adgangsplatformen. Currently not as
- *        this have to be an module without core changes during first test.
- *
- * @return string
- *   Token for the library.
- *
- * @throws \GuzzleHttp\Exception\GuzzleException
- */
-function _ddb_cover_upload_get_library_token() {
-  $token = &drupal_static(__FUNCTION__);
-  if (!isset($token)) {
-    $cache = cache_get('ddb_cover_upload_token');
-    if ($cache && $cache->expire > REQUEST_TIME) {
-      $token = $cache->data;
-    }
-    else {
-      $config = ding_adgangsplatformen_get_configuration();
-      $agency_id = variable_get('ting_agency', '');
-
-      $client = new Client();
-      $response = $client->request('POST', $config['urlAccessToken'], [
-        'form_params' => [
-          'grant_type' => 'password',
-          'username' => '@' . $agency_id,
-          'password' => '@' . $agency_id,
-        ],
-        'auth' => [
-          $config['clientId'],
-          $config['clientSecret'],
-        ],
-      ]);
-
-      $content = $response->getBody()->getContents();
-      $json = json_decode($content, true);
-
-      $token = $json['access_token'];
-
-      // Get token expire - one day.
-      $expire = REQUEST_TIME + ($json['expires_in'] - 86400);
-      cache_set('ddb_cover_upload_token', $token, 'cache', $expire);
-    }
-  }
-
-  return $token;
 }
