@@ -67751,3 +67751,11 @@ msgstr "Nulstil migreringsstatus"
 #: /system/ajax
 msgid "Enable debug logging"
 msgstr "Aktivér logging af debugging"
+
+#: /user/me/status-loans-overdue
+msgid "You have no overdue loans. Remember to check <a href="@url">active loans</a>"
+msgstr "Du har ingen overskredne lån. Husk også at tjekke dine <a href="@url">aktive lån</a>"
+
+#: /user/me/status-loans-overdue
+msgid "You have no active loans. Remember to check <a href="@url">overdue loans</a>"
+msgstr "Du har ingen aktive lån. Husk også at tjekke dine <a href="@url">overskredne lån</a>"
