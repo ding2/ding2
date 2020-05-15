@@ -74,10 +74,14 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   // If we only show either regular or overdue loans, override the standard
   // empty message with a more specific one.
   elseif ($conf['overdue'] && !$conf['regular'])  {
-    $block->content = t('You do not currently have any overdue loans.');
+    $block->content = t('You have no overdue loans. Remember to check <a href="@url">active loans</a>', [
+      '@url' => url('user/me/status-loans'),
+    ]);
   }
   elseif ($conf['regular'] && !$conf['overdue'])  {
-    $block->content = t('You do not currently have any regular loans.');
+    $block->content = t('You have no active loans. Remember to check <a href="@url">overdue loans</a>', [
+      '@url' => url('user/me/status-loans-overdue'),
+    ]);
   }
   else {
     $block->content = t('You do not currently have any loans.');
