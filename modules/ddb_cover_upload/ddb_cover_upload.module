@@ -21,7 +21,7 @@ use GuzzleHttp\Client;
 function ddb_cover_upload_menu() {
   $path = drupal_get_path('module', 'ddb_cover_upload') . '/includes';
 
-  $items['admin/config/cover_upload'] = array(
+  $items['admin/config/ddb_cover_upload'] = array(
     'title' => 'Cover service',
     'description' => 'Upload an image to cover service.',
     'position' => 'left',
@@ -32,7 +32,7 @@ function ddb_cover_upload_menu() {
     'file path' => drupal_get_path('module', 'system'),
   );
 
-  $items['admin/config/cover_upload/upload'] = array(
+  $items['admin/config/ddb_cover_upload/upload'] = array(
     'title' => 'Upload cover to cover service',
     'description' => 'Upload an image to cover service.',
     'page callback' => 'drupal_get_form',
@@ -42,7 +42,7 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/cover_upload/autocomplete'] = array(
+  $items['admin/config/ddb_cover_upload/autocomplete'] = array(
     'page callback' => '_cover_upload_search_autocomplete',
     'page arguments' => array(4),
     'access arguments' => array('upload cover'),
@@ -51,7 +51,7 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/cover_upload/ajax'] = array(
+  $items['admin/config/ddb_cover_upload/ajax'] = array(
     'title' => 'Upload image',
     'description' => 'Upload base64 encoded image.',
     'page callback' => 'ddb_cover_upload_image_upload_ajax',
@@ -59,7 +59,7 @@ function ddb_cover_upload_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['admin/config/cover_upload/upload/submitted'] = array(
+  $items['admin/config/ddb_cover_upload/upload/submitted'] = array(
     'type' => MENU_CALLBACK,
     'title' => 'Communicating with cover service',
     'description' => 'Communicating with cover service.',
@@ -69,7 +69,7 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/cover_upload/submitted/check-submission'] = array(
+  $items['admin/config/ddb_cover_upload/submitted/check-submission'] = array(
     'page callback' => '_cover_upload_check_submission',
     'access arguments' => array('upload cover'),
     'type' => MENU_CALLBACK,
@@ -77,13 +77,13 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/cover_upload/upload/new'] = array(
+  $items['admin/config/ddb_cover_upload/upload/new'] = array(
     'title' => 'Upload cover to cover service',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => 0,
   );
 
-  $items['admin/config/cover_upload/upload/list'] = array(
+  $items['admin/config/ddb_cover_upload/upload/list'] = array(
     'title' => 'List uploaded covers',
     'page callback' => 'ddb_cover_upload_list',
     'type' => MENU_LOCAL_TASK,
@@ -93,7 +93,7 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/cover_upload/upload/list/delete/%'] = array(
+  $items['admin/config/ddb_cover_upload/upload/list/delete/%'] = array(
     'title' => 'Delete cover',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ddb_cover_upload_delete', 6),
@@ -103,7 +103,7 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/cover_upload/upload/settings'] = array(
+  $items['admin/config/ddb_cover_upload/upload/settings'] = array(
     'title' => 'Cover upload settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ddb_cover_upload_settings_form'),
@@ -259,7 +259,7 @@ function ddb_cover_upload_ding_entity_buttons($type, $entity, $view_mode, $widge
       array(
         '#theme' => 'link',
         '#text' => t('Upload cover'),
-        '#path' => 'admin/config/cover_upload/upload',
+        '#path' => 'admin/config/ddb_cover_upload/upload',
         '#options' => array(
           'query' => array(
             'pid' => $entity->id,

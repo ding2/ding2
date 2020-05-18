@@ -30,7 +30,7 @@
         $.ajax({
           type: 'get',
           dataType : 'json',
-          url: '/admin/config/cover_upload/submitted/check-submission',
+          url: '/admin/config/ddb_cover_upload/submitted/check-submission',
           success: function(data) {
             switch (data.status) {
               case 'success':

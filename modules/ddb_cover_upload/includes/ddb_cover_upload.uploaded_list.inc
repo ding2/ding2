@@ -43,7 +43,7 @@ function ddb_cover_upload_list() {
       render($image),
       $title,
       $link,
-      l(t('Delete'), 'admin/config/cover_upload/upload/list/delete/' . $material->getId(), array('html' => TRUE)),
+      l(t('Delete'), 'admin/config/ddb_cover_upload/upload/list/delete/' . $material->getId(), array('html' => TRUE)),
     ];
   }
 
@@ -76,7 +76,7 @@ function ddb_cover_upload_delete($form, &$form_state, $id) {
   return confirm_form(
     $form,
     t('Are you sure you want to delete this item?'),
-    'admin/config/cover_upload/upload/list',
+    'admin/config/ddb_cover_upload/upload/list',
     t('This action cannot be undone.'),
     t('Delete'),
     t('Cancel')
@@ -95,7 +95,7 @@ function ddb_cover_upload_delete_submit($form, &$form_state) {
   }
 
   drupal_set_message(t('The material have been deleted. It might take sometime before it is delete in all systems.'));
-  $form_state['redirect'] = 'admin/config/cover_upload/upload/list';
+  $form_state['redirect'] = 'admin/config/ddb_cover_upload/upload/list';
 }
 
 /**

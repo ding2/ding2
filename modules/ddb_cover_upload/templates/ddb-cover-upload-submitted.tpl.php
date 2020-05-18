@@ -32,7 +32,7 @@
             <p><?php print t('Local image not found.') ?></p>
             <p><?php print t('Images are deleted after upload. Did you perhaps reload this page?') ?></p>
           </h3>
-          <p><a class="btn btn-primary disabled" id="js-upload-another" href="/admin/config/cover_upload/upload"><?php print t('Upload another'); ?></a></p>
+          <p><a class="btn btn-primary disabled" id="js-upload-another" href="/admin/config/ddb_cover_upload/upload"><?php print t('Upload another'); ?></a></p>
         <?php endif; ?>
       </div>
       <div class="js-error" style="display:none">
@@ -40,7 +40,7 @@
         <p class="error"><?php print t('Unknown error happened') ?></p>
       </div>
       <p>
-        <a class="btn btn-primary disabled" id="js-upload-another" href="/admin/config/cover_upload/upload"><?php print t('Upload another'); ?></a>
+        <a class="btn btn-primary disabled" id="js-upload-another" href="/admin/config/ddb_cover_upload/upload"><?php print t('Upload another'); ?></a>
       </p>
     </div>
   </div>
