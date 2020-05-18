@@ -92,7 +92,7 @@
   background: linear-gradient(0deg,rgba(243,243,243,1) 0%,rgba(224,224,224,1) 100%);
   color: #222222;
   text-decoration: none;
-  ;}
+}
 
 .btn.btn-primary.disabled {
   background: #eee none;
@@ -111,7 +111,7 @@
 
 @keyframes spin {
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 

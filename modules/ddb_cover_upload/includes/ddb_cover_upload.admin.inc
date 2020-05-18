@@ -145,7 +145,7 @@ function ddb_cover_upload_conditions(array $form, array &$form_state) {
   $form['ddb_cover_upload_conditions'] = array(
     '#markup' => theme('ddb_cover_upload_conditions', array(
       'copyright_text' => empty($terms) ? $no_terms_set : $terms,
-    ))
+    )),
   );
 
   $form['ddb_cover_upload_confirm'] = array(
@@ -416,7 +416,7 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_copyright'] = array(
     '#markup' => theme('ddb_cover_upload_meta_copyright', array(
       'copyright_text' => empty($terms) ? $no_terms_set : $terms,
-    ))
+    )),
   );
 
   return $form;
@@ -437,6 +437,8 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
  *   Theme exception error.
  */
 function ddb_cover_upload_client_upload(array $form, array &$form_state) {
+  $data = array();
+
   // Store data in current session for ajax upload.
   if (isset($form_state['step_information'])) {
     $data = array(
@@ -480,7 +482,7 @@ function ddb_cover_upload_client_upload(array $form, array &$form_state) {
     '#markup' => theme('ddb_cover_upload_submitted', array(
       'data' => $data,
       'image' => $image_url,
-    ))
+    )),
   );
 
   return $form;

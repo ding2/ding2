@@ -60,7 +60,7 @@ function ddb_cover_upload_list() {
     '#markup' => theme('table', array(
       'header' => $header,
       'rows' => $rows,
-    ))
+    )),
   );
 }
 
@@ -148,7 +148,7 @@ function _ddb_cover_upload_get_materials() {
 /**
  * Get single material from the service.
  *
- * @param $id
+ * @param string $id
  *   The material ID (at the service).
  *
  * @return \CoverServiceUpload\Model\MaterialRead

@@ -190,11 +190,11 @@ function ddb_cover_upload_theme($existing, $type, $theme, $path) {
  * Implements hook_ding_provider_user().
  */
 function ddb_cover_upload_ding_provider_user() {
-  return [
-    'openplatform' => [
+  return array(
+    'openplatform' => array(
       'required' => TRUE,
-    ]
-  ];
+    ),
+  );
 }
 
 /**
