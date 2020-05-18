@@ -944,3 +944,10 @@ function ding2_update_7080() {
 function ding2_update_7081() {
   ding2_translation_update();
 }
+
+/**
+ * Enable cover service upload module.
+ */
+function ding2_update_7082() {
+  module_enable(['ddb_cover_upload']);
+}
