@@ -75,7 +75,7 @@ function ddb_cover_upload_delete($form, &$form_state, $id) {
 
   return confirm_form(
     $form,
-    t('Are you sure you want to delete this item?'),
+    t('Are you sure you want to delete the cover for this item?'),
     'admin/config/ddb_cover_upload/upload/list',
     t('This action cannot be undone.'),
     t('Delete'),
@@ -94,7 +94,7 @@ function ddb_cover_upload_delete_submit($form, &$form_state) {
     cache_clear_all('ddb_cover_upload', 'cache', TRUE);
   }
 
-  drupal_set_message(t('The material have been deleted. It might take sometime before it is delete in all systems.'));
+  drupal_set_message(t('The cover for the material has been deleted. It might take sometime before it is removed in all systems.'));
   $form_state['redirect'] = 'admin/config/ddb_cover_upload/upload/list';
 }
 
