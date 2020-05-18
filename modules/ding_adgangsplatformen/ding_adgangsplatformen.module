@@ -169,6 +169,8 @@ function ding_adgangsplatformen_openplatform_get_token() {
  * Get token for authentication as the library. Should also be used when the
  * service called don't need access to user information or if no user is logged
  * in.
+ *
+ * If the token can not be obtained the return value is NULL.
  */
 function ding_adgangsplatformen_openplatform_get_agency_token() {
   $token = &drupal_static(__FUNCTION__);
@@ -197,12 +199,15 @@ function ding_adgangsplatformen_openplatform_get_agency_token() {
       $content = $response->getBody()->getContents();
       $json = json_decode($content, true);
 
-      $token = $json['access_token'];
+      $token = NULL;
+      if (!is_null($json) && isset($json['access_token'])) {
+        $token = $json['access_token'];
 
-      // Get token expire minus one day to ensure token do not expire will in
-      // use by services.
-      $expire = REQUEST_TIME + ($json['expires_in'] - 86400);
-      cache_set('ddb_cover_upload_token', $token, 'cache', $expire);
+        // Get 1/2 of the tokens expire time to ensure that the token do not
+        // expire will in use by services.
+        $expire = REQUEST_TIME + ($json['expires_in'] / 2);
+        cache_set('ddb_cover_upload_token', $token, 'cache', $expire);
+      }
     }
   }
 
