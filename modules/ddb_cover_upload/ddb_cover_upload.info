@@ -7,4 +7,3 @@ dependencies[] = image
 dependencies[] = ding_provider
 dependencies[] = ting
 dependencies[] = ding_libs
-dependencies[] = ding_adgangsplatformen

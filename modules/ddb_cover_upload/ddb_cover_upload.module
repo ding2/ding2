@@ -187,6 +187,17 @@ function ddb_cover_upload_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ddb_cover_upload_ding_provider_user() {
+  return [
+    'openplatform' => [
+      'required' => TRUE,
+    ]
+  ];
+}
+
+/**
  * Ajax upload base64 encoded image data.
  *
  * Store posted base64 encoded image as file and return json array with url.
