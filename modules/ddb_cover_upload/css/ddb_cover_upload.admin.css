@@ -4,34 +4,49 @@
  * This should only be added to cover upload specific pages.
  */
 
+/* The add to check-list button should not be display in the backend */
 .search-result .field-name-ding-entity-buttons {
   display: none;
 }
 
-:root {
-  --spacer: 1rem;
-  --color-gray-100: #f5f5f5;
+.container.conditions p {
+  max-width: 780px;
+}
+
+.form-item-ddb-cover-upload-confirm label.option {
+  font-weight: bold;
+  line-height: 1.5;
+  vertical-align: middle !important; /* Align input and label */
+}
+
+.form-item-ddb-cover-upload-confirm .form-checkbox {
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+.form-item-ddb-cover-upload-material .form-text {
+  max-width: 100%; /* Avoid overlapping right column */
 }
 
 .row {
   width: 100%;
   border-radius: 2px;
-  padding: var(--spacer);
+  padding: 1rem;
   display: flex;
 }
 
 .row .col-12 {
   width: 100%;
-  margin: var(--spacer);
+  margin: 1rem;
 }
 
 .row .col-3 {
   width: 33%;
-  margin: var(--spacer);
+  margin: 1rem;
 }
 
 .border.border-gray {
-  border: 1px solid var(--color-gray-100);
+  border: 1px solid #f5f5f5;
 }
 
 .center {
@@ -61,8 +76,8 @@
 }
 
 .btn.btn-primary {
-  background: rgb(243, 243, 243);
-  background: linear-gradient(180deg, rgba(243, 243, 243, 1) 0%, rgba(224, 224, 224, 1) 100%);
+  background: rgb(243,243,243);
+  background: linear-gradient(180deg,rgba(243,243,243,1) 0%,rgba(224,224,224,1) 100%);
   border: 1px solid #e4e4e4;
   border-bottom: 1px solid #b4b4b4;
   border-left-color: #d2d2d2;
@@ -74,10 +89,10 @@
 }
 
 .btn.btn-primary:hover {
-  background: linear-gradient(0deg, rgba(243, 243, 243, 1) 0%, rgba(224, 224, 224, 1) 100%);
+  background: linear-gradient(0deg,rgba(243,243,243,1) 0%,rgba(224,224,224,1) 100%);
   color: #222222;
-  text-decoration: none;;
-}
+  text-decoration: none;
+  ;}
 
 .btn.btn-primary.disabled {
   background: #eee none;
@@ -94,14 +109,12 @@
   margin-right: auto;
 }
 
-
 @keyframes spin {
   100% {
-    transform: rotate(360deg);
+      transform: rotate(360deg);
   }
 }
 
-/* Override javascript styles. */
 .ui-dialog.set-size {
   width: 80% !important;
   left: 0 !important;
@@ -126,7 +139,14 @@
   width: 160px;
 }
 
+.tui-image-editor-wrapper .tui-image-editor-container {
+  margin-bottom: 1rem;
+}
 
 .tui-image-editor-download-btn {
   display: none !important;
+}
+
+.page-admin-config-cover-upload .img-displayed {
+  max-height: 50vh;
 }

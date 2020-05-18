@@ -18,7 +18,8 @@
           locale: ddbCoverUploadUITranslation(),
           theme: ddbCoverUploadUITheme(Drupal.settings.ddbCoverUpload.bashPath),
           initMenu: 'filter',
-          menuBarPosition: 'bottom'
+          menuBarPosition: 'bottom',
+          menu: ['crop', 'flip', 'rotate', 'filter'],
         },
         cssMaxWidth: 700,
         cssMaxHeight: 500,
@@ -67,7 +68,7 @@
        */
       function ddbCoverUploadUITranslation() {
         return  {
-          'Load': Drupal.t('Upload image', null, { context: 'ddbCoverUploadUI' }),
+          'Load': Drupal.t('Upload new image', null, { context: 'ddbCoverUploadUI' }),
         };
       }
 
@@ -84,26 +85,26 @@
           'common.backgroundColor': '#fff',
           'common.border': '1px solid #c1c1c1',
 
-          // header
+          // Header.
           'header.backgroundImage': 'none',
           'header.backgroundColor': 'transparent',
           'header.border': '0px',
 
-          // load button
+          // Load button.
           'loadButton.backgroundColor': '#fff',
           'loadButton.border': '1px solid #ddd',
           'loadButton.color': '#222',
           'loadButton.fontFamily': '\'Noto Sans\', sans-serif',
           'loadButton.fontSize': '12px',
 
-          // download button
+          // Download button.
           'downloadButton.backgroundColor': '#fdba3b',
           'downloadButton.border': '1px solid #fdba3b',
           'downloadButton.color': '#fff',
           'downloadButton.fontFamily': '\'Noto Sans\', sans-serif',
           'downloadButton.fontSize': '12px',
 
-          // main icons
+          // Main icons.
           'menu.normalIcon.path': path + '/images/svg/icon-d.svg',
           'menu.normalIcon.name': 'icon-d',
           'menu.activeIcon.path': path + '/images/svg/icon-b.svg',
@@ -115,11 +116,11 @@
           'menu.iconSize.width': '24px',
           'menu.iconSize.height': '24px',
 
-          // submenu primary color
+          // Submenu primary color.
           'submenu.backgroundColor': 'transparent',
           'submenu.partition.color': '#e5e5e5',
 
-          // submenu icons
+          // Submenu icons.
           'submenu.normalIcon.path': path + '/images/svg/icon-d.svg',
           'submenu.normalIcon.name': 'icon-d',
           'submenu.activeIcon.path': path + '/images/svg/icon-b.svg',
@@ -127,17 +128,17 @@
           'submenu.iconSize.width': '32px',
           'submenu.iconSize.height': '32px',
 
-          // submenu labels
+          // Submenu labels.
           'submenu.normalLabel.color': '#858585',
           'submenu.normalLabel.fontWeight': 'normal',
           'submenu.activeLabel.color': '#000',
           'submenu.activeLabel.fontWeight': 'normal',
 
-          // checkbox style
+          // Checkbox style
           'checkbox.border': '1px solid #ccc',
           'checkbox.backgroundColor': '#fff',
 
-          // rango style
+          // Rango style.
           'range.pointer.color': '#333',
           'range.bar.color': '#ccc',
           'range.subbar.color': '#606060',
@@ -154,7 +155,7 @@
           'range.title.color': '#000',
           'range.title.fontWeight': 'lighter',
 
-          // colorpicker style
+          // Color picker style.
           'colorpicker.button.border': '0px',
           'colorpicker.title.color': '#000'
         };

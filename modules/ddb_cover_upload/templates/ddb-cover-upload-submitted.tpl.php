@@ -39,6 +39,9 @@
         <h3><?php print t('Error - Your image was not uploaded'); ?></h3>
         <p class="error"><?php print t('Unknown error happened') ?></p>
       </div>
+      <p>
+        <a class="btn btn-primary disabled" id="js-upload-another" href="/admin/config/cover_upload/upload"><?php print t('Upload another'); ?></a>
+      </p>
     </div>
   </div>
   <div class="border border-gray">
@@ -92,11 +95,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <p><a class="btn btn-primary disabled" id="js-upload-another" href="/admin/config/cover_upload/upload"><?php print t('Upload another'); ?></a></p>
     </div>
   </div>
 </div>
