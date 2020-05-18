@@ -13,23 +13,23 @@
  */
 function _ddb_cover_upload_form_steps() {
   return array(
-    DDB_COVER_UPLOAD_STEP1 => array(
+    DDB_COVER_UPLOAD_CONDITIONS => array(
       'form' => 'ddb_cover_upload_conditions',
       'step_title' => t('First time use'),
     ),
-    DDB_COVER_UPLOAD_STEP2 => array(
+    DDB_COVER_UPLOAD_SEARCH => array(
       'form' => 'ddb_cover_upload_material',
       'step_title' => t('Select material'),
     ),
-    DDB_COVER_UPLOAD_STEP3 => array(
+    DDB_COVER_UPLOAD_IMAGE_EDITOR => array(
       'form' => 'ddb_cover_upload_image_upload',
       'step_title' => t('Select image'),
     ),
-    DDB_COVER_UPLOAD_STEP4 => array(
+    DDB_COVER_UPLOAD_METADATA => array(
       'form' => 'ddb_cover_upload_meta',
       'step_title' => t('Verify image'),
     ),
-    DDB_COVER_UPLOAD_STEP5 => array(
+    DDB_COVER_UPLOAD_UPLOAD => array(
       'form' => 'ddb_cover_upload_client_upload',
       'step_title' => t('Upload image'),
     ),
@@ -77,7 +77,7 @@ function ddb_cover_upload_form(array $form, array &$form_state) {
   // We use #limit_validation_errors to skip all complaints about validation
   // when using the back button. The values entered will be discarded, but they
   // will not be validated, which would be annoying in a "back" button.
-  if ($step > DDB_COVER_UPLOAD_STEP2 && $step !== DDB_COVER_UPLOAD_STEP5) {
+  if ($step > DDB_COVER_UPLOAD_SEARCH && $step !== DDB_COVER_UPLOAD_UPLOAD) {
     $form['prev'] = array(
       '#type' => 'submit',
       '#value' => t('Previous'),
@@ -89,7 +89,7 @@ function ddb_cover_upload_form(array $form, array &$form_state) {
   }
 
   // Show the Next button only if there are more steps defined.
-  if ($step < DDB_COVER_UPLOAD_STEP5) {
+  if ($step < DDB_COVER_UPLOAD_UPLOAD) {
     $form['next'] = array(
       '#type' => 'submit',
       '#value' => t('Next'),
@@ -322,12 +322,12 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
 
   $form['is'] = array(
     '#type' => 'hidden',
-    '#value' => $form_state['step_information'][DDB_COVER_UPLOAD_STEP2]['stored_values']['ddb_cover_upload_material'],
+    '#value' => $form_state['step_information'][DDB_COVER_UPLOAD_SEARCH]['stored_values']['ddb_cover_upload_material'],
   );
 
   $image = 'https://res.cloudinary.com/dandigbib/image/upload/v1576082092/default/forside-mangler-c.jpg';
-  if (isset($form_state['step_information'][DDB_COVER_UPLOAD_STEP3]['stored_values']['image_file'])) {
-    $image = file_create_url($form_state['step_information'][DDB_COVER_UPLOAD_STEP3]['stored_values']['image_file']) . '?' . REQUEST_TIME;
+  if (isset($form_state['step_information'][DDB_COVER_UPLOAD_IMAGE_EDITOR]['stored_values']['image_file'])) {
+    $image = file_create_url($form_state['step_information'][DDB_COVER_UPLOAD_IMAGE_EDITOR]['stored_values']['image_file']) . '?' . REQUEST_TIME;
   }
   $form['image_file'] = array(
     '#type' => 'hidden',
@@ -439,8 +439,8 @@ function ddb_cover_upload_client_upload(array $form, array &$form_state) {
   // Store data in current session for ajax upload.
   if (isset($form_state['step_information'])) {
     $data = array(
-      'pid' => $form_state['step_information'][DDB_COVER_UPLOAD_STEP2]['stored_values']['ddb_cover_upload_material'],
-      'image_uri' => $form_state['step_information'][DDB_COVER_UPLOAD_STEP3]['stored_values']['image_file'],
+      'pid' => $form_state['step_information'][DDB_COVER_UPLOAD_SEARCH]['stored_values']['ddb_cover_upload_material'],
+      'image_uri' => $form_state['step_information'][DDB_COVER_UPLOAD_IMAGE_EDITOR]['stored_values']['image_file'],
       'accreditation' => $form_state['input']['ddb_cover_upload_meta_input'],
       'agency' => variable_get('ting_agency', ''),
     );
@@ -502,7 +502,7 @@ function ddb_cover_upload_client_upload(array $form, array &$form_state) {
 function ddb_cover_upload_previous_submit(array $form, array &$form_state) {
   $current_step = &$form_state['step'];
   $form_state['step_information'][$current_step]['stored_values'] = $form_state['input'];
-  if ($current_step > DDB_COVER_UPLOAD_STEP2) {
+  if ($current_step > DDB_COVER_UPLOAD_SEARCH) {
     $current_step--;
     if (isset($form_state['step_information'][$current_step]['stored_values'])) {
       $form_state['values'] = $form_state['step_information'][$current_step]['stored_values'];
@@ -530,7 +530,7 @@ function ddb_cover_upload_next_submit(array $form, array &$form_state) {
   $current_step = &$form_state['step'];
   $form_state['step_information'][$current_step]['stored_values'] = $form_state['values'];
 
-  if ($current_step === DDB_COVER_UPLOAD_STEP1) {
+  if ($current_step === DDB_COVER_UPLOAD_CONDITIONS) {
     _ddb_cover_upload_save_conditions_acceptance();
   }
 
@@ -557,15 +557,15 @@ function ddb_cover_upload_next_submit(array $form, array &$form_state) {
  *   The state of the form.
  */
 function _ddb_cover_upload_determine_step(array $query, array &$form_state) {
-  $form_state['step'] = DDB_COVER_UPLOAD_STEP1;
+  $form_state['step'] = DDB_COVER_UPLOAD_CONDITIONS;
 
   if (_ddb_cover_upload_is_conditions_accepted()) {
-    $form_state['step'] = DDB_COVER_UPLOAD_STEP2;
+    $form_state['step'] = DDB_COVER_UPLOAD_SEARCH;
 
     // Also bypass material selection if pid is included as query parameter.
     if (isset($query['pid'])) {
-      $form_state['step_information'][DDB_COVER_UPLOAD_STEP2]['stored_values']['ddb_cover_upload_material'] = $query['pid'];
-      $form_state['step'] = DDB_COVER_UPLOAD_STEP3;
+      $form_state['step_information'][DDB_COVER_UPLOAD_SEARCH]['stored_values']['ddb_cover_upload_material'] = $query['pid'];
+      $form_state['step'] = DDB_COVER_UPLOAD_IMAGE_EDITOR;
     }
   }
 }
@@ -622,7 +622,7 @@ function _ddb_cover_upload_save_conditions_acceptance($value = TRUE) {
  *   The title to display.
  */
 function _ddb_cover_upload_get_title($step, array $form_state) {
-  if ($step == DDB_COVER_UPLOAD_STEP1) {
+  if ($step == DDB_COVER_UPLOAD_CONDITIONS) {
     $title = t('Upload cover: @step_title', array('@step_title' => $form_state['step_information'][$step]['step_title']));
   }
   else {

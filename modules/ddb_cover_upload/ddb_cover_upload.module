@@ -5,11 +5,11 @@
  * Enables option to upload covers to cover service.
  */
 
-define('DDB_COVER_UPLOAD_STEP1', 0);
-define('DDB_COVER_UPLOAD_STEP2', 1);
-define('DDB_COVER_UPLOAD_STEP3', 2);
-define('DDB_COVER_UPLOAD_STEP4', 3);
-define('DDB_COVER_UPLOAD_STEP5', 4);
+define('DDB_COVER_UPLOAD_CONDITIONS', 0);
+define('DDB_COVER_UPLOAD_SEARCH', 1);
+define('DDB_COVER_UPLOAD_IMAGE_EDITOR', 2);
+define('DDB_COVER_UPLOAD_METADATA', 3);
+define('DDB_COVER_UPLOAD_UPLOAD', 4);
 define('DDB_COVER_UPLOAD_FILE_PATH', 'ddb_cover_upload_uploaded');
 
 use CoverServiceUpload\Configuration;
