@@ -36,6 +36,7 @@ function _cover_upload_check_submission() {
 
   try {
     _ddb_cover_upload_client_upload($data['image_uri'], $data['pid'], 'pid');
+    watchdog('ddb_cover_upload', 'Cover have been upload for %pid to DDB upload service', array('%pid' => $data['pid']), WATCHDOG_INFO);
 
     // Clear cover and materials cache.
     cache_clear_all('ddb_cover_upload', 'cache', TRUE);

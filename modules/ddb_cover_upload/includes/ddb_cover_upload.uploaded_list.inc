@@ -88,13 +88,27 @@ function ddb_cover_upload_delete($form, &$form_state, $id) {
  */
 function ddb_cover_upload_delete_submit($form, &$form_state) {
   if (isset($form_state['values']['material_id'])) {
-    _ddb_cover_upload_delete_material($form_state['values']['material_id']);
+    $id = $form_state['values']['material_id'];
 
-    // Clear cover and materials cache.
-    cache_clear_all('ddb_cover_upload', 'cache', TRUE);
+    try {
+      $material = _ddb_cover_upload_get_material($id);
+      _ddb_cover_upload_delete_material($id);
+      watchdog('ddb_cover_upload', 'Cover have been deleted at DDB upload service for %pid', array('%pid' => $material->getIsIdentifier()), WATCHDOG_INFO);
+
+      // Clear cover and materials cache.
+      cache_clear_all('ddb_cover_upload', 'cache', TRUE);
+
+      drupal_set_message(t('The cover for %pid has been deleted. It might take sometime before it is removed in all systems.', array('%pid' => $material->getIsIdentifier())));
+    }
+    catch (\CoverServiceUpload\ApiException $exception) {
+      watchdog_exception('ddb_cover_upload', $exception, $exception->getMessage(), array(), WATCHDOG_CRITICAL);
+      drupal_set_message(t('Unknown error happen at the service. Please try aging later.'));
+    }
+  }
+  else {
+    drupal_set_message(t('Error the id for the cover was missing'));
   }
 
-  drupal_set_message(t('The cover for the material has been deleted. It might take sometime before it is removed in all systems.'));
   $form_state['redirect'] = 'admin/config/ddb_cover_upload/upload/list';
 }
 
@@ -129,6 +143,42 @@ function _ddb_cover_upload_get_materials() {
   }
 
   return $materials;
+}
+
+/**
+ * Get single material from the service.
+ *
+ * @param $id
+ *   The material ID (at the service).
+ *
+ * @return \CoverServiceUpload\Model\MaterialRead
+ *   The material if found.
+ *
+ * @throws \CoverServiceUpload\ApiException
+ *   If there is an error at the service or the material don't exists.
+ */
+function _ddb_cover_upload_get_material($id) {
+  $materials = &drupal_static(__FUNCTION__);
+  if (!isset($materials)) {
+    $cache = cache_get('ddb_cover_upload_materials_id');
+    if ($cache && $cache->expire > REQUEST_TIME) {
+      $materials = $cache->data;
+    }
+    else {
+      $config = ddb_cover_upload_client_config();
+      $apiInstance = new MaterialApi(
+        new Client(),
+        $config
+      );
+
+      $materials[$id] = $apiInstance->getMaterialItem($id);
+
+      $expire = REQUEST_TIME + 86400;
+      cache_set('ddb_cover_upload_materials_id', $materials, 'cache', $expire);
+    }
+  }
+
+  return $materials[$id];
 }
 
 /**
