@@ -21,18 +21,15 @@ use GuzzleHttp\Client;
 function ddb_cover_upload_menu() {
   $path = drupal_get_path('module', 'ddb_cover_upload') . '/includes';
 
-  $items['admin/config/ddb_cover_upload'] = array(
-    'title' => 'Cover service',
-    'description' => 'Upload an image to cover service.',
-    'position' => 'left',
-    'weight' => 0,
-    'page callback' => 'system_admin_menu_block_page',
+  $items['admin/config/ting/ddb_cover_upload/ajax'] = array(
+    'title' => 'Upload image',
+    'description' => 'Upload base64 encoded image.',
+    'page callback' => 'ddb_cover_upload_image_upload_ajax',
     'access arguments' => array('upload cover'),
-    'file' => 'system.admin.inc',
-    'file path' => drupal_get_path('module', 'system'),
+    'type' => MENU_CALLBACK,
   );
 
-  $items['admin/config/ddb_cover_upload/upload'] = array(
+  $items['admin/config/ting/ddb_cover_upload'] = array(
     'title' => 'Upload cover to cover service',
     'description' => 'Upload an image to cover service.',
     'page callback' => 'drupal_get_form',
@@ -42,24 +39,7 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/ddb_cover_upload/autocomplete'] = array(
-    'page callback' => '_cover_upload_search_autocomplete',
-    'page arguments' => array(4),
-    'access arguments' => array('upload cover'),
-    'type' => MENU_CALLBACK,
-    'file' => 'ddb_cover_upload.autocomplete.inc',
-    'file path' => $path,
-  );
-
-  $items['admin/config/ddb_cover_upload/ajax'] = array(
-    'title' => 'Upload image',
-    'description' => 'Upload base64 encoded image.',
-    'page callback' => 'ddb_cover_upload_image_upload_ajax',
-    'access arguments' => array('upload cover'),
-    'type' => MENU_CALLBACK,
-  );
-
-  $items['admin/config/ddb_cover_upload/upload/submitted'] = array(
+  $items['admin/config/ting/ddb_cover_upload/submitted'] = array(
     'type' => MENU_CALLBACK,
     'title' => 'Communicating with cover service',
     'description' => 'Communicating with cover service.',
@@ -69,7 +49,7 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/ddb_cover_upload/submitted/check-submission'] = array(
+  $items['admin/config/ting/ddb_cover_upload/submitted/check-submission'] = array(
     'page callback' => '_cover_upload_check_submission',
     'access arguments' => array('upload cover'),
     'type' => MENU_CALLBACK,
@@ -77,13 +57,13 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/ddb_cover_upload/upload/new'] = array(
+  $items['admin/config/ting/ddb_cover_upload/new'] = array(
     'title' => 'Upload cover to cover service',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => 0,
   );
 
-  $items['admin/config/ddb_cover_upload/upload/list'] = array(
+  $items['admin/config/ting/ddb_cover_upload/list'] = array(
     'title' => 'List uploaded covers',
     'page callback' => 'ddb_cover_upload_list',
     'type' => MENU_LOCAL_TASK,
@@ -93,7 +73,7 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/ddb_cover_upload/upload/list/delete/%'] = array(
+  $items['admin/config/ting/ddb_cover_upload/list/delete/%'] = array(
     'title' => 'Delete cover',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ddb_cover_upload_delete', 6),
@@ -103,7 +83,7 @@ function ddb_cover_upload_menu() {
     'file path' => $path,
   );
 
-  $items['admin/config/ddb_cover_upload/upload/settings'] = array(
+  $items['admin/config/ting/ddb_cover_upload/settings'] = array(
     'title' => 'Cover upload settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ddb_cover_upload_settings_form'),
@@ -111,6 +91,15 @@ function ddb_cover_upload_menu() {
     'weight' => 2,
     'access arguments' => array('administer site configuration'),
     'file' => 'ddb_cover_upload.settings.inc',
+    'file path' => $path,
+  );
+
+  $items['admin/config/ting/ddb_cover_upload/autocomplete/%'] = array(
+    'page callback' => '_cover_upload_search_autocomplete',
+    'page arguments' => array(5),
+    'access arguments' => array('upload cover'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ddb_cover_upload.autocomplete.inc',
     'file path' => $path,
   );
 
@@ -259,7 +248,7 @@ function ddb_cover_upload_ding_entity_buttons($type, $entity, $view_mode, $widge
       array(
         '#theme' => 'link',
         '#text' => t('Upload cover'),
-        '#path' => 'admin/config/ddb_cover_upload/upload',
+        '#path' => 'admin/config/ting/ddb_cover_upload',
         '#options' => array(
           'query' => array(
             'pid' => $entity->id,

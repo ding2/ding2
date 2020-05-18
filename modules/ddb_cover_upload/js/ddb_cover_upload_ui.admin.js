@@ -39,7 +39,7 @@
           const myImage = instance.toDataURL();
           $.ajax({
             type: "POST",
-            url: '/admin/config/ddb_cover_upload/ajax',
+            url: '/admin/config/ting/ddb_cover_upload/ajax',
             dataType: 'text',
             data: {
               is: $('input[name="is"]').val(),

@@ -196,7 +196,7 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Material'),
     '#description' => t('Use the autocomplete to ensure that this value is always a data well PID.'),
-    '#autocomplete_path' => 'admin/config/ddb_cover_upload/autocomplete',
+    '#autocomplete_path' => 'admin/config/ting/ddb_cover_upload/autocomplete',
     '#required' => TRUE,
     '#default_value' => isset($form_state['values']['ddb_cover_upload_material']) ? $form_state['values']['ddb_cover_upload_material'] : '',
   );
