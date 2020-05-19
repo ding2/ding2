@@ -17,7 +17,7 @@ use GuzzleHttp\Client;
  * Ajax callback function.
  */
 function _cover_upload_check_submission() {
-  $data = _ddb_cover_upload_session('ddb_cover_upload_submitted');
+  $data = $_SESSION['ddb_cover_upload_data'];
 
   // Validation to prevent page re-load submit and upload.
   $exists = FALSE;
@@ -64,10 +64,10 @@ function _cover_upload_check_submission() {
  * Remove db entry and files locally.
  */
 function _ddb_cover_upload_cleanup() {
-  $data = _ddb_cover_upload_session('ddb_cover_upload_submitted');
+  $data = $_SESSION['ddb_cover_upload_data'];
 
   // Mark image as upload to prevent more uploads of the same data.
-  _ddb_cover_upload_session('ddb_cover_upload_submitted', '');
+  unset($_SESSION['ddb_cover_upload_data']);
 
   // Remove local copy of the image.
   file_unmanaged_delete($data['image_uri']);

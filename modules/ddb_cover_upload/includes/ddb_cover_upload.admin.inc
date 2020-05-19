@@ -444,19 +444,21 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
 function ddb_cover_upload_client_upload(array $form, array &$form_state) {
   $data = array();
 
-  // Store data in current session for ajax upload.
   if (isset($form_state['step_information'])) {
+    // Store data in session for using ajax to upload the information to the
+    // upload service.
     $data = array(
       'pid' => $form_state['step_information'][DDB_COVER_UPLOAD_SEARCH]['stored_values']['ddb_cover_upload_material'],
       'image_uri' => $form_state['step_information'][DDB_COVER_UPLOAD_IMAGE_EDITOR]['stored_values']['image_file'],
       'accreditation' => $form_state['input']['ddb_cover_upload_meta_input'],
       'agency' => variable_get('ting_agency', ''),
     );
-    _ddb_cover_upload_session('ddb_cover_upload_submitted', $data);
+    $_SESSION['ddb_cover_upload_data'] = $data;
   }
 
   // Remove form step_information values to prevent re-submit of the data.
   unset($form_state['step_information']);
+  unset($form_state['input']);
 
   $form['ddb_cover_upload_client_upload'] = [
     '#type' => 'container',

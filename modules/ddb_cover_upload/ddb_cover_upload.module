@@ -273,30 +273,6 @@ function ddb_cover_upload_ding_entity_buttons($type, $entity, $view_mode, $widge
 }
 
 /**
- * Store and retrieve variables from session.
- *
- * @param string $key
- *   Key to be set or got.
- * @param string $value
- *   Value to set for the key.
- *
- * @return mixed
- *   If only $key is given, sought-after value for $key
- */
-function _ddb_cover_upload_session($key, $value = null) {
-  if (!is_null($value)) {
-    unset($_SESSION[$key]);
-    $_SESSION[$key] = $value;
-  }
-
-  if (isset($_SESSION[$key])) {
-    return $_SESSION[$key];
-  }
-
-  return NULL;
-}
-
-/**
  * Helper to get configuration for the upload API.
  *
  * @return \CoverServiceUpload\Configuration
