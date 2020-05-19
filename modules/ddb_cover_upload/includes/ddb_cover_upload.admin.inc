@@ -389,21 +389,34 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   $originalImage = getimagesize($originalImagePath);
   $displayedImageUrl = file_create_url($originalImagePath) . '?' . REQUEST_TIME;
 
-  $form_state['author'] = variable_get('site_name', 'undefined');
+  $form_state['agency'] = variable_get('site_name', 'undefined');
 
   $form['ddb_cover_upload_meta']['left']['ddb_cover_upload_meta_data'] = array(
     '#markup' => '<div class="left form-wrapper"><img class="img-displayed" src="' . $displayedImageUrl . '"></div>',
   );
 
+  // Get information about the entity and reuse view mode with minor changes.
+  $material = FALSE;
+  $entity = ding_entity_load($form_state['step_information'][1]['stored_values']['ddb_cover_upload_material']);
+  if (FALSE !== $entity) {
+    $material = ting_object_view($entity, 'teaser_full');
+    $material['ting_author']['#label_display'] = 'inline';
+    $keys = array('ting_cover', 'ting_title', 'ting_type', 'ting_abstract');
+    foreach ($keys as $key) {
+      unset($material[$key]);
+    }
+  }
+
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_data'] = array(
     '#markup' => theme('ddb_cover_upload_meta_data', array(
-      'material' => ding_entity_load($form_state['step_information'][1]['stored_values']['ddb_cover_upload_material']),
+      'entity' => $entity,
+      'material' => $material,
       'image_url' => $displayedImageUrl,
       'meta_data' => array(
         'file_dimensions' => array('x' => $originalImage[0], 'y' => $originalImage[1]),
         'file_type' => $originalImage['mime'],
         'file_size' => filesize($originalImagePath),
-        'author' => $form_state['author'],
+        'agency' => $form_state['agency'],
       ),
     )),
   );

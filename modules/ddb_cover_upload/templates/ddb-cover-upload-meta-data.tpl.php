@@ -12,15 +12,16 @@
 <div>
   <h3><?php print t('Material information');?></h3>
   <div class="content">
-    <?php if (!empty($material)) : ?>
+    <?php if (!empty($entity)) : ?>
       <div class="field field-label-inline">
         <div class="field-label"><?php print t('Post id');?>:&nbsp;</div>
-        <div><?php print $material->getId(); ?></div>
+        <div><?php print $entity->getId(); ?></div>
       </div>
       <div class="field field-label-inline">
         <div class="field-label"><?php print t('Material name');?>:&nbsp</div>
-        <div><?php print $material->getTitle(); ?></div>
+        <div><?php print $entity->getTitle(); ?></div>
       </div>
+      <?php print render($material); ?>
     <?php else : ?>
       <span class="changed-warning">(<?php print t('Missing material'); ?>)</span>
     <?php endif; ?>
@@ -44,8 +45,8 @@
       <div><?php print $meta_data['file_size'] / 1000;?>KB</div>
     </div>
     <div class="field field-label-inline">
-      <div class="field-label"><?php print t('Author');?>:&nbsp;</div>
-      <div><?php print $meta_data['author']?></div>
+      <div class="field-label"><?php print t('Agency');?>:&nbsp;</div>
+      <div><?php print $meta_data['agency']?></div>
     </div>
   </div>
 </div>

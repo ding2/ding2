@@ -149,6 +149,7 @@ function ddb_cover_upload_theme($existing, $type, $theme, $path) {
     ),
     'ddb_cover_upload_meta_data' => array(
       'variables' => array(
+        'entity' => NULL,
         'material' => NULL,
         'meta_data' => NULL,
         'image_url' => NULL,

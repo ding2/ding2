@@ -71,6 +71,10 @@
   font-weight: normal;
 }
 
+.right.form-wrapper h3 {
+  text-decoration: underline;
+}
+
 #edit-finish {
   float: right;
 }
