@@ -528,7 +528,7 @@ function opensearch_search_prepare_reference_query($query_string) {
   $query = ting_start_query();
 
   // Try to build the best search query based on the inputted string.
-  if (preg_match('/(^\d+$)|(^\d+:\d+$)|(=)/', $query_string)) {
+  if (preg_match('/(^\d+$)|(^\d{6}-[a-zA-Z]+:[a-zA-Z0-9]+$)|(=)/', $query_string)) {
     // The query is either ISBN, tid or CQL search expression.
     // Add as raw (eg non-escaped) string.
     $query = $query->withRawQuery($query_string);

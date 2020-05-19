@@ -23,6 +23,8 @@ function _cover_upload_search_autocomplete($string) {
 
   // Only use auto-complete if more that 3 chars have been written.
   if ($string && (strlen($string) > 3)) {
+    $string = urldecode($string);
+
     // Let the provider build a query if it knows how to.
     if (ding_provider_implements('search', 'prepare_reference_query')) {
       $query = ding_provider_invoke('search', 'prepare_reference_query', $string);
