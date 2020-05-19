@@ -8,6 +8,8 @@
     attach: function (context, settings) {
       var imageHasBeenUploaded = false;
       var currentImageUrl = $('input[name="image_file"]').val();
+      var nextBtn = $('#edit-next');
+      var preventNextStep = nextBtn.hasClass('disabled');
 
       var instance = new tui.ImageEditor(document.querySelector('#tui-image-editor'), {
         includeUI: {
@@ -29,11 +31,22 @@
         }
       });
 
+      $('.tui-image-editor-load-btn').click(function () {
+        nextBtn.removeClass('disabled');
+        preventNextStep = false;
+      });
+
       // Handle ajax image upload, when next is clicked.
-      $('#edit-next').click(function (event) {
+      nextBtn.click(function (event) {
         let self = $(this);
 
+        if (preventNextStep) {
+          event.preventDefault();
+          return;
+        }
+
         if (!imageHasBeenUploaded) {
+          preventNextStep = true;
           event.preventDefault();
 
           const myImage = instance.toDataURL({
@@ -53,6 +66,7 @@
               if (json.hasOwnProperty('error') && json.error === null) {
                 $('input[name="image_file"]').val(json.uri);
                 imageHasBeenUploaded = true;
+                preventNextStep = false;
                 self.trigger('click');
               }
               else {

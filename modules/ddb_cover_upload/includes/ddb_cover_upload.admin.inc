@@ -326,8 +326,19 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
 
   // Build default image path that toast UI understands to load (hence the / first).
   $image = '/' . drupal_get_path('module', 'ddb_cover_upload') . '/images/default_cover.jpg';
-  if (isset($form_state['step_information'][DDB_COVER_UPLOAD_IMAGE_EDITOR]['stored_values']['image_file'])) {
+  $step = $form_state['step_information'][DDB_COVER_UPLOAD_IMAGE_EDITOR];
+  if (isset($step['stored_values']['image_file']) && $image !== $step['stored_values']['image_file']) {
     $image = file_create_url($form_state['step_information'][DDB_COVER_UPLOAD_IMAGE_EDITOR]['stored_values']['image_file']) . '?' . REQUEST_TIME;
+  }
+  else {
+    // Disable next button, if no image have been uploaded yet.
+    $form['next']['#attributes'] = array(
+      'class' => array(
+        'btn',
+        'btn-primary',
+        'disabled'
+      ),
+    );
   }
   $form['image_file'] = array(
     '#type' => 'hidden',
