@@ -4,12 +4,12 @@ core = 7.x
 package = Ding!
 project = ting_material_details
 dependencies[] = ctools
+dependencies[] = ding_ting_frontend
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = ting
-dependencies[] = ting_material_details
 dependencies[] = virtual_field
-explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
+explanation = Anvendte felttyper - se <a href="/admin/reports/fields">feltliste</a>
 features[ctools][] = field_group:field_group:1
 features[features_api][] = api:2
 features[field_base][] = ting_details_age

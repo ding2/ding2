@@ -225,7 +225,7 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
   if (isset($form_state['values']['ddb_cover_upload_material'])) {
     // @TODO: Allow lookup on other ID's than pid.
     $entity = ding_entity_load($form_state['values']['ddb_cover_upload_material'], 'ting_object');
-    $content = ting_object_view($entity, 'teaser');
+    $content = ting_object_view($entity, 'teaser_full');
   }
 
   $form['ddb_cover_upload']['right']['results'] = array(
@@ -254,7 +254,7 @@ function ddb_cover_upload_search_preview(array $form, array $form_state) {
   $entity = ding_entity_load($id, 'ting_object');
   $content = FALSE;
   if ($entity) {
-    $content = ting_object_view($entity, 'teaser');
+    $content = ting_object_view($entity, 'teaser_full');
   }
 
   $form['ddb_cover_upload']['right']['results'] = array(

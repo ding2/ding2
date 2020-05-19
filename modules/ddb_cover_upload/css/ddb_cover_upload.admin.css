@@ -4,9 +4,13 @@
  * This should only be added to cover upload specific pages.
  */
 
-/* The add to check-list button should not be display in the backend */
-.search-result .field-name-ding-entity-buttons {
-  display: none;
+.search-result .ting-object .group-inner {
+  float: left;
+  width: 75%;
+}
+
+.field-name-ting-abstract {
+  margin-bottom: 10px;
 }
 
 .container.conditions p {
