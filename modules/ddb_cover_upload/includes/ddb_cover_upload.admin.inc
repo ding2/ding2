@@ -280,7 +280,6 @@ function ddb_cover_upload_search_preview(array $form, array $form_state) {
  */
 function ddb_cover_upload_image_upload(array $form, array &$form_state) {
   $path = drupal_get_path('module', 'ddb_cover_upload');
-
   $form['#attached']['js'][] = array(
     'data' => array(
       'ddbCoverUpload' => array(
@@ -357,6 +356,12 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
  *   Theme exception error.
  */
 function ddb_cover_upload_meta(array $form, array &$form_state) {
+  // Add javascript to open dialog with information about usage of the service.
+  $path = drupal_get_path('module', 'ddb_cover_upload');
+  $form['#attached']['js'][$path . '/js/ddb_cover_upload_dialog.admin.js'] = array(
+    'type' => 'file',
+  );
+
   $form['ddb_cover_upload_meta'] = array(
     '#type' => 'container',
     '#attributes' => array(
