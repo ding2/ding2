@@ -36,7 +36,10 @@
         if (!imageHasBeenUploaded) {
           event.preventDefault();
 
-          const myImage = instance.toDataURL();
+          const myImage = instance.toDataURL({
+            'format': 'jpeg',
+            'quality': '0.9'
+          });
           $.ajax({
             type: "POST",
             url: '/admin/config/ting/ddb_cover_upload/ajax',

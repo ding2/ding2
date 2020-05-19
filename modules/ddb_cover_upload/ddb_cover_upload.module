@@ -227,6 +227,9 @@ function ddb_cover_upload_image_upload_ajax() {
       $error = t('Failed to save file to the server.');
     }
   }
+  else {
+    $error = t('No post data found in image upload. Please contact you system administrator.');
+  }
 
   drupal_json_output(array(
     'error' => $error,
