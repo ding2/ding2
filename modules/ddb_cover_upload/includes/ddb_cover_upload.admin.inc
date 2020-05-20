@@ -334,8 +334,7 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
     // Disable next button, if no image have been uploaded yet.
     $form['next']['#attributes'] = array(
       'class' => array(
-        'btn',
-        'btn-primary',
+        'btn-form-submit',
         'disabled'
       ),
     );
