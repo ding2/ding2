@@ -13,7 +13,7 @@
   margin-bottom: 10px;
 }
 
-.container.conditions p {
+.conditions p {
   max-width: 780px;
 }
 
@@ -32,28 +32,29 @@
   max-width: 100%; /* Avoid overlapping right column */
 }
 
-.row {
+.guide {
+  border: 1px solid #f5f5f5;
+  margin-bottom: 2rem;
+}
+
+.guide__row {
   width: 100%;
   border-radius: 2px;
   padding: 1rem;
   display: flex;
 }
 
-.row .col-12 {
+.guide__col--12 {
   width: 100%;
   margin: 1rem;
 }
 
-.row .col-3 {
+.guide__col--3 {
   width: 33%;
   margin: 1rem;
 }
 
-.border.border-gray {
-  border: 1px solid #f5f5f5;
-}
-
-.center {
+.text-center {
   text-align: center;
 }
 
@@ -83,7 +84,7 @@
   overflow: hidden;
 }
 
-.btn.btn-primary {
+.btn-form-submit {
   background: rgb(243,243,243);
   background: linear-gradient(180deg,rgba(243,243,243,1) 0%,rgba(224,224,224,1) 100%);
   border: 1px solid #e4e4e4;
@@ -96,13 +97,13 @@
   color: #5a5a5a;
 }
 
-.btn.btn-primary:hover {
+.btn-form-submit:hover {
   background: linear-gradient(0deg,rgba(243,243,243,1) 0%,rgba(224,224,224,1) 100%);
   color: #222222;
   text-decoration: none;
 }
 
-.btn.btn-primary.disabled {
+.btn-form-submit.disabled {
   background: #eee none;
   border-color: #eee;
   text-shadow: none;
@@ -155,6 +156,10 @@
   display: none !important;
 }
 
-.page-admin-config-cover-upload .img-displayed {
-  max-height: 50vh;
+.tui-image-editor-canvas-container {
+  box-shadow: 0px 4px 8px rgba(0,0,0,.16);
+}
+
+.page-admin-config-ting-ddb-cover-upload .img-displayed {
+  max-height: 75vh;
 }
