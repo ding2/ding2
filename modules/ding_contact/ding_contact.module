@@ -50,11 +50,10 @@ function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
   // Add a notice about not inserting personal data in the contact form. We make
   // it translatable so that administrators are able to change the link to the
   // privacy policy page.
-  $notice = '<strong>BEMÆRK</strong>: Indsæt ALDRIG persondata (fx CPR-nr. eller PIN-kode) i formularen. ';
-  $notice .= 'Læs hvordan dine persondata behandles i <a href="/persondata">bibliotekets persondata politik</a>.';
+  $privacy_notice = t('<strong>NOTICE</strong>: NEVER insert personal data of any kind in the formular. Read more in our <a href="/persondata">privacy policy</a>.');
   $form['privacy_notice'] = [
     '#type' => 'item',
-    '#markup' => '<p>' . t($notice) . '</p>',
+    '#markup' => '<p>' . $privacy_notice . '</p>',
   ];
 }
 
