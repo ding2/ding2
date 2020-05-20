@@ -924,7 +924,10 @@ function ding_base_mail_alter(&$message) {
     // Get the original mail template without replaced tokens.
     // Copied from: webform_submission_send_mail().
     if ($email['template'] == 'default') {
-      $email['message'] = theme(array('webform_mail_' . $node->nid, 'webform_mail', 'webform_mail_message'), array('node' => $node, 'submission' => $submission, 'email' => $email));
+      $email['message'] = theme(
+        ['webform_mail_' . $node->nid, 'webform_mail', 'webform_mail_message'],
+        ['node' => $node, 'submission' => $submission, 'email' => $email]
+      );
     }
     else {
       $email['message'] = $email['template'];
@@ -936,7 +939,7 @@ function ding_base_mail_alter(&$message) {
     // Replace tokens in the message (again) if any replacements was performed.
     if ($count > 0) {
       // Copied from: webform_submission_send_mail().
-      $email['message'] = webform_replace_tokens($email['message'], $node, $submission, $email, (boolean)$email['html']);
+      $email['message'] = webform_replace_tokens($email['message'], $node, $submission, $email, (boolean) $email['html']);
 
       // Insert new message in body replacing the old completely.
       $message['body'] = [];
