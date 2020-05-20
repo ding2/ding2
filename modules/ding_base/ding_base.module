@@ -934,7 +934,10 @@ function ding_base_mail_alter(&$message) {
     }
 
     $count = 0;
-    $email['message'] = str_replace('[submission:values]', '[submission:url]', $email['message'], $count);
+    // We can also have more specific submission values tokens of the form
+    // [submission:values:?] that reference a specific component on the form,
+    // so we use a regular expression.
+    $email['message'] = preg_replace('/\[submission:values.*\]/', '[submission:url]',  $email['message'], -1, $count);
 
     // Replace tokens in the message (again) if any replacements was performed.
     if ($count > 0) {
