@@ -138,20 +138,37 @@ function ting_infomedia_ding_entity_is($object, $class) {
 /**
  * Implements hook_ding_entity_buttons().
  */
-function ting_infomedia_ding_entity_buttons($type, $entity) {
-  if ($entity->is('infomedia')) {
-    $build = array();
-    $options = array(
-      'attributes' => array(
-        'class' => 'action-button button-see-online use-ajax',
-      ),
-    );
-    $build[] = array(
+function ting_infomedia_ding_entity_buttons($type, $entity, $view_mode, $widget) {
+  $buttons = [];
+
+  if (strpos($_GET['q'], 'search/ting/') !== FALSE || strpos($_GET['q'], 'ting/collection/') !== FALSE) {
+    // Simply render button placeholders that would be replaced with proper
+    // buttons via ajax.
+    $buttons[] = [
       '#type' => 'markup',
-      '#markup' => l(t('Read article'), $entity->online_url, $options),
-    );
-    return $build;
+      '#markup' => '<span id="infomedia-' . $entity->localId . '" class="ding-entity-button-infomedia ding-entity-button-placeholder"></span>',
+      '#attached' => [
+        'js' => [
+          drupal_get_path('module', 'ting') . '/js/ting_ding_entity_buttons.js',
+        ],
+      ],
+    ];
   }
+  else {
+    if ($entity->is('infomedia')) {
+      $options = [
+        'attributes' => [
+          'class' => 'action-button button-see-online use-ajax',
+        ],
+      ];
+      $buttons[] = [
+        '#type' => 'markup',
+        '#markup' => l(t('Read article'), $entity->online_url, $options),
+      ];
+    }
+  }
+
+  return $buttons;
 }
 
 /**
