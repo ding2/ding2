@@ -93,3 +93,63 @@
     font-size: 18px;
   }
 }
+
+// Related materials
+.ddb-related-materials {
+  padding: 0;
+  background-color: transparent;
+
+  &__title {
+    // Make the application title look like a panel title.
+    // @see .pane-content .pane-title
+    @include font('display-large');
+    color: $color-text;
+    margin: 0 0 20px;
+
+    @include media($mobile) {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__search {
+    display: block;
+    margin: 16px 0 0;
+    color: $color-text-link;
+  }
+
+  &__list {
+    justify-content: space-between;
+  }
+}
+
+.ddb-related-material {
+  margin: 16px 0 0;
+
+  // Sizing covers where we do not have a guaranteed height or width is tricky.
+  // Lock in some sensible values at known breakpoints.
+  $image_height_width_ratio: 1.5;
+  // Widths suitable for a 5x2 display.
+  $width: 212px;
+  $notebook_width: 171px;
+  $tablet_width: 125px;
+  // Mobile display is 2x5.
+  $mobile_width: 160px;
+
+  width: $width;
+  height: $width * $image_height_width_ratio;
+
+  @include media($notebook) {
+    width: $notebook_width;
+    height: $notebook_width * $image_height_width_ratio;
+  }
+
+  @include media($tablet) {
+    width: $tablet_width;
+    height: $tablet_width * $image_height_width_ratio;
+  }
+
+  @include media($mobile) {
+    width: $mobile_width;
+    height: $mobile_width * $image_height_width_ratio;
+  }
+}
