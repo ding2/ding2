@@ -557,8 +557,8 @@ function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default
   }
 
   $buttons = [];
+  // @TODO: Find more proper way of rendering placeholders.
   if (strpos($_GET['q'], 'search/ting/') !== FALSE || strpos($_GET['q'], 'ting/collection/') !== FALSE) {
-
     // Simply render button placeholders that would be replaced with proper
     // buttons via ajax.
     $buttons[] = [
@@ -575,7 +575,6 @@ function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default
         ],
       ],
     ];
-
   }
   else {
     if ($entity instanceof TingEntity) {
