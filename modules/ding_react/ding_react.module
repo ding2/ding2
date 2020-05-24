@@ -20,9 +20,10 @@ function ding_react_libraries_info() {
   return [
     'ddb-react' => [
       'name' => 'DDB React',
-      'vendor url' => 'https://github.com/reload/ddb-react',
-      'download url' => 'https://github.com/reload/ddb-react/releases/download/latest/dist.zip',
-      'version' => '1.0.0',
+      'vendor url' => 'https://github.com/danskernesdigitalebibliotek/ddb-react',
+      'download url' => 'https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/latest/dist.zip',
+      // We have to set the version to something for Library API to work.
+      'version' => 'latest',
       'files' => [
         'js' => [
           'runtime.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
