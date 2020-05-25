@@ -157,10 +157,25 @@ body > .ding2-site-template {
     background-color $speed $ease,
     color $speed $ease
   );
-  color: $charcoal-opacity-dark;
+
   background-color: $grey;
+  color: $charcoal-opacity-dark;
   padding: 20px 80px 14px 15px;
   border-radius: $round-corner;
+  display: block;
+  font-size: 1em;
+  margin-bottom: 15px;
+  &:hover {
+    background-color: $grey-dark;
+    color: $white;
+  }
+
+  @include media($mobile) {
+    @include span-columns(6);
+    margin-bottom: 10px;
+    padding-right: 0;
+  }
+
   &.reserve-button,
   &.button-see-online,
   &.button-order {
@@ -171,11 +186,7 @@ body > .ding2-site-template {
       color: $white;
     }
   }
-  &.button-see-online,
-  &.button-order,
-  &.other-formats {
-    display: block;
-  }
+
   &.reserve-button {
     display: none;
     &.reservable,
@@ -184,6 +195,7 @@ body > .ding2-site-template {
     }
   }
 }
+
 
 // Submit-button with icon
 //
