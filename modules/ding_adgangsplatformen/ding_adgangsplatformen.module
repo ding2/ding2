@@ -337,7 +337,7 @@ function ding_adgangsplatformen_logout($regen_session = FALSE) {
   // Build base options for logging out.
   $config = ding_adgangsplatformen_get_configuration();
   $singleLogout = $config['singleLogout'] ? 'true' : 'false';
-  $token = ding_adgangsplatformen_openplatform_token_get();
+  $token = ding_adgangsplatformen_openplatform_get_token();
 
   $logout_options = [
     'singlelogout' => $singleLogout,
