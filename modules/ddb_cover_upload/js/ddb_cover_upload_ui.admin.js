@@ -100,7 +100,7 @@
           'common.bisize.height': '21px',
           'common.backgroundImage': './img/bg.png',
           'common.backgroundColor': '#fff',
-          'common.border': '1px solid #c1c1c1',
+          'common.border': '0px solid #c1c1c1',
 
           // Header.
           'header.backgroundImage': 'none',
@@ -108,11 +108,11 @@
           'header.border': '0px',
 
           // Load button.
-          'loadButton.backgroundColor': '#fff',
-          'loadButton.border': '1px solid #ddd',
-          'loadButton.color': '#222',
+          'loadButton.backgroundColor': '#ffbb3b',
+          'loadButton.border': '0px solid #ddd',
+          'loadButton.color': '#111',
           'loadButton.fontFamily': '\'Noto Sans\', sans-serif',
-          'loadButton.fontSize': '12px',
+          'loadButton.fontSize': '13px',
 
           // Download button.
           'downloadButton.backgroundColor': '#fdba3b',
