@@ -106,23 +106,6 @@
   }
 
   /**
-   * Hide listed empty elements.
-   */
-  function hideElement() {
-    var selectors = [
-      '.layout-wrapper'
-    ];
-
-    for (var i = selectors.length - 1; i >= 0; i--) {
-      var $el = $(selectors[i]);
-
-      if($.trim($el.html()) === '') {
-        $el.hide();
-      }
-    }
-  }
-
-  /**
    * Sets sarousel image as background.
    */
   function setCarouselBg() {
@@ -140,9 +123,6 @@
 
     // Carousel bg
     setCarouselBg();
-
-    // Hide empty elements
-    hideElement();
 
     // Toggle opening hours.
     toggle_opening_hours();
@@ -172,8 +152,9 @@
       });
     });
 
+    // Hide empty element.
     $('.layout-wrapper').each(function() {
-      if ($(this).children().length == 0) {
+      if ($(this).children().length === 0) {
         $(this).css('display', 'none');
       }
     });
