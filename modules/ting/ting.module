@@ -173,6 +173,16 @@ function ting_render_ding_entity_buttons_callback($request_type, $button_type) {
         );
         break;
 
+      case 'infomedia':
+        $markup = ting_entity_infomedia_button($entity);
+        $html = render($markup);
+
+        $commands[] = ajax_command_replace(
+          '#infomedia-' . $entity->localId . '.ding-entity-button-placeholder',
+          $html
+        );
+        break;
+
       case 'other-formats':
         $markup = ting_entity_other_formats_button($entity);
         $html = render($markup);
@@ -203,18 +213,41 @@ function ting_render_ding_entity_buttons_callback($request_type, $button_type) {
  *   Button markup as render-able array.
  */
 function ting_entity_see_online_button(TingEntity $entity) {
-  $online_types = variable_get('ting_online_types', _ting_default_online_types());
   $entity_type = drupal_strtolower($entity->type);
 
   $markup = [];
 
-  if (!empty($online_types[$entity_type])) {
+  if ($entity->is('online')) {
     $online_url_labels = variable_get('ting_url_labels', _ting_default_url_labels());
     $label = !empty($online_url_labels[$entity_type]) ? $online_url_labels[$entity_type] : $online_url_labels['_default'];
 
     $markup = [
       '#type' => 'markup',
-      '#markup' => '<a class="button-see-online action-button" target="_blank" href="' . $entity->online_url . '">' . $label . '</a>',
+      '#markup' => '<a class="button-see-online action-button use-ajax" target="_blank" href="' . $entity->online_url . '">' . $label . '</a>',
+    ];
+  }
+
+  return $markup;
+}
+
+/**
+ * Render "Infomedia" button.
+ *
+ * @param \TingEntity $entity
+ *   Ting entity as the source of button markup.
+ *
+ * @return array
+ *   Button markup as render-able array.
+ */
+function ting_entity_infomedia_button(TingEntity $entity) {
+  $markup = [];
+
+  if ($entity->is('infomedia')) {
+    $label = t('Read article');
+
+    $markup = [
+      '#type' => 'markup',
+      '#markup' => '<a class="button-infomedia action-button use-ajax" target="_blank" href="' . $entity->online_url . '">' . $label . '</a>',
     ];
   }
 
@@ -519,52 +552,77 @@ function ting_ding_entity_is($object, $class) {
  * Implements hook_ding_entity_buttons().
  */
 function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
-  if ($entity instanceof TingEntity) {
-    $buttons = array();
+  if (!$entity instanceof TingEntity) {
+    return;
+  }
 
-    if ($entity->is('online')) {
-      $settings = variable_get('ting_url_labels', _ting_default_url_labels());
-      $type = drupal_strtolower($entity->type);
-      $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
-      // The link can't use l() as it will encode the url from ting_proxy. Use
-      // get online as the dc:identifier in $entity->online is not always the
-      // correct url.
-      $buttons[] = [
-        '#type' => 'html_tag',
-        '#tag' => 'a',
-        '#value' => $label,
-        '#attributes' => [
-          'class' => ['button-see-online', 'action-button'],
-          'href' => $entity->getOnline_url(),
-          'target' => '_new',
+  $buttons = [];
+  // @TODO: Find more proper way of rendering placeholders.
+  if (strpos($_GET['q'], 'search/ting/') !== FALSE || strpos($_GET['q'], 'ting/collection/') !== FALSE) {
+    // Simply render button placeholders that would be replaced with proper
+    // buttons via ajax.
+    $buttons[] = [
+      '#type' => 'markup',
+      '#markup' => '<span id="see-online-' . $entity->localId . '" class="ding-entity-button-see-online ding-entity-button-placeholder"></span>',
+    ];
+
+    $buttons[] = [
+      '#type' => 'markup',
+      '#markup' => '<span id="other-formats-' . $entity->localId . '" class="ding-entity-button-other-formats ding-entity-button-placeholder"></span>',
+      '#attached' => [
+        'js' => [
+          drupal_get_path('module', 'ting') . '/js/ting_ding_entity_buttons.js',
         ],
-      ];
-    }
+      ],
+    ];
+  }
+  else {
+    if ($entity instanceof TingEntity) {
+      $buttons = [];
 
-    // Loading collection (specially on empty cache is expensive). So only load
-    // the collection when it's need and here only when this button is required
-    // in the design. Before using context it was load but not used in the
-    // design.
-    if (strpos($view_mode, 'teaser') === FALSE) {
-      $collection = ting_collection_load($entity->id);
-      if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
+      if ($entity->is('online')) {
+        $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+        $type = drupal_strtolower($entity->type);
+        $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+        // The link can't use l() as it will encode the url from ting_proxy. Use
+        // get online as the dc:identifier in $entity->online is not always the
+        // correct url.
         $buttons[] = [
-          '#theme' => 'link',
-          '#text' => t('Other formats'),
-          '#path' => '#',
-          '#options' => [
-            'attributes' => [
-              'class' => ['action-button', 'other-formats'],
-            ],
-            'html' => FALSE,
-            'external' => TRUE,
+          '#type' => 'html_tag',
+          '#tag' => 'a',
+          '#value' => $label,
+          '#attributes' => [
+            'class' => ['button-see-online', 'action-button', 'use-ajax'],
+            'href' => $entity->getOnline_url(),
+            'target' => '_new',
           ],
         ];
       }
-    }
 
-    return $buttons;
+      // Loading collection (specially on empty cache is expensive). So only load
+      // the collection when it's need and here only when this button is required
+      // in the design. Before using context it was load but not used in the
+      // design.
+      if (strpos($view_mode, 'teaser') === FALSE) {
+        $collection = ting_collection_load($entity->id);
+        if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
+          $buttons[] = [
+            '#theme' => 'link',
+            '#text' => t('Other formats'),
+            '#path' => '#',
+            '#options' => [
+              'attributes' => [
+                'class' => ['action-button', 'other-formats', 'use-ajax'],
+              ],
+              'html' => FALSE,
+              'external' => TRUE,
+            ],
+          ];
+        }
+      }
+    }
   }
+  return $buttons;
 }
 
 /**
