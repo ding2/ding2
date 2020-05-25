@@ -124,6 +124,8 @@ jobs:
           install_configure_form.update_status_module='array(FALSE,FALSE)' \
           ding2_module_selection_form.providers_selection=connie \
           opensearch_admin_settings.opensearch_url=https://oss-services.dbc.dk/opensearch/5.2/ \
+          opensearch_admin_settings.ting_agency=100200 \
+          opensearch_admin_settings.opensearch_search_profile=test \
           ting_covers_addi_admin_settings_form.ting_covers_addi_wsdl_url=http://moreinfo.addi.dk/2.11 \
           ting_covers_addi_admin_settings_form.ting_covers_addi_username=username \
           ting_covers_addi_admin_settings_form.ting_covers_addi_group=group \
@@ -231,9 +233,6 @@ jobs:
           drush cgen
           drush en -y connie connie_openplatform_token ting_covers_placeholder
           drush dis -y ting_covers_addi
-          drush vset -y ting_agency 100200
-          drush vset -y opensearch_url 'https://oss-services.dbc.dk/opensearch/5.2/'
-          drush vset -y opensearch_search_profile test
           drush vset -y opensearch_recommendation_url 'http://openadhl.addi.dk/1.1/'
           drush vset -y ting_infomedia_url 'http://useraccessinfomedia.addi.dk/1.4/'
           drush vset -y opensearch_search_autocomplete_suggestion_url 'https://ortograf.dbc.dk/ortograf/suggest'
