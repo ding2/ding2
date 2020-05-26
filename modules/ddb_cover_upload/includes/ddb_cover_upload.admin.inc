@@ -191,7 +191,6 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
     ),
   );
 
-  // @todo Allow lookup through isbn etc.
   $form['ddb_cover_upload']['left']['ddb_cover_upload_material'] = array(
     '#type' => 'textfield',
     '#title' => t('Material'),
@@ -210,12 +209,12 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
     ),
   );
 
-  $form['lookup'] = array(
+  $form['preview'] = array(
     '#type' => 'submit',
-    '#value' => 'Lookup',
+    '#value' => 'Preview',
     '#ajax' => array(
       'callback' => 'ddb_cover_upload_search_preview',
-      'wrapper' => 'search-lookup-wrapper',
+      'wrapper' => 'preview-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
     ),
@@ -223,7 +222,6 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
 
   $content = FALSE;
   if (isset($form_state['values']['ddb_cover_upload_material'])) {
-    // @TODO: Allow lookup on other ID's than pid.
     $entity = ding_entity_load($form_state['values']['ddb_cover_upload_material'], 'ting_object');
     $content = ting_object_view($entity, 'teaser_full');
   }
