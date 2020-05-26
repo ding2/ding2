@@ -39,7 +39,7 @@
   </span>
   </div>
 <?php endif; ?>
-<div class="item">
+<div class="item"<?php print $attributes; ?>>
   <?php if ($item->image): ?>
     <div class="item-list-image">
       <?php print $item->image_link; ?>

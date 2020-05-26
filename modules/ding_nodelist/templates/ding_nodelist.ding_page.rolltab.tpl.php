@@ -20,7 +20,7 @@ if (!empty($body) && substr($body, 0, 2) === '<p') {
 }
 
 ?>
-<div class="ding-tabroll">
+<div class="ding-tabroll"<?php print $attributes; ?>>
   <div class="ui-tabs-panel">
     <div class="image">
       <?php if (!$item->image): ?>
