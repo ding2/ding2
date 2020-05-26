@@ -329,9 +329,7 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
   );
 
   // Add guidelines for best results.
-  $form['guidelines'] = array(
-    '#markup' => theme('ddb_cover_upload_best_result')
-  );
+  $form['#suffix'] = theme('ddb_cover_upload_best_result');
 
   return $form;
 }
