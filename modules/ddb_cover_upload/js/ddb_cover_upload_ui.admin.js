@@ -38,7 +38,7 @@
 
       // Handle ajax image upload, when next is clicked.
       nextBtn.click(function (event) {
-        let self = $(this);
+        var self = $(this);
 
         if (preventNextStep) {
           event.preventDefault();

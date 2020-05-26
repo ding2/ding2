@@ -5,7 +5,7 @@
 (function ($) {
   'use strict';
 
-  let uploadAnother = '#js-upload-another';
+  var uploadAnother = '#js-upload-another';
 
   /**
    * Change frontend to visualize that upload to cover service has finished.
@@ -23,7 +23,7 @@
   Drupal.behaviors.ddbCoverUpload = {
     attach: function (context, settings) {
       // Store link url and disable link.
-      let uploadNewHref = $(uploadAnother).attr("href");
+      var uploadNewHref = $(uploadAnother).attr("href");
       $(uploadAnother).removeAttr('href');
 
       function checkSubmission() {
