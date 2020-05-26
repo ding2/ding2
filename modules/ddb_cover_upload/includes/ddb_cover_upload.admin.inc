@@ -287,26 +287,11 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
     'type' => 'setting',
   );
 
-  // Attache Toast TUI image upload/editor.
-  $form['#attached']['css']['https://uicdn.toast.com/tui-color-picker/v2.2.3/tui-color-picker.css'] = array(
-    'type' => 'external',
-  );
-  $form['#attached']['css']['https://uicdn.toast.com/tui-image-editor/v3.8.0/tui-image-editor.css'] = array(
-    'type' => 'external',
-  );
-
-  $form['#attached']['js']['https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js'] = array(
-    'type' => 'external',
-  );
-  $form['#attached']['js']['https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'] = array(
-    'type' => 'external',
-  );
-  $form['#attached']['js']['https://uicdn.toast.com/tui-color-picker/v2.2.3/tui-color-picker.js'] = array(
-    'type' => 'external',
-  );
-  $form['#attached']['js']['https://uicdn.toast.com/tui-image-editor/v3.8.0/tui-image-editor.js'] = array(
-    'type' => 'external',
-  );
+  // Load image editor and need support libraries.
+  $form['#attached']['libraries_load'][] = array('fabric');
+  $form['#attached']['libraries_load'][] = array('tui-color-picker');
+  $form['#attached']['libraries_load'][] = array('tui-code-snippet');
+  $form['#attached']['libraries_load'][] = array('tui-image-editor');
 
   // Custom JS to handle image upload and configuration of the image editor.
   $form['#attached']['js'][$path . '/js/ddb_cover_upload_ui.admin.js'] = array(
