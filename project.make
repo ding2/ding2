@@ -633,7 +633,7 @@ libraries[ddb-react][destination] = "libraries"
 
 ; CoverService upload client.
 libraries[ddb-cover-service-upload-client][download][type] = "get"
-libraries[ddb-cover-service-upload-client][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload-php-client/archive/develop.zip
+libraries[ddb-cover-service-upload-client][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload-php-client/archive/1.0.0.tar.gz
 libraries[ddb-cover-service-upload-client][directory_name] = "ddb-cover-service-upload-client"
 libraries[ddb-cover-service-upload-client][destination] = "libraries"
 
