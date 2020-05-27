@@ -67754,4 +67754,4 @@ msgstr "Aktivér logging af debugging"
 
 #: /node/34
 msgid "<strong>NOTICE</strong>: NEVER insert personal data of any kind in the formular. Read more in our <a href="/persondata">privacy policy</a>."
-msgstr "<strong>BEMÆRK</strong>: Indsæt ALDRIG persondata (fx CPR-nr. eller PIN-kode) i formularen. Læs hvordan dine persondata behandles i <a href="/persondata">bibliotekets persondata politik</a>."
+msgstr "<strong>BEMÆRK</strong>: Indsæt ALDRIG persondata (fx CPR-nr. eller PIN-kode) i formularen. Læs hvordan dine persondata behandles i <a href="/persondata">bibliotekets persondatapolitik</a>."
