@@ -9,7 +9,7 @@ dependencies[] = features
 dependencies[] = field_group
 dependencies[] = ting
 dependencies[] = virtual_field
-explanation = Anvendte felttyper - se <a href="/admin/reports/fields">feltliste</a>
+explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
 features[ctools][] = field_group:field_group:1
 features[features_api][] = api:2
 features[field_base][] = ting_details_age
