@@ -38,7 +38,7 @@
 
       // Handle ajax image upload, when next is clicked.
       nextBtn.click(function (event) {
-        let self = $(this);
+        var self = $(this);
 
         if (preventNextStep) {
           event.preventDefault();
@@ -113,6 +113,7 @@
           'loadButton.color': '#111',
           'loadButton.fontFamily': '\'Noto Sans\', sans-serif',
           'loadButton.fontSize': '13px',
+          'loadButton.minWidth': '200px',
 
           // Download button.
           'downloadButton.backgroundColor': '#fdba3b',

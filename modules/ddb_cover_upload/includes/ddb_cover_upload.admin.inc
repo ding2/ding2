@@ -143,9 +143,8 @@ function ddb_cover_upload_conditions(array $form, array &$form_state) {
   $terms = variable_get('ddb_cover_upload_terms_of_use', array('value' => 'Not configured yet!'))['value'];
 
   $form['ddb_cover_upload_conditions'] = array(
-    '#markup' => theme('ddb_cover_upload_conditions', array(
-      'copyright_text' => empty($terms) ? $no_terms_set : $terms,
-    )),
+    '#theme' => 'ddb_cover_upload_conditions',
+    '#copyright_text' => empty($terms) ? $no_terms_set : $terms,
   );
 
   $form['ddb_cover_upload_confirm'] = array(
@@ -191,7 +190,6 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
     ),
   );
 
-  // @todo Allow lookup through isbn etc.
   $form['ddb_cover_upload']['left']['ddb_cover_upload_material'] = array(
     '#type' => 'textfield',
     '#title' => t('Material'),
@@ -210,12 +208,12 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
     ),
   );
 
-  $form['lookup'] = array(
+  $form['preview'] = array(
     '#type' => 'submit',
-    '#value' => 'Lookup',
+    '#value' => 'Preview',
     '#ajax' => array(
       'callback' => 'ddb_cover_upload_search_preview',
-      'wrapper' => 'search-lookup-wrapper',
+      'wrapper' => 'preview-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
     ),
@@ -223,13 +221,13 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
 
   $content = FALSE;
   if (isset($form_state['values']['ddb_cover_upload_material'])) {
-    // @TODO: Allow lookup on other ID's than pid.
     $entity = ding_entity_load($form_state['values']['ddb_cover_upload_material'], 'ting_object');
     $content = ting_object_view($entity, 'teaser_full');
   }
 
   $form['ddb_cover_upload']['right']['results'] = array(
-    '#markup' => theme('ddb_cover_upload_search_preview', array('content' => $content)),
+    '#theme' => 'ddb_cover_upload_search_preview',
+    '#content' => $content,
   );
 
   return $form;
@@ -258,7 +256,8 @@ function ddb_cover_upload_search_preview(array $form, array $form_state) {
   }
 
   $form['ddb_cover_upload']['right']['results'] = array(
-    '#markup' => theme('ddb_cover_upload_search_preview', array('content' => $content)),
+    '#theme' => 'ddb_cover_upload_search_preview',
+    '#content' => $content,
   );
 
   return $form['ddb_cover_upload']['right']['results'];
@@ -289,26 +288,11 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
     'type' => 'setting',
   );
 
-  // Attache Toast TUI image upload/editor.
-  $form['#attached']['css']['https://uicdn.toast.com/tui-color-picker/v2.2.3/tui-color-picker.css'] = array(
-    'type' => 'external',
-  );
-  $form['#attached']['css']['https://uicdn.toast.com/tui-image-editor/v3.8.0/tui-image-editor.css'] = array(
-    'type' => 'external',
-  );
-
-  $form['#attached']['js']['https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js'] = array(
-    'type' => 'external',
-  );
-  $form['#attached']['js']['https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'] = array(
-    'type' => 'external',
-  );
-  $form['#attached']['js']['https://uicdn.toast.com/tui-color-picker/v2.2.3/tui-color-picker.js'] = array(
-    'type' => 'external',
-  );
-  $form['#attached']['js']['https://uicdn.toast.com/tui-image-editor/v3.8.0/tui-image-editor.js'] = array(
-    'type' => 'external',
-  );
+  // Load image editor and need support libraries.
+  $form['#attached']['libraries_load'][] = array('fabric');
+  $form['#attached']['libraries_load'][] = array('tui-color-picker');
+  $form['#attached']['libraries_load'][] = array('tui-code-snippet');
+  $form['#attached']['libraries_load'][] = array('tui-image-editor');
 
   // Custom JS to handle image upload and configuration of the image editor.
   $form['#attached']['js'][$path . '/js/ddb_cover_upload_ui.admin.js'] = array(
@@ -316,7 +300,7 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
   );
 
   $form['image_editor'] = array(
-    '#markup' => theme('ddb_cover_upload_image_editor'),
+    '#theme' => 'ddb_cover_upload_image_editor',
   );
 
   $form['is'] = array(
@@ -346,7 +330,10 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
   );
 
   // Add guidelines for best results.
-  $form['#suffix'] = theme('ddb_cover_upload_best_result');
+  $form['best_result'] = array(
+    '#theme' => 'ddb_cover_upload_best_result',
+    '#weight' => 90,
+  );
 
   return $form;
 }
@@ -418,17 +405,16 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   }
 
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_data'] = array(
-    '#markup' => theme('ddb_cover_upload_meta_data', array(
-      'entity' => $entity,
-      'material' => $material,
-      'image_url' => $displayedImageUrl,
-      'meta_data' => array(
-        'file_dimensions' => array('x' => $originalImage[0], 'y' => $originalImage[1]),
-        'file_type' => $originalImage['mime'],
-        'file_size' => filesize($originalImagePath),
-        'agency' => $form_state['agency'],
-      ),
-    )),
+    '#theme' => 'ddb_cover_upload_meta_data',
+    '#entity' => $entity,
+    '#material' => $material,
+    '#image_url' => $displayedImageUrl,
+    '#meta_data' => array(
+      'file_dimensions' => array('x' => $originalImage[0], 'y' => $originalImage[1]),
+      'file_type' => $originalImage['mime'],
+      'file_size' => filesize($originalImagePath),
+      'agency' => $form_state['agency'],
+    ),
   );
 
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_input'] = array(
@@ -442,9 +428,8 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   $no_terms_set = t('[Contact DDB for copyright information and change module settings]');
   $terms = variable_get('ddb_cover_upload_terms_of_use')['value'];
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_copyright'] = array(
-    '#markup' => theme('ddb_cover_upload_meta_copyright', array(
-      'copyright_text' => empty($terms) ? $no_terms_set : $terms,
-    )),
+    '#theme' => 'ddb_cover_upload_meta_copyright',
+    '#copyright_text' => empty($terms) ? $no_terms_set : $terms,
   );
 
   return $form;
@@ -509,10 +494,9 @@ function ddb_cover_upload_client_upload(array $form, array &$form_state) {
   );
 
   $form['ddb_cover_upload_client_upload']['content'] = array(
-    '#markup' => theme('ddb_cover_upload_submitted', array(
-      'data' => $data,
-      'image' => $image_url,
-    )),
+    '#theme' => 'ddb_cover_upload_submitted',
+    '#data' => $data,
+    '#image' => $image_url,
   );
 
   return $form;

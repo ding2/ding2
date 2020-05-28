@@ -102,8 +102,8 @@ function connie_openplatform_token_form() {
     '#type' => 'textfield',
     '#title' => t('Open Platform agency token'),
     '#size' => 36,
-    '#description' => t('Enter a <a href="https://github.com/DBCDK/hejmdal/blob/master/docs/oauth2.md">access token from Adgansplatformen</a> to register for the current agency.'),
-    '#default_value' => connie_openplatform_token_get_token(),
+    '#description' => t('Enter a <a href="https://openplatform.dbc.dk/v3/">access token from the open platform</a> to register for the current agency.'),
+    '#default_value' => connie_openplatform_token_get_agency_token(),
   );
 
   $form['submit'] = array(
