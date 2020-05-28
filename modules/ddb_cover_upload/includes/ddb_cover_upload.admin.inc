@@ -319,7 +319,7 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
     $form['next']['#attributes'] = array(
       'class' => array(
         'btn-form-submit',
-        'disabled'
+        'disabled',
       ),
     );
   }
