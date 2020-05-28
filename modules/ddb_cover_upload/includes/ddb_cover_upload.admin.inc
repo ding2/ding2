@@ -143,9 +143,8 @@ function ddb_cover_upload_conditions(array $form, array &$form_state) {
   $terms = variable_get('ddb_cover_upload_terms_of_use', array('value' => 'Not configured yet!'))['value'];
 
   $form['ddb_cover_upload_conditions'] = array(
-    '#markup' => theme('ddb_cover_upload_conditions', array(
-      'copyright_text' => empty($terms) ? $no_terms_set : $terms,
-    )),
+    '#theme' => 'ddb_cover_upload_conditions',
+    '#copyright_text' => empty($terms) ? $no_terms_set : $terms,
   );
 
   $form['ddb_cover_upload_confirm'] = array(
@@ -227,7 +226,8 @@ function ddb_cover_upload_material(array $form, array &$form_state) {
   }
 
   $form['ddb_cover_upload']['right']['results'] = array(
-    '#markup' => theme('ddb_cover_upload_search_preview', array('content' => $content)),
+    '#theme' => 'ddb_cover_upload_search_preview',
+    '#content' => $content,
   );
 
   return $form;
@@ -256,7 +256,8 @@ function ddb_cover_upload_search_preview(array $form, array $form_state) {
   }
 
   $form['ddb_cover_upload']['right']['results'] = array(
-    '#markup' => theme('ddb_cover_upload_search_preview', array('content' => $content)),
+    '#theme' => 'ddb_cover_upload_search_preview',
+    '#content' => $content,
   );
 
   return $form['ddb_cover_upload']['right']['results'];
@@ -299,7 +300,7 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
   );
 
   $form['image_editor'] = array(
-    '#markup' => theme('ddb_cover_upload_image_editor'),
+    '#theme' => 'ddb_cover_upload_image_editor',
   );
 
   $form['is'] = array(
@@ -329,7 +330,10 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
   );
 
   // Add guidelines for best results.
-  $form['#suffix'] = theme('ddb_cover_upload_best_result');
+  $form['best_result'] = array(
+    '#theme' => 'ddb_cover_upload_best_result',
+    '#weight' => 90,
+  );
 
   return $form;
 }
@@ -401,17 +405,16 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   }
 
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_data'] = array(
-    '#markup' => theme('ddb_cover_upload_meta_data', array(
-      'entity' => $entity,
-      'material' => $material,
-      'image_url' => $displayedImageUrl,
-      'meta_data' => array(
-        'file_dimensions' => array('x' => $originalImage[0], 'y' => $originalImage[1]),
-        'file_type' => $originalImage['mime'],
-        'file_size' => filesize($originalImagePath),
-        'agency' => $form_state['agency'],
-      ),
-    )),
+    '#theme' => 'ddb_cover_upload_meta_data',
+    '#entity' => $entity,
+    '#material' => $material,
+    '#image_url' => $displayedImageUrl,
+    '#meta_data' => array(
+      'file_dimensions' => array('x' => $originalImage[0], 'y' => $originalImage[1]),
+      'file_type' => $originalImage['mime'],
+      'file_size' => filesize($originalImagePath),
+      'agency' => $form_state['agency'],
+    ),
   );
 
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_input'] = array(
@@ -425,9 +428,8 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   $no_terms_set = t('[Contact DDB for copyright information and change module settings]');
   $terms = variable_get('ddb_cover_upload_terms_of_use')['value'];
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_copyright'] = array(
-    '#markup' => theme('ddb_cover_upload_meta_copyright', array(
-      'copyright_text' => empty($terms) ? $no_terms_set : $terms,
-    )),
+    '#theme' => 'ddb_cover_upload_meta_copyright',
+    '#copyright_text' => empty($terms) ? $no_terms_set : $terms,
   );
 
   return $form;
@@ -492,10 +494,9 @@ function ddb_cover_upload_client_upload(array $form, array &$form_state) {
   );
 
   $form['ddb_cover_upload_client_upload']['content'] = array(
-    '#markup' => theme('ddb_cover_upload_submitted', array(
-      'data' => $data,
-      'image' => $image_url,
-    )),
+    '#theme' => 'ddb_cover_upload_submitted',
+    '#data' => $data,
+    '#image' => $image_url,
   );
 
   return $form;
