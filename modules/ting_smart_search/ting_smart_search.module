@@ -64,12 +64,12 @@ function ting_smart_search_ctools_plugin_api($module, $api) {
  * Gets update off auto data every day and update of search data every week.
  */
 function ting_smart_search_cron() {
-  watchdog('Smart Search', 'imported autodata time', array(), 'WATCHDOG_ERROR');
+  watchdog('Ting Smart Search', 'imported autodata time', array(), WATCHDOG_INFO);
   $last_run_auto = variable_get('ting_smart_search_last_cron_auto', 0);
   $interval_auto = variable_get('ting_smart_search_interval_auto', 86400);
-  if (time() - $last_run_auto > $interval_auto) {
+  if (REQUEST_TIME - $last_run_auto > $interval_auto) {
     ting_smart_search_get_autodata_from_webtrekk();
-    watchdog('Smart Search', 'imported autodata: %time', array('%time' => time()), 'WATCHDOG_INFO');
+    watchdog('Ting Smart Search', 'imported autodata: %time', array('%time' => REQUEST_TIME ), WATCHDOG_INFO);
     variable_set('ting_smart_search_last_cron_auto', time());
   }
 
@@ -115,8 +115,7 @@ function ting_smart_search_opensearch_pre_execute($request) {
 // Alter the request based on the request class.
   switch (get_class($request)) {
     case 'TingClientSearchRequest':
-      $smart_search_check_sort = '';
-      $smart_search_check_boosts = array();
+      $smart_search_boosts = array();
       $smart_search_use_auto = true;
 
       // Store the userDefinedBoost if any.
@@ -167,7 +166,7 @@ function ting_smart_search_opensearch_pre_execute($request) {
                 }
               }
 
-              $smart_search_check_boosts = ting_smart_search_check_boosts($smart_search_object);
+              $smart_search_boosts = ting_smart_search_get_boosts($smart_search_object);
             }
 
             if ($smart_search_check_replaced == '') {
@@ -178,9 +177,9 @@ function ting_smart_search_opensearch_pre_execute($request) {
               $query = $smart_search_check_replaced;
             }
 
-            if ($smart_search_check_boosts) {
+            if ($smart_search_boosts) {
               $uboosts = $smart_search_userdefined_boosts;
-              foreach ($smart_search_check_boosts as $boost_field) {
+              foreach ($smart_search_boosts as $boost_field) {
                 $uboosts[] = array(
                   'fieldName' => $boost_field['field_name'],
                   'fieldValue' => $boost_field['field_value'],
@@ -190,7 +189,6 @@ function ting_smart_search_opensearch_pre_execute($request) {
               $request->userDefinedBoost = $uboosts;
               $smart_search_use_auto = false;
             }
-            $request->queryDebug = 'true';
             $request->setQuery($query);
           }
         }
@@ -226,19 +224,17 @@ function ting_smart_search_auto(array $smart_search_userdefined_boosts, $query) 
   $data = ting_smart_search_autodata_cache();
 
   if (isset($data) && array_key_exists($keys, $data)) {
-    $i = 0;
+    // We set a huge boost value. Necassery in order to ensure we get the order
+    // of materials we want.
     $weight = 10000;
-    foreach ($data[$keys] as $faust => $objects) {
+    $first_fausts_for_query = array_slice(array_keys($data[$keys]), 0, 5);
+    foreach ($first_fausts_for_query as $faust => $objects) {
       $smart_search_userdefined_boosts[] = array(
         'fieldName' => 'term.default',
         'fieldValue' => urldecode($faust),
         'weight' => $weight,
       );
       $weight = $weight - 1000;
-      $i += 1;
-      if ($i > 5) {
-        break;
-      }
     }
   }
   return $smart_search_userdefined_boosts;
@@ -293,15 +289,14 @@ function ting_smart_search_check_object($query) {
 /**
  * Check if query has boosts.
  *
- * @param string $wrapper
+ * @param entity $wrapper
  *   The Ting query.
  *
  * @return array
  *   The boost array or empty.
  */
-function ting_smart_search_check_boosts($wrapper) {
+function ting_smart_search_get_boosts($wrapper) {
   $boosts = array();
-  $boost_materials = array();
   $weight = 20000;
   $entity_id = 1;
 
@@ -309,6 +304,9 @@ function ting_smart_search_check_boosts($wrapper) {
     $boost_materials = $wrapper->field_sss_boost_materials->value();
 
     // We insert material twice to rule out factors applied from the well.
+    // For some reason some materials get sticky in the top off the search 
+    // results. In order to ensure our ranking we boost twice. A bit crasy
+    // but works.
     if (!empty($boost_materials)) {
       foreach ($boost_materials as $boost_material) {
         $boosts[] = array(
