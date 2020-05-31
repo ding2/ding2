@@ -5,8 +5,9 @@
  * A script to parse the raw autodata files from Webtrekk via KPI index.
  */
 
+// This file contains searches and posts the users clicked on.
+// Is downloaded from here: http://www.kpiindex.com/index2/Smartsearch1y.csv .
 $file_year = 'autodatayear.csv';
-$file_month = 'autodatamonth.csv';
 $output_file = 'autodata.txt';
 
 try {
@@ -15,18 +16,14 @@ try {
   $data = array();
   while (($line = fgetcsv($file, 1000, ";")) !== FALSE) {
     if (!(strpos($line[1], 'ereolen') !== false)) {
-      $search = $line[0];
+      // Needs to be done. The incoming file is not UTF-8.
+      $search = mb_convert_encoding($line[0], 'UTF-8', 'ISO-8859-15');;
       $clicked_page = $line[1];
       $hits = $line[2];
-      $object = null;
-      if (strpos($clicked_page, 'ting/object/') !== false) {
-        $object = explode('ting/object/', $clicked_page);
-      }
-      elseif (strpos($clicked_page, 'ting/collection/') !== false) {
-        $object = explode('ting/collection/', $clicked_page);
-      }
-      $faust = $object[1];
-      if (isset($object) && isset($faust)) {
+      
+      preg_match("%ting\.(collection|object)\.(.+)%", $clicked_page, $matches);
+      if ($matches && isset($matches[2])) {
+        $faust = $matches[2];
         if (!array_key_exists($search, $data)) {
           $data[$search] = array();
         }

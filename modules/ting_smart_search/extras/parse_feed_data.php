@@ -5,12 +5,21 @@
  * A script to parse the raw search files from Webtrekk via KPI index.
  */
 
+// The search_feed file contains searches made over the last year and how 
+// often the user made those searches.
+// Is downloaded from: http://www.kpiindex.com/index2/search_feed.csv .
+$search_feed = './search_feed.csv';
+$output_file = 'searchdata.csv';
+
 try {
   $search_data = array();
-  $file = fopen('./search_feed.csv', 'r');
+  $file = fopen($search_feed, 'r');
   while (($line = fgetcsv($file, 1000, ",")) !== FALSE) {
     $search_key = $line[2];
     $number_of_searches = $line[3];
+    
+    // We exclude complex search strings. These are most often made by 
+    // proffessionals and don't need to be adresses by the module.
     if (!((strpos($search_key, '=') !== false) || (strpos($search_key, '(') !== false))) {
       if (ting_smart_search_is_from_period($line, 52)) {
         if (array_key_exists($search_key, $search_data) && is_numeric($number_of_searches)) {
@@ -27,7 +36,7 @@ try {
   }
   uasort($search_data, 'ting_smart_search_sort_search_data');
   $search_data = array_slice($search_data, 0, 5000);
-  $fp = fopen('searchdata.csv', 'w');
+  $fp = fopen($output_file, 'w');
 
   foreach ($search_data as $search_key => $data) {
     $line = array($search_key, $data['long_period'], $data['short_period']);
@@ -53,6 +62,8 @@ function ting_smart_search_write_to_feedlog($entry) {
 /**
  * Check if smart search record is within active year.
  */
+
+//Todo fix this function
 function ting_smart_search_is_from_period($line, $lookback_period = 4) {
   $date = new DateTime();
   $year = $date->format("Y");
