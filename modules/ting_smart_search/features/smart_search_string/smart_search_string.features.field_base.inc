@@ -32,67 +32,21 @@ function smart_search_string_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_content_reference'.
-  $field_bases['field_content_reference'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_content_reference',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'entityreference',
-    'settings' => array(
-      'handler' => 'base',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'views-select-list' => array(
-            'status' => 0,
-          ),
-        ),
-        'sort' => array(
-          'type' => 'none',
-        ),
-        'target_bundles' => array(
-          'smart_search_content' => 'smart_search_content',
-        ),
-      ),
-      'profile2_private' => FALSE,
-      'target_type' => 'node',
-    ),
-    'translatable' => 0,
-    'type' => 'entityreference',
-  );
-
-  // Exported field_base: 'field_custom_boost_values'.
-  $field_bases['field_custom_boost_values'] = array(
+  // Exported field_base: 'field_custom_boost_values_p'.
+  $field_bases['field_custom_boost_values_p'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_custom_boost_values',
-    'indexes' => array(
-      'revision_id' => array(
-        0 => 'revision_id',
-      ),
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
+    'field_name' => 'field_custom_boost_values_p',
+    'indexes' => array(),
     'locked' => 0,
-    'module' => 'field_collection',
+    'module' => 'paragraphs',
     'settings' => array(
-      'hide_blank_items' => 1,
-      'hide_initial_item' => 0,
-      'path' => '',
       'profile2_private' => FALSE,
     ),
     'translatable' => 0,
-    'type' => 'field_collection',
+    'type' => 'paragraphs',
   );
 
   // Exported field_base: 'field_field_boost_value'.
@@ -171,106 +125,6 @@ function smart_search_string_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'list_text',
-  );
-
-  // Exported field_base: 'field_paragraph_link'.
-  $field_bases['field_paragraph_link'] = array(
-    'active' => 1,
-    'cardinality' => 4,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_paragraph_link',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'link',
-    'settings' => array(
-      'attributes' => array(
-        'class' => '',
-        'rel' => '',
-        'target' => 'default',
-      ),
-      'display' => array(
-        'url_cutoff' => 80,
-      ),
-      'enable_tokens' => 1,
-      'profile2_private' => FALSE,
-      'title' => 'optional',
-      'title_maxlength' => 128,
-      'title_value' => '',
-      'url' => 0,
-    ),
-    'translatable' => 0,
-    'type' => 'link_field',
-  );
-
-  // Exported field_base: 'field_smart_link'.
-  $field_bases['field_smart_link'] = array(
-    'active' => 1,
-    'cardinality' => 3,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_smart_link',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'link',
-    'settings' => array(
-      'attributes' => array(
-        'class' => '',
-        'rel' => '',
-        'target' => 'default',
-      ),
-      'display' => array(
-        'url_cutoff' => 80,
-      ),
-      'enable_tokens' => 1,
-      'profile2_private' => FALSE,
-      'title' => 'optional',
-      'title_maxlength' => 128,
-      'title_value' => '',
-      'url' => 0,
-    ),
-    'translatable' => 0,
-    'type' => 'link_field',
-  );
-
-  // Exported field_base: 'field_smart_paragraph_link'.
-  $field_bases['field_smart_paragraph_link'] = array(
-    'active' => 1,
-    'cardinality' => 3,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_smart_paragraph_link',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'paragraphs',
-    'settings' => array(
-      'profile2_private' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'paragraphs',
-  );
-
-  // Exported field_base: 'field_smart_search_content_image'.
-  $field_bases['field_smart_search_content_image'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_smart_search_content_image',
-    'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'image',
-    'settings' => array(
-      'default_image' => 0,
-      'profile2_private' => FALSE,
-      'uri_scheme' => 'public',
-    ),
-    'translatable' => 0,
-    'type' => 'image',
   );
 
   // Exported field_base: 'field_sss_boost_materials'.
@@ -359,6 +213,26 @@ function smart_search_string_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
+  // Exported field_base: 'field_sss_hits_score'.
+  $field_bases['field_sss_hits_score'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_sss_hits_score',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(
+      'decimal_separator' => '.',
+      'precision' => 10,
+      'profile2_private' => FALSE,
+      'scale' => 2,
+    ),
+    'translatable' => 0,
+    'type' => 'number_decimal',
+  );
+
   // Exported field_base: 'field_sss_import_update'.
   $field_bases['field_sss_import_update'] = array(
     'active' => 1,
@@ -435,33 +309,6 @@ function smart_search_string_field_default_field_bases() {
         'inactive' => 'Inaktiv',
         'planned' => 'Planlagt',
         'checked' => 'Behandlet',
-      ),
-      'allowed_values_function' => '',
-      'profile2_private' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'list_text',
-  );
-
-  // Exported field_base: 'field_view_mode'.
-  $field_bases['field_view_mode'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_view_mode',
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'list',
-    'settings' => array(
-      'allowed_values' => array(
-        'full' => 'Full',
-        'teaser' => 'Teaser',
-        'link-only' => 'Link only',
       ),
       'allowed_values_function' => '',
       'profile2_private' => FALSE,

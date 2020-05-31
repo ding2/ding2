@@ -6,18 +6,6 @@
  */
 
 /**
- * Admin page menu callback.
- *
- * @return array
- *   Admin form.
- */
-function ting_smart_search_admin_page() {
-  $output = '';
-  $output = drupal_get_form('ting_smart_search_admin_form');
-  return $output;
-}
-
-/**
  * Admin settings form for basic smart search function.
  */
 function ting_smart_search_admin_form($form, &$form_state) {
@@ -77,7 +65,7 @@ function ting_smart_search_admin_form($form, &$form_state) {
     '#type' => 'textarea',
     '#default_value' => variable_get('ting_smart_search_well_index_records', "term.acSource\nterm.creator\nterm.date\nterm.language\nterm.type\nterm.identifier\nterm.subject\nfacet.dk5"),
     '#required' => FALSE,
-    '#description' => t('Indtast hvert brøndindeks på ny linie.'),
+    '#description' => t('Enter each well-index on a new line.'),
   );
 
   $form['export_smartsearch'] = array(
@@ -115,7 +103,7 @@ function ting_smart_search_admin_form($form, &$form_state) {
  * Implements submit callback
  */
 function ting_smart_search_export_form_submit($form, &$form_state) {
-  $destination = DRUPAL_ROOT . '/sites/default/files/smart-search-records-' . variable_get('site_name', "Default site name") . '-' . date('d-m-Y-H-i') . '.csv';
+  $destination = 'public://' . variable_get('site_name', 'ddb-cms') . '-' . date('d-m-Y-H-i') . '.json';
 
   $ssquery = new EntityFieldQuery();
 
@@ -130,17 +118,17 @@ function ting_smart_search_export_form_submit($form, &$form_state) {
     $data = entity_load('ting_type', $string_items_nids);
 
     foreach ($string_items_nids as $string_item_nid) {
-        $item_boostvalues = $data[$string_item_nid]->field_custom_boost_values;
+        $item_boostvalues = $data[$string_item_nid]->field_custom_boost_values_p;
         if (!empty($item_boostvalues)) {
-          foreach ($item_boostvalues['LANGUAGE_NONE'] as $key => $field_collection_id) {
+          foreach ($item_boostvalues['und'] as $key => $field_collection_id) {
             $fce_fields = array();
-            $field_collection_entity = entity_load('field_collection_item', $field_collection_id);
+            $field_collection_entity = entity_load('paragraphs_item', $field_collection_id);
             $fce_fields = array(
               'field_field_boost_value' => $field_collection_entity[$field_collection_id['value']]->field_field_boost_value,
               'field_field_boost_weight' => $field_collection_entity[$field_collection_id['value']]->field_field_boost_weight,
               'field_field_name' => $field_collection_entity[$field_collection_id['value']]->field_field_name,
             );
-            $data[$string_item_nid]->field_custom_boost_values['LANGUAGE_NONE'][$key] = $fce_fields;
+            $data[$string_item_nid]->field_custom_boost_values_p['und'][$key] = $fce_fields;
           }
         }
     }
@@ -148,7 +136,7 @@ function ting_smart_search_export_form_submit($form, &$form_state) {
     $data = json_encode($data);
     $exportfile = file_unmanaged_save_data($data, $destination);
     $expf_arr = explode('/', $exportfile);
-    $exportfile = '/sites/default/files/' . array_pop($expf_arr);
+    $exportfile = file_create_url('public://') . array_pop($expf_arr);
     $form_state['redirect'] = $exportfile;
   }
 }
@@ -158,7 +146,7 @@ function ting_smart_search_export_form_submit($form, &$form_state) {
  */
 function ting_smart_search_import_form_validate($form, &$form_state) {
   $file = file_save_upload('ting_smart_search_import_file', array(
-    'file_validate_extensions' => array('csv'),
+    'file_validate_extensions' => array('json'),
   ));
   if ($file) {
     if ($file = file_move($file, 'public://')) {
@@ -202,7 +190,7 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
 
   if ($json === FALSE) {
     drupal_set_message(t('Failed to load local file. Please check that filename and path are correct: @importfile', array(
-      '@importfile' => variable_get('ting_smart_search_import_file_name', 'smart-search-records.csv'),
+      '@importfile' => variable_get('ting_smart_search_import_file_name', 'smart-search-records.json'),
     )), 'warning');
   }
 
@@ -226,23 +214,22 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
 
       $field_alternate_search_string = '';
       $field_sss_boost_materials = '';
-      $field_custom_boost_values = array();
+      $field_custom_boost_values_p = array();
 
       // Define vars for imported values.
       $title = $ssrecord['title'];
 
-      // TODO: check for 'und' og values OG lav generisk gennemløb af keys med tilhørende values.
       if (!empty($ssrecord['field_alternate_search_string'])) {
-        $field_alternate_search_string = $ssrecord['field_alternate_search_string']['LANGUAGE_NONE'][0]['value'];
+        $field_alternate_search_string = $ssrecord['field_alternate_search_string']['und'][0]['value'];
       }
-      if (!empty($ssrecord['field_custom_boost_values'])) {
-        $field_custom_boost_values = $ssrecord['field_custom_boost_values']['LANGUAGE_NONE'];
+      if (!empty($ssrecord['field_custom_boost_values_p'])) {
+        $field_custom_boost_values_p = $ssrecord['field_custom_boost_values_p']['und'];
       }
       if (!empty($ssrecord['field_sss_boost_materials'])) {
-        $field_sss_boost_materials = $ssrecord['field_sss_boost_materials']['LANGUAGE_NONE'];
+        $field_sss_boost_materials = $ssrecord['field_sss_boost_materials']['und'];
       }
       if (!empty($ssrecord['field_status'])) {
-        $field_status = $ssrecord['field_status']['LANGUAGE_NONE'][0]['value'];
+        $field_status = $ssrecord['field_status']['und'][0]['value'];
       }
       if (empty($title)) {
               drupal_set_message(t('Key fields are missing from array @ssrecordid. Check the file and try again.', array(
@@ -264,7 +251,8 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
           $raw_item = entity_load('ting_type', array($string_items_nids[0]));
           $string_item = entity_metadata_wrapper('ting_type', $string_items_nids[0]);
 
-          if ($string_item->field_sss_import_update->value() == 'open') {
+          //if ($string_item->field_sss_import_update->value() == 'open') {
+          if (true) {
             // Update alternate search string from import.
             $string_item->field_alternate_search_string->set($field_alternate_search_string);
 
@@ -278,21 +266,23 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
               }
             }
 
-            // Empty field_collection custom boost values before updating.
-            $string_item->field_custom_boost_values->set(NULL);
+            // Empty paragraphs custom boost values before updating.
+            $string_item->field_custom_boost_values_p->set(NULL);
 
-            // Get to each field_collection and assign values.
-            foreach ($field_custom_boost_values as $custom_boost_value) {
-              // Create the collection entity and set it's "host".
-              $collection = entity_create('field_collection_item', array('field_name' => 'field_custom_boost_values'));
+            // Get to each paragraph and assign values.
+            foreach ($field_custom_boost_values_p as $custom_boost_value) {
+              // Create the paragraph entity and set it's "host".
+              //$collection = entity_create('paragraphs_item', array('field_name' => 'field_custom_boost_values_p'));
+              $collection = new ParagraphsItemEntity(array('field_name' => 'field_custom_boost_values_p', 'bundle' => 'custom_boost_values'));
+              $collection->is_new = TRUE;
               $collection->setHostEntity('ting_type', $raw_item[$string_items_nids[0]]);
 
               // Now define the collection parameters.
-              $cwrapper = entity_metadata_wrapper('field_collection_item', $collection);
+              $cwrapper = entity_metadata_wrapper('paragraphs_item', $collection);
 
-              $cwrapper->field_field_name->set($custom_boost_value['field_field_name']['LANGUAGE_NONE'][0]['value']);
-              $cwrapper->field_field_boost_value->set($custom_boost_value['field_field_boost_value']['LANGUAGE_NONE'][0]['value']);
-              $cwrapper->field_field_boost_weight->set($custom_boost_value['field_field_boost_weight']['LANGUAGE_NONE'][0]['value']);
+              $cwrapper->field_field_name->set($custom_boost_value['field_field_name']['und'][0]['value']);
+              $cwrapper->field_field_boost_value->set($custom_boost_value['field_field_boost_value']['und'][0]['value']);
+              $cwrapper->field_field_boost_weight->set($custom_boost_value['field_field_boost_weight']['und'][0]['value']);
 
               $cwrapper->save();
             }
@@ -329,21 +319,42 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
               }
 
               // Empty field_collection custom boost values before updating.
-              $string_item->field_custom_boost_values->set(NULL);
+              $string_item->field_custom_boost_values_p->set(NULL);
 
               // Get to each field_collection and assign values.
-              foreach ($field_custom_boost_values as $custom_boost_value) {
+              foreach ($field_custom_boost_values_p as $custom_boost_value) {
                 // Create the collection entity and set it's "host".
-                $collection = entity_create('field_collection_item', array('field_name' => 'field_custom_boost_values'));
+                $collection = new ParagraphsItemEntity(array('field_name' => 'field_custom_boost_values_p', 'bundle' => 'custom_boost_values'));
+                $collection->is_new = TRUE;
                 $collection->setHostEntity('ting_type', $raw_entity);
 
                 // Now define the collection parameters.
                 $cwrapper = entity_metadata_wrapper('field_collection_item', $collection);
 
-                $cwrapper->field_field_name->set($custom_boost_value['field_field_name']['LANGUAGE_NONE'][0]['value']);
+                $cwrapper->field_field_name->set($custom_boost_value['field_field_name']['und'][0]['value']);
 
-                $cwrapper->field_field_boost_value->set($custom_boost_value['field_field_boost_value']['LANGUAGE_NONE'][0]['value']);
-                $cwrapper->field_field_boost_weight->set($custom_boost_value['field_field_boost_weight']['LANGUAGE_NONE'][0]['value']);
+                $cwrapper->field_field_boost_value->set($custom_boost_value['field_field_boost_value']['und'][0]['value']);
+                $cwrapper->field_field_boost_weight->set($custom_boost_value['field_field_boost_weight']['und'][0]['value']);
+
+                $cwrapper->save();
+              }
+
+              // Empty paragraphs custom boost values before updating.
+              $string_item->field_custom_boost_values_p->set(NULL);
+
+              // Get to each paragraph and assign values.
+              foreach ($field_custom_boost_values_p as $custom_boost_value) {
+                // Create the collection entity and set it's "host".
+                $collection = entity_create('paragraphs_item', array('field_name' => 'field_custom_boost_values_p'));
+                $collection->setHostEntity('ting_type', $raw_entity);
+
+                // Now define the collection parameters.
+                $cwrapper = entity_metadata_wrapper('paragraphs_item', $collection);
+
+                $cwrapper->field_field_name->set($custom_boost_value['field_field_name']['und'][0]['value']);
+
+                $cwrapper->field_field_boost_value->set($custom_boost_value['field_field_boost_value']['und'][0]['value']);
+                $cwrapper->field_field_boost_weight->set($custom_boost_value['field_field_boost_weight']['und'][0]['value']);
 
                 $cwrapper->save();
               }

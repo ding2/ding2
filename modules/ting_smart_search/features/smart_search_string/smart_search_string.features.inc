@@ -110,14 +110,9 @@ function smart_search_string_node_info() {
  */
 function smart_search_string_paragraphs_info() {
   $items = array(
-    'link' => array(
-      'name' => 'Link',
-      'bundle' => 'link',
-      'locked' => '1',
-    ),
-    'smart_link' => array(
-      'name' => 'Smart link',
-      'bundle' => 'smart_link',
+    'custom_boost_values' => array(
+      'name' => 'Custom boost values',
+      'bundle' => 'custom_boost_values',
       'locked' => '1',
     ),
   );

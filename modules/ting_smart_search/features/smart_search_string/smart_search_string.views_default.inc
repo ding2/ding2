@@ -11,100 +11,6 @@ function smart_search_string_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'smart_search_content';
-  $view->description = 'Smart search content referenced by a smart search string';
-  $view->tag = 'default';
-  $view->base_table = 'eck_ting_type';
-  $view->human_name = 'Smart search content';
-  $view->core = 7;
-  $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = '- ingen -';
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'mere';
-  $handler->display->display_options['access']['type'] = 'none';
-  $handler->display->display_options['cache']['type'] = 'none';
-  $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Udfør';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Stigende';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Faldende';
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'entity';
-  /* Forbindelse: Entity Reference: Refereret entity */
-  $handler->display->display_options['relationships']['field_content_reference_target_id']['id'] = 'field_content_reference_target_id';
-  $handler->display->display_options['relationships']['field_content_reference_target_id']['table'] = 'field_data_field_content_reference';
-  $handler->display->display_options['relationships']['field_content_reference_target_id']['field'] = 'field_content_reference_target_id';
-  $handler->display->display_options['relationships']['field_content_reference_target_id']['required'] = TRUE;
-  /* Felt: Ting_type: Id */
-  $handler->display->display_options['fields']['id']['id'] = 'id';
-  $handler->display->display_options['fields']['id']['table'] = 'eck_ting_type';
-  $handler->display->display_options['fields']['id']['field'] = 'id';
-  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['id']['separator'] = '';
-  /* Felt: Indhold: Titel */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['relationship'] = 'field_content_reference_target_id';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['element_type'] = 'h1';
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Felt: Handler mangler eller er i stykker */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['relationship'] = 'field_content_reference_target_id';
-  $handler->display->display_options['fields']['body']['label'] = '';
-  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  /* Kontekstuelt filter: Ting_type: Title */
-  $handler->display->display_options['arguments']['title']['id'] = 'title';
-  $handler->display->display_options['arguments']['title']['table'] = 'eck_ting_type';
-  $handler->display->display_options['arguments']['title']['field'] = 'title';
-  $handler->display->display_options['arguments']['title']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['title']['exception']['title'] = 'Alle';
-  $handler->display->display_options['arguments']['title']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['title']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['title']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['title']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['title']['limit'] = '0';
-  /* Filterkriterie: Ting_type: ting_type type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'eck_ting_type';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'smart_search_string' => 'smart_search_string',
-  );
-
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block');
-  $translatables['smart_search_content'] = array(
-    t('Master'),
-    t('- ingen -'),
-    t('mere'),
-    t('Udfør'),
-    t('Gendan'),
-    t('Sortér efter'),
-    t('Stigende'),
-    t('Faldende'),
-    t('Indhold entity refereret fra field_content_reference'),
-    t('Id'),
-    t('.'),
-    t('Alle'),
-    t('Block'),
-  );
-  $export['smart_search_content'] = $view;
-
-  $view = new view();
   $view->name = 'smart_search_strings';
   $view->description = '';
   $view->tag = 'default';
@@ -305,37 +211,30 @@ function smart_search_string_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['path'] = 'search/ting/[title]';
   $handler->display->display_options['fields']['title']['alter']['target'] = '_blank';
-  /* Felt: ting_type: Alternativ søgestreng */
+  /* Felt: ting_type: Alternative search string */
   $handler->display->display_options['fields']['field_alternate_search_string']['id'] = 'field_alternate_search_string';
   $handler->display->display_options['fields']['field_alternate_search_string']['table'] = 'field_data_field_alternate_search_string';
   $handler->display->display_options['fields']['field_alternate_search_string']['field'] = 'field_alternate_search_string';
   $handler->display->display_options['fields']['field_alternate_search_string']['label'] = 'Alternate search string';
-  /* Felt: ting_type: Fremhævede materialer */
+  /* Felt: ting_type: Promoted materials */
   $handler->display->display_options['fields']['field_sss_boost_materials']['id'] = 'field_sss_boost_materials';
   $handler->display->display_options['fields']['field_sss_boost_materials']['table'] = 'field_data_field_sss_boost_materials';
   $handler->display->display_options['fields']['field_sss_boost_materials']['field'] = 'field_sss_boost_materials';
   $handler->display->display_options['fields']['field_sss_boost_materials']['delta_offset'] = '0';
-  /* Felt: ting_type: Boost værdier */
+  /* Felt: Handler mangler eller er i stykker */
   $handler->display->display_options['fields']['field_custom_boost_values']['id'] = 'field_custom_boost_values';
   $handler->display->display_options['fields']['field_custom_boost_values']['table'] = 'field_data_field_custom_boost_values';
   $handler->display->display_options['fields']['field_custom_boost_values']['field'] = 'field_custom_boost_values';
-  $handler->display->display_options['fields']['field_custom_boost_values']['type'] = 'field_collection_fields';
-  $handler->display->display_options['fields']['field_custom_boost_values']['settings'] = array(
-    'view_mode' => 'token',
-  );
-  $handler->display->display_options['fields']['field_custom_boost_values']['delta_offset'] = '0';
-  /* Felt: ting_type: Indholds reference */
+  /* Felt: Handler mangler eller er i stykker */
   $handler->display->display_options['fields']['field_content_reference']['id'] = 'field_content_reference';
   $handler->display->display_options['fields']['field_content_reference']['table'] = 'field_data_field_content_reference';
   $handler->display->display_options['fields']['field_content_reference']['field'] = 'field_content_reference';
-  $handler->display->display_options['fields']['field_content_reference']['settings'] = array(
-    'link' => 0,
-  );
-  /* Felt: ting_type: Sortering */
+  /* Felt: ting_type: Sort */
   $handler->display->display_options['fields']['field_sss_sort']['id'] = 'field_sss_sort';
   $handler->display->display_options['fields']['field_sss_sort']['table'] = 'field_data_field_sss_sort';
   $handler->display->display_options['fields']['field_sss_sort']['field'] = 'field_sss_sort';
-  /* Felt: ting_type: Søgninger - år */
+  $handler->display->display_options['fields']['field_sss_sort']['label'] = 'Sortér';
+  /* Felt: ting_type: Searches - year */
   $handler->display->display_options['fields']['field_sss_hits_per_year']['id'] = 'field_sss_hits_per_year';
   $handler->display->display_options['fields']['field_sss_hits_per_year']['table'] = 'field_data_field_sss_hits_per_year';
   $handler->display->display_options['fields']['field_sss_hits_per_year']['field'] = 'field_sss_hits_per_year';
@@ -344,7 +243,7 @@ function smart_search_string_views_default_views() {
     'thousand_separator' => '',
     'prefix_suffix' => 1,
   );
-  /* Felt: ting_type: Søgninger - 30 dage */
+  /* Felt: ting_type: Searches - 30 days */
   $handler->display->display_options['fields']['field_sss_hits_per_month']['id'] = 'field_sss_hits_per_month';
   $handler->display->display_options['fields']['field_sss_hits_per_month']['table'] = 'field_data_field_sss_hits_per_month';
   $handler->display->display_options['fields']['field_sss_hits_per_month']['field'] = 'field_sss_hits_per_month';
@@ -459,10 +358,10 @@ function smart_search_string_views_default_views() {
     t('- Vælg en handling -'),
     t('Søgestreng'),
     t('Alternate search string'),
-    t('Fremhævede materialer'),
-    t('Boost værdier'),
-    t('Indholds reference'),
-    t('Sortering'),
+    t('Promoted materials'),
+    t('Handler i stykker field_data_field_custom_boost_values.field_custom_boost_values'),
+    t('Handler i stykker field_data_field_content_reference.field_content_reference'),
+    t('Sortér'),
     t('Hits - år'),
     t('Hits - 30 dage'),
     t('Oprettet'),

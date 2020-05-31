@@ -159,8 +159,6 @@
   color: #777;
 }
 
-/** from line 654 in style.css in seven theme */
-
 .pane-smart-search-form input.form-submit,
 .pane-smart-search-form a.button {
   cursor: pointer;
@@ -221,12 +219,14 @@
   border-color: #ace;
 }
 
-.content-wrapper .pane-smart-search-form div#edit-field-custom-boost-values > div > div.form-item {
+.content-wrapper .pane-smart-search-form div#edit-field-custom-boost-values > div > div.form-item,
+.content-wrapper .pane-smart-search-form div#edit-field-custom-boost-values-p > div > div.form-item {
   width: 577px !important;
   max-width: 100% !important;
 }
 
-.content-wrapper .pane-smart-search-form div#edit-field-custom-boost-values div.form-item {
+.content-wrapper .pane-smart-search-form div#edit-field-custom-boost-values div.form-item,
+.content-wrapper .pane-smart-search-form div#edit-field-custom-boost-values-p div.form-item {
   margin-right: 20px;
 }
 

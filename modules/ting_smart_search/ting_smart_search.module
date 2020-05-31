@@ -14,8 +14,8 @@ function ting_smart_search_menu() {
   $items['admin/config/ding/ting_smart_search'] = array(
     'title' => 'Ting smart search',
     'description' => 'Manage smart search module',
-    'page callback' => 'ting_smart_search_admin_page',
-    'page arguments' => array(),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_smart_search_admin_form'),
     'access arguments' => array('configure smart search'),
     'file' => 'includes/ting_smart_search.admin.inc',
   );
@@ -321,11 +321,13 @@ function ting_smart_search_check_boosts($wrapper) {
     }
 
     // Extract custom boosts from search string.
-    $custom_boost_materials = $wrapper->field_custom_boost_values->value();
+    $custom_boost_materials = $wrapper->field_custom_boost_values_p->value();
 
     // Get to each fieldcollection.
     foreach ($custom_boost_materials as $cb_material) {
-      $cb_wrapper = entity_metadata_wrapper('field_collection_item', $cb_material);
+
+      $cb_wrapper = entity_metadata_wrapper('paragraphs_item', $cb_material);
+
       $boosts[] = array(
         'field_name' => $cb_wrapper->field_field_name->value(),
         'field_value' => $cb_wrapper->field_field_boost_value->value(),
@@ -333,6 +335,7 @@ function ting_smart_search_check_boosts($wrapper) {
       );
     }
   }
+
   return $boosts;
 }
 
@@ -364,8 +367,8 @@ function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
 
     // Hide url redirect on this entity.
     $form['redirect']['#access'] = FALSE;
-    $form['field_sss_hits_per_month']['LANGUAGE_NONE']['0']['value']['#attributes']['disabled'] = TRUE;
-    $form['field_sss_hits_per_year']['LANGUAGE_NONE']['0']['value']['#attributes']['disabled'] = TRUE;
+    $form['field_sss_hits_per_month']['und']['0']['value']['#attributes']['disabled'] = TRUE;
+    $form['field_sss_hits_per_year']['und']['0']['value']['#attributes']['disabled'] = TRUE;
 
     // Make the form element collapsed when smart search string not found.
     if ($form['form_id']['#value'] == 'eck__entity__form_edit_ting_type_smart_search_string') {
@@ -387,18 +390,18 @@ function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
       ),
     );
 
-    if (empty($form['field_sss_sort']['LANGUAGE_NONE']['#default_value'])) {
+    if (empty($form['field_sss_sort']['und']['#default_value'])) {
       $form['#groups']['group_sss_sort_group']->format_settings['formatter'] = 'collapsed';
-      if (!empty($form['field_alternate_search_string']['LANGUAGE_NONE'][0]['value']['#default_value']) ||
-              !empty($form['field_content_reference']['LANGUAGE_NONE'][0]['target_id']['#default_value'])) {
+      if (!empty($form['field_alternate_search_string']['und'][0]['value']['#default_value']) ||
+              !empty($form['field_content_reference']['und'][0]['target_id']['#default_value'])) {
 
         $form['#groups']['group_sss_search_and_ref']->format_settings['formatter'] = 'collapsible';
       }
       else {
         $form['#groups']['group_sss_search_and_ref']->format_settings['formatter'] = 'collapsed';
       }
-      if (!empty($form['field_sss_boost_materials']['LANGUAGE_NONE'][0]['value']['#default_value']) ||
-              !empty($form['field_custom_boost_values']['LANGUAGE_NONE'][0]['field_field_boost_value']['LANGUAGE_NONE'][0]['value']['#default_value'])) {
+      if (!empty($form['field_sss_boost_materials']['und'][0]['value']['#default_value']) ||
+              !empty($form['field_custom_boost_values_p']['und'][0]['field_field_boost_value']['und'][0]['value']['#default_value'])) {
 
         $form['#groups']['group_sss_boost']->format_settings['formatter'] = 'collapsible';
       }
@@ -481,7 +484,7 @@ function smart_search_string_entity_info_alter(&$entity_info) {
 }
 
 /**
- * Add custom values from smart search settings to field_field_name in field collection field_custom_boost_values
+ * Add custom values from smart search settings to field_field_name in paragraphs field_custom_boost_values_p
  */
 function smart_search_string_field_info_alter(&$field_info) {
 
@@ -496,7 +499,7 @@ function smart_search_string_field_info_alter(&$field_info) {
 function ting_smart_search_preprocess_node(&$variables) {
   // Append class based on view mode.
   if (isset($variables['field_view_mode']) && !empty($variables['field_view_mode'])) {
-    $variables['classes_array'][] = $variables['field_view_mode']['LANGUAGE_NONE'][0]['value'];
+    $variables['classes_array'][] = $variables['field_view_mode']['und'][0]['value'];
   }
 }
 

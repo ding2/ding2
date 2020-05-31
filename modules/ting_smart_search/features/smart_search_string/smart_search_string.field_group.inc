@@ -26,8 +26,9 @@ function smart_search_string_field_group_info() {
       0 => 'field_sss_date',
       1 => 'field_sss_hits_per_month',
       2 => 'field_sss_hits_per_year',
-      4 => 'field_status',
-      5 => 'field_sss_import_update',
+      3 => 'field_sss_hits_score',
+      4 => 'field_sss_import_update',
+      5 => 'field_status',
       6 => 'group_sss_boost',
       7 => 'group_sss_search_and_ref',
       8 => 'group_sss_sort_group',
@@ -308,15 +309,15 @@ function smart_search_string_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = 'group_elements';
   $field_group->data = array(
-    'label' => 'Fremhæv og boost',
+    'label' => 'Promote and boost',
     'weight' => '8',
     'children' => array(
-      0 => 'field_custom_boost_values',
+      0 => 'field_custom_boost_values_p',
       1 => 'field_sss_boost_materials',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Fremhæv og boost',
+      'label' => 'Promote and boost',
       'instance_settings' => array(
         'required_fields' => 1,
         'id' => '',
@@ -338,15 +339,14 @@ function smart_search_string_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = 'group_elements';
   $field_group->data = array(
-    'label' => 'Alternativ søgestreng og reference',
+    'label' => 'Alternative search string',
     'weight' => '7',
     'children' => array(
       0 => 'field_alternate_search_string',
-      1 => 'field_content_reference',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Alternativ søgestreng og reference',
+      'label' => 'Alternative search string',
       'instance_settings' => array(
         'required_fields' => 1,
         'id' => '',
@@ -368,14 +368,14 @@ function smart_search_string_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = 'group_elements';
   $field_group->data = array(
-    'label' => 'Sortering',
+    'label' => 'Sort',
     'weight' => '9',
     'children' => array(
       0 => 'field_sss_sort',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Sortering',
+      'label' => 'Sort',
       'instance_settings' => array(
         'required_fields' => 1,
         'id' => '',
@@ -389,12 +389,12 @@ function smart_search_string_field_group_info() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Alternativ søgestreng og reference');
-  t('Fremhæv og boost');
+  t('Alternative search string');
   t('Linkwrapper');
+  t('Promote and boost');
   t('Smart Search');
   t('Smart linkwrapper');
-  t('Sortering');
+  t('Sort');
 
   return $field_groups;
 }

@@ -35,7 +35,8 @@ function ting_smart_search_form_content_type_access() {
  */
 function ting_smart_search_form_content_type_render($subtype, $conf, $panel_args, $context) {
   // Make search results sortable.
-  drupal_add_js('https://code.jquery.com/ui/1.12.1/jquery-ui.js');
+  // We load jquery ui 1.12.1 to make drag and drop work
+  drupal_add_js(drupal_get_path('module', 'ting_smart_search') . '/js/jquery-ui-1.12.1.js', 'file');
   drupal_add_js(drupal_get_path('module', 'ting_smart_search') . '/js/smart_search_sortable.js', 'file');
   drupal_add_js(drupal_get_path('module', 'ting_smart_search') . '/js/smart_search_sortable_clear.js', 'file');
 

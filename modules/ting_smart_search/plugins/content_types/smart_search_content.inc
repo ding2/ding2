@@ -11,24 +11,10 @@ $plugin = array(
   'single' => TRUE,
   'content_types' => array('smart_search_content'),
   'render callback' => 'ting_smart_search_content_type_render',
-  'access callback' => 'ting_smart_search_content_type_access',
   'category' => t('Ting'),
   'render last' => TRUE,
   'required context' => new ctools_context_required(t('Keywords'), 'string'),
 );
-
-/**
- * Implements access callback
- */
-function ting_smart_search_content_type_access() {
-  $return = FALSE;
-  global $user;
-
-  if ($user->uid == '1') {
-    $return = TRUE;
-  }
-  return $return;
-}
 
 /**
  * Render the smart search form block.
@@ -42,6 +28,7 @@ function ting_smart_search_content_type_render($subtype, $conf, $panel_args, $co
   module_load_include('inc', 'eck', 'eck.entity');
   // Create the block class.
   $block = new stdClass();
+  $block->content = '';
 
   $query = new EntityFieldQuery();
 
@@ -59,14 +46,8 @@ function ting_smart_search_content_type_render($subtype, $conf, $panel_args, $co
       $ref_node = entity_metadata_wrapper('node', $referenced->nid);
       $view_mode = $ref_node->field_view_mode->value();
       $node_view = node_view($referenced, $view_mode);
-      $block->content = drupal_render($node_view);
+      $block->content = $node_view;
     }
-    else {
-      $block->content = '';
-    }
-  }
-  else {
-    $block->content = '';
   }
 
   return $block;
