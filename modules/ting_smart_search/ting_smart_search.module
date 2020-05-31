@@ -200,7 +200,7 @@ function ting_smart_search_opensearch_pre_execute($request) {
         }
         $request->userDefinedBoost = ting_smart_search_auto($smart_search_userdefined_boosts, $request->getQuery());
       }
-
+file_put_contents("/var/www/drupal7vm/drupal/debug/smart12.txt", print_r($request, TRUE), FILE_APPEND);
       break;
   }
 
@@ -228,7 +228,7 @@ function ting_smart_search_auto(array $smart_search_userdefined_boosts, $query) 
     // of materials we want.
     $weight = 10000;
     $first_fausts_for_query = array_slice(array_keys($data[$keys]), 0, 5);
-    foreach ($first_fausts_for_query as $faust => $objects) {
+    foreach ($first_fausts_for_query as $faust) {
       $smart_search_userdefined_boosts[] = array(
         'fieldName' => 'term.default',
         'fieldValue' => urldecode($faust),
