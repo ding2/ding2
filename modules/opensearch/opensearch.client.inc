@@ -235,10 +235,6 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
     }
     $request->userDefinedBoost = $uboosts;
   }
-  
-  if (isset($options['fullTextQuery'])) {
-    $request->fullTextQuery = $options['fullTextQuery'];
-  }
 
   $search_result = opensearch_execute($request);
 

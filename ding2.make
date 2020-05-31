@@ -121,9 +121,6 @@ projects[fences][subdir] = "contrib"
 projects[fences][version] = "1.0"
 projects[fences][patch][0] = "http://drupal.org/files/field_for_wrapper_css_class-1679684-3.patch"
 
-projects[field_collection][subdir] = "contrib"
-projects[field_collection][version] = "1.0-beta12"
-
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.5"
 ; PHP7 - Uniform Variable Syntax updates are causing exported field_groups to not have names.
