@@ -40,9 +40,8 @@ try {
   fclose($file);
   foreach ($data as $search => $objects) {
     arsort($objects);
-    if (reset($objects) >= 3) {
-      $output[$search] = array_slice($objects, 0, 5);
-    }
+    reset($objects);
+    $output[$search] = array_slice($objects, 0, 5);
   }
   $serialized_output = serialize($output);
   file_put_contents($output_file, $serialized_output);
