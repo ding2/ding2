@@ -250,6 +250,14 @@ function ting_reference_field_delete($entity_type, $entity, $field, $instance, $
 
   foreach ($relations as $rid => $relation) {
     relation_delete($rid);
+
+    // Try to get the entity ID of the ting_object and clear it's field cache.
+    // This is not handled automatically and it would otherwise only be cleared
+    // on next cache flush.
+    if (!empty($relation->endpoints[$langcode])) {
+      $entity_id = $relation->endpoints[$langcode][1]['entity_id'];
+      cache_clear_all("field:ting_object:$entity_id", 'cache_field');
+    }
   }
 }
 
