@@ -200,7 +200,6 @@ function ting_smart_search_opensearch_pre_execute($request) {
         }
         $request->userDefinedBoost = ting_smart_search_auto($smart_search_userdefined_boosts, $request->getQuery());
       }
-file_put_contents("/var/www/drupal7vm/drupal/debug/smart12.txt", print_r($request, TRUE), FILE_APPEND);
       break;
   }
 
@@ -525,36 +524,36 @@ function ting_smart_search_get_autodata_path() {
 function ting_smart_search_get_autodata_from_webtrekk() {
   $url = variable_get('ting_smart_search_master_server', 'https://staging.randersbib.dk/data/autodata.txt');
   $path = ting_smart_search_get_autodata_path();
+  $temp_path = $path . '.temp';
   try {
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    $data = curl_exec($ch);
-    curl_close($ch);
-    if (isset($data)) {
-      $output = unserialize($data);
-    }
-    if (isset($output) && !empty($output) && is_array($output)) {
-      $directory = dirname($path);
-      if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
-        watchdog('ting_smart_search', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
-        return FALSE;
-      }
-
-      $val = var_export($output, TRUE);
-      // In order to get maximum performance the data is exported into a php
-      // array which will be cached by opcode cache. This is based on the method
-      // described here: https://medium.com/@dylanwenzlau/
-      // 500x-faster-caching-than-redis-memcache-apc-in-php-hhvm-dcd26e8447ad
-      // Build the destination folder tree if it doesn't already exist.
-      file_put_contents($path, '<?php $ting_smart_search_autodata = ' . $val . ';');
-    }
-    else {
+    $directory = dirname($path);
+    if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+      watchdog('ting_smart_search', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
       return FALSE;
     }
-    // LOCK_EX was used in the original solution doesn't work, maybe a windows issue.
+    if (system_retrieve_file($url, $temp_path, FALSE, FILE_EXISTS_REPLACE)) {
+      $data = file_get_contents($temp_path);
+      if (isset($data)) {
+        $output = unserialize($data);
+      }
+      if (isset($output) && !empty($output) && is_array($output)) {
+
+        $val = var_export($output, TRUE);
+        // In order to get maximum performance the data is exported into a php
+        // array which will be cached by opcode cache. This is based on the method
+        // described here: https://medium.com/@dylanwenzlau/
+        // 500x-faster-caching-than-redis-memcache-apc-in-php-hhvm-dcd26e8447ad
+        // Build the destination folder tree if it doesn't already exist.
+        // LOCK_EX was used in the original solution doesn't work, maybe a windows issue.
+        file_put_contents($path, '<?php $ting_smart_search_autodata = ' . $val . ';');
+      } else {
+        return FALSE;
+      }
+    }
+
   }
   catch (Exception $e) {
-    watchdog('ting_smart_search', 'Fetching smart search data failed');
+    watchdog_exception('ting_smart_search', 'Fetching smart search data failed', $e);
     return FALSE;
   }
   return TRUE;
@@ -567,49 +566,31 @@ function ting_smart_search_get_searchdata_from_webtrekk() {
   $search_data = array();
   $path = file_default_scheme() . '://' . variable_get('ting_smart_search_autodata_path', 'smartsearchdata') . DIRECTORY_SEPARATOR . 'searchfeed.csv';
   $url = variable_get('ting_smart_search_webtrekk_server_feed', 'https://staging.randersbib.dk/data/searchdata.csv');
-  ting_smart_search_get_data_file($url, $path);
-  try {
-    $search_data = array();
-    $file = fopen($path, 'r');
-    while (($line = fgetcsv($file, 1000, ",")) !== FALSE) {
-      $title = $line[0];
-      $long_period = $line[1];
-      $short_period = $line[2];
-      $search_data[$title] = array('long_period' => $long_period, 'short_period' => $short_period);
-    }
-  }
-  catch (Exception $e) {
-    watchdog('ting_smart_search', 'Parsing of data failed');
-  }
-  ting_smart_search_search_stats_importer($search_data);
-}
-
-/**
- * Gets a file with data automatic smart search from master server.
- */
-function ting_smart_search_get_data_file($url, $path) {
-  $directory = dirname($path);
 
   try {
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $data = curl_exec($ch);
-    curl_close($ch);
-
+    $directory = dirname($path);
     // Build the destination folder tree if it doesn't already exist.
     if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
       watchdog('ting_smart_search', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
       return FALSE;
     }
-
-    file_put_contents($path, $data);
+    if (system_retrieve_file($url, $path, FALSE, FILE_EXISTS_REPLACE)) {
+      $file = fopen($path, 'r');
+      
+      while (($line = fgetcsv($file, 1000, ",")) !== FALSE) {
+        $title = $line[0];
+        $long_period = $line[1];
+        $short_period = $line[2];
+        $search_data[$title] = array('long_period' => $long_period, 'short_period' => $short_period);
+      }
+    }
   }
   catch (Exception $e) {
-    watchdog('ting_smart_search', 'Fetching smart search data failed');
-    return FALSE;
+    watchdog_exception('ting_smart_search', 'Parsing of data failed', $e);
   }
-  return TRUE;
+  ting_smart_search_search_stats_importer($search_data);
 }
+
 
 /**
  * Import data about popular searches in to database.
@@ -630,39 +611,34 @@ function ting_smart_search_search_stats_importer($search_data) {
         $ssquery = new EntityFieldQuery();
 
         $ssquery->entityCondition('entity_type', 'ting_type')
-          ->entityCondition('bundle', 'smart_search_string')
-          ->propertyCondition('title', $normalized_string, '=');
+                ->entityCondition('bundle', 'smart_search_string')
+                ->propertyCondition('title', $normalized_string, '=');
 
         $result = $ssquery->execute();
 
         if (isset($result['ting_type'])) {
           $string_items_nids = array_keys($result['ting_type']);
           $string_item = entity_metadata_wrapper('ting_type', $string_items_nids[0]);
-          $string_item->field_sss_hits_per_year->set($hits_year);
-          $string_item->field_sss_hits_per_month->set($hits_month);
-          // Save.
-          $string_item->save();
-        }
-        else {
+        } else {
           // Create a new node and assign the data.
           $values = array(
-            'type' => 'smart_search_string',
-            'uid' => 1,
-            'status' => 1,
+              'type' => 'smart_search_string',
+              'uid' => 1,
+              'status' => 1,
           );
           $entity = entity_create('ting_type', $values);
-          $new_string_item = entity_metadata_wrapper('ting_type', $entity);
-          $new_string_item->title->set($normalized_string);
-          $new_string_item->field_sss_hits_per_year->set($hits_year);
-          $new_string_item->field_sss_hits_per_month->set($hits_month);
-
-          // Save.
-          $new_string_item->save();
+          $string_item = entity_metadata_wrapper('ting_type', $entity);
+          $string_item->title->set($normalized_string);
         }
+        
+        $string_item->field_sss_hits_per_year->set($hits_year);
+        $string_item->field_sss_hits_per_month->set($hits_month);
+        // Save.
+        $string_item->save();
       }
     }
   }
   catch (Exception $e) {
-    watchdog('ting_smart_search', 'Importing search feed data to database failed');
+    watchdog_exception('ting_smart_search', 'Importing search feed data to database failed', $e);
   }
 }
