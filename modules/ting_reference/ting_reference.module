@@ -378,7 +378,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
 
         // Handle ting_reference in paragraphs, which will link back to the
         // paragraph (giving a reference loop) and not the host node.
-        if ($entity_type === 'paragraphs_item') {
+        if ($entity_type === 'paragraphs_item' && !empty($entities)) {
           // It should only be possible to link back to one entity per item.
           $entity = reset($entities);
 
