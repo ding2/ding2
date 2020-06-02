@@ -114,8 +114,8 @@ function _ting_cover_ddb_get_clint_config() {
 /**
  * Get access token.
  *
- * If development agency token have been set under the administration for this
- * module. Use it else use the library's agency token.
+ * Return the development agency token if set for this module. Else return the
+ * library's agency token.
  *
  * @return string
  *   Agency access token.
