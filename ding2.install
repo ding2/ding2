@@ -946,6 +946,7 @@ function ding2_update_7081() {
 }
 
 /**
+<<<<<<< HEAD
  * Enable ting_smart_search.
  */
 function ding2_update_7082() {
@@ -981,4 +982,12 @@ function ding2_update_7083() {
  */
 function ding2_update_7084() {
   ding2_translation_update();
+}
+
+/*
+ * Switch to new cover module.
+ */
+function ding2_update_7085() {
+  module_disable(['ting_covers_addi']);
+  module_enable(['ting_covers_ddb']);
 }

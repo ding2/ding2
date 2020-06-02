@@ -1,0 +1,7 @@
+name = Ting covers (DDB CoverService)
+description = Implementing getting covers from DDB CoverService
+package = Ding!
+core = "7.x"
+dependencies[] = ting
+dependencies[] = ting_covers
+dependencies[] = ding_libs
