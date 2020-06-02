@@ -59,11 +59,11 @@ function ting_covers_ddb_ting_covers($entities) {
     foreach ($image_urls as $image_url) {
       switch ($image_url->getSize()) {
         case 'original':
-          $source_url = $image_url->getUrl();
+          $source_fallback_url = $image_url->getUrl();
           break;
 
         case 'large':
-          $source_fallback_url = $image_url->getUrl();
+          $source_url = $image_url->getUrl();
           break;
       }
     }
