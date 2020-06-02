@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Administration interface for the ting_covers_ddb module.

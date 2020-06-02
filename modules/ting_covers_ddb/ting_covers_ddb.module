@@ -4,6 +4,10 @@
  * Provide covers from the ADDI service.
  */
 
+use CoverService\Configuration;
+use CoverService\Api\CoverApi;
+use GuzzleHttp\Client;
+
 /**
  * Implements hook_menu().
  */
@@ -34,7 +38,6 @@ function ting_covers_ddb_ding_provider_user() {
   );
 }
 
-
 /**
  * Implements hook_ting_covers().
  */
@@ -43,12 +46,13 @@ function ting_covers_ddb_ting_covers($entities) {
 
   try {
     $config = _ting_cover_ddb_get_clint_config();
-    $apiInstance = new CoverService\Api\CoverApi(
-      new GuzzleHttp\Client(),
+    $apiInstance = new CoverApi(
+      new Client(),
       $config
     );
     $retrieved = $apiInstance->getCoverCollection('pid', array_keys($entities), array('original', 'large'));
-  } catch (Exception $e) {
+  }
+  catch (Exception $e) {
     watchdog('ting_covers_ddb', 'Unable to retrieve covers: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
     return $covers;
   }
@@ -86,14 +90,14 @@ function ting_covers_ddb_ting_covers($entities) {
 /**
  * Helper to get configuration for the service.
  *
- * @return \CoverService\Configuration
+ * @return Configuration
  *   API client configuration.
  *
  * @throws \DingProviderDoesntImplement
  * @throws \DingProviderNoProvider
  */
 function _ting_cover_ddb_get_clint_config() {
-  $config = \CoverService\Configuration::getDefaultConfiguration();
+  $config = Configuration::getDefaultConfiguration();
 
   // Get access token for the library.
   $token = ding_provider_invoke('openplatform', 'get_agency_token');;
