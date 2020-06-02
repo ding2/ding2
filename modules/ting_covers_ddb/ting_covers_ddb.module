@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provide covers from the ADDI service.
@@ -53,7 +54,7 @@ function ting_covers_ddb_ting_covers($entities) {
     _ting_covers_ddb_debug_log('Requested covers for pids: ' . implode(', ', array_keys($entities)));
     $retrieved = $apiInstance->getCoverCollection('pid', array_keys($entities), array('original', 'large'));
   }
-    catch (Exception $e) {
+  catch (Exception $e) {
     watchdog('ting_covers_ddb', 'Unable to retrieve covers: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
     return $covers;
   }
@@ -93,7 +94,7 @@ function ting_covers_ddb_ting_covers($entities) {
 /**
  * Helper to get configuration for the service.
  *
- * @return Configuration
+ * @return \CoverService\Configuration
  *   API client configuration.
  *
  * @throws \DingProviderDoesntImplement
@@ -136,12 +137,12 @@ function _ting_covers_ddb_get_agency_token() {
 /**
  * Log debug information to watchdog.
  *
- * @param $message
+ * @param string $message
  *   Message to log.
  * @param array $variables
  *   Variables in the message.
  */
-function _ting_covers_ddb_debug_log($message, $variables = array()) {
+function _ting_covers_ddb_debug_log($message, array $variables = array()) {
   if (variable_get('ting_covers_ddb_enable_logging', FALSE)) {
     watchdog('ting_covers_ddb', $message, $variables, WATCHDOG_DEBUG);
   }
