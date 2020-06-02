@@ -52,7 +52,7 @@ function ting_covers_ddb_ting_covers($entities) {
     );
     $retrieved = $apiInstance->getCoverCollection('pid', array_keys($entities), array('original', 'large'));
   }
-  catch (Exception $e) {
+    catch (Exception $e) {
     watchdog('ting_covers_ddb', 'Unable to retrieve covers: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
     return $covers;
   }
@@ -100,12 +100,34 @@ function _ting_cover_ddb_get_clint_config() {
   $config = Configuration::getDefaultConfiguration();
 
   // Get access token for the library.
-  $token = ding_provider_invoke('openplatform', 'get_agency_token');;
+  $token = _ting_covers_ddb_get_agency_token();
   $config->setAccessToken($token);
 
   $config->setHost(_ting_covers_ddb_get_url());
 
   return $config;
+}
+
+/**
+ * Get access token.
+ *
+ * If development agency token have been set under the administration for this
+ * module. Use it else use the library's agency token.
+ *
+ * @return string
+ *   Agency access token.
+ *
+ * @throws \DingProviderDoesntImplement
+ * @throws \DingProviderNoProvider
+ */
+function _ting_covers_ddb_get_agency_token() {
+  $token = variable_get('ting_covers_ddb_development_token', FALSE);
+
+  if (FALSE === $token || !isset($token)) {
+    $token = ding_provider_invoke('openplatform', 'get_agency_token');
+  }
+
+  return $token;
 }
 
 /**
