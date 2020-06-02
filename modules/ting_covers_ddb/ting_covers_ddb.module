@@ -50,6 +50,7 @@ function ting_covers_ddb_ting_covers($entities) {
       new Client(),
       $config
     );
+    _ting_covers_ddb_debug_log('Requested covers for pids: ' . implode(', ', array_keys($entities)));
     $retrieved = $apiInstance->getCoverCollection('pid', array_keys($entities), array('original', 'large'));
   }
     catch (Exception $e) {
@@ -82,6 +83,8 @@ function ting_covers_ddb_ting_covers($entities) {
     // Return the path to the cover.
     $covers[$cover->getId()] = $source_url;
   }
+
+  _ting_covers_ddb_debug_log('Found covers for pids: ' . implode(', ', array_keys($covers)));
 
   // Return all image information.
   return $covers;
@@ -128,6 +131,20 @@ function _ting_covers_ddb_get_agency_token() {
   }
 
   return $token;
+}
+
+/**
+ * Log debug information to watchdog.
+ *
+ * @param $message
+ *   Message to log.
+ * @param array $variables
+ *   Variables in the message.
+ */
+function _ting_covers_ddb_debug_log($message, $variables = array()) {
+  if (variable_get('ting_covers_ddb_enable_logging', FALSE)) {
+    watchdog('ting_covers_ddb', $message, $variables, WATCHDOG_DEBUG);
+  }
 }
 
 /**
