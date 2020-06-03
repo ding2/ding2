@@ -248,7 +248,6 @@ function ding_ting_frontend_field_group_info() {
     'children' => array(
       0 => 'ting_abstract',
       1 => 'group_inner',
-      0 => 'ding_entity_buttons',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -282,7 +281,6 @@ function ding_ting_frontend_field_group_info() {
     'children' => array(
       0 => 'ting_abstract',
       1 => 'group_inner',
-      0 => 'ding_entity_buttons',
     ),
     'format_type' => 'div',
     'format_settings' => array(

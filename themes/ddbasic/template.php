@@ -859,6 +859,24 @@ function ddbasic_process_ting_object(&$vars) {
             '#weight' => 9998,
           );
 
+          if ($vars['object']->is('library_material')) {
+            $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'ajax'
+            );
+          }
+          if ($vars['object']->is('online')) {
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'default'
+            );
+          }
+
           // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
           break;
@@ -882,6 +900,24 @@ function ddbasic_process_ting_object(&$vars) {
             ),
             '#weight' => 9998,
           );
+
+          if ($vars['object']->is('library_material')) {
+            $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'ajax'
+            );
+          }
+          if ($vars['object']->is('online')) {
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'default'
+            );
+          }
 
           // Truncate default title.
           $vars['static_title'] = '<div class="field-name-ting-title"><h3>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h3></div>';
@@ -915,8 +951,23 @@ function ddbasic_process_ting_object(&$vars) {
             ),
           );
 
-          $vars['content']['buttons']['ding_entity_buttons'] = $vars['content']['ding_entity_buttons'];
-          unset($vars['content']['ding_entity_buttons']);
+          if ($vars['object']->is('library_material')) {
+            $vars['content']['buttons']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'ajax'
+            );
+          }
+          if ($vars['object']->is('online')) {
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['buttons']['online_link'] = ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'default'
+            );
+          }
 
           break;
 
