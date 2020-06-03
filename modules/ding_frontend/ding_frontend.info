@@ -5,7 +5,6 @@ package = Ding!
 project = ding_frontend
 dependencies[] = block
 dependencies[] = block_access
-dependencies[] = comment
 dependencies[] = conditional_styles
 dependencies[] = ctools
 dependencies[] = ding_page
