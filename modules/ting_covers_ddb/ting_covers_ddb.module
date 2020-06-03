@@ -85,7 +85,9 @@ function ting_covers_ddb_ting_covers($entities) {
     $covers[$cover->getId()] = $source_url;
   }
 
+  $not_found_pids = array_diff(array_keys($entities), array_keys($covers));
   _ting_covers_ddb_debug_log('Found covers for pids: ' . implode(', ', array_keys($covers)));
+  _ting_covers_ddb_debug_log('No covers found for pids: ' . implode(', ', $not_found_pids));
 
   // Return all image information.
   return $covers;
@@ -127,7 +129,7 @@ function _ting_cover_ddb_get_clint_config() {
 function _ting_covers_ddb_get_agency_token() {
   $token = variable_get('ting_covers_ddb_development_token', FALSE);
 
-  if (FALSE === $token || !isset($token)) {
+  if (FALSE === $token || empty($token)) {
     $token = ding_provider_invoke('openplatform', 'get_agency_token');
   }
 
