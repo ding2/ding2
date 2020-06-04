@@ -352,6 +352,8 @@ projects[realname][version] = "1.2"
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc3"
+; Add Redirect form breaks URLs containing spaces or %20
+projects[redirect][patch][] = "https://www.drupal.org/files/issues/redirect-space-fix-1451868-22.patch"
 
 projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0"
