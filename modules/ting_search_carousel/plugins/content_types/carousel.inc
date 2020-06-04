@@ -48,6 +48,12 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
       );
     }
 
+    // Since we don't load any materials on initial page request, we have to
+    // ensure the check reservability script is present. Ding carousel uses
+    // custom attach logic in frontend, which does not handle any scripts added
+    // during the AJAX-request.
+    drupal_add_js(drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation_reservability.js');
+
     $block->content = array(
       '#type' => 'ding_tabbed_carousel',
       '#tabs' => $carousels,
