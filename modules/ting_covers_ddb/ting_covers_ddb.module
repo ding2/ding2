@@ -33,7 +33,7 @@ function ting_covers_ddb_menu() {
  */
 function ting_covers_ddb_ding_provider_user() {
   return array(
-    'openplatform' => array(
+    'openplatform_token' => array(
       'required' => TRUE,
     ),
   );
@@ -130,7 +130,7 @@ function _ting_covers_ddb_get_agency_token() {
   $token = variable_get('ting_covers_ddb_development_token', FALSE);
 
   if (FALSE === $token || empty($token)) {
-    $token = ding_provider_invoke('openplatform', 'get_agency_token');
+    $token = ding_provider_invoke('openplatform_token', 'for_agency');
   }
 
   return $token;
