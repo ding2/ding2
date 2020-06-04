@@ -181,7 +181,7 @@ function ddb_cover_upload_theme($existing, $type, $theme, $path) {
  */
 function ddb_cover_upload_ding_provider_user() {
   return array(
-    'openplatform' => array(
+    'openplatform_token' => array(
       'required' => TRUE,
     ),
   );
@@ -286,7 +286,7 @@ function ddb_cover_upload_client_config() {
   $config = Configuration::getDefaultConfiguration();
 
   // Get access token for the library.
-  $token = ding_provider_invoke('openplatform', 'get_agency_token');;
+  $token = ding_provider_invoke('openplatform_token', 'for_agency');;
   $config->setAccessToken($token);
 
   $config->setHost(variable_get('ddb_cover_upload_host', 'https://upload.cover.dandigbib.org'));
