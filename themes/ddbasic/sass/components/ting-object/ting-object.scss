@@ -159,8 +159,8 @@
           opacity: 1;
         }
       }
-      // Hide ding list add entity button in teaser view modes.
-      .ding-list-add-button {
+      // Hide ding react add to list button in teaser views.
+      [data-ddb-app="add-to-checklist"] {
         display: none;
       }
 
@@ -335,7 +335,8 @@
           width: 42%;
         }
       }
-      .ding-list-add-button {
+      // Hide ding react add to list button in reference teaser views.
+      [data-ddb-app="add-to-checklist"] {
         display: none;
       }
     }
