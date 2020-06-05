@@ -32,6 +32,15 @@ function ding_react_admin_settings_form($form, &$form_state) {
     '#element_validate' => [ 'ding_react_element_validate_url' ],
   ];
 
+  $form['services']['ding_react_cover_service_url'] = [
+    '#type' => 'textfield',
+    '#title' => t('Cover Service'),
+    '#description' => t('Url to the Cover Service instance to use.'),
+    '#default_value' => ding_react_cover_service_url(),
+    '#required' => TRUE,
+    '#element_validate' => [ 'ding_react_element_validate_url' ],
+  ];
+
   $form['migration'] = [
     '#type' => 'fieldset',
     '#title' => t('Migration'),

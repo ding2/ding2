@@ -4,6 +4,7 @@ define('DING_REACT_FOLLOW_SEARCHES_PROD_URL', 'https://prod.followsearches.dandi
 define('DING_REACT_FOLLOW_SEARCHES_STAGE_URL', 'https://stage.followsearches.dandigbib.org');
 define('DING_REACT_MATERIAL_LIST_PROD_URL', 'https://prod.materiallist.dandigbib.org');
 define('DING_REACT_MATERIAL_LIST_TEST_URL', 'https://test.materiallist.dandigbib.org');
+define('DING_REACT_COVER_SERVICE_URL', 'https://cover.dandigbib.org/api/v2');
 define('DING_REACT_MIGRATED_UID_PREFIX', 'migrated-');
 
 /**
@@ -380,6 +381,15 @@ function ding_react_material_list_url() {
  */
 function ding_react_follow_searches_url() {
   return variable_get('ding_react_follow_searches_url', DING_REACT_FOLLOW_SEARCHES_STAGE_URL);
+}
+
+/**
+ * Returns the url to the instance of the Cover service to use.
+ *
+ * @return string
+ */
+function ding_react_cover_service_url() {
+  return variable_get('ding_react_cover_service_url', DING_REACT_COVER_SERVICE_URL);
 }
 
 /**
