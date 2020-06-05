@@ -411,6 +411,53 @@ function smart_search_string_field_default_field_instances() {
   );
 
   // Exported field_instance:
+  // 'ting_type-smart_search_string-field_sss_hits_score'.
+  $field_instances['ting_type-smart_search_string-field_sss_hits_score'] = array(
+    'bundle' => 'smart_search_string',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Number of clicks',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 2,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_decimal',
+        'weight' => 11,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'ting_type',
+    'field_name' => 'field_sss_hits_score',
+    'label' => 'Search score',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance:
   // 'ting_type-smart_search_string-field_sss_import_update'.
   $field_instances['ting_type-smart_search_string-field_sss_import_update'] = array(
     'bundle' => 'smart_search_string',

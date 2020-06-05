@@ -88,24 +88,6 @@ function smart_search_string_eck_entity_type_info() {
 }
 
 /**
- * Implements hook_node_info().
- */
-function smart_search_string_node_info() {
-  $items = array(
-    'smart_search_content' => array(
-      'name' => t('Smart search content'),
-      'base' => 'node_content',
-      'description' => t('Content to be referenced by smart search'),
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  drupal_alter('node_info', $items);
-  return $items;
-}
-
-/**
  * Implements hook_paragraphs_info().
  */
 function smart_search_string_paragraphs_info() {

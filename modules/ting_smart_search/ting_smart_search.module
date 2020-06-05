@@ -101,7 +101,6 @@ function ting_smart_search_opensearch_pre_execute($request) {
 
       // Store the userDefinedBoost if any.
       $smart_search_userdefined_boosts = $request->userDefinedBoost;
-      if (substr($request->getQuery(), 0, 1) === "(") {
         // Load the entity as object with entity_metadata_wrapper.
         $smart_search_object = ting_smart_search_check_object($request->getQuery());
         if (!empty((array) $smart_search_object)) {
@@ -164,7 +163,6 @@ function ting_smart_search_opensearch_pre_execute($request) {
             }
           }
         }
-      }
 
       if ($smart_search_use_auto && variable_get('ting_smart_search_automatic_active', true)) {
         if (!(isset($smart_search_userdefined_boosts) && is_array($smart_search_userdefined_boosts))) {

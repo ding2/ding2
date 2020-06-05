@@ -26,6 +26,7 @@ function smart_search_string_field_group_info() {
       0 => 'field_sss_date',
       1 => 'field_sss_hits_per_month',
       2 => 'field_sss_hits_per_year',
+      3 => 'field_sss_hits_score',
       4 => 'field_sss_import_update',
       5 => 'field_status',
       6 => 'group_sss_boost',
