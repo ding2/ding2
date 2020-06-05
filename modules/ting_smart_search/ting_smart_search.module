@@ -83,25 +83,6 @@ function ting_smart_search_cron() {
 }
 
 /**
- * For use in the submit function of form
- *
- * Cache_clear_all(':'.current_path(), 'cache_ting', TRUE);
- * Drupal_set_message('Cache for '.'*'.current_path().' this record cleared.');
- *
- * @param string $cid
- *   The cache id.
- */
-function ting_smart_search_opensearch_cache_key(&$cid) {
-  // Determine context.
-  $context = 'search';
-
-  // Modify cache key based on some context.
-  if ($context === 'search') {
-    $cid = ':' . current_path() . ':' . $cid;
-  }
-}
-
-/**
  * Set additional parameters to ting request.
  *
  * @param object $request
@@ -144,7 +125,7 @@ function ting_smart_search_opensearch_pre_execute($request) {
             // Add a general quoted free text search.
             if (!empty($free_text_query = $redirect)) {
               $cqlDoctor = new TingSearchCqlDoctor($free_text_query);
-              $smart_search_check_replaced = $cqlDoctor->string_to_cql();
+              $request->setQuery($cqlDoctor->string_to_cql());
             }
 
             // Check for sorting.
@@ -169,14 +150,6 @@ function ting_smart_search_opensearch_pre_execute($request) {
               $smart_search_boosts = ting_smart_search_get_boosts($smart_search_object);
             }
 
-            if ($smart_search_check_replaced == '') {
-              $query = $request->getQuery();
-              // Probably nothing here.
-            }
-            else {
-              $query = $smart_search_check_replaced;
-            }
-
             if ($smart_search_boosts) {
               $uboosts = $smart_search_userdefined_boosts;
               foreach ($smart_search_boosts as $boost_field) {
@@ -189,7 +162,6 @@ function ting_smart_search_opensearch_pre_execute($request) {
               $request->userDefinedBoost = $uboosts;
               $smart_search_use_auto = false;
             }
-            $request->setQuery($query);
           }
         }
       }
@@ -255,13 +227,13 @@ function ting_smart_search_autodata_cache() {
 }
 
 /**
- * Check if query has been replaced
+ * Check if alternate search string exist and return its value.
  *
  * @param string $query
  *   The Ting query.
  *
  * @return string
- *   The replaced string or empty.
+ *   The replaced search string.
  */
 function ting_smart_search_check_object($query) {
   $new_string_object = new stdClass();
@@ -297,46 +269,43 @@ function ting_smart_search_check_object($query) {
 function ting_smart_search_get_boosts($wrapper) {
   $boosts = array();
   $weight = 20000;
-  $entity_id = 1;
 
-  if ($entity_id) {
-    $boost_materials = $wrapper->field_sss_boost_materials->value();
+  $boost_materials = $wrapper->field_sss_boost_materials->value();
 
-    // We insert material twice to rule out factors applied from the well.
-    // For some reason some materials get sticky in the top off the search 
-    // results. In order to ensure our ranking we boost twice. A bit crasy
-    // but works.
-    if (!empty($boost_materials)) {
-      foreach ($boost_materials as $boost_material) {
-        $boosts[] = array(
-          'field_name' => 'term.default',
-          'field_value' => urldecode($boost_material),
-          'weight' => $weight,
-        );
-        $weight = $weight - 100;
-        $boosts[] = array(
-          'field_name' => 'term.default',
-          'field_value' => urldecode($boost_material),
-          'weight' => $weight,
-        );
-        $weight = $weight - 2000;
-      }
-    }
-
-    // Extract custom boosts from search string.
-    $custom_boost_materials = $wrapper->field_custom_boost_values_p->value();
-
-    // Get to each fieldcollection.
-    foreach ($custom_boost_materials as $cb_material) {
-
-      $cb_wrapper = entity_metadata_wrapper('paragraphs_item', $cb_material);
-
+  // We insert material twice to rule out factors applied from the well.
+  // For some reason some materials get sticky in the top off the search
+  // results. In order to ensure our ranking we boost twice. A bit crasy
+  // but works.
+  if (!empty($boost_materials)) {
+    foreach ($boost_materials as $boost_material) {
       $boosts[] = array(
-        'field_name' => $cb_wrapper->field_field_name->value(),
-        'field_value' => $cb_wrapper->field_field_boost_value->value(),
-        'weight' => $cb_wrapper->field_field_boost_weight->value(),
+        'field_name' => 'term.default',
+        'field_value' => urldecode($boost_material),
+        'weight' => $weight,
       );
+      $weight = $weight - 100;
+      $boosts[] = array(
+        'field_name' => 'term.default',
+        'field_value' => urldecode($boost_material),
+        'weight' => $weight,
+      );
+      $weight = $weight - 2000;
     }
+  }
+
+  // Extract custom boosts from search string.
+  $custom_boost_materials = $wrapper->field_custom_boost_values_p->value();
+
+  // Get to each fieldcollection.
+  foreach ($custom_boost_materials as $cb_material) {
+
+    $cb_wrapper = entity_metadata_wrapper('paragraphs_item', $cb_material);
+
+    $boosts[] = array(
+      'field_name' => $cb_wrapper->field_field_name->value(),
+      'field_value' => $cb_wrapper->field_field_boost_value->value(),
+      'weight' => $cb_wrapper->field_field_boost_weight->value(),
+    );
   }
 
   return $boosts;
@@ -576,7 +545,7 @@ function ting_smart_search_get_searchdata_from_webtrekk() {
     }
     if (system_retrieve_file($url, $path, FALSE, FILE_EXISTS_REPLACE)) {
       $file = fopen($path, 'r');
-      
+
       while (($line = fgetcsv($file, 1000, ",")) !== FALSE) {
         $title = $line[0];
         $long_period = $line[1];
@@ -630,7 +599,7 @@ function ting_smart_search_search_stats_importer($search_data) {
           $string_item = entity_metadata_wrapper('ting_type', $entity);
           $string_item->title->set($normalized_string);
         }
-        
+
         $string_item->field_sss_hits_per_year->set($hits_year);
         $string_item->field_sss_hits_per_month->set($hits_month);
         // Save.
