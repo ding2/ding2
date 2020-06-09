@@ -543,6 +543,13 @@ projects[easyddb_search_expand][download][url]    = "git@github.com:easySuite/ea
 projects[easyddb_search_expand][download][branch] = "development"
 
 ; Bibliofil
+projects[bibliofil-subtheme][type]             = "theme"
+projects[bibliofil-subtheme][subdir]           = ""
+projects[bibliofil-subtheme][download][type]   = "git"
+projects[bibliofil-subtheme][download][url]    = "git@github.com:easySuite/bibliofil-subtheme.git"
+;projects[bibliofil-subtheme][download][tag]    = ""
+projects[bibliofil-subtheme][download][branch] = "development"
+
 projects[lms][type]             = "module"
 projects[lms][subdir]           = ""
 projects[lms][download][type]   = "git"
