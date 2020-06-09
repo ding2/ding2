@@ -7,5 +7,4 @@ dependencies[] = ting_search
 dependencies[] = smart_search_string
 dependencies[] = opensearch
 dependencies[] = paragraphs
-stylesheets[all][] = css/smart_search_content.css
 stylesheets[all][] = css/smart_search_string_form.css

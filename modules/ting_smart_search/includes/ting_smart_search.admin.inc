@@ -169,35 +169,25 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
   // Store new file.
   $file = $form_state['values']['ting_smart_search_import_file'];
 
-  // We are done with the file, remove it from storage.
-  unset($form_state['values']['ting_smart_search_import_file']);
-
-  // Make the storage of the file permanent.
-  $file->status = FILE_STATUS_PERMANENT;
-
-  // Save file status.
-  file_save($file);
-
-  // Set a response to the user.
-  drupal_set_message(t('The form has been submitted and the smart search records have been saved, filename: @filename.', array(
-    '@filename' => $file->filename,
-  )));
-
   // Prepare vars for import.
   $import_entity = array();
 
   $json = @file_get_contents($file->uri);
 
   if ($json === FALSE) {
-    drupal_set_message(t('Failed to load local file. Please check that filename and path are correct: @importfile', array(
-      '@importfile' => variable_get('ting_smart_search_import_file_name', 'smart-search-records.json'),
-    )), 'warning');
+    drupal_set_message(t('Failed to load local file. Please check that the file format is correct'),'warning');
+  }
+  else {
+    // Set a response to the user.
+    drupal_set_message(t('The form has been submitted and the smart search records have been imported, filename: @filename.', array(
+      '@filename' => $file->filename,
+    )));
   }
 
   $json_array = json_decode($json, true);
   if (is_null($json_array)) {
       // Json decode failed. Error handling here.
-      return t('failed to load file');
+      drupal_set_message(t('failed to load file. Error message: @error_msg.', array('@error_msg' => json_last_error_msg())));
   }
   else {
      $jsonIterator = new RecursiveArrayIterator($json_array);
