@@ -389,7 +389,7 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
   $form_state['agency'] = variable_get('site_name', 'undefined');
 
   $form['ddb_cover_upload_meta']['left']['ddb_cover_upload_meta_data'] = array(
-    '#markup' => '<div class="left form-wrapper"><img class="img-displayed" src="' . $displayedImageUrl . '"></div>',
+    '#markup' => '<div class="left form-wrapper"><img class="ddb-cover-upload__img--displayed" src="' . $displayedImageUrl . '"></div>',
   );
 
   // Get information about the entity and reuse view mode with minor changes.
