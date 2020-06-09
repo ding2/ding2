@@ -2,7 +2,6 @@
 
   Drupal.behaviors.smartsearchSortable = {
     attach: function(context, settings) {
-      var changed = false;
       var material_arr = [];
       $('#field-sss-boost-materials-values .form-item.form-type-textfield input.form-text').each(function(index){
           material_arr[index] = $(this).val();
@@ -14,7 +13,6 @@
 
         start: function(event, ui) {
 
-          var start = ui.item.index()
           $(this).attr('data-previndex', ui.item.index());
         },
         update: function(event, ui) {
@@ -42,20 +40,6 @@
 
       });
       $( "ol, li" ).disableSelection();
- /**
-  * Maybee we can use this if materials are moved out of the list.
-*/
-      function array_move(arr, old_index, new_index) {
-        if (new_index >= arr.length) {
-          var k = new_index - arr.length + 1;
-          while (k--) {
-            arr.push(undefined);
-          }
-        }
-        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-        return arr; // for testing
-      };
-
     }
   };
 
