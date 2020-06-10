@@ -24,7 +24,7 @@ function ting_smart_search_form_content_type_access() {
   $return = FALSE;
   global $user;
 
-  if ($user->uid == '1') {
+  if(user_access('configure smart search')) {
     $return = TRUE;
   }
   return $return;
