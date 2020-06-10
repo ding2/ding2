@@ -49,7 +49,15 @@ function ting_smart_search_form_content_type_render($subtype, $conf, $panel_args
   // Create the block class.
   $block = new stdClass();
 
-  $entity_id = db_query('SELECT id FROM {eck_ting_type} WHERE title = :myredirect', array(':myredirect' => $search_string))->fetchField();
+  $ssquery = new EntityFieldQuery();
+
+  $ssquery->entityCondition('entity_type', 'ting_type')
+    ->entityCondition('bundle', 'smart_search_string')
+    ->propertyCondition('title', $search_string, '=');
+
+  $result = $ssquery->execute();
+
+  $entity_id =current((array)$result['ting_type'])->id;
 
   if ($entity_id) {
     $block->content = eck__entity__edit($entity_type_name, $entity_bundle_name, $entity_id);
