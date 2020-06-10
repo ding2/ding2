@@ -440,40 +440,6 @@ function smart_search_string_to_list($form, &$form_state) {
 }
 
 /**
- * Add extra view modes to smart search content
- */
-function smart_search_string_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['col2'] = array(
-    'label' => t('Two columns'),
-    'custom settings' => TRUE,
-  );
-  $entity_info['node']['view modes']['link-only'] = array(
-    'label' => t('Link only'),
-    'custom settings' => TRUE,
-  );
-}
-
-/**
- * Add custom values from smart search settings to field_field_name in paragraphs field_custom_boost_values_p
- */
-function smart_search_string_field_info_alter(&$field_info) {
-
-}
-
-/**
- * Append class based on view mode.
- *
- * @param string $variables
- *   Node variables.
- */
-function ting_smart_search_preprocess_node(&$variables) {
-  // Append class based on view mode.
-  if (isset($variables['field_view_mode']) && !empty($variables['field_view_mode'])) {
-    $variables['classes_array'][] = $variables['field_view_mode']['und'][0]['value'];
-  }
-}
-
-/**
  * Gets the path for search data from webtrekk.
  *
  * @return string
