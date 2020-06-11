@@ -102,7 +102,7 @@ function ting_smart_search_opensearch_pre_execute($request) {
       // Store the userDefinedBoost if any.
       $smart_search_userdefined_boosts = $request->userDefinedBoost;
         // Load the entity as object with entity_metadata_wrapper.
-        $smart_search_object = ting_smart_search_check_object($request->getQuery());
+        $smart_search_object = ting_smart_search_get_object($request->getQuery());
         if (!empty((array) $smart_search_object)) {
           $status = $smart_search_object->field_status->value();
           if ($status == 'planned') {
@@ -225,15 +225,15 @@ function ting_smart_search_autodata_cache() {
 }
 
 /**
- * Check if alternate search string exist and return its value.
+ * Load the entity as object with entity_metadata_wrapper
  *
  * @param string $query
- *   The Ting query.
+ *   The Ting search query string.
  *
  * @return string
- *   The replaced search string.
+ *   The entity object.
  */
-function ting_smart_search_check_object($query) {
+function ting_smart_search_get_object($query) {
   $new_string_object = new stdClass();
 
   $string = trim($query, '()');
