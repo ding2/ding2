@@ -1,0 +1,39 @@
+/**
+ * Base theming of search guides.
+ */
+
+/* Adjust vertical spacing content in a search guide. */
+.view-ting-field-search-search-guide h1,
+.view-ting-field-search-search-guide p {
+  margin-bottom: 15px;
+}
+
+/* Vertical spacing between search guides. */
+.view-ting-field-search-search-guide.view-id-ting_field_search_search_guide .views-row {
+  margin-bottom: 60px;
+}
+
+/* Styling of label for Files and Links sections. */
+.views-label-field-search-guide-files,
+.views-label-field-search-guide-links {
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+/* Adjust styling of lists in search guides. */
+.view-ting-field-search-search-guide ul {
+  list-style-position: outside;
+  padding-left: 40px;
+  margin: 0 0 10px;
+}
+
+.view-ting-field-search-search-guide .view-content .views-field-body ul li {
+  margin-bottom: 5px;
+}
+
+/* Bottom search gudies layout. */
+.ting-field-search-search-guide-bottom {
+  float: left;
+  width: 50%;
+}

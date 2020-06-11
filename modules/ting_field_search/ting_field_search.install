@@ -65,6 +65,20 @@ function ting_field_search_schema() {
         'serialize' => TRUE,
         'description' => 'Serialized profile configuration that do not warrant a single column.',
       ),
+      'fields' => array(
+        'type' => 'blob',
+        'size' => 'big',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'description' => 'Serialized field configuration',
+      ),
+      'groups' => array(
+        'type' => 'blob',
+        'size' => 'big',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'description' => 'Serialized groups configuration',
+      ),
       'weight' => array(
         'type' => 'int',
         'size' => 'small',
@@ -128,6 +142,43 @@ function ting_field_search_schema() {
       ),
     ),
   );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_field_schema().
+ */
+function ting_field_search_field_schema($field) {
+  $schema = array();
+
+  switch ($field['type']) {
+    case 'ting_field_search_profile_page_placement':
+      $schema['columns'] = array(
+        'profile_name' => array(
+          'type' => 'varchar',
+          'length' => 64,
+          'not null' => FALSE,
+          'default' => NULL,
+        ),
+        'position' => array(
+          'type' => 'varchar',
+          'length' => 128,
+          'not null' => FALSE,
+          'default' => NULL,
+        ),
+        'weight' => array(
+          'type' => 'int',
+          'size' => 'small',
+          'not null' => FALSE,
+          'default' => NULL,
+        ),
+      );
+      $schema['indexes'] = array(
+        'profile_name' => array('profile_name'),
+      );
+      break;
+  }
 
   return $schema;
 }
@@ -309,5 +360,31 @@ function ting_field_search_update_7002() {
       ->condition('name', $name)
       ->fields(array('config' => serialize($config)))
       ->execute();
+  }
+}
+
+/**
+ * Add serialized db field for field configuration on search profiles.
+ */
+function ting_field_search_update_7003() {
+  if (!db_field_exists('ting_field_search_profile', 'fields')) {
+    db_add_field('ting_field_search_profile', 'fields', array(
+      'type' => 'blob',
+      'size' => 'big',
+      'not null' => TRUE,
+      'serialize' => TRUE,
+      'description' => 'Serialized field configuration',
+      'initial' =>  serialize(array()),
+    ));
+  }
+  if (!db_field_exists('ting_field_search_profile', 'groups')) {
+    db_add_field('ting_field_search_profile', 'groups', array(
+      'type' => 'blob',
+      'size' => 'big',
+      'not null' => TRUE,
+      'serialize' => TRUE,
+      'description' => 'Serialized groups configuration',
+      'initial' =>  serialize(array()),
+    ));
   }
 }

@@ -1,0 +1,54 @@
+<?php
+
+$plugin = array(
+    'title' => t('Ting field search profile'),
+    'description' => t('A Ting field search profile context.'),
+    'context' => 'ting_field_search_profile_context_create',
+    'settings form' => 'ting_field_search_profile_context_settings_form',
+    'keyword' => 'ting_field_search_profile',
+    'context name' => 'ting_field_search_profile',
+    'convert list' => 'ting_field_search_profile_object_convert_list',
+    'convert' => 'ting_field_search_profile_object_convert',
+    'placeholder form' => array(
+      '#type' => 'textfield',
+      '#description' => t('Enter the profile name for this context'),
+    ),
+);
+
+function ting_field_search_profile_context_create($empty, $data = NULL, $conf = FALSE) {
+  $context = new ctools_context('ting_field_search_profile');
+  $context->plugin = 'ting_field_search_profile';
+
+  if ($empty) {
+    return $context;
+  }
+
+  if (!empty($data)) {
+    $context->data = $data;
+    $context->title = $data->title;
+    $context->argument = $data->name;
+
+    return $context;
+  }
+}
+
+function ting_field_search_profile_context_settings_form($conf, $external = FALSE) {
+  $form = array();
+  return $form;
+}
+
+function ting_field_search_profile_object_convert_list() {
+  return array(
+    'name' => t('Profile machine-name'),
+    'title' => t('Profile title'),
+  );
+}
+
+function ting_field_search_profile_object_convert($context, $type) {
+  switch ($type) {
+    case 'name':
+      return $context->data->name;
+    case 'title':
+      return $context->data->title;
+  }
+}

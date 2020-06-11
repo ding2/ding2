@@ -347,6 +347,175 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     $form['facets']['table'][$index]['weight']['#default_value'] = $weight;
   }
 
+  // Field settings.
+  $form['config']['fields'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Fields'),
+    '#description' => '<strong>' . t('Field settings') . '</strong>',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => -10,
+  );
+
+  // Base path for group and field config.
+  $base = 'admin/config/ting/ting-field-search-profiles/' . $profile->name;
+
+  // Need a profile machine_name to add groups.
+  // TODO: Find out how we can determine if a profile is being imported. This
+  // only protects against profiles being created.
+  if (!empty($profile->name)) {
+    $form['config']['fields']['add_group'] = array(
+      '#prefix' => '<ul class="action-links"><li>',
+      '#type' => 'link',
+      '#title' => t('Add field group'),
+      '#href' => $base . '/groups/add',
+      '#suffix' => '</li></ul>',
+    );
+  }
+
+  // Ensure fields and fields groups are displayed sorted by weight.
+  ting_field_search_profile_fields_sort($profile);
+
+  // Build field groups if present.
+  if (!empty($profile->groups)) {
+    foreach ($profile->groups as $group_name => $group) {
+      $form['config']['fields'][$group_name] = array(
+        '#type' => 'fieldset',
+        '#title' => check_plain($group['title']),
+        '#collapsible' => TRUE,
+      );
+
+      // Field group information.
+      if (!empty($group['description'])) {
+        $form['config']['fields'][$group_name]['description'] = array(
+          '#type' => 'item',
+          '#title' => t('Description'),
+          '#markup' => check_plain($group['description']),
+        );
+      }
+      $form['config']['fields'][$group_name]['columns'] = array(
+        '#type' => 'item',
+        '#title' => t('Columns'),
+        '#markup' => check_plain($group['columns']),
+      );
+      $form['config']['fields'][$group_name]['weight'] = array(
+        '#type' => 'select',
+        '#title' => t('Weight'),
+        '#options' => drupal_map_assoc(range(-15, 15)),
+        '#default_value' => $group['weight'],
+      );
+
+      // Edit field group link.
+      $form['config']['fields'][$group_name]['edit_group'] = array(
+        '#type' => 'item',
+        '#markup' => l(
+          t('Edit field group'),
+          $base . '/groups/' . $group_name .  '/edit',
+          array('attributes' => array('class' => array('edit-field-group')))
+        ),
+      );
+
+      // Add field link.
+      $form['config']['fields'][$group_name]['add_field'] = array(
+        '#prefix' => '<ul class="action-links add-field"><li>',
+        '#type' => 'link',
+        '#title' => t('Add field'),
+        '#href' => $base . '/fields/' . $group_name . '/add',
+        '#suffix' => '</li></ul>',
+      );
+
+      // Prepare the table render array for the fields in the group.
+      $header = array(t('Title'), t('Type'), t('Index') , t('Weight'), t('Operations'));
+      $table_id = 'fields-' . $group_name;
+      $form['config']['fields'][$group_name]['table'] = array(
+        '#theme' => 'table',
+        '#header' => $header,
+        '#attributes' => array('id' => $table_id),
+        '#empty' => t('No fields added to this group'),
+      );
+      drupal_add_tabledrag($table_id, 'order', 'sibling', 'field-weight');
+    }
+  }
+
+  // Build field rows and add them to their field group table.
+  if (!empty($profile->fields)) {
+    $rows = array();
+    $row_elements = array();
+    foreach ($profile->fields as $index => $field) {
+      $row = _ting_field_search_build_field_row($field, $base . '/fields');
+      $group_name = $field['group_name'];
+      $row_elements[$group_name][$index] = array(
+        // We only allow field value to be manipulated in the table, so that is
+        // the only element we need outside the table.
+        'weight' => &$row['data'][3]['data'],
+      );
+      $rows[$group_name][$index] = $row;
+    }
+
+    foreach (array_keys($rows) as $group_name) {
+      $form['config']['fields'][$group_name]['table'] += array(
+        'elements' => $row_elements[$group_name],
+        '#rows' => $rows[$group_name],
+      );
+    }
+  }
+
+  // Profile page config.
+  $form['config']['profile_page'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Profile page'),
+    '#description' => '<strong>' . t('Profile page settings') . '</strong>',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => -10,
+  );
+  $form['config']['profile_page']['enabled'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable profile page'),
+    '#description' => t('Enable the dedicated page for this profile'),
+    '#default_value' => $profile->config['profile_page']['enabled'],
+  );
+  $form['config']['profile_page']['profile_page_link'] = array(
+    '#type' => 'item',
+    '#description' => t('Profile page enabled at <a href="!url">!url</a>', array(
+      '!url' => url('ting-field-search/profile/' . $profile->name),
+    )),
+    '#access' => $profile->config['profile_page']['enabled'],
+  );
+
+  // Provide an easy way to alias the profile page.
+  $conditions = array(
+    'source' => 'ting-field-search/profile/' . $profile->name,
+  );
+  $alias = path_load($conditions);
+  $form['config']['profile_page']['alias'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL alias'),
+    '#description' => t('Optionally specify an alternative URL by which the profile page can be accessed. Use a relative path and don\'t add a trailing slash or the URL alias won\'t work.'),
+    '#maxlength' => 255,
+    '#default_value' => $alias['alias'],
+  );
+
+  // Display attached search guides.
+  if ($search_guides = ting_field_search_search_guides_load($profile)) {
+    $rows = array();
+    foreach ($search_guides as $nid => $search_guide) {
+      $rows[$nid] = _ting_field_search_build_search_guide_row($search_guide, $profile);
+    }
+    $form['config']['profile_page']['search_guides'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Search guides'),
+      '#description' => t('The search guides currently attached to this profile.'),
+    );
+    $header = array(t('Title'), t('Position'), t('Weight'), t('Operations'));
+    $form['config']['profile_page']['search_guides']['table'] = array(
+      '#theme' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#empty' => t('No search guides added to this profile'),
+    );
+  }
+
   // Add some correcting CSS.
   $path = drupal_get_path('module', 'ting_field_search');
   $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
@@ -358,7 +527,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
  * Submit handler for the profile save form.
  */
 function ting_field_search_profile_export_form_submit($form, &$form_state) {
-  $profile = $form_state['item'];
+  $profile = &$form_state['item'];
 
   // Mark any input facet with an empty name to be deleted.
   $profile->facets = array();
@@ -370,6 +539,35 @@ function ting_field_search_profile_export_form_submit($form, &$form_state) {
       }
     }
   }
+
+  // Enable direct editing of field groups on the profile form.
+  if (isset($form_state['values']['config']['fields'])) {
+    $group_config = $form_state['values']['config']['fields'];
+    // We don't wan't these carried over to profile config.
+    unset($form_state['values']['config']['fields']);
+    foreach ($group_config as $group_name => $group_config) {
+      $profile->groups[$group_name]['weight'] = $group_config['weight'];
+    }
+  }
+
+  // Update field weights.
+  if (isset($form_state['values']['field-weights'])) {
+    foreach ($form_state['values']['field-weights'] as $index => $value) {
+      if (isset($profile->fields[$index])) {
+        $profile->fields[$index]['weight'] = $value['weight'];
+      }
+    }
+  }
+
+  if (!empty($form_state['values']['config']['profile_page']['alias'])) {
+    $path = array();
+    $path['alias'] = $form_state['values']['config']['profile_page']['alias'];
+    $path['language'] = LANGUAGE_NONE;
+    $path['source'] = 'ting-field-search/profile/' . $profile->name;
+    path_save($path);
+  }
+  // Regardless, ensure the alias isn't carried over to profile config.
+  unset($form_state['values']['config']['profile_page']['alias']);
 
   // There's a 'redirect' option in the export plugin definition, but we need
   // to dynamically insert a fragment so the current tab will be open after
@@ -464,5 +662,81 @@ function _ting_field_search_build_facet_row($index, $facet = NULL) {
       ),
     ),
     'class' => array('draggable'),
+  );
+}
+
+/**
+ * Helper function to prepare a field row for tabledrag.
+ */
+function _ting_field_search_build_field_row($field, $base) {
+  return array(
+    'data' => array(
+      array('data' => array(
+        '#markup' => $field['title'],
+      )),
+      array('data' => array(
+        '#markup' => $field['type'],
+      )),
+      array('data' => array(
+        '#markup' => $field['index'],
+      )),
+      array('data' => array(
+        '#type' => 'weight',
+        '#title' => t('Weight'),
+        '#default_value' => $field['weight'],
+        '#title_display' => 'invisible',
+        '#attributes' => array('class' => array('field-weight')),
+        '#parents' => array('field-weights', $field['index'], 'weight'),
+      )),
+      array('data' => array(
+        '#theme' => 'links',
+        '#attributes' => array('class' => array('inline')),
+        '#links' => array(
+          array(
+            'title' => t('Edit'),
+            'href' => $base . '/' . $field['group_name'] . '/' . $field['index'] . '/edit',
+          ),
+          array(
+            'title' => t('Delete'),
+            'href' => $base . '/' . $field['index'] . '/delete',
+          ),
+        ),
+      )),
+    ),
+    'class' => array('draggable'),
+  );
+}
+
+/**
+ * Helper function to build a row in the search guides table.
+ */
+function _ting_field_search_build_search_guide_row($search_guide, $profile) {
+  $guide_wrapper = entity_metadata_wrapper('node', $search_guide);
+  $field = FALSE; // For the field wrapper.
+
+  // The placements field is attached to the search guide as multi value, so we
+  // need to find the one related to the this profile.
+  foreach ($guide_wrapper->field_profile_page_placement->getIterator() as $delta => $field_wrapper) {
+    if ($field_wrapper->profile_name->value() === $profile->name) {
+      $field = $field_wrapper;
+      break;
+    }
+  }
+
+  return array(
+    'data' => array(
+      array('data' => array(
+        '#markup' => check_plain($search_guide->title),
+      )),
+      array('data' => array(
+        '#markup' => $field ? $field->position->value() : '',
+      )),
+      array('data' => array(
+        '#markup' => $field ? $field->weight->value() : '',
+      )),
+      array('data' => array(
+        '#markup' => l(t('Edit'), 'node/' . $search_guide->nid . '/edit'),
+      )),
+    ),
   );
 }

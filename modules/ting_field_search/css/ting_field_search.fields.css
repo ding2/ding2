@@ -1,0 +1,148 @@
+/**
+ * Basic theming of profile page.
+ */
+
+
+/* Main search field */
+#ting-field-search-fields-form .form-item-query {
+  max-width: none;
+  margin-top: 30px;
+  margin-bottom: 25px;
+}
+
+/* Prpfile page submit */
+#ting-field-search-fields-form input[type="submit"] {
+  margin-top: 20px;
+  margin-bottom: 50px;
+  display: inline;
+}
+
+#ting-field-search-fields-form .form-actions {
+  text-align: center;
+}
+
+#ting-field-search-fields-form .fieldset-wrapper {
+  width: 100%;
+}
+
+/* Title on field group  */
+#ting-field-search-fields-form  .fieldset-title {
+  display: inline-block;
+  width: 100%;
+  color: inherit;
+}
+
+/* "Advanced search" title on root fieldset */
+#edit-ting-field-search-fields > legend {
+  font-size: 24px;
+}
+
+/* Field groups*/
+.ting-field-search-field-group.form-wrapper {
+  margin-bottom: 0;
+}
+
+.ting-field-search-field-group .fieldset.collapsible {
+  padding: 28px 0 0;
+}
+
+.ting-field-search-field-group.collapsible .fieldset-title::after {
+  top: 25px;
+}
+
+.ting-field-search-field-group .fieldset-wrapper {
+  width: 100%;
+}
+
+/* Check boxes */
+.ting-field-search-field-group .form-type-checkboxes > label,
+.ting-field-search-field-group .form-type-textfield > label,
+.ting-field-search-field-group .form-type-radios > label,
+.ting-field-search-field-group .form-type-select > label {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Field group field layout */
+.ting-field-search-field-group .fieldset-wrapper .form-type-checkboxes,
+.ting-field-search-field-group .fieldset-wrapper .form-type-textfield,
+.ting-field-search-field-group .fieldset-wrapper .form-type-radios,
+.ting-field-search-field-group .fieldset-wrapper .form-type-select {
+  max-width: 100%;
+}
+
+.ting-field-search-field-group .ting-field-search-field {
+  float: left;
+  padding: 20px 5px 0 5px;
+}
+
+/* 2-column layout */
+.ting-field-search-field-group-columns-2 .ting-field-search-field {
+  width: 50%;
+}
+
+.ting-field-search-field-group-columns-2 .ting-field-search-field:nth-child(2n+1) {
+  clear: left;
+}
+
+/* 3-column layout */
+.ting-field-search-field-group-columns-3 .ting-field-search-field {
+  width: 33.33333%;
+}
+
+.ting-field-search-field-group-columns-3 .ting-field-search-field:nth-child(3n+1) {
+  clear: left;
+}
+
+/* 4-column layout */
+.ting-field-search-field-group-columns-4 .ting-field-search-field {
+  width: 25%;
+}
+
+.ting-field-search-field-group-columns-4 .ting-field-search-field:nth-child(4n+1) {
+  clear: left;
+}
+
+/* 5-column layout */
+.ting-field-search-field-group-columns-5 .ting-field-search-field {
+  width: 20%;
+}
+
+.ting-field-search-field-group-columns-5 .ting-field-search-field:nth-child(5n+1) {
+  clear: left;
+}
+
+/* Multi.column layout for checkboxes and radios. */
+.ting-field-search-field-group .ting-field-search-field .form-type-checkbox,
+.ting-field-search-field-group .ting-field-search-field .form-type-radio {
+  display: inline-block;
+  float: none;
+}
+
+.ting-field-search-field-column-count-2 .form-checkboxes,
+.ting-field-search-field-column-count-2 .form-radios {
+  -webkit-column-count: 2;
+  -moz-column-count: 2;
+  column-count: 2;
+}
+
+.ting-field-search-field-column-count-3 .form-checkboxes,
+.ting-field-search-field-column-count-3 .form-radios {
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+}
+
+.ting-field-search-field-column-count-4 .form-checkboxes,
+.ting-field-search-field-column-count-4 .form-radios {
+  -webkit-column-count: 4;
+  -moz-column-count: 4;
+  column-count: 4;
+}
+
+.ting-field-search-field-column-count-5 .form-checkboxes,
+.ting-field-search-field-column-count-5 .form-radios {
+  -webkit-column-count: 5;
+  -moz-column-count: 5;
+  column-count: 5;
+}
