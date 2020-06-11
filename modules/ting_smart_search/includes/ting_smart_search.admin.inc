@@ -107,8 +107,10 @@ function ting_smart_search_export_form_submit($form, &$form_state) {
 
   $ssquery = new EntityFieldQuery();
 
+  // export only active smart search records
   $ssquery->entityCondition('entity_type', 'ting_type')
-          ->entityCondition('bundle', 'smart_search_string');
+          ->entityCondition('bundle', 'smart_search_string')
+          ->fieldCondition('field_status', 'value', 'active', '=');
 
   $result = $ssquery->execute();
 
