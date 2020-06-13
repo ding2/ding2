@@ -14,7 +14,3 @@ The code for the webservice is included in the extras folder.
 On install you need to run a cron job to get a list off the most popular
 searches.
 
-The module uses a 20 MB data file to put the most relevant materials first in
-search results. In order to have top performance the data file is saved as php
-array anduse the include statement to read it. For optimal performance a 20 MB
-increase to your opcode cache maybe required.

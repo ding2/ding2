@@ -189,14 +189,17 @@ function ting_smart_search_opensearch_pre_execute($request) {
  */
 function ting_smart_search_auto(array $smart_search_userdefined_boosts, $query) {
   $string = trim($query, '()');
+  $string  = str_replace('"', '', $string);
   $keys = str_replace(' and ', ' ', $string);
-  $data = ting_smart_search_autodata_cache();
+  
+  $result= db_query("SELECT materialids FROM {ting_smart_search_auto_data} WHERE searchkey = :searchkey", array(':searchkey' => $keys));
+  $record = $result->fetchObject();
 
-  if (isset($data) && array_key_exists($keys, $data)) {
+  if (isset($record) && isset($record->materialids)) {
     // We set a huge boost value. Necassery in order to ensure we get the order
     // of materials we want.
     $weight = 10000;
-    $first_fausts_for_query = array_slice(array_keys($data[$keys]), 0, 5);
+    $first_fausts_for_query = explode(',', $record->materialids);
     foreach ($first_fausts_for_query as $faust) {
       $smart_search_userdefined_boosts[] = array(
         'fieldName' => 'term.default',
@@ -207,21 +210,6 @@ function ting_smart_search_auto(array $smart_search_userdefined_boosts, $query) 
     }
   }
   return $smart_search_userdefined_boosts;
-}
-
-/**
- * Gets a array off searches from webtrekk data.
- *
- * @return array
- *   Array containing the searches as key with a array off most requested
- *   objects as value.
- */
-function ting_smart_search_autodata_cache() {
-  if (file_exists(ting_smart_search_get_autodata_path())) {
-    @include ting_smart_search_get_autodata_path();
-    return isset($ting_smart_search_autodata ) ? $ting_smart_search_autodata : NULL;
-  }
-  return NULL;
 }
 
 /**
@@ -439,14 +427,45 @@ function smart_search_string_to_list($form, &$form_state) {
   drupal_goto('/admin/structure/entity-type/ting_type/smart_search_string/list');
 }
 
-/**
- * Gets the path for search data from webtrekk.
- *
- * @return string
- *   String containg the file path
- */
-function ting_smart_search_get_autodata_path() {
-  return file_default_scheme() . '://' . variable_get('ting_smart_search_autodata_path', 'smartsearchdata') . DIRECTORY_SEPARATOR . 'autodata.txt';
+
+function ting_smart_search_db_table() {
+  $table = array(
+    'fields' => array(
+      'id' => array(
+        'description' => 'Normal field identifier',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'searchkey' => array(
+        'description' => 'The keys',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'materialids' => array(
+        'description' => 'Ids of the materials to boost',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),  
+
+    ),
+    'unique keys' => array(
+      'id' => array(
+        'id',
+      ),
+    ),
+    'primary key' => array(
+      'id',
+    ),
+    'indexes' => array(
+      'ting_smart_search_index' => array('searchkey'),
+    ),
+  );
+  return $table;
 }
 
 /**
@@ -456,29 +475,34 @@ function ting_smart_search_get_autodata_path() {
  */
 function ting_smart_search_get_autodata_from_webtrekk() {
   $url = variable_get('ting_smart_search_master_server', 'https://staging.randersbib.dk/data/autodata.txt');
-  $path = ting_smart_search_get_autodata_path();
-  $temp_path = $path . '.temp';
+  $path = file_default_scheme() . '://' . variable_get('ting_smart_search_autodata_path', 'smartsearchdata') . DIRECTORY_SEPARATOR . 'autodata.txt';
+
   try {
     $directory = dirname($path);
     if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
       watchdog('ting_smart_search', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
       return FALSE;
     }
-    if (system_retrieve_file($url, $temp_path, FALSE, FILE_EXISTS_REPLACE)) {
-      $data = file_get_contents($temp_path);
+    if (system_retrieve_file($url, $path, FALSE, FILE_EXISTS_REPLACE)) {
+      $data = file_get_contents($path);
       if (isset($data)) {
         $output = unserialize($data);
       }
       if (isset($output) && !empty($output) && is_array($output)) {
+        db_drop_table('ting_smart_search_auto_data');
+        db_create_table('ting_smart_search_auto_data', ting_smart_search_db_table());
 
-        $val = var_export($output, TRUE);
-        // In order to get maximum performance the data is exported into a php
-        // array which will be cached by opcode cache. This is based on the method
-        // described here: https://medium.com/@dylanwenzlau/
-        // 500x-faster-caching-than-redis-memcache-apc-in-php-hhvm-dcd26e8447ad
-        // Build the destination folder tree if it doesn't already exist.
-        // LOCK_EX was used in the original solution doesn't work, maybe a windows issue.
-        file_put_contents($path, '<?php $ting_smart_search_autodata = ' . $val . ';');
+        foreach ($output as $searchkey => $pids) {
+          $material_ids = implode(',', array_keys($pids));
+          $f = $pids;
+          $query = db_insert('ting_smart_search_auto_data')->fields(
+                  [
+                      'searchkey' => $searchkey,
+                      'materialids' => $material_ids
+                  ]
+          );
+          $query->execute();
+        }
       } else {
         return FALSE;
       }

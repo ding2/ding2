@@ -16,3 +16,11 @@
    // Load the initial data from webtrekk.
    ting_smart_search_get_autodata_from_webtrekk();
  }
+
+ /**
+ * Implements hook_schema().
+ */
+function ting_smart_search_schema() {
+  $schema['ting_smart_search_auto_data'] = ting_smart_search_db_table();
+  return $schema;
+}
