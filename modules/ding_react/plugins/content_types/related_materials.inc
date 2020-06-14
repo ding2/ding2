@@ -38,6 +38,7 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
       return $data->getTingObject();
     }
   }, $contexts_with_data);
+  // Contexts are in prioritized order so get the first which yielded an object.
   $object = array_shift($ting_objects);
 
   if ($object) {
@@ -45,6 +46,8 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
     // list is not sufficient. NB: There is currently no admin UI for setting
     // this.
     $sources = variable_get('ding_react_related_materials_sources', implode(',', [
+      // These are sources containing well-known materials which are also
+      // likely to have cover images. This makes the list more appealing.
       'bibliotekskatalog',
       'ereolen',
       'ereolen global',
