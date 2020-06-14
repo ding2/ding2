@@ -23,7 +23,7 @@ function ding_react_libraries_info() {
       'vendor url' => 'https://github.com/danskernesdigitalebibliotek/ddb-react',
       'download url' => 'https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/latest/dist.zip',
       // We have to set the version to something for Library API to work.
-      'version' => 'latest',
+      'version callback' => 'ding_react_get_version',
       'files' => [
         'js' => [
           'runtime.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
@@ -35,6 +35,27 @@ function ding_react_libraries_info() {
       ],
     ],
   ];
+}
+
+/**
+ * Libraries info version callback.
+ */
+function ding_react_get_version($library) {
+  // We do not care about any options given to the callback. Our version is
+  // always defined within a JSON file which is easy to parse.
+  $version_file = DRUPAL_ROOT . '/' . $library['library path'] . '/version.json';
+  $version_file_data = file_get_contents($version_file);
+  if ($version_file_data) {
+    $version_data = json_decode($version_file_data, TRUE);
+    if ($version_data && !empty($version_data['version'])) {
+      // The version number will be relative to the latest tag in the format
+      // provided by git describe. Libraries API uses strings for versions so
+      // we can so just return it as is.
+      return $version_data['version'];
+    }
+  }
+
+  watchdog('ding_react', 'Unable to read library version from %path', ['%path' => $version_file], WATCHDOG_ERROR);
 }
 
 /**
