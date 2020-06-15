@@ -68,7 +68,6 @@ features[field_instance][] = ting_type-smart_search_string-field_sss_hits_per_ye
 features[field_instance][] = ting_type-smart_search_string-field_sss_import_update
 features[field_instance][] = ting_type-smart_search_string-field_sss_sort
 features[field_instance][] = ting_type-smart_search_string-field_status
-features[language][] = da
 features[menu_custom][] = management
 features[menu_links][] = management_smartsearchstring:admin/structure/entity-type/ting_type/smart_search_string
 features[menu_links][] = management_ting-smart-search:admin/config/ding/ting_smart_search
