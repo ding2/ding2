@@ -4,7 +4,8 @@
   Drupal.behaviors.ting_ding_entity_buttons = {
     buttons: {
       '.ding-entity-button-see-online': 'see-online',
-      '.ding-entity-button-other-formats': 'other-formats'
+      '.ding-entity-button-other-formats': 'other-formats',
+      '.ding-entity-button-infomedia': 'infomedia',
     },
 
     attach: function (context) {

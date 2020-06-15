@@ -12,7 +12,7 @@ if (!empty($item->image)) {
   $image = '<div class="event-image" style="background-image:url(' . $item->image . ');"></div>';
 }
 ?>
-<div class="item">
+<div class="item"<?php print $attributes; ?>>
   <?php print $image; ?>
   <div class="event-time">
     <div class="event-day"><?php print format_date($item->timestamp, 'custom', 'D', $item->timezone); ?></div>

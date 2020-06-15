@@ -5,8 +5,7 @@
  * Ding event slider template.
  */
 ?>
-<li class="item">
-  
+<li class="item"<?php print $attributes; ?>>
   <h3 class="node-title">
       <?php print l($item->title, 'node/' . $item->nid); ?>
   </h3>
