@@ -5,7 +5,7 @@
  * Ding event horizontal accordion template.
  */
 ?>
-<li class="event item">
+<li class="event item"<?php print $attributes; ?>>
   <div class="item_content">
     <div class="expand"><?php print l($item->title, 'node/' . $item->nid);?></div>
     <div class="event-time">
