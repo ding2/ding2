@@ -69,7 +69,7 @@ function ting_smart_search_cron() {
   $interval_auto = variable_get('ting_smart_search_interval_auto', 86400);
   if (REQUEST_TIME - $last_run_auto > $interval_auto) {
     ting_smart_search_get_autodata_from_webtrekk();
-    watchdog('Ting Smart Search', 'imported autodata: %time', array('%time' => REQUEST_TIME ), WATCHDOG_INFO);
+    watchdog('ting_smart_search', 'imported autodata: %time', array('%time' => REQUEST_TIME ), WATCHDOG_INFO);
     variable_set('ting_smart_search_last_cron_auto', REQUEST_TIME);
   }
 
@@ -77,7 +77,7 @@ function ting_smart_search_cron() {
   $interval_feed = variable_get('ting_smart_search_interval_feed', 604800);
   if (REQUEST_TIME - $last_run_feed > $interval_feed) {
     ting_smart_search_get_searchdata_from_webtrekk();
-    watchdog('Smart Search', 'imported search data: %time', array('%time' => REQUEST_TIME), 'WATCHDOG_INFO');
+    watchdog('ting_smart_search', 'imported search data: %time', array('%time' => REQUEST_TIME), 'WATCHDOG_INFO');
     variable_set('ting_smart_search_last_cron_feed', REQUEST_TIME);
   }
 }
@@ -428,46 +428,6 @@ function smart_search_string_to_list($form, &$form_state) {
 }
 
 
-function ting_smart_search_db_table() {
-  $table = array(
-    'fields' => array(
-      'id' => array(
-        'description' => 'Normal field identifier',
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ),
-      'searchkey' => array(
-        'description' => 'The keys',
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '',
-      ),
-      'materialids' => array(
-        'description' => 'Ids of the materials to boost',
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '',
-      ),  
-
-    ),
-    'unique keys' => array(
-      'id' => array(
-        'id',
-      ),
-    ),
-    'primary key' => array(
-      'id',
-    ),
-    'indexes' => array(
-      'ting_smart_search_index' => array('searchkey'),
-    ),
-  );
-  return $table;
-}
-
 /**
  * Gets a file with data about the most popular objects for a given search from webtrekk.
  *
@@ -489,20 +449,19 @@ function ting_smart_search_get_autodata_from_webtrekk() {
         $output = unserialize($data);
       }
       if (isset($output) && !empty($output) && is_array($output)) {
-        db_drop_table('ting_smart_search_auto_data');
-        db_create_table('ting_smart_search_auto_data', ting_smart_search_db_table());
+        db_truncate('ting_smart_search_auto_data')->execute();
 
+        $query = db_insert('ting_smart_search_auto_data')->fields(array('searchkey', 'materialids'));
         foreach ($output as $searchkey => $pids) {
           $material_ids = implode(',', array_keys($pids));
-          $f = $pids;
-          $query = db_insert('ting_smart_search_auto_data')->fields(
+          $query->values(
                   [
                       'searchkey' => $searchkey,
                       'materialids' => $material_ids
                   ]
           );
-          $query->execute();
         }
+        $query->execute();
       } else {
         return FALSE;
       }
@@ -510,7 +469,7 @@ function ting_smart_search_get_autodata_from_webtrekk() {
 
   }
   catch (Exception $e) {
-    watchdog_exception('ting_smart_search', 'Fetching smart search data failed', $e);
+    watchdog_exception('ting_smart_search', $e,'Fetching smart search data failed');
     return FALSE;
   }
   return TRUE;
@@ -543,7 +502,7 @@ function ting_smart_search_get_searchdata_from_webtrekk() {
     }
   }
   catch (Exception $e) {
-    watchdog_exception('ting_smart_search', 'Parsing of data failed', $e);
+    watchdog_exception('ting_smart_search', $e, 'Parsing of data failed');
   }
   ting_smart_search_search_stats_importer($search_data);
 }

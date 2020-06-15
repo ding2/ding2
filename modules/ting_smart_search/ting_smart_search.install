@@ -21,6 +21,34 @@
  * Implements hook_schema().
  */
 function ting_smart_search_schema() {
-  $schema['ting_smart_search_auto_data'] = ting_smart_search_db_table();
+  $schema['ting_smart_search_auto_data'] = array(
+    'fields' => array(
+      'id' => array(
+        'description' => 'Normal field identifier',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'searchkey' => array(
+        'description' => 'The keys',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'materialids' => array(
+        'description' => 'Ids of the materials to boost',
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => TRUE,
+      ), 
+    ),
+    'primary key' => array(
+      'id',
+    ),
+    'indexes' => array(
+      'ting_smart_search_index' => array('searchkey'),
+    ),
+  );
   return $schema;
 }
