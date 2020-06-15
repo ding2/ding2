@@ -6,7 +6,7 @@
  */
 ?>
 
-<div class="grid-images-event-item nodelist-item">
+<div class="grid-images-event-item nodelist-item"<?php print $attributes; ?>>
     <a href="<?php print url('node/' . $item->nid); ?>">
         <div class="grid-images-item-image background-image-styling-16-9"
              style="background-image: url(<?php print $item->image; ?>)"></div>
