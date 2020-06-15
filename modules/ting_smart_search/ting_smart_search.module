@@ -64,6 +64,8 @@ function ting_smart_search_ctools_plugin_api($module, $api) {
  * Gets update off auto data every day and update of search data every week.
  */
 function ting_smart_search_cron() {
+  $autodata_has_run = FALSE;
+  
   watchdog('Ting Smart Search', 'imported autodata time', array(), WATCHDOG_INFO);
   $last_run_auto = variable_get('ting_smart_search_last_cron_auto', 0);
   $interval_auto = variable_get('ting_smart_search_interval_auto', 86400);
@@ -71,11 +73,12 @@ function ting_smart_search_cron() {
     ting_smart_search_get_autodata_from_webtrekk();
     watchdog('ting_smart_search', 'imported autodata: %time', array('%time' => REQUEST_TIME ), WATCHDOG_INFO);
     variable_set('ting_smart_search_last_cron_auto', REQUEST_TIME);
+    $autodata_has_run  = TRUE;
   }
 
   $last_run_feed = variable_get('ting_smart_search_last_cron_feed', 0);
   $interval_feed = variable_get('ting_smart_search_interval_feed', 604800);
-  if (REQUEST_TIME - $last_run_feed > $interval_feed) {
+  if (REQUEST_TIME - $last_run_feed > $interval_feed && !$autodata_has_run ) {
     ting_smart_search_get_searchdata_from_webtrekk();
     watchdog('ting_smart_search', 'imported search data: %time', array('%time' => REQUEST_TIME), 'WATCHDOG_INFO');
     variable_set('ting_smart_search_last_cron_feed', REQUEST_TIME);
