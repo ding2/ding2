@@ -535,9 +535,9 @@ function smart_search_string_field_default_field_instances() {
   t('Allow this smart search to be updated on import');
   t('Alternative search string');
   t('Boost values');
-  t('Boost værdi');
+  t('Boost value');
   t('Date');
-  t('Feltnavn');
+  t('Fieldname');
   t('Forced sort - when chosen, all other settings are overridden');
   t('Import update');
   t('Number of clicks');
@@ -550,7 +550,7 @@ function smart_search_string_field_default_field_instances() {
   t('Searches - year');
   t('Sort');
   t('Status');
-  t('Sæt dato hvis planlagt');
+  t('Choose date if scheduled');
 
   return $field_instances;
 }

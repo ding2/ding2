@@ -337,41 +337,6 @@ function smart_search_string_views_default_views() {
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $translatables['smart_search_strings'] = array(
-    t('Master'),
-    t('Smart search strings'),
-    t('mere'),
-    t('Udfør'),
-    t('Gendan'),
-    t('Sortér efter'),
-    t('Stigende'),
-    t('Faldende'),
-    t('Antal elementer'),
-    t('- Alle -'),
-    t('Forskydning'),
-    t('« første'),
-    t('‹ forrige'),
-    t('næste ›'),
-    t('sidste »'),
-    t('#'),
-    t('Ting_type'),
-    t('- Vælg en handling -'),
-    t('Søgestreng'),
-    t('Alternate search string'),
-    t('Promoted materials'),
-    t('Handler i stykker field_data_field_custom_boost_values.field_custom_boost_values'),
-    t('Handler i stykker field_data_field_content_reference.field_content_reference'),
-    t('Sortér'),
-    t('Hits - år'),
-    t('Hits - 30 dage'),
-    t('Oprettet'),
-    t('Ændret'),
-    t('Status'),
-    t('Redigér-link'),
-    t('Slet-link'),
-    t('Filtrér på søgestreng'),
-    t('Page'),
-  );
   $export['smart_search_strings'] = $view;
 
   return $export;
