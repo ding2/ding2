@@ -554,6 +554,6 @@ function ting_smart_search_search_stats_importer($search_data) {
     }
   }
   catch (Exception $e) {
-    watchdog_exception('ting_smart_search', 'Importing search feed data to database failed', $e);
+    watchdog_exception('ting_smart_search', $e, 'Importing search feed data to database failed');
   }
 }
