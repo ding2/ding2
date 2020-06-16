@@ -164,6 +164,10 @@
   display: none;
 }
 
+#field-sss-date-add-more-wrapper .form-wrapper {
+  clear: left;
+}
+
 #edit-field-sss-date .date-float,
 #edit-field-sss-date .date-no-float,
 #edit-field-sss-date .container-inline-date {

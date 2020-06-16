@@ -65,7 +65,7 @@ function ting_smart_search_ctools_plugin_api($module, $api) {
  */
 function ting_smart_search_cron() {
   $autodata_has_run = FALSE;
-  
+
   watchdog('Ting Smart Search', 'imported autodata time', array(), WATCHDOG_INFO);
   $last_run_auto = variable_get('ting_smart_search_last_cron_auto', 0);
   $interval_auto = variable_get('ting_smart_search_interval_auto', 86400);
@@ -122,11 +122,10 @@ function ting_smart_search_opensearch_pre_execute($request) {
             }
           }
           if ($status == 'active') {
-            $smart_search_check_replaced = '';
             $redirect = $smart_search_object->field_alternate_search_string->value();
             // Add a general quoted free text search.
-            if (!empty($free_text_query = $redirect)) {
-              $cqlDoctor = new TingSearchCqlDoctor($free_text_query);
+            if (!empty($redirect)) {
+              $cqlDoctor = new TingSearchCqlDoctor($redirect);
               $request->setQuery($cqlDoctor->string_to_cql());
             }
 
@@ -136,10 +135,7 @@ function ting_smart_search_opensearch_pre_execute($request) {
 
             if ($smart_search_request_sort == 'rank_frequency') {
 
-              if (array_key_exists('sort', $params)) {
-                // Do nothing here.
-              }
-              else {
+              if (!array_key_exists('sort', $params)) {
                 // Override sort when no sort has been specified.
                 // ting_smart_search_check_sort() - now obsolete.
                 $smart_search_check_sort = $smart_search_object->field_sss_sort->value();
@@ -194,7 +190,7 @@ function ting_smart_search_auto(array $smart_search_userdefined_boosts, $query) 
   $string = trim($query, '()');
   $string  = str_replace('"', '', $string);
   $keys = str_replace(' and ', ' ', $string);
-  
+
   $result= db_query("SELECT materialids FROM {ting_smart_search_auto_data} WHERE searchkey = :searchkey", array(':searchkey' => $keys));
   $record = $result->fetchObject();
 
