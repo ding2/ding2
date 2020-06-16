@@ -58,6 +58,7 @@ projects[customerror][patch][] = "patches/customerror-disable_auto_redirect.ding
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
+projects[date][patch][] = "https://www.drupal.org/files/issues/2019-01-16/2843367-php71-string-offset-47.patch"
 
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"

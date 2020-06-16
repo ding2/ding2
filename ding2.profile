@@ -670,6 +670,7 @@ function ding2_module_enable(&$install_state) {
     'ting_fulltext',
     'ting_infomedia',
     'ting_field_search',
+    'ting_smart_search',
     'ding_eresource',
     'ding_app_content_rss',
     'ding_app_variables',

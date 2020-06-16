@@ -18,7 +18,7 @@
     });
 
     // Add search link to the different links on the search result page.
-    $('.search-results a').on('click', function() {
+    $('.ting_search-results a').on('click', function() {
       if ($(this).not('[target="_blank"]').length) {
         Drupal.TingSearchOverlay();
       }
