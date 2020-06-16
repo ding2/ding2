@@ -1,0 +1,499 @@
+<?php
+
+define('DING_REACT_FOLLOW_SEARCHES_PROD_URL', 'https://prod.followsearches.dandigbib.org');
+define('DING_REACT_FOLLOW_SEARCHES_STAGE_URL', 'https://stage.followsearches.dandigbib.org');
+define('DING_REACT_MATERIAL_LIST_PROD_URL', 'https://prod.materiallist.dandigbib.org');
+define('DING_REACT_MATERIAL_LIST_TEST_URL', 'https://test.materiallist.dandigbib.org');
+define('DING_REACT_MIGRATED_UID_PREFIX', 'migrated-');
+
+/**
+ * @file
+ * Ding React apps.
+ */
+
+/**
+ * Implements hook_libraries_info().
+ *
+ * For defining external libraries.
+ */
+function ding_react_libraries_info() {
+  return [
+    'ddb-react' => [
+      'name' => 'DDB React',
+      'vendor url' => 'https://github.com/reload/ddb-react',
+      'download url' => 'https://github.com/reload/ddb-react/releases/download/latest/dist.zip',
+      'version' => '1.0.0',
+      'files' => [
+        'js' => [
+          'runtime.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
+          'bundle.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
+          'polyfills.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
+          'mount.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
+        ],
+        'css' => ['components.css'],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_react_menu() {
+  $items['admin/config/ding/react'] = array(
+    'title' => 'React components',
+    'description' => 'Configure integration with React components.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_react_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ding_react.admin.inc',
+  );
+  $items['ding_react/user.js'] = [
+    'title' => 'Retrieve access token',
+    'page callback' => 'ding_react_user_js',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ding_react_ding_provider_user() {
+  return [
+    'openplatform_token' => [
+      'required' => TRUE,
+    ]
+  ];
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', $widget = 'default') {
+  if ($type == 'ding_entity') {
+    $return = [];
+
+    $data = [
+      'material-list-url' => ding_react_material_list_url(),
+      'id' => $entity->ding_entity_id,
+      'text' => t('Add to checklist'),
+      'error-text' => t('An error occurred'),
+      'success-text' => t('Added to checklist'),
+      'login-url' => ding_react_login_url(),
+    ];
+
+    $return[] = ding_react_app('add-to-checklist', $data);
+
+    return $return;
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_react_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' || $module == 'panels') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function ding_react_module_implements_alter(&$implementations, $hook) {
+  if ($hook !== 'opensearch_pre_execute') {
+    return;
+  }
+
+  // To store the right query we need this module to execute at just the right
+  // time:
+  //
+  //   1. After ting_field_search which modifies the search query based on an url
+  //      query argument.
+  //   2. Before the fbs module which adds a filter for the local library which
+  //      we do not want transferred to our national service.
+  //
+  // Adjust the order order of the implementations accordingly.
+  $pos = array_search('ding_react', array_keys($implementations));
+  $ding_react = array_splice($implementations, $pos, 1);
+
+  // Insert ding_react after ting_field_search
+  $before = array_search('ting_field_search', array_keys($implementations));
+  if ($before !== FALSE) {
+    $implementations = array_merge(
+      array_slice($implementations, 0, $before + 1),
+      $ding_react,
+      array_slice($implementations, $before + 1)
+    );
+  }
+
+  // Move fbs after ding_react if necessary.
+  $after = array_search('fbs', array_keys($implementations));
+  if ($after !== FALSE && $after <= $before) {
+    $fbs = array_splice($implementations, $after, 1);
+    $implementations = array_merge(
+      array_slice($implementations, 0, $before + 2),
+      $fbs,
+      array_slice($implementations, $before + 2)
+    );
+  }
+}
+
+/**
+ * Implements hook_opensearch_pre_execute().
+ */
+function ding_react_opensearch_pre_execute($request) {
+  if (get_class($request) !== TingClientSearchRequest::class) {
+    return;
+  }
+
+  // Set the currently executed query. When saved as a part of hook_pre_execute
+  // we also get any modifications made by other modules.
+  $query = $request->getQuery();
+  ding_react_search_query($query);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_react_form_search_block_form_alter(&$form, $form_state) {
+  global $user;
+
+  // Check if function exists so we don't need to have a hard dependency on
+  // ting_search and opensearch.
+  if (!function_exists('ting_search_current_results')) {
+    return;
+  }
+
+  // Get the current search query performed after most modifications. It would
+  // be nice if we could rely on the search request but some modules may
+  // modify the query at an even lower level so we use static storage as well.
+  $query = ding_react_search_query();
+
+  $result = ting_search_current_results();
+  if (!$result) {
+    return;
+  }
+  $search_request = $result->getSearchRequest();
+
+  // This form alter get called a lot, and most of the time the result doesn't
+  // have a search request. Luckily it seems to have in the exact case where we
+  // want to add the button.
+  if (!$search_request) {
+    return;
+  }
+
+  $title = $search_request->getFullTextQuery();
+  // Fall back on query from search request if no static query is available.
+  if (!$query) {
+    $query = $search_request->getFullTextQuery();
+  }
+
+  $data = [
+    'follow-searches-url' => ding_react_follow_searches_url(),
+    'default-title' => $title,
+    'search-query' => $query,
+    'login-url' => ding_react_login_url(),
+    'button-text' => t('Add to followed searches'),
+    'label' => t('Title for followed search'),
+    'add-button-text' => t('Add'),
+    'error-text' => t('An error occurred'),
+    'success-text' => t('Added to your followed searches.'),
+    'success-link-url' => url("user/{$user->uid}/followed-searches"),
+    'success-link-text' => t('See your followed searches.'),
+    'error-required-message' => t('Title is required.'),
+    'error-max-length-message' => t('Title must not be longer than 256 characters.'),
+    'help-text' => t('To follow your search query you must provide a title.'),
+  ];
+
+  $add_search_button = ding_react_app('add-to-searchlist', $data);
+
+  $form['search_block_form']['#field_suffix'] = drupal_render($add_search_button);
+  $form['#attributes']['class'][] = 'has-add-to-searchlist';
+}
+
+/**
+ * Implements hook_ding_adgangsplatformen_login().
+ */
+function ding_react_ding_adgangsplatformen_login(array $user_info) {
+  // Once the user is logged in then try to migrate all variations of
+  // the user which might exist on the current site.
+  $user_agencies = [];
+  if (isset($user_info['attributes']['agencies'])) {
+    $user_agencies = $user_info['attributes']['agencies'];
+  }
+  // Only migrate users belonging to the current site to avoid any
+  // accidental cross-site authname collisions.
+  $local_user_agencies = array_filter($user_agencies, function (array $user_agency) {
+    return $user_agency['agencyId'] == variable_get('ting_agency');
+  });
+  $accounts = array_filter(array_map(function (array $user_agency) {
+    // User id can be all types of ids: CPR, borrower card number etc.
+    $authname = ding_user_default_authname($user_agency['userId']);
+    return user_external_load($authname);
+  }, $local_user_agencies));
+  $migrations = array_map(function (stdClass $account) {
+    return ding_react_user_migrate($account);
+  }, array_filter($accounts));
+  ding_react_log(
+    'Migration status: %migration_count completed. %user_count user accounts identified out of %local_agency_count local and %total_agency_count total agencies.',
+    [
+      '%migration_count' => count(array_filter($migrations)),
+      '%user_count' => count($accounts),
+      '%local_agency_count' => count($local_user_agencies),
+      '%total_agency_count' => count($user_agencies),
+    ],
+    WATCHDOG_INFO
+  );
+}
+
+/**
+ * Return render array for an app.
+ *
+ * @param string $name
+ *   Name of the app.
+ * @param array $data
+ *   Data for the app.
+ *
+ * @return array
+ *   The app render array.
+ */
+function ding_react_app($name, array $data = []) {
+  $attachments = [
+    'libraries_load' => [
+      ['ddb-react'],
+    ],
+    'js' => [
+      // Weight needs to be > 0 to make the app code run after the libraries.
+      libraries_get_path('ddb-react') . '/' . $name . '.js' => ['scope' => 'footer', 'group' => JS_LIBRARY, 'weight' => 1],
+      // Use our menu callback to mimic an external file which allows us to set
+      // per-user data which bypasses Varnish caching.
+      url('ding_react/user.js', ['absolute' => TRUE]) => ['scope' => 'footer', 'type' => 'external'],
+      drupal_get_path('module', 'ding_react') . '/js/ding-react.js' => ['scope' => 'footer'],
+    ],
+  ];
+
+  if (file_exists(libraries_get_path('ddb-react') . '/' . $name . '.css')) {
+    $attachments['css'] = [
+      libraries_get_path('ddb-react') . '/' . $name . '.css' => ['weight' => 1]
+    ];
+  }
+
+  $attributes = [];
+
+  $attributes['data-ddb-app'] = $name;
+
+  foreach ($data as $name => $value) {
+    $attributes['data-' . $name] = $value;
+  }
+
+  $build = [
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#attributes' => $attributes,
+    // Supply an empty string so we don't create a self closing element.
+    '#value' => '',
+    '#attached' => $attachments,
+  ];
+
+  return $build;
+}
+
+/**
+ * Menu callback which renders a JavaScript file containing user data.
+ */
+function ding_react_user_js() {
+  // Ding Varnish will cache requests even for logged in users. Mark this
+  // page as not cacheable to bypass Varnish. Uses should not get each others
+  // token due to a cached response.
+  drupal_page_is_cacheable(FALSE);
+
+  drupal_add_http_header('Content-Type', 'application/javascript');
+  echo "window.ddbReact = window.ddbReact || {};\n";
+
+  $token = ding_provider_invoke('openplatform_token', 'for_user');
+
+  if ($token) {
+    echo sprintf("window.ddbReact.userAuthenticated = true;\n");
+    echo sprintf("window.ddbReact.setToken('%s');\n", $token);
+  } else {
+    echo sprintf("window.ddbReact.userAuthenticated = false;\n");
+  }
+
+  drupal_exit();
+}
+
+/**
+ * Generate a login url which can be used as a prop for React apps.
+ *
+ * @return string
+ *   Login url.
+ */
+function ding_react_login_url() {
+  return ding_provider_invoke(
+    'openplatform_token',
+    'login_url',
+    ['query' => ['destination' => current_path()]]
+  );
+}
+
+/**
+ * Returns the url to the instance of the Material List service to use.
+ *
+ * @return string
+ */
+function ding_react_material_list_url() {
+  return variable_get('ding_react_material_list_url', DING_REACT_MATERIAL_LIST_TEST_URL);
+}
+
+/**
+ * Returns the url to the instance of the Follow Searches service to use.
+ *
+ * @return string
+ */
+function ding_react_follow_searches_url() {
+  return variable_get('ding_react_follow_searches_url', DING_REACT_FOLLOW_SEARCHES_STAGE_URL);
+}
+
+/**
+ * Migrate a user account from using a legacy user id to new token-based one.
+ *
+ * @param \stdClass $account
+ *   The user account to migrate.
+ *
+ * @return bool
+ *   Whether the user was migrated or not.
+ */
+function ding_react_user_migrate(stdClass $account) {
+  $legacy_uid = (!empty($account->openlist_uid)) ? $account->openlist_uid : '';
+
+  try {
+    $token = ding_provider_invoke('openplatform_token', 'for_user');
+  } catch (DingProviderNoProvider $e) {
+    $token = NULL;
+  } catch (DingProviderDoesntImplement $e) {
+    $token = NULL;
+  }
+
+  if (empty($legacy_uid)) {
+    ding_react_log('User not migrated. No registered OpenList uid for user.');
+    return FALSE;
+  }
+  if (empty($token)) {
+    ding_react_log('User not migrated. No token available');
+    return FALSE;
+  }
+  if (strpos($legacy_uid, DING_REACT_MIGRATED_UID_PREFIX) === 0) {
+    ding_react_log('User migration skipped. User has already been migrated previously.');
+    // We return true here because nothing failed even if the user was not
+    // actually migrated.
+    return TRUE;
+  }
+
+  $migrate_request_options = [
+    'method' => 'PUT',
+    // Use a relatively low timeout. We do not what login to stall if services
+    // are slow to respond. Then migration will have to wait.
+    'timeout' => variable_get('ding_react_migrate_timeout', 5),
+    'headers' => [
+      'Authorization' => "Bearer ${token}",
+    ]
+  ];
+
+  $material_list_url = ding_react_material_list_url();
+  $response = drupal_http_request($material_list_url . '/migrate/' . $legacy_uid,
+    $migrate_request_options);
+  if (!empty($response->error)) {
+    ding_react_log(
+      'Unable to migrate user data in material list: (%code) %message %data',
+      [
+        '%code' => $response->code,
+        '%message' => $response->error,
+        '%data' => $response->data
+      ],
+      WATCHDOG_ERROR
+    );
+    return FALSE;
+  }
+
+  $follow_searches_url = ding_react_follow_searches_url();
+  $response = drupal_http_request($follow_searches_url . '/migrate/' . $legacy_uid,
+    $migrate_request_options);
+  if (!empty($response->error)) {
+    ding_react_log(
+      'Unable to migrate user data in Follow Searches: (%code) %message %data',
+      [
+        '%code' => $response->code,
+        '%message' => $response->error,
+        '%data' => $response->data
+      ],
+      WATCHDOG_ERROR
+    );
+    return FALSE;
+  }
+
+  // Add a prefix to show the user has been migrated. This way we do not
+  // throw away data yet but avoid migrating users multiple times.
+  $account->openlist_uid = DING_REACT_MIGRATED_UID_PREFIX . $legacy_uid;
+  user_save($account);
+
+  ding_react_log(
+    'Migrated user data for material list og follow searches',
+    [],
+    WATCHDOG_NOTICE
+  );
+
+  return TRUE;
+}
+
+/**
+ * Static storage/retrieval of the currently executed search query.
+ *
+ * @param string $query
+ *   The current search query.
+ *
+ * @return string|mixed
+ *   The current search query - or null if this has not been set.
+ */
+function ding_react_search_query($query = NULL) {
+  return drupal_static(__FUNCTION__, $query);
+}
+
+/**
+ * Implements hook_schema_alter().
+ */
+function ding_react_schema_alter(&$schema) {
+  if (db_field_exists('users', 'openlist_uid')) {
+    // Migration on existing sites requires the openlist_uid user field
+    // originally defined by the now obsolete ting_openlist module.
+    $schema['users']['fields']['openlist_uid'] = array(
+      'type' => 'char',
+      'not null' => TRUE,
+      'default' => 0,
+      'length' => 255,
+      'description' => 'The openlist user id',
+    );
+  }
+}
+
+/**
+ * Log events happening within the module.
+ *
+ * This allows for simple filtering using the modules debug mode.
+ *
+ * @param string $message
+ *   The message to log.
+ * @param array $variables
+ *   Map of variable names and values.
+ * @param int $severity
+ *   Severity of the log message. Follows watchdog() standards.
+ */
+function ding_react_log($message, array $variables = [], $severity = WATCHDOG_DEBUG) {
+  if (variable_get('ding_react_debug', FALSE) || $severity > WATCHDOG_DEBUG) {
+    watchdog('ding_react', $message, $variables, $severity);
+  }
+}

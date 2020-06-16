@@ -67575,3 +67575,179 @@ msgstr "Del listen på"
 #: /ding/p2b/event_maker/5213/event/168247
 msgid "Ticket sale starts @date at @time"
 msgstr "Billetsalget starter @date kl. @time"
+
+#: /da/arrangementer/boern/dsfdsfdsf?render=overlay
+msgid "Free"
+msgstr "Gratis"
+
+#: /
+msgctxt "Price"
+msgid "Free"
+msgstr "Gratis"
+
+#: /index.php
+msgid "In focus"
+msgstr "I fokus"
+
+#: /ting/object/870970-basis%3A53704638
+msgid "Add to checklist"
+msgstr "Tilføj til liste"
+
+msgid "An error occurred"
+msgstr "Der opstod en fejl"
+
+#: /ting/object/870970-basis%3A53704638
+msgid "Added to checklist"
+msgstr "Tilføjet til liste"
+
+#: /search/ting/harry%20potter?
+msgid "Add to followed searches"
+msgstr "Tilføjet til gemte søgninger"
+
+#: /search/ting/harry%20potter?
+msgid "Title for followed search"
+msgstr "Titel på gemt søgning"
+
+msgid "Add"
+msgstr "Gem"
+
+#: /search/ting/harry%20potter?
+msgid "See your followed searches."
+msgstr "Se mine gemte søgninger"
+
+#: /search/ting/harry%20potter?
+msgid "Title is required."
+msgstr "Titel er obligatorisk"
+
+#: /search/ting/harry%20potter?
+msgid "Title must not be longer than 256 characters."
+msgstr "Titlen må ikke være længere end 256 karakterer"
+
+#: /search/ting/harry%20potter?
+msgid "To follow your search query you must provide a title."
+msgstr "Tilføj en titel for at gemme søgningen"
+
+#: /admin/modules
+msgid "Services"
+msgstr "Services"
+
+#: /index.php
+msgid "Checklist app"
+msgstr "Liste app"
+
+#: /index.php
+msgid "Display current users checklist."
+msgstr "Vis nuværende brugers liste"
+
+#: /index.php
+msgid "DDB React"
+msgstr "DDB React komponenter"
+
+#: /lazy-pane/ajax
+msgid "My checklist"
+msgstr "Min liste"
+
+#: /user/me/checklist
+msgid "List is empty."
+msgstr "Listen er tom"
+
+#: /user/me/checklist
+msgid "An error occurred while trying to fetch list."
+msgstr "Det lykkedes ikke at hente listen"
+
+#: /index.php
+msgid "Followed searches app"
+msgstr "Mine gemte søgninger app"
+
+#: /index.php
+msgid "Display current users checklist."
+msgstr "Vis nuværende brugers liste"
+
+#: /lazy-pane/ajax
+msgid "My followed searches"
+msgstr "Mine gemte søgninger"
+
+#: /user/me/checklist
+msgid "List is empty."
+msgstr "Listen er tom"
+
+#: /user/me/checklist
+msgid "An error occurred while trying to fetch list."
+msgstr "Det lykkedes ikke at hente listen"
+
+#: /user/me/followed-searches
+msgid "Show search result"
+msgstr "Udfør søgningen"
+
+#: /user/me/followed-searches
+msgid "Remove search"
+msgstr "Slet søgningen"
+
+#: /search/ting/harry%20potter?
+msgid "Added to your followed searches."
+msgstr "Tilføjet søgninger du følger"
+
+#: /admin/config/ding/react
+msgid "Material List"
+msgstr "Material List servicen"
+
+#: /admin/config/ding/react
+msgid "Url to the Material List service instance to use."
+msgstr "URL til den instans af Material List servicen der skal benyttes."
+
+#: /admin/config/ding/react
+msgid "Follow Searches"
+msgstr "Follow Searches servicen"
+
+#: /admin/config/ding/react
+msgid "Url to the Follow Searches service instance to use."
+msgstr "URL til den instans af Follow Searches servicen der skal benyttes."
+
+#: /admin/config/ding/react
+msgid "Migration timeout"
+msgstr "Timeout for migrering af lister"
+
+#: /admin/config/ding/react
+msgid "The number of seconds to wait for an external service to complete a migration during login. A high timeout reduces risk of the migration not completing. A low timeout prevents the login procedure from stalling. Incomplete migrations will be retried the next time the user logs in."
+msgstr "Antal sekunder der skal ventes på at en ekstern service fuldfører migrering under lånerens log ind. Et højt tal reducerer risikoen for at migreringen ikke fuldføres. Et lavt talt forebygger at log ind proceduren går i stå. Hvis migreringen ikke fuldføres genoptages processen næste gang låneren logger ind."
+
+msgid "The configuration options have been saved."
+msgstr "Indstillingerne er blevet gemt."
+
+msgid "Please enter a valid url."
+msgstr "Indtast venligst en korrekt URL."
+
+msgid "By"
+msgstr "Af"
+
+#: /admin/config/ding/adgangsplatformen
+msgid "Revoke service"
+msgstr "Tilbagekald access token"
+
+#: /admin/config/ding/adgangsplatformen
+msgid "The end-point to use for revoking an access token."
+msgstr "Det endpoint der skal benyttes for at tilbagekalde en access token."
+
+#: /system/ajax
+msgid "User migration status"
+msgstr "Migreringsstatus"
+
+#: /system/ajax
+msgid "User id"
+msgstr "Drupal bruger ID"
+
+#: /system/ajax
+msgid "The Drupal id of the user to check. Enter the id and hit TAB to search."
+msgstr "Indtast lånerens Drupal bruger ID, og tryk på TAB knappen på tastaturen for at slå lånerens Openlist ID op."
+
+#: /system/ajax
+msgid "User ids beginning with \"@prefix\" have already been migrated."
+msgstr "Hvis Openlist ID'et begynder med \"@prefix\" så er migreringen allerede gennemført."
+
+#: /system/ajax
+msgid "Reset migration status"
+msgstr "Nulstil migreringsstatus"
+
+#: /system/ajax
+msgid "Enable debug logging"
+msgstr "Aktivér logging af debugging"

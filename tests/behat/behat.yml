@@ -7,7 +7,6 @@ default:
         - FeatureContext
         - Ding2Context
         # - Ding2MessagesContext
-        - P2Context
         - LibContext
         - StepsContext
         - LoginContext

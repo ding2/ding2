@@ -1,7 +1,7 @@
 # Prepare a site-installation for testing
 circle-setup:
 	# Build profile using drush make
-	drush make ding2.make --no-core --contrib-destination=. -y
+	drush make project.make --no-core --contrib-destination=. -y
 	# Install theme dependencies
 	cd themes/ddbasic && npm install
 	# Process theme files.
@@ -17,9 +17,9 @@ circle-setup:
 	# Built an entire Drupal site with core, contrib and custom
 	# code First we build Drupal core only. Instead of using the
 	# profile specified in the make file we use the one we have
-	# just build. This way we do not have to update drupal.make
+	# just build. This way we do not have to update project.make
 	# for each build.
-	drush make drupal.make --projects=drupal -y $(DRUPAL_SITE_PATH)
+	drush make project.make --projects=drupal -y $(DRUPAL_SITE_PATH)
 	# Copy the current profile which has just been built into Drupal core
 	mkdir $(DRUPAL_SITE_PATH)/profiles/ding2
 	cp -R ./* $(DRUPAL_SITE_PATH)/profiles/ding2/

@@ -39,6 +39,18 @@ function ding_user_preprocess_html(&$variables) {
       drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
       drupal_add_http_header('Pragma', 'no-cache');
     }
+
+    // Ensure that search engines doesn't index pages under /user/*. We also add
+    // nofollow since the login page contains links to other pages under /user
+    // that are disallowed in robots.txt.
+    $robots_noindex = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'robots',
+        'content' => 'noindex, nofollow',
+      ),
+    );
+    drupal_add_html_head($robots_noindex, 'ding_user_noindex');
   }
 }
 
@@ -63,6 +75,33 @@ function ding_user_ctools_plugin_api($module, $api) {
   if ($module == 'page_manager' && $api == 'pages_default') {
     return array('version' => 1);
   }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_user_menu() {
+  $items = array();
+
+  $items['admin/config/ding/user'] = array(
+    'title' => 'Ding user settings',
+    'description' => 'Administer ding_user settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_admin_setting_form'),
+    'access arguments' => array('administer user settings'),
+    'file' => 'ding_user.admin.inc',
+  );
+
+  $items['ding_user/expire_sessions/cron'] = array(
+    'title' => 'Lightweight expire session cron',
+    'description' => 'Run the lightweight expire inacitve provider sessions cron job',
+    'page callback' => 'ding_user_expire_sessions_cron',
+    'access callback' => 'ding_user_expire_sessions_cron_access',
+    'access arguments' => array(3),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
 }
 
 /**
@@ -123,10 +162,13 @@ function ding_user_authenticate(array $user_info) {
   $account = FALSE;
 
   try {
+    // Check if more info is provide from the user login form or SSO provider and default to empty array.
+    $extra = (isset($user_info['extra'])) ? $user_info['extra'] : [];
+
     if (array_key_exists('single_sign_on', $user_info) && $user_info['single_sign_on'] == TRUE) {
       // No password provided by the authentication request (not even the empty
       // string), so we assume that this is a single-sign-on request.
-      $auth_res = ding_provider_invoke('auth', 'single_sign_on', $user_info['name']);
+      $auth_res = ding_provider_invoke('auth', 'single_sign_on', $user_info['name'], $extra);
 
       // Store value in session to be used later on to check if user was signed
       // in with SSO.
@@ -134,7 +176,7 @@ function ding_user_authenticate(array $user_info) {
     }
     else {
       // Normal user log in request.
-      $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass']);
+      $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass'], $extra);
     }
   }
   catch (DingProviderNoProvider $exception) {
@@ -268,7 +310,7 @@ function ding_user_entity_info_alter(&$entity_info) {
  */
 function ding_user_deliver_html_page($page_callback_result) {
   if ($page_callback_result == MENU_ACCESS_DENIED) {
-    drupal_deliver_page(MENU_NOT_FOUND);
+    drupal_goto('<front>');
   }
   else {
     drupal_deliver_html_page($page_callback_result);
@@ -1169,4 +1211,59 @@ function ding_user_ding_user_block_reasons() {
     'ding_user_blocked_self_created' => t('Your self created account is limited. Please contact your library to get full access.'),
     'ding_user_blocked_excluded' => t('You have been excluded. Please contact your library for more information.'),
   );
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_user_cron() {
+  ding_user_expire_sessions();
+}
+
+/**
+ * Access callback for expires sessions cron endpoint.
+ */
+function ding_user_expire_sessions_cron_access($cron_key) {
+  return variable_get('cron_key') === $cron_key;
+}
+
+/**
+ * Page callback for expires sessions lightweight cron endpoint.
+ */
+function ding_user_expire_sessions_cron() {
+  ding_user_expire_sessions();
+  drupal_exit();
+}
+
+/**
+ * Deletes inactive provider sessions in the database.
+ */
+function ding_user_expire_sessions() {
+  if (!$limit = variable_get('ding_user_provider_session_expire', 900)) {
+    // Return now if the session expire functionality is disabled.
+    return;
+  }
+
+  // Delete sessions with no activity since $limit seconds.
+  $timestamp = REQUEST_TIME - $limit;
+
+  // Construct subquere with uids for provider users.
+  $roles = user_roles(TRUE);
+  $rid = array_search('provider', $roles);
+  $subquery = db_select('users_roles', 'ur')
+    ->fields('ur', array('uid'))
+    ->condition('rid', $rid);
+
+  $query = db_delete('sessions')
+    ->condition('timestamp', $timestamp, '<')
+    ->condition('uid', $subquery, 'IN');
+
+  $num_updated = $query->execute();
+
+  // Log a notice if we succesfully deleted any inacitve provider sessions.
+  if ($num_updated) {
+    watchdog('ding_user', 'Deleted %num_updated inactive provider sessions', array(
+      '%num_updated' => $num_updated,
+    ));
+  }
 }

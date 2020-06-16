@@ -838,10 +838,125 @@ function ding2_update_7073() {
 }
 
 /**
- * Enable ting_smart_search.
+ * Update translations.
  */
 function ding2_update_7074() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable user registration module for sites using Adgangsplatformen.
+ */
+function ding2_update_7075() {
+  if (module_exists('ding_adgangsplatformen')) {
+    module_enable(array('ding_registration'));
+  }
+}
+
+/**
+ * Remove P2.
+ */
+function ding2_update_7076() {
+  // Remove the ding_entity_rating_action field.
+  field_delete_field('ding_entity_rating_action');
+  field_purge_batch(1);
+
+  // Only a subset of these should be enabled, but we try to disable and
+  // uninstall all just in case someone runs with an uncommon configuration.
+  $modules = [
+    'ding_interaction_manual',
+    'ding_notifications',
+    'ding_serendipity_ting_entity',
+    'ding_listrescue',
+    'ding_list',
+    'ding_p2_installer',
+    'ding_serendipity_lists',
+    'ding_serendipity_site',
+    'ding_entity_rating_loan_history',
+    'ting_openlist',
+    'ding_sharer',
+    'ding_message',
+    'ding_message_p2_installer',
+    'ding_serendipity',
+    'ding_user_consent',
+    'ding_serendipity_fallback',
+    'ding_serendipity_taxonomy_term',
+    'ding_entity_rating',
+    'ding_interaction',
+    'eck',
+    'message',
+    'similarterms',
+    'simplevar',
+  ];
+
+  module_disable($modules);
+  drupal_uninstall_modules($modules);
+}
+
+/**
+ * Revert modules to remove traces of p2.
+ */
+function ding2_update_7077() {
+  // Need to revert variables for these modules to get rid of the
+  // ding_serendipity_info extra field.
+  $modules = [
+    'ding_campaign_plus' => ['variable'],
+    'ding_paragraphs' => ['variable'],
+    'ding_page' => ['variable'],
+    'ding_event' => ['variable'],
+    'ding_library' => ['variable'],
+    'ding_groups' => ['variable'],
+    'ding_eresource' => ['variable'],
+    'ding_news' => ['variable'],
+  ];
+  features_revert($modules);
+}
+
+/**
+ * Remove old eck tables.
+ */
+function ding2_update_7078() {
+  // Eck doesn't drop it's dynamically created tables, so we'll do it here,
+  // just in case.
+  foreach (db_query('SHOW TABLES LIKE :pattern', [':pattern' => 'eck_%'])->fetchCol() as $table) {
+    db_drop_table($table);
+  }
+}
+
+/**
+ * Enable ding_react.
+ */
+function ding2_update_7079() {
+  module_enable(['ding_react']);
+}
+
+/**
+ * Use production services with ding_react.
+ */
+function ding2_update_7080() {
+  variable_set('ding_react_material_list_url', 'https://prod.materiallist.dandigbib.org');
+  variable_set('ding_react_follow_searches_url','https://prod.followsearches.dandigbib.org' );
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7081() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable ting_smart_search.
+ */
+function ding2_update_7082() {
   if (module_exists('opensearch')) {
     module_enable(['ting_smart_search']);
   }
+}
+
+/**
+ * Enable cover service upload module.
+ */
+function ding2_update_7083() {
+  module_enable(['ddb_cover_upload']);
 }

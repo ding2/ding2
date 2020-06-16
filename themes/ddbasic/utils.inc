@@ -131,9 +131,9 @@ function ddbasic_account_count_reservation_not_ready($account = NULL) {
  * Function to truncate strings
  */
 function add_ellipsis($string, $length = 200, $end = '...') {
-  if (strlen($string) > $length) {
-    $length -= strlen($end);
-    $string  = substr($string, 0, $length);
+  if (drupal_strlen($string) > $length) {
+    $length -= drupal_strlen($end);
+    $string  = drupal_substr($string, 0, $length);
     $string .= '<span class="truncation">' . $end . '</span>';
   }
 

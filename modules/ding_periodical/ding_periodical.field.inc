@@ -28,9 +28,9 @@ function ding_periodical_field_info() {
  */
 function ding_periodical_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
   foreach ($entities as $id => $entity) {
-    // Only bother with entities that are periodicals. This is cached, but
-    // entities are unlikely to change type.
-    if ($entity->is('periodical')) {
+    // Only bother with entities that are considered library material with the
+    // possibilty of having periodical holdings.
+    if ($entity->is('library_material')) {
       $items[$id][0] = array(
         'provider_id' => $entity->localId,
       );
@@ -109,7 +109,7 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
       // Handles the default formatter.
       foreach ($items as $delta => $item) {
         $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
-        if (isset($availability[$entity->provider_id])) {
+        if (!empty($availability[$entity->provider_id]['issues'])) {
           $issues = $availability[$entity->provider_id]['issues'];
           krsort($issues);
 

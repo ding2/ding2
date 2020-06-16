@@ -143,16 +143,6 @@ function ding_event_strongarm() {
             'visible' => FALSE,
           ),
         ),
-        'ding_serendipity_info' => array(
-          'default' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-          'teaser' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-        ),
       ),
     ),
   );

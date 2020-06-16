@@ -386,9 +386,14 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
           // loaded. Trying to get anything from the entity before this will
           // result in NULL.
           $host = $entity->hostEntity();
-          $entity_type = $entity->hostEntityType();
-          $host_wrapper = entity_metadata_wrapper($entity->hostEntityType(), $host);
-          $entities = entity_load($entity->hostEntityType(), array($host_wrapper->getIdentifier()), $conditions);
+          // Ensure the host entity could be loaded and is published.
+          if ($host && $host->status == NODE_PUBLISHED) {
+            $entities = array($host);
+            $entity_type = $entity->hostEntityType();
+          }
+          else {
+            $entities = array();
+          }
         }
 
         if (!empty($entities)) {

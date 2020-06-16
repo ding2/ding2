@@ -105,22 +105,7 @@ function ding_groups_strongarm() {
           'weight' => '5',
         ),
       ),
-      'display' => array(
-        'ding_serendipity_info' => array(
-          'default' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-          'search_result' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-          'teaser_no_overlay' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-        ),
-      ),
+      'display' => array(),
     ),
   );
   $export['field_bundle_settings_node__ding_group'] = $strongarm;
