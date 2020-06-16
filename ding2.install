@@ -840,6 +840,8 @@ function ding2_update_7073() {
 /**
  * Enable ting_smart_search.
  */
-function ding2_update_7082() {
-  module_enable(['ting_smart_search']);
+function ding2_update_7083() {
+  if (module_exists('opensearch')) {
+    module_enable(['ting_smart_search']);
+  }
 }
