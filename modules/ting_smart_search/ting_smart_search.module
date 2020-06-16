@@ -447,7 +447,7 @@ function ting_smart_search_get_autodata_from_webtrekk() {
       if (isset($output) && !empty($output) && is_array($output)) {
         db_truncate('ting_smart_search_auto_data')->execute();
 
-        $chunks = array_chunk($output, 1000);
+        $chunks = array_chunk($output, 1000, TRUE);
         foreach ($chunks as $chunk) {
           $query = db_insert('ting_smart_search_auto_data')->fields(array('searchkey', 'materialids'));
           foreach ($chunk as $searchkey => $pids) {
