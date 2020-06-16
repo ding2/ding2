@@ -315,7 +315,7 @@ function ding_react_user_js() {
   drupal_add_http_header('Content-Type', 'application/javascript');
   echo "window.ddbReact = window.ddbReact || {};\n";
 
-  $token = ding_provider_invoke('openplatform_token', 'get');
+  $token = ding_provider_invoke('openplatform_token', 'for_user');
 
   if ($token) {
     echo sprintf("window.ddbReact.userAuthenticated = true;\n");
@@ -372,7 +372,7 @@ function ding_react_user_migrate(stdClass $account) {
   $legacy_uid = (!empty($account->openlist_uid)) ? $account->openlist_uid : '';
 
   try {
-    $token = ding_provider_invoke('openplatform_token', 'get');
+    $token = ding_provider_invoke('openplatform_token', 'for_user');
   } catch (DingProviderNoProvider $e) {
     $token = NULL;
   } catch (DingProviderDoesntImplement $e) {

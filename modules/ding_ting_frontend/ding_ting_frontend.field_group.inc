@@ -135,6 +135,47 @@ function ding_ting_frontend_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_inner|ting_object|ting_object|teaser_full';
+  $field_group->group_name = 'group_inner';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'teaser_full';
+  $field_group->parent_name = 'group_text';
+  $field_group->data = array(
+    'label' => 'Inner',
+    'weight' => '2',
+    'children' => array(
+      0 => 'ting_details_contributor',
+      1 => 'ting_details_extent',
+      2 => 'ting_details_format',
+      3 => 'ting_details_isbn',
+      4 => 'ting_details_publisher',
+      5 => 'ting_details_version',
+      6 => 'ting_abstract',
+      7 => 'ting_author',
+      8 => 'ting_title',
+      9 => 'ting_type',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Inner',
+      'instance_settings' => array(
+        'classes' => 'group-inner field-group-div',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'id' => 'ting_object_ting_object_teaser_group_inner',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_inner|ting_object|ting_object|teaser_full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_inner|ting_object|ting_object|teaser_no_overlay';
   $field_group->group_name = 'group_inner';
   $field_group->entity_type = 'ting_object';
@@ -246,9 +287,8 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Text',
     'weight' => '2',
     'children' => array(
-      0 => 'ting_abstract',
-      1 => 'group_inner',
       0 => 'ding_entity_buttons',
+      1 => 'group_inner',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -270,6 +310,38 @@ function ding_ting_frontend_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_text|ting_object|ting_object|teaser_full';
+  $field_group->group_name = 'group_text';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'teaser_full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Text',
+    'weight' => '1',
+    'children' => array(
+      0 => 'group_inner',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Text',
+      'instance_settings' => array(
+        'classes' => 'group-text field-group-div',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+        'id' => 'ting_object_ting_object_teaser_group_text',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_text|ting_object|ting_object|teaser_full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_text|ting_object|ting_object|teaser_no_overlay';
   $field_group->group_name = 'group_text';
   $field_group->entity_type = 'ting_object';
@@ -280,9 +352,8 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Text',
     'weight' => '2',
     'children' => array(
-      0 => 'ting_abstract',
-      1 => 'group_inner',
       0 => 'ding_entity_buttons',
+      1 => 'group_inner',
     ),
     'format_type' => 'div',
     'format_settings' => array(

@@ -953,3 +953,10 @@ function ding2_update_7082() {
     module_enable(['ting_smart_search']);
   }
 }
+
+/**
+ * Enable cover service upload module.
+ */
+function ding2_update_7083() {
+  module_enable(['ddb_cover_upload']);
+}

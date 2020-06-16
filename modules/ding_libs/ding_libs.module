@@ -166,5 +166,90 @@ function ding_libs_libraries_info() {
         $adapter->composerJson('composer.json');
       },
     ),
+    'ddb-cover-service-upload-php-client' => array(
+      'name' => 'ddb-cover-service-upload-php-client',
+      'vendor url' => 'https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload-php-client',
+      'download url' => 'https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload-php-client',
+      'version' => '',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'tui-color-picker' => array(
+      'name' => 'TUI color picker',
+      'path' => 'dist',
+      'vendor url' => 'https://nhn.github.io/tui.color-picker/latest/',
+      'download url' => 'https://github.com/nhn/tui.color-picker/archive/v2.2.6.tar.gz',
+      'version arguments' => array(
+        'file' => 'dist/tui-color-picker.js',
+        'pattern' => '/@version\s+([0-9a-zA-Z\.-]+)/',
+        'lines' => 15,
+      ),
+      'files' => array(
+        'js' => array('tui-color-picker.min.js'),
+        'css' => array('tui-color-picker.min.css'),
+      ),
+      'variants' => array(
+        'non-minified' => array(
+          'files' => array(
+            'js' => array('tui-color-picker.js'),
+            'css' => array('tui-color-picker.css'),
+          ),
+        ),
+      ),
+    ),
+    'tui-image-editor' => array(
+      'name' => 'TUI image editor',
+      'path' => 'dist',
+      'vendor url' => 'https://nhn.github.io/tui-image-editor/latest/',
+      'download url' => 'https://github.com/nhn/tui.image-editor/archive/v3.9.0.tar.gz',
+      'version arguments' => array(
+        'file' => 'dist/tui-image-editor.js',
+        'pattern' => '/@version\s+([0-9a-zA-Z\.-]+)/',
+        'lines' => 15,
+      ),
+      'files' => array(
+        'js' => array('tui-image-editor.min.js'),
+        'css' => array('tui-image-editor.min.css'),
+      ),
+      'variants' => array(
+        'non-minified' => array(
+          'files' => array(
+            'js' => array('tui-image-editor.js'),
+            'css' => array('tui-image-editor.css'),
+          ),
+        ),
+      ),
+    ),
+    'tui-code-snippet' => array(
+      'name' => 'TUI code snippet',
+      'path' => 'dist',
+      'vendor url' => 'https://nhn.github.io/tui.code-snippet/latest/',
+      'download url' => 'https://github.com/nhn/tui.code-snippet/archive/v1.5.2.tar.gz',
+      'version arguments' => array(
+        'file' => 'dist/tui-code-snippet.js',
+        'pattern' => '/@version\s+([0-9a-zA-Z\.-]+)/',
+        'lines' => 15,
+      ),
+      'files' => array(
+        'js' => array('tui-code-snippet.min.js'),
+      ),
+      'variants' => array(
+        'non-minified' => array(
+          'files' => array(
+            'js' => array('tui-code-snippet.js'),
+          ),
+        ),
+      ),
+    ),
+    'fabric' => array(
+      'name' => 'Fabric HTML5 canvas library',
+      'vendor url' => 'http://fabricjs.com/',
+      'download url' => 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js',
+      'version' => '3.3.2',
+      'files' => array(
+        'js' => array('fabric.js'),
+      ),
+    ),
   );
 }
