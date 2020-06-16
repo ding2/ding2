@@ -21,13 +21,7 @@ $plugin = array(
  * Implements access callback
  */
 function ting_smart_search_form_content_type_access() {
-  $return = FALSE;
-  global $user;
-
-  if(user_access('configure smart search')) {
-    $return = TRUE;
-  }
-  return $return;
+  return user_access('configure smart search');
 }
 
 /**
