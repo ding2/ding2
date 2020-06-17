@@ -246,9 +246,9 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Text',
     'weight' => '2',
     'children' => array(
-      0 => 'ting_abstract',
-      1 => 'group_inner',
       0 => 'ding_entity_buttons',
+      1 => 'ting_abstract',
+      2 => 'group_inner',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -280,9 +280,9 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Text',
     'weight' => '2',
     'children' => array(
-      0 => 'ting_abstract',
-      1 => 'group_inner',
       0 => 'ding_entity_buttons',
+      1 => 'ting_abstract',
+      2 => 'group_inner',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -724,7 +724,6 @@ function ding_ting_frontend_field_group_info() {
   t('Image');
   t('Info');
   t('Inner');
-  t('Issues');
   t('Left column');
   t('On this site');
   t('Right column');
