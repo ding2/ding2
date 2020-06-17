@@ -464,6 +464,9 @@ function ding_webtrekk_preprocess_html() {
   // to elements which is problematic to handle on the server.
   drupal_add_js(drupal_get_path('module', 'ding_webtrekk') . '/ding_webtrekk.js', array(
     'scope' => 'footer',
+    // Ensure we have a higher weight that EU cookie compliance script, since
+    // we use the hasAgreed() function from it.
+    'weight' => 1,
   ));
 
   drupal_add_js([

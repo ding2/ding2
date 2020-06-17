@@ -190,6 +190,9 @@ function ding2_add_settings(&$install_state) {
   // Set cookie page.
   ding2_set_cookie_page();
 
+  // Set EU cookie compliance settings.
+  ding2_set_eu_cookie_compliance_settings();
+
   // Add menu item to secondary menu.
   $link = array(
     'menu_name' => 'menu-secondary-menu',
@@ -731,30 +734,6 @@ function ding2_add_administrators_role($uid) {
  * Add page with std. cookie information.
  */
 function ding2_set_cookie_page() {
-  // Enable translation variables for EU Cookie Compliance.
-  $controller = variable_realm_controller('language');
-  $old_variables = $controller->getEnabledVariables();
-  $old_list = variable_children($old_variables);
-  $variables = array_merge($old_list, array('eu_cookie_compliance'));
-  $controller->setRealmVariable('list', $variables);
-
-  // Set cookie compliance variables
-  $eu_cookie_compliance = i18n_variable_get('eu_cookie_compliance', 'da', variable_get('eu_cookie_compliance', array()));
-  $eu_cookie_compliance = array_merge($eu_cookie_compliance, array(
-    'method' => 'default',
-    'popup_info' => array(
-      'value' => '<p>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse.</p><p>Læs mere her: <a href="' . url('cookies') . '">Hvad er cookies?</a></p>',
-      'format' => 'ding_wysiwyg',
-    ),
-    'popup_agree_button_message' => 'Jeg accepterer brugen af cookies',
-    'show_disagree_button' => 0,
-    'popup_link' => 'cookies',
-    'popup_bg_hex' => '0D0D26',
-    'popup_text_hex' => 'FFFFFF',
-    'popup_delay' => 1000,
-  ));
-  i18n_variable_set('eu_cookie_compliance', $eu_cookie_compliance, 'da');
-
   $body = '<p><strong>Hvad er cookies?</strong></p>
           <p>En cookie er en lille tekstfil, som lægges på din computer, smartphone, ipad eller lignende med det formål at indhente data. Den gør det muligt for os at måle trafikken på vores site og opsamle viden om f.eks. antal besøg på vores hjemmeside, hvilken browser der bliver brugt, hvilke sider der bliver klikket på, og hvor lang tid der bruges på siden. Alt sammen for at vi kan forbedre brugeroplevelsen og udvikle nye services.</p>
           <p>Når du logger ind for at se lånerstatus, reservere m.m. sættes en såkaldt sessions-cookie. Denne cookie forsvinder, når du logger ud.</p>
@@ -798,6 +777,66 @@ function ding2_set_cookie_page() {
   // Permissions, see: ding_permissions module
   // display EU Cookie Compliance popup: anonymous user, authenticated user
   // administer EU Cookie Compliance popup: administrators, local administrator
+}
+
+/**
+ * Sets the standard ding2 settings for EU cookie compliance module.
+ */
+function ding2_set_eu_cookie_compliance_settings() {
+  // Ensure that translation variables are enabled for EU Cookie Compliance.
+  $controller = variable_realm_controller('language');
+  $old_variables = $controller->getEnabledVariables();
+  $old_list = variable_children($old_variables);
+  $variables = array_merge($old_list, array('eu_cookie_compliance'));
+  $controller->setRealmVariable('list', $variables);
+
+  // Set cookie compliance variables.
+  $eu_cookie_compliance = i18n_variable_get('eu_cookie_compliance', 'da', []);
+
+  // Ding2 whitelisted cookies. If more are needed: add to array and call this
+  // function again in an update.
+  $whitelisted_cookies = [
+    'has_js',
+  ];
+
+  // Ensure we don't override any whitelisted cookies added by administrators or
+  // other modules.
+  if (empty($eu_cookie_compliance['whitelisted_cookies'])) {
+    $eu_cookie_compliance['whitelisted_cookies'] = implode("\r\n", $whitelisted_cookies);
+  }
+  else {
+    foreach ($whitelisted_cookies as $cookie) {
+      if (strpos($eu_cookie_compliance['whitelisted_cookies'], $cookie) === FALSE) {
+        $eu_cookie_compliance['whitelisted_cookies'] .= "\r\n" . $cookie;
+      }
+    }
+  }
+
+  $eu_cookie_compliance = array_merge($eu_cookie_compliance, [
+    'method' => 'opt_in',
+    'show_disagree_button' => 1,
+    'popup_info' => [
+      'value' => '<h2>Hjælp os med at forbedre oplevelsen på hjemmesiden ved at acceptere cookies.</h2>',
+      'format' => 'ding_wysiwyg',
+    ],
+    'popup_agree_button_message' => 'Jeg accepterer brugen af cookies',
+    'popup_disagree_button_message' => 'Mere info',
+    'disagree_button_label' => 'Afvis',
+    'withdraw_enabled' => 1,
+    'withdraw_message' => [
+      'value' => '<h2>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse</h2><p>Du har givet os samtykke. Tryk her for at tilbagekalde.</p>',
+      'format' => 'ding_wysiwyg',
+    ],
+    'withdraw_tab_button_label' => 'Privatlivsindstillinger',
+    'withdraw_action_button_label' => 'Tilbagekald samtykke',
+    'popup_link' => 'cookies',
+    'popup_bg_hex' => '0D0D26',
+    'popup_text_hex' => 'FFFFFF',
+    'popup_delay' => 1000,
+    'exclude_admin_pages' => TRUE,
+    'consent_storage_method' => 'provider',
+  ]);
+  i18n_variable_set('eu_cookie_compliance', $eu_cookie_compliance, 'da');
 }
 
 /**

@@ -953,3 +953,25 @@ function ding2_update_7082() {
     module_enable(['ting_smart_search']);
   }
 }
+
+/**
+ * Update EU cookie compliance settings.
+ */
+function ding2_update_7083() {
+  ding2_set_eu_cookie_compliance_settings();
+
+  // jquery_update will override the version of jquery.cookie that EU cookie
+  // compliance needs, if module weights are not changed. ECC 1.31 takes care
+  // of this on update and fresh install,  but 1.28 (we used in last release)
+  // only did on update. So we ensure it's called here if someone is testing
+  // from a fresh install on last release.
+  // https://www.drupal.org/project/eu_cookie_compliance/issues/2991113
+  eu_cookie_compliance_module_set_weight();
+
+  // Update the cookie name used by ECC to enforce all users to the new opt-out
+  // model and make them agree again. The name can be whatever so we choose the
+  // number of this update function where the settings were changed.
+  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da', []);
+  $ecc_settings['cookie_name'] = 'cookie-agreed-7083';
+  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
+}

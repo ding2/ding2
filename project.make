@@ -100,7 +100,9 @@ projects[entityreference_filter][subdir] = "contrib"
 projects[entityreference_filter][version] = "1.7"
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.28"
+projects[eu_cookie_compliance][version] = "1.31"
+; Cookie-agreed data is not saved if the cookie has a non-default name.
+projects[eu_cookie_compliance][patch][] = "https://www.drupal.org/files/issues/2019-11-27/3097097-2.patch"
 
 projects[environment_indicator][subdir] = "contrib"
 projects[environment_indicator][version] = "2.8"

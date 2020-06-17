@@ -5,29 +5,11 @@
 
 #sliding-popup {
   &.sliding-popup-bottom {
-    background: $black;
-    .popup-content {
-      @include wrapper;
-      position: relative;
-      height: 180px;
-    }
     #popup-text {
       @include font('base');
-      max-width: calc(100% - 40px);
-      float: none;
-      padding-top: 20px;
-      padding-bottom: 10px;
       p {
-        display: block;
-        margin: 0;
-        &:nth-child(1) {
-          @include font('display-small');
-        }
-        a {
+        a, a:hover {
           color: $white;
-          &:hover {
-            color: $white;
-          }
         }
       }
 
@@ -37,18 +19,22 @@
         padding-bottom: 10px;
       }
     }
+
+    .popup-content {
+      @include wrapper;
+      position: relative;
+    }
+
     #popup-buttons {
-      max-width: none;
-      float: left;
       .agree-button,
       .find-more-button,
-      .hide-popup-button {
+      .hide-popup-button,
+      .decline-button,
+      .eu-cookie-withdraw-button {
         @extend %button;
         @include font('base');
         background: $color-secondary;
         color: $color-text-on-secondary;
-        float: left;
-        margin-right: 20px;
         text-shadow: none;
         border: none;
         box-shadow: none;
@@ -59,6 +45,46 @@
             color: $white;
           }
         }
+      }
+    }
+  }
+
+  &.eu-cookie-withdraw-wrapper {
+    #popup-buttons {
+      margin: 0;
+      .eu-cookie-withdraw-button {
+        padding: 4px 20px 4px 8px;
+      }
+    }
+  }
+
+  &.sliding-popup-bottom:not(.eu-cookie-withdraw-wrapper) {
+    .popup-content {
+      height: 180px;
+    }
+    #popup-text {
+      max-width: calc(100% - 40px);
+      float: none;
+      padding-top: 20px;
+      padding-bottom: 10px;
+      p {
+        display: block;
+        margin: 0;
+        &:nth-child(1) {
+          @include font('display-small');
+        }
+      }
+    }
+
+    #popup-buttons {
+      max-width: none;
+      float: left;
+      .agree-button,
+      .find-more-button,
+      .hide-popup-button,
+      .decline-button {
+        float: left;
+        margin-right: 20px;
 
         // Mobile
         @include media($mobile) {
@@ -68,6 +94,7 @@
         }
       }
     }
+
     .close {
       @include place-icon('close', $white, 60px);
       position: absolute;
