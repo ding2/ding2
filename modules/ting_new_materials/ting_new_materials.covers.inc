@@ -56,7 +56,7 @@ function ting_new_materials_check_covers(array $covers_ids, $number_of_objects) 
     $retrieved = $apiInstance->getCoverCollection('pid', $missing_images_local_ids, array('original', 'large'));
   }
   catch (Exception $e) {
-    watchdog('ting_covers_ddb', 'Unable to retrieve covers: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+    watchdog('ting_new_materials', 'Unable to retrieve covers: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
     return $covers_ids;
   }
 
