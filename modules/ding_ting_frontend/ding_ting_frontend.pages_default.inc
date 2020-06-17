@@ -815,6 +815,25 @@ search/ting
     $pane->uuid = '0ff7e4a6-1810-4de9-84d4-fda87404376a';
     $display->content['new-0ff7e4a6-1810-4de9-84d4-fda87404376a'] = $pane;
     $display->panels['attachment_1_1'][3] = 'new-0ff7e4a6-1810-4de9-84d4-fda87404376a';
+    $pane = new stdClass();
+    $pane->pid = 'new-1fdbaeae-5265-41a0-b80f-5cbb249f0ba7';
+    $pane->panel = 'attachment_1_1';
+    $pane->type = 'related_materials';
+    $pane->subtype = 'related_materials';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = '1fdbaeae-5265-41a0-b80f-5cbb249f0ba7';
+    $display->content['new-1fdbaeae-5265-41a0-b80f-5cbb249f0ba7'] = $pane;
+    $display->panels['attachment_1_1'][4] = 'new-1fdbaeae-5265-41a0-b80f-5cbb249f0ba7';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
