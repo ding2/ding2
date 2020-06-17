@@ -67767,3 +67767,11 @@ msgstr "For at reservere skal du finde et eksemplar i nedenstående med en reser
 #: /ding_availability/holdings/45654265,26838525
 msgid "Cannot be reserved."
 msgstr "Kan ikke reserveres."
+
+#: /user/me/status-loans-overdue
+msgid "You have no overdue loans. Remember to check <a href="@url">active loans</a>"
+msgstr "Du har ingen overskredne lån. Husk også at tjekke dine <a href="@url">aktive lån</a>"
+
+#: /user/me/status-loans-overdue
+msgid "You have no active loans. Remember to check <a href="@url">overdue loans</a>"
+msgstr "Du har ingen aktive lån. Husk også at tjekke dine <a href="@url">overskredne lån</a>"
