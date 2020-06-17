@@ -1,12 +1,25 @@
 <?php
 
 /**
- * Duplicate code from ting_covers module. Ting covers module doesn't provide a api we can use.
+ * @file
+ * Helpers to get covers.
+ */
+
+use CoverService\Api\CoverApi;
+use GuzzleHttp\Client;
+
+/**
+ * Duplicate code from ting_covers and ting_covers_ddb module.
+ *
+ * Ting covers module doesn't provide a api we can use.
  *
  * @param array $covers_ids
- *  Ids of the materials to fetch covers for.
- * @param array
- *   True if there is a cover image.
+ *   Ids of the materials to fetch covers for.
+ * @param int $number_of_objects
+ *   The number of objects.
+ *
+ * @return array
+ *   True if there is a cover image else FALSE. Indexed by local id.
  */
 function ting_new_materials_check_covers($covers_ids, $number_of_objects) {
   $missing_images_local_ids = array();
@@ -24,29 +37,53 @@ function ting_new_materials_check_covers($covers_ids, $number_of_objects) {
       $cover_id->hasImage = TRUE;
       $number_found++;
     } else {
-      $missing_images_local_ids[] = (object) array(
-          'localIdentifier' => $cover_id->localId,
-          'libraryCode' => $cover_id->ownerId,
-      );
+      $cover_id->hasImage = FALSE;
+      $missing_images_local_ids[] = $cover_id->localId;
     }
     if ($number_found >= $number_of_objects) {
       break;
     }
   }
-  $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'), variable_get('ting_covers_addi_enforce_url', FALSE));
-  // Local ids = Faust numbers. Library object identifiers can be confusing.
-  $additional_informations = $service->getByLocalIdentifier($missing_images_local_ids);
-  foreach ($missing_images_local_ids as $local_id) {
-    if (isset($additional_informations[$local_id->localIdentifier]) && $ai = $additional_informations[$local_id->localIdentifier]) {
-      if ($ai->detailUrl || $ai->thumbnailUrl) {
-        $covers_ids[$local_id->localIdentifier]->hasImage = TRUE;
-      } else {
-        $covers_ids[$local_id->localIdentifier]->hasImage = FALSE;
+
+  try {
+    $config = _ting_cover_ddb_get_client_config();
+    $apiInstance = new CoverApi(
+      new Client(),
+      $config
+    );
+    _ting_covers_ddb_debug_log('Requested covers for pids: ' . implode(', ', $missing_images_local_ids));
+    $retrieved = $apiInstance->getCoverCollection('pid', $missing_images_local_ids, array('original', 'large'));
+  }
+  catch (Exception $e) {
+    watchdog('ting_covers_ddb', 'Unable to retrieve covers: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+    return $covers_ids;
+  }
+
+  foreach ($retrieved as $cover) {
+    $source_url = $source_fallback_url = NULL;
+    $image_urls = $cover->getImageUrls();
+    foreach ($image_urls as $image_url) {
+      switch ($image_url->getSize()) {
+        case 'original':
+          $source_fallback_url = $image_url->getUrl();
+          break;
+
+        case 'large':
+          $source_url = $image_url->getUrl();
+          break;
       }
     }
+
+    if (is_null($source_url)) {
+      // The service will return null for a given image size if there is no
+      // image that is large enough to scale down to that size. So we fallback
+      // to original image from the service.
+      $source_url = $source_fallback_url;
+    }
+
+    // Return the path to the cover.
+    $covers_ids[$cover->getId()]->hasImage = TRUE;
   }
+
   return $covers_ids;
 }
-
-
-?>
