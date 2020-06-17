@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Module installation and updates routine.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Migrates settings from ting_covers_addi.
+ */
+function ting_covers_ddb_install() {
+  $migrate_variables = array(
+    'ting_covers_addi_enable_logging' => 'ting_covers_ddb_enable_logging',
+  );
+
+  foreach ($migrate_variables as $old => $new) {
+    $value = variable_get($old, NULL);
+    if (!is_null($value)) {
+      variable_set($new, $value);
+    }
+  }
+}
