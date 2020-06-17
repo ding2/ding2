@@ -946,7 +946,6 @@ function ding2_update_7081() {
 }
 
 /**
-<<<<<<< HEAD
  * Enable ting_smart_search.
  */
 function ding2_update_7082() {

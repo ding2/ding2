@@ -50,10 +50,6 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
       $form['opensearch']['opensearch_url']['#default_value'] = 'https://opensearch.addi.dk/b3.5_5.2/';
       $form['opensearch']['opensearch_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
     }
-
-    if ($form_id == 'ting_covers_addi_admin_settings_form') {
-      $form['addi']['ting_covers_addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.11';
-    }
   }
 }
 
