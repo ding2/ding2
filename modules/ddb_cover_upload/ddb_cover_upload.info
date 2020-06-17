@@ -1,9 +1,0 @@
-name = DDB cover upload
-description = Upload a cover image to cover service
-core = 7.x
-package = DDB
-dependencies[] = file
-dependencies[] = image
-dependencies[] = ding_provider
-dependencies[] = ting
-dependencies[] = ding_libs

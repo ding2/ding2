@@ -48,7 +48,7 @@ function ting_covers_addi_ting_covers($entities) {
   // Exceptions should only be thrown if something is so wrong,
   // that no images can be fetched whatsoever.
   try {
-    $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'), variable_get('ting_covers_addi_enforce_url', FALSE));
+    $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'));
 
     // Retrieve covers by PID.
     $retrieved = $service->getByPid(array_keys($entities));
