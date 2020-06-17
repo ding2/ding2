@@ -21,7 +21,7 @@ use GuzzleHttp\Client;
  * @return array
  *   True if there is a cover image else FALSE. Indexed by local id.
  */
-function ting_new_materials_check_covers($covers_ids, $number_of_objects) {
+function ting_new_materials_check_covers(array $covers_ids, $number_of_objects) {
   $missing_images_local_ids = array();
   $number_found = 0;
 
@@ -36,7 +36,8 @@ function ting_new_materials_check_covers($covers_ids, $number_of_objects) {
     if (false && file_exists($path)) {
       $cover_id->hasImage = TRUE;
       $number_found++;
-    } else {
+    }
+    else {
       $cover_id->hasImage = FALSE;
       $missing_images_local_ids[] = $cover_id->localId;
     }
