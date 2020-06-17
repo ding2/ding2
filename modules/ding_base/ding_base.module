@@ -824,6 +824,19 @@ function ding_base_form_alter(&$form, &$form_state, $form_id) {
       ];
     }
   }
+  elseif (strpos($form_id, 'webform_client_form') === 0) {
+    // Add a notice about not inserting personal on every webform. The link is
+    // hardcoded since we currently don't have any central place for setting
+    // up a privacy poplicy page, and we use translation here primarly for
+    // administrators to be able to change the link.
+    $privacy_notice = t('<strong>NOTICE</strong>: NEVER insert personal data of any kind in the formular. Read more in our <a href="/persondata">privacy policy</a>.');
+    $form['submitted']['privacy_notice'] = [
+      '#type' => 'item',
+      '#markup' => '<p>' . $privacy_notice . '</p>',
+      // Ensure notice is placed at the bottom just above submit button.
+      '#weight' => 50,
+    ];
+  }
 }
 
 /**
@@ -889,5 +902,51 @@ function ding_base_taxonomy_autocomplete($vid, $tag) {
     }
 
     drupal_json_output($items);
+  }
+}
+
+/**
+ * Implements hook_mail_alter().
+ */
+function ding_base_mail_alter(&$message) {
+  // To protect against personal data from webform submissions getting send
+  // unencrypted in mail to various mail servers, we alter every webform
+  // submission mail and replace any [submission:values] tokens with
+  // [submission:url] token. Administrators must then visit the submission
+  // URL to see/download the data, and the mail will only serve as a
+  // notification of a new submission and not as a method of data transfer.
+  if ($message['id'] == 'webform_submission') {
+    $params = $message['params'];
+    $email = $params['email'];
+    $node = $params['node'];
+    $submission = $params['submission'];
+
+    // Get the original mail template without replaced tokens.
+    // Copied from: webform_submission_send_mail().
+    if ($email['template'] == 'default') {
+      $email['message'] = theme(
+        ['webform_mail_' . $node->nid, 'webform_mail', 'webform_mail_message'],
+        ['node' => $node, 'submission' => $submission, 'email' => $email]
+      );
+    }
+    else {
+      $email['message'] = $email['template'];
+    }
+
+    $count = 0;
+    // We can also have more specific submission values tokens of the form
+    // [submission:values:?] that reference a specific component on the form,
+    // so we use a regular expression.
+    $email['message'] = preg_replace('/\[submission:values.*\]/', '[submission:url]',  $email['message'], -1, $count);
+
+    // Replace tokens in the message (again) if any replacements was performed.
+    if ($count > 0) {
+      // Copied from: webform_submission_send_mail().
+      $email['message'] = webform_replace_tokens($email['message'], $node, $submission, $email, (boolean) $email['html']);
+
+      // Insert new message in body replacing the old completely.
+      $message['body'] = [];
+      $message['body'][] = $email['message'];
+    }
   }
 }

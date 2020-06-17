@@ -15,6 +15,7 @@ dependencies[] = pathauto
 dependencies[] = strongarm
 dependencies[] = token
 dependencies[] = transliteration
+dependencies[] = webform
 configure = admin/config/ding
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
