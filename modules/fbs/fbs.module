@@ -276,6 +276,31 @@ function fbs_settings_form() {
     '#default_value' => variable_get('fbs_holdings_branches_blacklist', array()),
   );
 
+  $form['holdings_suffix'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings suffix'),
+    '#description' => t('Select which type of suffix to use for holdings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['holdings_suffix']['fbs_show_material_group'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show material group description'),
+    '#default_value' => variable_get('fbs_show_material_group', 0),
+  );
+
+  $form['holdings_suffix']['fbs_holdings_suffix_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Holdings suffix'),
+    '#description' => t('Simple shows a mix between DK5 and inverted creator, while Shelf mark simulates the shelf mark from ALMA using marc-data from the well.'),
+    '#default_value' => variable_get('fbs_holdings_suffix_type', 'shelf_mark'),
+    '#options' => array(
+      'simple' => t('Simple'),
+      'shelf_mark' => t('Shelf mark'),
+    ),
+  );
+
   return system_settings_form($form);
 }
 
@@ -681,34 +706,6 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
       }
     }
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Access options for the attributes in the holdings field.
- */
-function fbs_form_ding_availability_admin_holdings_settings_alter(&$form, &$form_state, $form_id) {
-  $form['holdings'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Holdings levels display'),
-    '#description' => t('Configure holdings display modes.'),
-  );
-  $form['holdings']['fbs_show_material_group'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Show material group description'),
-    '#default_value' => variable_get('fbs_show_material_group', 0),
-  );
-  $form['holdings']['fbs_holdings_suffix_type'] = array(
-    '#type' => 'radios',
-    '#title' => t('Holdings suffix'),
-    '#description' => t('Select which type of suffix to use for holdings. Simple shows a mix between DK5 and inverted creator, while Shelf mark simulates the shelf mark from ALMA using marc-data from the well.'),
-    '#default_value' => variable_get('fbs_holdings_suffix_type', 'shelf_mark'),
-    '#options' => array(
-      'simple' => t('Simple'),
-      'shelf_mark' => t('Shelf mark'),
-    ),
-  );
 }
 
 /**
