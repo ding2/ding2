@@ -631,33 +631,3 @@ libraries[ddb-react][download][type] = "get"
 libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/latest/dist.zip
 libraries[ddb-react][directory_name] = "ddb-react"
 libraries[ddb-react][destination] = "libraries"
-
-; CoverService upload client.
-libraries[ddb-cover-service-upload-client][download][type] = "get"
-libraries[ddb-cover-service-upload-client][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload-php-client/archive/1.0.1.tar.gz
-libraries[ddb-cover-service-upload-client][directory_name] = "ddb-cover-service-upload-client"
-libraries[ddb-cover-service-upload-client][destination] = "libraries"
-
-; Libraries used by CoverService upload.
-libraries[tui-color-picker][download][type] = "get"
-libraries[tui-color-picker][download][url] = https://github.com/nhn/tui.color-picker/archive/v2.2.6.tar.gz
-libraries[tui-color-picker][directory_name] = "ui-color-picker"
-libraries[tui-color-picker][destination] = "libraries"
-
-; Libraries used by CoverService upload.
-libraries[tui-code-snippet][download][type] = "get"
-libraries[tui-code-snippet][download][url] = https://github.com/nhn/tui.code-snippet/archive/v1.5.2.tar.gz
-libraries[tui-code-snippet][directory_name] = "tui-code-snippet"
-libraries[tui-code-snippet][destination] = "libraries"
-
-; Libraries used by CoverService upload.
-libraries[tui-image-editor][download][type] = "get"
-libraries[tui-image-editor][download][url] = https://github.com/nhn/tui.image-editor/archive/v3.9.0.tar.gz
-libraries[tui-image-editor][directory_name] = "tui-image-editor"
-libraries[tui-image-editor][destination] = "libraries"
-
-; Libraries used by CoverService upload.
-libraries[fabric][download][type] = "get"
-libraries[fabric][download][url] = https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js
-libraries[fabric][directory_name] = "fabric"
-libraries[fabric][destination] = "libraries"
