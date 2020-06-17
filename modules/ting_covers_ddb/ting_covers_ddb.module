@@ -46,7 +46,7 @@ function ting_covers_ddb_ting_covers($entities) {
   $covers = array();
 
   try {
-    $config = _ting_cover_ddb_get_clint_config();
+    $config = _ting_cover_ddb_get_client_config();
     $apiInstance = new CoverApi(
       new Client(),
       $config
@@ -102,7 +102,7 @@ function ting_covers_ddb_ting_covers($entities) {
  * @throws \DingProviderDoesntImplement
  * @throws \DingProviderNoProvider
  */
-function _ting_cover_ddb_get_clint_config() {
+function _ting_cover_ddb_get_client_config() {
   $config = Configuration::getDefaultConfiguration();
 
   // Get access token for the library.
