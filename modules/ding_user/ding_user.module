@@ -78,33 +78,6 @@ function ding_user_ctools_plugin_api($module, $api) {
 }
 
 /**
- * Implements hook_menu().
- */
-function ding_user_menu() {
-  $items = array();
-
-  $items['admin/config/ding/user'] = array(
-    'title' => 'Ding user settings',
-    'description' => 'Administer ding_user settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_user_admin_setting_form'),
-    'access arguments' => array('administer user settings'),
-    'file' => 'ding_user.admin.inc',
-  );
-
-  $items['ding_user/expire_sessions/cron'] = array(
-    'title' => 'Lightweight expire session cron',
-    'description' => 'Run the lightweight expire inacitve provider sessions cron job',
-    'page callback' => 'ding_user_expire_sessions_cron',
-    'access callback' => 'ding_user_expire_sessions_cron_access',
-    'access arguments' => array(3),
-    'type' => MENU_CALLBACK,
-  );
-
-  return $items;
-}
-
-/**
  * Implements hook_permission().
  */
 function ding_user_permission() {
@@ -1244,59 +1217,4 @@ function ding_user_ding_user_block_reasons() {
     'ding_user_blocked_self_created' => t('Your self created account is limited. Please contact your library to get full access.'),
     'ding_user_blocked_excluded' => t('You have been excluded. Please contact your library for more information.'),
   );
-}
-
-/**
- * Implements hook_cron().
- */
-function ding_user_cron() {
-  ding_user_expire_sessions();
-}
-
-/**
- * Access callback for expires sessions cron endpoint.
- */
-function ding_user_expire_sessions_cron_access($cron_key) {
-  return variable_get('cron_key') === $cron_key;
-}
-
-/**
- * Page callback for expires sessions lightweight cron endpoint.
- */
-function ding_user_expire_sessions_cron() {
-  ding_user_expire_sessions();
-  drupal_exit();
-}
-
-/**
- * Deletes inactive provider sessions in the database.
- */
-function ding_user_expire_sessions() {
-  if (!$limit = variable_get('ding_user_provider_session_expire', 900)) {
-    // Return now if the session expire functionality is disabled.
-    return;
-  }
-
-  // Delete sessions with no activity since $limit seconds.
-  $timestamp = REQUEST_TIME - $limit;
-
-  // Construct subquere with uids for provider users.
-  $roles = user_roles(TRUE);
-  $rid = array_search('provider', $roles);
-  $subquery = db_select('users_roles', 'ur')
-    ->fields('ur', array('uid'))
-    ->condition('rid', $rid);
-
-  $query = db_delete('sessions')
-    ->condition('timestamp', $timestamp, '<')
-    ->condition('uid', $subquery, 'IN');
-
-  $num_updated = $query->execute();
-
-  // Log a notice if we succesfully deleted any inacitve provider sessions.
-  if ($num_updated) {
-    watchdog('ding_user', 'Deleted %num_updated inactive provider sessions', array(
-      '%num_updated' => $num_updated,
-    ));
-  }
 }
