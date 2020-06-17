@@ -52,7 +52,6 @@ function ting_new_materials_check_covers(array $covers_ids, $number_of_objects) 
       new Client(),
       $config
     );
-    _ting_covers_ddb_debug_log('Requested covers for pids: ' . implode(', ', $missing_images_local_ids));
     $retrieved = $apiInstance->getCoverCollection('pid', $missing_images_local_ids, array('original', 'large'));
   }
   catch (Exception $e) {
