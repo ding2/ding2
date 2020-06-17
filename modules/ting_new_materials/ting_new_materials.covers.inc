@@ -61,28 +61,6 @@ function ting_new_materials_check_covers(array $covers_ids, $number_of_objects) 
   }
 
   foreach ($retrieved as $cover) {
-    $source_url = $source_fallback_url = NULL;
-    $image_urls = $cover->getImageUrls();
-    foreach ($image_urls as $image_url) {
-      switch ($image_url->getSize()) {
-        case 'original':
-          $source_fallback_url = $image_url->getUrl();
-          break;
-
-        case 'large':
-          $source_url = $image_url->getUrl();
-          break;
-      }
-    }
-
-    if (is_null($source_url)) {
-      // The service will return null for a given image size if there is no
-      // image that is large enough to scale down to that size. So we fallback
-      // to original image from the service.
-      $source_url = $source_fallback_url;
-    }
-
-    // Return the path to the cover.
     $covers_ids[$cover->getId()]->hasImage = TRUE;
   }
 
