@@ -9,7 +9,7 @@
  */
 function ting_covers_install() {
   // Ensure that a cover provider is active on a fresh install.
-  module_enable(array('ting_covers_addi'));
+  module_enable(array('ting_covers_ddb'));
 }
 
 /**
