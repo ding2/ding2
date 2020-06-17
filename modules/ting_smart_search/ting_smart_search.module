@@ -379,10 +379,6 @@ function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
     $form['#pre_render'][] = 'smart_search_string_form_pre_render';
     $form['#submit'][] = 'smart_search_string_form_submit';
   }
-
-  if ($form_id == 'ting_search_sort_form') {
-    $form['#submit'][] = 'ting_smart_search_sort_form_submit';
-  }
 }
 
 /**
