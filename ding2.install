@@ -996,6 +996,7 @@ function ding2_update_7085() {
 function ding2_update_7086() {
   module_disable(['ting_covers_addi']);
   module_enable(['ting_covers_ddb']);
+}
 
 /**
  * Remove Webtrends specific info from cookie page.
