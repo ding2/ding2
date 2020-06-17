@@ -975,3 +975,10 @@ function ding2_update_7083() {
   $ecc_settings['cookie_name'] = 'cookie-agreed-7083';
   i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7084() {
+  ding2_translation_update();
+}

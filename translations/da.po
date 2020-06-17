@@ -67755,3 +67755,15 @@ msgstr "Aktivér logging af debugging"
 #: /node/34
 msgid "<strong>NOTICE</strong>: NEVER insert personal data of any kind in the formular. Read more in our <a href="/persondata">privacy policy</a>."
 msgstr "<strong>BEMÆRK</strong>: Indsæt ALDRIG persondata (fx CPR-nr. eller PIN-kode) i formularen. Læs hvordan dine persondata behandles i <a href="/persondata">bibliotekets persondatapolitik</a>."
+
+#: /ding_availability/holdings/05627591
+msgid "We have 0 copies."
+msgstr "Vi har ingen eksemplarer af dette materiale."
+
+#: /ding_availability/holdings/06373674
+msgid "To make a reservation you need to find an issue below and click a reservation button."
+msgstr "For at reservere skal du finde et eksemplar i nedenstående med en reserverknap."
+
+#: /ding_availability/holdings/45654265,26838525
+msgid "Cannot be reserved."
+msgstr "Kan ikke reserveres."
