@@ -250,14 +250,10 @@ function ting_smart_search_get_object($query) {
  */
 function ting_smart_search_get_boosts($wrapper) {
   $boosts = array();
-  $weight = 20000;
+  $weight = 100000;
 
   $boost_materials = $wrapper->field_sss_boost_materials->value();
 
-  // We insert material twice to rule out factors applied from the well.
-  // For some reason some materials get sticky in the top off the search
-  // results. In order to ensure our ranking we boost twice. A bit crasy
-  // but works.
   if (!empty($boost_materials)) {
     foreach ($boost_materials as $boost_material) {
       $boosts[] = array(
@@ -265,13 +261,8 @@ function ting_smart_search_get_boosts($wrapper) {
         'field_value' => urldecode($boost_material),
         'weight' => $weight,
       );
-      $weight = $weight - 100;
-      $boosts[] = array(
-        'field_name' => 'term.default',
-        'field_value' => urldecode($boost_material),
-        'weight' => $weight,
-      );
-      $weight = $weight - 2000;
+
+      $weight = (int) $weight/2;
     }
   }
 
