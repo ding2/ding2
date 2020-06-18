@@ -198,6 +198,11 @@ function ding_availability_holdings(array $provider_ids) {
       'ordered_count' => 0,
     );
 
+    if (empty($item['holdings'])) {
+      $item['html'] = '<p>' . t('We have 0 copies.') . '</p>';
+      continue;
+    }
+
     if (empty($item['is_periodical'])) {
       // Marks internet resources as available.
       if (!empty($item['is_internet'])) {
@@ -408,6 +413,9 @@ function _ding_availability_text(&$item) {
 function theme_ding_holdings_periodical($variables) {
   $items = array();
 
+  // Remember if this periodical was reservable in any of the issues.
+  $reservable = FALSE;
+
   foreach ($variables['issues'] as $volume => $issues) {
     $iss = array();
     $i = 0;
@@ -423,6 +431,7 @@ function theme_ding_holdings_periodical($variables) {
 
       // Check if the volume is reservable and add reservation button.
       if (!empty($issue_id) && ding_availability_periodical_is_reservable($issues[$key])) {
+        $reservable = TRUE;
         $item_id = array($issue_id, $volume, $key);
         $item_id = array_map('base64_encode', $item_id);
 
@@ -494,7 +503,11 @@ function theme_ding_holdings_periodical($variables) {
   // TODO: We could include info about reservation status here like with normal
   // holdings.
   $prefix = '<h3>' . t('Issues') . '</h3>';
-  $prefix .= '<p>' . t('To make a reservation you need to find an issue below and click a reservation button') . '</p>';
+
+  // If any issues was reservable; insert a helpful text.
+  if ($reservable) {
+    $prefix .= '<p>' . t('To make a reservation you need to find an issue below and click a reservation button.') . '</p>';
+  }
 
   return $prefix . theme('item_list', array('items' => $items, 'attributes' => array('class' => 'ding-periodical-issues')));
 }

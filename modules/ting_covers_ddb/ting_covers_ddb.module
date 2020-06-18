@@ -1,0 +1,161 @@
+<?php
+
+/**
+ * @file
+ * Provide covers from the ADDI service.
+ */
+
+use CoverService\Configuration;
+use CoverService\Api\CoverApi;
+use GuzzleHttp\Client;
+
+/**
+ * Implements hook_menu().
+ */
+function ting_covers_ddb_menu() {
+  $items = array();
+
+  $items['admin/config/ting/covers/ddb'] = array(
+    'title' => 'DDB CoverService',
+    'description' => 'Configure integration with the DDB CoverService.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_covers_ddb_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/ting_covers_ddb.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ting_covers_ddb_ding_provider_user() {
+  return array(
+    'openplatform_token' => array(
+      'required' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_ting_covers().
+ */
+function ting_covers_ddb_ting_covers($entities) {
+  $covers = array();
+
+  try {
+    $config = _ting_cover_ddb_get_client_config();
+    $apiInstance = new CoverApi(
+      new Client(),
+      $config
+    );
+    _ting_covers_ddb_debug_log('Requested covers for pids: ' . implode(', ', array_keys($entities)));
+    $retrieved = $apiInstance->getCoverCollection('pid', array_keys($entities), array('original', 'large'));
+  }
+  catch (Exception $e) {
+    watchdog('ting_covers_ddb', 'Unable to retrieve covers: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+    return $covers;
+  }
+
+  foreach ($retrieved as $cover) {
+    $source_url = $source_fallback_url = NULL;
+    $image_urls = $cover->getImageUrls();
+    foreach ($image_urls as $image_url) {
+      switch ($image_url->getSize()) {
+        case 'original':
+          $source_fallback_url = $image_url->getUrl();
+          break;
+
+        case 'large':
+          $source_url = $image_url->getUrl();
+          break;
+      }
+    }
+
+    if (is_null($source_url)) {
+      // The service will return null for a given image size if there is no
+      // image that is large enough to scale down to that size. So we fallback
+      // to original image from the service.
+      $source_url = $source_fallback_url;
+    }
+
+    // Return the path to the cover.
+    $covers[$cover->getId()] = $source_url;
+  }
+
+  $not_found_pids = array_diff(array_keys($entities), array_keys($covers));
+  _ting_covers_ddb_debug_log('Found covers for pids: ' . implode(', ', array_keys($covers)));
+  _ting_covers_ddb_debug_log('No covers found for pids: ' . implode(', ', $not_found_pids));
+
+  // Return all image information.
+  return $covers;
+}
+
+/**
+ * Helper to get configuration for the service.
+ *
+ * @return \CoverService\Configuration
+ *   API client configuration.
+ *
+ * @throws \DingProviderDoesntImplement
+ * @throws \DingProviderNoProvider
+ */
+function _ting_cover_ddb_get_client_config() {
+  $config = Configuration::getDefaultConfiguration();
+
+  // Get access token for the library.
+  $token = _ting_covers_ddb_get_agency_token();
+  $config->setAccessToken($token);
+
+  $config->setHost(_ting_covers_ddb_get_url());
+
+  return $config;
+}
+
+/**
+ * Get access token.
+ *
+ * Return the development agency token if set for this module. Else return the
+ * library's agency token.
+ *
+ * @return string
+ *   Agency access token.
+ *
+ * @throws \DingProviderDoesntImplement
+ * @throws \DingProviderNoProvider
+ */
+function _ting_covers_ddb_get_agency_token() {
+  $token = variable_get('ting_covers_ddb_development_token', FALSE);
+
+  if (FALSE === $token || empty($token)) {
+    $token = ding_provider_invoke('openplatform_token', 'for_agency');
+  }
+
+  return $token;
+}
+
+/**
+ * Log debug information to watchdog.
+ *
+ * @param string $message
+ *   Message to log.
+ * @param array $variables
+ *   Variables in the message.
+ */
+function _ting_covers_ddb_debug_log($message, array $variables = array()) {
+  if (variable_get('ting_covers_ddb_enable_logging', FALSE)) {
+    watchdog('ting_covers_ddb', $message, $variables, WATCHDOG_DEBUG);
+  }
+}
+
+/**
+ * Get the service URL.
+ *
+ * @return string
+ *   The URL for the service if set else default service URL.
+ */
+function _ting_covers_ddb_get_url() {
+  return variable_get('ting_covers_ddb_url', 'http://cover.dandigbib.org');
+}

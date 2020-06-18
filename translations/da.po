@@ -61408,6 +61408,9 @@ msgstr "\"Hvis du ønsker at der skal vises yderligere tekst på den globale \"e
 msgid "\"!sender-name (!sender-url) sent a message using the contact form at \"!form-url."
 msgstr "\"!sender-name (!sender-url) sendte en besked via kontaktformularen på \"!form-url."
 
+msgid "The user's email is !sender-mail."
+msgstr "Brugerens email er !sender-mail."
+
 msgid "\"!sender-name (!sender-url) has sent you a message via your contact \"form (!form-url) at !site-name."
 msgstr "\"!sender-name (!sender-url) har sendt dig en besked via din \"kontaktformular (!form-url) på !site-name."
 
@@ -67751,3 +67754,27 @@ msgstr "Nulstil migreringsstatus"
 #: /system/ajax
 msgid "Enable debug logging"
 msgstr "Aktivér logging af debugging"
+
+#: /node/34
+msgid "<strong>NOTICE</strong>: NEVER insert personal data of any kind in the formular. Read more in our <a href="/persondata">privacy policy</a>."
+msgstr "<strong>BEMÆRK</strong>: Indsæt ALDRIG persondata (fx CPR-nr. eller PIN-kode) i formularen. Læs hvordan dine persondata behandles i <a href="/persondata">bibliotekets persondatapolitik</a>."
+
+#: /ding_availability/holdings/05627591
+msgid "We have 0 copies."
+msgstr "Vi har ingen eksemplarer af dette materiale."
+
+#: /ding_availability/holdings/06373674
+msgid "To make a reservation you need to find an issue below and click a reservation button."
+msgstr "For at reservere skal du finde et eksemplar i nedenstående med en reserverknap."
+
+#: /ding_availability/holdings/45654265,26838525
+msgid "Cannot be reserved."
+msgstr "Kan ikke reserveres."
+
+#: /user/me/status-loans-overdue
+msgid "You have no overdue loans. Remember to check <a href="@url">active loans</a>"
+msgstr "Du har ingen overskredne lån. Husk også at tjekke dine <a href="@url">aktive lån</a>"
+
+#: /user/me/status-loans-overdue
+msgid "You have no active loans. Remember to check <a href="@url">overdue loans</a>"
+msgstr "Du har ingen aktive lån. Husk også at tjekke dine <a href="@url">overskredne lån</a>"

@@ -103,8 +103,8 @@ interface TingObjectInterface {
    *
    * Eg. "børnematerialer"
    *
-   * @return string|FALSE
-   *   The target group, or FALSE if it could not be determined.
+   * @return string|string[]|FALSE
+   *   The target group(s), or FALSE if it could not be determined.
    */
   public function getAudience();
 

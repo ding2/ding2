@@ -166,6 +166,15 @@ function ding_libs_libraries_info() {
         $adapter->composerJson('composer.json');
       },
     ),
+    'ddb-cover-service-php-client' => array(
+      'name' => 'ddb-cover-service-php-client',
+      'vendor url' => 'https://github.com/danskernesdigitalebibliotek/ddb-cover-service-php-client',
+      'download url' => 'https://github.com/danskernesdigitalebibliotek/ddb-cover-service-php-client',
+      'version' => '',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
     'ddb-cover-service-upload-php-client' => array(
       'name' => 'ddb-cover-service-upload-php-client',
       'vendor url' => 'https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload-php-client',

@@ -57,8 +57,8 @@ function connie_openplatform_token_login_url($options = []) {
 function connie_openplatform_token_for_agency() {
   $token = FALSE;
 
-  if (!empty($_SESSION['connie_openplatform_for_agency'])) {
-    $token = $_SESSION['connie_openplatform_for_agency'];
+  if (!empty($_SESSION['connie_openplatform_token_for_agency'])) {
+    $token = $_SESSION['connie_openplatform_token_for_agency'];
   }
 
   return $token;

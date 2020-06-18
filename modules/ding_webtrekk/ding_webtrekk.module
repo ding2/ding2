@@ -73,23 +73,27 @@ function ding_webtrekk_page_alter(&$page) {
   if (user_is_logged_in()) {
     // Note that this separation of logged in users might be problematic if some
     // pages are also cached for authenticated users.
-    if (module_exists('ding_gatewayf') && _ding_gatewayf_is_logged_in_with_gatewayf()) {
-      $params['p_isloggedin'] = 'NemId';
+    if (module_exists('ding_adgangsplatformen') && ding_user_is_logged_in_with_sso()) {
+      $params['p_isloggedin'] = 'Adgangsplatformen';
 
       // This is the landing page for successful user registration with gatewayf.
       // If the registration was successful, the users will be automatically
       // logged in. So by also requiring a logged in user before setting parameter
       // we reduce the chances of false positives. For example, it will prevent
       // random access to the URL from anonymous users, from being tracked.
-      if (strpos(current_path(), DING_GATEWAYF_REGISTRATION_SUCCESS_URL) === 0) {
-        $params['p_usercreate'] = 'NemId';
+      if (strpos(current_path(), DING_REGISTRATION_SUCCESS_URL) === 0) {
+        $params['p_usercreate'] = 'Adgangsplatformen';
       }
     }
     // Fallback to cpr+pin if none the modules we know about was used to log in.
     else {
-      $params['p_isloggedin'] = 'cpr+pinkode';
+      if (ding_user_is_provider_user()) {
+        $params['p_isloggedin'] = 'cpr+pinkode';
+      }
+      else {
+        $params['p_isloggedin'] = 'Administrative user';
+      }
     }
-
   }
 
   // Track ting search results. We take advantage of the fact that ting_search
@@ -270,9 +274,9 @@ function ding_webtrekk_preprocess_node(&$variables) {
       DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_ID => $node->nid,
     ]);
 
-    // We can't use the cacth-all event handler for this, since it relies on
+    // We can't use the catch-all event handler for this, since it relies on
     // being triggered by a user interaction. Instead we send event when
-    // behavoirs are attached in frontend.
+    // behaviours are attached in frontend.
     $event_data = json_encode($event_data);
     $variables['attributes_array']['data-ding-webtrekk-event'] = $event_data;
   }
@@ -284,11 +288,11 @@ function ding_webtrekk_preprocess_node(&$variables) {
 function ding_webtrekk_process_node(&$variables) {
   $node = $variables['node'];
   if ($node->type == 'ding_campaign_plus') {
-    // Add u_navigatedby URL-parameter to campaign URLs, to be able to track
+    // Add u_navigatedby_kp URL-parameter to campaign URLs, to be able to track
     // page views triggered from campaigns. We use a process for this because
     // campaign plus adds the variable in preprocess.
     $url = drupal_parse_url($variables['campaign_url']);
-    $url['query']['u_navigatedby'] = check_plain($node->title);
+    $url['query']['u_navigatedby_kp'] = check_plain($node->title);
     $variables['campaign_url'] = url($url['path'], [
       'query' => $url['query'],
       'fragment' => $url['fragment'],
@@ -324,7 +328,7 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
       if (is_object($loan->entity)) {
         $material_ids[$loan->id] = $loan->entity->getId();
       }
-      // For interlibrary loans the material may not reachable in the well and
+      // For inter library loans the material may not reachable in the well and
       // therefore we can't get a well ID to display. We'll note that it's an
       // ILL and use the title instead.
       else {
@@ -413,7 +417,7 @@ function ding_webtrekk_add_page_parameters(array $parameters = NULL) {
 }
 
 /**
- * Returns all the Webtrekk page parameteres collected during the request.
+ * Returns all the Webtrekk page parameters collected during the request.
  *
  * @see ding_webtrekk_preprocess_html()
  */
@@ -464,6 +468,9 @@ function ding_webtrekk_preprocess_html() {
   // to elements which is problematic to handle on the server.
   drupal_add_js(drupal_get_path('module', 'ding_webtrekk') . '/ding_webtrekk.js', array(
     'scope' => 'footer',
+    // Ensure we have a higher weight that EU cookie compliance script, since
+    // we use the hasAgreed() function from it.
+    'weight' => 1,
   ));
 
   drupal_add_js([
