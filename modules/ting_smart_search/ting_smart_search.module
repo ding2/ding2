@@ -262,7 +262,7 @@ function ting_smart_search_get_boosts($wrapper) {
         'weight' => $weight,
       );
 
-      $weight = (int) $weight/2;
+      $weight = (int) $weight / 2;
     }
   }
 
