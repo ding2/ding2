@@ -29,13 +29,5 @@ function ddb_cover_upload_settings_form(array $form, array $form_state) {
     '#required' => TRUE,
   );
 
-  $default = variable_get('ddb_cover_upload_terms_of_use', array());
-  $form['settings']['ddb_cover_upload_terms_of_use'] = array(
-    '#type' => 'text_format',
-    '#title' => t('Terms of use'),
-    '#default_value' => isset($default['value']) ? $default['value'] : '',
-    '#text_format' => isset($default['format']) ? $default['format'] : 'ding_wysiwyg',
-  );
-
   return system_settings_form($form);
 }

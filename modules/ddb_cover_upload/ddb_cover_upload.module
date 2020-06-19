@@ -124,7 +124,7 @@ function ddb_cover_upload_theme($existing, $type, $theme, $path) {
   return array(
     'ddb_cover_upload_conditions' => array(
       'variables' => array(
-        'copyright_text' => NULL,
+        'uri' => NULL,
       ),
       'template' => 'ddb-cover-upload-conditions',
       'path' => $path . '/templates/',
@@ -159,7 +159,7 @@ function ddb_cover_upload_theme($existing, $type, $theme, $path) {
     ),
     'ddb_cover_upload_meta_copyright' => array(
       'variables' => array(
-        'copyright_text' => NULL,
+        'uri' => NULL,
       ),
       'template' => 'ddb-cover-upload-meta-copyright',
       'path' => $path . '/templates/',

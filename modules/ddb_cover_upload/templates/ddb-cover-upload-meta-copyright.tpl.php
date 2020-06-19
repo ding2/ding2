@@ -4,22 +4,16 @@
  * @file
  * Template for showing meta copyright information.
  *
+ * Note: The danish text here have been decided by the steering committee to be
+ *       hardcoded and should not be changeable in the CMS.
+ *
  * Available variables:
- *   - $copyright_text: HTML of copyright text as added from settings.
+ *   - $uri: to more information about service.
  */
 ?>
 <div>
   <h3><?php print t('Copyright information');?></h3>
-  <p>
-    <?php print t('It is your responsibility to make sure that all rights for use of this image are upheld');?>
-  </p>
-  <p>
-    <div><?php print t('See what rules apply'); ?>:</div>
-    <a href="#" class="opener-modal" data-dialog="dialog-copyright"><?php print t('Conditions for use of cover service'); ?></a>
-  </p>
-</div>
-<div tabindex="-1" role="dialog-copyright" style="display: none;">
-  <div id="dialog-copyright" class="ui-dialog-content ui-widget-content" data-title="<?php print t('Conditions for use of cover service'); ?>">
-    <?php print $copyright_text; ?>
-  </div>
+  <p>FDDF har på vegne af bibliotekerne forhandlet med rettighedshaverne om klarering af rettigheder for mange forskellige materialer herunder bøger, musik, film og e-ressourcer, men der kan også være materialer bibliotekerne endnu ikke må benytte.</p>
+  <p>Det er udelukkende tilladt at uploade billeder, som FDDF har klareret rettighederne til.</p>
+  <p><?php print l('Læs mere om aftalerne og rettighederne til at benytte forsider', $uri, array('external' => TRUE, 'attributes' => array('target' => '_blank'))) ?></p>
 </div>
