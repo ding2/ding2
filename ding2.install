@@ -997,3 +997,27 @@ function ding2_update_7086() {
   module_disable(['ting_covers_addi']);
   module_enable(['ting_covers_ddb']);
 }
+
+/**
+ * Remove Webtrends specific info from cookie page.
+ */
+function ding2_update_7087() {
+  // If we can find the old cookie information page make a backup, so we don't
+  // lose any information added by administrative users.
+  if ($nid = ding2_get_cookie_node_nid()) {
+    $node = node_load($nid);
+    $node->title .= ' (BACKUP)';
+    node_save($node);
+    // Delete "cookies" alias.
+    $path = path_load([
+      'source' => 'node/' . $node->nid,
+      'alias' => 'cookies',
+    ]);
+    if ($path) {
+      path_delete($path['pid']);
+    }
+  }
+  // Set a new generic cookie information page. This time without any specific
+  // information about which analytics tool we use.
+  ding2_set_cookie_page();
+}
