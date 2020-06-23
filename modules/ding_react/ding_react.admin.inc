@@ -20,7 +20,7 @@ function ding_react_admin_settings_form($form, &$form_state) {
     '#description' => t('Url to the Material List service instance to use.'),
     '#default_value' => ding_react_material_list_url(),
     '#required' => TRUE,
-    '#element_validate' => [ 'ding_react_element_validate_url' ],
+    '#element_validate' => ['ding_react_element_validate_url'],
   ];
 
   $form['services']['ding_react_follow_searches_url'] = [
@@ -29,7 +29,7 @@ function ding_react_admin_settings_form($form, &$form_state) {
     '#description' => t('Url to the Follow Searches service instance to use.'),
     '#default_value' => ding_react_follow_searches_url(),
     '#required' => TRUE,
-    '#element_validate' => [ 'ding_react_element_validate_url' ],
+    '#element_validate' => ['ding_react_element_validate_url'],
   ];
 
   $form['services']['ding_react_cover_service_url'] = [
@@ -38,7 +38,7 @@ function ding_react_admin_settings_form($form, &$form_state) {
     '#description' => t('Url to the Cover Service instance to use.'),
     '#default_value' => ding_react_cover_service_url(),
     '#required' => TRUE,
-    '#element_validate' => [ 'ding_react_element_validate_url' ],
+    '#element_validate' => ['ding_react_element_validate_url'],
   ];
 
   $form['migration'] = [
