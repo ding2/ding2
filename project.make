@@ -640,10 +640,10 @@ libraries[ddb-cover-service-php-client][download][url] = https://github.com/dans
 libraries[ddb-cover-service-php-client][directory_name] = "ddb-cover-service-php-client"
 
 ; CoverService upload client.
-libraries[ddb-cover-service-upload-client][download][type] = "get"
-libraries[ddb-cover-service-upload-client][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload-php-client/archive/1.0.1.tar.gz
-libraries[ddb-cover-service-upload-client][directory_name] = "ddb-cover-service-upload-client"
-libraries[ddb-cover-service-upload-client][destination] = "libraries"
+libraries[ddb-cover-service-upload-php-client][download][type] = "get"
+libraries[ddb-cover-service-upload-php-client][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload-php-client/archive/1.0.1.tar.gz
+libraries[ddb-cover-service-upload-php-client][directory_name] = "ddb-cover-service-upload-php-client"
+libraries[ddb-cover-service-upload-php-client][destination] = "libraries"
 
 ; Libraries used by CoverService upload.
 libraries[tui-color-picker][download][type] = "get"
