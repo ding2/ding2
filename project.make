@@ -648,7 +648,7 @@ libraries[ddb-cover-service-upload-client][destination] = "libraries"
 ; Libraries used by CoverService upload.
 libraries[tui-color-picker][download][type] = "get"
 libraries[tui-color-picker][download][url] = https://github.com/nhn/tui.color-picker/archive/v2.2.6.tar.gz
-libraries[tui-color-picker][directory_name] = "ui-color-picker"
+libraries[tui-color-picker][directory_name] = "tui-color-picker"
 libraries[tui-color-picker][destination] = "libraries"
 
 ; Libraries used by CoverService upload.

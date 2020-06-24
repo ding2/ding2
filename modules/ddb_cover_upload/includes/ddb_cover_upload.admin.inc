@@ -112,9 +112,7 @@ function ddb_cover_upload_form(array $form, array &$form_state) {
       $path . '/css/ddb_cover_upload.admin.css',
     ),
     'js' => array(),
-    'library' => array(
-      array('system', 'ui.dialog'),
-    ),
+    'library' => array(),
   );
 
   // Call the function named in $form_state['step_information'] to get the
@@ -139,18 +137,10 @@ function ddb_cover_upload_form(array $form, array &$form_state) {
  *   Theme exception error.
  */
 function ddb_cover_upload_conditions(array $form, array &$form_state) {
-  $no_terms_set = t('[Contact DDB for copyright information and change module settings]');
-  $terms = variable_get('ddb_cover_upload_terms_of_use', array('value' => 'Not configured yet!'))['value'];
-
+  $uri = variable_get('ddb_cover_upload_terms_of_use_uri', 'https://detdigitalefolkebibliotek.dk/cover/brugsbetingelser');
   $form['ddb_cover_upload_conditions'] = array(
     '#theme' => 'ddb_cover_upload_conditions',
-    '#copyright_text' => empty($terms) ? $no_terms_set : $terms,
-  );
-
-  $form['ddb_cover_upload_confirm'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('I accept conditions'),
-    '#required' => TRUE,
+    '#uri' => $uri,
   );
 
   return $form;
@@ -353,12 +343,6 @@ function ddb_cover_upload_image_upload(array $form, array &$form_state) {
  *   Theme exception error.
  */
 function ddb_cover_upload_meta(array $form, array &$form_state) {
-  // Add javascript to open dialog with information about usage of the service.
-  $path = drupal_get_path('module', 'ddb_cover_upload');
-  $form['#attached']['js'][$path . '/js/ddb_cover_upload_dialog.admin.js'] = array(
-    'type' => 'file',
-  );
-
   $form['ddb_cover_upload_meta'] = array(
     '#type' => 'container',
     '#attributes' => array(
@@ -425,11 +409,10 @@ function ddb_cover_upload_meta(array $form, array &$form_state) {
     '#maxlength' => 128,
   );
 
-  $no_terms_set = t('[Contact DDB for copyright information and change module settings]');
-  $terms = variable_get('ddb_cover_upload_terms_of_use')['value'];
+  $uri = variable_get('ddb_cover_upload_terms_of_use_uri', 'https://detdigitalefolkebibliotek.dk/cover/brugsbetingelser');
   $form['ddb_cover_upload_meta']['right']['ddb_cover_upload_meta_copyright'] = array(
     '#theme' => 'ddb_cover_upload_meta_copyright',
-    '#copyright_text' => empty($terms) ? $no_terms_set : $terms,
+    '#uri' => $uri,
   );
 
   return $form;
@@ -596,8 +579,8 @@ function _ddb_cover_upload_determine_step(array $query, array &$form_state) {
 function _ddb_cover_upload_is_conditions_accepted() {
   global $user;
 
-  return isset($user->data['ddb_cover_upload_conditions_accepted']) ?
-    $user->data['ddb_cover_upload_conditions_accepted'] :
+  return isset($user->data['ddb_cover_upload_conditions_seen']) ?
+    $user->data['ddb_cover_upload_conditions_seen'] :
     FALSE;
 }
 
@@ -614,7 +597,7 @@ function _ddb_cover_upload_save_conditions_acceptance($value = TRUE) {
   global $user;
 
   try {
-    $user->data['ddb_cover_upload_conditions_accepted'] = TRUE;
+    $user->data['ddb_cover_upload_conditions_seen'] = TRUE;
     user_save($user);
   }
   catch (Exception $exception) {
