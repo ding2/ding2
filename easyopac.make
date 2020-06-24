@@ -331,7 +331,7 @@ projects[easyddb_wayfinder][type]             = "module"
 projects[easyddb_wayfinder][subdir]           = ""
 projects[easyddb_wayfinder][download][type]   = "git"
 projects[easyddb_wayfinder][download][url]    = "git@github.com:easySuite/easyddb_wayfinder.git"
-projects[easyddb_wayfinder][download][tag]    = "7.x-5.0.0"
+projects[easyddb_wayfinder][download][tag]    = "7.x-6.0.2"
 ;projects[easyddb_wayfinder][download][branch] = "development"
 
 projects[easyddb_zerohit_redirect][type]             = "module"
