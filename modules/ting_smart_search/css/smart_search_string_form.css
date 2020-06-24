@@ -2,7 +2,7 @@
   clear: both;
 }
 
-#eck-entity-form-edit-ting-type-smart-search-string {
+.pane-smart-search-form form {
   background-color: white;
   padding: 15px;
 }
