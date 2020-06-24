@@ -53,21 +53,6 @@ function ting_smart_search_admin_form($form, &$form_state) {
       '#description' => t('The path to search data files, fetches stats on popular search terms'),
   );
 
-  $form['well_index_settings'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Well index'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-  );
-
-  $form['well_index_settings']['ting_smart_search_well_index_records'] = array(
-      '#title' => t('Well index records'),
-      '#type' => 'textarea',
-      '#default_value' => variable_get('ting_smart_search_well_index_records', "term.acSource\nterm.creator\nterm.date\nterm.language\nterm.type\nterm.identifier\nterm.subject\nfacet.dk5"),
-      '#required' => FALSE,
-      '#description' => t('Enter each well-index on a new line.'),
-  );
-
   $form['export_smartsearch'] = array(
       '#type' => 'fieldset',
       '#title' => t('Export Smart Search Records'),
