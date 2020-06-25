@@ -198,3 +198,11 @@
 #edit-field-sss-import-update {
   display: none;
 }
+
+#field-custom-boost-values-p-add-more-wrapper .form-item label {
+  display: none;
+}
+
+#field-custom-boost-values-p-add-more-wrapper .form-item em {
+  display: none;
+}
