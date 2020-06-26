@@ -59,6 +59,11 @@ function ting_smart_search_admin_form($form, &$form_state) {
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
   );
+  $form['export_smartsearch']['submit_to_list'] = array(
+      '#value' => t('View local smart search strings'),
+      '#type' => 'submit',
+      '#submit' => array('smart_search_string_to_list'),
+  );
   $form['export_smartsearch']['submit_export'] = array(
       '#value' => t('Export Smart Search records'),
       '#type' => 'submit',
