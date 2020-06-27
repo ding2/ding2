@@ -12,79 +12,79 @@ function ting_smart_search_admin_form($form, &$form_state) {
   $form = array();
 
   $form['import_automatic_data'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Automatic smart search import settings'),
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
+    '#type' => 'fieldset',
+    '#title' => t('Automatic smart search import settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $form['import_automatic_data']['ting_smart_search_automatic_active'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Activate automatic smart search'),
-      '#default_value' => variable_get('ting_smart_search_automatic_active', TRUE),
-      '#description' => t('Fetch data for popular terms'),
+    '#type' => 'checkbox',
+    '#title' => t('Activate automatic smart search'),
+    '#default_value' => variable_get('ting_smart_search_automatic_active', TRUE),
+    '#description' => t('Fetch data for popular terms'),
   );
 
   $form['import_automatic_data']['ting_smart_search_master_server'] = array(
-      '#title' => t('Master server for automatic smart search'),
-      '#type' => 'textfield',
-      '#default_value' => variable_get('ting_smart_search_master_server', 'https://staging.randersbib.dk/data/autodata.txt'),
-      '#required' => FALSE,
-      '#states' => array(
-          'visible' => array(
-              ':input[name="ting_smart_search_automatic_active"]' => array('checked' => TRUE),
-          ),
+    '#title' => t('Master server for automatic smart search'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('ting_smart_search_master_server', 'https://staging.randersbib.dk/data/autodata.txt'),
+    '#required' => FALSE,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="ting_smart_search_automatic_active"]' => array('checked' => TRUE),
       ),
-      '#description' => t('The path to auto data file.'),
+    ),
+    '#description' => t('The path to auto data file.'),
   );
 
   $form['import_webtrekk_stats'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Webtrekk statistics'),
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
+    '#type' => 'fieldset',
+    '#title' => t('Webtrekk statistics'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $form['import_webtrekk_stats']['ting_smart_search_webtrekk_server_feed'] = array(
-      '#title' => t('Webtrekk statistics feed'),
-      '#type' => 'textfield',
-      '#default_value' => variable_get('ting_smart_search_webtrekk_server_feed', 'https://staging.randersbib.dk/data/searchdata.csv'),
-      '#required' => FALSE,
-      '#description' => t('The path to search data files, fetches stats on popular search terms'),
+    '#title' => t('Webtrekk statistics feed'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('ting_smart_search_webtrekk_server_feed', 'https://staging.randersbib.dk/data/searchdata.csv'),
+    '#required' => FALSE,
+    '#description' => t('The path to search data files, fetches stats on popular search terms'),
   );
 
   $form['export_smartsearch'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Export Smart Search Records'),
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
+    '#type' => 'fieldset',
+    '#title' => t('Export Smart Search Records'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
   $form['export_smartsearch']['submit_to_list'] = array(
-      '#value' => t('View local Smart Search records'),
-      '#type' => 'submit',
-      '#submit' => array('smart_search_string_to_list'),
+    '#value' => t('View local Smart Search records'),
+    '#type' => 'submit',
+    '#submit' => array('smart_search_string_to_list'),
   );
   $form['export_smartsearch']['submit_export'] = array(
-      '#value' => t('Export Smart Search records'),
-      '#type' => 'submit',
-      '#submit' => array('ting_smart_search_export_form_submit'),
+    '#value' => t('Export Smart Search records'),
+    '#type' => 'submit',
+    '#submit' => array('ting_smart_search_export_form_submit'),
   );
   $form['import_smartsearch'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Import Smart Search records'),
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
+    '#type' => 'fieldset',
+    '#title' => t('Import Smart Search records'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
   $form['import_smartsearch']['ting_smart_search_import_file'] = array(
-      '#title' => t('Upload Smart Search Records'),
-      '#type' => 'file',
+    '#title' => t('Upload Smart Search Records'),
+    '#type' => 'file',
   );
 
   $form['import_smartsearch']['submit_import'] = array(
-      '#value' => t('Import smart search records'),
-      '#type' => 'submit',
-      '#validate' => array('ting_smart_search_import_form_validate'),
-      '#submit' => array('ting_smart_search_import_form_submit'),
+    '#value' => t('Import smart search records'),
+    '#type' => 'submit',
+    '#validate' => array('ting_smart_search_import_form_validate'),
+    '#submit' => array('ting_smart_search_import_form_submit'),
   );
   return system_settings_form($form);
 }
