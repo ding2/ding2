@@ -127,9 +127,9 @@ function ting_smart_search_export_form_submit($form, &$form_state) {
 
     $data = json_encode($data);
     $exportfile = file_unmanaged_save_data($data, $destination);
-    $expf_arr = explode('/', $exportfile);
-    $exportfile = file_create_url('public://') . array_pop($expf_arr);
-    $form_state['redirect'] = $exportfile;
+    
+    $headers = array('Content-Disposition' => 'attachment; filename="' . $exportfile . '"');
+    file_transfer($exportfile, $headers);
   }
 }
 
