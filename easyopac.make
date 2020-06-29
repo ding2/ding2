@@ -352,7 +352,7 @@ projects[easyopac_external_videos][type]             = "module"
 projects[easyopac_external_videos][subdir]           = ""
 projects[easyopac_external_videos][download][type]   = "git"
 projects[easyopac_external_videos][download][url]    = "git@github.com:easySuite/easyopac_external_videos.git"
-;projects[easyopac_external_videos][download][tag]    = "
+;projects[easyopac_external_videos][download][tag]    = ""
 projects[easyopac_external_videos][download][branch] = "development"
 
 projects[easyopac_abstracts_override][type]             = "module"
