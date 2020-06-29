@@ -2,7 +2,7 @@
   clear: both;
 }
 
-#eck-entity-form-edit-ting-type-smart-search-string {
+.pane-smart-search-form form {
   background-color: white;
   padding: 15px;
 }
@@ -196,5 +196,13 @@
 }
 
 #edit-field-sss-import-update {
+  display: none;
+}
+
+#field-custom-boost-values-p-add-more-wrapper .form-item label {
+  display: none;
+}
+
+#field-custom-boost-values-p-add-more-wrapper .form-item em {
   display: none;
 }

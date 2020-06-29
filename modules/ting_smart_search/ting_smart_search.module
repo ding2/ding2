@@ -77,7 +77,7 @@ function ting_smart_search_cron() {
   $interval_feed = variable_get('ting_smart_search_interval_feed', 604800);
   if (REQUEST_TIME - $last_run_feed > $interval_feed) {
     ting_smart_search_get_searchdata_from_webtrekk();
-    watchdog('ting_smart_search', 'imported search data: %time', array('%time' => REQUEST_TIME), 'WATCHDOG_INFO');
+    watchdog('ting_smart_search', 'imported search data: %time', array('%time' => REQUEST_TIME), WATCHDOG_INFO);
     variable_set('ting_smart_search_last_cron_feed', REQUEST_TIME);
   }
 }
@@ -274,11 +274,17 @@ function ting_smart_search_get_boosts($wrapper) {
 
     $cb_wrapper = entity_metadata_wrapper('paragraphs_item', $cb_material);
 
-    $boosts[] = array(
-      'field_name' => $cb_wrapper->field_field_name->value(),
-      'field_value' => $cb_wrapper->field_field_boost_value->value(),
-      'weight' => $cb_wrapper->field_field_boost_weight->value(),
-    );
+    $field_name = $cb_wrapper->field_field_name->value();
+    $field_value = $cb_wrapper->field_field_boost_value->value();
+    $field_weight = $cb_wrapper->field_field_boost_weight->value();
+    
+    if (!empty($field_name) && !empty($field_value) && !empty($field_weight)) {
+      $boosts[] = array(
+        'field_name' => $field_name,
+        'field_value' => $field_value,
+        'weight' => $field_weight,
+      );
+    }
   }
 
   return $boosts;
