@@ -28,6 +28,8 @@ function ding_app_variables_menu() {
  *   List of all variables to the output.
  */
 function ding_app_variables_display() {
+  $carousel_configs[] = _ding_app_variables_get_carousel_configs();
+
   $variables = [
     'opensearch_search_profile',
     'ting_search_results_per_page',
@@ -42,12 +44,10 @@ function ding_app_variables_display() {
   foreach ($variables as $variable) {
     $variables_configs[$variable] = variable_get($variable, '');
   }
-  $carousels = _ding_app_variables_get_carousel_configs();
+
   return [
     'variables' => $variables_configs,
-    'carousels' => [
-      $carousels
-    ],
+    'carousels' => $carousel_configs,
   ];
 }
 
@@ -61,19 +61,22 @@ function _ding_app_variables_get_carousel_configs() {
   $carousels = [];
   $query = db_select('panels_pane', 'pp');
   $query->join('page_manager_handlers', 'pmh', 'pp.did = pmh.did');
-  $panes = $query->fields('pp', ['configuration', 'pid'])
-    ->fields('pmh', ['name'])
+  $panes = $query
+    ->fields('pp', ['type', 'configuration', 'uuid'])
+    ->fields('pmh', ['name', 'subtask'])
     ->condition('pp.type', 'carousel')
     ->condition('pp.subtype', 'carousel')
     ->condition('pp.shown', 1)
     ->execute();
 
   foreach ($panes as $pane) {
-    $name = "{$pane->name}-{$pane->pid}";
-    if (strpos($pane->name, 'frontpage') !== FALSE) {
-      $name = 'carousel';
-    }
-    $carousels[][$name] = unserialize($pane->configuration);
+    // Identify front-page carousels as 'carousel' so mobile app is aware of them.
+    // Otherwise pick whatever unique combination,
+    $key = ('ding_frontpage' === $pane->subtask) ? 'carousel' : $pane->name . '_' . $pane->type;
+    $carousels[] = [
+      $key => unserialize($pane->configuration),
+      'uuid' => $pane->uuid,
+    ];
   }
 
   return $carousels;
