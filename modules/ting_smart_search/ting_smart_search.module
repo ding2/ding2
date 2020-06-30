@@ -194,7 +194,7 @@ function ting_smart_search_auto(array $smart_search_userdefined_boosts, $query) 
   if (isset($record) && isset($record->materialids)) {
     // We set a huge boost value. Necassery in order to ensure we get the order
     // of materials we want.
-    $weight = 10000;
+    $weight = 100000;
     $first_fausts_for_query = explode(',', $record->materialids);
     foreach ($first_fausts_for_query as $faust) {
       $smart_search_userdefined_boosts[] = array(
@@ -202,7 +202,7 @@ function ting_smart_search_auto(array $smart_search_userdefined_boosts, $query) 
         'fieldValue' => urldecode($faust),
         'weight' => $weight,
       );
-      $weight = $weight - 1000;
+      $weight = (int) $weight / 2;
     }
   }
   return $smart_search_userdefined_boosts;
