@@ -16,8 +16,7 @@ try {
   $data = array();
   while (($line = fgetcsv($file, 1000, ";")) !== FALSE) {
     if (!(strpos($line[1], 'ereolen') !== false)) {
-      // Needs to be done. The incoming file is not UTF-8.
-      $search = mb_convert_encoding($line[0], 'UTF-8', 'ISO-8859-15');;
+      $search = $line[0];
       $clicked_page = $line[1];
       $hits = $line[2];
       
@@ -41,8 +40,14 @@ try {
   foreach ($data as $search => $objects) {
     arsort($objects);
     reset($objects);
-    $output[$search] = array_slice($objects, 0, 5);
+    $slice = array_slice($objects, 0, 5);
+    foreach ($slice as $faust => $hits) {
+      if ($hits >= 2) {
+        $output[$search][$faust] = $hits;
+      }
+    }
   }
+
   $serialized_output = serialize($output);
   file_put_contents($output_file, $serialized_output);
 
