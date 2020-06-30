@@ -72,9 +72,7 @@ function ting_smart_search_admin_form($form, &$form_state) {
   $form['export_smartsearch']['help_text'] = array(
     '#markup' => '<p>' . t('Filter on active in order to see your changes') . '</p>',
     '#type' => 'markup',
-
-  );
-  
+  );  
   $form['import_smartsearch'] = array(
     '#type' => 'fieldset',
     '#title' => t('Import Smart Search records'),
