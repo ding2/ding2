@@ -833,6 +833,7 @@ function ding2_set_eu_cookie_compliance_settings() {
   $eu_cookie_compliance = array_merge($eu_cookie_compliance, [
     'method' => 'opt_in',
     'show_disagree_button' => 1,
+    'popup_enabled' => TRUE,
     'popup_info' => [
       'value' => '<h2>Hjælp os med at forbedre oplevelsen på hjemmesiden ved at acceptere cookies.</h2>',
       'format' => 'ding_wysiwyg',
@@ -853,6 +854,9 @@ function ding2_set_eu_cookie_compliance_settings() {
     'popup_delay' => 1000,
     'exclude_admin_pages' => TRUE,
     'consent_storage_method' => 'provider',
+    // Use the name of the latest ding2 update hook to change the provider
+    // settings to ensure that users have to agree again.
+    'cookie_name' => 'cookie-agreed-7083',
   ]);
   i18n_variable_set('eu_cookie_compliance', $eu_cookie_compliance, 'da');
 }
