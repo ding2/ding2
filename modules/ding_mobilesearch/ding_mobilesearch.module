@@ -414,30 +414,6 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           ),
         );
       }
-
-      // TODO: Separate method to fill in the mapping.
-      $field_name = 'field_ding_event_status_label';
-      $items = field_get_items('node', $node, $field_name);
-      if (is_array($items) && !empty($items)) {
-        $item = reset($items);
-        $mapping['fields'][$field_name] = [
-          'name' => 'Event status label',
-          'value' => $item['value'],
-          'attr' => [],
-        ];
-      }
-
-      $field_name = 'field_ding_event_status_color';
-      $items = field_get_items('node', $node, $field_name);
-      if (is_array($items) && !empty($items)) {
-        $item = reset($items);
-        $mapping['fields'][$field_name] = [
-          'name' => 'Event status label',
-          'value' => $item['value'],
-          'attr' => [],
-        ];
-      }
-
       $tag_field = 'field_ding_event_tags';
       break;
 
