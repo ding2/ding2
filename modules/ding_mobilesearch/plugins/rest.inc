@@ -55,6 +55,9 @@ function ding_mobilesearch_rest_service_call($method, $body = array()) {
     );
     return NULL;
   }
+
+  $response = NULL;
+
   try {
     $instance->$method($request);
     $response = $instance->getResponse();
@@ -64,14 +67,22 @@ function ding_mobilesearch_rest_service_call($method, $body = array()) {
   }
 
   if ($debug) {
+    // Truncate long data so it doesn't clutter the dblog.
+    array_walk_recursive($request, function(&$element) {
+      if (drupal_strlen($element) > 512) {
+        $element = truncate_utf8($element, 512, TRUE, TRUE);
+      }
+    });
+
     watchdog(
       'rest_plugin',
-      'Method: <strong>!method</strong>. Request: <pre>!request</pre>Response: <pre>!response</pre>',
-      array(
+      '<strong>Method:</strong> !method<br /> <strong>Endpoint:</strong> !endpoint<br /><strong>Response:</strong><pre>!response</pre><strong>Payload:</strong><pre>!request</pre>',
+      [
+        '!endpoint' => $service_url,
         '!method' => $method,
         '!request' => var_export($request, TRUE),
         '!response' => var_export($response, TRUE),
-      ),
+      ],
       WATCHDOG_DEBUG
     );
   }
