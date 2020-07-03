@@ -65,7 +65,7 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
       // We cannot use url() here as it will encode the colon in the placeholder.
       'search-url' => '/search/ting/:query?sort=:sort',
       'material-url' => '/ting/object/:pid',
-      'cover-service-url' => 'https://cover.dandigbib.org/api',
+      'cover-service-url' => ding_react_cover_service_url(),
       'title-text' => t('Related materials'),
       'search-text' => t('Show search result for related materials'),
     ];
