@@ -1035,3 +1035,10 @@ function ding2_update_7088() {
 function ding2_update_7089() {
   ding2_translation_update();
 }
+
+/**
+ * Update cookie compliance settings.
+ */
+function ding2_update_7090() {
+  ding2_set_eu_cookie_compliance_settings();
+}
