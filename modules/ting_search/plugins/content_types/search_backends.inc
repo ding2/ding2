@@ -147,4 +147,3 @@ function ting_search_backend_engines_form($form, &$form_state, $options, $defaul
 function ting_search_backend_engines_content_type_edit_form($form, &$form_state) {
   return $form;
 }
-
