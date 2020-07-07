@@ -67852,3 +67852,7 @@ msgstr "Du har ingen overskredne lån. Husk også at tjekke dine <a href="@url">
 #: /user/me/status-loans-overdue
 msgid "You have no active loans. Remember to check <a href="@url">overdue loans</a>"
 msgstr "Du har ingen aktive lån. Husk også at tjekke dine <a href="@url">overskredne lån</a>"
+
+#: /ting/object/870970-basis%3A27073301
+msgid "Show search result for related materials"
+msgstr "Vis søgeresultat for relaterede materialer"
