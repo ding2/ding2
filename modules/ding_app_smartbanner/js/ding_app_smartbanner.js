@@ -19,19 +19,21 @@
           }
         });
 
-        new SmartBanner({
-          daysHidden: Drupal.settings.ding_app_smartbanner.days_hidden,   // days to hide banner after close button is clicked (defaults to 15)
-          daysReminder: Drupal.settings.ding_app_smartbanner.days_reminder, // days to hide banner after "VIEW" button is clicked (defaults to 90)
-          appStoreLanguage: Drupal.settings.ding_app_smartbanner.app_store_language, // language code for the App Store (defaults to user's browser language)
-          title: Drupal.settings.ding_app_smartbanner.app_title,
-          author: Drupal.settings.ding_app_smartbanner.app_author,
-          button: Drupal.settings.ding_app_smartbanner.button_name,
-          store: store,
-          price: price,
-          icon: ding_app_smartbanner.app_icon.icon_path
-        });
+        var ua = navigator.userAgent;
+        if (ua.match(/bibliofil/gi) === null) {
+          new SmartBanner({
+            daysHidden: Drupal.settings.ding_app_smartbanner.days_hidden,   // days to hide banner after close button is clicked (defaults to 15)
+            daysReminder: Drupal.settings.ding_app_smartbanner.days_reminder, // days to hide banner after "VIEW" button is clicked (defaults to 90)
+            appStoreLanguage: Drupal.settings.ding_app_smartbanner.app_store_language, // language code for the App Store (defaults to user's browser language)
+            title: Drupal.settings.ding_app_smartbanner.app_title,
+            author: Drupal.settings.ding_app_smartbanner.app_author,
+            button: Drupal.settings.ding_app_smartbanner.button_name,
+            store: store,
+            price: price,
+            icon: ding_app_smartbanner.app_icon.icon_path
+          });
+        }
       }
-
     }
   };
 })(jQuery);
