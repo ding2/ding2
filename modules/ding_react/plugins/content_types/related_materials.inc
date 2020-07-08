@@ -5,6 +5,8 @@
  * Add the checklist app content type.
  */
 
+use Ting\TingObjectInterface;
+
 $plugin = [
   'title' => t('Related materials app'),
   'single' => TRUE,
@@ -41,7 +43,9 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
   // Contexts are in prioritized order so get the first which yielded an object.
   $object = array_shift($ting_objects);
 
-  if ($object) {
+  // Only show related materials if the object has subjects. If not then there
+  // is not enough data to display meaningful results.
+  if ($object instanceof TingObjectInterface && !empty($object->getSubjects())) {
     // Support setting allowed sources through a variable in case our hard-coded
     // list is not sufficient. NB: There is currently no admin UI for setting
     // this.
