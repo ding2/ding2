@@ -118,12 +118,28 @@
   }
 
   &__list {
-    justify-content: space-between;
+    justify-content: flex-start;
+
+    li {
+      margin: 16px 16px 0 0;
+
+      // Default is a 5x2 display.
+      &:nth-child(5n) {
+        margin-right: 0;
+      }
+
+      // Mobile is a 5x2 display.
+      @include media($mobile) {
+        &:nth-child(even) {
+          margin-right: 0;
+        }
+      }
+    }
   }
 }
 
 .ddb-related-material {
-  margin: 16px 0 0;
+  margin: 0;
 
   // Sizing covers where we do not have a guaranteed height or width is tricky.
   // Lock in some sensible values at known breakpoints.
