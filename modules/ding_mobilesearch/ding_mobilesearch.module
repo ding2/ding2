@@ -421,7 +421,9 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         'attr' => array(),
       );
       foreach ($items as $item) {
-        $mapping['fields'][$tag_field]['value'][] = $item['name'];
+        if ($term = taxonomy_term_load($item['tid'])) {
+          $mapping['fields'][$tag_field]['value'][] = $term->name;
+        }
       }
     }
   }
