@@ -90,7 +90,7 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
  */
 function ding_react_related_materials_format_strings(array $strings) {
   $formatted_strings = array_map('ding_react_related_materials_format_string', $strings);
-  return implode(" ", $formatted_strings);
+  return implode(",", $formatted_strings);
 }
 
 /**
@@ -103,11 +103,11 @@ function ding_react_related_materials_format_strings(array $strings) {
  *   The formatted string value.
  */
 function ding_react_related_materials_format_string($string) {
-  // Remove , from strings. OpenPlatform currently fails with the error
-  // "q is not of a type(s) string" if we do not do this. This means that we
-  // will probably not get a match on this exact string but that is preferable
-  // to failing with 0 results.
-  $string = str_replace(',', '', $string);
-  // Handle multiple words as a phrase.
-  return (strpos($string, ' ') !== FALSE) ? "'$string'" : $string;
+  // Remove , from strings. React components can handle , even though it is also
+  // used as a separator by replacing with \, but OpenPlatform does not seem to
+  // support , in values at the moment. It fails with the error "q is not of a
+  // type(s) string" if we include , so instead we just remove it.
+  // We will probably not get a match on this exact string but that is
+  // preferable to failing with 0 results.
+  return str_replace(',', '', $string);
 }
