@@ -574,3 +574,52 @@ function copyfile_chunked($infile, $outfile) {
   fclose($o_handle);
   return $cnt;
 }
+
+/**
+ * Wrapper around PHP's levenshtein that handles multibyte encodings correctly.
+ *
+ * PHP's levenshtein function processes each byte of the input string
+ * individually which can give incorrect results in some cases. E.g. the
+ * distance from "ol" to "øl" would be 2.
+ *
+ * This wrapper uses an approach where non-ascii characters are remapped to
+ * the range [128-255] in order of appearance. Thus it supports up to 128
+ * different multibyte code points max over the whole set of strings used in the
+ * request and sharing this encoding.
+ *
+ * Based on: https://stackoverflow.com/a/26271822.
+ */
+function ting_subsearch_suggestions_levenshtein($str1, $str2) {
+  $str1 = _ting_subsearch_suggestions_utf8_to_ascii($str1);
+  $str2 = _ting_subsearch_suggestions_utf8_to_ascii($str2);
+  return levenshtein($str1, $str2);
+}
+
+/**
+ * Convert an UTF-8 encoded string to a single-byte string for levenshtein.
+ */
+function _ting_subsearch_suggestions_utf8_to_ascii($str) {
+  $ascii_strings = &drupal_static(__FUNCTION__);
+  // Since we remember string we need to ensure we get consistent mapping
+  // between calls in a request.
+  $map = &drupal_static(__FUNCTION__);
+
+  if (!isset($ascii_strings[$str])) {
+    // find all multibyte characters (cf. utf-8 encoding specs)
+    $matches = array();
+    if (!preg_match_all('/[\xC0-\xF7][\x80-\xBF]+/', $str, $matches)) {
+      return $str; // plain ascii string
+    }
+
+    // update the encoding map with the characters not already met
+    foreach ($matches[0] as $mbc)
+      if (!isset($map[$mbc])) {
+        $map[$mbc] = chr(128 + count($map));
+      }
+
+    // finally remap non-ascii characters
+    $ascii_strings[$str] = strtr($str, $map);
+  }
+
+  return $ascii_strings[$str];
+}
