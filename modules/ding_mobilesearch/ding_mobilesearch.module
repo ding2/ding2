@@ -241,6 +241,7 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           foreach ($items as $delta => $row) {
             $file = file_load($row['fid']);
             $mapping['fields'][$machine_name]['value'][$delta] = base64_encode(file_get_contents($file->uri));
+            // Send the mimetype so service decodes this into an image file.
             $mapping['fields'][$machine_name]['attr'][$delta] = $file->filemime;
           }
         }

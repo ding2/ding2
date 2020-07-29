@@ -181,8 +181,9 @@ function ding_mobilesearch_rest_config_form($form, &$form_state) {
  * Validate handler for REST plugin configuration form.
  */
 function ding_mobilesearch_rest_config_form_validate($form, &$form_state) {
-  $values = $form_state['values'];
-  $test_result = ding_mobilesearch_rest_test_service($values);
+  $input = $form_state['input'];
+
+  $test_result = ding_mobilesearch_rest_test_service($input['mobilesearch_rest_url']);
   if (!$test_result) {
     form_set_error('mobilesearch_rest_url', t('Problem connecting to the service. Please check your settings.'));
   }
@@ -215,12 +216,7 @@ function ding_mobilesearch_rest_node_submit($form, &$form_state) {
     if (isset($flags['push_to_mongo'])) {
       $node = $form_state['node'];
 
-      $config = array(
-        'mobilesearch_rest_url' => variable_get('mobilesearch_rest_url', ''),
-        'mobilesearch_rest_agency_id' => variable_get('mobilesearch_rest_agency_id', NULL),
-        'mobilesearch_rest_key' => variable_get('mobilesearch_rest_key', NULL),
-      );
-      $test_result = ding_mobilesearch_rest_test_service($config);
+      $test_result = ding_mobilesearch_rest_test_service(variable_get('mobilesearch_rest_url'));
       if (!$test_result) {
         drupal_set_message(t('Problem connecting to the REST service. We have unchecked your "Push to Mongo" flag. Please check your !settings.',
           array('!settings' => l(t('settings'), 'admin/config/ding/mobilesearch/content-export/plugin'))), 'warning');
@@ -324,49 +320,11 @@ function ding_mobilesearch_rest_exec($op, $entity_type, $entity) {
 /**
  * Test service connection.
  *
- * @param array $config
- *   An array with the following keys:
- *   - mobilesearch_rest_url: Url to REST service.
- *   - mobilesearch_rest_agency_id: Agency ID.
- *   - mobilesearch_rest_key: Service key.
- *
  * @return bool
  *   Returns status of response.
  */
-function ding_mobilesearch_rest_test_service($config = array()) {
-  $service_url = $config['mobilesearch_rest_url'];
-  $agency_id = $config['mobilesearch_rest_agency_id'];
-  $key = $config['mobilesearch_rest_key'];
+function ding_mobilesearch_rest_test_service($url) {
+  $result = drupal_http_request($url);
 
-  $instance = new \NationalStorageComponent\NationalStorage($service_url);
-
-  $body = array(
-    'nid' => -1,
-    'agency' => $agency_id,
-    'type' => 'ding_news',
-  );
-  $request = array(
-    'credentials' => array(
-      'agencyId' => $agency_id,
-      'key' => sha1($agency_id . $key),
-    ),
-    'body' => $body,
-  );
-  $method = 'addContent';
-  if (!method_exists($instance, $method)) {
-    return FALSE;
-  }
-  try {
-    // @todo Should write special method for testing the service.
-    // Current way (add test record in Content and then delete it) is excess.
-    $instance->$method($request);
-    $response = $instance->getResponse();
-    $method = 'deleteContent';
-    $instance->$method($request);
-  }
-  catch (Exception $e) {
-    watchdog_exception('rest_service_test', $e);
-    return FALSE;
-  }
-  return $response['status'];
+  return 200 == $result->code;
 }
