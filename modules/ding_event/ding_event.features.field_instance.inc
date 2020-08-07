@@ -936,8 +936,6 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'module' => 'text',
         'settings' => array(),
-        'type' => 'number_integer',
-        'weight' => 8,
         'type' => 'text_default',
         'weight' => 3,
       ),
@@ -969,7 +967,7 @@ function ding_event_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_ding_event_price',
     'label' => 'Price',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'suffix' => ' kr.',
       'text_processing' => 0,
