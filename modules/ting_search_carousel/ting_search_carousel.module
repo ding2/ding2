@@ -324,7 +324,7 @@ function ting_search_carousel_image_default_styles() {
  */
 function ting_search_carousel_preprocess_ding_carousel_item(&$variables) {
   // Hide ting_abstract field.
-  $variables["content"]["ting_abstract"]["#access"] = FALSE;
+  $variables['content']['ting_abstract']['#access'] = FALSE;
 }
 
 /**
