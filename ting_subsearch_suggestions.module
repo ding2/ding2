@@ -20,8 +20,8 @@ define('TING_SUBSEARCH_SUGGESTIONS_IMPORT_BATCH_SIZE', 100000);
 // The maximum number of rows to insert in one transaction during CSV-import.
 define('TING_SUBSEARCH_SUGGESTIONS_MULTI_INSERT_LIMIT', 10000);
 
-// Max number of chars supported by PHP's levensthein function.
-define('TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT', 255);
+// The Max number of chars in suggestions.
+define('TING_SUBSEARCH_SUGGESTIONS_SUGGESTION_LIMIT', 150);
 
 /**
  * Implements hook_menu().
@@ -125,7 +125,7 @@ function ting_subsearch_suggestions_get_message($keys, $conditions, $results) {
         $suggestion = $clear_suggestion[1];
       }
 
-      if (!empty($suggestion)) {
+      if ($suggestion) {
         // Do secondary search for "correct" keys.
         $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
         // Only redirect to "correct" keys search if it has a positive result.
@@ -229,350 +229,50 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
 }
 
 /**
- * Find the first suggestion for given keys.
+ * Find the best suitable suggestion for the given keys.
  *
  * @param string $keys
  *   The original keys that you want to find suggestion for.
  *
  * @return string
- *   The suggestion.
+ *   The suggestion or FALSE if it was not possible to find a suggestion within
+ *   the configured constraints.
  *
  * @throws Exception
  */
 function ting_subsearch_suggestions_suggest_keys($keys) {
-  $service = variable_get('ting_subsearch_suggestions_service', 'kpi');
-  switch ($service) {
-    case 'os':
-      if (!variable_get('opensearch_search_autocomplete_suggestion_url', FALSE)) {
-        return FALSE;
+  // Build expected query object for provider hook.
+  // See: opensearch_search_autocomplete_suggestions().
+  $query = [];
+  $query['q'] = $keys;
+  $query['type'] = 'all';
+  $suggestions= ding_provider_invoke('search', 'autocomplete_suggestions', $query);
+
+  $result = array_reduce($suggestions, function($carry, $suggestion) use ($keys) {
+    $candidate = '';
+    foreach (explode(' ', $suggestion) as $word) {
+      $candidate .= ' ' . $word;
+
+      // Move along if the candidate has grown over char limit.
+      if (drupal_strlen($candidate) > TING_SUBSEARCH_SUGGESTIONS_SUGGESTION_LIMIT) {
+        return $carry;
       }
 
-      $settings = opensearch_search_autocomplete_settings();
-      $url = variable_get('opensearch_search_autocomplete_suggestion_url', FALSE) . 'rest/facetSpell';
-
-      $params = $options['query'] = ['query' => check_plain($keys)] + $settings;
-      $options['maxTime'] = 300;
-
-      try {
-        $client = new HttpClient();
-        $response = $client->get(
-          $url,
-          [
-            'query' => $params,
-            'headers' => [
-              'Accept' => 'application/json',
-            ],
-          ]
-        );
-        $result = json_decode($response->getBody());
-      } catch (GuzzleClientException $e) {
-        throw new Exception($e->getMessage(), $e->getCode(), $e);
-      }
-
-      $items = [];
-      // First child of $result changes name from suggestions to suggestion when
-      // switching between version 3.0 and 3.5.
-      if (!empty(current($result))) {
-        foreach (current($result) as $suggestion) {
-          return $suggestion->phrase;
+      $distance = ting_subsearch_suggestions_levenshtein($keys, $candidate);
+      if ($distance <= 3) {
+        if (!isset($carry) || $carry['distance'] > $distance) {
+          $carry['distance'] = $distance;
+          $carry['q'] = $candidate;
         }
       }
-      if (empty($items)) {
-        return FALSE;
-      }
-      break;
+    }
+    return $carry;
+  });
 
-    case 'kpi':
-      $keys_lowered = strtolower($keys);
-      $ting_kpi_minimum_searches = variable_get('ting_subsearch_kpi_minimum_searches', 100);
-      $ting_kpi_distance = variable_get('ting_subsearch_kpi_distance', 0);
-      $weeks_selected = variable_get('ting_subsearch_kpi_week_nrs', 1);
-
-      $weeks_in_db = db_query('SELECT DISTINCT tyw.weekno, tyw.year FROM {ting_subsearch_kpi_index_popular_keys} tyw ORDER BY tyw.year DESC, tyw.weekno DESC')->fetchAll();
-
-      $weeks_for_processing = array_slice($weeks_in_db, 0, $weeks_selected + 1);
-
-      $grouped_array = [];
-      foreach ($weeks_for_processing as $item) {
-        $grouped_array[$item->year][] = $item->weekno;
-      }
-
-      $items = [];
-
-      foreach ($grouped_array as $year => $weeks) {
-        $items[] = db_query('SELECT k.popular_keys FROM {ting_subsearch_kpi_index_popular_keys} k WHERE k.numtotalsearches > :numtotalsearches AND k.year = :year AND k.weekno IN (:weekno) ORDER BY k.weekno DESC', [
-          ':numtotalsearches' => $ting_kpi_minimum_searches,
-          ':year' => $year,
-          ':weekno' => $weeks,
-        ])->fetchCol();
-      }
-
-      $best_results = [];
-      foreach ($items as $item) {
-        if (!empty($item)) {
-          foreach ($item as $i) {
-            $best_results[] = $i;
-          }
-        }
-      }
-
-      foreach ($best_results as $best_result) {
-        if (strpos($best_result, '_')) {
-          $popular_keys = strtolower(str_replace('_', '.', $best_result));
-        }
-        else {
-          $popular_keys = $best_result;
-        }
-        $distance = levenshtein($keys_lowered, $popular_keys);
-
-        $raw_array[$popular_keys] = $distance;
-      }
-
-      $prepared_array = array_filter($raw_array, function ($distance, $key) use ($ting_kpi_distance) {
-        if ($distance > 0 && $distance <= $ting_kpi_distance) {
-          return $prepared_array[$key] = $distance;
-        }
-      }, ARRAY_FILTER_USE_BOTH);
-
-      if (!empty($prepared_array)) {
-        $result = array_keys($prepared_array, min($prepared_array));
-      }
-
-      return isset($result[0]) ? $result[0] : '';
-
-      break;
+  if (isset($result)) {
+    return $result['q'];
   }
-}
-
-/**
- * Implements hook_cron().
- */
-function ting_subsearch_suggestions_cron() {
-  // Temporarily disable download and import on cron.
-  return;
-  $service = variable_get('ting_subsearch_suggestions_service', 'kpi');
-  $prepared = FALSE;
-
-  if (!empty($service) && $service == 'kpi') {
-    // Ensure that local data is only renewed once a day.
-    if (!(variable_get('subsearch_kpi_cron_run', 0) < REQUEST_TIME)) {
-      return;
-    }
-
-    $url = variable_get('ting_subsearch_kpi_webservice_endpoint', NULL);
-
-    if (empty($url)) {
-      watchdog('ting_subsearch_opensuggestions', 'KPI: Module not configured properly', [], WATCHDOG_WARNING);
-      return;
-    }
-
-    $temp_files_folder = 'public://subsearch_kpi/';
-
-    if (!is_dir($temp_files_folder)) {
-      file_prepare_directory($temp_files_folder, FILE_CREATE_DIRECTORY);
-    }
-
-    $path_to_file = drupal_realpath("public://subsearch_kpi/temp_file.csv");
-    copyfile_chunked($url, $path_to_file);
-    print_r("File downloaded.\n");
-
-    $file = fopen(drupal_realpath("public://subsearch_kpi/temp_file.csv"), "r");
-
-    print_r("Insert feed data into database.\n");
-
-    // Use a multi insert which will greatly improve performance in MYSQL.
-    // The number of records we insert in one multi db_insert call. The limit
-    // depends on the value of max_allowed_packet. With the default value of
-    // 16m we should be able to make insert queries that insert 10.000 rows.
-    // max_allowed_packet can easily be increased, so we provide a config for
-    // settings.php to control the chunk size.
-    $chunk_size = variable_get('ting_subsearch_kpi_multi_insert_chunk_size', 10000);
-    $value_count = 0;
-    $fields = [ 'popular_keys', 'numtotalsearches', 'weekno', 'year' ];
-    $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields($fields);
-
-    // If there's existing data we need to avoid making duplicates.
-    $existing_data = FALSE;
-    $max_year = db_query("SELECT MAX(year) FROM {ting_subsearch_kpi_index_popular_keys}")->fetchField();
-    $max_week = FALSE;
-    if ($max_year) {
-      $max_week = db_query("SELECT MAX(weekno) FROM {ting_subsearch_kpi_index_popular_keys} WHERE year = {$max_year}")->fetchField();
-      $existing_data = TRUE;
-    }
-
-    $num_rows_inspected = 0;
-    $num_rows_inserted = 0;
-    while (($data = fgetcsv($file))) {
-      // Skip header.
-      if ($data[0] == 'year') {
-        continue;
-      }
-
-      $normalized_string = mb_convert_encoding($data[2], 'UTF-8', 'ISO-8859-15');
-      $year = $data[0];
-      $weekno = $data[1];
-
-      // If there's no existing data we add everything. Otherwise we make the
-      // reasonable assumption that only new data will be added to the CSV-file
-      // and use that to avoid duplicate data, neglecting all data that is older
-      // than the current $max_year, $max_week in DB.
-      if (!$existing_data || (($year == $max_year && $weekno > $max_week) || $year > $max_year)) {
-        $query->values([
-          'popular_keys' => $normalized_string,
-          'numtotalsearches' => (int) $data[3],
-          'weekno' => $weekno,
-          'year' => $year,
-        ]);
-
-        $value_count++;
-        $num_rows_inserted++;
-      }
-
-      // Limit reached. Execute multi insert and reset.
-      if ($value_count == $chunk_size) {
-        $query->execute();
-        $value_count = 0;
-        $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields($fields);
-      }
-
-      $num_rows_inspected++;
-
-      // This can take long time so print status message each 100.000 rows
-      if ($num_rows_inspected % 100000 == 0) {
-        print_r("Feed import status: $num_rows_inspected inspected. $num_rows_inserted inserted.\n");
-      }
-    }
-    // Execute remaining inserts if any.
-    if ($value_count > 0) {
-      $query->execute();
-    }
-
-    fclose($file);
-
-    variable_set('subsearch_kpi_cron_run', REQUEST_TIME + TING_SUBSEARCH_SUGGESTIONS_WEEKLY_CRON);
-
-    // TODO: should clean up be performed even though no new data was inserted?
-    if (!empty($num_rows_inserted)) {
-      print_r("Start database cleaning.\n");
-      // Get general "meta" present in db.
-      $min_year = db_query("SELECT MIN(year) FROM {ting_subsearch_kpi_index_popular_keys}")->fetchField();
-      $min_week = db_query("SELECT MIN(weekno) FROM {ting_subsearch_kpi_index_popular_keys} WHERE year = {$min_year}")->fetchField();
-      $max_year = db_query("SELECT MAX(year) FROM {ting_subsearch_kpi_index_popular_keys}")->fetchField();
-      $max_week = db_query("SELECT MAX(weekno) FROM {ting_subsearch_kpi_index_popular_keys} WHERE year = {$max_year}")->fetchField();
-
-      foreach (range($min_week, $max_week - 1) as $week) {
-        print_r("Database cleaning status: deleting $min_year, $week.\n");
-        db_delete('ting_subsearch_kpi_index_popular_keys')
-          ->condition('weekno', $week)
-          ->condition('year', $min_year)
-          ->execute();
-      }
-
-      watchdog('ting_subsearch_suggestions', 'Data fetched from KPI. !num_rows_inspected inspected. !num_rows_inserted inserted. Will re-run in a week.', [
-        '!num_rows_inspected' => $num_rows_inspected,
-        '!num_rows_inserted' => $num_rows_inserted,
-      ], WATCHDOG_INFO);
-    }
-    elseif (!empty($num_rows_inspected)) {
-      watchdog('ting_subsearch_suggestions', 'No new data imported from feed. !num_rows_inspected inspected', [
-        '!num_rows_inspected' => $num_rows_inspected,
-      ], WATCHDOG_INFO);
-    }
-    else {
-      watchdog('ting_subsearch_suggestions', 'There was no data to inpsect from feed.', [], WATCHDOG_WARNING);
-    }
-  }
-}
-
-/**
- * Copy remote file over HTTP one small chunk at a time.
- *
- * @param string $infile
- *   The full URL to the remote file
- * @param string $outfile
- *   The path where to save the file
- *
- * @return bool|false|int $cnt
- */
-function copyfile_chunked($infile, $outfile) {
-  $chunksize = 10 * (1024 * 1024); // 10 Megs
-
-  /**
-   * parse_url breaks a part a URL into it's parts, i.e. host, path,
-   * query string, etc.
-   */
-  $parts = parse_url($infile);
-  $i_handle = fsockopen($parts['host'], 80, $errstr, $errcode, 5);
-  $o_handle = fopen($outfile, 'wb');
-
-  if ($i_handle == FALSE || $o_handle == FALSE) {
-    return FALSE;
-  }
-
-  if (!empty($parts['query'])) {
-    $parts['path'] .= '?' . $parts['query'];
-  }
-
-  /**
-   * Send the request to the server for the file
-   */
-  $request = "GET {$parts['path']} HTTP/1.1\r\n";
-  $request .= "Host: {$parts['host']}\r\n";
-  $request .= "User-Agent: Mozilla/5.0\r\n";
-  $request .= "Keep-Alive: 115\r\n";
-  $request .= "Connection: keep-alive\r\n\r\n";
-  fwrite($i_handle, $request);
-
-  /**
-   * Now read the headers from the remote server. We'll need
-   * to get the content length.
-   */
-  $headers = [];
-  while (!feof($i_handle)) {
-    $line = fgets($i_handle);
-    if ($line == "\r\n") {
-      break;
-    }
-    $headers[] = $line;
-  }
-
-  /**
-   * Look for the Content-Length header, and get the size
-   * of the remote file.
-   */
-  $length = 0;
-  foreach ($headers as $header) {
-    if (stripos($header, 'Content-Length:') === 0) {
-      $length = (int) str_replace('Content-Length: ', '', $header);
-      break;
-    }
-  }
-
-  /**
-   * Start reading in the remote file, and writing it to the
-   * local file one chunk at a time.
-   */
-  $cnt = 0;
-  while (!feof($i_handle)) {
-    $buf = '';
-    $buf = fread($i_handle, $chunksize);
-    $bytes = fwrite($o_handle, $buf);
-    if ($bytes == FALSE) {
-      return FALSE;
-    }
-    $cnt += $bytes;
-
-    /**
-     * We're done reading when we've reached the content length
-     */
-    if ($cnt >= $length) {
-      break;
-    }
-  }
-
-  fclose($i_handle);
-  fclose($o_handle);
-  return $cnt;
+  return FALSE;
 }
 
 /**
