@@ -248,11 +248,11 @@ function ding_event_views_pre_execute(&$view) {
         ->conditions()[0]['field']
         ->conditions()[0]['field']
         ->conditions()[4];
-
-      $date_condition['field'] .= ' OR (fdelf.field_ding_event_list_filter_value = :filter'
-        . ' AND ' . str_replace('.field_ding_event_date_value,', '.field_ding_event_date_value2,', $date_condition['field']) . ')';
-      $date_condition['value'][':filter'] = 'show_all';
     }
+
+    $date_condition['field'] .= ' OR (fdelf.field_ding_event_list_filter_value = :filter'
+                             . ' AND ' . str_replace('.field_ding_event_date_value,', '.field_ding_event_date_value2,', $date_condition['field']) . ')';
+    $date_condition['value'][':filter'] = 'show_all';
   }
 }
 
