@@ -91,115 +91,112 @@ function ting_subsearch_suggestions_ajax_callback() {
  * @throws \Ting\Search\SearchProviderException
  */
 function ting_subsearch_suggestions_get_message($keys, $conditions, $results) {
-  $service = variable_get('ting_subsearch_suggestions_service', 'kpi');
   if ($results instanceof NullSearchResult) {
     return;
   }
 
   $num_total_objects = $results->getNumTotalObjects();
 
-  if (!empty($service)) {
-    $message = '';
+  $message = '';
 
-    // When a zero-hit search is executed and we're able to match "correct"
-    // keys, a new search is done with the "correct" keys.
-    // Then use the query-parameter original-keys to display what was done to
-    // the visitor.
-    $parameters = drupal_get_query_parameters();
+  // When a zero-hit search is executed and we're able to match "correct"
+  // keys, a new search is done with the "correct" keys.
+  // Then use the query-parameter original-keys to display what was done to
+  // the visitor.
+  $parameters = drupal_get_query_parameters();
 
-    if (isset($parameters['original-search'])) {
-      $msg = t('See results for "!keys", the search for "!original-keys" returned 0 hits.', [
-        '!original-keys' => $parameters['original-search'],
-        '!keys' => $keys,
-      ]);
+  if (isset($parameters['original-search'])) {
+    $msg = t('See results for "!keys", the search for "!original-keys" returned 0 hits.', [
+      '!original-keys' => $parameters['original-search'],
+      '!keys' => $keys,
+    ]);
 
-      $message = '<div id="subsearch-suggestions-first">' . $msg . '</div>';
+    $message = '<div id="subsearch-suggestions-first">' . $msg . '</div>';
+  }
+
+  if ($num_total_objects == 0) {
+    // Find suggestions for "correct" search phrase.
+    $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
+
+    if (strpos($suggestion, 'ting_search:') !== FALSE) {
+      $clear_suggestion = explode(':', $suggestion);
+      $suggestion = $clear_suggestion[1];
     }
 
-    if ($num_total_objects == 0) {
-      // Find suggestions for "correct" search phrase.
-      $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
+    if ($suggestion) {
+      // Do secondary search for "correct" keys.
+      $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
+      // Only redirect to "correct" keys search if it has a positive result.
+      if (!empty($secondary_result) && $secondary_result->numTotalObjects > 0) {
+        $additional_query = [
+          'original-search' => $keys,
+        ];
+        $params['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_0_hit", ""), $additional_query);
+        global $base_url;
+        $url = $base_url . '/search/ting/' . strtolower($suggestion) . '?' . drupal_http_build_query($params['query']);
 
+        header('Location: ' . $url, TRUE, 301);
+      }
+    }
+  }
+  elseif ($num_total_objects <= variable_get("ting_subsearch_{$service}_trigger_limit", 5)) {
+    $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
+
+    if ($service == 'kpi') {
       if (strpos($suggestion, 'ting_search:') !== FALSE) {
         $clear_suggestion = explode(':', $suggestion);
         $suggestion = $clear_suggestion[1];
       }
-
-      if ($suggestion) {
-        // Do secondary search for "correct" keys.
-        $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
-        // Only redirect to "correct" keys search if it has a positive result.
-        if (!empty($secondary_result) && $secondary_result->numTotalObjects > 0) {
-          $additional_query = [
-            'original-search' => $keys,
-          ];
-          $params['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_0_hit", ""), $additional_query);
-          global $base_url;
-          $url = $base_url . '/search/ting/' . strtolower($suggestion) . '?' . drupal_http_build_query($params['query']);
-
-          header('Location: ' . $url, TRUE, 301);
-        }
-      }
     }
-    elseif ($num_total_objects <= variable_get("ting_subsearch_{$service}_trigger_limit", 5)) {
-      $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
+    if ($suggestion) {
+      // Do additional search.
+      $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);
+      $sug_total_number = $suggested_result->numTotalObjects;
+      if (!empty($suggested_result) && $sug_total_number >= variable_get("ting_subsearch_suggestions_message_limit", 10)) {
+        $ratio = $sug_total_number / $num_total_objects;
 
-      if ($service == 'kpi') {
-        if (strpos($suggestion, 'ting_search:') !== FALSE) {
-          $clear_suggestion = explode(':', $suggestion);
-          $suggestion = $clear_suggestion[1];
-        }
-      }
-      if ($suggestion) {
-        // Do additional search.
-        $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);
-        $sug_total_number = $suggested_result->numTotalObjects;
-        if (!empty($suggested_result) && $sug_total_number >= variable_get("ting_subsearch_{$service}_message_limit", 10)) {
-          $ratio = $sug_total_number / $num_total_objects;
-
-          if ($ratio > variable_get('ting_subsearch_suggestions_ps_factor')) {
-            $options = [];
-            if (module_exists('ting_field_search')) {
-              $profile = ting_field_search_get_active_profile();
-              if ($profile) {
-                $options['query'] = ['profile' => $profile->name];
-              }
+        if ($ratio > variable_get('ting_subsearch_suggestions_ps_factor')) {
+          $options = [];
+          if (module_exists('ting_field_search')) {
+            $profile = ting_field_search_get_active_profile();
+            if ($profile) {
+              $options['query'] = ['profile' => $profile->name];
             }
-
-            if (!empty(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", "")) && !empty($options)) {
-              $options['query'] += ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", ""));
-            }
-            else {
-              if (empty($options)) {
-                $options['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", ""));
-              }
-            }
-
-            // Set message!
-            $msg = t('Search for <strong>"!suggested-key"</strong> (!suggested-num-results)', [
-              '!suggested-key' => strtolower($suggestion),
-              '!suggested-num-results' => $suggested_result->numTotalObjects,
-            ]);
-
-            $wrapper = '<div id="subsearch-suggestions-second">' . $msg . '</div>';
-
-            $url = url('/search/ting/' . strtolower($suggestion), [
-              'query' => $options['query'],
-              'absolute' => TRUE,
-            ]);
-
-            $message = l($wrapper, $url, [
-              'html' => TRUE,
-              'absolute' => TRUE,
-              'attributes' => ['target' => 'blank'],
-            ]);
           }
+
+          if (!empty(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", "")) && !empty($options)) {
+            $options['query'] += ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", ""));
+          }
+          else {
+            if (empty($options)) {
+              $options['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", ""));
+            }
+          }
+
+          // Set message!
+          $msg = t('Search for <strong>"!suggested-key"</strong> (!suggested-num-results)', [
+            '!suggested-key' => strtolower($suggestion),
+            '!suggested-num-results' => $suggested_result->numTotalObjects,
+          ]);
+
+          $wrapper = '<div id="subsearch-suggestions-second">' . $msg . '</div>';
+
+          $url = url('/search/ting/' . strtolower($suggestion), [
+            'query' => $options['query'],
+            'absolute' => TRUE,
+          ]);
+
+          $message = l($wrapper, $url, [
+            'html' => TRUE,
+            'absolute' => TRUE,
+            'attributes' => ['target' => 'blank'],
+          ]);
         }
       }
     }
-
-    return $message;
   }
+
+  return $message;
 }
 
 /**
@@ -259,7 +256,7 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
       }
 
       $distance = ting_subsearch_suggestions_levenshtein($keys, $candidate);
-      if ($distance <= 3) {
+      if ($distance <= variable_get('ting_subsearch_suggestions_distance', 3)) {
         if (!isset($carry) || $carry['distance'] > $distance) {
           $carry['distance'] = $distance;
           $carry['q'] = $candidate;
