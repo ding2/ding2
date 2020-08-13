@@ -131,7 +131,7 @@ function ting_subsearch_suggestions_get_message($keys, $conditions, $results) {
         $additional_query = [
           'original-search' => $keys,
         ];
-        $params['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_0_hit", ""), $additional_query);
+        $params['query'] = $additional_query;
         global $base_url;
         $url = $base_url . '/search/ting/' . strtolower($suggestion) . '?' . drupal_http_build_query($params['query']);
 
@@ -139,8 +139,9 @@ function ting_subsearch_suggestions_get_message($keys, $conditions, $results) {
       }
     }
   }
-  elseif ($num_total_objects <= variable_get("ting_subsearch_{$service}_trigger_limit", 5)) {
+  elseif ($num_total_objects <= variable_get("ting_subsearch_suggestions_trigger_limit", 5)) {
     $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
+    $suggestion = trim($suggestion);
 
     if ($service == 'kpi') {
       if (strpos($suggestion, 'ting_search:') !== FALSE) {
@@ -248,7 +249,7 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
   $result = array_reduce($suggestions, function($carry, $suggestion) use ($keys) {
     $candidate = '';
     foreach (explode(' ', $suggestion) as $word) {
-      $candidate .= ' ' . $word;
+      $candidate .= $word;
 
       // Move along if the candidate has grown over char limit.
       if (drupal_strlen($candidate) > TING_SUBSEARCH_SUGGESTIONS_SUGGESTION_LIMIT) {
@@ -256,12 +257,21 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
       }
 
       $distance = ting_subsearch_suggestions_levenshtein($keys, $candidate);
+
+      // If distance gets to 0 it means the suggestions is the same as the user
+      // search. We only look for searches close to the user search so skip it.
+      if ($distance == 0) {
+        return $carry;
+      }
+
       if ($distance <= variable_get('ting_subsearch_suggestions_distance', 3)) {
-        if (!isset($carry) || $carry['distance'] > $distance) {
+        if (!isset($carry) || ($carry['distance'] > $distance)) {
           $carry['distance'] = $distance;
           $carry['q'] = $candidate;
         }
       }
+
+      $candidate .= ' ';
     }
     return $carry;
   });
