@@ -49,14 +49,14 @@ function template_preprocess_ting_subsearch_suggestions_message(&$variables) {
   $zero_hit_redirect = $variables['zero_hit_redirect'];
 
   if ($zero_hit_redirect) {
-    $variables['message'] = t('Showing results for <strong>"%suggestion"</strong>. The search for <strong>"%keys"</strong> returned 0 hits.', [
-      '%suggestion' => $suggestion,
-      '%keys' => $variables['keys'],
+    $variables['message'] = t('Showing results for <strong>"@suggestion"</strong>. The search for <strong>"@keys"</strong> returned 0 hits.', [
+      '@suggestion' => $suggestion,
+      '@keys' => $variables['keys'],
     ]);
   }
   else {
-    $message = t('Search for <strong>"%suggestion"</strong> (!suggestion-num-results)', [
-      '%suggestion' => $suggestion,
+    $message = t('Search for <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results hits</strong>', [
+      '@suggestion' => $suggestion,
       '!suggestion-num-results' => $variables['suggestion_num_results'],
     ]);
     $variables['message'] = l($message, 'search/ting/' . $suggestion, [
@@ -172,6 +172,11 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
     // Output a placeholder to be replaced with the actual content returned
     // from AJAX callback.
     $output = '<div id="ting-subsearch-suggestions-placeholder"></div>';
+  }
+
+  // Add default styling if non empty output.
+  if (!empty($output)) {
+    drupal_add_css(drupal_get_path('module', 'ting_subsearch_suggestions') . '/ting_subsearch_suggestions.css');
   }
 
   return $output;
