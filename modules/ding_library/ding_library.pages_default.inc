@@ -225,13 +225,13 @@ function ding_library_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'link' => 0,
-      'markup' => 'h2',
+      'markup' => 'h1',
       'id' => '',
       'class' => '',
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => '',
-      'override_title_heading' => 'h2',
+      'override_title_heading' => 'h1',
     );
     $pane->cache = array();
     $pane->style = array(
