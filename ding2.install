@@ -1042,3 +1042,10 @@ function ding2_update_7089() {
 function ding2_update_7090() {
   ding2_set_eu_cookie_compliance_settings();
 }
+
+/**
+ * Enable Ding SEO module.
+ */
+function ding2_update_7091() {
+  module_enable(['ding_seo']);
+}
