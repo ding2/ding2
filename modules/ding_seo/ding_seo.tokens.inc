@@ -177,7 +177,7 @@ function ding_seo_token_info() {
     'description' => t('latitude'),
   ];
 
-  // Logo dimensions tokens
+  // Logo dimensions and URL tokens
   $info['tokens']['ding_seo_node_tokens']['logo_width'] = [
     'name' => t("Logo width"),
     'description' => t('logo_width'),
@@ -185,6 +185,10 @@ function ding_seo_token_info() {
   $info['tokens']['ding_seo_node_tokens']['logo_height'] = [
     'name' => t("Logo height"),
     'description' => t('logo_height'),
+  ];
+  $info['tokens']['ding_seo_node_tokens']['logo_url'] = [
+    'name' => t("Logo URL"),
+    'description' => t('logo_url'),
   ];
 
   // Event data formatting
@@ -530,6 +534,11 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
         case 'ding_seo_node_tokens:logo_width':
           if (isset($logo_width)) {
             $replacements[$original] = $logo_width;
+          }
+          break;
+        case 'ding_seo_node_tokens:logo_url':
+          if (isset($logo_url)) {
+            $replacements[$original] = $logo_url;
           }
           break;
 
