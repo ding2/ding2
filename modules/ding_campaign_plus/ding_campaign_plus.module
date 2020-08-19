@@ -72,8 +72,10 @@ function ding_campaign_plus_cron_queue_info() {
  *
  * @param int $campaign_nid
  *   The node id of the campaign.
+ * @param bool $mail
+ *   If TRUE mails are sent to node owner (default TRUE).
  */
-function _ding_campaign_plus_notification($campaign_nid) {
+function _ding_campaign_plus_notification($campaign_nid, $mail = TRUE) {
   $triggers = TRUE;
   foreach (module_implements('ding_campaign_plus_validator') as $module) {
     $triggers = module_invoke($module, 'ding_campaign_plus_validator', $campaign_nid);
@@ -84,7 +86,7 @@ function _ding_campaign_plus_notification($campaign_nid) {
   }
 
   // If any of the modules reports "false" a no-hit-trigger is found.
-  if ($triggers === FALSE) {
+  if ($triggers === FALSE && $mail) {
     // Send notification to site administrator.
     $campaign = node_load($campaign_nid);
 
@@ -106,6 +108,16 @@ function _ding_campaign_plus_notification($campaign_nid) {
       watchdog('ding_campaign_plus', 'Notification mail not set as site mail is empty', array(), WATCHDOG_NOTICE);
     }
   }
+
+  if ($mail === FALSE) {
+    $text = t('Campaign parsed validation');
+    if ($triggers === FALSE) {
+      $text = t('Campaign failed validation in module: !module', array('!module' => isset($module) ? $module : 'undefined'));
+    }
+    watchdog('ding_campaign_plus', $text, array(), WATCHDOG_NOTICE);
+  }
+
+  return $triggers;
 }
 
 /**

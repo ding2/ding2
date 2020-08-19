@@ -54,33 +54,6 @@
         }
       );
 
-      // Special handling for ding entity rating event.
-      //
-      // It would require a complete rework of the ding_entity_rating_display
-      // theme hook to avoid this. It doesn't provide the ability to add custom
-      // attributes/classes in preprocess and is not using using render arrays
-      // for rating elements, making them problematic to modify.
-      $('.js-ding-webtrekk-rating-event', context)
-        .once('js-ding-webtrekk', function() {
-          var contentId = $(this).data('ding-entity-rating-id');
-          $('.js-rating-symbol', this).each(function(index) {
-            var rating = (index + 1) + '';
-            $(this).click(function(e) {
-              e.preventDefault();
-
-              var eventData = {
-
-                linkId: 'Materiale rating',
-                customClickParameter: {}
-              };
-              eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING] = rating;
-              eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING_ID] = contentId;
-              pushEvent('click', eventData);
-            });
-          });
-        }
-      );
-
       // Track autocomplete selections.
       $('.js-ding-webtrekk-autocomplete .form-autocomplete', context)
         .once('js-ding-webtrekk')
@@ -193,5 +166,43 @@
       });
     }
   };
+
+  // EU cookie compliance integration.
+  // Set Webtrekk opt-out cookie. EU cookie compliance module will try to purge
+  // all cookies 5 seconds after refresh, but setting this cookie will
+  // completely prevent Webtrekk from settings any tracking cookie at all,
+  // which is better.
+  var setOptOutCookie = function setOptOutCookie() {
+    var path = Drupal.settings.basePath;
+    var date = new Date();
+    date.setDate(date.getDate() + parseInt(Drupal.settings.eu_cookie_compliance.cookie_lifetime));
+    $.cookie('webtrekkOptOut', 1, { expires: date, path: path });
+  }
+
+  // When using opt-in model ensure that the opt-out cookie is added as default
+  // if user hasn't agreed.
+  if (typeof Drupal.eu_cookie_compliance !== 'undefined' && Drupal.settings.eu_cookie_compliance.method === 'opt_in') {
+    if (!Drupal.eu_cookie_compliance.hasAgreed() && typeof $.cookie('webtrekkOptOut') === 'undefined') {
+      setOptOutCookie();
+    }
+  }
+
+  // When user rejects/accepts cookies in the pop-up banner this event will be
+  // fired and we act accordingly.
+  $(document).on('eu_cookie_compliance.changeStatus', function(event, status) {
+    // If user has agreed we ensure that webtrekkOptOut is removed.
+    if (Drupal.eu_cookie_compliance.hasAgreed()) {
+      $.removeCookie('webtrekkOptOut');
+    }
+    else {
+      setOptOutCookie();
+      // Track the opt-out events in Webtrekk.
+      var eventData = {
+        linkId: 'event_optout',
+        customClickParameter: {}
+      };
+      pushEvent('click', eventData);
+    }
+  });
 
 })(jQuery);

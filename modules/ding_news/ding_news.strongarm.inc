@@ -153,31 +153,10 @@ function ding_news_strongarm() {
             'visible' => TRUE,
           ),
         ),
-        'ding_serendipity_info' => array(
-          'alternative_layout_full' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-          'default' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-          'teaser_no_overlay' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-        ),
       ),
     ),
   );
   $export['field_bundle_settings_node__ding_news'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'flag_mobile_app_default_ding_news';
-  $strongarm->value = 1;
-  $export['flag_mobile_app_default_ding_news'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

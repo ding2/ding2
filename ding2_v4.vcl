@@ -31,7 +31,7 @@ sub vcl_recv {
   }
 
   # Ensure that ding_wayf and SimpleSAMLphp is not cached.
-  if (req.url ~ "^/wayf" || req.url ~ "^/ding-redia-rss" || req.url ~ "^/survey" || req.url ~ "^/gatewayf" || req.url ~ "^/feeds/eventdb") {
+  if (req.url ~ "^/wayf" || req.url ~ "^/adgangsplatformen" || req.url ~ "^/ding-redia-rss" || req.url ~ "^/survey" || req.url ~ "^/gatewayf" || req.url ~ "^/feeds/eventdb") {
     return (pipe);
   }
 
@@ -57,6 +57,7 @@ sub vcl_recv {
     req.url ~ "^.*/ajax/.*$" ||
     req.url ~ "^.*/ahah/.*$" ||
     req.url ~ "^.*/edit.*$" ||
+    req.url ~ "^.*/ding_react/user.js" ||
     req.url ~ "^.*/ding_availability.*$") {
     return (pass);
   }

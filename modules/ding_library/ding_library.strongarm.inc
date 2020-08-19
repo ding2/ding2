@@ -148,12 +148,6 @@ function ding_library_strongarm() {
             'label' => 'above',
           ),
         ),
-        'ding_serendipity_info' => array(
-          'search_result' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-        ),
       ),
     ),
   );

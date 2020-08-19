@@ -5,7 +5,6 @@ package = Ding!
 project = ding_library
 dependencies[] = addressfield
 dependencies[] = cache_actions
-dependencies[] = comment
 dependencies[] = cs_adaptive_image
 dependencies[] = ctools
 dependencies[] = ding_base

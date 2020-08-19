@@ -1064,10 +1064,12 @@ function ding_campaign_plus_facet_ding_campaign_plus_validator($nid) {
     foreach ($rules as $rule) {
       $facets = (array) unserialize($rule->value);
       $query = ting_start_query();
+      $rawQuery = array();
       foreach ($facets as $facet) {
-        $query->withFieldFilter($rule->facet, $facet);
+        $rawQuery[] = $rule->facet . ' = ' . $facet;
       }
       $results = $query
+        ->withRawQuery(implode(' AND ', $rawQuery))
         ->withCount(0)
         ->withPage(0)
         ->execute();

@@ -28,3 +28,10 @@ function ding_availability_update_7001() {
     'ding_availability_holdings',
   ));
 }
+
+/**
+ * Remove the now unused ding_availability_holdings_types variable.
+ */
+function ding_availability_update_7002() {
+  variable_del('ding_availability_holdings_types');
+}

@@ -34,3 +34,14 @@ function ding_ting_frontend_uninstall() {
 function ding_ting_frontend_update_7002() {
   module_enable(array('ting_field_search'));
 }
+
+/**
+ * Delete ding_periodical_issues field and uninstall ding_periodical.
+ */
+function ding_ting_frontend_update_7003() {
+  field_delete_field('ding_periodical_issues');
+  // This is virtual field with no local data, so we should be able to purge it.
+  field_purge_batch(1);
+  module_disable(['ding_periodical']);
+  drupal_uninstall_modules(['ding_periodical']);
+}

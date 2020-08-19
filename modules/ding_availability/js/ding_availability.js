@@ -112,7 +112,23 @@
     $.each(entity_ids, function (i, entity_id) {
       if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
         // Insert/update holding information for material.
-        $('#' + id).html(Drupal.DADB[entity_id].html);
+        var holdings = Drupal.DADB[entity_id];
+        $('#' + id).html(holdings.html);
+
+        if (holdings.is_periodical) {
+          // Hide all elements.
+          $('.ding-periodical-issues li').children('.item-list').hide();
+
+          // Add class to style the list as being expandable.
+          $('.ding-periodical-fold').addClass('expand expand-more');
+
+          // Attach click event to fold in/out the issues.
+          $('.field-name-ding-availability-holdings .ding-periodical-fold').on("click", function() {
+            $(this).next().toggle();
+            $(this).next().toggleClass('expanded-periodicals');
+            $(this).parent().toggleClass('expanded-periodicals-parent');
+          });
+        }
       }
     });
   }

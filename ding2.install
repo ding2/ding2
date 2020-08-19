@@ -843,3 +843,202 @@ function ding2_update_7073() {
 function ding2_update_7074() {
   ding2_translation_update();
 }
+
+/**
+ * Enable user registration module for sites using Adgangsplatformen.
+ */
+function ding2_update_7075() {
+  if (module_exists('ding_adgangsplatformen')) {
+    module_enable(array('ding_registration'));
+  }
+}
+
+/**
+ * Remove P2.
+ */
+function ding2_update_7076() {
+  // Remove the ding_entity_rating_action field.
+  field_delete_field('ding_entity_rating_action');
+  field_purge_batch(1);
+
+  // Only a subset of these should be enabled, but we try to disable and
+  // uninstall all just in case someone runs with an uncommon configuration.
+  $modules = [
+    'ding_interaction_manual',
+    'ding_notifications',
+    'ding_serendipity_ting_entity',
+    'ding_listrescue',
+    'ding_list',
+    'ding_p2_installer',
+    'ding_serendipity_lists',
+    'ding_serendipity_site',
+    'ding_entity_rating_loan_history',
+    'ting_openlist',
+    'ding_sharer',
+    'ding_message',
+    'ding_message_p2_installer',
+    'ding_serendipity',
+    'ding_user_consent',
+    'ding_serendipity_fallback',
+    'ding_serendipity_taxonomy_term',
+    'ding_entity_rating',
+    'ding_interaction',
+    'eck',
+    'message',
+    'similarterms',
+    'simplevar',
+  ];
+
+  module_disable($modules);
+  drupal_uninstall_modules($modules);
+}
+
+/**
+ * Revert modules to remove traces of p2.
+ */
+function ding2_update_7077() {
+  // Need to revert variables for these modules to get rid of the
+  // ding_serendipity_info extra field.
+  $modules = [
+    'ding_campaign_plus' => ['variable'],
+    'ding_paragraphs' => ['variable'],
+    'ding_page' => ['variable'],
+    'ding_event' => ['variable'],
+    'ding_library' => ['variable'],
+    'ding_groups' => ['variable'],
+    'ding_eresource' => ['variable'],
+    'ding_news' => ['variable'],
+  ];
+  features_revert($modules);
+}
+
+/**
+ * Remove old eck tables.
+ */
+function ding2_update_7078() {
+  // Eck doesn't drop it's dynamically created tables, so we'll do it here,
+  // just in case.
+  foreach (db_query('SHOW TABLES LIKE :pattern', [':pattern' => 'eck_%'])->fetchCol() as $table) {
+    db_drop_table($table);
+  }
+}
+
+/**
+ * Enable ding_react.
+ */
+function ding2_update_7079() {
+  module_enable(['ding_react']);
+}
+
+/**
+ * Use production services with ding_react.
+ */
+function ding2_update_7080() {
+  variable_set('ding_react_material_list_url', 'https://prod.materiallist.dandigbib.org');
+  variable_set('ding_react_follow_searches_url','https://prod.followsearches.dandigbib.org' );
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7081() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable ting_smart_search.
+ */
+function ding2_update_7082() {
+  if (module_exists('opensearch')) {
+    module_enable(['ting_smart_search']);
+  }
+}
+
+/**
+ * Update EU cookie compliance settings.
+ */
+function ding2_update_7083() {
+  ding2_set_eu_cookie_compliance_settings();
+
+  // jquery_update will override the version of jquery.cookie that EU cookie
+  // compliance needs, if module weights are not changed. ECC 1.31 takes care
+  // of this on update and fresh install,  but 1.28 (we used in last release)
+  // only did on update. So we ensure it's called here if someone is testing
+  // from a fresh install on last release.
+  // https://www.drupal.org/project/eu_cookie_compliance/issues/2991113
+  eu_cookie_compliance_module_set_weight();
+
+  // Update the cookie name used by ECC to enforce all users to the new opt-out
+  // model and make them agree again. The name can be whatever so we choose the
+  // number of this update function where the settings were changed.
+  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da', []);
+  $ecc_settings['cookie_name'] = 'cookie-agreed-7083';
+  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7084() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable cover service upload module.
+ */
+function ding2_update_7085() {
+  module_enable(['ddb_cover_upload']);
+}
+
+/**
+ * Switch to new cover module.
+ */
+function ding2_update_7086() {
+  module_disable(['ting_covers_addi']);
+  module_enable(['ting_covers_ddb']);
+}
+
+/**
+ * Remove Webtrends specific info from cookie page.
+ */
+function ding2_update_7087() {
+  // If we can find the old cookie information page make a backup, so we don't
+  // lose any information added by administrative users.
+  if ($nid = ding2_get_cookie_node_nid()) {
+    $node = node_load($nid);
+    $node->title .= ' (BACKUP)';
+    node_save($node);
+    // Delete "cookies" alias.
+    $path = path_load([
+      'source' => 'node/' . $node->nid,
+      'alias' => 'cookies',
+    ]);
+    if ($path) {
+      path_delete($path['pid']);
+    }
+  }
+  // Set a new generic cookie information page. This time without any specific
+  // information about which analytics tool we use.
+  ding2_set_cookie_page();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7088() {
+  ding2_translation_update();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7089() {
+  ding2_translation_update();
+}
+
+/**
+ * Update cookie compliance settings.
+ */
+function ding2_update_7090() {
+  ding2_set_eu_cookie_compliance_settings();
+}
