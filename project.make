@@ -166,6 +166,9 @@ projects[htmlmail][version] = "2.65"
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.25"
 
+projects[imagecache_token][subdir] = "contrib"
+projects[imagecache_token][version] = "1.0"
+
 projects[image_resize_filter][subdir] = "contrib"
 projects[image_resize_filter][version] = "1.14"
 

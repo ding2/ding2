@@ -398,10 +398,16 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
     }
 
     // Get logo dimensions.
-    $logo_path = theme_get_setting('logo', 'ddbasic');
-    $logo_info = getimagesize($logo_path);
-    $logo_width = $logo_info[0];
-    $logo_height = $logo_info[1];
+    global $base_url;
+    drupal_theme_initialize();
+    $logo_url = theme_get_setting('logo');
+    if (!empty($logo_url)) {
+      // Get relative internal for getimagesize. Add 1 to remove leading slash.
+      $logo_path = drupal_substr($logo_url, drupal_strlen($base_url) + 1);
+      $logo_info = getimagesize($logo_path);
+      $logo_width = $logo_info[0];
+      $logo_height = $logo_info[1];
+    }
 
     foreach ($tokens as $name => $original) {
       switch ($name) {
@@ -510,10 +516,14 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
 
         // Logo image dimensions.
         case 'ding_seo_node_tokens:logo_height':
-          $replacements[$original] = $logo_height;
+          if (isset($logo_height))  {
+            $replacements[$original] = $logo_height;
+          }
           break;
         case 'ding_seo_node_tokens:logo_width':
-          $replacements[$original] = $logo_width;
+          if (isset($logo_width)) {
+            $replacements[$original] = $logo_width;
+          }
           break;
 
         // Event date formatting.
