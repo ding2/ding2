@@ -392,9 +392,16 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
 
   if ($type == 'node' && !empty($data['node'])) {
     // Get library data entity referenced from events.
+    $library_data = NULL;
     if ($data["node"]->type == "ding_event") {
       $og = og_get_entity_groups('node', $data['node']);
-      $library_data = node_load($og["node"][5]);
+      foreach ($og['node'] as $nid) {
+        $og_node = node_load($nid);
+        if ($og_node->type == 'ding_library') {
+          $library_data = $og_node;
+          break;
+        }
+      }
     }
 
     // Get logo dimensions.
