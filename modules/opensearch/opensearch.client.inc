@@ -540,10 +540,19 @@ function opensearch_execute(TingClientRequest $request) {
     return $response;
   }
   catch (TingClientException $e) {
-    if (isset($e->user_message)) {
-      drupal_set_message($e->user_message, 'warning');
+    if ($e->getType() === TingClientException::TYPE_SYNTAX_ERROR) {
+      drupal_set_message(t('Syntax error in search query'), 'warning', FALSE);
     }
-    watchdog('ting client', 'Error performing request: ' . $e->getMessage(), NULL, WATCHDOG_ERROR, 'http://' . $_SERVER["HTTP_HOST"] . request_uri());
+    elseif ($e->getType() === TingClientException::TYPE_INTERNAL_ERROR) {
+      drupal_set_message(t('Internal server error, please try again later'), 'warning', FALSE);
+    }
+    watchdog(
+      'ting client',
+      'Error performing request: @message',
+      array('@message' => $e->getMessage()),
+      WATCHDOG_ERROR,
+      'http://' . $_SERVER["HTTP_HOST"] . request_uri()
+    );
     return FALSE;
   }
   finally {
