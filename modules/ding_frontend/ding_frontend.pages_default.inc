@@ -279,6 +279,20 @@ search/node',
         'title' => array(
           'value' => 'Search Content | %keywords:html_safe | [current-page:pager][site:name]',
         ),
+        'robots' => array(
+          'value' => array(
+            'follow' => 'follow',
+            'noindex' => 'noindex',
+            'index' => 0,
+            'nofollow' => 0,
+            'noarchive' => 0,
+            'nosnippet' => 0,
+            'noodp' => 0,
+            'noydir' => 0,
+            'noimageindex' => 0,
+            'notranslate' => 0,
+          ),
+        ),
       ),
     ),
   );
