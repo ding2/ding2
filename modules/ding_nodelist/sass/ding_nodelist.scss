@@ -1136,7 +1136,10 @@ $label-bg: url('../images/p.png');
         padding-bottom: 10px;
         @include transition(
           opacity $speed $hover-delay $ease
-        )
+        );
+        @include media($mobile) {
+          display: none;
+        }      
       }
       .background {
         @include transition(
@@ -1185,6 +1188,10 @@ $label-bg: url('../images/p.png');
           opacity $speed $hover-delay $ease
         );
         opacity: 1;
+
+        @include media($mobile) {
+          display: none;
+        }
       }
     }
 
@@ -1205,10 +1212,13 @@ $label-bg: url('../images/p.png');
   .ding_nodelist-items {
     display: inline-block;
     width: 100%;
+
     .nodelist-item {
       position: relative;
       @include span-columns(3.95 of 12);
-      margin: 0 10px 10px 10px;
+      margin: 0 5px 10px 5px;
+      padding: 0 10px 10px 0;
+
       :last-child {
         margin-right: -10px;
       }
