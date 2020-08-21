@@ -14,7 +14,7 @@ if (!empty($item->image)) {
 }
 ?>
 <article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
-         class="node node-ding-news node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>">
+         class="node node-ding-news node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>"<?php print $attributes; ?>>
   <a href="<?php print '/node/' . $item->nid; ?>">
     <div class="inner">
       <div class="background">
