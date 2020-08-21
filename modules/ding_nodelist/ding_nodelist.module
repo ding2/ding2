@@ -1816,7 +1816,7 @@ function ding_nodelist_preprocess(&$variables, $hook) {
 
         $fee_field = field_get_items('node', $item, 'field_ding_event_price');
         $items[$key]->price = t('Free');
-        if (is_array($fee_field)) {
+        if (is_array($fee_field) && !empty($fee_field[0]['value'])) {
           $fee = current($fee_field);
           $items[$key]->price = $fee['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
         }
