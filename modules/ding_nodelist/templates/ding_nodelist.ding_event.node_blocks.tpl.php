@@ -7,7 +7,7 @@
 ?>
 
 <article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
-         class="node node-ding-event node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>">
+         class="node node-ding-event node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>"<?php print $attributes; ?>>
   <a href="<?php print '/node/' . $item->nid; ?>">
     <?php if (!empty($item->image)): ?>
       <div class="event-list-image nb-image" style="background-image:url(<?php print $item->image; ?>);"></div>
