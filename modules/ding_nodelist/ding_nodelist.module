@@ -957,7 +957,7 @@ function _ding_nodelist_get_templates($include_hidden = TRUE, $content_type = NU
   // Fetch templates declared by this and other modules hook_theme function.
   // @todo: menu_block is known to cause issues on this call in PHP 5.3.x.
   foreach (module_invoke_all('theme', array(), NULL, NULL, NULL) as $template_name => $template) {
-    if (strpos($template_name, 'ding_nodelist') === 0) {
+    if (strpos($template_name, 'ding_nodelist.') === 0) {
       $templates[$template_name] = array(
         'filename' => $template_name,
       );
