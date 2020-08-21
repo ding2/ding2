@@ -15,7 +15,7 @@
       <div class="text page-text">
         <div class="title-and-lead">
           <h3 class="title"><?php print $item->title; ?></h3>
-          <div class="field-name-field-ding-page-lead">
+          <div class="field-name-field-ding-page-lead field-type-text-long element-hidden">
             <div class="field-items">
               <div class="field-item">
                 <?php print $item->teaser_lead; ?>
