@@ -906,6 +906,12 @@ $label-bg: url('../images/p.png');
   width: 100%;
   overflow: visible;
 
+  .element-hidden {
+    opacity: 0;
+    display: block;
+    height: 0;
+  }
+
   .nb-item {
     margin: 0 2% 2% 0;
     height: 100%;
@@ -1169,7 +1175,7 @@ $label-bg: url('../images/p.png');
         @include transition(
                         min-height $speed $hover-delay $ease
         );
-        min-height: 118px;
+        min-height: 100px;
 
         @include media($mobile) {
           min-height: 100%;
