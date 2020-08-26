@@ -1,0 +1,138 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  modules/subsearch_kpi/subsearch_kpi.info: n/a
+#  modules/subsearch_kpi/subsearch_kpi.admin.inc: n/a
+#  modules/subsearch_kpi/subsearch_kpi.module: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2017-03-16 14:56+0000\n"
+"PO-Revision-Date: 2017-03-16 14:56+0000\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Danish <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:13 modules/subsearch_secondary/subsearch_secondary.admin.inc:13
+msgid "Feature modules allow additional searches to be made based on predefined conditions."
+msgstr "Subsearch moduler muliggør, at supplerende søgninger sker automatisk ud fra nærmere definerede kriterier"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:18
+msgid "KPI settings"
+msgstr "Indstillinger af supplerende søgning i KPI indekset"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:23
+msgid "KPI Webtrekk On-Site Searches Web Service URL"
+msgstr "URL til Web Service: On-Site Searches fra KPI Webtrekk"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:25
+msgid "This field must contain the \"Web Services\" URL to the \"On-Site Searches\" report that can be found in Webtrekk Analytics in the Content category. Click the Share button on the report page to find this URL."
+msgstr "Her skrives URL’en til webservicen \”On-Site Searches\”, der kan findes på Webtrekk Analytics under \”Content\”. Klik på Share->Webservices og vælg JSON-format."
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:34
+msgid "Parameter: !key"
+msgstr ""
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:40
+msgid "Account"
+msgstr "Konto"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:42
+msgid "Account\\Username."
+msgstr "Account (\”DDB\”)\\Username (\”DK-\” plus biblioteksnummer)."
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:46
+msgid "Password"
+msgstr "Adgangskode"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:49
+msgid "The password"
+msgstr "Adgangskode til Webtrekk"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:54
+msgid "Levenshtein distance"
+msgstr ""
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:57
+msgid "Enter the maximum Levenshtein Distance here, ie. the maximum number of characters to replace, insert or delete to transform the input string into a string from the KPI data. A higher numbere allows for less similar words to be suggested."
+msgstr "Jo højere tal, des større afstand. For høj, og den returnerer meningsløse forslag. For lav og den finder ingenting."
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:61
+msgid "Minimum search import limit"
+msgstr "Mindste antal gange, en søgning er foretaget"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:63
+msgid "The KPI Webtrekk data has search keywords for all searches, including searches with very low frequence (eg. searched only 1 time). Enter the number of minimum searches required before a keyword is imported and used in the KPI subsearch."
+msgstr "Angiv her det mindste antal gange en søgning skal være foretaget, for at den kan benyttes som forslag."
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:68
+msgid "Number of hits to trigger KPI subsearch"
+msgstr "Største antal resultater, der udløser KPI subsearch"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:70 modules/subsearch_opensuggestion/subsearch_opensuggestion.admin.inc:24
+msgid "In order to trigger a subsearch which will provide a suggestion to the user, the user-provided search string must trigger at most this number of hits. NOTE: User-provided searches that trigger 0 hits always trigger a subsearch."
+msgstr "For at udløse en KPI subsearch, der kan give brugeren et alternativt søgeforslag, skal brugerens søgeterm(er) højst generere dette antal resultater. BEMÆRK: 0-hits-søgninger udløser altid en subsearch."
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:75 modules/subsearch_opensuggestion/subsearch_opensuggestion.admin.inc:29
+msgid "Number of subsearch hits to display message"
+msgstr "Minimum antal resultater af søgning på alternative søgetermer"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:77 modules/subsearch_opensuggestion/subsearch_opensuggestion.admin.inc:31
+msgid "Minimum number of hits on secondary search to display suggested search message. Given that the trigger above is hit."
+msgstr "Det mindste antal resultater, den sekundære søgning skal generere, for at boksen med alternativt søgeforslag vises (under forudsætning af, at ovenstående trigger er udløst)."
+
+#: modules/subsearch_kpi/subsearch_kpi.module:31 modules/subsearch_opensuggestion/subsearch_opensuggestion.module:31
+msgid "The search for \"!original-keys\" returned 0 hits. Showing results for \"!keys\" instead, which returned !num-results hits."
+msgstr "Viser resultater for \"!keys\", da søgning på \"!original-keys\" gav 0 resultater."
+
+#: modules/subsearch_kpi/subsearch_kpi.module:68 modules/subsearch_opensuggestion/subsearch_opensuggestion.module:68
+msgid "The search for \"!keys\" returned !num-results hits. Did you mean \"<a href=\"/search/ting/!suggested-keys\">!suggested-keys</a>?\" which will return !suggested-num-results hits."
+msgstr "Søgning på \"!keys\" gav !num-results resultater. Mente du \"<a href=\"/search/ting/!suggested-keys\">!suggested-keys</a>?\" Det giver !suggested-num-results resultater."
+
+#: modules/subsearch_kpi/subsearch_kpi.module:127;155;158
+msgid "subsearch_kpi"
+msgstr ""
+
+#: modules/subsearch_kpi/subsearch_kpi.module:127
+msgid "Module not configured properly"
+msgstr "Modulet er ikke konfigureret rigtigt"
+
+#: modules/subsearch_kpi/subsearch_kpi.module:155
+msgid "Data fetched from KPI. Will re-run in a day."
+msgstr "Data hentet fra KPI. Henter igen om én dag."
+
+#: modules/subsearch_kpi/subsearch_kpi.module:158
+msgid "No data fetched from feed"
+msgstr "Ingen data modtaget fra feed"
+
+#: modules/subsearch_kpi/subsearch_kpi.info:0
+msgid "Ting Subsearch - KPI Webtrekk suggestions from imported keys"
+msgstr "Ting Subsearch – KPI Webtrekk forslag fra importerede keys"
+
+#: modules/subsearch_kpi/subsearch_kpi.info:0 modules/subsearch_opensuggestion/subsearch_opensuggestion.info:0 modules/subsearch_secondary/subsearch_secondary.info:0
+msgid "Extend Ting Search with secondary search"
+msgstr "Suppler Ting søgning med sekundær søgning"
+
+#: modules/subsearch_opensuggestion/subsearch_opensuggestion.admin.inc:12
+msgid "Ting subsearch settings"
+msgstr " Ting subsearch indstillinger"
+
+#: modules/subsearch_opensuggestion/subsearch_opensuggestion.admin.inc:17
+msgid "Open Suggestion settings"
+msgstr "Open Suggestion indstillinger"
+
+#: modules/subsearch_opensuggestion/subsearch_opensuggestion.admin.inc:22
+msgid "Number of hits to trigger Open Suggestion subsearch"
+msgstr "Mindste antal resultater, der udløser Open Suggestion subsearch"
+
+#: modules/subsearch_opensuggestion/subsearch_opensuggestion.info:0
+msgid "Ting Subsearch - Open Suggestion Service"
+msgstr ""

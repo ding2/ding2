@@ -1,0 +1,9 @@
+name = Ting Subsearch Suggestions
+description = Mixing Opensuggestion and KPI Webtrekk services and extend Ting Search with secondary search
+package = Ding!
+core = 7.x
+version = 0.1
+configure = admin/config/ding/provider/opensearch
+dependencies[] = ting_search
+dependencies[] = ting_subsearch_common
+dependencies[] = xautoload
