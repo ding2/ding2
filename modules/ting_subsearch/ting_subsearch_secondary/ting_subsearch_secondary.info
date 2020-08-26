@@ -1,0 +1,15 @@
+name = Ting Subsearch - Secondary ting search
+description = Extend Ting Search with secondary search
+package = Ding!
+core = 7.x
+version = 0.1
+configure = admin/config/ding/provider/opensearch
+dependencies[] = features
+dependencies[] = features_override
+dependencies[] = ting_search
+dependencies[] = ting_subsearch_common
+features[features_api][] = api:2
+features[features_overrides][] = field_instance.ting_collection-ting_collection-ting_primary_object.display|minimal
+features[features_overrides][] = field_instance.ting_object-ting_object-ting_author.display|minimal
+features[features_overrides][] = field_instance.ting_object-ting_object-ting_title.display|minimal
+features[features_overrides][] = field_instance.ting_object-ting_object-ting_type.display|minimal

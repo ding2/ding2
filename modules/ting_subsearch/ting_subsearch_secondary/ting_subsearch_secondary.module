@@ -1,0 +1,332 @@
+<?php
+
+/**
+ * @file
+ * Ting subsearch using Bibliotek.dk service.
+ */
+
+use Ting\Search\NullSearchResult;
+
+// Load admin configuration.
+module_load_include('inc', 'ting_subsearch_secondary', 'ting_subsearch_secondary.admin');
+include_once 'ting_subsearch_secondary.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function ting_subsearch_secondary_menu() {
+  $items['subsearch_secondary'] = [
+    'title' => 'Subsearch Secondary Suggestions',
+    'description' => 'AJAXify request for subsearch secondary suggestions',
+    'page callback' => 'ting_subsearch_secondary_ajax_callback',
+    'access callback' => TRUE,
+  ];
+
+  return $items;
+}
+
+/**
+ * Custom AJAX menu callback.
+ *
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_ajax_callback() {
+  $message = '';
+  if (!empty($_POST)) {
+    $keys = $_POST['keys'];
+    $results = unserialize($_POST['results']);
+    $message = ting_subsearch_secondary_search($keys, $results);
+  }
+
+  drupal_json_output($message);
+  drupal_exit();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
+  return [
+    'tss_message_box' => [
+      'variables' => [
+        'items' => NULL,
+        'message' => NULL,
+        'bibdk_url' => NULL,
+        'bibdk_url_text' => NULL,
+      ],
+      'template' => 'templates/ting-subsearch-secondary--message-box',
+    ],
+    'tss_items_list' => [
+      'variables' => ['items' => NULL],
+      'template' => 'templates/ting-subsearch-secondary--message-box--items-list',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_ting_search_results_prefix().
+ *
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, $results) {
+  if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
+    if (!empty($results->getNumTotalObjects())) {
+      return _ting_subsearch_secondary_search_trigger($keys, $conditions, $results, 'before');
+    }
+  }
+}
+
+/**
+ * Implements hook_ting_search_results_suffix().
+ *
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions, $results) {
+  if (variable_get('ting_subsearch_secondary_position', 'before') == 'after') {
+    if (!empty($results->getNumTotalObjects())) {
+      return _ting_subsearch_secondary_search_trigger($keys, $conditions, $results, 'after');
+    }
+  }
+}
+
+/**
+ * Callback for triggering secondary search block render.
+ *
+ * @param $keys
+ * @param $conditions
+ * @param $results
+ * @param $position
+ *
+ * @return string
+ */
+function _ting_subsearch_secondary_search_trigger($keys, $conditions, $results, $position) {
+  drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/css/ting_subsearch_secondary.css');
+  drupal_add_js(
+    [
+      'subsearch_secondary' => [
+        'keys' => $keys,
+        'conditions' => $conditions,
+        'results' => serialize($results),
+      ],
+    ],
+    'setting'
+  );
+
+  drupal_add_js(drupal_get_path('module', 'ting_subsearch_secondary') . '/js/subsearch_secondary.js', [
+    'type' => 'file',
+    'scope' => 'footer',
+  ]);
+
+  return '<div id="subsearch-secondary" class="' . $position . '"></div>';
+}
+
+/**
+ * Implements hook_ting_search_results_suffix().
+ *
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_search($keys, $results) {
+  $message = '';
+
+  if ($results instanceof NullSearchResult) {
+    return;
+  }
+  $num_total_objects = $results->getNumTotalObjects();
+  if (!empty($num_total_objects)) {
+    if ($num_total_objects > 0 && $num_total_objects < (float) variable_get('ting_subsearch_secondary_max', 100)) {
+      $facets = $results->getFacets();
+      $genre_facets = $facets['facet.genreCategory']->getTerms();
+      // If any of fiction or non fiction is empty we cannot do the calculation.
+      // Simply exit for now.
+      if (empty($facets['facet.genreCategory'])) {
+        watchdog('subsearch_subsearch', 'You need to enable facet.genreCategory in order for this to work.', [], WATCHDOG_WARNING);
+        return $message;
+      }
+
+      if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
+        watchdog('subsearch_subsearch', 'Missing secondary agency or profile.', [], WATCHDOG_WARNING);
+        return $message;
+      }
+
+      $nonfiction = 1;
+      if (!empty($genre_facets['nonfiktion'])) {
+        $nonfiction = $genre_facets['nonfiktion']->getCount();
+      }
+
+      $fiction = 0;
+      if (!empty($genre_facets['fiktion'])) {
+        $fiction = $genre_facets['fiktion']->getCount();
+      }
+
+      // Less than half fiction of nonfiction.
+      if ($nonfiction / (float) variable_get('ting_subsearch_secondary_factor', 2) > $fiction) {
+        $message = ting_subsearch_secondary_execute_secondary_search($keys, $results);
+      }
+    }
+  }
+  else {
+    $message = ting_subsearch_secondary_execute_secondary_search($keys, $results);
+  }
+  return $message;
+}
+
+/**
+ * Execute secondary search.
+ *
+ * @param $keys
+ * @param $results
+ *
+ * @return string
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
+  $message = '';
+  $secondary_result_min = (float) variable_get('ting_subsearch_secondary_result_min', 100);
+  $secondary_max = (float) variable_get('ting_subsearch_secondary_max', 100);
+
+  $secondary_result = ting_subsearch_common_do_secondary_search($keys, [
+    'agency' => variable_get('ting_subsearch_secondary_agency', ''),
+    'profile' => variable_get('ting_subsearch_secondary_profile', ''),
+  ]);
+  $secondary_num_objects = $secondary_result->numTotalObjects;
+  $num_total_objects = $results->getNumTotalObjects();
+
+  if ($secondary_num_objects > $secondary_result_min && $secondary_num_objects < $secondary_max) {
+    $ratio = $secondary_num_objects / $num_total_objects;
+
+    if ($ratio > (float) variable_get('ting_subsearch_secondary_ps_factor', 2)) {
+      $items = [];
+      $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
+      foreach ($secondary_result->collections as &$collection) {
+        $build = ting_collection_view($collection, 'minimal');
+        $markup = drupal_render($build);
+
+        $items[] = [
+          'markup' => $markup,
+          'url' => 'https://bibliotek.dk/work/' . $collection->ding_entity_id,
+        ];
+        if (count($items) == $number_of_records_to_show) {
+          break;
+        }
+      }
+
+      $options = [
+        '!link' => str_replace('[keys]', urlencode($keys), variable_get('ting_subsearch_secondary_search_link', '')),
+        '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
+        '!keys' => $keys,
+        '!num-results' => $num_total_objects,
+        '!bibdk-num-results' => $secondary_num_objects,
+      ];
+
+      if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
+        $msg = t('If you search for "<strong>!keys</strong>" on !link-text instead you will get <strong>!bibdk-num-results hits</strong>',
+          $options
+        );
+      }
+      else {
+        $msg = t('If you search for "<strong>!keys</strong>" on !link-text instead you will get <strong>!bibdk-num-results hits</strong> where some of them is the following:',
+          $options
+        );
+      }
+
+      $message = theme('tss_message_box', [
+        'items' => theme('tss_items_list', ['items' => $items]),
+        'message' => $msg,
+        'bibdk_url' => $options['!link'],
+        'bibdk_url_text' => t('See more materials at <span class="accent">bibliotek.dk</span>'),
+      ]);
+    }
+  }
+
+  return $message;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ting_subsearch_secondary_entity_info_alter(&$entity_info) {
+  $entity_info['ting_object']['view modes']['minimal'] = [
+    'label' => t('Minimal'),
+    'custom settings' => TRUE,
+  ];
+  $entity_info['ting_collection']['view modes']['minimal'] = [
+    'label' => t('Minimal'),
+    'custom settings' => TRUE,
+  ];
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ting_subsearch_secondary_field_formatter_info() {
+  return [
+    'ting_title_minimal' => [
+      'label' => t('Minimal Title'),
+      'field types' => [
+        'ting_title',
+      ],
+      'settings' => [
+        'link_type' => 'none',
+        'prefix_type' => 'no',
+      ],
+    ],
+
+    'ting_author_minimal' => [
+      'label' => t('Minimal author'),
+      'field types' => [
+        'ting_author',
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ting_subsearch_secondary_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = [];
+
+  foreach ($items as $delta => $item) {
+    switch ($display['type']) {
+      case 'ting_title_minimal':
+        // Only create the link if the object is available in the data well.
+        $title = truncate_utf8(check_plain($entity->title), 70, FALSE, TRUE);
+        $element[$delta] = [
+          '#prefix' => '<h2 class="ting-object-minimal-title">',
+          '#suffix' => '</h2>',
+          '#markup' => $title,
+        ];
+        break;
+
+      case 'ting_author_minimal':
+        $creators = [];
+        foreach ($entity->creators as $i => $creator) {
+          $creators[] = $creator;
+        }
+        $markup_string = '';
+        if (count($creators)) {
+          if ($entity->date != '') {
+            $markup_string = t('by !author_link (@year)', [
+              '!author_link' => implode(', ', $creators),
+              // So wrong, but appears to be the way the data is.
+              '@year' => $entity->date,
+            ]);
+          }
+          else {
+            $markup_string = t('by !author_link', [
+              '!author_link' => implode(', ', $creators),
+            ]);
+          }
+        }
+        elseif ($entity->date != '') {
+          $markup_string = t('(@year)', ['@year' => $entity->date]);
+        }
+        $element[$delta] = [
+          '#markup' => truncate_utf8(check_plain($markup_string), 70, FALSE, TRUE),
+        ];
+        break;
+    }
+  }
+
+  return $element;
+}

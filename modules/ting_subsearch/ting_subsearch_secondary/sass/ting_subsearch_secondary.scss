@@ -1,0 +1,120 @@
+.ting-object.view-mode-minimal .field-name-ting-author,
+.ting-object.view-mode-minimal .field-name-ting-type {
+  display: inline-block;
+}
+
+.message-box {
+  padding: 15px 12px;
+
+  .message-box--title {
+    margin-bottom: 12px;
+  }
+
+  .message-box--list-item {
+    margin-bottom: 5px;
+    padding: 10px 25px 10px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    min-height: 56px;
+    background-color: #f1f2f2;
+    overflow: hidden;
+
+    .message-box--content {
+      position: absolute;
+      overflow: hidden;
+      .field-name-ting-title h2 {
+        font-size: 100%;
+        font-weight: bold;
+        margin-bottom: 0;
+        line-height: unset;
+      }
+
+      @media screen and(max-width: 1200px) {
+        position: unset;
+      }
+    }
+
+    .message-box--see-more {
+      transition: background-color .3s cubic-bezier(.165,.84,.44,1),color .3s cubic-bezier(.165,.84,.44,1);
+      background-color: #e5e5e5;
+      color: #262626;
+      height: 36px;
+      padding: 10px 16px;
+      border-radius: 5px;
+      margin-left: auto;
+      z-index: 1;
+      box-shadow: -20px 0px rgba(241, 242, 242, 1);
+
+      &:hover {
+        background-color: #808285;
+        color: #fff;
+      }
+
+      @media screen and(max-width: 1200px) {
+        display: none;
+      }
+    }
+  }
+
+  .message-box--external-search {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .message-box--external-search a {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    margin-top: 15px;
+    padding: 12px 25px 7px 25px;
+    background-color: #000;
+    border-radius: 5px;
+    color: #fffff2;
+
+    &:hover {
+      color: #fffff2;
+    }
+  }
+
+  .field-name-ting-type {
+    @media screen and(max-width: 970px){
+      display: none !important;
+    }
+  }
+}
+
+div.search-field-in-content--message-tss {
+  width: 100%;
+  float: left;
+  border: none;
+  padding: 20px 15px;
+  background-color: #4d898e;
+  color: #fffff1;
+
+  .after & {
+    margin-top: 30px;
+  }
+
+  .before & {
+    margin-bottom: 30px;
+  }
+
+  a,
+  a.active {
+    &:hover {
+      color: #262626;
+    }
+  }
+}
+
+.pane-search-result .pane-content .message-box--title strong {
+  font-family: FaktPro-SemiBold,sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}

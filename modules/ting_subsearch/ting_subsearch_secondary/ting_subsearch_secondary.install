@@ -1,0 +1,96 @@
+<?php
+
+/**
+ * @file
+ * Installation of Secondary sub search module.
+ *
+ * @TODO: Missing clean up on uninstall?
+ */
+
+/**
+ * Install translations.
+ *
+ * @throws \FieldException
+ */
+function ting_subsearch_secondary_install() {
+  // Adding fields to 'minimal' display.
+  ting_subsearch_secondary_add_fields();
+
+  // Install translations.
+  $file = new stdClass();
+  $file->uri = drupal_get_path('module', 'ting_subsearch_secondary') . '/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+}
+
+/**
+ * Forcing addition of the fields into 'minimal' display of ting_object.
+ *
+ * @throws \FieldException
+ */
+function ting_subsearch_secondary_add_fields() {
+  $fields = [
+    'ting_primary_object' => [
+      'label' => 'hidden',
+      'module' => 'ting',
+      'settings' => [
+        'view_mode' => 'minimal',
+      ],
+      'type' => 'ting_primary_object_default',
+      'weight' => 0,
+    ],
+    'ting_title' => [
+      'label' => 'hidden',
+      'module' => 'ting_subsearch_secondary',
+      'settings' => [
+        'link_type' => 'none',
+        'prefix_type' => 'no',
+      ],
+      'type' => 'ting_title_minimal',
+      'weight' => 1,
+    ],
+    'ting_type' => [
+      'label' => 'hidden',
+      'module' => 'ting',
+      'settings' => [],
+      'type' => 'ting_type_default',
+      'weight' => 2,
+    ],
+    'ting_author' => [
+      'label' => 'hidden',
+      'module' => 'ting_subsearch_secondary',
+      'settings' => [],
+      'type' => 'ting_author_minimal',
+      'weight' => 3,
+    ],
+  ];
+
+  foreach ($fields as $field => $settings) {
+    if ($field == 'ting_primary_object') {
+      $instance_info = field_info_instance('ting_collection', $field, 'ting_collection');
+    }
+    else {
+      $instance_info = field_info_instance('ting_object', $field, 'ting_object');
+    }
+    $instance_info['display']['minimal'] = $settings;
+
+    field_update_instance($instance_info);
+  }
+}
+
+/**
+ * Update translations.
+ */
+function ting_subsearch_secondary_update_7001() {
+  $file = new stdClass();
+  $file->uri = drupal_get_path('module', 'ting_subsearch_secondary') . '/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+}
+
+/**
+ * Remove unneeded variables.
+ */
+function ting_subsearch_secondary_update_7002() {
+  variable_del('ting_subsearch_secondary_min');
+}
