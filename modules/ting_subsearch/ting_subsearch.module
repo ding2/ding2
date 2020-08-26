@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ting Subsearch Common.
+ * Ting Subsearch
  */
 
 use OpenSearch\OpenSearchStatementGroupRender;
@@ -22,7 +22,7 @@ use Ting\Search\SearchProviderException;
  * @throws \TingClientException
  * @throws \Ting\Search\SearchProviderException
  */
-function ting_subsearch_common_do_secondary_search($keys, $options = []) {
+function ting_subsearch_do_secondary_search($keys, $options = []) {
   $page = 1;
   $results_per_page = 10;
   $agency = variable_get('ting_agency', FALSE);
@@ -39,7 +39,7 @@ function ting_subsearch_common_do_secondary_search($keys, $options = []) {
 
   $request = opensearch_get_request_factory()->getSearchRequest();
 
-  $query = ting_subsearch_common_build_search_query($keys);
+  $query = ting_subsearch_build_search_query($keys);
 
   $request->setQuery($query);
 
@@ -160,7 +160,7 @@ function ting_subsearch_common_do_secondary_search($keys, $options = []) {
  * @return string|\Ting\Search\TingSearchRequest|\Ting\Search\TingSearchResultInterface
  * @throws \Ting\Search\SearchProviderException
  */
-function ting_subsearch_common_build_search_query($keys) {
+function ting_subsearch_build_search_query($keys) {
   $query = ting_start_query()->withFullTextQuery($keys)->execute();
   $query = $query->getSearchRequest();
 
@@ -236,8 +236,7 @@ function ting_subsearch_common_build_search_query($keys) {
  *
  * @return bool
  */
-function ting_subsearch_common_suggested_keys($keys, $callback) {
-
+function ting_subsearch_suggested_keys($keys, $callback) {
   if (function_exists($callback)) {
     $suggestion = $callback($keys);
     if ($suggestion == FALSE || $suggestion == $keys) {
@@ -258,14 +257,14 @@ function ting_subsearch_common_suggested_keys($keys, $callback) {
  *
  * @return array
  */
-function ting_subsearch_common_query_params($query, $original_query = []) {
+function ting_subsearch_query_params($query, $original_query = []) {
   return array_merge($original_query, drupal_get_query_array($query));
 }
 
 /**
  * Implements hook_libraries_info().
  */
-function ting_subsearch_common_libraries_info() {
+function ting_subsearch_libraries_info() {
   return [
     'guzzle' => [
       'name' => 'Guzzle',
@@ -318,7 +317,7 @@ function ting_subsearch_common_libraries_info() {
  * @param $element
  * @param $form_state
  */
-function ting_subsearch_common_sensitive_fields_validate($element, &$form_state) {
+function ting_subsearch_sensitive_fields_validate($element, &$form_state) {
   if (!empty($element['#value']) && preg_match('/,/', $element['#value']) === 1) {
     form_error($element, t('The <strong>"@name"</strong> field contains wrong decimals separator. Please use <strong>". (dot)"</strong> notation instead of <strong>", (comma)"</strong>.',
         ['@name' => $element['#title']]
