@@ -1,0 +1,233 @@
+<?php
+
+/**
+ * @file
+ * Translated search.
+ */
+
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use Ting\Search\NullSearchResult;
+
+// Load Field module hooks.
+module_load_include('inc', 'ting_subsearch_translate', 'ting_subsearch_translate.admin');
+
+/**
+ * Implements hook_menu().
+ */
+function ting_subsearch_translate_menu() {
+  $items['subsearch_translate'] = [
+    'title' => 'Subsearch Secondary Suggestions',
+    'description' => 'AJAXify request for subsearch translate suggestions',
+    'page callback' => 'ting_subsearch_translate_ajax_callback',
+    'access callback' => TRUE,
+  ];
+
+  return $items;
+}
+
+/**
+ * Custom AJAX menu callback.
+ */
+function ting_subsearch_translate_ajax_callback() {
+  $message = '';
+  if (!empty($_POST)) {
+    $keys = $_POST['keys'];
+    $conditions = $_POST['conditions'];
+    $results = unserialize($_POST['results']);
+
+    $message = ting_subsearch_translate_get_message($keys, $conditions, $results);
+  }
+
+  drupal_json_output($message);
+  drupal_exit();
+}
+
+/**
+ * Generation of suggestion message.
+ *
+ * @param string $keys
+ * @param array $conditions
+ * @param object $results
+ *
+ * @return string|void
+ * @throws \TingClientException
+ * @throws \Ting\Search\SearchProviderException
+ */
+function ting_subsearch_translate_get_message($keys, $conditions, $results) {
+  $message = '';
+
+  if ($results instanceof NullSearchResult) {
+    return;
+  }
+
+  // If no google api key is set we cannot translate.
+  if (empty(variable_get('ting_subsearch_translate_google_key', ''))) {
+    return $message;
+  }
+
+  if ($results->getNumTotalObjects()) {
+    $facets = $results->getFacets();
+
+    // If any of fiction or non fiction is empty we cannot do the calculation.
+    // Simply exit for now.
+    if (!isset($facets['facet.genreCategory'])) {
+      watchdog('subsearch_translate', 'You need to enable facet.genreCategory in order for this to work.', [], WATCHDOG_WARNING);
+      return $message;
+    }
+
+    $terms = $facets['facet.genreCategory']->getTerms();
+    $nonfiction = isset($terms['nonfiktion']) ? $terms['nonfiktion']->getCount() : 0;
+    $fiction = isset($terms['fiktion']) ? $terms['fiktion']->getCount() : 0;
+
+    // Calculate the ratio of $fiction in relation to non-fiction.
+    $fn_ratio = $nonfiction / $fiction;
+    if ((float) variable_get('ting_subsearch_translate_factor', 50) < $fn_ratio) {
+      $translated_keys = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
+
+      if ($translated_keys) {
+        if (drupal_strtolower($translated_keys) == drupal_strtolower($results->getSearchRequest()
+            ->getFullTextQuery())) {
+          // The two search are the same. So no need to do extra search query.
+          return $message;
+        }
+
+        $suggested_result = ting_subsearch_common_do_secondary_search($translated_keys);
+
+        $num_total_objects = $suggested_result->numTotalObjects;
+
+        $ratio = $num_total_objects / $results->getNumTotalObjects();
+
+        if ($ratio > (float) variable_get('ting_subsearch_translate_ps_factor', 10)) {
+          if (!empty($num_total_objects)) {
+            $options = ['query' => ''];
+            if (module_exists('ting_field_search')) {
+              $profile = ting_field_search_get_active_profile();
+              if ($profile) {
+                $options['query'] = ['profile' => rawurlencode($profile->name)];
+              }
+            }
+
+            $options['identifier'] = 'subsearch-translate-first';
+            $message = _translate_build_message($translated_keys, $num_total_objects, $options);
+          }
+        }
+      }
+    }
+  }
+  else {
+    $translated_keys = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
+
+    if ($translated_keys) {
+      $suggested_result = ting_subsearch_common_do_secondary_search($translated_keys);
+      $num_total_objects = $suggested_result->numTotalObjects;
+
+      $options = ['query' => ''];
+      if (module_exists('ting_field_search')) {
+        $profile = ting_field_search_get_active_profile();
+        if ($profile) {
+          $options['query'] = ['profile' => rawurlencode($profile->name)];
+        }
+      }
+
+      if ($num_total_objects != 0) {
+        $options['identifier'] = 'subsearch-translate-second';
+        $message = _translate_build_message($translated_keys, $num_total_objects, $options);
+      }
+    }
+  }
+
+  return $message;
+}
+
+/**
+ * Implements hook_ting_search_results_prefix().
+ */
+function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions, $results) {
+  if ($results->getNumTotalObjects() != 0) {
+    drupal_add_js(
+      [
+        'subsearch_translate' => [
+          'keys' => $keys,
+          'conditions' => $conditions,
+          'results' => serialize($results),
+        ],
+      ],
+      'setting'
+    );
+
+    drupal_add_js(drupal_get_path('module', 'ting_subsearch_translate') . '/js/subsearch_translate.js', [
+      'type' => 'file',
+      'scope' => 'footer',
+    ]);
+  }
+}
+
+/**
+ * Callback for generating notification message.
+ *
+ * @param string $translated_keys
+ * @param string $num_total_objects
+ * @param array $options
+ *
+ * @return string
+ */
+function _translate_build_message($translated_keys, $num_total_objects, $options) {
+  $link_url = '/search/ting/' . drupal_strtolower($translated_keys);
+  $msg = t('Search in english <strong>"!suggested-keys"</strong> (!suggested-num-results)', [
+    '!suggested-keys' => drupal_strtolower($translated_keys),
+    '!suggested-num-results' => $num_total_objects,
+  ]);
+  $wrapper = '<div id="' . $options['identifier'] . '">' . $msg . '</div>';
+  $url = url($link_url, [
+    'query' => $options['query'],
+    'absolute' => TRUE,
+  ]);
+
+  return l($wrapper, $url, [
+    'html' => TRUE,
+    'absolute' => TRUE,
+    'attributes' => ['target' => 'blank'],
+  ]);
+}
+
+/**
+ * Finds suggested keys based on Google translation.
+ *
+ * @param $keys
+ *   The search phrase.
+ *
+ * @return string|bool
+ *   The translation or FALSE if no translation was obtained.
+ */
+function ting_subsearch_translate_suggest_translated_keys($keys) {
+  $params = [];
+  $params['q'] = $keys;
+  $params['key'] = variable_get('ting_subsearch_translate_google_key', '');
+  $params['source'] = 'da';
+  $params['target'] = 'en';
+
+  try {
+    $client = new HttpClient();
+    $response = $client->get(
+      variable_get('ting_subsearch_translate_url', 'https://www.googleapis.com/language/translate/v2'),
+      [
+        'query' => $params,
+        'headers' => [
+          'Accept' => 'application/json',
+        ],
+      ]
+    );
+    $result = json_decode($response->getBody());
+
+    if (!empty($result->data->translations[0]->translatedText)) {
+      $translation = (string) $result->data->translations[0]->translatedText;
+      return html_entity_decode($translation, ENT_QUOTES);
+    }
+  } catch (GuzzleClientException $e) {
+    watchdog_exception('ting_subsearch_translate', $e);
+    return FALSE;
+  }
+
+  return FALSE;
+}

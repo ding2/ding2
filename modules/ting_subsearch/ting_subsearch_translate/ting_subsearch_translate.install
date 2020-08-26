@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Un-installation of module
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ting_subsearch_translate_uninstall() {
+  variable_del('ting_subsearch_translate_google_key');
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function ting_subsearch_translate_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $t = get_t();
+    $requirements['google_key'] = array(
+      'title' => $t('Google Cloud Translation API key'),
+      'value' => $t('In order to translate subsearches, you need to provide a valid Google Cloud Translation API key.'),
+      'severity' => REQUIREMENT_ERROR,
+    );
+
+    // Assume that a contains uppercase, lowercase and numbers and is excat
+    // 39 characters long.
+    if (preg_match('/^\s*[a-zA-Z0-9]{39}$/', variable_get('ting_subsearch_translate_google_key', ''))) {
+      $requirements['google_key']['severity'] = REQUIREMENT_OK;
+      $requirements['google_key']['value'] = $t('It seems that you provided something similar to a key, its not validated tough');
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Install translations.
+ */
+function ting_subsearch_translate_install() {
+  // Install translations.
+  $file = new stdClass();
+  $file->uri = drupal_get_path('module', 'ting_subsearch_translate') . '/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+}

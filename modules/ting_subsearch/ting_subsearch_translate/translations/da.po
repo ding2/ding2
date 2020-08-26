@@ -1,0 +1,81 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2017-03-16 14:56+0000\n"
+"PO-Revision-Date: 2017-03-16 14:56+0000\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Danish <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ting_search.info:0 modules/subsearch_kpi/subsearch_kpi.info:0 modules/subsearch_opensuggestion/subsearch_opensuggestion.info:0 modules/subsearch_secondary/subsearch_secondary.info:0 modules/subsearch_translate/subsearch_translate.info:0
+msgid "Ding!"
+msgstr "Ding!"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:43 modules/subsearch_translate/subsearch_translate.admin.inc:47
+msgid "Challenge: Factor for calculating ratio between nonfiction and fiction"
+msgstr "Faktoren for ratioen mellem fiktion og non-fiktion."
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:45 modules/subsearch_translate/subsearch_translate.admin.inc:49
+msgid "The condition is as following (nonfiction / factor) > fiction"
+msgstr "Antal gange mere nonfiktion end fiktion, der skal være i søgeresultaterne, for at udløse funktionen"
+
+#: modules/subsearch_secondary/subsearch_secondary.module:31 modules/subsearch_translate/subsearch_translate.module:34
+msgid "You need to enable facet.genreCategory in order for this to work."
+msgstr "Det er nødvendigt at aktivere facetten genreCategory for at denne funktion kan virke"
+
+#: modules/subsearch_translate/subsearch_translate.admin.inc:19
+msgid "Translated search requires !facet. Please insert on !adminpage"
+msgstr "Oversat søgning kræver !facet. Indsæt denne på !adminpage"
+
+#: modules/subsearch_translate/subsearch_translate.admin.inc:24
+msgid "Configure facets"
+msgstr "Konfigurér facetter"
+
+#: modules/subsearch_translate/subsearch_translate.admin.inc:34
+msgid "Translation Settings"
+msgstr "Indstillinger af oversættelse"
+
+#: modules/subsearch_translate/subsearch_translate.admin.inc:36
+msgid "With translated subsearch you get the option for translated keys when the challenge is passed."
+msgstr "Oversat subsearch giver mulighed for at få oversat søgestrengen, når kriterierne er opfyldt"
+
+#: (duplicate) modules/subsearch_translate/subsearch_translate.admin.inc:40 modules/subsearch_translate/subsearch_translate.install:23
+msgid "Google Cloud Translation API key"
+msgstr ""
+
+#: modules/subsearch_translate/subsearch_translate.admin.inc:42
+msgid "You need to have an API key configured with billing for this to work. take a look at <a href=\"https://cloud.google.com/translate/pricing\">Pricing</a>"
+msgstr "Det er nødvendigt at konfigurere en betalings API key, før dette modul virker. Læs mere her: <a href=\"https://cloud.google.com/translate/pricing\">Pricing</a>"
+
+#: modules/subsearch_translate/subsearch_translate.module:49
+msgid "The search for \"!keys\" gave !num-results hits. If you search for the English translation \"!suggested-keys-link\" you will get !suggested-num-results hits."
+msgstr "Du har søgt på \"!keys\" og fået !num-results resultater. Hvis du i stedet søger på engelsk - \"!suggested-keys-link\" - får du !suggested-num-results resultater."
+
+#: modules/subsearch_translate/subsearch_translate.module:34
+msgid "subsearch_translate"
+msgstr ""
+
+#: (duplicate) modules/subsearch_translate/subsearch_translate.install:24
+msgid "In order to translate subsearches, you need to provide a valid Google Cloud Translation API key."
+msgstr "For at oversætte subsearches, kræves en gyldig Google Cloud Translation API key."
+
+#: (duplicate) modules/subsearch_translate/subsearch_translate.install:32
+msgid "It seems that you provided something similar to a key, its not validated tough"
+msgstr "Du har indtastet noget, der ligner en key, men den er ikke gyldig."
+
+#: modules/subsearch_translate/subsearch_translate.info:0
+msgid "Ting Subsearch - Translate Service"
+msgstr ""
+
+#: modules/subsearch_translate/subsearch_translate.info:0
+msgid "Extend Ting Search with secondary search which translates the search to English and informs user if relevant."
+msgstr "Udvidet Ting søgning med sekundær søgning, der oversætter søgestrengen til engelsk og giver brugeren en besked, hvis det er relevant."
