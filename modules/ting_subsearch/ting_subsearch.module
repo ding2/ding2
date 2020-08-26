@@ -1,0 +1,327 @@
+<?php
+
+/**
+ * @file
+ * Ting Subsearch
+ */
+
+use OpenSearch\OpenSearchStatementGroupRender;
+use Ting\Search\DingProviderStrategy;
+use Ting\Search\SearchProviderException;
+
+/**
+ * Do a separate secondary search request.
+ *
+ * @param string $keys
+ *   The search phrase.
+ * @param array $options
+ *   Search options. Basically credentials for secondary search.
+ *
+ * @return TingClientSearchResult
+ *   The search result of the secondary search.
+ * @throws \TingClientException
+ * @throws \Ting\Search\SearchProviderException
+ */
+function ting_subsearch_do_secondary_search($keys, $options = []) {
+  $page = 1;
+  $results_per_page = 10;
+  $agency = variable_get('ting_agency', FALSE);
+  $profile = variable_get('opensearch_search_profile', '');
+
+  if (empty($options)) {
+    $options = [
+      'agency' => $agency,
+      'profile' => $profile,
+    ];
+  }
+
+  module_load_include('inc', 'opensearch', 'opensearch.client');
+
+  $request = opensearch_get_request_factory()->getSearchRequest();
+
+  $query = ting_subsearch_build_search_query($keys);
+
+  $request->setQuery($query);
+
+  if ($agency = $options['agency']) {
+    $request->setAgency($agency);
+  }
+  $request->setStart($results_per_page * ($page - 1) + 1);
+  $request->setNumResults($results_per_page);
+
+  if (!isset($options['facets']) and module_exists('ding_facetbrowser')) {
+    $options['facets'] = [];
+    // Populate facets with configured facets.
+    foreach (variable_get('ding_facetbrowser_facets', []) as $facet) {
+      $options['facets'][] = $facet['name'];
+    }
+  }
+
+  $default_facets = [
+    'facet.subject',
+    'facet.creator',
+    'facet.type',
+    'facet.category',
+    'facet.language',
+    'facet.date',
+    'facet.acSource',
+  ];
+  $request->setFacets((isset($options['facets'])) ? $options['facets'] : $default_facets);
+  $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((count($request->getFacets()) == 0) ? 0 : 10));
+  if (isset($options['sort']) && $options['sort']) {
+    $request->setSort($options['sort']);
+  }
+  else {
+    $sort = variable_get('opensearch_sort_default', 'rank_frequency');
+    $request->setSort($sort);
+  }
+
+  if (isset($options['collectionType'])) {
+    $request->setCollectionType($options['collectionType']);
+  }
+  $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
+
+  // Set search profile, if applicable.
+  $profile = $options['profile'];
+  if (!empty($profile)) {
+    $request->setProfile($profile);
+  }
+
+  // Apply custom ranking if enabled.
+  if (variable_get('opensearch_ranking_custom', FALSE) && variable_get('opensearch_ranking_fields', []) && !isset($options['sort'])) {
+    $fields = [];
+    foreach (variable_get('opensearch_ranking_fields', []) as $field) {
+      $fields[] = [
+        'fieldName' => $field['field_name'],
+        'fieldType' => $field['field_type'],
+        'weight' => $field['weight'],
+      ];
+    }
+
+    if (!empty($fields)) {
+      // Add the default anyIndex boosts.
+      $fields[] = [
+        'fieldName' => 'term.default',
+        'fieldType' => 'phrase',
+        'weight' => 2,
+      ];
+
+      $fields[] = [
+        'fieldName' => 'term.default',
+        'fieldType' => 'word',
+        'weight' => 1,
+      ];
+
+      $request->userDefinedRanking = [
+        'tieValue' => 0.1,
+        'rankField' => $fields,
+      ];
+    }
+  }
+  // Apply custom boosts if any.
+  $boosts = variable_get('opensearch_boost_fields', []);
+
+  if ($boosts) {
+    $uboosts = [];
+    foreach ($boosts as $boost_field) {
+      $uboosts[] = [
+        'fieldName' => $boost_field['field_name'],
+        'fieldValue' => $boost_field['field_value'],
+        'weight' => $boost_field['weight'],
+      ];
+    }
+    $request->userDefinedBoost = $uboosts;
+  }
+
+  $search_result = opensearch_execute($request);
+
+  // Replace collections with proper TingCollection objects.
+  if ($search_result && is_array($search_result->collections)) {
+    $ids = [];
+    foreach ($search_result->collections as &$collection) {
+      if (isset($collection->objects[0])) {
+        $ids[] = $collection->objects[0]->id;
+      }
+    }
+    if (!isset($options['reply_only']) || !$options['reply_only']) {
+      $search_result->collections = entity_load('ting_collection', [], ['ding_entity_id' => $ids]);
+    }
+  }
+
+  return $search_result;
+}
+
+/**
+ * Prepare query string.
+ *
+ * @param string $keys
+ *   Search keys.
+ *
+ * @return string|\Ting\Search\TingSearchRequest|\Ting\Search\TingSearchResultInterface
+ * @throws \Ting\Search\SearchProviderException
+ */
+function ting_subsearch_build_search_query($keys) {
+  $query = ting_start_query()->withFullTextQuery($keys)->execute();
+  $query = $query->getSearchRequest();
+
+  $query_parts = [];
+  // Start off with an empty query, then attempt to construct it from what we
+  // can find in $query.
+  // Provider-specific raw query.
+  if (!empty($query->getRawQuery())) {
+    $query_parts[] = $query->getRawQuery();
+  }
+
+  // Add a general quoted free text search.
+  if (!empty($free_text_query = $query->getFullTextQuery())) {
+    $cqlDoctor = new TingSearchCqlDoctor($free_text_query);
+    $query_parts[] = $cqlDoctor->string_to_cql();
+  }
+
+  // Add field filter.
+  if (!empty($query->getFilters())) {
+    $render = new OpenSearchStatementGroupRender(new DingProviderStrategy());
+    try {
+      $field_filters = $render->renderStatements(
+        $query->getFilters()
+      );
+    } catch (InvalidArgumentException $e) {
+      throw new SearchProviderException("Unable to render statements", 0, $e);
+    }
+    $query_parts[] = $field_filters;
+  }
+
+  // Add material filter, this has to be the very last thing we do as we have
+  // to handle the filter differently if $query_parts is empty.
+  $material_filter = $query->getMaterialFilter();
+  if (!empty($material_filter)) {
+    if ($query->isMaterialFilterInclude()) {
+      // The material filter is a list of IDs to include. Add OR conditions.
+      $query_parts[] = implode(' OR ', $material_filter);
+    }
+    else {
+      // We're excluding, meaning we need a NOT in front of all id's. We can't
+      // start the query with a NOT so we add a wildcard match to the start of
+      // the filter if query is empty.
+      if (empty($query_parts)) {
+        $query_parts[] = '* NOT ' . implode(' NOT ', $material_filter);
+      }
+      else {
+        $query_parts[] = implode(' NOT ', $material_filter);
+      }
+    }
+  }
+
+  // Join all query-parts together, wrap each part in a parentheses.
+  if (!empty($query_parts)) {
+    $param_wrapper = function ($part) {
+      return '(' . $part . ')';
+    };
+    $query = implode(' AND ', array_map($param_wrapper, $query_parts));
+  }
+  else {
+    $query = '';
+  }
+
+  return $query;
+}
+
+/**
+ * Callback handler for suggested keys.
+ *
+ * Find suggested keys based on keys and callback.
+ *
+ * @param $keys
+ * @param $callback
+ *
+ * @return bool
+ */
+function ting_subsearch_suggested_keys($keys, $callback) {
+  if (function_exists($callback)) {
+    $suggestion = $callback($keys);
+    if ($suggestion == FALSE || $suggestion == $keys) {
+      return FALSE;
+    }
+    else {
+      return $suggestion;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Split query string.
+ *
+ * @param $query
+ * @param array $original_query
+ *
+ * @return array
+ */
+function ting_subsearch_query_params($query, $original_query = []) {
+  return array_merge($original_query, drupal_get_query_array($query));
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ting_subsearch_libraries_info() {
+  return [
+    'guzzle' => [
+      'name' => 'Guzzle',
+      'vendor url' => 'https://github.com/guzzle/guzzle',
+      'download url' => 'https://github.com/guzzle/guzzle',
+      'version' => '6.2',
+      'xautoload' => function ($adapter) {
+        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
+        $adapter->composerJson('composer.json');
+      },
+    ],
+    'promises' => [
+      'name' => 'Guzzle promises library',
+      'vendor url' => 'https://github.com/guzzle/promises',
+      'download url' => 'https://github.com/guzzle/promises',
+      'version' => '1.2',
+      'xautoload' => function ($adapter) {
+        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
+        $adapter->composerJson('composer.json');
+      },
+    ],
+    'http-message' => [
+      'name' => 'Common interface for HTTP messages',
+      'vendor url' => 'https://github.com/php-fig/http-message',
+      'download url' => 'https://github.com/php-fig/http-message',
+      'version' => '1.0',
+      'xautoload' => function ($adapter) {
+        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
+        $adapter->composerJson('composer.json');
+      },
+    ],
+    'psr7' => [
+      'name' => 'PSR-7 message implementation',
+      'vendor url' => 'https://github.com/guzzle/psr7',
+      'download url' => 'https://github.com/guzzle/psr7',
+      'version' => '1.3',
+      'xautoload' => function ($adapter) {
+        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
+        $adapter->composerJson('composer.json');
+      },
+    ],
+  ];
+}
+
+/**
+ * Custom trigger fields validation.
+ *
+ * Validate fields which are sensitive to decimals separator.
+ *
+ * @param $element
+ * @param $form_state
+ */
+function ting_subsearch_sensitive_fields_validate($element, &$form_state) {
+  if (!empty($element['#value']) && preg_match('/,/', $element['#value']) === 1) {
+    form_error($element, t('The <strong>"@name"</strong> field contains wrong decimals separator. Please use <strong>". (dot)"</strong> notation instead of <strong>", (comma)"</strong>.',
+        ['@name' => $element['#title']]
+      )
+    );
+  }
+}
