@@ -158,6 +158,18 @@
   }
 }
 
+// Make single material overlay go a bit less to the left so it
+// doesn't leave the viewport.
+.no-touch .field-name-field-ding-paragraphs-single-mat {
+  .ting-object {
+    .inner.move-left:hover {
+      .group-text {
+        left: -100%;
+      }
+    }
+  }
+}
+
 // Override existing css from different files.
 .node-ding-page .field-name-field-ding-page-body > .paragraphs-text p:last-child {
   margin-bottom: 30px;
