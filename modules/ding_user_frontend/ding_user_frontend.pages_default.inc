@@ -586,7 +586,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '',
+          'value' => 'My checklist | [current-page:pager][site:name]',
         ),
       ),
     ),
@@ -953,7 +953,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '',
+          'value' => 'My searches | [current-page:pager][site:name]',
         ),
       ),
     ),
