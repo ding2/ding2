@@ -690,6 +690,502 @@ temaer/*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_file_audio';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_file_audio'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_file_document';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_file_document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_file_image';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_file_image'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_file_video';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_file_video'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_ding_campaign_plus';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_node_ding_campaign_plus'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_ding_eresource';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_node_ding_eresource'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_ding_event';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_event' => 'schema_event',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_node_ding_event'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_ding_group';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_node_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_ding_library';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_organization' => 'schema_organization',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+  );
+  $export['metatag_entity_type_groups_node_ding_library'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_ding_news';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 'schema_article',
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_node_ding_news'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_ding_page';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_node_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_ding_rolltab';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_node_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_panel';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_node_panel'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_node_webform';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_node_webform'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_profile2_ding_staff_profile';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_profile2_ding_staff_profile'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_profile2_provider_fbs';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_profile2_provider_fbs'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_category';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_category'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_ding_content_tags';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_ding_content_tags'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_ding_staff_department';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_ding_staff_department'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_event_category';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_event_category'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_event_organizer';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_event_organizer'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_event_target';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_event_target'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_e_resource_availability';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_e_resource_availability'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_e_resource_category';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_e_resource_category'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_group_category';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_group_category'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_news_category';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_news_category'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_taxonomy_term_section';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_taxonomy_term_section'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_ting_collection_ting_collection';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'schema_book' => 'schema_book',
+    'schema_movie' => 'schema_movie',
+    'verification' => 0,
+    'schema_article' => 0,
+    'schema_event' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_ting_collection_ting_collection'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_ting_object_ting_object';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'schema_book' => 'schema_book',
+    'schema_movie' => 'schema_movie',
+    'verification' => 0,
+    'schema_article' => 0,
+    'schema_event' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_ting_object_ting_object'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_ting_type_smart_search_string';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_ting_type_smart_search_string'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_entity_type_groups_user_user';
+  $strongarm->value = array(
+    'basic' => 'basic',
+    'advanced' => 'advanced',
+    'verification' => 'verification',
+    'schema_article' => 0,
+    'schema_book' => 0,
+    'schema_event' => 0,
+    'schema_movie' => 0,
+    'schema_organization' => 0,
+  );
+  $export['metatag_entity_type_groups_user_user'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'metatag_tag_admin_pages';
   $strongarm->value = 1;
   $export['metatag_tag_admin_pages'] = $strongarm;
