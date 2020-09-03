@@ -51,7 +51,7 @@
         </div>
 
         <!-- Used for responsive -->
-        <select class="ding_nodelist-rolltab-select-tabs">
+        <select class="ding_nodelist-rolltab-select-tabs ding-tabroll-select-tabs">
           <?php foreach ($items as $id => $result) : ?>
             <option class="nodelist-tabs-item">
               <?php print $result->title; ?>

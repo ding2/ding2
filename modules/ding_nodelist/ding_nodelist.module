@@ -891,9 +891,13 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
       break;
 
     case DING_NODELIST_WIDGET_ROLLTAB:
+      $ding_tabroll_path = drupal_get_path('module', 'ding_tabroll');
       drupal_add_library('system', 'ui.tabs');
-      drupal_add_js($mod_path . '/js/jquery-ui-tabs-rotate.js');
-      drupal_add_js($mod_path . '/js/rolltab.js', 'file');
+      // Use the JS from ding_tabroll. TODO: ding_tabroll could have a nicer API
+      // for this.
+      drupal_add_js($ding_tabroll_path . '/js/ding_tabroll.js');
+      drupal_add_js($ding_tabroll_path . '/js/jquery-ui-tabs-rotate.js');
+
       break;
 
     case DING_NODELIST_WIDGET_NODE_BLOCKS:
