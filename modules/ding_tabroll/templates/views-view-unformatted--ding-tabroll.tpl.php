@@ -8,7 +8,7 @@
  */
 ?>
 <div class="ding-tabroll-wrapper <?php print $no_overlay_class; ?>">
-  <div id="ding-tabroll" class="ding-tabroll">
+  <div class="ding-tabroll">
     <ul class="ui-tabs-nav">
       <?php foreach ($view->result as $i => $result) : ?>
         <li class="ui-tabs-nav-item count-<?php print $i; ?>"><a href="#fragment-<?php print $i; ?>"><span><?php print $result->node_title; ?></span></a></li>
