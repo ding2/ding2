@@ -473,7 +473,7 @@
   border: none;
 }
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper,
-.ding_nodelist-rolltab #ding_nodelist-rolltab,
+.ding_nodelist-rolltab,
 .ding_nodelist-rolltab ul.ui-tabs-nav,
 .ding_nodelist-rolltab li.ui-tabs-nav-item {
   border: none;

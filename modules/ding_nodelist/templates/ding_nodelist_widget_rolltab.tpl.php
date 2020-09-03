@@ -20,7 +20,7 @@
   <div class="<?php print $conf['classes'] ?>">
     <div class="ding_nodelist-items">
       <div class="ding_nodelist-rolltab-wrapper">
-        <div id="ding_nodelist-rolltab" class="ding_nodelist-rolltab ding-tabroll">
+        <div class="ding_nodelist-rolltab ding-tabroll">
           <ul class="ui-tabs-nav">
             <?php foreach ($items as $i => $result) : ?>
               <li class="ui-tabs-nav-item count-<?php print $i; ?>">
