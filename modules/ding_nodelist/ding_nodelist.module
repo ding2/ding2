@@ -897,7 +897,6 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
       break;
 
     case DING_NODELIST_WIDGET_NODE_BLOCKS:
-      drupal_add_library('system', 'ui.tabs');
       drupal_add_js($mod_path . '/js/node_blocks.js', 'file');
       break;
 
