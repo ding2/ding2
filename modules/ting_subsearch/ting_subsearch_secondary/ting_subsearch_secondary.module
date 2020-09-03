@@ -9,7 +9,6 @@ use Ting\Search\NullSearchResult;
 
 // Load admin configuration.
 module_load_include('inc', 'ting_subsearch_secondary', 'ting_subsearch_secondary.admin');
-include_once 'ting_subsearch_secondary.features.inc';
 
 /**
  * Implements hook_menu().
@@ -239,94 +238,4 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
   }
 
   return $message;
-}
-
-/**
- * Implements hook_entity_info_alter().
- */
-function ting_subsearch_secondary_entity_info_alter(&$entity_info) {
-  $entity_info['ting_object']['view modes']['minimal'] = [
-    'label' => t('Minimal'),
-    'custom settings' => TRUE,
-  ];
-  $entity_info['ting_collection']['view modes']['minimal'] = [
-    'label' => t('Minimal'),
-    'custom settings' => TRUE,
-  ];
-}
-
-/**
- * Implements hook_field_formatter_info().
- */
-function ting_subsearch_secondary_field_formatter_info() {
-  return [
-    'ting_title_minimal' => [
-      'label' => t('Minimal Title'),
-      'field types' => [
-        'ting_title',
-      ],
-      'settings' => [
-        'link_type' => 'none',
-        'prefix_type' => 'no',
-      ],
-    ],
-
-    'ting_author_minimal' => [
-      'label' => t('Minimal author'),
-      'field types' => [
-        'ting_author',
-      ],
-    ],
-  ];
-}
-
-/**
- * Implements hook_field_formatter_view().
- */
-function ting_subsearch_secondary_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $element = [];
-
-  foreach ($items as $delta => $item) {
-    switch ($display['type']) {
-      case 'ting_title_minimal':
-        // Only create the link if the object is available in the data well.
-        $title = truncate_utf8(check_plain($entity->title), 70, FALSE, TRUE);
-        $element[$delta] = [
-          '#prefix' => '<h2 class="ting-object-minimal-title">',
-          '#suffix' => '</h2>',
-          '#markup' => $title,
-        ];
-        break;
-
-      case 'ting_author_minimal':
-        $creators = [];
-        foreach ($entity->creators as $i => $creator) {
-          $creators[] = $creator;
-        }
-        $markup_string = '';
-        if (count($creators)) {
-          if ($entity->date != '') {
-            $markup_string = t('by !author_link (@year)', [
-              '!author_link' => implode(', ', $creators),
-              // So wrong, but appears to be the way the data is.
-              '@year' => $entity->date,
-            ]);
-          }
-          else {
-            $markup_string = t('by !author_link', [
-              '!author_link' => implode(', ', $creators),
-            ]);
-          }
-        }
-        elseif ($entity->date != '') {
-          $markup_string = t('(@year)', ['@year' => $entity->date]);
-        }
-        $element[$delta] = [
-          '#markup' => truncate_utf8(check_plain($markup_string), 70, FALSE, TRUE),
-        ];
-        break;
-    }
-  }
-
-  return $element;
 }

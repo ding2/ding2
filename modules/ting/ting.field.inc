@@ -162,6 +162,16 @@ function ting_field_formatter_info() {
         'element' => 'h2',
       ),
     ),
+    'ting_title_minimal' => array(
+      'label' => t('Minimal Title'),
+      'field types' => array(
+        'ting_title',
+      ),
+      'settings' => array(
+        'link_type' => 'none',
+        'prefix_type' => 'no',
+      ),
+    ),
     'ting_type_default' => array(
       'label' => t('Default'),
       'field types' => array(
@@ -182,6 +192,12 @@ function ting_field_formatter_info() {
     ),
     'ting_author_default' => array(
       'label' => t('Default'),
+      'field types' => array(
+        'ting_author',
+      ),
+    ),
+    'ting_author_minimal' => array(
+      'label' => t('Minimal author'),
       'field types' => array(
         'ting_author',
       ),
@@ -447,6 +463,16 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
 
         break;
 
+      case 'ting_title_minimal':
+        // Only create the link if the object is available in the data well.
+        $title = truncate_utf8(check_plain($entity->title), 70, FALSE, TRUE);
+        $element[$delta] = [
+          '#prefix' => '<h2 class="ting-object-minimal-title">',
+          '#suffix' => '</h2>',
+          '#markup' => $title,
+        ];
+        break;
+
       case 'ting_type_default':
         $element[$delta] = array(
           '#theme' => 'item_list',
@@ -543,6 +569,34 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         $element[$delta] = array(
           '#markup' => $markup_string,
         );
+        break;
+
+      case 'ting_author_minimal':
+        $creators = [];
+        foreach ($entity->creators as $i => $creator) {
+          $creators[] = $creator;
+        }
+        $markup_string = '';
+        if (count($creators)) {
+          if ($entity->date != '') {
+            $markup_string = t('by !author_link (@year)', [
+              '!author_link' => implode(', ', $creators),
+              // So wrong, but appears to be the way the data is.
+              '@year' => $entity->date,
+            ]);
+          }
+          else {
+            $markup_string = t('by !author_link', [
+              '!author_link' => implode(', ', $creators),
+            ]);
+          }
+        }
+        elseif ($entity->date != '') {
+          $markup_string = t('(@year)', ['@year' => $entity->date]);
+        }
+        $element[$delta] = [
+          '#markup' => truncate_utf8(check_plain($markup_string), 70, FALSE, TRUE),
+        ];
         break;
 
       case 'ting_subjects_default':
