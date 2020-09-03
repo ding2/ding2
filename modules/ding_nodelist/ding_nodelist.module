@@ -893,13 +893,11 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
     case DING_NODELIST_WIDGET_ROLLTAB:
       drupal_add_library('system', 'ui.tabs');
       drupal_add_js($mod_path . '/js/jquery-ui-tabs-rotate.js');
-      drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
       drupal_add_js($mod_path . '/js/rolltab.js', 'file');
       break;
 
     case DING_NODELIST_WIDGET_NODE_BLOCKS:
       drupal_add_library('system', 'ui.tabs');
-      drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
       drupal_add_js($mod_path . '/js/node_blocks.js', 'file');
       break;
 
