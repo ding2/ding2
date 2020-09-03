@@ -4,6 +4,4 @@ package = Ding!
 core = 7.x
 version = 0.1
 configure = admin/config/ding/provider/opensearch
-dependencies[] = ting_search
-dependencies[] = ting_subsearch_common
-dependencies[] = xautoload
+dependencies[] = ting_subsearch
