@@ -11,10 +11,6 @@
       var tabroll = $('.ding-tabroll', context);
       var tabroll_select = $('.ding-tabroll-select-tabs', context);
       var switch_speed = Drupal.settings.ding_tabroll.switch_speed;
-
-      // Hack to check if tab have been tab_selected, as unbind event will not work.
-      var tab_selected = false;
-
       // Check if the tabs lib is loaded before trying to call it.
       if ($.fn.tabs) {
         tabroll.tabs({
@@ -59,7 +55,6 @@
       $('.ui-tabs-nav-item a', tabroll).click(function(e) {
         e.preventDefault();
         tabroll.tabs().tabs('rotate', 0);
-        tab_selected = true;
         return false;
       });
 
@@ -67,7 +62,6 @@
       tabroll_select.on('change', function() {
         tabroll.tabs('select', $(this).prop('selectedIndex'));
         tabroll.tabs().tabs('rotate', 0);
-        tab_selected = true;
       });
     }
   };
