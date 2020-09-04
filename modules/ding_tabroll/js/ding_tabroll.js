@@ -37,7 +37,7 @@
 
         // Start tabs rotate when mouse is out.
         tabroll.mouseleave(function () {
-          tabroll.tabs().tabs('rotate', switch_speed);
+          tabroll.tabs('rotate', switch_speed);
         });
 
         // Stops tabs rotation when an element within it is in focus.
