@@ -41,12 +41,12 @@
         });
 
         // Stops tabs rotation when an element within it is in focus.
-        tabroll.find(':focusable').focusout(function () {
-          tabroll.tabs().tabs('rotate', switch_speed);
+        tabroll.focusout(function () {
+          tabroll.tabs('rotate', switch_speed);
         });
 
         // Starts tabs rotation when an element within it is out of focus.
-        tabroll.find(':focusable').focusin(function () {
+        tabroll.focusin(function () {
           tabroll.tabs('rotate', 0);
         });
       }
