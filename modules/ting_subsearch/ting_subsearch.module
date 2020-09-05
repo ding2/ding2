@@ -262,54 +262,6 @@ function ting_subsearch_query_params($query, $original_query = []) {
 }
 
 /**
- * Implements hook_libraries_info().
- */
-function ting_subsearch_libraries_info() {
-  return [
-    'guzzle' => [
-      'name' => 'Guzzle',
-      'vendor url' => 'https://github.com/guzzle/guzzle',
-      'download url' => 'https://github.com/guzzle/guzzle',
-      'version' => '6.2',
-      'xautoload' => function ($adapter) {
-        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
-        $adapter->composerJson('composer.json');
-      },
-    ],
-    'promises' => [
-      'name' => 'Guzzle promises library',
-      'vendor url' => 'https://github.com/guzzle/promises',
-      'download url' => 'https://github.com/guzzle/promises',
-      'version' => '1.2',
-      'xautoload' => function ($adapter) {
-        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
-        $adapter->composerJson('composer.json');
-      },
-    ],
-    'http-message' => [
-      'name' => 'Common interface for HTTP messages',
-      'vendor url' => 'https://github.com/php-fig/http-message',
-      'download url' => 'https://github.com/php-fig/http-message',
-      'version' => '1.0',
-      'xautoload' => function ($adapter) {
-        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
-        $adapter->composerJson('composer.json');
-      },
-    ],
-    'psr7' => [
-      'name' => 'PSR-7 message implementation',
-      'vendor url' => 'https://github.com/guzzle/psr7',
-      'download url' => 'https://github.com/guzzle/psr7',
-      'version' => '1.3',
-      'xautoload' => function ($adapter) {
-        /** @var \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter */
-        $adapter->composerJson('composer.json');
-      },
-    ],
-  ];
-}
-
-/**
  * Custom trigger fields validation.
  *
  * Validate fields which are sensitive to decimals separator.
