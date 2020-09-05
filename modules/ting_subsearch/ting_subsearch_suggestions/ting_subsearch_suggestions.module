@@ -88,12 +88,12 @@ function ting_subsearch_suggestions_ajax_callback() {
   if (!empty($_POST['keys']) && !empty($_POST['numTotalObjects'])) {
     $keys = $_POST['keys'];
     $num_total_objects = $_POST['numTotalObjects'];
-    $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
+    $suggestion = ting_subsearch_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
 
     if ($suggestion) {
       // Do a secondary search with the suggested keys and check if it satisfies
       // conditions.
-      $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
+      $secondary_result = ting_subsearch_do_secondary_search($suggestion);
 
       $secondary_num_total_objects = $secondary_result->numTotalObjects;
       // TODO: Apparently is not possible to configure this varibale.
@@ -123,10 +123,10 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
   // It it's a zero hit search we immediatly look for a suggestion and do
   // secondary search and redirect if the new search returned any results.
   if ($num_total_objects == 0) {
-    $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
+    $suggestion = ting_subsearch_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
 
     if ($suggestion) {
-      $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
+      $secondary_result = ting_subsearch_do_secondary_search($suggestion);
 
       if (!empty($secondary_result) && $secondary_result->numTotalObjects > 0) {
         $additional_query = [

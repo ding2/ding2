@@ -183,7 +183,7 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
   $secondary_result_min = (float) variable_get('ting_subsearch_secondary_result_min', 100);
   $secondary_max = (float) variable_get('ting_subsearch_secondary_max', 100);
 
-  $secondary_result = ting_subsearch_common_do_secondary_search($keys, [
+  $secondary_result = ting_subsearch_do_secondary_search($keys, [
     'agency' => variable_get('ting_subsearch_secondary_agency', ''),
     'profile' => variable_get('ting_subsearch_secondary_profile', ''),
   ]);

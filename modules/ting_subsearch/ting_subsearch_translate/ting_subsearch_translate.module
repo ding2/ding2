@@ -83,7 +83,7 @@ function ting_subsearch_translate_get_message($keys, $conditions, $results) {
     // Calculate the ratio of $fiction in relation to non-fiction.
     $fn_ratio = $nonfiction / $fiction;
     if ((float) variable_get('ting_subsearch_translate_factor', 50) < $fn_ratio) {
-      $translated_keys = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
+      $translated_keys = ting_subsearch_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
 
       if ($translated_keys) {
         if (drupal_strtolower($translated_keys) == drupal_strtolower($results->getSearchRequest()
@@ -92,7 +92,7 @@ function ting_subsearch_translate_get_message($keys, $conditions, $results) {
           return $message;
         }
 
-        $suggested_result = ting_subsearch_common_do_secondary_search($translated_keys);
+        $suggested_result = ting_subsearch_do_secondary_search($translated_keys);
 
         $num_total_objects = $suggested_result->numTotalObjects;
 
@@ -116,10 +116,10 @@ function ting_subsearch_translate_get_message($keys, $conditions, $results) {
     }
   }
   else {
-    $translated_keys = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
+    $translated_keys = ting_subsearch_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
 
     if ($translated_keys) {
-      $suggested_result = ting_subsearch_common_do_secondary_search($translated_keys);
+      $suggested_result = ting_subsearch_do_secondary_search($translated_keys);
       $num_total_objects = $suggested_result->numTotalObjects;
 
       $options = ['query' => ''];
