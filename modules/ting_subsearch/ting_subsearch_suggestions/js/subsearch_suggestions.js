@@ -22,6 +22,9 @@
       $('#ting-subsearch-suggestions-placeholder').replaceWith(r);
       Drupal.attachBehaviors(r);
     }
+    else {
+      $('#ting-subsearch-suggestions-placeholder').remove();
+    }
   }).fail(function (e) {
     console.log(e);
   });

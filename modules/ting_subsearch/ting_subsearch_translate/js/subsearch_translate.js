@@ -24,6 +24,9 @@
       $('#ting-subsearch-translate-placeholder').replaceWith(r);
       Drupal.attachBehaviors(r);
     }
+    else {
+      $('#ting-subsearch-translate-placeholder').remove();
+    }
   }).fail(function(e) {
     console.log(e);
   });
