@@ -10,6 +10,58 @@ use Ting\Search\DingProviderStrategy;
 use Ting\Search\SearchProviderException;
 
 /**
+ * Implements hook_theme().
+ */
+function ting_subsearch_theme() {
+  return [
+    'ting_subsearch_message' => [
+      'variables' => [
+        'message' => NULL,
+        'type' => NULL,
+        'suggestion' => NULL,
+        'suggestion_num_results' => NULL,
+        'original_search' => NULL,
+        'original_search_num_results' => NULL,
+      ]
+    ]
+  ];
+}
+
+/**
+ * Theme preprocess function for ting_subsearch_message.
+ */
+function template_preprocess_ting_subsearch_message(&$variables) {
+  $variables['classes_array'][] = 'ting-subsearch-message';
+  $variables['attributes_array'] = [];
+  $type = $variables['type'];
+  $variables['theme_hook_suggestions'][] = 'ting_subsearch_message__' . $type;
+  $variables['attributes_array']['id'] = 'ting-subsearch-message-' . $type;
+}
+
+/**
+ * Theme process function for ting subsearch message.
+ */
+function template_process_ting_subsearch_message(&$variables) {
+  $variables['classes'] = implode(' ', $variables['classes_array']);
+  $variables['attributes'] = drupal_attributes($variables['attributes_array']);
+}
+
+/**
+ * Returns default HTML for ting subsearch message.
+ */
+function theme_ting_subsearch_message($variables) {
+  $message = $variables['message'];
+  $classes = $variables['classes'];
+  $attributes = $variables['attributes'];
+
+  $output = "<div class='$classes'$attributes>";
+  $output .= $message;
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
  * Do a separate secondary search request.
  *
  * @param string $keys

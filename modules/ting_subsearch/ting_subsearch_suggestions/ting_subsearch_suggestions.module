@@ -26,60 +26,6 @@ function ting_subsearch_suggestions_menu() {
 }
 
 /**
- * Implements hook_theme().
- */
-function ting_subsearch_suggestions_theme() {
-  return [
-    'ting_subsearch_suggestions_message' => [
-      'variables' => [
-        'suggestion' => NULL,
-        'suggestion_num_results' => NULL,
-        'keys' => NULL, // The user search.
-        'zero_hit_redirect' => FALSE,
-      ],
-    ],
-  ];
-}
-
-/**
- * Implements hook_preprocess_ting_subsearch_suggestions_message().
- */
-function template_preprocess_ting_subsearch_suggestions_message(&$variables) {
-  $suggestion = $variables['suggestion'];
-  $zero_hit_redirect = $variables['zero_hit_redirect'];
-
-  if ($zero_hit_redirect) {
-    $variables['message'] = t('Showing results for <strong>"@suggestion"</strong>. The search for <strong>"@keys"</strong> returned 0 hits.', [
-      '@suggestion' => $suggestion,
-      '@keys' => $variables['keys'],
-    ]);
-  }
-  else {
-    $message = t('Search for <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results hits</strong>', [
-      '@suggestion' => $suggestion,
-      '!suggestion-num-results' => $variables['suggestion_num_results'],
-    ]);
-    $variables['message'] = l($message, 'search/ting/' . $suggestion, [
-      'html' => TRUE,
-      'attributes' => ['target' => 'blank'],
-    ]);
-  }
-}
-
-/**
- * Returns default HTML for suggestion message.
- */
-function theme_ting_subsearch_suggestions_message($variables) {
-  $message = $variables['message'];
-
-  $output = '<div id="ting-subsearch-suggestions-message">';
-  $output .= $message;
-  $output .= '</div>';
-
-  return $output;
-}
-
-/**
  * Custom AJAX menu callback.
  */
 function ting_subsearch_suggestions_ajax_callback() {
@@ -93,18 +39,28 @@ function ting_subsearch_suggestions_ajax_callback() {
     if ($suggestion) {
       // Do a secondary search with the suggested keys and check if it satisfies
       // conditions.
-      $secondary_result = ting_subsearch_do_secondary_search($suggestion);
+      $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
 
-      $secondary_num_total_objects = $secondary_result->numTotalObjects;
+      $suggestion_num_results = $suggestion_result->numTotalObjects;
       // TODO: Apparently is not possible to configure this varibale.
       $limit = variable_get("ting_subsearch_suggestions_message_limit", 10);
-      $ratio = $secondary_num_total_objects / $num_total_objects;
+      $ratio = $suggestion_num_results / $num_total_objects;
       $ps_factor = variable_get('ting_subsearch_suggestions_ps_factor');
-      if (!empty($secondary_result) && $secondary_num_total_objects >= $limit && $ratio >= $ps_factor) {
-        $result = theme('ting_subsearch_suggestions_message', [
+      if (!empty($suggestion_result) && $suggestion_num_results >= $limit && $ratio >= $ps_factor) {
+        $message = t('Search for <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
+          '@suggestion' => $suggestion,
+          '!suggestion-num-results' => $suggestion_num_results,
+        ]);
+        $result = theme('ting_subsearch_message', [
+          'message' => l($message, 'search/ting/' . $suggestion, [
+            'html' => TRUE,
+            'attributes' => ['target' => 'blank'],
+          ]),
+          'type' => 'suggestions',
           'suggestion' => $suggestion,
-          'suggestion_num_results' => $secondary_num_total_objects,
-          'keys' => $keys,
+          'suggestion_num_results' => $suggestion_num_results,
+          'original_search' => $keys,
+          'original_search_num_results' => $num_total_objects,
         ]);
       }
     }
@@ -147,10 +103,16 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
   // If we're already redirecting from a zero-hit search avoid trying to find
   // suggestions for our own suggestion. Display a zero hit suggestions message.
   if (!empty($_GET['original-keys'])) {
-    $output = theme('ting_subsearch_suggestions_message', [
+    $output = theme('ting_subsearch_message', [
+      'message' => t('Showing results for <strong>"@suggestion"</strong>. The search for <strong>"@original_search"</strong> returned 0 hits.', [
+        '@suggestion' => $keys,
+        '@original_search' => $_GET['original-keys'],
+      ]),
+      'type' => 'suggestions',
       'suggestion' => $keys,
-      'keys' => $_GET['original-keys'],
-      'zero_hit_redirect' => TRUE,
+      'suggestion_num_results' => $num_total_objects,
+      'original_search' => $_GET['original-keys'],
+      'original_search_num_results' => 0,
     ]);
   }
   // Otherwise trigger non-zero-hit seconday search if it's below limit.
