@@ -71,13 +71,6 @@ function ting_subsearch_translate_get_message($keys, $conditions, $results) {
   if ($original_search_num_results) {
     $facets = $results->getFacets();
 
-    // If any of fiction or non fiction is empty we cannot do the calculation.
-    // Simply exit for now.
-    if (!isset($facets['facet.genreCategory'])) {
-      watchdog('subsearch_translate', 'You need to enable facet.genreCategory in order for this to work.', [], WATCHDOG_WARNING);
-      return $message;
-    }
-
     $terms = $facets['facet.genreCategory']->getTerms();
     $nonfiction = isset($terms['nonfiktion']) ? $terms['nonfiktion']->getCount() : 0;
     $fiction = isset($terms['fiktion']) ? $terms['fiktion']->getCount() : 0;

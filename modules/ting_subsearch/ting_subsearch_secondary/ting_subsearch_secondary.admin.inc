@@ -9,27 +9,6 @@
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_subsearch_secondary_form_opensearch_admin_settings_alter(&$form, &$form_state) {
-  $facets = [];
-  foreach (variable_get('ding_facetbrowser_facets', []) as $facet) {
-    $facets[] = $facet['name'];
-  }
-
-  if (!in_array('facet.genreCategory', $facets)) {
-    drupal_set_message(
-      t(
-        'Secondary search requires !facet. Please insert on !adminpage',
-        [
-          '!facet' => 'facet.genreCategory',
-          '!adminpage' => l(
-            t('Configure facets'),
-            'admin/config/ting/facets'
-          ),
-        ]
-      ),
-      'warning'
-    );
-  }
-
   $form['subsearch_settings']['#type'] = 'fieldset';
   $form['subsearch_settings']['#title'] = t('Ting Subsearch');
   $form['subsearch_settings']['#description'] = t('Feature modules allow additional searches to be made based on predefined conditions.');

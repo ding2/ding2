@@ -10,6 +10,25 @@ use Ting\Search\DingProviderStrategy;
 use Ting\Search\SearchProviderException;
 
 /**
+ * Implements hook_opensearch_pre_execute().
+ */
+function ting_subsearch_opensearch_pre_execute($request) {
+  if (get_class($request) != 'TingClientSearchRequest') {
+    return;
+  }
+
+  // These modules needs the facet genreCategory returned from the well, so
+  // ensure it is set if one or both of them are enabled.
+  if (module_exists('ting_subsearch_translate') || module_exists('ting_subsearch_secondary')) {
+    $facets = $request->getFacets();
+    if (!in_array('facet.genreCategory', $facets)) {
+      $facets[] = 'facet.genreCategory';
+      $request->setFacets($facets);
+    }
+  }
+}
+
+/**
  * Implements hook_theme().
  */
 function ting_subsearch_theme() {
