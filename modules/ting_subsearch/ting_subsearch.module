@@ -335,16 +335,16 @@ function ting_subsearch_query_params($query, $original_query = []) {
 /**
  * Custom trigger fields validation.
  *
- * Validate fields which are sensitive to decimals separator.
+ * Validate fields factor field.
  *
  * @param $element
  * @param $form_state
  */
-function ting_subsearch_sensitive_fields_validate($element, &$form_state) {
-  if (!empty($element['#value']) && preg_match('/,/', $element['#value']) === 1) {
-    form_error($element, t('The <strong>"@name"</strong> field contains wrong decimals separator. Please use <strong>". (dot)"</strong> notation instead of <strong>", (comma)"</strong>.',
-        ['@name' => $element['#title']]
-      )
-    );
+function ting_subsearch_factor_field_validate($element, &$form_state) {
+  $value = $element['#value'];
+  if ($value !== '' && (!is_numeric($value) || $value <= 0)) {
+    form_error($element, t('%name must be a positive number', [
+      '%name' => $element['#title'],
+    ]));
   }
 }

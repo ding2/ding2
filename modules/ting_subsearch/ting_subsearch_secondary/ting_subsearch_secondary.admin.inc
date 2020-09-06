@@ -29,7 +29,7 @@ function ting_subsearch_secondary_form_opensearch_admin_settings_alter(&$form, &
     '#title' => t('Maximum number of results'),
     '#default_value' => variable_get('ting_subsearch_secondary_max', 100),
     '#description' => t('How many is maximum in order to trigger secondary search.'),
-    '#element_validate' => ['ting_subsearch_sensitive_fields_validate'],
+    '#element_validate' => ['element_validate_integer_positive'],
   ];
 
   $form['subsearch_settings']['secondary_settings']['trigger']['ting_subsearch_secondary_factor'] = [
@@ -37,7 +37,7 @@ function ting_subsearch_secondary_form_opensearch_admin_settings_alter(&$form, &
     '#title' => t('Challenge: Factor for calculating ratio between nonfiction and fiction'),
     '#default_value' => variable_get('ting_subsearch_secondary_factor', 2),
     '#description' => t('The condition is as following (nonfiction / factor) > fiction'),
-    '#element_validate' => ['ting_subsearch_sensitive_fields_validate'],
+    '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];
 
   $form['subsearch_settings']['secondary_settings']['trigger']['ting_subsearch_secondary_result_min'] = [
@@ -45,7 +45,7 @@ function ting_subsearch_secondary_form_opensearch_admin_settings_alter(&$form, &
     '#title' => t('Minimum number of results for secondary search'),
     '#description' => t('Minimum of hits in order to trigger secondary search.'),
     '#default_value' => variable_get('ting_subsearch_secondary_result_min', 100),
-    '#element_validate' => ['ting_subsearch_sensitive_fields_validate'],
+    '#element_validate' => ['element_validate_integer_positive'],
   ];
 
   $form['subsearch_settings']['secondary_settings']['trigger']['ting_subsearch_secondary_ps_factor'] = [
@@ -53,7 +53,7 @@ function ting_subsearch_secondary_form_opensearch_admin_settings_alter(&$form, &
     '#title' => t('Ratio between primary and secondary searches'),
     '#default_value' => variable_get('ting_subsearch_secondary_ps_factor', 2),
     '#description' => t('Factor between amount of results from primary and secondary search.'),
-    '#element_validate' => ['ting_subsearch_sensitive_fields_validate'],
+    '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];
 
   $form['subsearch_settings']['secondary_settings']['ting_subsearch_secondary_agency'] = [
