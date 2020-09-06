@@ -50,7 +50,7 @@ function ting_subsearch_theme() {
  * Theme preprocess function for ting_subsearch_message.
  */
 function template_preprocess_ting_subsearch_message(&$variables) {
-  $variables['classes_array'][] = 'ting-subsearch-message';
+  $variables['classes_array'] = [];
   $variables['attributes_array'] = [];
   $type = $variables['type'];
   $variables['theme_hook_suggestions'][] = 'ting_subsearch_message__' . $type;
@@ -73,9 +73,10 @@ function theme_ting_subsearch_message($variables) {
   $classes = $variables['classes'];
   $attributes = $variables['attributes'];
 
-  $output = "<div class='$classes'$attributes>";
+  $output = '<div class="ting-subsearch-message-wrapper">';
+  $output .= "<div class='ting-subsearch-message $classes'$attributes>";
   $output .= $message;
-  $output .= '</div>';
+  $output .= '</div></div>';
 
   return $output;
 }

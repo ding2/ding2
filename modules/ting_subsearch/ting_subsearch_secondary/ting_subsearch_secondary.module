@@ -99,7 +99,6 @@ function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions,
  * @return string
  */
 function _ting_subsearch_secondary_search_trigger($keys, $conditions, $results, $position) {
-  drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/css/ting_subsearch_secondary.css');
   drupal_add_js(
     [
       'subsearch_secondary' => [
