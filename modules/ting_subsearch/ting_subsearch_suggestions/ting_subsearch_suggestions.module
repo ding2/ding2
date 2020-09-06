@@ -136,11 +136,6 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
     $output = '<div id="ting-subsearch-suggestions-placeholder"></div>';
   }
 
-  // Add default styling if non empty output.
-  if (!empty($output)) {
-    drupal_add_css(drupal_get_path('module', 'ting_subsearch_suggestions') . '/ting_subsearch_suggestions.css');
-  }
-
   return $output;
 }
 
