@@ -24,7 +24,7 @@ function ting_subsearch_suggestions_form_opensearch_admin_settings_alter(&$form,
   $form['subsearch_settings']['suggestions_settings']['ting_subsearch_suggestions_distance'] = [
     '#type' => 'textfield',
     '#title' => t('Levenshtein distance'),
-    '#default_value' => variable_get('ting_subsearch_kpi_distance', 3),
+    '#default_value' => variable_get('ting_subsearch_suggestions_distance', 3),
     '#description' => t('Enter the maximum Levenshtein Distance here, ie. the maximum number of characters to replace, insert or delete to transform the input string into a string from the suggestion data. A higher numbere allows for less similar words to be suggested.'),
     '#element_validate' => ['ting_subsearch_sensitive_fields_validate'],
   ];
