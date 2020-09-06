@@ -32,13 +32,10 @@ function ting_subsearch_translate_menu() {
 function ting_subsearch_translate_ajax_callback() {
   $message = '';
   if (!empty($_POST)) {
-    $keys = $_POST['keys'];
-    $conditions = $_POST['conditions'];
-    $results = unserialize($_POST['results']);
-
-    $message = ting_subsearch_translate_get_message($keys, $conditions, $results);
+    $original_search = $_POST['originalSearch'];
+    $original_search_num_results = $_POST['originalSearchNumResults'];
+    $message = ting_subsearch_translate_get_message($original_search, $original_search_num_results);
   }
-
   drupal_json_output($message);
   drupal_exit();
 }
@@ -54,110 +51,43 @@ function ting_subsearch_translate_ajax_callback() {
  * @throws \TingClientException
  * @throws \Ting\Search\SearchProviderException
  */
-function ting_subsearch_translate_get_message($keys, $conditions, $results) {
+function ting_subsearch_translate_get_message($original_search, $original_search_num_results) {
   $message = '';
 
-  if ($results instanceof NullSearchResult) {
-    return;
-  }
+  $suggestion = ting_subsearch_suggested_keys($original_search, 'ting_subsearch_translate_suggest_translated_keys');
 
-  // If no google api key is set we cannot translate.
-  if (empty(variable_get('ting_subsearch_translate_google_key', ''))) {
+  if (!$suggestion) {
     return $message;
   }
 
-  $original_search_num_results = $results->getNumTotalObjects();
+  $suggestion = drupal_strtolower($suggestion);
 
-  if ($original_search_num_results) {
-    $facets = $results->getFacets();
-
-    $terms = $facets['facet.genreCategory']->getTerms();
-    $nonfiction = isset($terms['nonfiktion']) ? $terms['nonfiktion']->getCount() : 0;
-    $fiction = isset($terms['fiktion']) ? $terms['fiktion']->getCount() : 0;
-
-    // Calculate the ratio of $fiction in relation to non-fiction.
-    $fn_ratio = $nonfiction / $fiction;
-    if ((float) variable_get('ting_subsearch_translate_factor', 50) < $fn_ratio) {
-      $suggestion = ting_subsearch_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
-
-      if ($suggestion) {
-        $suggestion = drupal_strtolower($suggestion);
-        if ($suggestion == drupal_strtolower($keys)) {
-          // The two search are the same. So no need to do extra search query.
-          return $message;
-        }
-
-        $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
-        $suggestion_num_result = $suggestion_result->numTotalObjects;
-
-        $ratio = $suggestion_num_result / $original_search_num_results;
-
-        if ($ratio > (float) variable_get('ting_subsearch_translate_ps_factor', 10)) {
-          if (!empty($suggestion_num_result)) {
-            $options = ['query' => ''];
-            if (module_exists('ting_field_search')) {
-              $profile = ting_field_search_get_active_profile();
-              if ($profile) {
-                $options['query'] = ['profile' => rawurlencode($profile->name)];
-              }
-            }
-
-            $message = t('Search in english <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
-              '@suggestion' => $suggestion,
-              '!suggestion-num-results' =>  $suggestion_num_result,
-            ]);
-
-            $message = theme('ting_subsearch_message__translate', [
-              'message' => l($message, 'search/ting/' . $suggestion, [
-                'html' => TRUE,
-                'attributes' => ['target' => 'blank'],
-              ]),
-              'type' => 'translate',
-              'suggestion' => $suggestion,
-              'suggestion_num_results' => $suggestion_num_results,
-              'original_search' => $keys,
-              'original_search_num_results' => $original_search_num_results,
-            ]);
-          }
-        }
-      }
-    }
+  // The two search are the same, so avoid doing secondary search.
+  if ($suggestion == drupal_strtolower($original_search)) {
+    return $message;
   }
-  else {
-    $suggestion = ting_subsearch_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
 
-    if ($suggestion) {
-      $suggestion = drupal_strtolower($suggestion);
-      $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
-      $suggestion_num_result = $suggested_result->numTotalObjects;
+  $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
+  $suggestion_num_results = $suggestion_result->numTotalObjects;
+  $factor = variable_get('ting_subsearch_translate_ps_factor', 10);
 
-      $options = ['query' => ''];
-      if (module_exists('ting_field_search')) {
-        $profile = ting_field_search_get_active_profile();
-        if ($profile) {
-          $options['query'] = ['profile' => rawurlencode($profile->name)];
-        }
-      }
+  if ($suggestion_num_results / $factor > $original_search_num_results) {
+    $message = t('Search in english <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
+      '@suggestion' => $suggestion,
+      '!suggestion-num-results' =>  $suggestion_num_results,
+    ]);
 
-      if ($suggestion_num_result > 0) {
-        $message = t('Search in english <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
-          '@suggestion' => $suggestion,
-          '!suggestion-num-results' =>  $suggestion_num_result,
-        ]);
-
-        $message = theme('ting_subsearch_message__translate', [
-          'message' => l($message, 'search/ting/' . $suggestion, [
-            'html' => TRUE,
-            'attributes' => ['target' => 'blank'],
-          ]),
-          'type' => 'translate',
-          'suggestion' => $suggestion,
-          'suggestion_num_results' => $suggestion_num_results,
-          'original_search' => $keys,
-          'original_search_num_results' => $original_search_num_results,
-        ]);
-      }
-    }
+    $message = theme('ting_subsearch_message', [
+      'message' => l($message, 'search/ting/' . $suggestion, [
+        'html' => TRUE,
+        'attributes' => ['target' => 'blank'],
+      ]),
+      'type' => 'translate',
+      'suggestion' => $suggestion,
+      'suggestion_num_results' => $suggestion_num_results,
+      'original_search' => $original_search,
+      'original_search_num_results' => $original_search_num_results,
+    ]);
   }
 
   return $message;
@@ -167,17 +97,33 @@ function ting_subsearch_translate_get_message($keys, $conditions, $results) {
  * Implements hook_ting_search_results_prefix().
  */
 function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions, $results) {
-  if ($results->getNumTotalObjects() != 0) {
-    drupal_add_js(
-      [
-        'subsearch_translate' => [
-          'keys' => $keys,
-          'conditions' => $conditions,
-          'results' => serialize($results),
-        ],
+  // Return early if module is not configured.
+  if (empty(variable_get('ting_subsearch_translate_google_key', ''))) {
+    return;
+  }
+
+  $original_search_num_results = $results->getNumTotalObjects();
+  $nonfiction = 0;
+  $fiction = 0;
+  $facets = $results->getFacets();
+
+  if (!empty($facets)) {
+    $terms = $facets['facet.genreCategory']->getTerms();
+    $nonfiction = isset($terms['nonfiktion']) ? $terms['nonfiktion']->getCount() : 0;
+    $fiction = isset($terms['fiktion']) ? $terms['fiktion']->getCount() : 0;
+  }
+
+  $factor = variable_get('ting_subsearch_translate_factor', 50);
+
+  // Activate subsearch translation if the original search has zero hits or if
+  // the nonfiction-fiction ratio satifies the factor.
+  if ($original_search_num_results == 0 || $nonfiction / $factor > $fiction) {
+    drupal_add_js([
+      'tingSubsearchTranslate' => [
+        'originalSearch' => $keys,
+        'originalSearchNumResults' => $original_search_num_results,
       ],
-      'setting'
-    );
+    ], 'setting');
 
     drupal_add_js(drupal_get_path('module', 'ting_subsearch_translate') . '/js/subsearch_translate.js', [
       'type' => 'file',

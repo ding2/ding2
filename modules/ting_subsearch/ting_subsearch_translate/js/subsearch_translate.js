@@ -6,18 +6,14 @@
 (function ($) {
   'use strict';
 
-  var settings = Drupal.settings.subsearch_translate;
-  var keys = settings.keys;
-  var conditions = settings.conditions;
-  var results = settings.results;
+  var settings = Drupal.settings.tingSubsearchTranslate;
 
   $.ajax({
     type: 'POST',
     url: '/subsearch_translate',
     data: {
-      'keys': keys,
-      'conditions': conditions,
-      'results': results
+      'originalSearch': settings.originalSearch,
+      'originalSearchNumResults': settings.originalSearchNumResults,
     },
   }).done(function(r) {
     if (r !== '') {
