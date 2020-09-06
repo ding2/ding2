@@ -17,8 +17,9 @@
     },
   }).done(function (r) {
     if (r !== '') {
-      $('#ting-subsearch-suggestions-placeholder').replaceWith(r);
-      Drupal.attachBehaviors(r);
+      var message = $(r);
+      $('#ting-subsearch-suggestions-placeholder').replaceWith(message);
+      Drupal.attachBehaviors(message);
     }
     else {
       $('#ting-subsearch-suggestions-placeholder').remove();
