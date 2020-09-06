@@ -1,5 +1,5 @@
 name = Ting Subsearch Suggestions
-description = Mixing Opensuggestion and KPI Webtrekk services and extend Ting Search with secondary search
+description = Extend Ting Search with secondary search which provides suggestions based on levenshtein distance and a suggestion source
 package = Ding!
 core = 7.x
 version = 0.1

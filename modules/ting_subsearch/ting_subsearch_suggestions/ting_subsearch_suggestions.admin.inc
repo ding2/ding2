@@ -9,7 +9,6 @@
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_subsearch_suggestions_form_opensearch_admin_settings_alter(&$form, &$form_state) {
-  // KPI.
   $form['subsearch_settings']['#type'] = 'fieldset';
   $form['subsearch_settings']['#title'] = t('Ting Subsearch');
   $form['subsearch_settings']['#description'] = t('Feature modules allow additional searches to be made based on predefined conditions.');
