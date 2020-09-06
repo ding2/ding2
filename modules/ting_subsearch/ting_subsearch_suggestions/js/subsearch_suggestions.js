@@ -7,15 +7,13 @@
   'use strict';
 
   var settings = Drupal.settings.tingSubsearchSuggestions;
-  var keys = settings.keys;
-  var numTotalObjects = settings.numTotalObjects;
 
   $.ajax({
     type: 'POST',
     url: '/subsearch_suggestions',
     data: {
-      'keys': keys,
-      'numTotalObjects': numTotalObjects
+      'originalSearch': settings.originalSearch,
+      'originalSearchNumResults': settings.originalSearchNumResults
     },
   }).done(function (r) {
     if (r !== '') {
