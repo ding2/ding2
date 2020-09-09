@@ -153,6 +153,10 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
  * @throws Exception
  */
 function ting_subsearch_suggestions_suggest_keys($keys) {
+  if (!ding_provider_implements('search', 'autocomplete_suggestions')) {
+    return FALSE;
+  }
+
   // Build expected query object for provider hook.
   // See: opensearch_search_autocomplete_suggestions().
   $query = [];
