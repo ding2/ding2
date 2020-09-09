@@ -99,6 +99,7 @@ function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions,
  * @return string
  */
 function _ting_subsearch_secondary_search_trigger($keys, $conditions, $results, $position) {
+
   drupal_add_js(
     [
       'subsearch_secondary' => [
@@ -131,7 +132,7 @@ function ting_subsearch_secondary_search($keys, $results) {
   }
   $num_total_objects = $results->getNumTotalObjects();
   if (!empty($num_total_objects)) {
-    if ($num_total_objects > 0 && $num_total_objects < (float) variable_get('ting_subsearch_secondary_max', 100)) {
+    if ($num_total_objects > 0 && $num_total_objects < variable_get('ting_subsearch_secondary_max', 100)) {
       if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
         watchdog('subsearch_subsearch', 'Missing secondary agency or profile.', [], WATCHDOG_WARNING);
         return $message;
@@ -160,8 +161,8 @@ function ting_subsearch_secondary_search($keys, $results) {
  */
 function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
   $message = '';
-  $secondary_result_min = (float) variable_get('ting_subsearch_secondary_result_min', 100);
-  $secondary_max = (float) variable_get('ting_subsearch_secondary_max', 100);
+  $secondary_result_min = variable_get('ting_subsearch_secondary_result_min', 100);
+  $secondary_max = variable_get('ting_subsearch_secondary_max', 100);
 
   $secondary_result = ting_subsearch_do_secondary_search($keys, [
     'agency' => variable_get('ting_subsearch_secondary_agency', ''),
@@ -173,7 +174,7 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
   if ($secondary_num_objects > $secondary_result_min && $secondary_num_objects < $secondary_max) {
     $ratio = $secondary_num_objects / $num_total_objects;
 
-    if ($ratio > (float) variable_get('ting_subsearch_secondary_ps_factor', 2)) {
+    if ($ratio > variable_get('ting_subsearch_secondary_ps_factor', 2)) {
       $items = [];
       $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
       foreach ($secondary_result->collections as &$collection) {
