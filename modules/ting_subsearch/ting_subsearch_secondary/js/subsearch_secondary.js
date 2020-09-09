@@ -6,28 +6,23 @@
 (function ($) {
   'use strict';
 
-  let ssSettings = Drupal.settings;
-
-  let keys = ssSettings.subsearch_secondary.keys;
-  let conditions = ssSettings.subsearch_secondary.conditions;
-  let results = ssSettings.subsearch_secondary.results;
+  var settings = Drupal.settings.tingSubsearchSecondary;
 
   $.ajax({
     type: 'POST',
     url: '/subsearch_secondary',
     data: {
-      'keys': keys,
-      'conditions': conditions,
-      'results': results
+      'keys': settings.keys,
+      'numResults': settings.numResults
     },
-  })
-      .done(function (r) {
-        if (r !== '') {
-          $('#subsearch-secondary').html(r);
-        }
-      })
-      .fail(function (e) {
-        console.log(e);
-      });
+  }).done(function (r) {
+    if (r !== '') {
+      var message = $(r);
+      $('#subsearch-secondary').html(message);
+      Drupal.attachBehaviors(message);
+    }
+  }).fail(function (e) {
+    console.log(e);
+  });
 
-})(jQuery, Drupal);
+})(jQuery);

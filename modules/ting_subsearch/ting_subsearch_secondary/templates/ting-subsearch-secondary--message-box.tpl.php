@@ -4,10 +4,10 @@
  * @file
  * Secondary search item.
  *
- * @var $content
+ * @var $items
  * @var $message
- * @var $bibdk_url
- * @var $bibdk_url_text
+ * @var $secondary_link
+ * @var $secondary_link_text
  */
 ?>
 <div id="ting-subsearch-secondary" class="message-box search-field-in-content--message-tss">
@@ -18,8 +18,8 @@
   <?php print $items; ?>
   </div>
   <div class="message-box--external-search">
-    <a href="<?php print $bibdk_url; ?>" target="_blank">
-      <?php print $bibdk_url_text; ?>
+    <a href="<?php print $secondary_link; ?>" target="_blank">
+      <?php print $secondary_link_text; ?>
     </a>
   </div>
 </div>
