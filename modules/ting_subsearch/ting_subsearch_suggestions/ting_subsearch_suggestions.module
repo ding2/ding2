@@ -172,10 +172,11 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
 
       $distance = ting_subsearch_suggestions_levenshtein($keys, $candidate);
 
-      // If distance gets to 0 it means the suggestions is the same as the user
-      // search. We only look for searches close to the user search so skip it.
+      // It can happen that candidate will be the same as user search. In this
+      // case we should continue adding words, since we might still hit one that
+      // will be within acceptable distance.
       if ($distance == 0) {
-        return $carry;
+        continue;
       }
 
       if ($distance <= variable_get('ting_subsearch_suggestions_distance', 3)) {
