@@ -47,8 +47,8 @@ function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
       'variables' => [
         'items' => NULL,
         'message' => NULL,
-        'bibdk_url' => NULL,
-        'bibdk_url_text' => NULL,
+        'secondary_link' => NULL,
+        'secondary_link_text' => NULL,
       ],
       'template' => 'templates/ting-subsearch-secondary--message-box',
     ],
@@ -173,19 +173,19 @@ function ting_subsearch_secondary_get_message($keys, $num_results) {
     ];
 
     if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
-      $msg = t('If you search for "<strong>!keys</strong>" on !secondary-link-text instead you will get <strong>!secondary-num-results hits</strong>',
+      $message = t('If you search for "<strong>!keys</strong>" on !secondary-link-text instead you will get <strong>!secondary-num-results hits</strong>',
         $options
       );
     }
     else {
-      $msg = t('If you search for "<strong>!keys</strong>" on !secondary-link-text instead you will get <strong>!secondary-num-results hits</strong> where some of them is the following:',
+      $message = t('If you search for "<strong>!keys</strong>" on !secondary-link-text instead you will get <strong>!secondary-num-results hits</strong> where some of them is the following:',
         $options
       );
     }
 
     $message = theme('tss_message_box', [
       'items' => theme('tss_items_list', ['items' => $items]),
-      'message' => $msg,
+      'message' => $message,
       'secondary_link' => $options['!secondary-link'],
       'secondary_link_text' => t('See more materials at <span class="accent">bibliotek.dk</span>'),
     ]);
