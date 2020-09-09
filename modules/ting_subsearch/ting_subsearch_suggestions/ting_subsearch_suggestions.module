@@ -40,14 +40,14 @@ function ting_subsearch_suggestions_ajax_callback() {
       // Do a secondary search with the suggested keys and check if it satisfies
       // conditions.
       $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
-      $suggestion_num_results = $suggestion_result->numTotalObjects;
 
-      // TODO: Apparently is not possible to configure this varibale.
+      // TODO: Make this variable configurable. For now 10 seems like a
+      // reasonable default.
       $limit = variable_get("ting_subsearch_suggestions_message_limit", 10);
-      $ratio = $suggestion_num_results / $original_search_num_results;
+      $suggestion_num_results = $suggestion_result->numTotalObjects;
       $factor = variable_get('ting_subsearch_suggestions_ps_factor');
 
-      if (!empty($suggestion_result) && $suggestion_num_results >= $limit && $ratio >= $factor) {
+      if ($suggestion_num_results >= $limit && $suggestion_num_results / $original_search_num_results >= $factor) {
         $message = t('Search for <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
           '@suggestion' => $suggestion,
           '!suggestion-num-results' => $suggestion_num_results,

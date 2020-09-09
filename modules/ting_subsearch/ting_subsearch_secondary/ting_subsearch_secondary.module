@@ -132,26 +132,13 @@ function ting_subsearch_secondary_search($keys, $results) {
   $num_total_objects = $results->getNumTotalObjects();
   if (!empty($num_total_objects)) {
     if ($num_total_objects > 0 && $num_total_objects < (float) variable_get('ting_subsearch_secondary_max', 100)) {
-      $facets = $results->getFacets();
-      $genre_facets = $facets['facet.genreCategory']->getTerms();
-
       if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
         watchdog('subsearch_subsearch', 'Missing secondary agency or profile.', [], WATCHDOG_WARNING);
         return $message;
       }
 
-      $nonfiction = 0;
-      if (!empty($genre_facets['nonfiktion'])) {
-        $nonfiction = $genre_facets['nonfiktion']->getCount();
-      }
-
-      $fiction = 0;
-      if (!empty($genre_facets['fiktion'])) {
-        $fiction = $genre_facets['fiktion']->getCount();
-      }
-
-      // Less than half fiction of nonfiction.
-      if ($nonfiction / (float) variable_get('ting_subsearch_secondary_factor', 2) > $fiction) {
+      $factor = variable_get('ting_subsearch_secondary_factor', 2);
+      if (ting_subsearch_check_genre_ratio($results, $factor)) {
         $message = ting_subsearch_secondary_execute_secondary_search($keys, $results);
       }
     }

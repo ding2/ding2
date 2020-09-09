@@ -31,7 +31,7 @@ function ting_subsearch_translate_menu() {
  */
 function ting_subsearch_translate_ajax_callback() {
   $message = '';
-  if (!empty($_POST)) {
+  if (!empty($_POST['originalSearch']) && isset($_POST['originalSearchNumResults'])) {
     $original_search = $_POST['originalSearch'];
     $original_search_num_results = $_POST['originalSearchNumResults'];
     $message = ting_subsearch_translate_get_message($original_search, $original_search_num_results);
@@ -69,9 +69,15 @@ function ting_subsearch_translate_get_message($original_search, $original_search
 
   $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
   $suggestion_num_results = $suggestion_result->numTotalObjects;
+
+  // No reason to continue if the suggestion didn't provide any results.
+  if ($suggestion_num_results == 0) {
+    return $message;
+  }
+
   $factor = variable_get('ting_subsearch_translate_ps_factor', 10);
 
-  if ($suggestion_num_results / $factor > $original_search_num_results) {
+  if ($original_search_num_results == 0 || $suggestion_num_results / $original_search_num_results >= $factor) {
     $message = t('Search in english <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
       '@suggestion' => $suggestion,
       '!suggestion-num-results' =>  $suggestion_num_results,
@@ -103,21 +109,11 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
   }
 
   $original_search_num_results = $results->getNumTotalObjects();
-  $nonfiction = 0;
-  $fiction = 0;
-  $facets = $results->getFacets();
-
-  if (!empty($facets)) {
-    $terms = $facets['facet.genreCategory']->getTerms();
-    $nonfiction = isset($terms['nonfiktion']) ? $terms['nonfiktion']->getCount() : 0;
-    $fiction = isset($terms['fiktion']) ? $terms['fiktion']->getCount() : 0;
-  }
-
   $factor = variable_get('ting_subsearch_translate_factor', 50);
 
   // Activate subsearch translation if the original search has zero hits or if
-  // the nonfiction-fiction ratio satifies the factor.
-  if ($original_search_num_results == 0 || $nonfiction / $factor > $fiction) {
+  // the genre category ratio satifies the factor.
+  if ($original_search_num_results == 0 || ting_subsearch_check_genre_ratio($results, $factor)) {
     drupal_add_js([
       'tingSubsearchTranslate' => [
         'originalSearch' => $keys,

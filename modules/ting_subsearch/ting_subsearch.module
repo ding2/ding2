@@ -8,6 +8,7 @@
 use OpenSearch\OpenSearchStatementGroupRender;
 use Ting\Search\DingProviderStrategy;
 use Ting\Search\SearchProviderException;
+use Ting\Search\TingSearchResultInterface;
 
 /**
  * Implements hook_opensearch_pre_execute().
@@ -348,4 +349,35 @@ function ting_subsearch_factor_field_validate($element, &$form_state) {
       '%name' => $element['#title'],
     ]));
   }
+}
+
+/**
+ * Check nonfiction / fiction ratio against $factor.
+ *
+ * @param TingSearchResultInterface $results
+ *   A non-zero hit search result object with genreCategory facet.
+ * @param float $factor
+ *   The factor the ratio to check against.
+ *
+ * @return boolean
+ *   FALSE if $nonfiction / $fiction < $factor and $fiction > 0.
+ *   TRUE otherwise.
+ */
+function ting_subsearch_check_genre_ratio(TingSearchResultInterface $results, $factor) {
+  $facets = $results->getFacets();
+  if (empty($facets)) {
+    return FALSE;
+  }
+
+  $terms = $facets['facet.genreCategory']->getTerms();
+  $nonfiction = isset($terms['nonfiktion']) ? (int) $terms['nonfiktion']->getCount() : 0;
+  $fiction = isset($terms['fiktion']) ? (int) $terms['fiktion']->getCount() : 0;
+
+  // Avoid division by zero.
+  if ($fiction == 0) {
+    // This function should be called with non-zero search result, so
+    // $nonfiction should be non-zero and we therefore return TRUE.
+    return TRUE;
+  }
+  return $nonfiction / $fiction >= $factor;
 }
