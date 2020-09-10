@@ -9,6 +9,9 @@
  * Implements hook_uninstall().
  */
 function ting_subsearch_translate_uninstall() {
+  variable_del('ting_subsearch_translate_factor');
+  variable_del('ting_subsearch_translate_ps_factor');
+  variable_del('ting_subsearch_translate_url');
   variable_del('ting_subsearch_translate_google_key');
 }
 
