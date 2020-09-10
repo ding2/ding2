@@ -77,13 +77,6 @@ function ting_subsearch_secondary_form_opensearch_admin_settings_alter(&$form, &
     '#default_value' => variable_get('ting_subsearch_secondary_search_link', ''),
   ];
 
-  $form['subsearch_settings']['secondary_settings']['ting_subsearch_secondary_search_link_text'] = [
-    '#type' => 'textfield',
-    '#title' => t('Secondary link text'),
-    '#default_value' => variable_get('ting_subsearch_secondary_search_link_text', ''),
-    '#description' => t('Name of the secondary provider. Could be bibliotek.dk'),
-  ];
-
   $form['subsearch_settings']['secondary_settings']['ting_subsearch_secondary_number_of_results'] = [
     '#type' => 'textfield',
     '#title' => t('Number of results to show'),
