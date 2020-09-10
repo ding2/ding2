@@ -268,29 +268,20 @@ function ting_subsearch_secondary_get_message($keys, $num_results) {
       '!secondary-num-results' => $secondary_num_results,
     ];
 
-    $secondary_num_collections = $secondary_result->getNumCollections();
-
-    // Avoid displaying the number of results/posts in these cases, because it's
-    // confusing for the user. For example we might have several posts but only
-    // 1 collection, so we could end up displayin something like "you will get
-    // 36 hits", but we only show one posts.
-    // See ting_search search_result.inc plugin that is dealing with a similar
-    // problem.
-    if ($secondary_num_collections <= $number_of_collections_to_show) {
-      if ($number_of_records_to_show == 0) {
-        $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get other results.', $options);
-      }
-      else {
-        $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get other results where some of them is the following:', $options);
-      }
+    if ($number_of_collections_to_show == 0) {
+      $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get <strong>!secondary-num-results hits</strong>', $options);
+    }
+    elseif ($secondary_result->getNumCollections() < $number_of_collections_to_show) {
+      // Avoid displaying the number of results/posts in these cases, because
+      // it's confusing for the user. For example we might have several posts
+      // but only 1 collection, so we could end up displayin something like
+      // "you will get 36 hits", but we only show one posts.
+      // See ting_search search_result.inc plugin that is dealing with a similar
+      // problem.
+      $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get other results where some of them is the following:', $options);
     }
     else {
-      if ($number_of_records_to_show == 0) {
-        $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get <strong>!secondary-num-results hits</strong>', $options);
-      }
-      else {
-        $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get <strong>!secondary-num-results hits</strong> where some of them is the following:', $options);
-      }
+      $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get <strong>!secondary-num-results hits</strong> where some of them is the following:', $options);
     }
 
     $message = theme('tss_message_box', [
