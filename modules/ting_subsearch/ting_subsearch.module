@@ -185,3 +185,21 @@ function ting_subsearch_check_genre_ratio(TingSearchResultInterface $results, $f
   }
   return $nonfiction / $fiction >= $factor;
 }
+
+/**
+ * Helper function to normalize user entered search keys before comparison.
+ *
+ * @param string $keys
+ *   The search keys to normalize.
+ *
+ * @return string
+ *  The normalized search keys.
+ */
+function ting_subsearch_normalize_keys($keys) {
+  // Support users quoting their search keys.
+  $keys = trim($keys, '"');
+  // Replace multiple spaces with single space.
+  $keys = preg_replace('/\s+/', ' ', $keys);
+  $keys = drupal_strtolower($keys);
+  return $keys;
+}

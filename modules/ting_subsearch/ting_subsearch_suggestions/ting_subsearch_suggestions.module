@@ -200,6 +200,8 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
     return FALSE;
   }
 
+  $original_search = ting_subsearch_normalize_keys($original_search);
+
   // Build expected query object for provider hook.
   $query = [];
   $query['q'] = $original_search;

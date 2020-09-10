@@ -104,10 +104,8 @@ function ting_subsearch_translate_get_message($original_search, $original_search
     return $message;
   }
 
-  $suggestion = drupal_strtolower($suggestion);
-
   // The two search are the same, so avoid doing secondary search.
-  if ($suggestion == drupal_strtolower($original_search)) {
+  if (drupal_strtolower($suggestion) == drupal_strtolower($original_search)) {
     return $message;
   }
 
@@ -186,6 +184,8 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
  *   The translation or FALSE if no translation was obtained.
  */
 function ting_subsearch_translate_suggest_translated_keys($original_search) {
+  $original_search = ting_subsearch_normalize_keys($original_search);
+
   $params = [];
   $params['q'] = $original_search;
   $params['key'] = variable_get('ting_subsearch_translate_google_key', '');
