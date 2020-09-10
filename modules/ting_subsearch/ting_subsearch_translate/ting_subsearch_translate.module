@@ -7,7 +7,6 @@
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
-use Ting\Search\NullSearchResult;
 
 // Load Field module hooks.
 module_load_include('inc', 'ting_subsearch_translate', 'ting_subsearch_translate.admin');
