@@ -4,24 +4,8 @@
  * @file
  * Installation of Secondary sub search module.
  *
- * @TODO: Missing clean up on uninstall?
+ * @TODO: Missing clean up on uninstall? YES!
  */
-
-/**
- * Install translations.
- *
- * @throws \FieldException
- */
-function ting_subsearch_secondary_install() {
-  // Adding fields to 'minimal' display.
-  ting_subsearch_secondary_add_fields();
-
-  // Install translations.
-  $file = new stdClass();
-  $file->uri = drupal_get_path('module', 'ting_subsearch_secondary') . '/translations/da.po';
-  $file->filename = basename($file->uri);
-  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
-}
 
 /**
  * Forcing addition of the fields into 'minimal' display of ting_object.

@@ -36,14 +36,3 @@ function ting_subsearch_translate_requirements($phase) {
 
   return $requirements;
 }
-
-/**
- * Install translations.
- */
-function ting_subsearch_translate_install() {
-  // Install translations.
-  $file = new stdClass();
-  $file->uri = drupal_get_path('module', 'ting_subsearch_translate') . '/translations/da.po';
-  $file->filename = basename($file->uri);
-  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
-}
