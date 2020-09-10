@@ -1042,3 +1042,16 @@ function ding2_update_7089() {
 function ding2_update_7090() {
   ding2_set_eu_cookie_compliance_settings();
 }
+
+/**
+ * Enable ting_subsearch modules.
+ */
+function ding2_update_7091() {
+  if (module_exists('opensearch')) {
+    module_enable([
+      'ting_subsearch_secondary',
+      'ting_subsearch_suggestions',
+      'ting_subsearch_translate',
+    ]);
+  }
+}
