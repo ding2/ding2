@@ -40,11 +40,10 @@ function ting_subsearch_suggestions_ajax_callback() {
       // Do a secondary search with the suggested keys and check if it satisfies
       // conditions.
       $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
-
+      $suggestion_num_results = $suggestion_result->getNumTotalObjects();
       // TODO: Make this variable configurable. For now 10 seems like a
       // reasonable default.
       $limit = variable_get("ting_subsearch_suggestions_message_limit", 10);
-      $suggestion_num_results = $suggestion_result->numTotalObjects;
       $factor = variable_get('ting_subsearch_suggestions_ps_factor');
 
       if ($suggestion_num_results >= $limit && $suggestion_num_results / $original_search_num_results >= $factor) {
@@ -75,7 +74,7 @@ function ting_subsearch_suggestions_ajax_callback() {
  * Implements hook_ting_search_results_prefix().
  */
 function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, $results) {
-  $original_search_num_results  = $results->getNumTotalObjects();
+  $original_search_num_results = $results->getNumTotalObjects();
 
   // It it's a zero hit search we immediatly look for a suggestion and do
   // secondary search and redirect if the new search returned any results.
@@ -85,7 +84,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
     if ($suggestion) {
       $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
 
-      if (!empty($suggestion_result) && $suggestion_result->numTotalObjects > 0) {
+      if ($suggestion_result->getNumTotalObjects() > 0) {
         $additional_query = [
           'original-search' => $keys,
         ];

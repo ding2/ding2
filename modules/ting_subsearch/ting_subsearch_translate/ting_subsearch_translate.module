@@ -68,7 +68,7 @@ function ting_subsearch_translate_get_message($original_search, $original_search
   }
 
   $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
-  $suggestion_num_results = $suggestion_result->numTotalObjects;
+  $suggestion_num_results = $suggestion_result->getNumTotalObjects();
 
   // No reason to continue if the suggestion didn't provide any results.
   if ($suggestion_num_results == 0) {
