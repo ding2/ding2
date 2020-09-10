@@ -41,6 +41,51 @@ function ting_subsearch_translate_ajax_callback() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ting_subsearch_translate_form_ting_subsearch_admin_settings_form_alter(&$form, &$form_state) {
+  $form['subsearch']['translate'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Translation Settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  ];
+  $form['subsearch']['translate']['trigger'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Trigger'),
+  ];
+  $form['subsearch']['translate']['trigger']['ting_subsearch_translate_factor'] = [
+    '#type' => 'textfield',
+    '#title' => t('Ratio between nonfiction and fiction'),
+    '#description' => t('The ratio of nonfiction more than fiction to trigger the translation'),
+    '#default_value' => variable_get('ting_subsearch_translate_factor', 50),
+    '#element_validate' => ['ting_subsearch_factor_field_validate'],
+  ];
+
+  $form['subsearch']['translate']['trigger']['ting_subsearch_translate_ps_factor'] = [
+    '#type' => 'textfield',
+    '#title' => t('Ratio between primary and secondary searches'),
+    '#description' => t('The ratio between primary and secondary searches to trigger the translation.'),
+    '#default_value' => variable_get('ting_subsearch_translate_ps_factor', 10),
+    '#element_validate' => ['ting_subsearch_factor_field_validate'],
+  ];
+
+  $form['subsearch']['translate']['ting_subsearch_translate_url'] = [
+    '#type' => 'textfield',
+    '#title' => t('Google translation service url'),
+    '#description' => t('Google Translation API endpoint. <strong>Example:</strong> https://www.googleapis.com/language/translate/v2'),
+    '#default_value' => variable_get('ting_subsearch_translate_url', 'https://www.googleapis.com/language/translate/v2'),
+  ];
+
+  $form['subsearch']['translate']['ting_subsearch_translate_google_key'] = [
+    '#type' => 'textfield',
+    '#title' => t('Google Cloud Translation API key'),
+    '#description' => t('You need to have an API key configured with billing for this to work. take a look at <a href="https://cloud.google.com/translate/pricing">Pricing</a>'),
+    '#default_value' => variable_get('ting_subsearch_translate_google_key', ''),
+  ];
+}
+
+/**
  * Generation of suggestion message.
  *
  * @param string $keys
