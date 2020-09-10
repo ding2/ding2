@@ -41,9 +41,8 @@ function ting_subsearch_suggestions_ajax_callback() {
       // conditions.
       $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
       $suggestion_num_results = $suggestion_result->getNumTotalObjects();
-      // TODO: Make this variable configurable. For now 10 seems like a
-      // reasonable default.
-      $limit = variable_get("ting_subsearch_suggestions_message_limit", 10);
+
+      $limit = variable_get('ting_subsearch_suggestions_message_limit', 10);
       $factor = variable_get('ting_subsearch_suggestions_ps_factor');
 
       if ($suggestion_num_results >= $limit && $suggestion_num_results / $original_search_num_results >= $factor) {
@@ -92,21 +91,26 @@ function ting_subsearch_suggestions_form_ting_subsearch_admin_settings_form_alte
     '#description' => t('Enter the maximum Levenshtein Distance here, ie. the maximum number of characters to replace, insert or delete to transform the input string into a string from the suggestion data. A higher numbere allows for less similar words to be suggested.'),
     '#element_validate' => ['element_validate_integer_positive'],
   ];
-
   $form['subsearch']['suggestions']['trigger']['ting_subsearch_suggestions_trigger_limit'] = [
     '#type' => 'textfield',
-    '#title' => t('Number of hits to trigger suggestions subsearch'),
+    '#title' => t('Max number of hits to trigger suggestions subsearch'),
     '#default_value' => variable_get('ting_subsearch_suggestions_trigger_limit', 5),
     '#description' => t('In order to trigger a subsearch which will provide a suggestion to the user, the user-provided search string must trigger at most this number of hits. NOTE: User-provided searches that trigger 0 hits always trigger a subsearch.'),
     '#element_validate' => ['element_validate_integer_positive'],
   ];
-
   $form['subsearch']['suggestions']['trigger']['ting_subsearch_suggestions_ps_factor'] = [
     '#type' => 'textfield',
     '#title' => t('Ratio between primary and secondary searches for suggestions'),
     '#default_value' => variable_get('ting_subsearch_suggestions_ps_factor', 10),
     '#description' => t('Factor between amount of results from primary and secondary search for displaying suggestions.'),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
+  ];
+  $form['subsearch']['suggestions']['trigger']['ting_subsearch_suggestions_message_limit'] = [
+    '#type' => 'textfield',
+    '#title' => t('Min number of suggestion search result hits to trigger a suggestion'),
+    '#default_value' => variable_get('ting_subsearch_suggestions_message_limit', 10),
+    '#description' => t("If the suggestion provide lower search result hits than this value don't bother showing a search suggestion."),
+    '#element_validate' => ['element_validate_integer_positive'],
   ];
 }
 
