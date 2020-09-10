@@ -95,29 +95,6 @@ function ting_subsearch_do_secondary_search($keys, $conditions = []) {
 }
 
 /**
- * Callback handler for suggested keys.
- *
- * Find suggested keys based on keys and callback.
- *
- * @param $keys
- * @param $callback
- *
- * @return bool
- */
-function ting_subsearch_suggested_keys($keys, $callback) {
-  if (function_exists($callback)) {
-    $suggestion = $callback($keys);
-    if ($suggestion == FALSE || $suggestion == $keys) {
-      return FALSE;
-    }
-    else {
-      return $suggestion;
-    }
-  }
-  return FALSE;
-}
-
-/**
  * Custom trigger fields validation.
  *
  * Validate fields factor field.
