@@ -5,6 +5,8 @@
  * Ting Subsearch
  */
 
+use Ting\Search\TingSearchResultInterface;
+
 /**
  * Implements hook_opensearch_pre_execute().
  */
