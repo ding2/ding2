@@ -5,12 +5,8 @@
  * Ting subsearch suggestions module file.
  */
 
-module_load_include('inc', 'ting_subsearch_suggestions', 'ting_subsearch_suggestions.admin');
-
-// The Max number of chars we support in user search and suggestions.
-// TODO: Make this a setting, but the max should be 255 wich is max for PHP's
-// levenshtein function.
-define('TING_SUBSEARCH_SUGGESTIONS_SUGGESTION_LIMIT', 150);
+// The Max number of chars supported by PHP's levenshtein algorithm.
+define('TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT', 150);
 
 /**
  * Implements hook_menu().
@@ -202,6 +198,10 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
 
   $original_search = ting_subsearch_normalize_keys($original_search);
 
+  if (strlen($original_search) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
+    return FALSE;
+  }
+
   // Build expected query object for provider hook.
   $query = [];
   $query['q'] = $original_search;
@@ -214,7 +214,7 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
       $candidate .= $word;
 
       // Move along if the candidate has grown over char limit.
-      if (drupal_strlen($candidate) > TING_SUBSEARCH_SUGGESTIONS_SUGGESTION_LIMIT) {
+      if (drupal_strlen($candidate) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
         return $carry;
       }
 
