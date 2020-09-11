@@ -6,4 +6,5 @@ version = 0.1
 configure = admin/config/ding/provider/opensearch
 dependencies[] = ding_facetbrowser
 dependencies[] = ding_libs
+dependencies[] = ting_field_search
 dependencies[] = ting_subsearch

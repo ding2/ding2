@@ -127,9 +127,20 @@ function ting_subsearch_do_secondary_search($keys, $conditions = []) {
   // we're done to avoid side effects.
   $current_search_result = ting_search_current_results();
 
+  // If a profile is active but no context is set, we set our own to ensure
+  // ting_field_search will activate.
+  if (ting_field_search_get_active_profile() && !ting_field_search_get_context()) {
+    ting_field_search_set_context('ting_subsearch');
+  }
+
   drupal_static_reset('ting_search_search_execute');
   search_data($keys, 'ting_search', $conditions);
   $secondary_search_result = ting_search_current_results();
+
+  // If we used our own context remove it again.
+  if (ting_field_search_get_context() == 'ting_subsearch') {
+    ting_field_search_set_context(NULL);
+  }
 
   if (isset($current_search_result)) {
     ting_search_current_results($current_search_result);
@@ -202,4 +213,27 @@ function ting_subsearch_normalize_keys($keys) {
   $keys = preg_replace('/\s+/', ' ', $keys);
   $keys = drupal_strtolower($keys);
   return $keys;
+}
+
+/**
+ * Construct query string with search parameters from the current request.
+ *
+ * @param $additional
+ *   Additional query parameters which will override any from the current
+ *   request.
+ *
+ * @return string
+ *   The query string ready to be appended.
+ *   If no parameters present the string will be empty.
+ */
+function ting_subsearch_get_query_string($additional = []) {
+  $query = [];
+
+  if ($profile = ting_field_search_get_active_profile()) {
+    $query['profile'] = $profile->name;
+  }
+
+  $query = array_merge($query, $additional);
+
+  return !empty($query) ? '?' . drupal_http_build_query($query) : '';
 }

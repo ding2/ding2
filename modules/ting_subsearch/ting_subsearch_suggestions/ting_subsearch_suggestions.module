@@ -50,6 +50,7 @@ function ting_subsearch_suggestions_ajax_callback() {
           'message' => l($message, 'search/ting/' . $suggestion, [
             'html' => TRUE,
             'attributes' => ['target' => 'blank'],
+            'query' => drupal_get_query_parameters(),
           ]),
           'type' => 'suggestions',
           'suggestion' => $suggestion,
@@ -125,12 +126,12 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
 
       if ($suggestion_result->getNumTotalObjects() > 0) {
-        $additional_query = [
+        $additional = [
           'original-search' => $keys,
         ];
-        $params['query'] = $additional_query;
+        $query = ting_subsearch_get_query_string($additional);
         global $base_url;
-        $url = $base_url . '/search/ting/' . strtolower($suggestion) . '?' . drupal_http_build_query($params['query']);
+        $url = $base_url . '/search/ting/' . $suggestion . $query;
 
         header('Location: ' . $url, TRUE, 301);
         drupal_exit($url);
@@ -163,6 +164,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       'tingSubsearchSuggestions' => [
         'originalSearch' => $keys,
         'originalSearchNumResults' => $original_search_num_results,
+        'query' => ting_subsearch_get_query_string(),
       ],
     ], 'setting');
 

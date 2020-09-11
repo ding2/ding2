@@ -126,6 +126,7 @@ function ting_subsearch_translate_get_message($original_search, $original_search
       'message' => l($message, 'search/ting/' . $suggestion, [
         'html' => TRUE,
         'attributes' => ['target' => 'blank'],
+        'query' => drupal_get_query_parameters(),
       ]),
       'type' => 'translate',
       'suggestion' => $suggestion,
@@ -157,6 +158,7 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
       'tingSubsearchTranslate' => [
         'originalSearch' => $keys,
         'originalSearchNumResults' => $original_search_num_results,
+        'query' => ting_subsearch_get_query_string(),
       ],
     ], 'setting');
 

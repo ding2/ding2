@@ -10,7 +10,7 @@
 
   $.ajax({
     type: 'POST',
-    url: '/subsearch_suggestions',
+    url: '/subsearch_suggestions' + settings.query,
     data: {
       'originalSearch': settings.originalSearch,
       'originalSearchNumResults': settings.originalSearchNumResults
