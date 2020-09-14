@@ -944,3 +944,101 @@ function ding2_update_7080() {
 function ding2_update_7081() {
   ding2_translation_update();
 }
+
+/**
+ * Enable ting_smart_search.
+ */
+function ding2_update_7082() {
+  if (module_exists('opensearch')) {
+    module_enable(['ting_smart_search']);
+  }
+}
+
+/**
+ * Update EU cookie compliance settings.
+ */
+function ding2_update_7083() {
+  ding2_set_eu_cookie_compliance_settings();
+
+  // jquery_update will override the version of jquery.cookie that EU cookie
+  // compliance needs, if module weights are not changed. ECC 1.31 takes care
+  // of this on update and fresh install,  but 1.28 (we used in last release)
+  // only did on update. So we ensure it's called here if someone is testing
+  // from a fresh install on last release.
+  // https://www.drupal.org/project/eu_cookie_compliance/issues/2991113
+  eu_cookie_compliance_module_set_weight();
+
+  // Update the cookie name used by ECC to enforce all users to the new opt-out
+  // model and make them agree again. The name can be whatever so we choose the
+  // number of this update function where the settings were changed.
+  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da', []);
+  $ecc_settings['cookie_name'] = 'cookie-agreed-7083';
+  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7084() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable cover service upload module.
+ */
+function ding2_update_7085() {
+  module_enable(['ddb_cover_upload']);
+}
+
+/**
+ * Switch to new cover module.
+ */
+function ding2_update_7086() {
+  module_disable(['ting_covers_addi']);
+  module_enable(['ting_covers_ddb']);
+}
+
+/**
+ * Remove Webtrends specific info from cookie page.
+ */
+function ding2_update_7087() {
+  // If we can find the old cookie information page make a backup, so we don't
+  // lose any information added by administrative users.
+  if ($nid = ding2_get_cookie_node_nid()) {
+    $node = node_load($nid);
+    $node->title .= ' (BACKUP)';
+    node_save($node);
+    // Delete "cookies" alias.
+    $path = path_load([
+      'source' => 'node/' . $node->nid,
+      'alias' => 'cookies',
+    ]);
+    if ($path) {
+      path_delete($path['pid']);
+    }
+  }
+  // Set a new generic cookie information page. This time without any specific
+  // information about which analytics tool we use.
+  ding2_set_cookie_page();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7088() {
+  ding2_translation_update();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7089() {
+  ding2_translation_update();
+}
+
+/**
+ * Update cookie compliance settings.
+ */
+function ding2_update_7090() {
+  ding2_set_eu_cookie_compliance_settings();
+}

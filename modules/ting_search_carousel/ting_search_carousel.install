@@ -66,7 +66,7 @@ function ting_search_carousel_update_7101() {
 
   foreach ($query->execute() as $pane) {
     $configuration = unserialize($pane->configuration);
-    $configuration['searches'] = array_merge($configuration['ting_searches'], variable_get('ting_carousel_search_queries', array()));
+    $configuration['searches'] = variable_get('ting_carousel_search_queries', array());
     $configuration['settings'] = array(
       'transition' => variable_get('ting_search_carousel_transition', 'fade'),
     );
@@ -90,41 +90,7 @@ function ting_search_carousel_update_7101() {
 }
 
 /**
- * Move carousel configuration into panels pane.
+ * Deprecated.
  */
 function ting_search_carousel_update_7005() {
-  $query = db_select('panels_pane', 'pp');
-
-  $query->condition('type', 'carousel')
-    ->condition('subtype', 'carousel')
-    ->fields('pp', array('pid', 'configuration'));
-
-  $results = $query->execute()->fetchAll();
-
-  $default_configuration = array(
-    'ting_search_carousel_description_toggle' => 0,
-    'ting_search_carousel_transition' => 'fade',
-  );
-
-  $searches = variable_get('ting_carousel_search_queries', array());
-  $searches_configuration = variable_get('ting_search_carousel_settings', $default_configuration);
-
-  $carousel_configuration = array(
-    'ting_searches' => $searches,
-    'settings' => $searches_configuration,
-  );
-
-  foreach ($results as $result) {
-    $panel_configuration = unserialize($result->configuration);
-    if (empty($searches)) {
-      $carousel_configuration['ting_searches'] = $panel_configuration['searches'];
-    }
-    $panel_configuration = $carousel_configuration;
-    db_update('panels_pane')
-      ->fields(array('configuration' => serialize($panel_configuration)))
-      ->condition('pid', $result->pid, '=')
-      ->execute();
-  }
-  variable_del('ting_carousel_search_queries');
-  variable_del('ting_search_carousel_settings');
 }

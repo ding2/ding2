@@ -4,6 +4,7 @@ define('DING_REACT_FOLLOW_SEARCHES_PROD_URL', 'https://prod.followsearches.dandi
 define('DING_REACT_FOLLOW_SEARCHES_STAGE_URL', 'https://stage.followsearches.dandigbib.org');
 define('DING_REACT_MATERIAL_LIST_PROD_URL', 'https://prod.materiallist.dandigbib.org');
 define('DING_REACT_MATERIAL_LIST_TEST_URL', 'https://test.materiallist.dandigbib.org');
+define('DING_REACT_COVER_SERVICE_URL', 'https://cover.dandigbib.org/api/v2');
 define('DING_REACT_MIGRATED_UID_PREFIX', 'migrated-');
 
 /**
@@ -20,9 +21,10 @@ function ding_react_libraries_info() {
   return [
     'ddb-react' => [
       'name' => 'DDB React',
-      'vendor url' => 'https://github.com/reload/ddb-react',
-      'download url' => 'https://github.com/reload/ddb-react/releases/download/latest/dist.zip',
-      'version' => '1.0.0',
+      'vendor url' => 'https://github.com/danskernesdigitalebibliotek/ddb-react',
+      'download url' => 'https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/latest/dist.zip',
+      // We have to set the version to something for Library API to work.
+      'version callback' => 'ding_react_get_version',
       'files' => [
         'js' => [
           'runtime.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
@@ -34,6 +36,27 @@ function ding_react_libraries_info() {
       ],
     ],
   ];
+}
+
+/**
+ * Libraries info version callback.
+ */
+function ding_react_get_version($library) {
+  // We do not care about any options given to the callback. Our version is
+  // always defined within a JSON file which is easy to parse.
+  $version_file = DRUPAL_ROOT . '/' . $library['library path'] . '/version.json';
+  $version_file_data = file_get_contents($version_file);
+  if ($version_file_data) {
+    $version_data = json_decode($version_file_data, TRUE);
+    if ($version_data && !empty($version_data['version'])) {
+      // The version number will be relative to the latest tag in the format
+      // provided by git describe. Libraries API uses strings for versions so
+      // we can so just return it as is.
+      return $version_data['version'];
+    }
+  }
+
+  watchdog('ding_react', 'Unable to read library version from %path', ['%path' => $version_file], WATCHDOG_ERROR);
 }
 
 /**
@@ -315,13 +338,14 @@ function ding_react_user_js() {
   drupal_add_http_header('Content-Type', 'application/javascript');
   echo "window.ddbReact = window.ddbReact || {};\n";
 
-  $token = ding_provider_invoke('openplatform_token', 'get');
+  $tokens = [
+    'user' => ding_provider_invoke('openplatform_token', 'for_user'),
+    'library' => ding_provider_invoke('openplatform_token', 'for_agency'),
+  ];
+  $tokens = array_filter($tokens);
 
-  if ($token) {
-    echo sprintf("window.ddbReact.userAuthenticated = true;\n");
-    echo sprintf("window.ddbReact.setToken('%s');\n", $token);
-  } else {
-    echo sprintf("window.ddbReact.userAuthenticated = false;\n");
+  foreach ($tokens as $type => $token) {
+    echo sprintf("window.ddbReact.setToken('%s', '%s');\n", $type, $token);
   }
 
   drupal_exit();
@@ -345,6 +369,7 @@ function ding_react_login_url() {
  * Returns the url to the instance of the Material List service to use.
  *
  * @return string
+ *   Url to Material List service instance.
  */
 function ding_react_material_list_url() {
   return variable_get('ding_react_material_list_url', DING_REACT_MATERIAL_LIST_TEST_URL);
@@ -354,9 +379,20 @@ function ding_react_material_list_url() {
  * Returns the url to the instance of the Follow Searches service to use.
  *
  * @return string
+ *   Url to Follow Searches service instance.
  */
 function ding_react_follow_searches_url() {
   return variable_get('ding_react_follow_searches_url', DING_REACT_FOLLOW_SEARCHES_STAGE_URL);
+}
+
+/**
+ * Returns the url to the instance of the Cover service to use.
+ *
+ * @return string
+ *   Url to Cover service instance.
+ */
+function ding_react_cover_service_url() {
+  return variable_get('ding_react_cover_service_url', DING_REACT_COVER_SERVICE_URL);
 }
 
 /**
@@ -372,7 +408,7 @@ function ding_react_user_migrate(stdClass $account) {
   $legacy_uid = (!empty($account->openlist_uid)) ? $account->openlist_uid : '';
 
   try {
-    $token = ding_provider_invoke('openplatform_token', 'get');
+    $token = ding_provider_invoke('openplatform_token', 'for_user');
   } catch (DingProviderNoProvider $e) {
     $token = NULL;
   } catch (DingProviderDoesntImplement $e) {

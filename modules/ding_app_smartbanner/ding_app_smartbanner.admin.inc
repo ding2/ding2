@@ -146,7 +146,7 @@ function ding_app_smartbanner_settings_form($form, &$form_state) {
       '#type' => 'textfield',
       '#title' => t("@os_name app id", array('@os_name' => $os_name)),
       '#size' => 30,
-      '#maxlength' => 30,
+      '#maxlength' => 60,
       '#required' => FALSE,
       '#default_value' => !empty($app_config['app_id']) ? $app_config['app_id'] : '',
     );

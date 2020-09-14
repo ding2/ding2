@@ -1,14 +1,27 @@
 <?php
 
 /**
- * Duplicate code from ting_covers module. Ting covers module doesn't provide a api we can use.
+ * @file
+ * Helpers to get covers.
+ */
+
+use CoverService\Api\CoverApi;
+use GuzzleHttp\Client;
+
+/**
+ * Duplicate code from ting_covers and ting_covers_ddb module.
+ *
+ * Ting covers module doesn't provide a api we can use.
  *
  * @param array $covers_ids
- *  Ids of the materials to fetch covers for.
- * @param array
- *   True if there is a cover image.
+ *   Ids of the materials to fetch covers for.
+ * @param int $number_of_objects
+ *   The number of objects.
+ *
+ * @return array
+ *   True if there is a cover image else FALSE. Indexed by local id.
  */
-function ting_new_materials_check_covers($covers_ids, $number_of_objects) {
+function ting_new_materials_check_covers(array $covers_ids, $number_of_objects) {
   $missing_images_local_ids = array();
   $number_found = 0;
 
@@ -23,30 +36,32 @@ function ting_new_materials_check_covers($covers_ids, $number_of_objects) {
     if (false && file_exists($path)) {
       $cover_id->hasImage = TRUE;
       $number_found++;
-    } else {
-      $missing_images_local_ids[] = (object) array(
-          'localIdentifier' => $cover_id->localId,
-          'libraryCode' => $cover_id->ownerId,
-      );
+    }
+    else {
+      $cover_id->hasImage = FALSE;
+      $missing_images_local_ids[] = $cover_id->localId;
     }
     if ($number_found >= $number_of_objects) {
       break;
     }
   }
-  $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'));
-  // Local ids = Faust numbers. Library object identifiers can be confusing.
-  $additional_informations = $service->getByLocalIdentifier($missing_images_local_ids);
-  foreach ($missing_images_local_ids as $local_id) {
-    if (isset($additional_informations[$local_id->localIdentifier]) && $ai = $additional_informations[$local_id->localIdentifier]) {
-      if ($ai->detailUrl || $ai->thumbnailUrl) {
-        $covers_ids[$local_id->localIdentifier]->hasImage = TRUE;
-      } else {
-        $covers_ids[$local_id->localIdentifier]->hasImage = FALSE;
-      }
-    }
+
+  try {
+    $config = _ting_cover_ddb_get_client_config();
+    $apiInstance = new CoverApi(
+      new Client(),
+      $config
+    );
+    $retrieved = $apiInstance->getCoverCollection('pid', $missing_images_local_ids, array('original', 'large'));
   }
+  catch (Exception $e) {
+    watchdog('ting_new_materials', 'Unable to retrieve covers: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+    return $covers_ids;
+  }
+
+  foreach ($retrieved as $cover) {
+    $covers_ids[$cover->getId()]->hasImage = TRUE;
+  }
+
   return $covers_ids;
 }
-
-
-?>

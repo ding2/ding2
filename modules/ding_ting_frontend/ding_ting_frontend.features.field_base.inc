@@ -52,27 +52,6 @@ function ding_ting_frontend_field_default_field_bases() {
     'type' => 'ding_entity_buttons',
   );
 
-  // Exported field_base: 'ding_periodical_issues'.
-  $field_bases['ding_periodical_issues'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'ding_periodical_issues',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'ding_periodical',
-    'settings' => array(),
-    'storage' => array(
-      'active' => 1,
-      'module' => 'virtual_field',
-      'settings' => array(),
-      'type' => 'virtual_field',
-    ),
-    'translatable' => 0,
-    'type' => 'ding_periodical_issues',
-  );
-
   // Exported field_base: 'ting_abstract'.
   $field_bases['ting_abstract'] = array(
     'active' => 1,

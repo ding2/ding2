@@ -42,6 +42,12 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
     return $instance->category_tid;
   }, $instances));
 
+  // If there are no instances we have no knowledge of what categories are in
+  // use, and we will fallback to the default category only.
+  if (empty($instances)) {
+    $category_tids = [NULL];
+  }
+
   // Add closed days.
   for ($day = $timespan[0]; $day <= $timespan[1]; $day += DING_DDBASIC_OPENING_HOURS_ONE_DAY) {
     $date = date('Y-m-d', $day);

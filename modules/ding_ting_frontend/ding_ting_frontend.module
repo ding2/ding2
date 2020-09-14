@@ -10,6 +10,7 @@ include_once('ding_ting_frontend.features.inc');
  * Implements hook_menu().
  */
 function ding_ting_frontend_menu() {
+  $items = array();
 
   $items['admin/config/ting/settings/local_config'] = array(
     'title' => t('Local settings'),
@@ -22,15 +23,16 @@ function ding_ting_frontend_menu() {
   );
 
   return $items;
-
 }
-
 
 /**
  * Implements hook_entity_info_alter().
  */
 function ding_ting_frontend_entity_info_alter(&$entity_info) {
   if (isset($entity_info['ting_object'])) {
+    if (!isset($entity_info['ting_object']['view modes'])) {
+      $entity_info['ting_object']['view modes'] = [];
+    }
     $entity_info['ting_object']['view modes'] += array(
       'collection_primary' => array(
         'label' => t('Primary collection object'),
@@ -57,6 +59,10 @@ function ding_ting_frontend_entity_info_alter(&$entity_info) {
       ),
       'paragraphs_teaser' => array(
         'label' => t('Paragraphs teaser'),
+        'custom settings' => TRUE,
+      ),
+      'teaser_full' => array(
+        'label' => t('Teaser (cover upload)'),
         'custom settings' => TRUE,
       ),
     );

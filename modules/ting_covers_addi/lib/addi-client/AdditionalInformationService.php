@@ -9,18 +9,18 @@ class AdditionalInformationService {
   protected $username;
   protected $group;
   protected $password;
-
+  protected $forceUrl;
 
   /**
    * Instantiate the addi client.
    */
-  public function __construct($wsdl_url, $username, $group, $password) {
+  public function __construct($wsdl_url, $username, $group, $password, $forceUrl = FALSE) {
     $this->wsdlUrl = $wsdl_url;
     $this->username = $username;
     $this->group = $group;
     $this->password = $password;
+    $this->forceUrl = $forceUrl;
   }
-
 
   /**
    * Get information by ISBN.
@@ -124,6 +124,13 @@ class AdditionalInformationService {
 
     // New moreinfo service.
     $client = new SoapClient($this->wsdlUrl . '/?wsdl');
+
+    // The soap client uses the URL from the namespace in the WSDL, which during
+    // test and in other situations not always is the behaviour one whats. This
+    // allows you to force the end-point URL.
+    If ($this->forceUrl) {
+      $client->__setLocation($this->wsdlUrl . '/');
+    }
 
     // Record the start time, so we can calculate the difference, once
     // the addi service responds.

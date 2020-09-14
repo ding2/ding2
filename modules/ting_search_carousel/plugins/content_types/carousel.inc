@@ -33,25 +33,26 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
         'available' => '',
       );
       $query = new TingSearchCarouselQuery($search['query'], $search['sort'], $search['available']);
-      $chunk = ting_search_carousel_get_entities($query, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
-      $items = array();
-      foreach ($chunk['entities'] as $entity) {
-        $items[] = ting_object_view($entity, 'teaser');
-      }
 
-      $placeholders = count($items) ? count($items) : TING_SEARCH_CAROUSEL_CHUNK_SIZE;
-      $placeholders = $chunk['next_offset'] > -1 ? ($placeholders) + 1 : 0;
       $carousels[] = array(
         '#type' => 'ding_carousel',
         '#title' => $search['title'],
         '#path' => ting_search_carousel_ajax_path($query),
-        '#items' => $items,
-        '#offset' => $chunk['next_offset'],
-        // Add a single placeholder to fetch more content later if there is more
-        // content.
-        '#placeholders' => $placeholders,
+        // Start without any covers, but load them all via AJAX. This eliminates
+        // rendering covers and hitting the availability service, which slows
+        // down page rendering.
+        '#items' => [],
+        '#offset' => 0,
+        // Add placeholders instead.
+        '#placeholders' => TING_SEARCH_CAROUSEL_CHUNK_SIZE,
       );
     }
+
+    // Since we don't load any materials on initial page request, we have to
+    // ensure the check reservability script is present. Ding carousel uses
+    // custom attach logic in frontend, which does not handle any scripts added
+    // during the AJAX-request.
+    drupal_add_js(drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation_reservability.js');
 
     $block->content = array(
       '#type' => 'ding_tabbed_carousel',
@@ -172,13 +173,6 @@ function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$f
 
   $form_state['conf']['searches'] = $searches;
   $form_state['conf']['settings'] = $form_state['values']['settings'];
-  // Pre-request first set of results so the caching will be done while form
-  // submit and the client will not have to wait until those requests are
-  // happening when page is opened.
-  foreach ($searches as $search) {
-    $query = new TingSearchCarouselQuery($search['query'], $search['sort'], $search['available']);
-    ting_search_carousel_get_entities($query, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE, FALSE);
-  }
 }
 
 /**

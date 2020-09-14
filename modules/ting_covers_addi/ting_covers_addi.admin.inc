@@ -59,6 +59,13 @@ function ting_covers_addi_admin_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_covers_addi_enable_logging', FALSE),
   );
 
+  $form['addi']['ting_covers_addi_enforce_url'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enforce URL'),
+    '#description' => t('Enforce SOAP to use the URL for the service and not the one found in the WSDL (mostly for when switch service end-points during tests)'),
+    '#default_value' => variable_get('ting_covers_addi_enforce_url', FALSE),
+  );
+
   $form['addi']['external_url'] = array(
     '#type' => 'fieldset',
     '#title' => t('External URL'),
