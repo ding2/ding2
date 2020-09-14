@@ -11,7 +11,7 @@
       var localIds = [];
       var selector = '.js-check-reservability';
       $(selector, context).once('js-check-reservability', function() {
-        localIds.push($(this).data("local-id"));
+        localIds.push($(this).attr("data-local-id"));
       });
 
       if (localIds.length) {

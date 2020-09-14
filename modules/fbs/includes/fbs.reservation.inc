@@ -453,11 +453,16 @@ function fbs_reservation_is_reservable($provider_ids) {
       $return[$result->recordId] = FALSE;
     }
     else {
-      // To determine if this is a periodical we extract the first material and
-      // look for periodical information.
-      $material = reset($holdings->materials);
-      // If the object is periodical, the main object should not be reservable.
-      $return[$result->recordId] = ($result->reservable && empty($material->periodical));
+      // Find out if there's any material with periodical information. If that's
+      // the case we return issues in fbs_availability_holdings() and periodical
+      // holdings will be shown. We will therefore mark the main post as not
+      // reservable if we find any.
+      $periodical_materials = array_map(function ($material) {
+        return !empty($material->periodical);
+      }, $holdings->materials);
+      $periodical_materials = array_filter($periodical_materials);
+
+      $return[$result->recordId] = ($result->reservable && empty($periodical_materials));
     }
   }
 

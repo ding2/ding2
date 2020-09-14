@@ -250,6 +250,14 @@ function ting_reference_field_delete($entity_type, $entity, $field, $instance, $
 
   foreach ($relations as $rid => $relation) {
     relation_delete($rid);
+
+    // Try to get the entity ID of the ting_object and clear it's field cache.
+    // This is not handled automatically and it would otherwise only be cleared
+    // on next cache flush.
+    if (!empty($relation->endpoints[$langcode])) {
+      $entity_id = $relation->endpoints[$langcode][1]['entity_id'];
+      cache_clear_all("field:ting_object:$entity_id", 'cache_field');
+    }
   }
 }
 
@@ -378,7 +386,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
 
         // Handle ting_reference in paragraphs, which will link back to the
         // paragraph (giving a reference loop) and not the host node.
-        if ($entity_type === 'paragraphs_item') {
+        if ($entity_type === 'paragraphs_item' && !empty($entities)) {
           // It should only be possible to link back to one entity per item.
           $entity = reset($entities);
 
@@ -386,9 +394,14 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
           // loaded. Trying to get anything from the entity before this will
           // result in NULL.
           $host = $entity->hostEntity();
-          $entity_type = $entity->hostEntityType();
-          $host_wrapper = entity_metadata_wrapper($entity->hostEntityType(), $host);
-          $entities = entity_load($entity->hostEntityType(), array($host_wrapper->getIdentifier()), $conditions);
+          // Ensure the host entity could be loaded and is published.
+          if ($host && $host->status == NODE_PUBLISHED) {
+            $entities = array($host);
+            $entity_type = $entity->hostEntityType();
+          }
+          else {
+            $entities = array();
+          }
         }
 
         if (!empty($entities)) {

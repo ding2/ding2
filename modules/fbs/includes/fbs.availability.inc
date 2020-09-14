@@ -148,11 +148,21 @@ function fbs_availability_holdings($provider_ids) {
         $field_dk5_m = !empty($field_dk5['m']) ? reset($field_dk5['m']) : '';
         $field_dk5_o = !empty($field_dk5['o']) ? reset($field_dk5['o']) : '';
 
+        // Music is a special case, so we need to check that first. Field 039.a
+        // is present on music materials, so we can use this is an indicator.
+        if ($field039a = fbs_get_marc_field($entity, '039', 'a')) {
+          $prefix .= fbs_translate_marc($field039a, '039.a');
+
+          // We'll also append additional subfields if present.
+          if ($field039b = fbs_get_marc_field($entity, '039', 'b')) {
+            $prefix .= ' ' . fbs_translate_marc($field039b, '039.b');
+          }
+        }
         // Non-fiction: Look for the 'sk' marker in both 'm' and 'o' subfield.
         // If it's not present in any of these, we consider the material be to
         // be non-fiction and we should use the special prefix for non-fiction
         // materials.
-        if ($field_dk5_m !== 'sk' && $field_dk5_o !== 'sk') {
+        elseif ($field_dk5_m !== 'sk' && $field_dk5_o !== 'sk') {
           // There can be multiple 652 fields with their own subfields and some
           // of them will have the same subfields. It's therefore important that
           // we use data from the subfields of the same field that we got the
@@ -181,16 +191,6 @@ function fbs_availability_holdings($provider_ids) {
             if (!empty($field_dk5['h'][$field_dk5_index])) {
               $prefix .= ', ' . $field_dk5['h'][$field_dk5_index];
             }
-          }
-        }
-        // Music: Field 039.a is present on music materials, so we can use this
-        // is an indicator.
-        elseif ($field039a = fbs_get_marc_field($entity, '039', 'a')) {
-          $prefix .= fbs_translate_marc($field039a, '039.a');
-
-          // We'll also append additional subfields if present.
-          if ($field039b = fbs_get_marc_field($entity, '039', 'b')) {
-            $prefix .= ' ' . fbs_translate_marc($field039b, '039.b');
           }
         }
 
@@ -340,11 +340,12 @@ function fbs_translate_marc($code, $field) {
     $translations = _fbs_get_marc_039a_translations();
   }
   elseif ($field == '039.b') {
-    // This field contains ISO 3166-1 alpha-2 country codes and we can use the
-    // build in list from the Drupal.
+    // Danmarc only defines a few custom codes for areas that are not country.
+    // The rest of the codes are ISO 3166-1 alpha-2, which we can get from
+    // Drupal.
     // See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
     include_once DRUPAL_ROOT . '/includes/locale.inc';
-    $translations = country_get_list();
+    $translations = array_merge(_fbs_get_marc_039b_translations(), country_get_list());
     $code = drupal_strtoupper($code);
   }
 
@@ -370,7 +371,7 @@ function _fbs_get_marc_039a_translations() {
     'eti' => 'ET INSTRUMENT',
     'eta' => 'ET INSTRUMENT. ANTOLOGIER',
     'vok' => 'VOKALMUSIK',
-    'voa' => 'VOKALMUSIK. ANTOLOGIERø',
+    'voa' => 'VOKALMUSIK. ANTOLOGIER',
     'opr' => 'OPERAER',
     'opa' => 'OPERAER. ANTOLOGIER',
     'otm' => 'OPERETTER/MUSICALS',
@@ -392,5 +393,30 @@ function _fbs_get_marc_039a_translations() {
     'mmo' => 'MUSIC MINUS ONE',
     'hib' => 'HISTORIER. BØRN',
     'mub' => 'MUSIK. BØRN',
+  );
+}
+
+/**
+ * Helper function to hold additional country codes defined by marc.
+ *
+ * See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
+ * Note that we have them capitalized to be able treat them the same way as the
+ * capitalized country codes we get from Drupal.
+ */
+function _fbs_get_marc_039b_translations() {
+  return array (
+    'ÅB' => 'De Små Antiller',
+    'ÅC' => 'Oceanien',
+    'ÅE' => 'Europa',
+    'ÅF' => 'Forindien',
+    'ÅH' => 'Hawaii',
+    'ÅI' => 'Asien',
+    'ÅM' => 'Mellemamerika',
+    'ÅN' => 'Norden',
+    'ÅO' => 'Nordameria',
+    'ÅR' => 'Afrika',
+    'ÅS' => 'Skotland',
+    'ÅT' => 'Tibet',
+    'ÅY' => 'Sydamerika',
   );
 }

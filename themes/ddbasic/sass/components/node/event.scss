@@ -311,17 +311,6 @@
       }
     }
 
-    h1 {
-      @include font('display');
-      margin-bottom: 0;
-      color: $charcoal;
-    }
-
-    h2 {
-      @include font('display-small');
-      margin: 20px 0 5px;
-    }
-
     .field {
       .field-label {
         @include font('base-bold');

@@ -368,6 +368,11 @@ msgstr "Listebillede"
 #: field:field_ding_event_location:ding_event:label
 msgctxt "field_ding_event_location:ding_event:label"
 msgid "Location"
+msgstr "Adresse"
+
+#: field:field_ding_event_place:ding_event:label
+msgctxt "field_ding_event_place:ding_event:label"
+msgid "Place / Room"
 msgstr "Lokalitet"
 
 #: field:field_ding_event_location:ding_event:description
@@ -1275,6 +1280,11 @@ msgctxt "field_ding_list_user:permission:label"
 msgid "Ding List User"
 msgstr ""
 
+#: field:ding_entity_rating_result:ting_object:label
+msgctxt "ding_entity_rating_result:ting_object:label"
+msgid "Average rating"
+msgstr ""
+
 #: field:field_ding_interaction_status:#allowed_values:1
 msgctxt "field_ding_interaction_status:#allowed_values:1"
 msgid "1"
@@ -1522,3 +1532,83 @@ msgstr "12 måneder"
 msgctxt "field_fbs_interest_period:provider_fbs:label"
 msgid "Interest period"
 msgstr "Interesseperiode"
+
+#: field:field_alternate_search_string:smart_search_string:label
+msgctxt "field_alternate_search_string:smart_search_string:label"
+msgid "Alternative search string"
+msgstr "Alternativ søgestreng"
+
+#: field:field_alternate_search_string:smart_search_string:description
+msgctxt "field_alternate_search_string:smart_search_string:description"
+msgid "Search string sent to the well"
+msgstr "Søgestreng der sendes til brønden"
+
+#: field:field_sss_boost_materials:smart_search_string:label
+msgctxt "field_sss_boost_materials:smart_search_string:label"
+msgid "Promoted materials"
+msgstr "Fremhævede materialer"
+
+#: field:field_sss_boost_materials:smart_search_string:description
+msgctxt "field_sss_boost_materials:smart_search_string:description"
+msgid "Only materials part of the result can be promoted"
+msgstr "Kun materialer der er en del af resultatet kan fremhæves"
+
+#: field:field_sss_hits_per_month:smart_search_string:label
+msgctxt "field_sss_hits_per_month:smart_search_string:label"
+msgid "Searches - 30 days"
+msgstr "Søgninger pr. 30 dage"
+
+#: field:field_sss_hits_per_year:smart_search_string:label
+msgctxt "field_sss_hits_per_year:smart_search_string:label"
+msgid "Searches - year"
+msgstr "Søgninger pr. år"
+
+#: field:field_sss_hits_score:smart_search_string:label
+msgctxt "field_sss_hits_score:smart_search_string:label"
+msgid "Search score"
+msgstr "Søgescore"
+
+#: field:field_sss_hits_score:smart_search_string:description
+msgctxt "field_sss_hits_score:smart_search_string:description"
+msgid "Number of clicks"
+msgstr "Antal click"
+
+#: field:field_field_boost_value:custom_boost_values:label
+msgctxt "field_field_boost_value:custom_boost_values:label"
+msgid "Parameter"
+msgstr "Værdi"
+
+#: field:field_field_boost_weight:custom_boost_values:label
+msgctxt "field_field_boost_weight:custom_boost_values:label"
+msgid "Boost value"
+msgstr "Vægt"
+
+#: field:field_custom_boost_values_p:smart_search_string:label
+msgctxt "field_custom_boost_values_p:smart_search_string:label"
+msgid "Boost values"
+msgstr "Boost værdier"
+
+#: field:field_sss_date:smart_search_string:label
+msgctxt "field_sss_date:smart_search_string:label"
+msgid "Date"
+msgstr "Dato"
+
+#: field:field_sss_sort:smart_search_string:label
+msgctxt "field_sss_sort:smart_search_string:label"
+msgid "Sort"
+msgstr "Sortér"
+
+#: field:field_sss_sort:smart_search_string:description
+msgctxt "field_sss_sort:smart_search_string:description"
+msgid "Forced sort - when chosen, all other settings are overridden"
+msgstr "Gennemtving sortering - udkobler alle andre indstillinger"
+
+#: field:field_status:smart_search_string:label
+msgctxt "field_status:smart_search_string:label"
+msgid "Status"
+msgstr "Status"
+
+#: field:field_status:smart_search_string:description
+msgctxt "field_status:smart_search_string:description"
+msgid "Set date if planned"
+msgstr "Sæt dato hvis planlagt"

@@ -173,12 +173,23 @@ function opensearch_boost_field_element_process($element, $form_state) {
 
   $element['weight'] = array(
     '#title' => t('Weight'),
+    '#description' => t('Must be a positive number with dot as decimal separator. Use values between 0 and 1 to downgrade.'),
     '#type' => 'textfield',
     '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
-    '#element_validate' => array('element_validate_integer'),
+    '#element_validate' => array('opensearch_boost_validate_weight'),
   );
 
   return $element;
+}
+
+/**
+ * Element validate callback for boost weight element.
+ */
+function opensearch_boost_validate_weight($element, &$form_state) {
+  $value = $element['#value'];
+  if ($value !== '' && (!is_numeric($value) || $value <= 0)) {
+    form_error($element, t('Boost weight must be a positive number'));
+  }
 }
 
 /**
@@ -436,21 +447,6 @@ function opensearch_page_alter(&$page) {
     if (function_exists('dpm') && user_access('access devel information')) {
       drupal_set_message(t('Warning, opensearch_execute called @x times.', array('@x' => count($calls))), 'error');
       dpm($calls, 'opensearch_execute queries:');
-    }
-  }
-}
-
-/**
- * Implements hook_ding_entity_is().
- */
-function opensearch_ding_entity_is($object, $class) {
-  if ($object instanceof TingEntity) {
-    /* @var TingEntity $object */
-    switch ($class) {
-      case 'periodical':
-        // @todo make sure that availability information isn't displayed
-        // on the object.
-        return in_array(drupal_strtolower($object->getType()), array('tidsskrift', 'periodikum', 'årbog'));
     }
   }
 }

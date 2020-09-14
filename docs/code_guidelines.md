@@ -110,7 +110,7 @@ As there is no finite set of programmatic elements for a Ding site these apply t
 
 Modules, themes etc. should be placed within the corresponding folder in this repository. If a module developed in relation to this project is of general purpose to the Drupal community it should be placed on Drupal.org and included as an external dependency.
 
-If a module has external dependencies these should be declared within the `ding2.make` file located in the root of this repository so that they are downloaded automatically during a build. Dependencies can be projects on Drupal.org or external resources. It is recommended that dependencies specify a specific version.
+If a module has external dependencies these should be declared within the `project.make` file located in the root of this repository so that they are downloaded automatically during a build. Dependencies can be projects on Drupal.org or external resources. It is recommended that dependencies specify a specific version.
 
 A module should provide all required code and resources for it to work on its own or through dependencies. This includes all configuration, theming, CSS, images and JavaScript libraries.
 

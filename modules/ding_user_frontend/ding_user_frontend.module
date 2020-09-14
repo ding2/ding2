@@ -39,6 +39,9 @@ function ding_user_frontend_menu_alter(&$items) {
 
   // Change weight of user edit link, so it always second menu item.
   $items['user/%user/edit']['weight'] = -5;
+
+  // Remove password reset // to avoid leaking information about existing users.
+  $items['user/password']['access callback'] = FALSE;
 }
 
 /**
