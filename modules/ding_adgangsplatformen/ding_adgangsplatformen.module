@@ -9,6 +9,7 @@ define('DING_ADGANGSPLATFORMEN_LOGIN_URL', 'adgangsplatformen/login');
 define('DING_ADGANGSPLATFORMEN_LOGOUT_URL', 'adgangsplatformen/logout');
 define('DING_ADGANGSPLATFORMEN_REDIRECT_URL', 'adgangsplatformen/callback');
 define('DING_ADGANGSPLATFORMEN_LOGOUT_IFRAME_URL', 'adgangsplaformen/logout/iframe');
+define('DING_ADGANGSPLATFORMEN_USER_TOKEN_SESSION_KEY', 'ding_adgangsplatformen_openplatform_token_for_user');
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
@@ -36,7 +37,7 @@ function ding_adgangsplatformen_page_build() {
  */
 function ding_adgangsplatformen_ding_provider() {
   return [
-    'title' => 'Openplatform token provider',
+    'title' => 'Openplatform provider',
     'provides' => [
       'openplatform_token' => [
         'prefix' => 'openplatform_token',
@@ -131,26 +132,88 @@ function ding_adgangsplatformen_ding_provider_user() {
  * Implements hook_ajax_login_command().
  */
 function ding_adgangsplatformen_ajax_login_command($path) {
+  global $language;
+
   // Javascript needed to do the redirect is loaded in the init hook.
   ctools_include('ajax');
 
   // Get authentication url and set the path to be redirected back to.
   $url = ding_adgangsplatformen_generate_login_url($path);
 
+  $request_path = request_path();
+  $request_path = preg_replace("/^{$language->language}\//", '', $request_path);
   // Store the ajax callback url that triggered the ajax auth redirect.
-  $_SESSION['oauth2ajax'] = request_path() . '?' . drupal_http_build_query(drupal_get_query_parameters());
+  $_SESSION['oauth2ajax'] = $request_path . '?' . drupal_http_build_query(drupal_get_query_parameters());
 
   return ctools_ajax_command_redirect($url);
 }
 
 /**
  * Provider function.
+ *
+ * This token give access to information about the user logged in. So this token
+ * should only be used when services needs access to user information.
+ *
+ * To get an library token use the get_agency_token provider function.
+ *
+ * @see ding_adgangsplatformen_openplatform_token_for_agency()
  */
-function ding_adgangsplatformen_openplatform_token_get() {
+function ding_adgangsplatformen_openplatform_token_for_user() {
   $token = NULL;
 
-  if (isset($_SESSION['ding_adgangsplatformen_openplatform_token_get'])) {
-    $token = $_SESSION['ding_adgangsplatformen_openplatform_token_get'];
+  if (isset($_SESSION['DING_ADGANGSPLATFORMEN_USER_TOKEN_SESSION'])) {
+    $token = $_SESSION['DING_ADGANGSPLATFORMEN_USER_TOKEN_SESSION'];
+  }
+
+  return $token;
+}
+
+/**
+ * Provider function.
+ *
+ * Get token for authentication as the library. Should also be used when the
+ * service called don't need access to user information or if no user is logged
+ * in.
+ *
+ * If the token can not be obtained the return value is NULL.
+ */
+function ding_adgangsplatformen_openplatform_token_for_agency() {
+  $token = &drupal_static(__FUNCTION__);
+  if (!isset($token)) {
+    $cache = cache_get('ddb_cover_upload_token');
+    if ($cache && $cache->expire > REQUEST_TIME) {
+      $token = $cache->data;
+    }
+    else {
+      $config = ding_adgangsplatformen_get_configuration();
+      $agency_id = variable_get('ting_agency', '');
+
+      $client = new \GuzzleHttp\Client();
+      $response = $client->request('POST', $config['urlAccessToken'], [
+        'form_params' => [
+          'grant_type' => 'password',
+          'username' => '@' . $agency_id,
+          'password' => '@' . $agency_id,
+        ],
+        'auth' => [
+          $config['clientId'],
+          $config['clientSecret'],
+        ],
+      ]);
+
+      $content = $response->getBody()->getContents();
+      $json = json_decode($content, true);
+
+      $token = NULL;
+      if (!is_null($json) && isset($json['access_token'])) {
+        $token = $json['access_token'];
+
+        // Get 1/2 of the tokens expire time to ensure that the token do not
+        // expire will in use by services.
+        $expire = REQUEST_TIME + ($json['expires_in'] / 2);
+        cache_set('ddb_cover_upload_token', $token, 'cache', $expire);
+      }
+    }
   }
 
   return $token;
@@ -164,13 +227,13 @@ function ding_adgangsplatformen_openplatform_token_login_url($options = []) {
 }
 
 /**
- * Set token for ding_adgangsplatformen_openplatform_token_get.
+ * Set token for user.
  *
  * @param string $token
  *   Token to save.
  */
-function ding_adgangsplatformen_openplatform_token_set($token) {
-  $_SESSION['ding_adgangsplatformen_openplatform_token_get'] = $token;
+function ding_adgangsplatformen_openplatform_token_set_for_user($token) {
+  $_SESSION['DING_ADGANGSPLATFORMEN_USER_TOKEN_SESSION'] = $token;
 }
 
 /**
@@ -279,7 +342,7 @@ function ding_adgangsplatformen_logout($regen_session = FALSE) {
   // Build base options for logging out.
   $config = ding_adgangsplatformen_get_configuration();
   $singleLogout = $config['singleLogout'] ? 'true' : 'false';
-  $token = ding_adgangsplatformen_openplatform_token_get();
+  $token = ding_adgangsplatformen_openplatform_token_for_user();
 
   $logout_options = [
     'singlelogout' => $singleLogout,
@@ -359,7 +422,7 @@ function ding_adgangsplatformen_logout_iframe() {
     session_destroy();
 
     // Remove token.
-    ding_adgangsplatformen_openplatform_token_set(NULL);
+    ding_adgangsplatformen_openplatform_token_set_for_user(NULL);
   }
 
   // Logout requests must never be cached. A cached response would cause
@@ -433,11 +496,11 @@ function ding_adgangsplatformen_callback() {
           ];
           $token_access_token = $token_provider->getAccessToken('password', $auth);
 
-          ding_adgangsplatformen_openplatform_token_set($token_access_token->getToken());
+          ding_adgangsplatformen_openplatform_token_set_for_user($token_access_token->getToken());
         }
         else {
           watchdog('ding_adgangsplatformen', "Cannot get authentication token, missing username and/or pincode", NULL, WATCHDOG_WARNING);
-          ding_adgangsplatformen_openplatform_token_set(NULL);
+          ding_adgangsplatformen_openplatform_token_set_for_user(NULL);
         }
       }
 

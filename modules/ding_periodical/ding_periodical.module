@@ -30,37 +30,7 @@ function ding_periodical_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  // Ajax link reservation callback (with local_id, volume and issue).
-  $items['ting/object/%ting_object/reserve/%/%/%'] = array(
-    'page callback' => 'ding_periodical_reserve_ajax',
-    'page arguments' => array(2, 4, 5, 6),
-    'delivery callback' => 'ajax_deliver',
-    'access arguments' => array('access content'),
-  );
-
   return $items;
-}
-
-/**
- * Ajax reservation callback.
- *
- * @param TingEntity $entity
- *   Ting entity for the periodical.
- * @param string $local_id
- *   Local library id (faust) for the issue (base64 encoded).
- * @param string $volume
- *   Volume number (for year books the year, base64 encoded).
- * @param string $issue
- *   The issue in the volume to reserve (base64_encoded).
- *
- * @return array
- *   Render array with Ajax commands.
- */
-function ding_periodical_reserve_ajax($entity, $local_id, $volume, $issue) {
-  $reservable = new DingPeriodicalReservable(base64_decode($local_id), base64_decode($volume), base64_decode($issue), $entity);
-
-  // Use ding reservation logic to create the reservation and ajax commands.
-  return ding_reservation_reserve_ajax($entity, $reservable);
 }
 
 /**
@@ -79,7 +49,7 @@ function ding_periodical_issues_ajax($ding_entity_id) {
 
   // Get availability.
   $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
-  if (isset($availability[$entity->provider_id])) {
+  if (!empty($availability[$entity->provider_id]['issues'])) {
     $issues = $availability[$entity->provider_id]['issues'];
     krsort($issues);
 
@@ -222,17 +192,17 @@ function theme_ding_periodical_issues($variables) {
  *   - provider: Provider identifier, 'alma' here.
  *   - placement: Item placement info.
  *     - location: Actual location string.
- *     - ordered_count
- *     - checked_out_count
- *     - reference_count
- *     - total_count
- *     - available_count
- *     - reservable
+ *     - ordered_count.
+ *     - checked_out_count.
+ *     - reference_count.
+ *     - total_count.
+ *     - available_count.
+ *     - reservable.
  *
  * @return $string
  *   HTML markup for the availability table.
  */
-function ding_periodical_build_table($availability) {
+function ding_periodical_build_table(array $availability) {
   $header = array(
     'placement' => t('Placement'),
     'copies' => t('Copies'),
@@ -273,7 +243,7 @@ function ding_periodical_build_table($availability) {
  * @return bool
  *   If a copy exists it return TRUE else FALSE.
  */
-function ding_periodical_is_reservable($issue) {
+function ding_periodical_is_reservable(array $issue) {
   foreach ($issue['placement'] as $placement) {
     if ($placement['reservable']) {
       // Found on placement that had a reservable copy.

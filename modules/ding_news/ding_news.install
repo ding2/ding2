@@ -141,3 +141,10 @@ function ding_news_update_7006() {
 function ding_news_update_7007(&$sandbox) {
   ding_paragraphs_migrate_content_body_field('field_ding_news_body', 'field_ding_paragraphs_text', 'field_ding_news_paragraphs', 'ding_paragraphs_text', 'ding_news', $sandbox);
 }
+
+/**
+ * Unset flag to publish news to mobile app by default.
+ */
+function ding_news_update_7008(&$sandbox) {
+  variable_del('flag_mobile_app_default_ding_news');
+}

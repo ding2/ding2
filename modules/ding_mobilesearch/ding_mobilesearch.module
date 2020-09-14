@@ -156,6 +156,17 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         'value' => $node->status,
         'attr' => array(),
       ),
+      // Having a text index in the database and passing the language as a part
+      // of the node payload, will result in an
+      // "insertDocument :: caused by :: 17261 found language override field
+      // in document with non-string type" error.
+      // See: https://docs.mongodb.com/manual/tutorial/specify-language-for-text-index/
+      // Possible solutions:
+      // - disable text index entirely for respective collection;
+      // - override the source field of content language for the appropriate
+      // index definition;
+      // - provide a two digit language code as this field value,
+      // without the generic structure of an array with name/value/attr keys.
       'language' => array(
         'name' => t('Language'),
         'value' => !empty($node->language) ? $node->language : 'en',
@@ -230,6 +241,7 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           foreach ($items as $delta => $row) {
             $file = file_load($row['fid']);
             $mapping['fields'][$machine_name]['value'][$delta] = base64_encode(file_get_contents($file->uri));
+            // Send the mimetype so service decodes this into an image file.
             $mapping['fields'][$machine_name]['attr'][$delta] = $file->filemime;
           }
         }

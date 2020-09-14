@@ -133,9 +133,9 @@ function ddbasic_account_count_reservation_not_ready($account = NULL) {
  * Consider special danish characters on string length calculation and truncate.
  */
 function add_ellipsis($string, $length = 200, $end = '...') {
-  if (strlen($string) > $length) {
-    $length -= mb_strlen($end);
-    $string  = mb_substr($string, 0, $length);
+  if (drupal_strlen($string) > $length) {
+    $length -= drupal_strlen($end);
+    $string  = drupal_substr($string, 0, $length);
     $string .= '<span class="truncation">' . $end . '</span>';
   }
 
