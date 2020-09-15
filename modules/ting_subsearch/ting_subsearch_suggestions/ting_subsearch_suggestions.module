@@ -291,10 +291,10 @@ function ting_subsearch_suggestions_levenshtein($str1, $str2) {
  * Convert an UTF-8 encoded string to a single-byte string for levenshtein.
  */
 function _ting_subsearch_suggestions_utf8_to_ascii($str) {
-  $ascii_strings = &drupal_static(__FUNCTION__);
+  $ascii_strings = &drupal_static(__FUNCTION__ . '_strings');
   // Since we remember string we need to ensure we get consistent mapping
   // between calls in a request.
-  $map = &drupal_static(__FUNCTION__);
+  $map = &drupal_static(__FUNCTION__ . '_map');
 
   if (!isset($ascii_strings[$str])) {
     // find all multibyte characters (cf. utf-8 encoding specs)
