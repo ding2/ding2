@@ -196,7 +196,7 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
 
   $original_search = ting_subsearch_normalize_keys($original_search);
 
-  if (strlen($original_search) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
+  if (drupaL_strlen($original_search) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
     return FALSE;
   }
 
@@ -206,14 +206,21 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
   $query['type'] = 'all';
   $suggestions = ding_provider_invoke('search', 'autocomplete_suggestions', $query);
 
-  $result = array_reduce($suggestions, function($carry, $suggestion) use ($original_search) {
+  // We can't use the suggestions directly. For example author suggestions, will
+  // often return something like emelie schepp (f. 1979). So we build candidates
+  // word by word from the suggestions and consider them if they get below
+  // acceptable levenshtein distance.
+  $candidates = array_map(function($suggestion) use ($original_search) {
+    $suggestion = ting_subsearch_normalize_keys($suggestion);
+
     $candidate = '';
     foreach (explode(' ', $suggestion) as $word) {
       $candidate .= $word;
 
-      // Move along if the candidate has grown over char limit.
+      // Exclude and move on to next suggestion if the candidate has grown over
+      // char limit.
       if (drupal_strlen($candidate) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
-        return $carry;
+        return FALSE;
       }
 
       $distance = ting_subsearch_suggestions_levenshtein($original_search, $candidate);
@@ -226,21 +233,38 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
       }
 
       if ($distance <= variable_get('ting_subsearch_suggestions_distance', 3)) {
-        if (!isset($carry) || ($carry['distance'] > $distance)) {
-          $carry['distance'] = $distance;
-          $carry['q'] = $candidate;
-        }
+        return [
+          'candidate' => $candidate,
+          'distance' => $distance,
+        ];
       }
 
+      // Prepare for next word.
       $candidate .= ' ';
     }
-    return $carry;
+
+    // We could not build an acceptable candidate from the suggestion, so mark
+    // it for exclusion.
+    return FALSE;
+
+  }, $suggestions);
+
+  // Filter out ones marked for exclusion.
+  $candidates = array_filter($candidates);
+
+  // Sort for best candidates first.
+  uasort($candidates, function($candidate_a, $candidate_b) {
+    if ($candidate_a['distance'] == $candidate_b['distance']) {
+      return 0;
+    }
+    return $candidate_a['distance'] < $candidate_b['distance'] ?  -1 : 1;
   });
 
-  if (isset($result)) {
-    return $result['q'];
-  }
-  return FALSE;
+  $candidates = array_map(function($candidate) {
+    return $candidate['candidate'];
+  }, $candidates);
+
+  return reset($candidates);
 }
 
 /**
