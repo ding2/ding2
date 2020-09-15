@@ -160,16 +160,7 @@ function ting_field_formatter_info() {
         'link_type' => 'none',
         'prefix_type' => 'no',
         'element' => 'h2',
-      ),
-    ),
-    'ting_title_minimal' => array(
-      'label' => t('Minimal Title'),
-      'field types' => array(
-        'ting_title',
-      ),
-      'settings' => array(
-        'link_type' => 'none',
-        'prefix_type' => 'no',
+        'length' => 0,
       ),
     ),
     'ting_type_default' => array(
@@ -195,11 +186,8 @@ function ting_field_formatter_info() {
       'field types' => array(
         'ting_author',
       ),
-    ),
-    'ting_author_minimal' => array(
-      'label' => t('Minimal author'),
-      'field types' => array(
-        'ting_author',
+      'settings' => array(
+        'length' => 0,
       ),
     ),
     'ting_subjects_default' => array(
@@ -244,8 +232,8 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
   $settings = $display['settings'];
   $element = NULL;
 
-  switch ($field['type']) {
-    case 'ting_title':
+  switch ($display['type']) {
+    case 'ting_title_default':
       // Provide default for fields that predate the element_type option.
       $settings += array(
         'element' => 'h2',
@@ -283,9 +271,27 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
         '#default_value' => $settings['prefix_type'],
       );
 
+      $element['length'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Length of title'),
+        '#description' => t('Truncate the title to the specified number of characters. Use 0 for no truncation.'),
+        '#default_value' => $settings['length'],
+        '#element_validate' => array('element_validate_integer_positive'),
+      );
+
       break;
 
-    case 'ting_entities':
+    case 'ting_author_default':
+      $element['length'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Length of author string'),
+        '#description' => t('Truncate the author string to the specified number of characters. NOTICE: This will disable author search links. Use 0 for no truncation.'),
+        '#default_value' => $settings['length'],
+        '#element_validate' => array('element_validate_integer_positive'),
+      );
+      break;
+
+    case 'ting_entities_default':
       $element['hide_primary'] = array(
         '#type' => 'checkbox',
         '#title' => t('Hide primary'),
@@ -293,7 +299,7 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
         '#default_value' => $settings['hide_primary'],
       );
 
-    case 'ting_primary_object':
+    case 'ting_primary_object_default':
       $entity_info = entity_get_info('ting_object');
       $view_modes = array();
       foreach ($entity_info['view modes'] as $view_mode => $view_mode_info) {
@@ -319,8 +325,8 @@ function ting_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
   $summary = '';
-  switch ($field['type']) {
-    case 'ting_title':
+  switch ($display['type']) {
+    case 'ting_title_default':
       // Provide default for fields that predate the element_type option.
       $settings += array(
         'element' => 'h2',
@@ -330,12 +336,22 @@ function ting_field_formatter_settings_summary($field, $instance, $view_mode) {
       $summary .= t('<strong>Link type:</strong> @type', array('@type' => $settings['link_type']));
       $summary .= '</br>';
       $summary .= t('<strong>Prefix with type</strong>: @type', array('@type' => $settings['prefix_type']));
+      $summary .= '</br>';
+      $summary .= t('<strong>Truncate length</strong>: @length', array(
+        '@length' => empty($settings['length']) ? t('None') : $settings['length'],
+      ));
       break;
 
-    case 'ting_entities':
+    case 'ting_author_default':
+      $summary .= t('<strong>Truncate length</strong>: @length', array(
+        '@length' => empty($settings['length']) ? t('None') : $settings['length'],
+      ));
+      break;
+
+    case 'ting_entities_default':
       $summary .= $settings['hide_primary'] ? t("Don't show primary. ") : t("Include primary. ");
 
-    case 'ting_primary_object':
+    case 'ting_primary_object_default':
       $view_mode = $settings['view_mode'];
       $entity_info = entity_get_info('ting_object');
       if (isset($entity_info['view modes'][$view_mode])) {
@@ -428,6 +444,10 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $prefix = '<span class="search-result--heading-type js-toggle-info-container">' . $ting_type . ':</span>';
         }
 
+        if (!empty($display['settings']['length'])) {
+          $title = truncate_utf8($title, $display['settings']['length'], FALSE, TRUE);
+        }
+
         if ($link) {
           $url = entity_uri($type, $entity);
           $title = l($title, $url['path'], $url['options']);
@@ -461,16 +481,6 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $element[$delta]['#suffix'] = '</' . $element_name . '>';
         }
 
-        break;
-
-      case 'ting_title_minimal':
-        // Only create the link if the object is available in the data well.
-        $title = truncate_utf8(check_plain($entity->title), 70, FALSE, TRUE);
-        $element[$delta] = [
-          '#prefix' => '<h2 class="ting-object-minimal-title">',
-          '#suffix' => '</h2>',
-          '#markup' => $title,
-        ];
         break;
 
       case 'ting_type_default':
@@ -536,22 +546,40 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         }, $creators);
         $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
 
-        // The links with the correct author name depending on whether @author
-        // or @author_inverted is used.
-        $creator_links = array_map(function ($creator, $replacements) use ($search_string) {
-          $options = array(
-            'attributes' => array(
-              'class' => array('author'),
-            ),
-          );
-          return ting_field_search_link($creator['default'], $search_string, $replacements, $options);
+        $length = $display['settings']['length'];
+
+        // If a truncate length is set we can't output links since we might cut
+        // off and destroy a link tag.
+        $use_links = empty($length);
+
+        $authors = array_map(function ($creator, $replacements) use ($search_string, $use_links) {
+          if ($use_links) {
+            $options = array(
+              'attributes' => array(
+                'class' => array('author'),
+              ),
+            );
+            // The links with the correct author name depending on whether
+            // @author or @author_inverted is used.
+            return ting_field_search_link($creator['default'], $search_string, $replacements, $options);
+          }
+          else {
+            return $creator['default'];
+          }
         }, $creators, $replace_array);
+
+        // Create the author string and check length setting. We truncate before
+        // passing to t(), since it may add additional inline HTML-tags.
+        $authors = implode(', ', $authors);
+        if (!empty($display['settings']['length'])) {
+          $authors = truncate_utf8($authors, $display['settings']['length'], FALSE, TRUE);
+        }
 
         $markup_string = '';
         if (count($creators)) {
           if ($entity->date != '') {
             $replacements = array(
-              '!author_link' => implode(', ', $creator_links),
+              '!author_link' => $authors,
               // So wrong, but appears to be the way the data is.
               '@year' => $entity->date,
             );
@@ -559,44 +587,17 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           }
           else {
             $markup_string = t('By !author_link', array(
-              '!author_link' => implode(', ', $creator_links),
+              '!author_link' => $authors,
             ));
           }
         }
         elseif ($entity->date != '') {
           $markup_string = t('(@year)', array('@year' => $entity->date));
         }
+
         $element[$delta] = array(
           '#markup' => $markup_string,
         );
-        break;
-
-      case 'ting_author_minimal':
-        $creators = [];
-        foreach ($entity->creators as $i => $creator) {
-          $creators[] = $creator;
-        }
-        $markup_string = '';
-        if (count($creators)) {
-          if ($entity->date != '') {
-            $markup_string = t('by !author_link (@year)', [
-              '!author_link' => implode(', ', $creators),
-              // So wrong, but appears to be the way the data is.
-              '@year' => $entity->date,
-            ]);
-          }
-          else {
-            $markup_string = t('by !author_link', [
-              '!author_link' => implode(', ', $creators),
-            ]);
-          }
-        }
-        elseif ($entity->date != '') {
-          $markup_string = t('(@year)', ['@year' => $entity->date]);
-        }
-        $element[$delta] = [
-          '#markup' => truncate_utf8(check_plain($markup_string), 70, FALSE, TRUE),
-        ];
         break;
 
       case 'ting_subjects_default':
