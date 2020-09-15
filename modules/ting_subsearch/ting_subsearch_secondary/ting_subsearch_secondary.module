@@ -200,10 +200,11 @@ function _ting_subsearch_secondary_search_trigger($keys, $conditions, $results, 
   }
 
   $factor = variable_get('ting_subsearch_secondary_factor', 2);
+  $ratio = ting_subsearch_get_genre_ratio($results);
 
   // If user search returnes zero results we always try a secondary search.
   // Otherwise the results genre category ratio need to satisfy the factor.
-  if ($num_results == 0 || ting_subsearch_check_genre_ratio($results, $factor)) {
+  if ($num_results == 0 || $ratio >= $factor) {
     drupal_add_js([
       'tingSubsearchSecondary' => [
         'keys' => $keys,

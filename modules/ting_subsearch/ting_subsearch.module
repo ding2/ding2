@@ -167,21 +167,22 @@ function ting_subsearch_factor_field_validate($element, &$form_state) {
 }
 
 /**
- * Check nonfiction / fiction ratio against $factor.
+ * Get non-fiction / ficion ratio from a search result.
  *
  * @param TingSearchResultInterface $results
- *   A non-zero hit search result object with genreCategory facet.
- * @param float $factor
- *   The factor the ratio to check against.
+ *   A search result object with genreCategory facet.
  *
- * @return boolean
- *   FALSE if $nonfiction / $fiction < $factor and $fiction > 0.
- *   TRUE otherwise.
+ * @return float
+ *   A float describing the ratio of non-fiction to fiction.
  */
-function ting_subsearch_check_genre_ratio(TingSearchResultInterface $results, $factor) {
+function ting_subsearch_get_genre_ratio(TingSearchResultInterface $results) {
   $facets = $results->getFacets();
   if (empty($facets)) {
     return FALSE;
+  }
+
+  if ($results->getNumTotalObjects() == 0) {
+    return 0;
   }
 
   $terms = $facets['facet.genreCategory']->getTerms();
@@ -190,11 +191,12 @@ function ting_subsearch_check_genre_ratio(TingSearchResultInterface $results, $f
 
   // Avoid division by zero.
   if ($fiction == 0) {
-    // This function should be called with non-zero search result, so
-    // $nonfiction should be non-zero and we therefore return TRUE.
-    return TRUE;
+    // Since non-fiction must be non-zero in this case, we return INF which can
+    // be used in comparisons.
+    return INF;
   }
-  return $nonfiction / $fiction >= $factor;
+
+  return $nonfiction / $fiction;
 }
 
 /**

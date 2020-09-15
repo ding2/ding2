@@ -150,10 +150,11 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
 
   $original_search_num_results = $results->getNumTotalObjects();
   $factor = variable_get('ting_subsearch_translate_factor', 50);
+  $ratio = ting_subsearch_get_genre_ratio($results);
 
   // Activate subsearch translation if the original search has zero hits or if
   // the genre category ratio satifies the factor.
-  if ($original_search_num_results == 0 || ting_subsearch_check_genre_ratio($results, $factor)) {
+  if ($original_search_num_results == 0 || $ratio >= $factor) {
     drupal_add_js([
       'tingSubsearchTranslate' => [
         'originalSearch' => $keys,
