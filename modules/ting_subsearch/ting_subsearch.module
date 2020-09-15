@@ -209,6 +209,7 @@ function ting_subsearch_get_genre_ratio(TingSearchResultInterface $results) {
  *  The normalized search keys.
  */
 function ting_subsearch_normalize_keys($keys) {
+  $keys = trim($keys);
   // Support users quoting their search keys.
   $keys = trim($keys, '"');
   // Replace multiple spaces with single space.
