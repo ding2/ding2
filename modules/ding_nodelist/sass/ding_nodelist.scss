@@ -376,7 +376,6 @@ $label-bg: url('../images/p.png');
 
         @include media($tablet) {
           white-space: nowrap;
-          width: 6em;
           overflow: hidden;
           text-overflow: ellipsis;
         }

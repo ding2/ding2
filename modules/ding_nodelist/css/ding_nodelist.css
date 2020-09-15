@@ -490,7 +490,6 @@
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper ul.ui-tabs-nav a,
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper li.ui-tabs-nav-item a {
     white-space: nowrap;
-    width: 6em;
     overflow: hidden;
     text-overflow: ellipsis;
   }
