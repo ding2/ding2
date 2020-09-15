@@ -220,22 +220,27 @@ function ting_subsearch_normalize_keys($keys) {
 /**
  * Construct query string with search parameters from the current request.
  *
- * @param $additional
- *   Additional query parameters which will override any from the current
- *   request.
- *
  * @return string
  *   The query string ready to be appended.
  *   If no parameters present the string will be empty.
  */
-function ting_subsearch_get_query_string($additional = []) {
+function ting_subsearch_get_query_string() {
+  $query = ting_subsearch_get_query_parameters();
+  return !empty($query) ? '?' . drupal_http_build_query($query) : '';
+}
+
+/**
+ * Get search related query parameters from the current request.
+ *
+ * @return array
+ *   An array containing the query parameters.
+ */
+function ting_subsearch_get_query_parameters() {
   $query = [];
 
   if ($profile = ting_field_search_get_active_profile()) {
     $query['profile'] = $profile->name;
   }
 
-  $query = array_merge($query, $additional);
-
-  return !empty($query) ? '?' . drupal_http_build_query($query) : '';
+  return $query;
 }

@@ -126,15 +126,11 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
 
       if ($suggestion_result->getNumTotalObjects() > 0) {
-        $additional = [
+        $query = [
           'original-search' => $keys,
-        ];
-        $query = ting_subsearch_get_query_string($additional);
-        global $base_url;
-        $url = $base_url . '/search/ting/' . $suggestion . $query;
+        ] + ting_subsearch_get_query_parameters();
 
-        header('Location: ' . $url, TRUE, 301);
-        drupal_exit($url);
+        drupal_goto('search/ting/' . $suggestion, ['query' => $query]);
       }
     }
   }
