@@ -21,11 +21,4 @@
       </div>
     <?php endforeach; ?>
   </div>
-
-  <!-- Used for responsive -->
-  <select class="ding-tabroll-select-tabs">
-    <?php foreach ($view->result as $id => $result) : ?>
-      <option class="tabroll-tabs-item"><?php print $result->node_title ?></option>
-    <?php endforeach; ?>
-  </select>
 </div>

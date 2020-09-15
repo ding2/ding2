@@ -49,15 +49,6 @@
             </div>
           <?php endforeach; ?>
         </div>
-
-        <!-- Used for responsive -->
-        <select class="ding_nodelist-rolltab-select-tabs ding-tabroll-select-tabs">
-          <?php foreach ($items as $id => $result) : ?>
-            <option class="nodelist-tabs-item">
-              <?php print $result->title; ?>
-            </option>
-          <?php endforeach; ?>
-        </select>
       </div>
     </div>
     <?php if (!empty($links)): ?>
