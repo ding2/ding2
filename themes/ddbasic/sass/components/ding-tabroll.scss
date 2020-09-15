@@ -232,6 +232,61 @@
   }
 }
 
-select.ding-tabroll-select-tabs {
-  display: none;
+.ding-tabroll-wrapper {
+  // Position element so we can position the play-toggle relative to it.
+  position: relative;
+
+  .play-toggle-wrapper {
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    bottom: 20px;
+    right: 20px;
+
+    // On mobile position from top as we can't know where the bottom
+    // of the image is.
+    @include media($mobile) {
+      bottom: initial;
+      top: 20px;
+    }
+
+    .play-toggle {
+      border: none;
+      height: 100%;
+
+      // @include button(...) can't be used, as it has the
+      // background-color for both :hover and :focus, which means the
+      // hover state "sticks" when clicked.
+      @include place-icon(pause, $white);
+      @include transition(
+        background-color $speed $ease,
+        color $speed $ease
+      );
+      width: 100%;
+      float: left;
+      border-radius: $round-corner;
+      background-color: $charcoal;
+      color: $white;
+
+      .no-touch &:focus {
+        // Remove the focus outline. It renders oddly in Chrome due to
+        // the hidden element.
+        outline: none;
+      }
+
+      &::after {
+        @include transition(color $speed $ease);
+        // This centers the icon, for some reason.
+        right: 0px;
+      }
+
+      &:hover {
+        background-color: $grey-dark;
+      }
+
+      &.stopped::after {
+        @extend %icon-play;
+      }
+    }
+  }
 }

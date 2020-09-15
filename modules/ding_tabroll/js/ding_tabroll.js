@@ -8,62 +8,81 @@
 
   Drupal.behaviors.ding_tabroll = {
     attach: function (context) {
-      var tabroll = $('.ding-tabroll', context);
-      var tabroll_select = $('.ding-tabroll-select-tabs', context);
-      var switch_speed = Drupal.settings.ding_tabroll.switch_speed;
-      // Check if the tabs lib is loaded before trying to call it.
-      if ($.fn.tabs) {
-        tabroll.tabs({
-          select: function(event, ui) {
-            // Update the mobile navigation drop down.
-            tabroll_select.prop('selectedIndex', ui.index);
-          },
-          // The jQuery UI tabs adds a negative tabindex on the tab anchors
-          // which we are not interested in having.
-          // We'll remove them when the tab is created.
-          create: function() {
-            var tab_anchors = $('.ui-tabs-anchor', context);
+      $('.ding-tabroll-wrapper', context).once('ding-tabroll-processed', function () {
+        var tabroll_wrapper = $(this);
+        var tabroll = $('.ding-tabroll', tabroll_wrapper);
+        var switch_speed = Drupal.settings.ding_tabroll.switch_speed;
 
-            $(tab_anchors).each(function() {
-              $(this).removeAttr('tabindex');
-            });
-          }
-        }).tabs('rotate', switch_speed);
+        // Check if the tabs lib is loaded before trying to call it.
+        if ($.fn.tabs) {
+          tabroll.tabs({
+            // The jQuery UI tabs adds a negative tabindex on the tab anchors
+            // which we are not interested in having.
+            // We'll remove them when the tab is created.
+            create: function() {
+              var tab_anchors = $('.ui-tabs-anchor', $(this));
 
-        // Stop tabs rotate when mouse is over the tab roll.
-        tabroll.mouseenter(function() {
-          tabroll.tabs('rotate', 0);
-        });
+              $(tab_anchors).each(function() {
+                $(this).removeAttr('tabindex');
+              });
+            }
+          });
 
-        // Start tabs rotate when mouse is out.
-        tabroll.mouseleave(function () {
-          tabroll.tabs('rotate', switch_speed);
-        });
+          var mouseIn = false;
+          var focusIn = false;
+          var stopped = false;
 
-        // Stops tabs rotation when an element within it is in focus.
-        tabroll.focusin(function () {
-          tabroll.tabs('rotate', 0);
-        });
+          var interval;
+          var tab_num = $('.ui-tabs-nav-item', tabroll_wrapper).length;
+          interval = setInterval(function() {
+            if (!focusIn && !mouseIn && !stopped) {
+              var current_tab = tabroll.tabs('option', 'active');
+              tabroll.tabs('option', 'active', ++current_tab < tab_num ? current_tab : 0);
+            }
+          }, switch_speed);
 
-        // Starts tabs rotation when an element within it is out of focus.
-        tabroll.focusout(function () {
-          tabroll.tabs('rotate', switch_speed);
-        });
+          // Stop tabs rotate when mouse is over the tab roll.
+          tabroll_wrapper.mouseenter(function() {
+            mouseIn = true;
+          });
 
-        });
-      }
+          // Start tabs rotate when mouse is out.
+          tabroll_wrapper.mouseleave(function () {
+            mouseIn = false;
+          });
 
-      // Add click event to select tabs options.
-      $('.ui-tabs-nav-item a', tabroll).click(function(e) {
-        e.preventDefault();
-        tabroll.tabs().tabs('rotate', 0);
-        return false;
-      });
+          // Stops tabs rotation when an element within it is in focus.
+          tabroll_wrapper.focusin(function () {
+            focusIn = true;
+          });
 
-      // Hook into click events in the responsive mobile selector.
-      tabroll_select.on('change', function() {
-        tabroll.tabs('select', $(this).prop('selectedIndex'));
-        tabroll.tabs().tabs('rotate', 0);
+          // Starts tabs rotation when an element within it is out of focus.
+          tabroll_wrapper.focusout(function () {
+            focusIn = false;
+          });
+
+          // Add a button to pause/play.
+          var button_wrapper = $('<div class="play-toggle-wrapper clearfix"><button class="play-toggle"><span class="element-invisible">' +
+                                 Drupal.t('Stop animation') + '</span></button></div>');
+          var button = button_wrapper.find('button').click(function (e) {
+            stopped = !stopped;
+            updateButton();
+          });
+
+          var updateButton = function () {
+            button.toggleClass('stopped', stopped);
+          };
+
+          tabroll_wrapper.append(button_wrapper);
+
+          // Add click event to select tabs options.
+          $('.ui-tabs-nav-item a', tabroll).click(function(e) {
+            e.preventDefault();
+            stopped = true;
+            updateButton();
+            return false;
+          });
+        }
       });
     }
   };
