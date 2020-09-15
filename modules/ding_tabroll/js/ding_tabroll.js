@@ -66,6 +66,11 @@
                                  Drupal.t('Stop animation') + '</span></button></div>');
           var button = button_wrapper.find('button').click(function (e) {
             stopped = !stopped;
+            if (!stopped) {
+              // Clicking the button will focus it, so clear focus
+              // state when resuming.
+              focusIn = false;
+            }
             updateButton();
           });
 
