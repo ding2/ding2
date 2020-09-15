@@ -382,7 +382,7 @@ $label-bg: url('../images/p.png');
         }
 
         @include media($mobile) {
-          width: auto;
+          width: 10px;
         }
       }
 
@@ -416,11 +416,6 @@ $label-bg: url('../images/p.png');
 
     .ui-tabs-nav {
       margin-bottom: 10px;
-    }
-
-    .ui-tabs,
-    div.ui-tabs-panel {
-      padding: 0;
     }
 
     div.image {
