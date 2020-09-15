@@ -2,7 +2,6 @@ name = Ting Subsearch - Common
 description = Shared functionality amongst Ting subsearch modules
 package = Ding!
 core = 7.x
-version = 0.1
 dependencies[] = opensearch
 dependencies[] = ting_field_search
 dependencies[] = ting_search
