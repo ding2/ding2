@@ -23,7 +23,6 @@ dependencies[] = options
 dependencies[] = paragraphs
 dependencies[] = strongarm
 dependencies[] = text
-dependencies[] = ting_smart_search
 dependencies[] = views
 features[ctools][] = field_group:field_group:1
 features[ctools][] = strongarm:strongarm:1

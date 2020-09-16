@@ -2,7 +2,7 @@ core = 7.x
 api = 2
 
 ; Include ding2 make file
-includes[ding2] = "ding2.make"
+includes[ding2] = "project.make"
 
 ; easyOPAC modules
 projects[bibdk_subject_hierarchy][type]             = "module"
