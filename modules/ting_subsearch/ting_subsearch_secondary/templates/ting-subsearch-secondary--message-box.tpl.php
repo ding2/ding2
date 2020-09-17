@@ -10,7 +10,7 @@
  * @var $secondary_link_text
  */
 ?>
-<div id="ting-subsearch-secondary" class="ting-subsearch-seondary-message-box">
+<div class="ting-subsearch-seondary-message-box">
   <div class="ting-subsearch-seondary-message-box--title">
     <?php print $message; ?>
   </div>
