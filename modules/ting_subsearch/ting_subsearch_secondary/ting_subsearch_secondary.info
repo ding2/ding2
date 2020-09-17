@@ -1,5 +1,5 @@
-name = Ting Subsearch - Secondary ting search
-description = Extend Ting Search with secondary search
+name = Ting subsearch secondary
+description = Ting subsearch module with secondary bibliotek.dk search and suggestion
 package = Ding!
 core = 7.x
 configure = admin/config/ding/provider/opensearch

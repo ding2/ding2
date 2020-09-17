@@ -5,6 +5,9 @@
  * Ting subsearch using Bibliotek.dk service.
  */
 
+define('TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_AGENCY', 190101);
+define('TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_PROFILE', 'default');
+
 /**
  * Implements hook_menu().
  */
@@ -29,8 +32,8 @@ function ting_subsearch_secondary_opensearch_pre_execute($request) {
 
   $secondary_search = drupal_static('ting_subsearch_secondary_search');
   if ($secondary_search === TRUE) {
-    $request->setProfile(variable_get('ting_subsearch_secondary_profile', ''));
-    $request->setAgency(variable_get('ting_subsearch_secondary_agency', ''));
+    $request->setProfile(TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_PROFILE);
+    $request->setAgency(TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_AGENCY);
   }
 }
 
@@ -92,27 +95,6 @@ function ting_subsearch_secondary_form_ting_subsearch_admin_settings_form_alter(
     '#default_value' => variable_get('ting_subsearch_secondary_ps_factor', 2),
     '#description' => t('Factor between amount of results from primary and secondary search.'),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
-  ];
-
-  $form['subsearch']['secondary']['ting_subsearch_secondary_agency'] = [
-    '#type' => 'textfield',
-    '#title' => t('Secondary Agency'),
-    '#default_value' => variable_get('ting_subsearch_secondary_agency', ''),
-    '#description' => t('The agency for the secondary well configuration'),
-  ];
-
-  $form['subsearch']['secondary']['ting_subsearch_secondary_profile'] = [
-    '#type' => 'textfield',
-    '#title' => t('Secondary Search profile'),
-    '#default_value' => variable_get('ting_subsearch_secondary_profile', ''),
-    '#description' => t('The Search profile for the secondary well configuration'),
-  ];
-
-  $form['subsearch']['secondary']['ting_subsearch_secondary_search_link'] = [
-    '#type' => 'textfield',
-    '#title' => t('Secondary link'),
-    '#description' => t('Could be something link https://bibliotek.dk/da/search/work?search_block_form=[keys] where [keys] are substituted with the search phrase.'),
-    '#default_value' => variable_get('ting_subsearch_secondary_search_link', ''),
   ];
 
   $form['subsearch']['secondary']['ting_subsearch_secondary_number_of_results'] = [
@@ -285,10 +267,14 @@ function ting_subsearch_secondary_get_message($keys, $num_results) {
       $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get <strong>!secondary-num-results hits</strong> where some of them is the following:', $options);
     }
 
+    $secondary_link = url('https://bibliotek.dk/da/search/work', [
+      'query' => ['search_block_form' => $keys],
+    ]);
+
     $message = theme('tss_message_box', [
       'items' => theme('tss_items_list', ['items' => $items]),
       'message' => $message,
-      'secondary_link' => str_replace('[keys]', urlencode($keys), variable_get('ting_subsearch_secondary_search_link', '')),
+      'secondary_link' => check_plain($secondary_link),
       'secondary_link_text' => t('See more materials at bibliotek.dk'),
     ]);
   }
