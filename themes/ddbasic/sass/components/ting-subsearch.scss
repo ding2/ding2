@@ -21,11 +21,11 @@
   background-color: $color-primary;
   color: $color-text-on-primary;
 
-  .after & {
+  &.after {
     margin-top: 30px;
   }
 
-  .before & {
+  &.before {
     margin-bottom: 30px;
   }
 

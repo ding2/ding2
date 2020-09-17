@@ -8,10 +8,11 @@
  * @var $message
  * @var $secondary_link
  * @var $secondary_link_text
+ * @var $position
  */
 
 ?>
-<div class="ting-subsearch-seondary-message-box">
+<div class="ting-subsearch-seondary-message-box <?php print $position; ?>">
   <div class="ting-subsearch-seondary-message-box--title">
     <?php print $message; ?>
   </div>

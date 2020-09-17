@@ -21,6 +21,13 @@ function ting_subsearch_menu() {
     'access arguments' => array('administer site configuration'),
   ];
 
+  $items['ting_subsearch/ajax'] = [
+    'title' => 'Ting subsearch callback',
+    'description' => 'AJAX callback to perform asynchronous subsearches.',
+    'page callback' => 'ting_subsearch_ajax_callback',
+    'access callback' => TRUE,
+  ];
+
   return $items;
 }
 
@@ -71,7 +78,15 @@ function ting_subsearch_theme() {
         'suggestion_num_results' => NULL,
         'original_search' => NULL,
         'original_search_num_results' => NULL,
-      ]
+      ],
+    ],
+    'ting_subsearch_ajax_trigger' => [
+      'variables' => [
+        // Module implementing hook_ting_subsearch_ajax_callback().
+        'module' => NULL,
+        'original_search' => NULL,
+        'original_search_num_results' => NULL,
+      ],
     ]
   ];
 }
@@ -109,6 +124,50 @@ function theme_ting_subsearch_message($variables) {
   $output .= '</div></div>';
 
   return $output;
+}
+
+/**
+ * Returns default HTML for ting subsearch ajax trigger.
+ */
+function theme_ting_subsearch_ajax_trigger($variables) {
+  // Ensure ting subsearch ajax trigger script is added.
+  drupal_add_js(drupal_get_path('module', 'ting_subsearch') . '/js/ting_subsearch_ajax_trigger.js', [
+    'type' => 'file',
+    'scope' => 'footer',
+  ]);
+
+  // Build the query for the ajax callback and send it to frontend with a data
+  // attribute.
+  $query = [
+    'original_search' => $variables['original_search'],
+    'original_search_num_results' => $variables['original_search_num_results'],
+    'module' => $variables['module'],
+  ] + ting_subsearch_get_query_parameters();
+  $query = drupal_http_build_query($query);
+  $query = '?' . check_plain($query);
+
+  return "<div class='js-ting-subsearch-ajax-trigger' data-ting-subsearch-query='$query'></div>";
+}
+
+/**
+ * AJAX-callback to perform asynchronous subsearches.
+ */
+function ting_subsearch_ajax_callback() {
+  $output = '';
+
+  if (!empty($_GET['module']) && !empty($_GET['original_search']) && !empty($_GET['original_search_num_results'])) {
+    $module = $_GET['module'];
+    $original_search = $_GET['original_search'];
+    $original_search_num_results = $_GET['original_search_num_results'];
+
+    $message = module_invoke($module, 'ting_subsearch_ajax_callback', $original_search, $original_search_num_results);
+    if (isset($message)) {
+      $output = $message;
+    }
+  }
+
+  drupal_json_output($output);
+  drupal_exit();
 }
 
 /**

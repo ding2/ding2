@@ -9,20 +9,6 @@ define('TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_AGENCY', 190101);
 define('TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_PROFILE', 'default');
 
 /**
- * Implements hook_menu().
- */
-function ting_subsearch_secondary_menu() {
-  $items['subsearch_secondary'] = [
-    'title' => 'Subsearch Secondary Suggestions',
-    'description' => 'AJAXify request for subsearch secondary suggestions',
-    'page callback' => 'ting_subsearch_secondary_ajax_callback',
-    'access callback' => TRUE,
-  ];
-
-  return $items;
-}
-
-/**
  * Implements hook_opensearch_pre_execute().
  */
 function ting_subsearch_secondary_opensearch_pre_execute($request) {
@@ -35,20 +21,6 @@ function ting_subsearch_secondary_opensearch_pre_execute($request) {
     $request->setProfile(TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_PROFILE);
     $request->setAgency(TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_AGENCY);
   }
-}
-
-/**
- * Custom AJAX menu callback.
- */
-function ting_subsearch_secondary_ajax_callback() {
-  $message = '';
-  if (!empty($_POST['keys']) && isset($_POST['numResults'])) {
-    $keys = $_POST['keys'];
-    $num_results = $_POST['numResults'];
-    $message = ting_subsearch_secondary_get_message($keys, $num_results);
-  }
-  drupal_json_output($message);
-  drupal_exit();
 }
 
 /**
@@ -116,107 +88,15 @@ function ting_subsearch_secondary_form_ting_subsearch_admin_settings_form_alter(
 }
 
 /**
- * Implements hook_theme().
+ * Implements hook_ting_subsearch_ajax_callback().
  */
-function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
-  return [
-    'ting_subsearch_secondary_message_box' => [
-      'variables' => [
-        'items' => NULL,
-        'message' => NULL,
-        'secondary_link' => NULL,
-        'secondary_link_text' => NULL,
-      ],
-      'template' => 'templates/ting-subsearch-secondary-message-box',
-    ],
-    'ting_subsearch_secondary_message_box_items_list' => [
-      'variables' => [
-        'items' => NULL
-      ],
-      'template' => 'templates/ting-subsearch-secondary-message-box-items-list',
-    ],
-  ];
-}
-
-/**
- * Implements hook_ting_search_results_prefix().
- *
- * @throws \Exception
- */
-function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, $results) {
-  if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
-    return _ting_subsearch_secondary_search_trigger($keys, $conditions, $results, 'before');
-  }
-}
-
-/**
- * Implements hook_ting_search_results_suffix().
- *
- * @throws \Exception
- */
-function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions, $results) {
-  if (variable_get('ting_subsearch_secondary_position', 'before') == 'after') {
-    return _ting_subsearch_secondary_search_trigger($keys, $conditions, $results, 'after');
-  }
-}
-
-/**
- * Callback for triggering secondary search block render.
- *
- * @param $keys
- * @param $conditions
- * @param $results
- * @param $position
- *
- * @return string
- */
-function _ting_subsearch_secondary_search_trigger($keys, $conditions, $results, $position) {
-  // Return early if module is not configured.
-  if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
-    return;
-  }
-
-  $num_results = $results->getNumTotalObjects();
-
-  // Bail out if the user search returned more results than allowed.
-  if ($num_results > variable_get('ting_subsearch_secondary_max', 100)) {
-    return;
-  }
-
-  $factor = variable_get('ting_subsearch_secondary_factor', 2);
-  $ratio = ting_subsearch_get_genre_ratio($results);
-
-  // If user search returnes zero results we always try a secondary search.
-  // Otherwise the results genre category ratio need to satisfy the factor.
-  if ($num_results == 0 || $ratio >= $factor) {
-    drupal_add_js([
-      'tingSubsearchSecondary' => [
-        'keys' => $keys,
-        'numResults' => $num_results,
-      ],
-    ], 'setting');
-
-    drupal_add_js(drupal_get_path('module', 'ting_subsearch_secondary') . '/js/subsearch_secondary.js', [
-      'type' => 'file',
-      'scope' => 'footer',
-    ]);
-
-    return '<div id="subsearch-secondary" class="' . $position . '"></div>';
-  }
-}
-
-/**
- * Get secondary result message.
- *
- * @throws \Exception
- */
-function ting_subsearch_secondary_get_message($keys, $num_results) {
+function ting_subsearch_secondary_ting_subsearch_ajax_callback($original_search, $original_search_num_results) {
   $message = '';
 
   $secondary_search_flag = &drupal_static('ting_subsearch_secondary_search');
   $secondary_search_flag = TRUE;
 
-  $secondary_result = ting_subsearch_do_secondary_search($keys);
+  $secondary_result = ting_subsearch_do_secondary_search($original_search);
 
   drupal_static_reset('ting_subsearch_secondary_search');
 
@@ -230,7 +110,7 @@ function ting_subsearch_secondary_get_message($keys, $num_results) {
 
   $factor = variable_get('ting_subsearch_secondary_ps_factor', 2);
 
-  if ($num_results == 0 || $secondary_num_results / $num_results >= $factor) {
+  if ($original_search_num_results == 0 || $secondary_num_results / $original_search_num_results >= $factor) {
     $items = [];
 
     $number_of_collections_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
@@ -277,8 +157,85 @@ function ting_subsearch_secondary_get_message($keys, $num_results) {
       'message' => $message,
       'secondary_link' => check_plain($secondary_link),
       'secondary_link_text' => t('See more materials at bibliotek.dk'),
+      'position' => variable_get('ting_subsearch_secondary_position', 'before'),
     ]);
   }
 
   return $message;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
+  return [
+    'ting_subsearch_secondary_message_box' => [
+      'variables' => [
+        'items' => NULL,
+        'message' => NULL,
+        'secondary_link' => NULL,
+        'secondary_link_text' => NULL,
+        'position' => NULL,
+      ],
+      'template' => 'templates/ting-subsearch-secondary-message-box',
+    ],
+    'ting_subsearch_secondary_message_box_items_list' => [
+      'variables' => [
+        'items' => NULL
+      ],
+      'template' => 'templates/ting-subsearch-secondary-message-box-items-list',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_ting_search_results_prefix().
+ *
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, $results) {
+  if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
+    return _ting_subsearch_secondary_ajax_trigger($keys, $conditions, $results);
+  }
+}
+
+/**
+ * Implements hook_ting_search_results_suffix().
+ *
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions, $results) {
+  if (variable_get('ting_subsearch_secondary_position', 'before') == 'after') {
+    return _ting_subsearch_secondary_ajax_trigger($keys, $conditions, $results);
+  }
+}
+
+/**
+ * Return HTML for triggering secondary ajax subsearch.
+ */
+function _ting_subsearch_secondary_ajax_trigger($keys, $conditions, $results) {
+  // Return early if module is not configured.
+  if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
+    return;
+  }
+
+  $original_search_num_results = $results->getNumTotalObjects();
+
+  // Bail out if the user search returned more results than allowed.
+  if ($original_search_num_results > variable_get('ting_subsearch_secondary_max', 100)) {
+    return;
+  }
+
+  $factor = variable_get('ting_subsearch_secondary_factor', 2);
+  $ratio = ting_subsearch_get_genre_ratio($results);
+
+  // If user search returnes zero results we always try a secondary search.
+  // Otherwise the results genre category ratio need to satisfy the factor.
+  if ($original_search_num_results == 0 || $ratio >= $factor) {
+    return theme('ting_subsearch_ajax_trigger', [
+      'original_search' => $keys,
+      'original_search_num_results' => $original_search_num_results,
+      'module' => 'ting_subsearch_secondary',
+    ]);
+  }
 }

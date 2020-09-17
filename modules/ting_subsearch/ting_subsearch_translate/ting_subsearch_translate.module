@@ -9,34 +9,6 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 
 /**
- * Implements hook_menu().
- */
-function ting_subsearch_translate_menu() {
-  $items['subsearch_translate'] = [
-    'title' => 'Subsearch Secondary Suggestions',
-    'description' => 'AJAXify request for subsearch translate suggestions',
-    'page callback' => 'ting_subsearch_translate_ajax_callback',
-    'access callback' => TRUE,
-  ];
-
-  return $items;
-}
-
-/**
- * Custom AJAX menu callback.
- */
-function ting_subsearch_translate_ajax_callback() {
-  $message = '';
-  if (!empty($_POST['originalSearch']) && isset($_POST['originalSearchNumResults'])) {
-    $original_search = $_POST['originalSearch'];
-    $original_search_num_results = $_POST['originalSearchNumResults'];
-    $message = ting_subsearch_translate_get_message($original_search, $original_search_num_results);
-  }
-  drupal_json_output($message);
-  drupal_exit();
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_subsearch_translate_form_ting_subsearch_admin_settings_form_alter(&$form, &$form_state) {
@@ -82,17 +54,9 @@ function ting_subsearch_translate_form_ting_subsearch_admin_settings_form_alter(
 }
 
 /**
- * Generation of suggestion message.
- *
- * @param string $keys
- * @param array $conditions
- * @param object $results
- *
- * @return string|void
- * @throws \TingClientException
- * @throws \Ting\Search\SearchProviderException
+ * Implements hook_ting_subsearch_ajax_callback().
  */
-function ting_subsearch_translate_get_message($original_search, $original_search_num_results) {
+function ting_subsearch_translate_ting_subsearch_ajax_callback($original_search, $original_search_num_results) {
   $message = '';
 
   $suggestion = ting_subsearch_translate_suggest_translated_keys($original_search);
@@ -155,22 +119,11 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
   // Activate subsearch translation if the original search has zero hits or if
   // the genre category ratio satifies the factor.
   if ($original_search_num_results == 0 || $ratio >= $factor) {
-    drupal_add_js([
-      'tingSubsearchTranslate' => [
-        'originalSearch' => $keys,
-        'originalSearchNumResults' => $original_search_num_results,
-        'query' => ting_subsearch_get_query_string(),
-      ],
-    ], 'setting');
-
-    drupal_add_js(drupal_get_path('module', 'ting_subsearch_translate') . '/js/subsearch_translate.js', [
-      'type' => 'file',
-      'scope' => 'footer',
+    return theme('ting_subsearch_ajax_trigger', [
+      'original_search' => $keys,
+      'original_search_num_results' => $original_search_num_results,
+      'module' => 'ting_subsearch_translate',
     ]);
-
-    // Output a placeholder to be replaced with the actual content returned
-    // from AJAX callback.
-    return '<div id="ting-subsearch-translate-placeholder"></div>';
   }
 }
 
