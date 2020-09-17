@@ -36,6 +36,11 @@
     }
   }
 
+  .ting-subsearch-seondary-message-box--list-items ul {
+    list-style: none;
+    padding: 0;
+  }
+
   // Need to use div to make it specific enough.
   div.ting-subsearch-seondary-message-box--title {
     margin-bottom: 12px;

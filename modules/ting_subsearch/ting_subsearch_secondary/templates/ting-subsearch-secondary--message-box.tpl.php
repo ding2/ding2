@@ -15,7 +15,7 @@
     <?php print $message; ?>
   </div>
   <div class="ting-subsearch-seondary-message-box--list-items">
-  <?php print $items; ?>
+    <?php print $items; ?>
   </div>
   <div class="ting-subsearch-seondary-message-box--external-search">
     <a href="<?php print $secondary_link; ?>" target="_blank">
