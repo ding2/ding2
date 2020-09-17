@@ -2,10 +2,11 @@
 
 /**
  * @file
- * Secondary search results list items.
+ * Default template for ting subsearch secondary message box item list.
  *
  * @var $items
  */
+
 ?>
 <ul>
   <?php foreach ($items as $item) : ?>
