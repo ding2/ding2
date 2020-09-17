@@ -6,7 +6,7 @@
  */
 
 // The Max number of chars supported by PHP's levenshtein algorithm.
-define('TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT', 150);
+define('TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT', 255);
 
 /**
  * Implements hook_menu().
