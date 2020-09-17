@@ -207,23 +207,27 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
   $suggestions = ding_provider_invoke('search', 'autocomplete_suggestions', $query);
 
   // We can't use the suggestions directly. For example author suggestions, will
-  // often return something like emelie schepp (f. 1979). So we build candidates
-  // word by word from the suggestions and consider them if they get below
-  // acceptable levenshtein distance.
+  // often return something like "emelie schepp (f. 1979)". So we build
+  // candidates word by word from the suggestions and consider them if they get
+  // below acceptable levenshtein distance.
   $candidates = array_map(function($suggestion) use ($original_search) {
-    $suggestion = ting_subsearch_normalize_keys($suggestion);
+    // Replace multiple spaces with single space. There might be typos in
+    // bibliographic data.
+    $suggestion = preg_replace('/\s+/', ' ', $suggestion);
 
-    $candidate = '';
+    $keys = '';
     foreach (explode(' ', $suggestion) as $word) {
-      $candidate .= $word;
+      $keys .= $word;
 
       // Exclude and move on to next suggestion if the candidate has grown over
       // char limit.
-      if (drupal_strlen($candidate) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
+      if (drupal_strlen($keys) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
         return FALSE;
       }
 
-      $distance = ting_subsearch_suggestions_levenshtein($original_search, $candidate);
+      // Original search is already normalized, but we lower our current
+      // candidate keys before comparison.
+      $distance = ting_subsearch_suggestions_levenshtein($original_search, drupal_strtolower($keys));
 
       // It can happen that candidate will be the same as user search. In this
       // case we should continue adding words, since we might still hit one that
@@ -234,13 +238,13 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
 
       if ($distance <= variable_get('ting_subsearch_suggestions_distance', 3)) {
         return [
-          'candidate' => $candidate,
+          'keys' => $keys,
           'distance' => $distance,
         ];
       }
 
       // Prepare for next word.
-      $candidate .= ' ';
+      $keys .= ' ';
     }
 
     // We could not build an acceptable candidate from the suggestion, so mark
@@ -249,22 +253,21 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
 
   }, $suggestions);
 
-  // Filter out ones marked for exclusion.
+  // Filter out suggestions marked for exclusion.
   $candidates = array_filter($candidates);
 
   // Sort for best candidates first.
   uasort($candidates, function($candidate_a, $candidate_b) {
-    if ($candidate_a['distance'] == $candidate_b['distance']) {
-      return 0;
-    }
-    return $candidate_a['distance'] < $candidate_b['distance'] ?  -1 : 1;
+    return $candidate_a['distance'] - $candidate_b['distance'];
   });
 
-  $candidates = array_map(function($candidate) {
-    return $candidate['candidate'];
-  }, $candidates);
+  // Get the final suggestion.
+  $suggestion = reset($candidates);
 
-  return reset($candidates);
+  if (!empty($suggestion)) {
+    return $suggestion['keys'];
+  }
+  return FALSE;
 }
 
 /**
