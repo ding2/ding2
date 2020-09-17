@@ -631,7 +631,7 @@ function ding_library_default_page_manager_pages() {
     $pane->locks = array();
     $pane->uuid = '1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
     $display->content['new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7'] = $pane;
-    $display->panels['attachment_1_1'][1] = 'new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
+    $display->panels['attachment_1_1'][0] = 'new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
