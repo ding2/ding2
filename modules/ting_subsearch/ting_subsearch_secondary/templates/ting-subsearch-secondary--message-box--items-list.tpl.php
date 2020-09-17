@@ -9,11 +9,11 @@
 ?>
 <?php foreach ($items as $item) : ?>
   <a href="<?php print $item['url']; ?>" target="_blank">
-    <div class="message-box--list-item">
-      <div class="message-box--content">
+    <div class="ting-subsearch-seondary-message-box-list-item">
+      <div class="ting-subsearch-seondary-message-box-list-item--content">
         <?php print $item['markup']; ?>
       </div>
-      <div class="message-box--see-more">
+      <div class="ting-subsearch-seondary-message-box-list-item--see-more">
         <?php print t('More details'); ?>
       </div>
     </div>

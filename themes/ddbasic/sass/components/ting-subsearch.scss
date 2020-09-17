@@ -13,14 +13,34 @@
   }
 }
 
-.message-box {
-  padding: 15px 12px;
+.ting-subsearch-seondary-message-box {
+  width: 100%;
+  float: left;
+  border: none;
+  padding: 20px 15px;
+  background-color: $color-primary;
+  color: $color-text-on-primary;
 
-  .message-box--title {
+  .after & {
+    margin-top: 30px;
+  }
+
+  .before & {
+    margin-bottom: 30px;
+  }
+
+  a,
+  a.active {
+    &:hover {
+      color: $charcoal;
+    }
+  }
+
+  .ting-subsearch-seondary-message-box--title {
     margin-bottom: 12px;
   }
 
-  .message-box--list-item {
+  .ting-subsearch-seondary-message-box-list-item {
     margin-bottom: 5px;
     padding: 10px 25px 10px 10px;
     display: flex;
@@ -31,7 +51,7 @@
     background-color: $grey-light;
     overflow: hidden;
 
-    .message-box--content {
+    .ting-subsearch-seondary-message-box-list-item--content {
       position: absolute;
       overflow: hidden;
       .field-name-ting-title h2 {
@@ -46,7 +66,7 @@
       }
     }
 
-    .message-box--see-more {
+    .ting-subsearch-seondary-message-box-list-item--see-more {
       transition: background-color .3s cubic-bezier(.165,.84,.44,1),color .3s cubic-bezier(.165,.84,.44,1);
       background-color: $grey;
       color: $charcoal;
@@ -68,56 +88,32 @@
     }
   }
 
-  .message-box--external-search {
+  .ting-subsearch-seondary-message-box--external-search {
     margin: 0;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
 
-  .message-box--external-search a {
-    position: relative;
-    display: inline-block;
-    text-align: center;
-    margin-top: 15px;
-    padding: 12px 25px 7px 25px;
-    background-color: #000;
-    border-radius: 5px;
-    color: $color-text-on-secondary;
-
-    &:hover {
+    a {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+      margin-top: 15px;
+      padding: 12px 25px 7px 25px;
+      background-color: #000;
+      border-radius: 5px;
       color: $color-text-on-secondary;
+
+      &:hover {
+        color: $color-text-on-secondary;
+      }
     }
   }
 
   .field-name-ting-type {
     @media screen and(max-width: 970px) {
       display: none !important;
-    }
-  }
-}
-
-div.search-field-in-content--message-tss {
-  width: 100%;
-  float: left;
-  border: none;
-  padding: 20px 15px;
-  background-color: $color-primary;
-  color: $color-text-on-primary;
-
-  .after & {
-    margin-top: 30px;
-  }
-
-  .before & {
-    margin-bottom: 30px;
-  }
-
-  a,
-  a.active {
-    &:hover {
-      color: $charcoal;
     }
   }
 }
