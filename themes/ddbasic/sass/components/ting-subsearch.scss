@@ -36,8 +36,13 @@
     }
   }
 
-  .ting-subsearch-seondary-message-box--title {
+  // Need to use div to make it specific enough.
+  div.ting-subsearch-seondary-message-box--title {
     margin-bottom: 12px;
+
+    > strong {
+      font-size: 16px;
+    }
   }
 
   .ting-subsearch-seondary-message-box-list-item {
@@ -116,11 +121,4 @@
       display: none !important;
     }
   }
-}
-
-.pane-search-result .pane-content .message-box--title strong {
-  font-family: $font-family-bold;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
 }
