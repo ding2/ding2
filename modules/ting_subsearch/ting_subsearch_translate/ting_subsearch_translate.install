@@ -23,17 +23,16 @@ function ting_subsearch_translate_requirements($phase) {
 
   if ($phase == 'runtime') {
     $t = get_t();
-    $requirements['google_key'] = array(
-      'title' => $t('Google Cloud Translation API key'),
-      'value' => $t('In order to translate subsearches, you need to provide a valid Google Cloud Translation API key.'),
+    $requirements['ting_subsearch_translate_google_key'] = array(
+      'title' => $t('Ting subsearch translate Google API key'),
+      'value' => $t('In order to perform subsearches with translated user searches, you need to provide a valid Google Cloud Translation API key.'),
       'severity' => REQUIREMENT_ERROR,
     );
 
-    // Assume that a contains uppercase, lowercase and numbers and is excat
-    // 39 characters long.
-    if (preg_match('/^\s*[a-zA-Z0-9]{39}$/', variable_get('ting_subsearch_translate_google_key', ''))) {
-      $requirements['google_key']['severity'] = REQUIREMENT_OK;
-      $requirements['google_key']['value'] = $t('It seems that you provided something similar to a key, its not validated tough');
+    // API-key should contain uppercase, lowercase and numbers.
+    if (preg_match('/^[a-zA-Z0-9]+$/', variable_get('ting_subsearch_translate_google_key', ''))) {
+      $requirements['ting_subsearch_translate_google_key']['severity'] = REQUIREMENT_OK;
+      $requirements['ting_subsearch_translate_google_key']['value'] = $t('It seems that something similar to an API-key is provided.');
     }
   }
 
