@@ -167,7 +167,7 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
 
   $original_search = ting_subsearch_normalize_keys($original_search);
 
-  if (drupaL_strlen($original_search) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
+  if (strlen($original_search) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
     return FALSE;
   }
 
@@ -192,7 +192,7 @@ function ting_subsearch_suggestions_suggest_keys($original_search) {
 
       // Exclude and move on to next suggestion if the candidate has grown over
       // char limit.
-      if (drupal_strlen($keys) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
+      if (strlen($keys) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
         return FALSE;
       }
 
