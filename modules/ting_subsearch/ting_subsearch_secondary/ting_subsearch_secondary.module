@@ -128,7 +128,7 @@ function ting_subsearch_secondary_ting_subsearch_ajax_callback($original_search,
     $message = '';
 
     $options = [
-      '!keys' => $keys,
+      '!keys' => $original_search,
       '!secondary-num-results' => $secondary_num_results,
     ];
 
@@ -149,7 +149,7 @@ function ting_subsearch_secondary_ting_subsearch_ajax_callback($original_search,
     }
 
     $secondary_link = url('https://bibliotek.dk/da/search/work', [
-      'query' => ['search_block_form' => $keys],
+      'query' => ['search_block_form' => $original_search],
     ]);
 
     $message = theme('ting_subsearch_secondary_message_box', [
