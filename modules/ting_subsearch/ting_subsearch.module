@@ -186,19 +186,23 @@ function ting_subsearch_do_secondary_search($keys, $conditions = []) {
   // we're done to avoid side effects.
   $current_search_result = ting_search_current_results();
 
-  // If a profile is active but no context is set, we set our own to ensure
-  // ting_field_search will activate.
-  if (ting_field_search_get_active_profile() && !ting_field_search_get_context()) {
-    ting_field_search_set_context('ting_subsearch');
+  if (module_exists('ting_field_search')) {
+    // If a profile is active but no context is set, we set our own to ensure
+    // ting_field_search will activate.
+    if (ting_field_search_get_active_profile() && !ting_field_search_get_context()) {
+      ting_field_search_set_context('ting_subsearch');
+    }
   }
 
   drupal_static_reset('ting_search_search_execute');
   search_data($keys, 'ting_search', $conditions);
   $secondary_search_result = ting_search_current_results();
 
-  // If we used our own context remove it again.
-  if (ting_field_search_get_context() == 'ting_subsearch') {
-    ting_field_search_set_context(NULL);
+  if (module_exists('ting_field_search')) {
+    // If we used our own context remove it again.
+    if (ting_field_search_get_context() == 'ting_subsearch') {
+      ting_field_search_set_context(NULL);
+    }
   }
 
   if (isset($current_search_result)) {
@@ -298,7 +302,7 @@ function ting_subsearch_get_query_string() {
 function ting_subsearch_get_query_parameters() {
   $query = [];
 
-  if ($profile = ting_field_search_get_active_profile()) {
+  if (module_exists('ting_field_search') && $profile = ting_field_search_get_active_profile()) {
     $query['profile'] = $profile->name;
   }
 
