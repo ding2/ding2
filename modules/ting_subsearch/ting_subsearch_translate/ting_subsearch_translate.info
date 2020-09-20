@@ -1,7 +1,6 @@
-name = Ting Subsearch - Translate Service
-description = Extend Ting Search with secondary search which translates the search to English and informs user if relevant.
+name = Ting subsearch translate
+description = Trigger subsearches with translated user searches and show suggestion
 package = Ding!
 core = 7.x
-configure = admin/config/ding/provider/opensearch
 dependencies[] = ding_libs
 dependencies[] = ting_subsearch

@@ -1,5 +1,5 @@
-name = Ting Subsearch Suggestions
-description = Extend Ting Search with secondary search which provides suggestions based on levenshtein distance and a suggestion source
+name = Ting subsearch suggestions
+description = Trigger subsearches based on autocomplete suggestions and levenshtein distance
 package = Ding!
 core = 7.x
 configure = admin/config/ding/provider/opensearch

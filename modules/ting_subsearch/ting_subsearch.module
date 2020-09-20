@@ -43,6 +43,30 @@ function ting_subsearch_admin_settings_form($form, &$form_state) {
     '#description' => t('Subsearch modules allow additional searches to be made based on predefined conditions.'),
   ];
 
+  // Show info and settings for available subsearch modules.
+  foreach (module_invoke_all('ting_subsearch_info') as $module => $info) {
+    $form['subsearch'][$module] = [
+      '#type' => 'fieldset',
+      '#title' => $info['title'],
+      '#description' => $info['description'],
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    ];
+
+    // Subsearch modules can return general settings and settings related to
+    // triggering subsearches.
+    if (!empty($info['trigger_settings'])) {
+      $form['subsearch'][$module]['trigger'] = [
+        '#type' => 'fieldset',
+        '#title' => t('Trigger condidtions'),
+      ];
+      $form['subsearch'][$module]['trigger'] += $info['trigger_settings'];
+    }
+    if (!empty($info['settings'])) {
+      $form['subsearch'][$module] += $info['settings'];
+    }
+  }
+
   return system_settings_form($form);
 }
 

@@ -9,6 +9,71 @@ define('TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_AGENCY', 190101);
 define('TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_PROFILE', 'default');
 
 /**
+ * Implements hook_ting_subsearch_info().
+ */
+function ting_subsearch_secondary_ting_subsearch_info() {
+  $trigger_settings = [];
+  $settings = [];
+
+  // Trigger settings.
+  $trigger_settings['ting_subsearch_secondary_max'] = [
+    '#type' => 'textfield',
+    '#title' => t('Maximum number of results'),
+    '#default_value' => variable_get('ting_subsearch_secondary_max', 100),
+    '#description' => t('How many is maximum in order to trigger secondary search.'),
+    '#element_validate' => ['element_validate_integer_positive'],
+  ];
+  $trigger_settings['ting_subsearch_secondary_factor'] = [
+    '#type' => 'textfield',
+    '#title' => t('Challenge: Factor for calculating ratio between nonfiction and fiction'),
+    '#default_value' => variable_get('ting_subsearch_secondary_factor', 2),
+    '#description' => t('The condition is as following (nonfiction / factor) > fiction'),
+    '#element_validate' => ['ting_subsearch_factor_field_validate'],
+  ];
+  $trigger_settings['ting_subsearch_secondary_result_min'] = [
+    '#type' => 'textfield',
+    '#title' => t('Minimum number of results for secondary search'),
+    '#description' => t('Minimum of hits in order to trigger secondary search.'),
+    '#default_value' => variable_get('ting_subsearch_secondary_result_min', 100),
+    '#element_validate' => ['element_validate_integer_positive'],
+  ];
+  $trigger_settings['ting_subsearch_secondary_ps_factor'] = [
+    '#type' => 'textfield',
+    '#title' => t('Ratio between primary and secondary searches'),
+    '#default_value' => variable_get('ting_subsearch_secondary_ps_factor', 2),
+    '#description' => t('Factor between amount of results from primary and secondary search.'),
+    '#element_validate' => ['ting_subsearch_factor_field_validate'],
+  ];
+
+  // Other settings.
+  $settings['ting_subsearch_secondary_number_of_results'] = [
+    '#type' => 'textfield',
+    '#title' => t('Number of results to show'),
+    '#default_value' => variable_get('ting_subsearch_secondary_number_of_results', 4),
+    '#description' => t('How many results should be shown from secondary well provider.'),
+  ];
+  $settings['ting_subsearch_secondary_position'] = [
+    '#type' => 'radios',
+    '#title' => t('Position of message'),
+    '#options' => [
+      'before' => t('Before'),
+      'after' => t('After'),
+    ],
+    '#default_value' => variable_get('ting_subsearch_secondary_position', 'before'),
+    '#description' => t('Should the message be positioned before or after the search result?'),
+  ];
+
+  return [
+    'ting_subsearch_secondary' => [
+      'title' => t('Ting subsearch secondary'),
+      'description' => t('Trigger bibliotek.dk subsearches and show suggestions and links to bibliotek.dk.'),
+      'trigger_settings' => $trigger_settings,
+      'settings' => $settings,
+    ],
+  ];
+}
+
+/**
  * Implements hook_opensearch_pre_execute().
  */
 function ting_subsearch_secondary_opensearch_pre_execute($request) {
@@ -21,70 +86,6 @@ function ting_subsearch_secondary_opensearch_pre_execute($request) {
     $request->setProfile(TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_PROFILE);
     $request->setAgency(TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_AGENCY);
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function ting_subsearch_secondary_form_ting_subsearch_admin_settings_form_alter(&$form, &$form_state) {
-  $form['subsearch']['secondary'] = [
-    '#type' => 'fieldset',
-    '#title' => t('Secondary Ting Search settings'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  ];
-  $form['subsearch']['secondary']['trigger'] = [
-    '#type' => 'fieldset',
-    '#title' => t('Trigger'),
-  ];
-  $form['subsearch']['secondary']['trigger']['ting_subsearch_secondary_max'] = [
-    '#type' => 'textfield',
-    '#title' => t('Maximum number of results'),
-    '#default_value' => variable_get('ting_subsearch_secondary_max', 100),
-    '#description' => t('How many is maximum in order to trigger secondary search.'),
-    '#element_validate' => ['element_validate_integer_positive'],
-  ];
-
-  $form['subsearch']['secondary']['trigger']['ting_subsearch_secondary_factor'] = [
-    '#type' => 'textfield',
-    '#title' => t('Challenge: Factor for calculating ratio between nonfiction and fiction'),
-    '#default_value' => variable_get('ting_subsearch_secondary_factor', 2),
-    '#description' => t('The condition is as following (nonfiction / factor) > fiction'),
-    '#element_validate' => ['ting_subsearch_factor_field_validate'],
-  ];
-
-  $form['subsearch']['secondary']['trigger']['ting_subsearch_secondary_result_min'] = [
-    '#type' => 'textfield',
-    '#title' => t('Minimum number of results for secondary search'),
-    '#description' => t('Minimum of hits in order to trigger secondary search.'),
-    '#default_value' => variable_get('ting_subsearch_secondary_result_min', 100),
-    '#element_validate' => ['element_validate_integer_positive'],
-  ];
-
-  $form['subsearch']['secondary']['trigger']['ting_subsearch_secondary_ps_factor'] = [
-    '#type' => 'textfield',
-    '#title' => t('Ratio between primary and secondary searches'),
-    '#default_value' => variable_get('ting_subsearch_secondary_ps_factor', 2),
-    '#description' => t('Factor between amount of results from primary and secondary search.'),
-    '#element_validate' => ['ting_subsearch_factor_field_validate'],
-  ];
-
-  $form['subsearch']['secondary']['ting_subsearch_secondary_number_of_results'] = [
-    '#type' => 'textfield',
-    '#title' => t('Number of results to show'),
-    '#default_value' => variable_get('ting_subsearch_secondary_number_of_results', 4),
-    '#description' => t('How many results should be shown from secondary well provider.'),
-  ];
-  $form['subsearch']['secondary']['ting_subsearch_secondary_position'] = [
-    '#type' => 'radios',
-    '#title' => t('Position of message'),
-    '#options' => [
-      'before' => t('Before'),
-      'after' => t('After'),
-    ],
-    '#default_value' => variable_get('ting_subsearch_secondary_position', 'before'),
-    '#description' => t('Should the message be positioned before or after the search result?'),
-  ];
 }
 
 /**
