@@ -2,5 +2,4 @@ name = Ting subsearch secondary
 description = Trigger bibliotek.dk subsearches and show suggestions and links to bibliotek.dk
 package = Ding!
 core = 7.x
-configure = admin/config/ding/provider/opensearch
 dependencies[] = ting_subsearch

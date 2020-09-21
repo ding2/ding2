@@ -2,5 +2,4 @@ name = Ting subsearch suggestions
 description = Trigger subsearches based on autocomplete suggestions and levenshtein distance
 package = Ding!
 core = 7.x
-configure = admin/config/ding/provider/opensearch
 dependencies[] = ting_subsearch
