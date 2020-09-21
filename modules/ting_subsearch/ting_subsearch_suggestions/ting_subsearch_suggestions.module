@@ -87,7 +87,7 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_callback($original_searc
       'message' => l($message, 'search/ting/' . $suggestion, [
         'html' => TRUE,
         'attributes' => ['target' => 'blank'],
-        'query' => drupal_get_query_parameters(),
+        'query' => ting_subsearch_get_query_parameters(),
       ]),
       'type' => 'suggestions',
       'suggestion' => $suggestion,

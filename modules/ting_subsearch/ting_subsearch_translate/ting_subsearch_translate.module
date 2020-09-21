@@ -92,7 +92,7 @@ function ting_subsearch_translate_ting_subsearch_ajax_callback($original_search,
       'message' => l($message, 'search/ting/' . $suggestion, [
         'html' => TRUE,
         'attributes' => ['target' => 'blank'],
-        'query' => drupal_get_query_parameters(),
+        'query' => ting_subsearch_get_query_parameters(),
       ]),
       'type' => 'translate',
       'suggestion' => $suggestion,
