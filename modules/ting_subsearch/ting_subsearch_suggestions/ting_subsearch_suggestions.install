@@ -5,7 +5,7 @@
  * Installation of Suggestions sub search module.
  */
 
- /**
+/**
  * Implements hook_uninstall().
  */
 function ting_subsearch_suggestions_uninstall() {

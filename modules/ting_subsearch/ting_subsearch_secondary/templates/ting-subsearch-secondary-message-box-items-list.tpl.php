@@ -4,9 +4,9 @@
  * @file
  * Default template for ting subsearch secondary message box item list.
  *
- * @var $items
+ * Available variables:
+ *   - $items: An array of ting_subsearch_secondary message box list items.
  */
-
 ?>
 <ul>
   <?php foreach ($items as $item) : ?>

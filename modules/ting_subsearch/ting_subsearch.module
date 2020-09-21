@@ -25,7 +25,7 @@ function ting_subsearch_menu() {
     'title' => 'Ting subsearch callback',
     'description' => 'AJAX callback to perform asynchronous subsearches.',
     'page callback' => 'ting_subsearch_ajax_callback',
-    'access callback' => TRUE,
+    'access arguments' => array('access content'),
   ];
 
   return $items;
@@ -111,7 +111,7 @@ function ting_subsearch_theme() {
         'original_search' => NULL,
         'original_search_num_results' => NULL,
       ],
-    ]
+    ],
   ];
 }
 
@@ -202,10 +202,10 @@ function ting_subsearch_ajax_callback() {
  * @param array $conditions
  *   The conditions to pass to the ting_search execute hook.
  *
- * @return TingSearchResultInterface
+ * @return \Ting\Search\TingSearchResultInterface
  *   The search result of the secondary search.
  */
-function ting_subsearch_do_secondary_search($keys, $conditions = []) {
+function ting_subsearch_do_secondary_search($keys, array $conditions = []) {
   // Abuse ting_search but remember current search result and set again after
   // we're done to avoid side effects.
   $current_search_result = ting_search_current_results();
@@ -237,12 +237,7 @@ function ting_subsearch_do_secondary_search($keys, $conditions = []) {
 }
 
 /**
- * Custom trigger fields validation.
- *
- * Validate fields factor field.
- *
- * @param $element
- * @param $form_state
+ * Custom validate function for subsearch factor fields.
  */
 function ting_subsearch_factor_field_validate($element, &$form_state) {
   $value = $element['#value'];
@@ -256,7 +251,7 @@ function ting_subsearch_factor_field_validate($element, &$form_state) {
 /**
  * Get non-fiction / ficion ratio from a search result.
  *
- * @param TingSearchResultInterface $results
+ * @param \Ting\Search\TingSearchResultInterface $results
  *   A search result object with genreCategory facet.
  *
  * @return float
@@ -293,7 +288,7 @@ function ting_subsearch_get_genre_ratio(TingSearchResultInterface $results) {
  *   The search keys to normalize.
  *
  * @return string
- *  The normalized search keys.
+ *   The normalized search keys.
  */
 function ting_subsearch_normalize_keys($keys) {
   $keys = trim($keys);

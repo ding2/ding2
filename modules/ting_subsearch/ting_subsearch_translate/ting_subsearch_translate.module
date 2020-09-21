@@ -85,7 +85,7 @@ function ting_subsearch_translate_ting_subsearch_ajax_callback($original_search,
   if ($original_search_num_results == 0 || $suggestion_num_results / $original_search_num_results >= $factor) {
     $message = t('Search in english <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
       '@suggestion' => $suggestion,
-      '!suggestion-num-results' =>  $suggestion_num_results,
+      '!suggestion-num-results' => $suggestion_num_results,
     ]);
 
     $message = theme('ting_subsearch_message', [
@@ -132,7 +132,7 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
 /**
  * Finds suggestion based on Google translation.
  *
- * @param $original_search
+ * @param string $original_search
  *   The original search phrase.
  *
  * @return string|bool
@@ -164,7 +164,8 @@ function ting_subsearch_translate_suggest_translated_keys($original_search) {
       $translation = (string) $result->data->translations[0]->translatedText;
       return html_entity_decode($translation, ENT_QUOTES);
     }
-  } catch (GuzzleClientException $e) {
+  }
+  catch (GuzzleClientException $e) {
     watchdog_exception('ting_subsearch_translate', $e);
     return FALSE;
   }

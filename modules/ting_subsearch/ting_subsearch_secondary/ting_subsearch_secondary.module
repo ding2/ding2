@@ -182,7 +182,7 @@ function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
     ],
     'ting_subsearch_secondary_message_box_items_list' => [
       'variables' => [
-        'items' => NULL
+        'items' => NULL,
       ],
       'template' => 'templates/ting-subsearch-secondary-message-box-items-list',
     ],
