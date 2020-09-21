@@ -319,5 +319,9 @@ function ting_subsearch_get_query_parameters() {
     $query['profile'] = $profile->name;
   }
 
+  if (!empty($_GET['sort'])) {
+    $query['sort'] = $_GET['sort'];
+  }
+
   return $query;
 }
