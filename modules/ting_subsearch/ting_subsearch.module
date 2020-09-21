@@ -198,14 +198,12 @@ function ting_subsearch_ajax_callback() {
  * Do a separate secondary search request.
  *
  * @param string $keys
- *   The search phrase.
- * @param array $conditions
- *   The conditions to pass to the ting_search execute hook.
+ *   The search phrase for the secondary search.
  *
  * @return \Ting\Search\TingSearchResultInterface
  *   The search result of the secondary search.
  */
-function ting_subsearch_do_secondary_search($keys, array $conditions = []) {
+function ting_subsearch_do_secondary_search($keys) {
   // Abuse ting_search but remember current search result and set again after
   // we're done to avoid side effects.
   $current_search_result = ting_search_current_results();
@@ -218,8 +216,16 @@ function ting_subsearch_do_secondary_search($keys, array $conditions = []) {
     }
   }
 
+  // Let ting_search pick up any search query parameters in the request.
+  $conditions = ting_search_conditions_callback($keys);
+
+  // Execute the secondary search by calling ting_search_execute directly. This
+  // has some performance overhead, since it renders some collection we don't
+  // need. But on the other hand we ensure that the request will be exactly the
+  // same as in a normal ting_search, and therefore the secondary search will
+  // be cached if the user follows the suggestion.
   drupal_static_reset('ting_search_search_execute');
-  search_data($keys, 'ting_search', $conditions);
+  ting_search_search_execute($keys, $conditions);
   $secondary_search_result = ting_search_current_results();
 
   if (module_exists('ting_field_search')) {
