@@ -318,9 +318,11 @@ function ting_subsearch_get_query_parameters() {
   if (module_exists('ting_field_search') && $profile = ting_field_search_get_active_profile()) {
     $query['profile'] = $profile->name;
   }
-
   if (!empty($_GET['sort'])) {
     $query['sort'] = $_GET['sort'];
+  }
+  if (!empty($_GET['facets'])) {
+    $query['facets'] = $_GET['facets'];
   }
 
   return $query;
