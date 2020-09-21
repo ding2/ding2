@@ -18,30 +18,30 @@ function ting_subsearch_secondary_ting_subsearch_info() {
   // Trigger settings.
   $trigger_settings['ting_subsearch_secondary_max'] = [
     '#type' => 'textfield',
-    '#title' => t('Maximum number of results'),
+    '#title' => t('Maximum number of results for user search'),
     '#default_value' => variable_get('ting_subsearch_secondary_max', 100),
-    '#description' => t('How many is maximum in order to trigger secondary search.'),
+    '#description' => t("If the user search returned more results than this don't bother performing bibliotek.dk search."),
     '#element_validate' => ['element_validate_integer_positive'],
   ];
   $trigger_settings['ting_subsearch_secondary_factor'] = [
     '#type' => 'textfield',
-    '#title' => t('Challenge: Factor for calculating ratio between nonfiction and fiction'),
+    '#title' => t('Minimum ratio between nonfiction and fiction'),
     '#default_value' => variable_get('ting_subsearch_secondary_factor', 2),
-    '#description' => t('The condition is as following (nonfiction / factor) > fiction'),
+    '#description' => t('The minimum ratio of nonfiction to fiction in user search result to trigger bibliotek.dk search. Use a decimal value for the ratio with "." as decimal separator'),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];
   $trigger_settings['ting_subsearch_secondary_result_min'] = [
     '#type' => 'textfield',
-    '#title' => t('Minimum number of results for secondary search'),
-    '#description' => t('Minimum of hits in order to trigger secondary search.'),
+    '#title' => t('Minimum number of results for bibliotek.dk search'),
+    '#description' => t("If the bibliotek.dk subsearch returned less results than this don't bother showing any suggestions and links to bibliotek.dk."),
     '#default_value' => variable_get('ting_subsearch_secondary_result_min', 100),
     '#element_validate' => ['element_validate_integer_positive'],
   ];
   $trigger_settings['ting_subsearch_secondary_ps_factor'] = [
     '#type' => 'textfield',
-    '#title' => t('Ratio between primary and secondary searches'),
+    '#title' => t('Minimum ratio between bibliotek.dk and user search results'),
     '#default_value' => variable_get('ting_subsearch_secondary_ps_factor', 2),
-    '#description' => t('Factor between amount of results from primary and secondary search.'),
+    '#description' => t('The minimum ratio of between bibliotek.dk and user search results to trigger suggestion. Use a decimal value for the ratio with "." as decimal separator'),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];
 
@@ -50,7 +50,7 @@ function ting_subsearch_secondary_ting_subsearch_info() {
     '#type' => 'textfield',
     '#title' => t('Number of results to show'),
     '#default_value' => variable_get('ting_subsearch_secondary_number_of_results', 4),
-    '#description' => t('How many results should be shown from secondary well provider.'),
+    '#description' => t('How many results from the bibliotek.dk subsearch should be shown to the user.'),
   ];
   $settings['ting_subsearch_secondary_position'] = [
     '#type' => 'radios',
@@ -60,7 +60,7 @@ function ting_subsearch_secondary_ting_subsearch_info() {
       'after' => t('After'),
     ],
     '#default_value' => variable_get('ting_subsearch_secondary_position', 'before'),
-    '#description' => t('Should the message be positioned before or after the search result?'),
+    '#description' => t('Should the bibliotek.dk suggestions and links be positioned before or after the search result?'),
   ];
 
   return [
