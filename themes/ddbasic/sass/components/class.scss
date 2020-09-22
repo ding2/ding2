@@ -109,6 +109,7 @@ body > .ding2-site-template {
   text-align: left;
   a {
     @include button(arrow-right);
+    background-color: green;
     &::after {
       color: $charcoal-opacity-dark;
     }
