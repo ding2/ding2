@@ -1,0 +1,64 @@
+diff --git a/includes/session.inc b/includes/session.inc
+index 11c77c4c10..f7a45949b8 100644
+--- a/includes/session.inc
++++ b/includes/session.inc
+@@ -284,6 +284,59 @@ function drupal_session_start() {
+     // Save current session data before starting it, as PHP will destroy it.
+     $session_data = isset($_SESSION) ? $_SESSION : NULL;
+ 
++    // Perform some simple user agent sniffing to avoid setting SameSite=None in
++    // select incompatible clients. Specifically we're interested in avoiding
++    // the Webkit SameSite=None bug mentioned in below article, since it will
++    // effect a considerable portion of our users.
++    // See: https://www.chromium.org/updates/same-site/incompatible-clients.
++    $user_agent = $_SERVER['HTTP_USER_AGENT'];
++    $has_webkit_same_site_bug = FALSE;
++
++    // Don't set SameSite=None in iOS 12.
++    $ios_regex = '/\(iP.+; CPU .*OS (\d+)[_\d]*.*\) AppleWebKit\//';
++    if (preg_match($ios_regex, $user_agent, $matches)) {
++      if (!empty($matches[1]) && $matches[1] == '12') {
++        $has_webkit_same_site_bug = TRUE;
++      }
++    }
++
++    // Don't set SameSite=None on Safari and embeded browser in MacOS 10.14.
++    $macos_regex = '/\(Macintosh;.*Mac OS X (\d+)_(\d+)[_\d]*.*\) AppleWebKit\//';
++    if (preg_match($macos_regex, $user_agent, $matches)) {
++      if (!empty($matches[1]) && !empty($matches[2])) {
++        if ($matches[1] == '10' && $matches[2] == '14') {
++          $is_safari = preg_match('/Version\/.* Safari\//', $user_agent);
++          $is_mac_embedded = preg_match('/^Mozilla\/[\.\d]+ \(Macintosh;.*Mac OS X [_\d]+\) AppleWebKit\/[\.\d]+ \(KHTML, like Gecko\)$/', $user_agent);
++          $has_webkit_same_site_bug = $is_safari || $is_mac_embedded;
++        }
++      }
++    }
++
++    // SameSite workaround to make browsers treat cookies consistently.
++    $params = session_get_cookie_params();
++    $params['samesite'] = empty($params['samesite']) ? variable_get('samesite_cookie_attribute_value', 'None') : $params['samesite'];
++
++    // Fallback to old behavior for SameSite=None if we detected that user
++    // agent has webkit SameSite bug.
++    if ($params['samesite'] == 'None' && $has_webkit_same_site_bug) {
++      $params['samesite'] = '';
++    }
++
++    // Site admins are able to set samesite_cookie_attribute_value to an
++    // empty value if they actually want this cookie attribute not set.
++    if (!empty($params['samesite'])) {
++      if (PHP_VERSION_ID >= 70300) {
++        session_set_cookie_params($params);
++      }
++      else {
++        // If the path already has a workaround, leave it alone.
++        if (empty(preg_match('/;[\W]*samesite[\W]*=/i', $params['path']))) {
++          $params['path'] .= '; SameSite=' . $params['samesite'];
++          session_set_cookie_params($params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
++        }
++      }
++    }
++
+     session_start();
+     drupal_session_started(TRUE);
+ 
