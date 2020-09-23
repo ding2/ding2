@@ -9,7 +9,7 @@ projects[drupal][patch][] = "https://www.drupal.org/files/issues/1232416-autocom
 projects[drupal][patch][] = "https://drupal.org/files/issues/translate_role_names-2205581-1.patch"
 projects[drupal][patch][] = "https://raw.githubusercontent.com/ding2/ding2/master/patches/drupal_core.robots.txt.ding2.patch"
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/programatically_added-1079628-29-d7.patch"
-projects[drupal][patch][] = "patches/drupal_core.same_site_cookies.ding2.patch"
+projects[drupal][patch][] = "https://www.drupal.org/files/issues/2020-09-23/drupal-3170525-7-samesite_cookie_attribute_support_for_legacy_php_versions.patch"
 
 ; Get the profile, which will contain the next makefile.
 projects[ding2][type] = "profile"
