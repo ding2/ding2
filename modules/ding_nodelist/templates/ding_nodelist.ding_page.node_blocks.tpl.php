@@ -7,7 +7,7 @@
 ?>
 
 <article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>" class="node node-ding-page node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>">
-  <a href="<?php print '/node/' . $item->nid; ?>">
+  <a href="<?php print url('node/' . $item->nid); ?>">
     <div class="inner">
       <div class="background">
         <div class="button"><?php print t('Read more'); ?></div>
