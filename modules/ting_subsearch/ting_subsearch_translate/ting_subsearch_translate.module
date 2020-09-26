@@ -66,6 +66,24 @@ function ting_subsearch_translate_ting_subsearch_info() {
 }
 
 /**
+ * Implements hook_opensearch_pre_execute().
+ */
+function ting_subsearch_translate_opensearch_pre_execute($request) {
+  if (get_class($request) != 'TingClientSearchRequest') {
+    return;
+  }
+  // Ensure that facet genreCategory is returned from the well, since we need
+  // it to calculate genre ratio.
+  // See: ting_subsearch_translate_content_type_render().
+  // See: ting_subsearch_get_genre_ratio().
+  $facets = $request->getFacets();
+  if (!in_array('facet.genreCategory', $facets)) {
+    $facets[] = 'facet.genreCategory';
+    $request->setFacets($facets);
+  }
+}
+
+/**
  * Implements hook_ting_subsearch_ajax_placeholder_callback().
  */
 function ting_subsearch_translate_ting_subsearch_ajax_placeholder_callback(TingSearchResultInterface $search_result) {

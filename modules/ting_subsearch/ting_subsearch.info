@@ -3,5 +3,4 @@ description = Shared functionality amongst Ting subsearch modules
 package = Ding!
 core = 7.x
 configure = admin/config/ding/subsearch
-dependencies[] = opensearch
 dependencies[] = ting_search

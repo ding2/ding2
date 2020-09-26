@@ -88,6 +88,16 @@ function ting_subsearch_secondary_opensearch_pre_execute($request) {
     $request->setProfile(TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_PROFILE);
     $request->setAgency(TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_AGENCY);
   }
+
+  // Ensure that facet genreCategory is returned from the well, since we need
+  // it to calculate genre ratio.
+  // See: _ting_subsearch_secondary_ajax_placeholder().
+  // See: ting_subsearch_get_genre_ratio().
+  $facets = $request->getFacets();
+  if (!in_array('facet.genreCategory', $facets)) {
+    $facets[] = 'facet.genreCategory';
+    $request->setFacets($facets);
+  }
 }
 
 /**
