@@ -5,8 +5,19 @@
  * Ting subsearch suggestions module file.
  */
 
+use Ting\Search\TingSearchResultInterface;
+
 // The Max number of chars supported by PHP's levenshtein algorithm.
 define('TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT', 255);
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ting_subsearch_suggestions_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
 
 /**
  * Implements hook_ting_subsearch_info().
@@ -61,27 +72,31 @@ function ting_subsearch_suggestions_ting_subsearch_info() {
 }
 
 /**
- * Implements hook_ting_subsearch_ajax_callback().
+ * Implements hook_ting_subsearch_ajax_placeholder_callback().
  */
-function ting_subsearch_suggestions_ting_subsearch_ajax_callback($original_search, $original_search_num_results) {
+function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_callback(TingSearchResultInterface $search_result) {
   $message = '';
 
-  if (!$suggestion = ting_subsearch_suggestions_suggest_keys($original_search)) {
+  // Get the user search request and keys and attempt to find suggestion.
+  $search_request = $search_result->getSearchRequest();
+  $keys = $search_request->getFullTextQuery();
+  $suggestion = ting_subsearch_suggestions_suggest_keys($keys);
+
+  if (!$suggestion) {
     return $message;
   }
 
-  // Do a secondary search with the suggested keys and check if it satisfies
-  // conditions.
-  $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
-  $suggestion_num_results = $suggestion_result->getNumTotalObjects();
+  $subsearch_result = $search_request->withFullTextQuery($suggestion)->execute();
+  $subsearch_num_results = $subsearch_result->getNumTotalObjects();
 
   $limit = variable_get('ting_subsearch_suggestions_message_limit', 10);
   $factor = variable_get('ting_subsearch_suggestions_ps_factor');
+  $num_results = $search_result->getNumTotalObjects();
 
-  if ($suggestion_num_results >= $limit && $suggestion_num_results / $original_search_num_results >= $factor) {
+  if ($subsearch_num_results >= $limit && $subsearch_num_results / $num_results >= $factor) {
     $message = t('Search for <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
       '@suggestion' => $suggestion,
-      '!suggestion-num-results' => $suggestion_num_results,
+      '!suggestion-num-results' => $subsearch_num_results,
     ]);
     $message = theme('ting_subsearch_message', [
       'message' => l($message, 'search/ting/' . $suggestion, [
@@ -91,68 +106,13 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_callback($original_searc
       ]),
       'type' => 'suggestions',
       'suggestion' => $suggestion,
-      'suggestion_num_results' => $suggestion_num_results,
-      'original_search' => $original_search,
-      'original_search_num_results' => $original_search_num_results,
+      'suggestion_num_results' => $subsearch_num_results,
+      'original_search' => $keys,
+      'original_search_num_results' => $num_results,
     ]);
   }
 
   return $message;
-}
-
-/**
- * Implements hook_ting_search_results_prefix().
- */
-function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, $results) {
-  $original_search_num_results = $results->getNumTotalObjects();
-
-  // It it's a zero hit search we immediatly look for a suggestion and do
-  // secondary search and redirect if the new search returned any results.
-  if ($original_search_num_results == 0) {
-    $suggestion = ting_subsearch_suggestions_suggest_keys($keys);
-
-    if ($suggestion) {
-      $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
-
-      if ($suggestion_result->getNumTotalObjects() > 0) {
-        $query = [
-          'original-search' => $keys,
-        ] + ting_subsearch_get_query_parameters();
-
-        drupal_goto('search/ting/' . $suggestion, ['query' => $query]);
-      }
-    }
-  }
-
-  $output = '';
-
-  // If we're already redirecting from a zero-hit search avoid trying to find
-  // suggestions for our own suggestion. Display a zero hit suggestions message.
-  if (!empty($_GET['original-search'])) {
-    $output = theme('ting_subsearch_message', [
-      'message' => t('Showing results for <strong>"@suggestion"</strong>. The search for <strong>"@original_search"</strong> returned 0 hits.', [
-        '@suggestion' => $keys,
-        '@original_search' => $_GET['original-search'],
-      ]),
-      'type' => 'suggestions',
-      'suggestion' => $keys,
-      'suggestion_num_results' => $original_search_num_results,
-      'original_search' => $_GET['original-search'],
-      'original_search_num_results' => 0,
-    ]);
-  }
-  // Otherwise trigger non-zero-hit seconday search if it's below limit.
-  // For performance reasons we handel this with async AJAX request, since it's
-  // not as critical as a zero-hit search.
-  elseif ($original_search_num_results <= variable_get("ting_subsearch_suggestions_trigger_limit", 5)) {
-    $output = theme('ting_subsearch_ajax_trigger', [
-      'original_search' => $keys,
-      'original_search_num_results' => $original_search_num_results,
-      'module' => 'ting_subsearch_suggestions',
-    ]);
-  }
-
-  return $output;
 }
 
 /**

@@ -34,11 +34,6 @@
       close_messages_button.on('click', function(){
         pane_messages.slideUp('fast');
       });
-
-      // Move ting subsearch message to the top of the page.
-      $('.ting-subsearch-message', context).once('ddbasic-ting-subsearch-message', function() {
-        $('.pane-page-content').prepend($(this).parent());
-      });
     }
   };
 

@@ -7,6 +7,16 @@
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use Ting\Search\TingSearchResultInterface;
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ting_subsearch_translate_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
 
 /**
  * Implements hook_ting_subsearch_info().
@@ -56,12 +66,15 @@ function ting_subsearch_translate_ting_subsearch_info() {
 }
 
 /**
- * Implements hook_ting_subsearch_ajax_callback().
+ * Implements hook_ting_subsearch_ajax_placeholder_callback().
  */
-function ting_subsearch_translate_ting_subsearch_ajax_callback($original_search, $original_search_num_results) {
+function ting_subsearch_translate_ting_subsearch_ajax_placeholder_callback(TingSearchResultInterface $search_result) {
   $message = '';
 
-  $suggestion = ting_subsearch_translate_suggest_translated_keys($original_search);
+  // Get the user search request and keys and attempt to find suggestion.
+  $search_request = $search_result->getSearchRequest();
+  $keys = $search_request->getFullTextQuery();
+  $suggestion = ting_subsearch_translate_suggest_translated_keys($keys);
 
   if (!$suggestion) {
     return $message;
@@ -72,20 +85,22 @@ function ting_subsearch_translate_ting_subsearch_ajax_callback($original_search,
     return $message;
   }
 
-  $suggestion_result = ting_subsearch_do_secondary_search($suggestion);
-  $suggestion_num_results = $suggestion_result->getNumTotalObjects();
+  $subsearch_result = $search_request->withFullTextQuery($suggestion)->execute();
+  $subsearch_num_results = $subsearch_result->getNumTotalObjects();
 
-  // No reason to continue if the suggestion didn't provide any results.
-  if ($suggestion_num_results == 0) {
+  // No reason to continue if subsearch didn't provide any results.
+  if ($subsearch_num_results == 0) {
     return $message;
   }
 
   $factor = variable_get('ting_subsearch_translate_ps_factor', 10);
+  // User search number of results.
+  $num_results = $search_result->getNumTotalObjects();
 
-  if ($original_search_num_results == 0 || $suggestion_num_results / $original_search_num_results >= $factor) {
+  if ($num_results == 0 || $subsearch_num_results / $num_results >= $factor) {
     $message = t('Search in english <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
       '@suggestion' => $suggestion,
-      '!suggestion-num-results' => $suggestion_num_results,
+      '!suggestion-num-results' => $subsearch_num_results,
     ]);
 
     $message = theme('ting_subsearch_message', [
@@ -96,37 +111,13 @@ function ting_subsearch_translate_ting_subsearch_ajax_callback($original_search,
       ]),
       'type' => 'translate',
       'suggestion' => $suggestion,
-      'suggestion_num_results' => $suggestion_num_results,
-      'original_search' => $original_search,
-      'original_search_num_results' => $original_search_num_results,
+      'suggestion_num_results' => $subsearch_num_results,
+      'original_search' => $keys,
+      'original_search_num_results' => $num_results,
     ]);
   }
 
   return $message;
-}
-
-/**
- * Implements hook_ting_search_results_prefix().
- */
-function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions, $results) {
-  // Return early if module is not configured.
-  if (empty(variable_get('ting_subsearch_translate_google_key', ''))) {
-    return;
-  }
-
-  $original_search_num_results = $results->getNumTotalObjects();
-  $factor = variable_get('ting_subsearch_translate_factor', 50);
-  $ratio = ting_subsearch_get_genre_ratio($results);
-
-  // Activate subsearch translation if the original search has zero hits or if
-  // the genre category ratio satifies the factor.
-  if ($original_search_num_results == 0 || $ratio >= $factor) {
-    return theme('ting_subsearch_ajax_trigger', [
-      'original_search' => $keys,
-      'original_search_num_results' => $original_search_num_results,
-      'module' => 'ting_subsearch_translate',
-    ]);
-  }
 }
 
 /**

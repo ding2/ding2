@@ -5,6 +5,8 @@
  * Ting subsearch using Bibliotek.dk service.
  */
 
+use Ting\Search\TingSearchResultInterface;
+
 define('TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_AGENCY', 190101);
 define('TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_PROFILE', 'default');
 
@@ -89,15 +91,19 @@ function ting_subsearch_secondary_opensearch_pre_execute($request) {
 }
 
 /**
- * Implements hook_ting_subsearch_ajax_callback().
+ * Implements hook_ting_subsearch_ajax_placeholder_callback().
  */
-function ting_subsearch_secondary_ting_subsearch_ajax_callback($original_search, $original_search_num_results) {
+function ting_subsearch_secondary_ting_subsearch_ajax_placeholder_callback(TingSearchResultInterface $search_result) {
   $message = '';
 
+  // Mark the subsearch we're about to perform as a secondary search, which
+  // should have bibliotek.dk agency and profil set in our implementation of
+  // hook_opensearch_pre_execute().
   $secondary_search_flag = &drupal_static('ting_subsearch_secondary_search');
   $secondary_search_flag = TRUE;
 
-  $secondary_result = ting_subsearch_do_secondary_search($original_search);
+  $search_request = $search_result->getSearchRequest();
+  $secondary_result = $search_request->execute();
 
   drupal_static_reset('ting_subsearch_secondary_search');
 
@@ -110,8 +116,10 @@ function ting_subsearch_secondary_ting_subsearch_ajax_callback($original_search,
   }
 
   $factor = variable_get('ting_subsearch_secondary_ps_factor', 2);
+  // Get number of results for original search.
+  $num_results = $search_result->getNumTotalObjects();
 
-  if ($original_search_num_results == 0 || $secondary_num_results / $original_search_num_results >= $factor) {
+  if ($num_results == 0 || $secondary_num_results / $num_results >= $factor) {
     $items = [];
 
     $number_of_collections_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
@@ -129,7 +137,7 @@ function ting_subsearch_secondary_ting_subsearch_ajax_callback($original_search,
     $message = '';
 
     $options = [
-      '!keys' => $original_search,
+      '@keys' => $search_request->getFullTextQuery(),
       '!secondary-num-results' => $secondary_num_results,
     ];
 
@@ -143,10 +151,10 @@ function ting_subsearch_secondary_ting_subsearch_ajax_callback($original_search,
       // "you will get 36 hits", but we only show one posts.
       // See ting_search search_result.inc plugin that is dealing with a similar
       // problem.
-      $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get other results where some of them is the following:', $options);
+      $message = t('If you search for "<strong>@keys</strong>" on bibliotek.dk instead you will get other results where some of them is the following:', $options);
     }
     else {
-      $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get <strong>!secondary-num-results hits</strong> where some of them is the following:', $options);
+      $message = t('If you search for "<strong>@keys</strong>" on bibliotek.dk instead you will get <strong>!secondary-num-results hits</strong> where some of them is the following:', $options);
     }
 
     $secondary_link = url('https://bibliotek.dk/da/search/work', [
@@ -194,9 +202,9 @@ function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
  *
  * @throws \Exception
  */
-function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, $results) {
+function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result) {
   if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
-    return _ting_subsearch_secondary_ajax_trigger($keys, $conditions, $results);
+    return _ting_subsearch_secondary_ajax_placeholder($search_result);
   }
 }
 
@@ -205,38 +213,35 @@ function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions,
  *
  * @throws \Exception
  */
-function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions, $results) {
+function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions, TingSearchResultInterface $search_result) {
   if (variable_get('ting_subsearch_secondary_position', 'before') == 'after') {
-    return _ting_subsearch_secondary_ajax_trigger($keys, $conditions, $results);
+    return _ting_subsearch_secondary_ajax_placeholder($search_result);
   }
 }
 
 /**
- * Return HTML for triggering secondary ajax subsearch.
+ * Get ajax placeholder HTML for secondary subsearch if conditions is met.
  */
-function _ting_subsearch_secondary_ajax_trigger($keys, $conditions, $results) {
+function _ting_subsearch_secondary_ajax_placeholder(TingSearchResultInterface $search_result) {
   // Return early if module is not configured.
   if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
     return;
   }
 
-  $original_search_num_results = $results->getNumTotalObjects();
+  $num_results = $search_result->getNumTotalObjects();
 
   // Bail out if the user search returned more results than allowed.
-  if ($original_search_num_results > variable_get('ting_subsearch_secondary_max', 100)) {
+  if ($num_results > variable_get('ting_subsearch_secondary_max', 100)) {
     return;
   }
 
   $factor = variable_get('ting_subsearch_secondary_factor', 2);
-  $ratio = ting_subsearch_get_genre_ratio($results);
+  $ratio = ting_subsearch_get_genre_ratio($search_result);
 
   // If user search returnes zero results we always try a secondary search.
   // Otherwise the results genre category ratio need to satisfy the factor.
-  if ($original_search_num_results == 0 || $ratio >= $factor) {
-    return theme('ting_subsearch_ajax_trigger', [
-      'original_search' => $keys,
-      'original_search_num_results' => $original_search_num_results,
-      'module' => 'ting_subsearch_secondary',
-    ]);
+  if ($num_results == 0 || $ratio >= $factor) {
+    $placeholder = ting_subsearch_get_ajax_placeholder_render_array('ting_subsearch_secondary');
+    return drupal_render($placeholder);
   }
 }

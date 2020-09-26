@@ -21,10 +21,9 @@ function ting_subsearch_menu() {
     'access arguments' => array('administer site configuration'),
   ];
 
-  $items['ting_subsearch/ajax'] = [
-    'title' => 'Ting subsearch callback',
-    'description' => 'AJAX callback to perform asynchronous subsearches.',
-    'page callback' => 'ting_subsearch_ajax_callback',
+  $items['ting_subsearch/ajax_placeholder_callback'] = [
+    'title' => 'Ting subsearch AJAX placeholder callback',
+    'page callback' => 'ting_subsearch_ajax_placeholder_callback',
     'access arguments' => array('access content'),
   ];
 
@@ -104,12 +103,10 @@ function ting_subsearch_theme() {
         'original_search_num_results' => NULL,
       ],
     ],
-    'ting_subsearch_ajax_trigger' => [
+    'ting_subsearch_ajax_placeholder' => [
       'variables' => [
-        // Module implementing hook_ting_subsearch_ajax_callback().
+        // Module implementing hook_ting_subsearch_ajax_placeholder_callback().
         'module' => NULL,
-        'original_search' => NULL,
-        'original_search_num_results' => NULL,
       ],
     ],
   ];
@@ -151,46 +148,61 @@ function theme_ting_subsearch_message($variables) {
 }
 
 /**
- * Returns default HTML for ting subsearch ajax trigger.
+ * Returns default HTML for ting subsearch ajax placeholder.
  */
-function theme_ting_subsearch_ajax_trigger($variables) {
-  // Ensure ting subsearch ajax trigger script is added.
-  drupal_add_js(drupal_get_path('module', 'ting_subsearch') . '/js/ting_subsearch_ajax_trigger.js', [
-    'type' => 'file',
-    'scope' => 'footer',
-  ]);
-
-  // Build the query for the ajax callback and send it to frontend with a data
-  // attribute.
-  $query = [
-    'original_search' => $variables['original_search'],
-    'original_search_num_results' => $variables['original_search_num_results'],
-    'module' => $variables['module'],
-  ] + ting_subsearch_get_query_parameters();
-  $query = drupal_http_build_query($query);
-  $query = '?' . check_plain($query);
-
-  return "<div class='js-ting-subsearch-ajax-trigger' data-ting-subsearch-query='$query'></div>";
+function theme_ting_subsearch_ajax_placeholder($variables) {
+  $module = $variables['module'];
+  return "<div class='js-ting-subsearch-ajax-placeholder' data-ting-subsearch-module='$module'></div>";
 }
 
 /**
- * AJAX-callback to perform asynchronous subsearches.
+ * Returns render array for a subsearch ajax placeholder.
+ *
+ * @param string $module
+ *   The subsearch module. Must implement placeholder callback hook.
+ *
+ * @return array
+ *   The placeholder render array.
  */
-function ting_subsearch_ajax_callback() {
-  $output = '';
+function ting_subsearch_get_ajax_placeholder_render_array($module) {
+  $placeholder['#theme'] = 'ting_subsearch_ajax_placeholder';
+  $placeholder['#module'] = $module;
+  $placeholder['#attached']['js'][] = [
+    'data' => drupal_get_path('module', 'ting_subsearch') . '/js/ting_subsearch_ajax_placeholder.js',
+    'type' => 'file',
+  ];
 
-  if (!empty($_GET['module']) && !empty($_GET['original_search']) && !empty($_GET['original_search_num_results'])) {
-    $module = $_GET['module'];
-    $original_search = $_GET['original_search'];
-    $original_search_num_results = $_GET['original_search_num_results'];
-
-    $message = module_invoke($module, 'ting_subsearch_ajax_callback', $original_search, $original_search_num_results);
-    if (isset($message)) {
-      $output = $message;
-    }
+  // Ensure the current search result is passed to frontend (once). If not set
+  // do not add, since caller may have something other in mind.
+  $search_result = ting_search_current_results();
+  if (isset($search_result)) {
+    $placeholder['#attached']['js'][] = [
+      'data' => [
+        'tingSubsearch' => [
+          'searchResult' => serialize($search_result),
+        ],
+      ],
+      'type' => 'setting',
+    ];
   }
 
-  drupal_json_output($output);
+  return $placeholder;
+}
+
+/**
+ * AJAX placeholder callback for async subsearches.
+ */
+function ting_subsearch_ajax_placeholder_callback() {
+  $message = '';
+
+  if (!empty($_POST['searchResult']) && !empty($_POST['module'])) {
+    $search_result = unserialize($_POST['searchResult']);
+    $module = $_POST['module'];
+    $message = module_invoke($module, 'ting_subsearch_ajax_placeholder_callback', $search_result);
+    $message = isset($message) ? $message : '';
+  }
+
+  drupal_json_output($message);
   drupal_exit();
 }
 
@@ -257,22 +269,18 @@ function ting_subsearch_factor_field_validate($element, &$form_state) {
 /**
  * Get non-fiction / ficion ratio from a search result.
  *
- * @param \Ting\Search\TingSearchResultInterface $results
+ * @param \Ting\Search\TingSearchResultInterface $search_result
  *   A search result object with genreCategory facet.
  *
  * @return float
  *   A float describing the ratio of non-fiction to fiction.
  */
-function ting_subsearch_get_genre_ratio(TingSearchResultInterface $results) {
-  $facets = $results->getFacets();
-  if (empty($facets)) {
-    return FALSE;
-  }
-
-  if ($results->getNumTotalObjects() == 0) {
+function ting_subsearch_get_genre_ratio(TingSearchResultInterface $search_result) {
+  if ($search_result->getNumTotalObjects() == 0) {
     return 0;
   }
 
+  $facets = $search_result->getFacets();
   $terms = $facets['facet.genreCategory']->getTerms();
   $nonfiction = isset($terms['nonfiktion']) ? (int) $terms['nonfiktion']->getCount() : 0;
   $fiction = isset($terms['fiktion']) ? (int) $terms['fiktion']->getCount() : 0;
