@@ -48,11 +48,12 @@ function ting_subsearch_suggestions_zero_hit_redirect_render($subtype, $conf, $p
 
   $suggestion = ting_subsearch_suggestions_suggest_keys($keys);
   if ($suggestion) {
-    // Perform subsearch with suggestion.
-    $subsearch_result = $search_result
+    $subsearch_request = $search_result
       ->getSearchRequest()
-      ->withFullTextQuery($suggestion)
-      ->execute();
+      ->withFullTextQuery($suggestion);
+
+    // Perform subsearch with suggestion.
+    $subsearch_result = ting_subseach_do_subsearch($subsearch_request);
 
     // If the subsearch returned any result perform a zero hit redirect.
     if ($subsearch_result->getNumTotalObjects() > 0) {

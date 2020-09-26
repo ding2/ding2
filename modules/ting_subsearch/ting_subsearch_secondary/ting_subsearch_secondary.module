@@ -113,7 +113,7 @@ function ting_subsearch_secondary_ting_subsearch_ajax_placeholder_callback(TingS
   $secondary_search_flag = TRUE;
 
   $search_request = $search_result->getSearchRequest();
-  $secondary_result = $search_request->execute();
+  $secondary_result = ting_subseach_do_subsearch($search_request);
 
   drupal_static_reset('ting_subsearch_secondary_search');
 

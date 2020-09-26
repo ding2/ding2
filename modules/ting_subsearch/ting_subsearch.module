@@ -6,6 +6,7 @@
  */
 
 use Ting\Search\TingSearchResultInterface;
+use Ting\Search\TingSearchRequest;
 
 /**
  * Implements hook_menu().
@@ -139,6 +140,9 @@ function theme_ting_subsearch_ajax_placeholder($variables) {
 /**
  * Returns render array for a subsearch ajax placeholder.
  *
+ * This should be called on a ting_search page after search execute, since the
+ * placeholders need the current ting search result object available to work.
+ *
  * @param string $module
  *   The subsearch module. Must implement placeholder callback hook.
  *
@@ -151,21 +155,30 @@ function ting_subsearch_get_ajax_placeholder_render_array($module) {
   $placeholder['#attached']['js'][] = [
     'data' => drupal_get_path('module', 'ting_subsearch') . '/js/ting_subsearch_ajax_placeholder.js',
     'type' => 'file',
+    'scope' => 'footer',
   ];
 
-  // Ensure the current search result is passed to frontend (once). If not set
-  // do not add, since caller may have something other in mind.
+  // Pass settings used by all placeholders.
+  $settings = [];
+
+  // Ensure the current search result object is available for the placeholder
+  // callbacks.
   $search_result = ting_search_current_results();
-  if (isset($search_result)) {
-    $placeholder['#attached']['js'][] = [
-      'data' => [
-        'tingSubsearch' => [
-          'searchResult' => serialize($search_result),
-        ],
-      ],
-      'type' => 'setting',
-    ];
+  $settings['searchResult'] = serialize($search_result);
+
+  // Pass the machine name of the active profile to post back as profile
+  // query parameter. Else pass FALSE for easy check in frontend.
+  if (module_exists('ting_field_search') && $profile = ting_field_search_get_active_profile()) {
+    $settings['activeProfile'] = check_plain($profile->name);
   }
+  else {
+    $settings['activeProfile'] = FALSE;
+  }
+
+  $placeholder['#attached']['js'][] = [
+    'data' => ['tingSubsearch' => $settings],
+    'type' => 'setting',
+  ];
 
   return $placeholder;
 }
@@ -188,19 +201,18 @@ function ting_subsearch_ajax_placeholder_callback() {
 }
 
 /**
- * Do a separate secondary search request.
+ * Performs a subsearch.
  *
- * @param string $keys
- *   The search phrase for the secondary search.
+ * Subsearch modules should use this function when performing a subsearch to
+ * ensure it's executed the same way as the user search.
+ *
+ * @param \Ting\Search\TingSearchRequest $subsearch_request
+ *   The subsearch request object to execute.
  *
  * @return \Ting\Search\TingSearchResultInterface
- *   The search result of the secondary search.
+ *   The result object of the subsearch.
  */
-function ting_subsearch_do_secondary_search($keys) {
-  // Abuse ting_search but remember current search result and set again after
-  // we're done to avoid side effects.
-  $current_search_result = ting_search_current_results();
-
+function ting_subseach_do_subsearch(TingSearchRequest $subsearch_request) {
   if (module_exists('ting_field_search')) {
     // If a profile is active but no context is set, we set our own to ensure
     // ting_field_search will activate.
@@ -209,17 +221,7 @@ function ting_subsearch_do_secondary_search($keys) {
     }
   }
 
-  // Let ting_search pick up any search query parameters in the request.
-  $conditions = ting_search_conditions_callback($keys);
-
-  // Execute the secondary search by calling ting_search_execute directly. This
-  // has some performance overhead, since it renders some collection we don't
-  // need. But on the other hand we ensure that the request will be exactly the
-  // same as in a normal ting_search, and therefore the secondary search will
-  // be cached if the user follows the suggestion.
-  drupal_static_reset('ting_search_search_execute');
-  ting_search_search_execute($keys, $conditions);
-  $secondary_search_result = ting_search_current_results();
+  $subsearch_result = $subsearch_request->execute();
 
   if (module_exists('ting_field_search')) {
     // If we used our own context remove it again.
@@ -228,11 +230,7 @@ function ting_subsearch_do_secondary_search($keys) {
     }
   }
 
-  if (isset($current_search_result)) {
-    ting_search_current_results($current_search_result);
-  }
-
-  return $secondary_search_result;
+  return $subsearch_result;
 }
 
 /**

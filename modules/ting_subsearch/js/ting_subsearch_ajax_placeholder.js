@@ -6,13 +6,21 @@
 (function($) {
   'use strict';
 
+  var settings = Drupal.settings.tingSubsearch;
+  var searchResult = settings.searchResult;
+  var activeProfile = settings.activeProfile;
+
+  var url = '/ting_subsearch/ajax_placeholder_callback';
+  // Handle ting_field_search profile if active.
+  if (activeProfile) {
+    url += '?profile=' + activeProfile;
+  }
+
   /**
    * Process subsearch placeholders.
    */
   Drupal.behaviors.ting_subsearch_ajax_placeholders = {
-    attach: function(context, settings) {
-      var searchResult = settings.tingSubsearch.searchResult;
-
+    attach: function(context) {
       $('.js-ting-subsearch-ajax-placeholder', context).once(function() {
         var placeholder = $(this);
         var module = placeholder.data('ting-subsearch-module');
@@ -21,7 +29,12 @@
           'module': module
         };
 
-        $.post('/ting_subsearch/ajax_placeholder_callback', data, function (response) {
+        // Note that we intentionally do a separate POST back for each
+        // placeholder to avoid one large request that performs several ting
+        // searches. As a drawback we potentially send the same serialized
+        // request object several times to the server, but we get more
+        // responsive subsearches and suggestions which is preferred.
+        $.post(url, data, function (response) {
           if (response !== '') {
             var message = $(response);
             placeholder.replaceWith(message);

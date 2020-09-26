@@ -86,7 +86,8 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_callback(Tin
     return $message;
   }
 
-  $subsearch_result = $search_request->withFullTextQuery($suggestion)->execute();
+  $subsearch_request = $search_request->withFullTextQuery($suggestion);
+  $subsearch_result = ting_subseach_do_subsearch($subsearch_request);
   $subsearch_num_results = $subsearch_result->getNumTotalObjects();
 
   $limit = variable_get('ting_subsearch_suggestions_message_limit', 10);
