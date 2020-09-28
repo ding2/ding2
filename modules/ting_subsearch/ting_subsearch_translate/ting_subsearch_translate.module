@@ -98,8 +98,8 @@ function ting_subsearch_translate_ting_subsearch_ajax_placeholder_callback(TingS
     return $message;
   }
 
-  // The two search are the same, so avoid doing secondary search.
-  if (drupal_strtolower($suggestion) == drupal_strtolower($original_search)) {
+  // The two search are the same so don't show the suggestion.
+  if (drupal_strtolower($suggestion) == drupal_strtolower($keys)) {
     return $message;
   }
 
