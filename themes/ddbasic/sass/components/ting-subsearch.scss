@@ -2,15 +2,8 @@
 
 @import '../base.scss';
 
-.ting-subsearch-message-wrapper {
-  background-color: $grey-light;
-  padding-bottom: 30px;
-
-  .ting-subsearch-message {
-    max-width: 1124px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.ting-subsearch-suggestion-message {
+  padding-bottom: 40px;
 }
 
 .ting-subsearch-seondary-message-box {

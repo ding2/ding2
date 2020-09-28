@@ -75,16 +75,14 @@ function ting_subsearch_admin_settings_form($form, &$form_state) {
  */
 function ting_subsearch_theme() {
   return [
-    'ting_subsearch_message' => [
+    'ting_subsearch_suggestion_message' => [
       'variables' => [
         'message' => NULL,
-        'type' => NULL,
-        'suggestion' => NULL,
-        'suggestion_num_results' => NULL,
-        'original_search' => NULL,
-        'original_search_num_results' => NULL,
+        'subsearch_result' => NULL,
+        // Subsearch module displaying suggestion.
+        'module' => NULL,
+      ]
       ],
-    ],
     'ting_subsearch_ajax_placeholder' => [
       'variables' => [
         // Module implementing hook_ting_subsearch_ajax_placeholder_callback().
@@ -95,36 +93,45 @@ function ting_subsearch_theme() {
 }
 
 /**
- * Theme preprocess function for ting_subsearch_message.
+ * Theme preprocess function for ting_subsearch_suggestion_message.
  */
-function template_preprocess_ting_subsearch_message(&$variables) {
-  $variables['classes_array'] = [];
+function template_preprocess_ting_subsearch_suggestion_message(&$variables) {
+  $variables['classes_array'] = ['ting-subsearch-suggestion-message'];
   $variables['attributes_array'] = [];
-  $type = $variables['type'];
-  $variables['theme_hook_suggestions'][] = 'ting_subsearch_message__' . $type;
-  $variables['attributes_array']['id'] = 'ting-subsearch-message-' . $type;
+  $module = $variables['module'];
+  $variables['theme_hook_suggestions'][] = 'ting_subsearch_suggestion_message__' . $module;
+  $variables['attributes_array']['id'] = str_replace('_', '-', $module) . '-suggestion-message';
 }
 
 /**
- * Theme process function for ting subsearch message.
+ * Theme process function for ting_subsearch_suggestion_message.
  */
-function template_process_ting_subsearch_message(&$variables) {
+function template_process_ting_subsearch_suggestion_message(&$variables) {
   $variables['classes'] = implode(' ', $variables['classes_array']);
   $variables['attributes'] = drupal_attributes($variables['attributes_array']);
 }
 
 /**
- * Returns default HTML for ting subsearch message.
+ * Returns default HTML for ting_subsearch_suggestion_message.
  */
-function theme_ting_subsearch_message($variables) {
+function theme_ting_subsearch_suggestion_message($variables) {
   $message = $variables['message'];
   $classes = $variables['classes'];
   $attributes = $variables['attributes'];
 
-  $output = '<div class="ting-subsearch-message-wrapper">';
-  $output .= "<div class='ting-subsearch-message $classes'$attributes>";
+  $suggestion = $variables['subsearch_result']
+    ->getSearchRequest()
+    ->getFullTextQuery();
+  // Wrap the message in search link to suggestion.
+  $message = l($message, 'search/ting/' . $suggestion, [
+    'html' => TRUE,
+    'attributes' => ['target' => 'blank'],
+    'query' => ting_subsearch_get_query_parameters(),
+  ]);
+
+  $output .= "<div class='$classes'$attributes>";
   $output .= $message;
-  $output .= '</div></div>';
+  $output .= '</div>';
 
   return $output;
 }

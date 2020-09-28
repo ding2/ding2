@@ -95,21 +95,15 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_callback(Tin
   $num_results = $search_result->getNumTotalObjects();
 
   if ($subsearch_num_results >= $limit && $subsearch_num_results / $num_results >= $factor) {
-    $message = t('Search for <strong>"@suggestion"</strong> - returns <strong>!suggestion-num-results</strong> hits', [
+    $message = t('Search for <strong>"@suggestion"</strong> - returns <strong>!subsearch-num-results</strong> hits', [
       '@suggestion' => $suggestion,
-      '!suggestion-num-results' => $subsearch_num_results,
+      '!subsearch-num-results' => $subsearch_num_results,
     ]);
-    $message = theme('ting_subsearch_message', [
-      'message' => l($message, 'search/ting/' . $suggestion, [
-        'html' => TRUE,
-        'attributes' => ['target' => 'blank'],
-        'query' => ting_subsearch_get_query_parameters(),
-      ]),
-      'type' => 'suggestions',
-      'suggestion' => $suggestion,
-      'suggestion_num_results' => $subsearch_num_results,
-      'original_search' => $keys,
-      'original_search_num_results' => $num_results,
+
+    $message = theme('ting_subsearch_suggestion_message', [
+      'message' => $message,
+      'subsearch_result' => $subsearch_result,
+      'module' => 'ting_subsearch_suggestions',
     ]);
   }
 
