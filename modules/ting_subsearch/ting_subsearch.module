@@ -5,8 +5,8 @@
  * Ting Subsearch
  */
 
-use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchRequest;
+use Ting\Search\TingSearchResultInterface;
 
 /**
  * Implements hook_menu().

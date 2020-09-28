@@ -5,6 +5,9 @@
  * Ting subsearch using Bibliotek.dk service.
  */
 
+use OpenSearch\OpenSearchStatementGroupRender;
+use Ting\Search\DingProviderStrategy;
+use Ting\Search\TingSearchRequest;
 use Ting\Search\TingSearchResultInterface;
 
 define('TING_SUBSEARCH_SECONDARY_BIBLIOTEK_DK_AGENCY', 190101);
@@ -168,7 +171,9 @@ function ting_subsearch_secondary_ting_subsearch_ajax_placeholder_callback(TingS
     }
 
     $secondary_link = url('https://bibliotek.dk/da/search/work', [
-      'query' => ['search_block_form' => $original_search],
+      'query' => [
+        'search_block_form' => _ting_subsearch_secondary_get_secondary_keys($search_request),
+      ],
     ]);
 
     $message = theme('ting_subsearch_secondary_message_box', [
@@ -181,6 +186,52 @@ function ting_subsearch_secondary_ting_subsearch_ajax_placeholder_callback(TingS
   }
 
   return $message;
+}
+
+/**
+ * Helper function to build search keys for search on bibliotek.dk.
+ *
+ * Used to ensure that the bibliotek.dk search result will be the same as the
+ * result from the subsearch. Appends filters from the search request and CQL
+ * query from the active ting_field_search profile to the user search.
+ */
+function _ting_subsearch_secondary_get_secondary_keys(TingSearchRequest $search_request) {
+  // Start with the user search.
+  $secondary_keys = $search_request->getFullTextQuery();
+
+  $additional_keys = [];
+
+  // See: opensearch_search_search().
+  if (!empty($search_request->getFilters())) {
+    $render = new OpenSearchStatementGroupRender(new DingProviderStrategy());
+    try {
+      $facet_keys = $render->renderStatements($search_request->getFilters());
+      $additional_keys[] = $facet_keys;
+    }
+    catch (Exception $e) {
+      // Something went wrong rendering facets. Move along without adding
+      // anything, but log an exception.
+      watchdog_exception('ting_susearch_secondary', $e);
+    }
+  }
+
+  if (module_exists('ting_field_search') && $profile = ting_field_search_get_active_profile())  {
+    if (!empty($profile->config['search_request']['query'])) {
+      $additional_keys[] = $profile->config['search_request']['query'];
+    }
+  }
+
+  // If we collected any additional keys append them to the user search.
+  if (!empty($additional_keys)) {
+    // Ensure the search will work
+    $secondary_keys = '(' . $secondary_keys . ')';
+    $secondary_keys .= ' AND ';
+    $secondary_keys .= implode(' AND ', array_map(function ($part) {
+      return "($part)";
+    }, $additional_keys));
+  }
+
+  return $secondary_keys;
 }
 
 /**
