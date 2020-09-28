@@ -176,13 +176,14 @@ function ting_subsearch_secondary_ting_subsearch_ajax_placeholder_callback(TingS
       ],
     ]);
 
-    $message = theme('ting_subsearch_secondary_message_box', [
-      'items' => theme('ting_subsearch_secondary_message_box_items_list', ['items' => $items]),
-      'message' => $message,
-      'secondary_link' => check_plain($secondary_link),
-      'secondary_link_text' => t('See more materials at bibliotek.dk'),
-      'position' => variable_get('ting_subsearch_secondary_position', 'before'),
-    ]);
+    $message = [
+      '#theme' => 'ting_subsearch_secondary_message_box',
+      '#items' => theme('ting_subsearch_secondary_message_box_items_list', ['items' => $items]),
+      '#message' => $message,
+      '#secondary_link' => check_plain($secondary_link),
+      '#secondary_link_text' => t('See more materials at bibliotek.dk'),
+      '#position' => variable_get('ting_subsearch_secondary_position', 'before'),
+    ];
   }
 
   return $message;

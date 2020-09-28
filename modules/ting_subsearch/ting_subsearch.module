@@ -195,10 +195,18 @@ function ting_subsearch_ajax_placeholder_callback() {
   $message = '';
 
   if (!empty($_POST['searchResult']) && !empty($_POST['module'])) {
-    $search_result = unserialize($_POST['searchResult']);
     $module = $_POST['module'];
-    $message = module_invoke($module, 'ting_subsearch_ajax_placeholder_callback', $search_result);
-    $message = isset($message) ? $message : '';
+    $search_result = unserialize($_POST['searchResult']);
+
+    if ($search_result instanceof TingSearchResultInterface) {
+      $message = module_invoke($module, 'ting_subsearch_ajax_placeholder_callback', $search_result);
+      // Ensure that there actually was a module implementing the hook.
+      if (isset($message)) {
+        drupal_alter('ting_subsearch_ajax_placeholder_callback', $message, $module);
+        // Allow modules to return a render array. If not we assume HTML string.
+        $message = is_array($message) ? drupal_render($message) : $message;
+      }
+    }
   }
 
   drupal_json_output($message);
