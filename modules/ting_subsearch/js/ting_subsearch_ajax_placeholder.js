@@ -6,15 +6,15 @@
 (function($) {
   'use strict';
 
-  var settings = Drupal.settings.tingSubsearch;
-  var searchResult = settings.searchResult;
-  var url = '/ting_subsearch/ajax_placeholder_callback' + settings.query;
-
   /**
    * Process subsearch placeholders.
    */
   Drupal.behaviors.ting_subsearch_ajax_placeholders = {
-    attach: function(context) {
+    attach: function(context, settings) {
+      var searchResult = settings.tingSubsearch.searchResult;
+      var query = settings.tingSubsearch.query;
+      var url = '/ting_subsearch/ajax_placeholder_callback' + query;
+
       $('.js-ting-subsearch-ajax-placeholder', context).once(function() {
         var placeholder = $(this);
         var module = placeholder.data('ting-subsearch-module');
