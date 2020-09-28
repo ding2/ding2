@@ -117,6 +117,43 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_callback(Tin
 }
 
 /**
+ * Implements hook_ting_search_results_prefix().
+ *
+ * Perform a redirect if the user search returned zero hits and we can find any
+ * suggestion with results. This hook has the best timing for implementing a
+ * redirect right after ting_search is executed.
+ */
+function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result) {
+  if ($search_result->getNumTotalObjects() > 0) {
+    return '';
+  }
+
+  $search_request = $search_result->getSearchRequest();
+  // Get user search keys.
+  $keys = $search_request->getFullTextQuery();
+
+  $suggestion = ting_subsearch_suggestions_suggest_keys($keys);
+  if ($suggestion) {
+    $subsearch_request = $search_request->withFullTextQuery($suggestion);
+    $subsearch_result = ting_subseach_do_subsearch($subsearch_request);
+
+    // If the subsearch returned any result perform a zero hit redirect and
+    // display a message to the user.
+    if ($subsearch_result->getNumTotalObjects() > 0) {
+      drupal_set_message(t('Showing results for <strong>"@suggestion"</strong>. The search for <strong>"@keys"</strong> returned 0 hits.', [
+        '@suggestion' => $suggestion,
+        '@keys' => $keys,
+      ]));
+
+      $query = [
+        'original-search' => $keys,
+      ] + ting_subsearch_get_query_parameters();
+      drupal_goto('search/ting/' . $suggestion, ['query' => $query]);
+    }
+  }
+}
+
+/**
  * Find the best suitable suggestion for the given original search.
  *
  * @param string $original_search
