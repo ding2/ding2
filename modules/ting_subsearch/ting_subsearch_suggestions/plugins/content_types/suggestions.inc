@@ -20,6 +20,11 @@ $plugin = array(
 function ting_subsearch_suggestions_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
 
+  // Return early if search provider doesn't implement autocomplete suggestions.
+  if (!ding_provider_implements('search', 'autocomplete_suggestions')) {
+    return $block;
+  }
+
   $search_result = ting_search_current_results();
   if (!isset($search_result)) {
     return $block;
