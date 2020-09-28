@@ -173,14 +173,12 @@ function ting_subsearch_get_ajax_placeholder_render_array($module) {
   $search_result = ting_search_current_results();
   $settings['searchResult'] = serialize($search_result);
 
-  // Pass the machine name of the active profile to post back as profile
-  // query parameter. Else pass FALSE for easy check in frontend.
-  if (module_exists('ting_field_search') && $profile = ting_field_search_get_active_profile()) {
-    $settings['activeProfile'] = check_plain($profile->name);
-  }
-  else {
-    $settings['activeProfile'] = FALSE;
-  }
+  // Construct a query string with the current search related parameters and
+  // pass it to frontend for use in POST callback URL. This is a convenient way
+  // to activate ting_field_search profile and for subsearch modules to generate
+  // correct suggestion search links in their placeholder callbacks.
+  $query = drupal_http_build_query(ting_subsearch_get_query_parameters());
+  $settings['query'] = empty($query) ? $query : '?' . $query;
 
   $placeholder['#attached']['js'][] = [
     'data' => ['tingSubsearch' => $settings],
@@ -303,21 +301,24 @@ function ting_subsearch_normalize_keys($keys) {
 /**
  * Get search related query parameters from the current request.
  *
+ * When generating suggestion search links this function should be used to get
+ * the needed query parameters to ensure the correct result is shown to users
+ * when following link. We also use these query parameters in placeholder POST
+ * back. See comment in ting_subsearch_get_ajax_placeholder_render_array().
+ *
  * @return array
  *   An array containing the query parameters.
  */
 function ting_subsearch_get_query_parameters() {
-  $query = [];
-
-  if (module_exists('ting_field_search') && $profile = ting_field_search_get_active_profile()) {
-    $query['profile'] = $profile->name;
+  if (empty($_GET)) {
+    return [];
   }
-  if (!empty($_GET['sort'])) {
-    $query['sort'] = $_GET['sort'];
-  }
-  if (!empty($_GET['facets'])) {
-    $query['facets'] = $_GET['facets'];
-  }
-
-  return $query;
+  // Search links should use the current sort and facets. If ting_field_search
+  // is active a current search profile may be used.
+  $supported_query_parameters = [
+    'sort',
+    'facets',
+    'profile',
+  ];
+  return array_intersect_key($_GET, array_flip($supported_query_parameters));
 }

@@ -8,13 +8,7 @@
 
   var settings = Drupal.settings.tingSubsearch;
   var searchResult = settings.searchResult;
-  var activeProfile = settings.activeProfile;
-
-  var url = '/ting_subsearch/ajax_placeholder_callback';
-  // Handle ting_field_search profile if active.
-  if (activeProfile) {
-    url += '?profile=' + activeProfile;
-  }
+  var url = '/ting_subsearch/ajax_placeholder_callback' + settings.query;
 
   /**
    * Process subsearch placeholders.
