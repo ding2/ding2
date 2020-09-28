@@ -30,8 +30,11 @@ function ting_subsearch_suggestions_content_type_render($subtype, $conf, $panel_
     return $block;
   }
 
-  // Trigger ajax subsearch if user search is below limit.
-  if ($search_result->getNumTotalObjects() <= variable_get("ting_subsearch_suggestions_trigger_limit", 5)) {
+  $num_result = $search_result->getNumTotalObjects();
+  $limit = variable_get('ting_subsearch_suggestions_trigger_limit', 5);
+
+  // Trigger ajax subsearch if user search num result is below limit.
+  if ($num_result <= $limit) {
     $block->content = ting_subsearch_get_ajax_placeholder_render_array('ting_subsearch_suggestions');
   }
 
