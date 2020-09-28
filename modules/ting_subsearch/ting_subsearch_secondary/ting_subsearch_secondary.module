@@ -79,6 +79,39 @@ function ting_subsearch_secondary_ting_subsearch_info() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
+  return [
+    'ting_subsearch_secondary_message_box' => [
+      'variables' => [
+        'items' => NULL,
+        'message' => NULL,
+        'secondary_link' => NULL,
+        'secondary_link_text' => NULL,
+        'position' => NULL,
+      ],
+      'template' => 'templates/ting-subsearch-secondary-message-box',
+    ],
+    'ting_subsearch_secondary_message_box_items_list' => [
+      'variables' => [
+        'items' => NULL,
+      ],
+      'template' => 'templates/ting-subsearch-secondary-message-box-items-list',
+    ],
+  ];
+}
+
+/**
+ * Theme process function for ting_subsearch_secondary_message_box.
+ */
+function template_process_ting_subsearch_secondary_message_box(&$variables) {
+  $variables['items'] = theme('ting_subsearch_secondary_message_box_items_list', [
+    'items' => $variables['items'],
+  ]);
+}
+
+/**
  * Implements hook_opensearch_pre_execute().
  */
 function ting_subsearch_secondary_opensearch_pre_execute($request) {
@@ -100,6 +133,55 @@ function ting_subsearch_secondary_opensearch_pre_execute($request) {
   if (!in_array('facet.genreCategory', $facets)) {
     $facets[] = 'facet.genreCategory';
     $request->setFacets($facets);
+  }
+}
+
+/**
+ * Implements hook_ting_search_results_prefix().
+ *
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result) {
+  if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
+    return _ting_subsearch_secondary_ajax_placeholder($search_result);
+  }
+}
+
+/**
+ * Implements hook_ting_search_results_suffix().
+ *
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions, TingSearchResultInterface $search_result) {
+  if (variable_get('ting_subsearch_secondary_position', 'before') == 'after') {
+    return _ting_subsearch_secondary_ajax_placeholder($search_result);
+  }
+}
+
+/**
+ * Get ajax placeholder HTML for secondary subsearch if conditions is met.
+ */
+function _ting_subsearch_secondary_ajax_placeholder(TingSearchResultInterface $search_result) {
+  // Return early if module is not configured.
+  if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
+    return;
+  }
+
+  $num_results = $search_result->getNumTotalObjects();
+
+  // Bail out if the user search returned more results than allowed.
+  if ($num_results > variable_get('ting_subsearch_secondary_max', 100)) {
+    return;
+  }
+
+  $factor = variable_get('ting_subsearch_secondary_factor', 2);
+  $ratio = ting_subsearch_get_genre_ratio($search_result);
+
+  // If user search returnes zero results we always try a secondary search.
+  // Otherwise the results genre category ratio need to satisfy the factor.
+  if ($num_results == 0 || $ratio >= $factor) {
+    $placeholder = ting_subsearch_get_ajax_placeholder_render_array('ting_subsearch_secondary');
+    return drupal_render($placeholder);
   }
 }
 
@@ -178,7 +260,7 @@ function ting_subsearch_secondary_ting_subsearch_ajax_placeholder_callback(TingS
 
     $message = [
       '#theme' => 'ting_subsearch_secondary_message_box',
-      '#items' => theme('ting_subsearch_secondary_message_box_items_list', ['items' => $items]),
+      '#items' => $items,
       '#message' => $message,
       '#secondary_link' => check_plain($secondary_link),
       '#secondary_link_text' => t('See more materials at bibliotek.dk'),
@@ -233,77 +315,4 @@ function _ting_subsearch_secondary_get_secondary_keys(TingSearchRequest $search_
   }
 
   return $secondary_keys;
-}
-
-/**
- * Implements hook_theme().
- */
-function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
-  return [
-    'ting_subsearch_secondary_message_box' => [
-      'variables' => [
-        'items' => NULL,
-        'message' => NULL,
-        'secondary_link' => NULL,
-        'secondary_link_text' => NULL,
-        'position' => NULL,
-      ],
-      'template' => 'templates/ting-subsearch-secondary-message-box',
-    ],
-    'ting_subsearch_secondary_message_box_items_list' => [
-      'variables' => [
-        'items' => NULL,
-      ],
-      'template' => 'templates/ting-subsearch-secondary-message-box-items-list',
-    ],
-  ];
-}
-
-/**
- * Implements hook_ting_search_results_prefix().
- *
- * @throws \Exception
- */
-function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result) {
-  if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
-    return _ting_subsearch_secondary_ajax_placeholder($search_result);
-  }
-}
-
-/**
- * Implements hook_ting_search_results_suffix().
- *
- * @throws \Exception
- */
-function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions, TingSearchResultInterface $search_result) {
-  if (variable_get('ting_subsearch_secondary_position', 'before') == 'after') {
-    return _ting_subsearch_secondary_ajax_placeholder($search_result);
-  }
-}
-
-/**
- * Get ajax placeholder HTML for secondary subsearch if conditions is met.
- */
-function _ting_subsearch_secondary_ajax_placeholder(TingSearchResultInterface $search_result) {
-  // Return early if module is not configured.
-  if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
-    return;
-  }
-
-  $num_results = $search_result->getNumTotalObjects();
-
-  // Bail out if the user search returned more results than allowed.
-  if ($num_results > variable_get('ting_subsearch_secondary_max', 100)) {
-    return;
-  }
-
-  $factor = variable_get('ting_subsearch_secondary_factor', 2);
-  $ratio = ting_subsearch_get_genre_ratio($search_result);
-
-  // If user search returnes zero results we always try a secondary search.
-  // Otherwise the results genre category ratio need to satisfy the factor.
-  if ($num_results == 0 || $ratio >= $factor) {
-    $placeholder = ting_subsearch_get_ajax_placeholder_render_array('ting_subsearch_secondary');
-    return drupal_render($placeholder);
-  }
 }
