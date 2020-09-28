@@ -1049,7 +1049,7 @@ function ding2_update_7090() {
 function ding2_update_7091() {
   if (module_exists('opensearch')) {
     module_enable([
-      'ting_subsearch_secondary',
+      'ting_subsearch_bibdk',
       'ting_subsearch_suggestions',
       'ting_subsearch_translate',
     ]);

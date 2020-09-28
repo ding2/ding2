@@ -670,7 +670,7 @@ function ding2_module_enable(&$install_state) {
     'ting_infomedia',
     'ting_field_search',
     'ting_smart_search',
-    'ting_subsearch_secondary',
+    'ting_subsearch_bibdk',
     'ting_subsearch_suggestions',
     'ting_subsearch_translate',
     'ding_eresource',

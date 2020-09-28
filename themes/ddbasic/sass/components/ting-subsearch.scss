@@ -6,7 +6,7 @@
   padding-bottom: 40px;
 }
 
-.ting-subsearch-seondary-message-box {
+.ting-subsearch-bibdk-message-box {
   width: 100%;
   float: left;
   border: none;
@@ -29,13 +29,13 @@
     }
   }
 
-  .ting-subsearch-seondary-message-box--list-items ul {
+  .ting-subsearch-bibdk-message-box--list-items ul {
     list-style: none;
     padding: 0;
   }
 
   // Need to use div to make it specific enough.
-  div.ting-subsearch-seondary-message-box--title {
+  div.ting-subsearch-bibdk-message-box--title {
     margin-bottom: 12px;
 
     > strong {
@@ -43,7 +43,7 @@
     }
   }
 
-  .ting-subsearch-seondary-message-box-list-item {
+  .ting-subsearch-bibdk-message-box-list-item {
     margin-bottom: 5px;
     padding: 10px 25px 10px 10px;
     display: flex;
@@ -54,7 +54,7 @@
     background-color: $grey-light;
     overflow: hidden;
 
-    .ting-subsearch-seondary-message-box-list-item--content {
+    .ting-subsearch-bibdk-message-box-list-item--content {
       position: absolute;
       overflow: hidden;
       .field-name-ting-title h2 {
@@ -69,7 +69,7 @@
       }
     }
 
-    .ting-subsearch-seondary-message-box-list-item--see-more {
+    .ting-subsearch-bibdk-message-box-list-item--see-more {
       transition: background-color .3s cubic-bezier(.165,.84,.44,1),color .3s cubic-bezier(.165,.84,.44,1);
       background-color: $grey;
       color: $charcoal;
@@ -91,7 +91,7 @@
     }
   }
 
-  .ting-subsearch-seondary-message-box--external-search {
+  .ting-subsearch-bibdk-message-box--external-search {
     margin: 0;
     padding: 0;
     display: flex;
