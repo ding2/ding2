@@ -100,7 +100,7 @@ function template_preprocess_ting_subsearch_suggestion_message(&$variables) {
   $variables['attributes_array'] = [];
   $module = $variables['module'];
   $variables['theme_hook_suggestions'][] = 'ting_subsearch_suggestion_message__' . $module;
-  $variables['attributes_array']['id'] = str_replace('_', '-', $module) . '-suggestion-message';
+  $variables['attributes_array']['id'] = drupal_html_id(str_replace('_', '-', $module) . '-suggestion-message');
 }
 
 /**
