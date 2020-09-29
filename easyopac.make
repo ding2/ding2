@@ -605,3 +605,7 @@ projects[easyopac_redirect][download][type]   = "git"
 projects[easyopac_redirect][download][url]    = "git@github.com:easySuite/easyopac_redirect.git"
 ;projects[easyopac_redirect][download][tag]    = ""
 projects[easyopac_redirect][download][branch] = "development"
+
+; Contrib
+projects[media_unsplash][subdir] = "contrib"
+projects[media_unsplash][version] = "1.6"
