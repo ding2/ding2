@@ -30,7 +30,9 @@
         // responsive subsearches and suggestions which is preferred.
         $.post(url, data, function (response) {
           if (response !== '') {
-            var message = $(response);
+            // See Drupal's ajax.js.
+            var wrapped_message = $('<div></div>').html(response);
+            var message = wrapped_message.contents();
             placeholder.replaceWith(message);
             Drupal.attachBehaviors(message);
           }
