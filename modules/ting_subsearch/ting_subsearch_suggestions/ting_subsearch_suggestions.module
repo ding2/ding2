@@ -23,6 +23,27 @@ function ting_subsearch_suggestions_ctools_plugin_directory($module, $plugin) {
  * Implements hook_ting_subsearch_info().
  */
 function ting_subsearch_suggestions_ting_subsearch_info() {
+  return [
+    'ting_subsearch_suggestions' => [
+      'title' => t('Ting subsearch suggestions'),
+      'description' => t('Trigger subsearches based on autocomplete suggestions and levenshtein distance.'),
+      'trigger conditions' => [
+        'subsearch' => t('User search result returned less than or equal to <strong>!trigger_limit</strong> results and a suggestion', [
+          '!trigger_limit' => variable_get('ting_subsearch_suggestions_trigger_limit', 5),
+        ]),
+        'suggestion' => t('Subsearch result returns more than or equal to <strong>!limit</strong> results and subsearch result count divided by user search result count is abobe or equal to <strong>!factor</strong>', [
+          '!limit' => variable_get('ting_subsearch_suggestions_message_limit', 10),
+          '!factor' => variable_get('ting_subsearch_suggestions_ps_factor', 10),
+        ]),
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_ting_subsearch_info().
+ */
+function ting_subsearch_suggestions_ting_subsearch_info2() {
   $trigger_settings = [];
 
   // Trigger settings.

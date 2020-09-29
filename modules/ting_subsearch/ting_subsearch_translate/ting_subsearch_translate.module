@@ -22,6 +22,26 @@ function ting_subsearch_translate_ctools_plugin_directory($module, $plugin) {
  * Implements hook_ting_subsearch_info().
  */
 function ting_subsearch_translate_ting_subsearch_info() {
+  return [
+    'ting_subsearch_translate' => [
+      'title' => t('Ting subsearch translate'),
+      'description' => t('Trigger subsearches with translated user searches and show suggestions.'),
+      'trigger conditions' => [
+        'subsearch' => t('User search result returned 0 results or nonfiction / fiction ratio is above or equel to !factor', [
+          '!factor' => variable_get('ting_subsearch_translate_factor', 50),
+        ]),
+        'suggestion' => t('Subsearch result count / User search result count is above or equal to !factor', [
+          '!factor' => variable_get('ting_subsearch_translate_ps_factor', 10),
+        ]),
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_ting_subsearch_info().
+ */
+function ting_subsearch_translate_ting_subsearch_info2() {
   $trigger_settings = [];
   $settings = [];
 
