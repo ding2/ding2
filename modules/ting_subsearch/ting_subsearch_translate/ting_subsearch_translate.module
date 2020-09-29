@@ -29,7 +29,7 @@ function ting_subsearch_translate_menu() {
     'description' => 'Configure ting subsearch translate.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_subsearch_translate_admin_settings_form'),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('configure ting subsearch'),
     'file' => 'ting_subsearch_translate.admin.inc',
     'type' => MENU_LOCAL_TASK,
   ];

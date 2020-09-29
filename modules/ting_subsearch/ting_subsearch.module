@@ -24,6 +24,18 @@ function ting_subsearch_menu() {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function ting_subseach_permission() {
+  return [
+    'configure ting subsearch' => [
+      'title' => t('Configure ting subsearch'),
+      'description' => t('Allows configuration of subsearch modules.'),
+    ],
+  ];
+}
+
+/**
  * Implements hook_theme().
  */
 function ting_subsearch_theme() {

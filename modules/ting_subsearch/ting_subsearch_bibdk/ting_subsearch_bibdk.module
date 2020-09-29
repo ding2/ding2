@@ -24,7 +24,7 @@ function ting_subsearch_bibdk_menu() {
     'description' => 'Configure ting subsearch bibliotek.dk.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_subsearch_bibdk_admin_settings_form'),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('configure ting subsearch'),
     'file' => 'ting_subsearch_bibdk.admin.inc',
     'type' => MENU_LOCAL_TASK,
   ];

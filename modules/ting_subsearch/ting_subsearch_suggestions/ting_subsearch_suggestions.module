@@ -30,7 +30,7 @@ function ting_subsearch_suggestions_menu() {
     'description' => 'Configure subsearch modules.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_subsearch_suggestions_admin_settings_form'),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('configure ting subsearch'),
     'file' => 'ting_subsearch_suggestions.admin.inc',
   ];
 
