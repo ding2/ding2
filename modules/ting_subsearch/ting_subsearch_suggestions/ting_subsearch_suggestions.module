@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ting subsearch suggestions module file.
+ * Ting subsearch suggestions.
  */
 
 use Ting\Search\TingSearchResultInterface;
@@ -20,76 +20,28 @@ function ting_subsearch_suggestions_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implements hook_ting_subsearch_info().
+ * Implements hook_menu().
  */
-function ting_subsearch_suggestions_ting_subsearch_info() {
-  return [
-    'ting_subsearch_suggestions' => [
-      'title' => t('Ting subsearch suggestions'),
-      'description' => t('Trigger subsearches based on autocomplete suggestions and levenshtein distance.'),
-      'trigger conditions' => [
-        'subsearch' => t('User search result returned less than or equal to <strong>!trigger_limit</strong> results and a suggestion', [
-          '!trigger_limit' => variable_get('ting_subsearch_suggestions_trigger_limit', 5),
-        ]),
-        'suggestion' => t('Subsearch result returns more than or equal to <strong>!limit</strong> results and subsearch result count divided by user search result count is abobe or equal to <strong>!factor</strong>', [
-          '!limit' => variable_get('ting_subsearch_suggestions_message_limit', 10),
-          '!factor' => variable_get('ting_subsearch_suggestions_ps_factor', 10),
-        ]),
-      ],
-    ],
-  ];
-}
+function ting_subsearch_suggestions_menu() {
+  $items = [];
 
-/**
- * Implements hook_ting_subsearch_info().
- */
-function ting_subsearch_suggestions_ting_subsearch_info2() {
-  $trigger_settings = [];
-
-  // Trigger settings.
-  $trigger_settings['ting_subsearch_suggestions_distance'] = [
-    '#type' => 'textfield',
-    '#title' => t('Maximum Levenshtein distance'),
-    '#default_value' => variable_get('ting_subsearch_suggestions_distance', 3),
-    '#description' => t('The maximum Levenshtein distance between a suggestion and the user search for it to be used in a subsearch and possibly shown as a suggestion to the user. A higher numbere allows for less similar words to be suggested.'),
-    '#element_validate' => ['element_validate_integer_positive'],
-  ];
-  $trigger_settings['ting_subsearch_suggestions_trigger_limit'] = [
-    '#type' => 'textfield',
-    '#title' => t('Maximum number of results for user search'),
-    '#default_value' => variable_get('ting_subsearch_suggestions_trigger_limit', 5),
-    '#description' => t("If the user search returned more results than this don't bother trying to find a suggestion and perform subsearch."),
-    '#element_validate' => ['element_validate_integer_positive'],
-  ];
-  $trigger_settings['ting_subsearch_suggestions_ps_factor'] = [
-    '#type' => 'textfield',
-    '#title' => t('Minimum ratio between suggestion and user search results'),
-    '#default_value' => variable_get('ting_subsearch_suggestions_ps_factor', 10),
-    '#description' => t('The minimum ratio between suggestion and user search results to trigger suggestion. Use a decimal value for the ratio with "." as decimal separator'),
-    '#element_validate' => ['ting_subsearch_factor_field_validate'],
-  ];
-  $trigger_settings['ting_subsearch_suggestions_message_limit'] = [
-    '#type' => 'textfield',
-    '#title' => t('Minimum number of results for suggestion search'),
-    '#default_value' => variable_get('ting_subsearch_suggestions_message_limit', 10),
-    '#description' => t("If the suggestion subsearch returned less results than this don't bother showing a suggestion."),
-    '#element_validate' => ['element_validate_integer_positive'],
-  ];
-  // Insert notice about the zero-hit special case for this module.
-  $trigger_settings['zero_hit_notice'] = [
-    '#type' => 'item',
-    '#title' => t('NOTICE: Special case if user search returned 0 results.'),
-    '#description' => t('If the user search returned 0 results, an attempt to find a suggestion within acceptable Levenshtein distance will always be performed. If the suggestion has a non-empty search result a redirect to that subsearch will be performed. This is done regardless of the trigger conditions.'),
+  $items['admin/config/ding/subsearch'] = [
+    'title' => 'Ting subsearch',
+    'description' => 'Configure subsearch modules.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_subsearch_suggestions_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_subsearch_suggestions.admin.inc',
   ];
 
-  return [
-    'ting_subsearch_suggegtions' => [
-      'title' => t('Ting subsearch suggestions'),
-      'description' => t('Trigger subsearches based on autocomplete suggestions and levenshtein distance.'),
-      'trigger_settings' => $trigger_settings,
-      'settings' => [],
-    ],
+  $items['admin/config/ding/subsearch/suggestions'] = [
+    'title' => 'Ting subsearch suggestions',
+    'description' => 'Configure ting subsearch suggestions.',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
   ];
+
+  return $items;
 }
 
 /**

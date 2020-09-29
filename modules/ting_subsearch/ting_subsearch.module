@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ting Subsearch
+ * Ting Subsearch module.
  */
 
 use Ting\Search\TingSearchRequest;
@@ -14,14 +14,6 @@ use Ting\Search\TingSearchResultInterface;
 function ting_subsearch_menu() {
   $items = [];
 
-  $items['admin/config/ding/subsearch'] = [
-    'title' => 'Ting subsearch',
-    'description' => 'Configure ting subsearch triggers and settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_subsearch_admin_settings_form'),
-    'access arguments' => array('administer site configuration'),
-  ];
-
   $items['ting_subsearch/ajax_placeholder_callback'] = [
     'title' => 'Ting subsearch AJAX placeholder callback',
     'page callback' => 'ting_subsearch_ajax_placeholder_callback',
@@ -29,45 +21,6 @@ function ting_subsearch_menu() {
   ];
 
   return $items;
-}
-
-/**
- * Admin settings form for subsearch modules.
- */
-function ting_subsearch_admin_settings_form($form, &$form_state) {
-  $form = [];
-
-  $form['subsearch'] = [
-    '#type' => 'fieldset',
-    '#title' => t('Ting Subsearch'),
-    '#description' => t('Subsearch modules allow additional searches to be made based on predefined conditions.'),
-  ];
-
-  // Show info and settings for available subsearch modules.
-  foreach (module_invoke_all('ting_subsearch_info') as $module => $info) {
-    $form['subsearch'][$module] = [
-      '#type' => 'fieldset',
-      '#title' => $info['title'],
-      '#description' => $info['description'],
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-    ];
-
-    // Subsearch modules can return general settings and settings related to
-    // triggering subsearches.
-    if (!empty($info['trigger_settings'])) {
-      $form['subsearch'][$module]['trigger'] = [
-        '#type' => 'fieldset',
-        '#title' => t('Trigger condidtions'),
-      ];
-      $form['subsearch'][$module]['trigger'] += $info['trigger_settings'];
-    }
-    if (!empty($info['settings'])) {
-      $form['subsearch'][$module] += $info['settings'];
-    }
-  }
-
-  return system_settings_form($form);
 }
 
 /**

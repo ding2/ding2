@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ting subsearch using Bibliotek.dk service.
+ * Ting subsearch bibliotek.dk.
  */
 
 use OpenSearch\OpenSearchStatementGroupRender;
@@ -14,68 +14,22 @@ define('TING_SUBSEARCH_BIBDK_AGENCY', 190101);
 define('TING_SUBSEARCH_BIBDK_PROFILE', 'default');
 
 /**
- * Implements hook_ting_subsearch_info().
+ * Implements hook_menu().
  */
-function ting_subsearch_bibdk_ting_subsearch_info() {
-  $trigger_settings = [];
-  $settings = [];
+function ting_subsearch_bibdk_menu() {
+  $items = [];
 
-  // Trigger settings.
-  $trigger_settings['ting_subsearch_bibdk_max'] = [
-    '#type' => 'textfield',
-    '#title' => t('Maximum number of results for user search'),
-    '#default_value' => variable_get('ting_subsearch_bibdk_max', 100),
-    '#description' => t("If the user search returned more results than this don't bother performing bibliotek.dk search."),
-    '#element_validate' => ['element_validate_integer_positive'],
-  ];
-  $trigger_settings['ting_subsearch_bibdk_factor'] = [
-    '#type' => 'textfield',
-    '#title' => t('Minimum ratio between nonfiction and fiction'),
-    '#default_value' => variable_get('ting_subsearch_bibdk_factor', 2),
-    '#description' => t('The minimum ratio of nonfiction to fiction in user search result to trigger bibliotek.dk search. Use a decimal value for the ratio with "." as decimal separator'),
-    '#element_validate' => ['ting_subsearch_factor_field_validate'],
-  ];
-  $trigger_settings['ting_subsearch_bibdk_result_min'] = [
-    '#type' => 'textfield',
-    '#title' => t('Minimum number of results for bibliotek.dk search'),
-    '#description' => t("If the bibliotek.dk subsearch returned less results than this don't bother showing any suggestions and links to bibliotek.dk."),
-    '#default_value' => variable_get('ting_subsearch_bibdk_result_min', 100),
-    '#element_validate' => ['element_validate_integer_positive'],
-  ];
-  $trigger_settings['ting_subsearch_bibdk_ps_factor'] = [
-    '#type' => 'textfield',
-    '#title' => t('Minimum ratio between bibliotek.dk and user search results'),
-    '#default_value' => variable_get('ting_subsearch_bibdk_ps_factor', 2),
-    '#description' => t('The minimum ratio of between bibliotek.dk and user search results to trigger suggestion. Use a decimal value for the ratio with "." as decimal separator'),
-    '#element_validate' => ['ting_subsearch_factor_field_validate'],
+  $items['admin/config/ding/subsearch/bibdk'] = [
+    'title' => 'Ting subsearch bibliotek.dk',
+    'description' => 'Configure ting subsearch bibliotek.dk.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_subsearch_bibdk_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_subsearch_bibdk.admin.inc',
+    'type' => MENU_LOCAL_TASK,
   ];
 
-  // Other settings.
-  $settings['ting_subsearch_bibdk_number_of_results'] = [
-    '#type' => 'textfield',
-    '#title' => t('Number of results to show'),
-    '#default_value' => variable_get('ting_subsearch_bibdk_number_of_results', 4),
-    '#description' => t('How many results from the bibliotek.dk subsearch should be shown to the user.'),
-  ];
-  $settings['ting_subsearch_bibdk_position'] = [
-    '#type' => 'radios',
-    '#title' => t('Position of message'),
-    '#options' => [
-      'before' => t('Before'),
-      'after' => t('After'),
-    ],
-    '#default_value' => variable_get('ting_subsearch_bibdk_position', 'before'),
-    '#description' => t('Should the bibliotek.dk suggestions and links be positioned before or after the search result?'),
-  ];
-
-  return [
-    'ting_subsearch_bibdk' => [
-      'title' => t('Ting subsearch bibliotek.dk'),
-      'description' => t('Trigger bibliotek.dk subsearches and show suggestions and links to bibliotek.dk.'),
-      'trigger_settings' => $trigger_settings,
-      'settings' => $settings,
-    ],
-  ];
+  return $items;
 }
 
 /**
@@ -143,7 +97,7 @@ function ting_subsearch_bibdk_opensearch_pre_execute($request) {
  */
 function ting_subsearch_bibdk_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result) {
   if (variable_get('ting_subsearch_bibdk_position', 'before') == 'before') {
-    return _ting_subsearch_bibdk_ajax_placeholder($search_result);
+    return _ting_subsearch_bibdk_trigger_ajax_placeholder($search_result);
   }
 }
 
@@ -154,14 +108,14 @@ function ting_subsearch_bibdk_ting_search_results_prefix($keys, $conditions, Tin
  */
 function ting_subsearch_bibdk_ting_search_results_suffix($keys, $conditions, TingSearchResultInterface $search_result) {
   if (variable_get('ting_subsearch_bibdk_position', 'before') == 'after') {
-    return _ting_subsearch_bibdk_ajax_placeholder($search_result);
+    return _ting_subsearch_bibdk_trigger_ajax_placeholder($search_result);
   }
 }
 
 /**
  * Get ajax placeholder HTML for bibliotek.dk subsearch if conditions is met.
  */
-function _ting_subsearch_bibdk_ajax_placeholder(TingSearchResultInterface $search_result) {
+function _ting_subsearch_bibdk_trigger_ajax_placeholder(TingSearchResultInterface $search_result) {
   $num_results = $search_result->getNumTotalObjects();
 
   // Bail out if the user search returned more results than allowed.

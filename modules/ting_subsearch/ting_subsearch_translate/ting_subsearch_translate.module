@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Translated search.
+ * Ting subsearch translate.
  */
 
 use GuzzleHttp\Client as HttpClient;
@@ -19,70 +19,22 @@ function ting_subsearch_translate_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implements hook_ting_subsearch_info().
+ * Implements hook_menu().
  */
-function ting_subsearch_translate_ting_subsearch_info() {
-  return [
-    'ting_subsearch_translate' => [
-      'title' => t('Ting subsearch translate'),
-      'description' => t('Trigger subsearches with translated user searches and show suggestions.'),
-      'trigger conditions' => [
-        'subsearch' => t('User search result returned 0 results or nonfiction / fiction ratio is above or equel to !factor', [
-          '!factor' => variable_get('ting_subsearch_translate_factor', 50),
-        ]),
-        'suggestion' => t('Subsearch result count / User search result count is above or equal to !factor', [
-          '!factor' => variable_get('ting_subsearch_translate_ps_factor', 10),
-        ]),
-      ],
-    ],
-  ];
-}
+function ting_subsearch_translate_menu() {
+  $items = [];
 
-/**
- * Implements hook_ting_subsearch_info().
- */
-function ting_subsearch_translate_ting_subsearch_info2() {
-  $trigger_settings = [];
-  $settings = [];
-
-  // Trigger settings.
-  $trigger_settings['ting_subsearch_translate_factor'] = [
-    '#type' => 'textfield',
-    '#title' => t('Minimum ratio between nonfiction and fiction'),
-    '#description' => t('The minimum ratio of nonfiction to fiction in user search result to trigger translation. Use a decimal value for the ratio with "." as decimal separator'),
-    '#default_value' => variable_get('ting_subsearch_translate_factor', 50),
-    '#element_validate' => ['ting_subsearch_factor_field_validate'],
-  ];
-  $trigger_settings['ting_subsearch_translate_ps_factor'] = [
-    '#type' => 'textfield',
-    '#title' => t('Minimum ratio between suggestion and user search results'),
-    '#description' => t('The minimum ratio between suggestion and user search results to trigger suggestion. Use a decimal value for the ratio with "." as decimal separator'),
-    '#default_value' => variable_get('ting_subsearch_translate_ps_factor', 10),
-    '#element_validate' => ['ting_subsearch_factor_field_validate'],
+  $items['admin/config/ding/subsearch/translate'] = [
+    'title' => 'Ting subsearch translate',
+    'description' => 'Configure ting subsearch translate.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_subsearch_translate_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_subsearch_translate.admin.inc',
+    'type' => MENU_LOCAL_TASK,
   ];
 
-  // Other settings.
-  $settings['ting_subsearch_translate_url'] = [
-    '#type' => 'textfield',
-    '#title' => t('Google translation service url'),
-    '#description' => t('Google Translation API endpoint. <strong>Example:</strong> https://www.googleapis.com/language/translate/v2'),
-    '#default_value' => variable_get('ting_subsearch_translate_url', 'https://www.googleapis.com/language/translate/v2'),
-  ];
-  $settings['ting_subsearch_translate_google_key'] = [
-    '#type' => 'textfield',
-    '#title' => t('Google Cloud Translation API key'),
-    '#description' => t('You need to have an API key configured with billing for this to work. take a look at <a href="https://cloud.google.com/translate/pricing">Pricing</a>'),
-    '#default_value' => variable_get('ting_subsearch_translate_google_key', ''),
-  ];
-
-  return [
-    'ting_subsearch_translate' => [
-      'title' => t('Ting subsearch translate'),
-      'description' => t('Trigger subsearches with translated user searches and show suggestions.'),
-      'trigger_settings' => $trigger_settings,
-      'settings' => $settings,
-    ],
-  ];
+  return $items;
 }
 
 /**
