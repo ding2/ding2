@@ -57,15 +57,6 @@ function ting_subsearch_bibdk_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Theme process function for ting_subsearch_bibdk_message_box.
- */
-function template_process_ting_subsearch_bibdk_message_box(&$variables) {
-  $variables['items'] = theme('ting_subsearch_bibdk_message_box_items_list', [
-    'items' => $variables['items'],
-  ]);
-}
-
-/**
  * Implements hook_opensearch_pre_execute().
  */
 function ting_subsearch_bibdk_opensearch_pre_execute($request) {
@@ -209,7 +200,10 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_callback(TingSearc
 
     $message = [
       '#theme' => 'ting_subsearch_bibdk_message_box',
-      '#items' => $items,
+      '#items' => [
+        '#theme' => 'ting_subsearch_bibdk_message_box_items_list',
+        '#items' => $items,
+      ],
       '#message' => $message,
       '#bibdk_link' => check_plain($bibdk_link),
       '#bibdk_link_text' => t('See more materials at bibliotek.dk'),
