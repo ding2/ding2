@@ -45,10 +45,10 @@ function ting_subsearch_suggestions_menu() {
 }
 
 /**
- * Implements hook_ting_subsearch_ajax_placeholder_callback().
+ * Implements hook_ting_subsearch_ajax_placeholder_content().
  */
-function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_callback(TingSearchResultInterface $search_result) {
-  $message = '';
+function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_content(TingSearchResultInterface $search_result) {
+  $content = '';
 
   // Get the user search request and keys and attempt to find suggestion.
   $search_request = $search_result->getSearchRequest();
@@ -56,7 +56,7 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_callback(Tin
   $suggestion = ting_subsearch_suggestions_suggest_keys($keys);
 
   if (!$suggestion) {
-    return $message;
+    return $content;
   }
 
   $subsearch_request = $search_request->withFullTextQuery($suggestion);
@@ -73,7 +73,7 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_callback(Tin
       '!subsearch-num-results' => $subsearch_num_results,
     ]);
 
-    $message = [
+    $content = [
       '#theme' => 'ting_subsearch_suggestion_message',
       '#message' => $message,
       '#subsearch_result' => $subsearch_result,
@@ -81,7 +81,7 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_callback(Tin
     ];
   }
 
-  return $message;
+  return $content;
 }
 
 /**

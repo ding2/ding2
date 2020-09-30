@@ -126,10 +126,10 @@ function _ting_subsearch_bibdk_trigger_ajax_placeholder(TingSearchResultInterfac
 }
 
 /**
- * Implements hook_ting_subsearch_ajax_placeholder_callback().
+ * Implements hook_ting_subsearch_ajax_placeholder_content().
  */
-function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_callback(TingSearchResultInterface $search_result) {
-  $message = '';
+function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_content(TingSearchResultInterface $search_result) {
+  $content = '';
 
   // Mark the subsearch we're about to perform is a bibliotek.dk subsearch,
   // which should have bibliotek.dk agency and profil set in our implementation
@@ -147,7 +147,7 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_callback(TingSearc
 
   // Bail out if bibliotek.dk search didn't return enough results.
   if ($bibdk_num_results < $bibdk_result_min) {
-    return $message;
+    return $content;
   }
 
   $factor = variable_get('ting_subsearch_bibdk_ps_factor', 2);
@@ -198,7 +198,7 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_callback(TingSearc
       ],
     ]);
 
-    $message = [
+    $content = [
       '#theme' => 'ting_subsearch_bibdk_message_box',
       '#items' => [
         '#theme' => 'ting_subsearch_bibdk_message_box_items_list',
@@ -211,7 +211,7 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_callback(TingSearc
     ];
   }
 
-  return $message;
+  return $content;
 }
 
 /**

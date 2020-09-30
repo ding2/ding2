@@ -50,7 +50,7 @@ function ting_subsearch_theme() {
       ],
     'ting_subsearch_ajax_placeholder' => [
       'variables' => [
-        // Module implementing hook_ting_subsearch_ajax_placeholder_callback().
+        // Module implementing hook_ting_subsearch_ajax_placeholder_content().
         'module' => NULL,
       ],
     ],
@@ -157,24 +157,25 @@ function ting_subsearch_get_ajax_placeholder_render_array($module) {
  * AJAX placeholder callback for async subsearches.
  */
 function ting_subsearch_ajax_placeholder_callback() {
-  $message = '';
+  $content = '';
 
   if (!empty($_POST['searchResult']) && !empty($_POST['module'])) {
     $module = $_POST['module'];
     $search_result = unserialize($_POST['searchResult']);
 
     if ($search_result instanceof TingSearchResultInterface) {
-      $message = module_invoke($module, 'ting_subsearch_ajax_placeholder_callback', $search_result);
+      // Get the placeholder content from the subsearch module.
+      $content = module_invoke($module, 'ting_subsearch_ajax_placeholder_content', $search_result);
       // Ensure that there actually was a module implementing the hook.
-      if (isset($message)) {
-        drupal_alter('ting_subsearch_ajax_placeholder_callback', $message, $module);
+      if (isset($content)) {
+        drupal_alter('ting_subsearch_ajax_placeholder_content', $content, $module);
         // Allow modules to return a render array. If not we assume HTML string.
-        $message = is_array($message) ? drupal_render($message) : $message;
+        $content = is_array($content) ? drupal_render($content) : $content;
       }
     }
   }
 
-  drupal_json_output($message);
+  drupal_json_output($content);
   drupal_exit();
 }
 

@@ -31,10 +31,10 @@
         $.post(url, data, function (response) {
           if (response !== '') {
             // See Drupal's ajax.js.
-            var wrapped_message = $('<div></div>').html(response);
-            var message = wrapped_message.contents();
-            placeholder.replaceWith(message);
-            Drupal.attachBehaviors(message);
+            var wrapped_content = $('<div></div>').html(response);
+            var content = wrapped_content.contents();
+            placeholder.replaceWith(content);
+            Drupal.attachBehaviors(content);
           }
           else {
             placeholder.remove();
