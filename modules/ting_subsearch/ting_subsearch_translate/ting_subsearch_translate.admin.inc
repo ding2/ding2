@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Administration interface for ting subsearch translate.

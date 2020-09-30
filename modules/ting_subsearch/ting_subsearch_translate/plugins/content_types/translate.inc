@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Panels pane for ting subsearch suggestions pane.
+ * Ting subsearch translate content_type plugin definition.
  */
 
 $plugin = array(

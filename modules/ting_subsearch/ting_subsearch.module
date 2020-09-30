@@ -46,8 +46,8 @@ function ting_subsearch_theme() {
         'subsearch_result' => NULL,
         // Subsearch module displaying suggestion.
         'module' => NULL,
-      ]
       ],
+    ],
     'ting_subsearch_ajax_placeholder' => [
       'variables' => [
         // Module implementing hook_ting_subsearch_ajax_placeholder_content().

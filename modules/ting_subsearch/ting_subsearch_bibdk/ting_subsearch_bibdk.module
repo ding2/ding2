@@ -241,7 +241,7 @@ function _ting_subsearch_bibdk_get_bibdk_keys(TingSearchRequest $search_request)
     }
   }
 
-  if (module_exists('ting_field_search') && $profile = ting_field_search_get_active_profile())  {
+  if (module_exists('ting_field_search') && $profile = ting_field_search_get_active_profile()) {
     if (!empty($profile->config['search_request']['query'])) {
       $additional_keys[] = $profile->config['search_request']['query'];
     }
