@@ -12,5 +12,4 @@ function ting_subsearch_suggestions_uninstall() {
   variable_del('ting_subsearch_suggestions_distance');
   variable_del('ting_subsearch_suggestions_trigger_limit');
   variable_del('ting_subsearch_suggestions_ps_factor');
-  variable_del('ting_subsearch_suggestions_message_limit');
 }

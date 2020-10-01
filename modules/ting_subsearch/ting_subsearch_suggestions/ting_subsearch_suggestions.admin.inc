@@ -44,13 +44,6 @@ function ting_subsearch_suggestions_admin_settings_form($form, &$form_state) {
     '#description' => t('The minimum ratio between suggestion and user search results to trigger suggestion. Use a decimal value for the ratio with "." as decimal separator'),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];
-  $form['trigger']['ting_subsearch_suggestions_message_limit'] = [
-    '#type' => 'textfield',
-    '#title' => t('Minimum number of results for suggestion search'),
-    '#default_value' => variable_get('ting_subsearch_suggestions_message_limit', 10),
-    '#description' => t("If the suggestion subsearch returned less results than this don't bother showing a suggestion."),
-    '#element_validate' => ['element_validate_integer_positive'],
-  ];
   // Insert notice about the zero-hit special case for this module.
   $form['zero_hit_notice'] = [
     '#type' => 'item',
