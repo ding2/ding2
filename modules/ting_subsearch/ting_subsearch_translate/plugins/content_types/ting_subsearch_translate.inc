@@ -8,7 +8,6 @@
 $plugin = array(
   'title' => t('Ting subsearch translate'),
   'description' => t('Display a suggestion based on translation of user search.'),
-  'content_types' => array('ting_subsearch_translate'),
   'render callback' => 'ting_subsearch_translate_content_type_render',
   'edit form' => 'ting_subsearch_translate_content_type_edit_form',
   'category' => t('Ting'),

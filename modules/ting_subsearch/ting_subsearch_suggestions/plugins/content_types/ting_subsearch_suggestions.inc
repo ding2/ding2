@@ -8,7 +8,6 @@
 $plugin = array(
   'title' => t('Ting subsearch suggestions'),
   'description' => t('Display a suggestion based on autocomplete and levenshtein distance.'),
-  'content_types' => array('ting_subsearch_suggestions'),
   'render callback' => 'ting_subsearch_suggestions_content_type_render',
   'edit form' => 'ting_subsearch_suggestions_content_type_edit_form',
   'category' => t('Ting'),
