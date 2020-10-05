@@ -54,6 +54,26 @@ function ting_subsearch_bibdk_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_module_implements_alter().
+ */
+function ting_subsearch_bibdk_module_implements_alter(&$implementations, $hook) {
+  if ($hook !== 'opensearch_pre_execute') {
+    return;
+  }
+
+  // Ensure we run as late as possible in hook_opensearch_pre_execute() to get
+  // max control over our bibliotek.dk search:
+  //
+  //   1. Some modules may set agency or profile and we need it to be bibdk's.
+  //   2. We want to ensure we get the final query with all filters applied
+  //      For bibdk search link.
+  //
+  $ting_subsearch_bibdk = $implementations['ting_subsearch_bibdk'];
+  unset($implementations['ting_subsearch_bibdk']);
+  $implementations['ting_subsearch_bibdk'] = $ting_subsearch_bibdk;
+}
+
+/**
  * Implements hook_opensearch_pre_execute().
  */
 function ting_subsearch_bibdk_opensearch_pre_execute($request) {
