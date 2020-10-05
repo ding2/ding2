@@ -177,7 +177,7 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_content(TingSearch
     ];
 
     if ($number_of_collections_to_show == 0) {
-      $message = t('If you search for "<strong>!keys</strong>" on bibliotek.dk instead you will get <strong>!bibdk-num-results hits</strong>', $options);
+      $message = t('If you search for "<strong>@keys</strong>" on bibliotek.dk instead you will get <strong>!bibdk-num-results hits</strong>', $options);
     }
     elseif ($bibdk_result->getNumCollections() < $number_of_collections_to_show) {
       // Avoid displaying the number of results/posts in these cases, because
@@ -200,15 +200,18 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_content(TingSearch
 
     $content = [
       '#theme' => 'ting_subsearch_bibdk_message_box',
-      '#items' => [
-        '#theme' => 'ting_subsearch_bibdk_message_box_items_list',
-        '#items' => $items,
-      ],
       '#message' => $message,
       '#bibdk_link' => check_plain($bibdk_link),
       '#bibdk_link_text' => t('See more materials at bibliotek.dk'),
       '#position' => variable_get('ting_subsearch_bibdk_position', 'before'),
     ];
+
+    if (!empty($items)) {
+      $content['#items'] = [
+        '#theme' => 'ting_subsearch_bibdk_message_box_items_list',
+        '#items' => $items,
+      ];
+    }
   }
 
   return $content;

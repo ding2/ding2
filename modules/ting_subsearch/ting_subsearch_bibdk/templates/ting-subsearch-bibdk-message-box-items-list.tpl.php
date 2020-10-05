@@ -10,15 +10,13 @@
 ?>
 <ul>
   <?php foreach ($items as $item) : ?>
-    <li>
+    <li class="ting-subsearch-bibdk-message-box-list-item">
       <a href="<?php print $item['url']; ?>" target="_blank">
-        <div class="ting-subsearch-bibdk-message-box-list-item">
-          <div class="ting-subsearch-bibdk-message-box-list-item--content">
-            <?php print $item['markup']; ?>
-          </div>
-          <div class="ting-subsearch-bibdk-message-box-list-item--see-more">
-            <?php print t('More details'); ?>
-          </div>
+        <div class="ting-subsearch-bibdk-message-box-list-item--content">
+          <?php print $item['markup']; ?>
+        </div>
+        <div class="ting-subsearch-bibdk-message-box-list-item--see-more">
+          <?php print t('More details'); ?>
         </div>
       </a>
     </li>

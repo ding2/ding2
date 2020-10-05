@@ -17,9 +17,11 @@
   <div class="ting-subsearch-bibdk-message-box--title">
     <?php print $message; ?>
   </div>
-  <div class="ting-subsearch-bibdk-message-box--list-items">
-    <?php print render($items); ?>
-  </div>
+  <?php if (isset($items)): ?>
+    <div class="ting-subsearch-bibdk-message-box--list-items">
+      <?php print render($items); ?>
+    </div>
+  <?php endif; ?>
   <div class="ting-subsearch-bibdk-message-box--external-search">
     <a href="<?php print $bibdk_link; ?>" target="_blank">
       <?php print $bibdk_link_text; ?>
