@@ -5,9 +5,6 @@
  * Ting subsearch bibliotek.dk.
  */
 
-use OpenSearch\OpenSearchStatementGroupRender;
-use Ting\Search\DingProviderStrategy;
-use Ting\Search\TingSearchRequest;
 use Ting\Search\TingSearchResultInterface;
 
 define('TING_SUBSEARCH_BIBDK_AGENCY', 190101);
@@ -68,6 +65,12 @@ function ting_subsearch_bibdk_opensearch_pre_execute($request) {
   if ($bibdk_subsearch === TRUE) {
     $request->setProfile(TING_SUBSEARCH_BIBDK_PROFILE);
     $request->setAgency(TING_SUBSEARCH_BIBDK_AGENCY);
+
+    // Store the final query used in the bibliotek.dk search for use when
+    // generating search links. Various modules might apply additional search
+    // keys based on query parameters that are not supported on bibliotek.dk.
+    $bibdk_query = &drupal_static('ting_subsearch_bibdk_query');
+    $bibdk_query = $request->getQuery();
   }
 
   // Ensure that facet genreCategory is returned from the well, since we need
@@ -131,16 +134,20 @@ function _ting_subsearch_bibdk_trigger_ajax_placeholder(TingSearchResultInterfac
 function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_content(TingSearchResultInterface $search_result) {
   $content = '';
 
+  $search_request = $search_result->getSearchRequest();
+
   // Mark the subsearch we're about to perform is a bibliotek.dk subsearch,
   // which should have bibliotek.dk agency and profil set in our implementation
   // of hook_opensearch_pre_execute().
   $bibdk_subsearch = &drupal_static('ting_subsearch_bibdk_subsearch');
   $bibdk_subsearch = TRUE;
-
-  $search_request = $search_result->getSearchRequest();
   $bibdk_result = ting_subseach_do_subsearch($search_request);
-
   drupal_static_reset('ting_subsearch_bibdk_subsearch');
+
+  // Get the final query used in bibliotek.dk search. See comment in
+  // ting_subsearch_bibdk_opensearch_pre_execute().
+  $bibdk_query = drupal_static('ting_subsearch_bibdk_query');
+  drupal_static_reset('ting_subsearch_bibdk_query');
 
   $bibdk_num_results = $bibdk_result->getNumTotalObjects();
   $bibdk_result_min = variable_get('ting_subsearch_bibdk_result_min', 100);
@@ -194,7 +201,7 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_content(TingSearch
 
     $bibdk_link = url('https://bibliotek.dk/da/search/work', [
       'query' => [
-        'search_block_form' => _ting_subsearch_bibdk_get_bibdk_keys($search_request),
+        'search_block_form' => $bibdk_query,
       ],
     ]);
 
@@ -215,49 +222,4 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_content(TingSearch
   }
 
   return $content;
-}
-
-/**
- * Helper function to build search keys for search link to bibliotek.dk.
- *
- * We can't use the same search query parameters on bibliotek.dk so instead, to
- * get the same results, we modify the user search by appending the search keys
- * that would otherwise be applied in a ting_search.
- */
-function _ting_subsearch_bibdk_get_bibdk_keys(TingSearchRequest $search_request) {
-  // Start with the user search.
-  $bibdk_keys = $search_request->getFullTextQuery();
-
-  $additional_keys = [];
-
-  // See: opensearch_search_search().
-  if (!empty($search_request->getFilters())) {
-    $render = new OpenSearchStatementGroupRender(new DingProviderStrategy());
-    try {
-      $facet_keys = $render->renderStatements($search_request->getFilters());
-      $additional_keys[] = $facet_keys;
-    }
-    catch (Exception $e) {
-      // Something went wrong rendering facets. Move along without adding
-      // anything, but log an exception.
-      watchdog_exception('ting_subsearch_bibdk', $e);
-    }
-  }
-
-  if (module_exists('ting_field_search') && $profile = ting_field_search_get_active_profile()) {
-    if (!empty($profile->config['search_request']['query'])) {
-      $additional_keys[] = $profile->config['search_request']['query'];
-    }
-  }
-
-  // If we collected any additional keys append them to the user search.
-  if (!empty($additional_keys)) {
-    $bibdk_keys = '(' . $bibdk_keys . ')';
-    $bibdk_keys .= ' AND ';
-    $bibdk_keys .= implode(' AND ', array_map(function ($part) {
-      return "($part)";
-    }, $additional_keys));
-  }
-
-  return $bibdk_keys;
 }
