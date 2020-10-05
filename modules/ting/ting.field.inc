@@ -278,7 +278,6 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
         '#default_value' => $settings['length'],
         '#element_validate' => array('element_validate_integer_positive'),
       );
-
       break;
 
     case 'ting_author_default':
