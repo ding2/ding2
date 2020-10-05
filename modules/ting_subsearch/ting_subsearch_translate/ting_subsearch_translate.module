@@ -108,17 +108,17 @@ function ting_subsearch_translate_ting_subsearch_ajax_placeholder_content(TingSe
 /**
  * Finds suggestion based on Google translation.
  *
- * @param string $original_search
- *   The original search phrase.
+ * @param string $keys
+ *   The search keys to translate.
  *
  * @return string|bool
  *   The translation or FALSE if no translation was obtained.
  */
-function ting_subsearch_translate_suggest_translated_keys($original_search) {
-  $original_search = ting_subsearch_normalize_keys($original_search);
+function ting_subsearch_translate_suggest_translated_keys($keys) {
+  $keys = ting_subsearch_normalize_keys($keys);
 
   $params = [];
-  $params['q'] = $original_search;
+  $params['q'] = $keys;
   $params['key'] = variable_get('ting_subsearch_translate_google_key', '');
   $params['source'] = 'da';
   $params['target'] = 'en';

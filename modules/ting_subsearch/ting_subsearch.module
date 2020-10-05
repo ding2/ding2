@@ -231,7 +231,9 @@ function ting_subsearch_factor_field_validate($element, &$form_state) {
  *   A search result object with genreCategory facet.
  *
  * @return float
- *   A float describing the ratio of non-fiction to fiction.
+ *   A float describing the ratio of non-fiction to fiction with 0 representing
+ *   no non-fiction objects/materials in the result and INF representing no
+ *   fiction objects.
  */
 function ting_subsearch_get_genre_ratio(TingSearchResultInterface $search_result) {
   if ($search_result->getNumTotalObjects() == 0) {
