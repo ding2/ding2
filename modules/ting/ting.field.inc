@@ -390,9 +390,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
     return $element;
   }
 
-  /**
-   * @var \TingEntity $entity
-   */
+  /** @var \TingEntity $entity */
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ting_title_default':
@@ -459,9 +457,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
 
         // Append the language as a suffix to the title for certain material
         // types if the material language is not the default language.
-        /**
-         * @var \TingEntity $entity
-         */
+        /** @var \TingEntity $entity */
         $title_suffix_types = variable_get('ting_language_type_title_suffix', []);
         $default_language = variable_get('ting_language_default');
         $is_title_suffix_type = (!empty($title_suffix_types[strtolower($entity->getType())]));
