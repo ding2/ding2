@@ -832,7 +832,7 @@ function ding2_set_eu_cookie_compliance_settings() {
 
   $eu_cookie_compliance = array_merge($eu_cookie_compliance, [
     'method' => 'opt_in',
-    'show_disagree_button' => 1,
+    'show_disagree_button' => TRUE,
     'popup_enabled' => TRUE,
     'popup_info' => [
       'value' => '<h2>Hjælp os med at forbedre oplevelsen på hjemmesiden ved at acceptere cookies.</h2>',
@@ -844,11 +844,14 @@ function ding2_set_eu_cookie_compliance_settings() {
       'value' => '',
       'format' => 'ding_wysiwyg',
     ),
+    // Ensure that this is disabled as it will prevent changing the default text
+    // of the popup_agree_button_message on ECC settings form.
+    'enable_save_preferences_button' => FALSE,
     'popup_agree_button_message' => 'Jeg accepterer brugen af cookies',
     'popup_agreed_enabled' => FALSE,
     'popup_disagree_button_message' => 'Mere info',
     'disagree_button_label' => 'Afvis',
-    'withdraw_enabled' => 1,
+    'withdraw_enabled' => TRUE,
     'withdraw_message' => [
       'value' => '<h2>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse</h2><p>Du har givet os samtykke. Tryk her for at tilbagekalde.</p>',
       'format' => 'ding_wysiwyg',
