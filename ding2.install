@@ -1048,8 +1048,14 @@ function ding2_update_7090() {
  */
 function ding2_update_7091() {
   $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da', []);
+
   // Ensure that this is disabled as it will prevent changing the default text
   // of the popup_agree_button_message on ECC settings form.
   $ecc_settings['enable_save_preferences_button'] = FALSE;
+
+  // Change default text on popup agree and disagree buttons.
+  $ecc_settings['popup_agree_button_message'] = 'Acceptér alle';
+  $ecc_settings['disagree_button_label'] = 'Kun nødvendige';
+
   i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
 }

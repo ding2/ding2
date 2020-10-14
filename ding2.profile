@@ -847,10 +847,10 @@ function ding2_set_eu_cookie_compliance_settings() {
     // Ensure that this is disabled as it will prevent changing the default text
     // of the popup_agree_button_message on ECC settings form.
     'enable_save_preferences_button' => FALSE,
-    'popup_agree_button_message' => 'Jeg accepterer brugen af cookies',
+    'popup_agree_button_message' => 'Acceptér alle',
     'popup_agreed_enabled' => FALSE,
     'popup_disagree_button_message' => 'Mere info',
-    'disagree_button_label' => 'Afvis',
+    'disagree_button_label' => 'Kun nødvendige',
     'withdraw_enabled' => TRUE,
     'withdraw_message' => [
       'value' => '<h2>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse</h2><p>Du har givet os samtykke. Tryk her for at tilbagekalde.</p>',
