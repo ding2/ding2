@@ -837,6 +837,20 @@ function ding_base_form_alter(&$form, &$form_state, $form_id) {
       '#weight' => 50,
     ];
   }
+  // Action forms got a weird naming scheme, so match a prefix and check if
+  // the 'add_roles' and 'remove_roles' form elements is present.
+  elseif (strpos($form_id, 'views_form_admin_views_user') === 0 &&
+          isset($form['add_roles']) && isset($form['remove_roles'])) {
+    // Limit options to roles the user has been delegated using the
+    // role_delegation module.
+    foreach (['add_roles', 'remove_roles'] as $element) {
+      foreach ($form[$element]['#options'] as $rid => $role) {
+        if (!user_access('assign all roles') && !user_access("assign $role role")) {
+          unset($form[$element]['#options'][$rid]);
+        }
+      }
+    }
+  }
 }
 
 /**
