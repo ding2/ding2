@@ -72,6 +72,7 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
       'cover-service-url' => ding_react_cover_service_url(),
       'title-text' => t('Related materials'),
       'search-text' => t('Show search result for related materials'),
+      'agency-id' => variable_get('ting_agency', ''),
     ];
     $block->content = ding_react_app('related-materials', $data);
   }
