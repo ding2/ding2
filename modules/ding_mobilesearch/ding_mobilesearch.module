@@ -176,27 +176,29 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           'value' => array(),
           'attr' => array(),
         );
-        foreach ($items as $item) {
-          if (preg_match_all('/(\[\[\{.*\}\]\])/', $item['value'], $matches, PREG_SET_ORDER)) {
-            if (!empty($matches[0])) {
-              foreach ($matches[0] as $key => $value) {
-                $json = drupal_json_decode($value);
-                if (is_array($json) && !empty($json[0][0]['fid'])) {
-                  $fid = $json[0][0]['fid'];
-                  $file = file_load($fid);
-                  if (is_object($file) && $file->type == 'image') {
-                    $base64 = base64_encode(file_get_contents($file->uri));
-                    $render = "<img src=\"data:{$file->filemime};base64,{$base64}\" alt=\"\" />";
-                    $item['value'] = str_replace($value, $render, $item['value']);
-                  }
-                  else {
-                    $item['value'] = str_replace($value, '', $item['value']);
+        if (!empty($items)) {
+          foreach ($items as $item) {
+            if (preg_match_all('/(\[\[\{.*\}\]\])/', $item['value'], $matches, PREG_SET_ORDER)) {
+              if (!empty($matches[0])) {
+                foreach ($matches[0] as $key => $value) {
+                  $json = drupal_json_decode($value);
+                  if (is_array($json) && !empty($json[0][0]['fid'])) {
+                    $fid = $json[0][0]['fid'];
+                    $file = file_load($fid);
+                    if (is_object($file) && $file->type == 'image') {
+                      $base64 = base64_encode(file_get_contents($file->uri));
+                      $render = "<img src=\"data:{$file->filemime};base64,{$base64}\" alt=\"\" />";
+                      $item['value'] = str_replace($value, $render, $item['value']);
+                    }
+                    else {
+                      $item['value'] = str_replace($value, '', $item['value']);
+                    }
                   }
                 }
               }
             }
+            $mapping['fields'][$machine_name]['value'][] = $item['value'];
           }
-          $mapping['fields'][$machine_name]['value'][] = $item['value'];
         }
         if (count($mapping['fields'][$machine_name]['value']) == 1) {
           $mapping['fields'][$machine_name]['value'] = reset($mapping['fields'][$machine_name]['value']);
@@ -287,15 +289,17 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
             'attr' => array(),
           );
 
-          foreach ($items as $item) {
-            $entity = entity_load_single($target, $item['target_id']);
-            if ($entity) {
-              if ($target == 'node') {
-                $value = $entity->title;
-              }
+          if (!empty($items)) {
+            foreach ($items as $item) {
+              $entity = entity_load_single($target, $item['target_id']);
+              if ($entity) {
+                if ($target == 'node') {
+                  $value = $entity->title;
+                }
 
-              if (!empty($value)) {
-                $mapping['fields'][$machine_name]['value'][] = $value;
+                if (!empty($value)) {
+                  $mapping['fields'][$machine_name]['value'][] = $value;
+                }
               }
             }
           }
@@ -310,8 +314,10 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           'attr' => array(),
         );
 
-        foreach ($items as $item) {
-          $mapping['fields'][$machine_name]['value']['materials'] = $item;
+        if (!empty($items)) {
+          foreach ($items as $item) {
+            $mapping['fields'][$machine_name]['value']['materials'] = $item;
+          }
         }
 
         $relations = ting_reference_get_relations($field['entity_type'], $node);
@@ -421,7 +427,9 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         'attr' => array(),
       );
       foreach ($items as $item) {
-        $mapping['fields'][$tag_field]['value'][] = $item['name'];
+        if ($term = taxonomy_term_load($item['tid'])) {
+          $mapping['fields'][$tag_field]['value'][] = $term->name;
+        }
       }
     }
   }
