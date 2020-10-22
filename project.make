@@ -320,6 +320,9 @@ projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_
 ; Add "hide if empty" option to field settings.
 ; https://www.drupal.org/node/2820005
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-hours-2820005-hide-field-if-empty.patch"
+; Delete opening hours when node is deleted.
+; https://www.drupal.org/project/opening_hours/issues/3007293
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/2018-10-17/3007293-2.patch"
 
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
