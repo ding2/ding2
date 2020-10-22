@@ -471,3 +471,12 @@ function ddbasic_preprocess__node__ding_page(&$variables) {
       break;
   }
 }
+
+/**
+ * Implements hook_preprocess_image().
+ */
+function ddbasic_preprocess_image(&$vars) {
+  if (empty($vars['attributes']['alt'])) {
+    $vars['attributes']['alt'] = "";
+  }
+}
