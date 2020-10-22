@@ -3,3 +3,7 @@ description = Provides integration of content in the sections system.
 package = Ding!
 core = "7.x"
 configure = admin/config/section/content
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = ding_sections

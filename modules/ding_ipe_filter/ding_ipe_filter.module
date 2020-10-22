@@ -225,6 +225,7 @@ function _ding_ipe_filter_selected_panes() {
   $default = array(
     'ding-:ding_nodelist' => 'ding-:ding_nodelist',
     'ding-:ding_campaign_plus' => 'ding-:ding_campaign_plus',
+    'ding-:ding_sections' => 'ding-:ding_sections',
     'ding-:all_opening_hours' => 'ding-:all_opening_hours',
     'ding-:popular' => 'ding-:popular',
     'ding-:interaction_pane' => 'ding-:interaction_pane',
