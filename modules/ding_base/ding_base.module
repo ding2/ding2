@@ -829,7 +829,7 @@ function ding_base_form_alter(&$form, &$form_state, $form_id) {
     // hardcoded since we currently don't have any central place for setting
     // up a privacy poplicy page, and we use translation here primarly for
     // administrators to be able to change the link.
-    $privacy_notice = t('<strong>NOTICE</strong>: NEVER insert personal data of any kind in the formular. Read more in our <a href="/persondata">privacy policy</a>.');
+    $privacy_notice = t('Please do not enter your civil registration number (CPR) or sensitive information of any kind in the form. Read more in our <a href="/persondata">privacy policy</a>');
     $form['submitted']['privacy_notice'] = [
       '#type' => 'item',
       '#markup' => '<p>' . $privacy_notice . '</p>',
