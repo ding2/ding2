@@ -1449,7 +1449,7 @@ function _ding_nodelist_get_event_date($date) {
 
   $now = new DateObject();
   $now = $now->getTimestamp();
-  if ($start <= $now && $now <= $end) {
+  if ($start->getTimestamp() <= $now && $now <= $end->getTimestamp()) {
     $result = $now;
   }
 
@@ -1684,8 +1684,12 @@ function _ding_nodelist_striptags($nodes) {
   foreach ($nodes as $n => $node) {
     if (!is_array($node)) {
       $body_field = 'field_' . $node->type . '_body';
-      foreach ($node->{$body_field} as $lng => $body) {
-        $nodes[$n]->{$body_field}[$lng][0]['value'] = strip_tags($body[0]['value']);
+
+      // Not all node types has a body field, so check first.
+      if (isset($node->{$body_field})) {
+        foreach ($node->{$body_field} as $lng => $body) {
+          $nodes[$n]->{$body_field}[$lng][0]['value'] = strip_tags($body[0]['value']);
+        }
       }
     }
     else {
