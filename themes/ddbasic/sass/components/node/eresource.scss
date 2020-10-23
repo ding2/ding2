@@ -199,5 +199,20 @@
         margin-right: 20px;
       }
     }
+    .field-name-field-ding-eresource-tags {
+      padding: 10px 0;
+      border-top: 1px solid $grey-medium;
+      border-bottom: 1px solid $grey-medium;
+      margin-bottom: 30px;
+
+      .field-items .field-item {
+        display: inline;
+        margin-right: 15px;
+      }
+      .field-label {
+        @include font('base-bold');
+      }
+
+    }
   }
 }
