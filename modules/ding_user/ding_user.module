@@ -339,11 +339,19 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#tree' => FALSE,
   );
 
-  $form['ding_user']['ding_user_pincode_length'] = array(
+  $form['ding_user']['ding_user_pincode_min_length'] = array(
     '#type' => 'textfield',
-    '#title' => t('Pin code length'),
-    '#default_value' => ding_user_get_pincode_length(),
-    '#description' => t('The required length of the pin code used to access the site. This must be a integer value larger than 0.'),
+    '#title' => t('Pin code minimum length'),
+    '#default_value' => variable_get('ding_user_pincode_min_length', 4),
+    '#description' => t('The minimum length of the pin code used to access the site. This must be a integer value larger than 0.'),
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
+
+  $form['ding_user']['ding_user_pincode_max_length'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Pin code maximum length'),
+    '#default_value' => variable_get('ding_user_pincode_max_length', 4),
+    '#description' => t('The maximum length of the pin code used to access the site. This must be a integer value larger than 0.'),
     '#element_validate' => array('element_validate_integer_positive'),
   );
 
@@ -365,23 +373,41 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
 }
 
 /**
- * Helper function to get the pin-code length from the administration UI.
+ * Return the pin-code range.
  *
- * @return int
- *   The length of the pin-code, if not set it will return 4.
+ * @return int[]
+ *   The range, as [MIN, MAX].
  */
-function ding_user_get_pincode_length() {
-  return variable_get('ding_user_pincode_length', 4);
+function ding_user_get_pincode_length_range() {
+  return [
+    variable_get('ding_user_pincode_min_length', 4),
+    variable_get('ding_user_pincode_max_length', 4),
+  ];
+}
+
+/**
+ * Return the pin-code range in human format.
+ *
+ * @return string
+ *   The length range as a single number, or as "MIN-MAX".
+ */
+function ding_user_get_pincode_length_range_string() {
+  $min = variable_get('ding_user_pincode_min_length', 4);
+  $max = variable_get('ding_user_pincode_max_length', 4);
+  if ($min == $max) {
+    return (string) $min;
+  }
+  return $min . '-' . $max;
 }
 
 /**
  * Form element validation handler for pincode elements.
  */
 function ding_user_element_validate_pincode($element, &$form_state, $form) {
-  $pincode_length = ding_user_get_pincode_length();
+  list($min, $max) = ding_user_get_pincode_length_range();
   $pincode = $element['#value'];
-  if (!empty($pincode) && !preg_match('/^\d{' . $pincode_length . '}$/', $pincode)) {
-    form_error($element, t('The pincode must consist of exactly %number digits and only contain integers.', array('%number' => $pincode_length)));
+  if (!empty($pincode) && !preg_match('/^\d{' . $min . ',' . $max . '}$/', $pincode)) {
+    form_error($element, t('The pincode must consist of %number digits and only contain integers.', ['%number' => ding_user_get_pincode_length_range_string()]));
   }
 }
 
@@ -398,7 +424,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     $profile_type = ding_user_get_provider_profile_type();
     if ($form_state['profile2']->type == $profile_type->type) {
       // Add pin-code change field.
-      $maxlength = ding_user_get_pincode_length();
+      list(, $maxlength) = ding_user_get_pincode_length_range();
       $form['pass'] = array(
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
