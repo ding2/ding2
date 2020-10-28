@@ -1350,7 +1350,7 @@
   transition: opacity 300ms 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
   opacity: 1;
 }
-.ding_nodelist-node_blocks .nb-item.is-hovered {
+.ding_nodelist-node_blocks .nb-item:hover {
   z-index: 2;
 }
 .ding_nodelist-node_blocks .more-links {

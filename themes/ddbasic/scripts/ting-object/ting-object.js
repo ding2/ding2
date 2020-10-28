@@ -30,12 +30,6 @@
       } else {
         hovered.addClass('move-left');
       }
-
-      // Set timeout to make shure element is still above while it animates out.
-      setTimeout(function(){
-        $('.ting-object > .is-hovered').removeClass('is-hovered');
-        hovered.addClass('is-hovered');
-      }, 300);
     });
     element_to_hover.mouseleave(function() {
       $(this).removeClass('move-left');

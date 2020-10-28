@@ -1161,7 +1161,7 @@ $label-bg: url('../images/p.png');
       }
     }
 
-    &.is-hovered {
+    &:hover {
       z-index: 2;
     }
   }
