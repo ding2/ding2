@@ -25,13 +25,20 @@ function ding_user_pathauto_alias_alter(&$alias, $context) {
 }
 
 /**
- * Implements hook_preprocess_html().
+ * Implements hook_page_build().
  */
-function ding_user_preprocess_html(&$variables) {
-  $args = arg();
-  if ($args[0] == 'user') {
-    // Set default title.
-    drupal_set_title('Account');
+function ding_user_page_build() {
+  // Special handling for user pages.
+  if (strpos(current_path(), 'user') === 0) {
+    // Ensure that a generic title is set without the username. If no title is
+    // set, drupal_get_title() will end up calling menu_get_active_title() in
+    // template_preprocess_html() which will add the username to title under
+    // user pages. Note that we intentionally check the current title with
+    // drupal_SET_title() and not drupal_GET_title(), since the set method will
+    // call menu_get_active_title() if no title is present.
+    if (drupal_set_title() === NULL) {
+      drupal_set_title(t('Account'));
+    }
 
     // Check if current user is logged in.
     if (user_is_logged_in()) {
