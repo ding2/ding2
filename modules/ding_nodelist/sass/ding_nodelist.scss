@@ -144,6 +144,10 @@ $label-bg: url('../images/p.png');
   height: 391px;
   overflow: inherit;
 
+  .slick-slider .slick-list {
+    padding-bottom: 10px;
+  }
+
   .label-wrapper a,
   .field-name-field-ding-event-category {
     margin-left: 10px;
@@ -176,6 +180,13 @@ $label-bg: url('../images/p.png');
       .library a,
       .item-price {
         color: $white;
+      }
+
+      .library,
+      .field-type-entityreference,
+      .library .field-items,
+      .library .field-item {
+        display: inline-block;
       }
     }
 
@@ -295,6 +306,11 @@ $label-bg: url('../images/p.png');
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
     width: 100%;
     height: 100%;
 
@@ -883,6 +899,17 @@ $label-bg: url('../images/p.png');
   width: 100%;
   overflow: visible;
 
+  .element-hidden {
+    opacity: 0;
+    display: block;
+    height: 0;
+
+    .field-item {
+      height:0;
+      display:none;
+    }
+  }
+
   .nb-item {
     margin: 0 2% 2% 0;
     height: 100%;
@@ -1098,7 +1125,7 @@ $label-bg: url('../images/p.png');
       .date {
         display: block;
         @include transition(
-                        opacity $speed $hover-delay $ease
+          opacity $speed $hover-delay $ease
         )
       }
 
@@ -1108,14 +1135,17 @@ $label-bg: url('../images/p.png');
         position: relative;
         padding-bottom: 10px;
         @include transition(
-                        opacity $speed $hover-delay $ease
-        )
+          opacity $speed $hover-delay $ease
+        );
+        @include media($mobile) {
+          display: none;
+        }      
       }
       .background {
         @include transition(
-                        width $speed $hover-delay $ease,
-                        background-color $speed $ease,
-                        box-shadow $speed $ease
+          width $speed $hover-delay $ease,
+          background-color $speed $ease,
+          box-shadow $speed $ease
         );
         width: 115%;
         background-color: $white;
@@ -1136,17 +1166,17 @@ $label-bg: url('../images/p.png');
 
       .button {
         @include transition(
-                        opacity $speed $hover-delay $ease,
-                        background-color $speed $ease,
-                        color $speed $ease
+          opacity $speed $hover-delay $ease,
+          background-color $speed $ease,
+          color $speed $ease
         );
         opacity: 1;
       }
       .title-and-lead {
         @include transition(
-                        min-height $speed $hover-delay $ease
+          min-height $speed $hover-delay $ease
         );
-        min-height: 118px;
+        min-height: 100px;
 
         @include media($mobile) {
           min-height: 100%;
@@ -1155,9 +1185,13 @@ $label-bg: url('../images/p.png');
       }
       .field-name-field-ding-event-lead {
         @include transition(
-                        opacity $speed $hover-delay $ease
+          opacity $speed $hover-delay $ease
         );
         opacity: 1;
+
+        @include media($mobile) {
+          display: none;
+        }
       }
     }
 
@@ -1178,10 +1212,13 @@ $label-bg: url('../images/p.png');
   .ding_nodelist-items {
     display: inline-block;
     width: 100%;
+
     .nodelist-item {
       position: relative;
       @include span-columns(3.95 of 12);
-      margin: 0 10px 10px 10px;
+      margin: 0 5px 10px 5px;
+      padding: 0 10px 10px 0;
+
       :last-child {
         margin-right: -10px;
       }
@@ -1231,7 +1268,7 @@ $label-bg: url('../images/p.png');
         .field-name-field-ding-event-lead,
         .field-name-field-ding-page-lead {
           @include transition(
-                          opacity $speed $hover-delay $ease
+            opacity $speed $hover-delay $ease
           );
           opacity: 1;
           color: #fff;

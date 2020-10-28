@@ -225,9 +225,11 @@
   // Call resize when images are loaded.
   Drupal.behaviors.ding_event_grouping = {
     attach: function (context, settings) {
-      $('.view-ding-event.max-two-rows .view-elements .view-elements-inner', context).imagesLoaded(function () {
-        $(window).triggerHandler('resize.ding_event_grouping');
-      });
+      if (jQuery.isFunction($.fn.imagesLoaded)) {
+        $('.view-ding-event.max-two-rows .view-elements .view-elements-inner', context).imagesLoaded(function () {
+          $(window).triggerHandler('resize.ding_event_grouping');
+        });
+      }
     }
   };
 
@@ -267,10 +269,12 @@
 
   // Call masonry resize when images are loaded.
   Drupal.behaviors.ding_event_teaser_masonry = {
-    attach: function (context, settings) {
-      $('.js-masonry-view', context).imagesLoaded(function () {
-        handle_ding_event_masonry(true);
-      });
+    if (jQuery.isFunction($.fn.imagesLoaded)) {
+      attach: function (context, settings) {
+        $('.js-masonry-view', context).imagesLoaded(function () {
+          handle_ding_event_masonry(true);
+        });
+      }
     }
   };
 

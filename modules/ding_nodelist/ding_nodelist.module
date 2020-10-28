@@ -957,7 +957,7 @@ function _ding_nodelist_get_templates($include_hidden = TRUE, $content_type = NU
   // Fetch templates declared by this and other modules hook_theme function.
   // @todo: menu_block is known to cause issues on this call in PHP 5.3.x.
   foreach (module_invoke_all('theme', array(), NULL, NULL, NULL) as $template_name => $template) {
-    if (strpos($template_name, 'ding_nodelist') === 0) {
+    if (strpos($template_name, 'ding_nodelist.') === 0) {
       $templates[$template_name] = array(
         'filename' => $template_name,
       );
@@ -1820,7 +1820,7 @@ function ding_nodelist_preprocess(&$variables, $hook) {
 
         $fee_field = field_get_items('node', $item, 'field_ding_event_price');
         $items[$key]->price = t('Free');
-        if (is_array($fee_field)) {
+        if (is_array($fee_field) && !empty($fee_field[0]['value'])) {
           $fee = current($fee_field);
           $items[$key]->price = $fee['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
         }
@@ -1828,7 +1828,7 @@ function ding_nodelist_preprocess(&$variables, $hook) {
 
       $links = array();
       foreach ($variables['links'] as $link) {
-        $links[] = l(t('@text', array('@text' => $link['text'])), $link['links']);
+        $links[] = l(t($link['text']), $link['links']);
       }
       $variables['links'] = $links;
       $variables['items'] = $items;

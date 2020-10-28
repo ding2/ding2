@@ -20,7 +20,7 @@ if (!empty($body) && substr($body, 0, 2) === '<p') {
 }
 
 ?>
-<div class="ui-tabs-panel">
+<div class="ui-tabs-panel"<?php print $attributes; ?>>
   <div class="image">
     <?php if (!$item->image): ?>
       <span class="no-image"></span>
