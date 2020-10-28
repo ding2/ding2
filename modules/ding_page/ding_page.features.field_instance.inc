@@ -87,7 +87,9 @@ function ding_page_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 6,
     ),
@@ -317,6 +319,7 @@ function ding_page_field_default_field_instances() {
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
+          'oembed' => 0,
           'public' => 'public',
           'vimeo' => 0,
           'youtube' => 0,
@@ -344,7 +347,7 @@ function ding_page_field_default_field_instances() {
         'manualcrop_maximize_default_crop_area' => 0,
         'manualcrop_require_cropping' => array(),
         'manualcrop_styles_list' => array(
-          'crop_1_1' => 'crop_1_1',
+          'crop_16_9' => 'crop_16_9',
         ),
         'manualcrop_styles_mode' => 'include',
         'manualcrop_thumblist' => 0,
@@ -414,7 +417,7 @@ function ding_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_page-field_ding_page_paragraphs'
+  // Exported field_instance: 'node-ding_page-field_ding_page_paragraphs'.
   $field_instances['node-ding_page-field_ding_page_paragraphs'] = array(
     'bundle' => 'ding_page',
     'default_value' => NULL,
@@ -449,6 +452,12 @@ function ding_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -671,8 +680,8 @@ function ding_page_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Files');
   t('Close all paragraphs to change the order');
+  t('Files');
   t('Lead');
   t('Libraries and Groups');
   t('List image');
