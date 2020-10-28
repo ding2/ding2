@@ -3,6 +3,7 @@ description = Module for creating lists.
 core = 7.x
 package = Ding!
 dependencies[] = ctools
+dependencies[] = ding_tabroll
 dependencies[] = features
 dependencies[] = image
 dependencies[] = panels_ipe

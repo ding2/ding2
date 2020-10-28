@@ -118,7 +118,7 @@
 .ding_nodelist-promoted_nodes .first-left-block .eresource-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .first-left-block .event-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .first-left-block .page-info .pn-media-play i::after {
-  content: "\ea15";
+  content: "\e91a";
 }
 
 .ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-prev:after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-carousel .icon-next:after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
@@ -166,7 +166,7 @@
 .ding_nodelist-promoted_nodes .first-left-block .eresource-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .first-left-block .event-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .first-left-block .page-info .pn-media-play i::after {
-  content: "\ea15";
+  content: "\e91a";
 }
 
 /* Colors variables
@@ -473,7 +473,7 @@
   border: none;
 }
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper,
-.ding_nodelist-rolltab #ding_nodelist-rolltab,
+.ding_nodelist-rolltab,
 .ding_nodelist-rolltab ul.ui-tabs-nav,
 .ding_nodelist-rolltab li.ui-tabs-nav-item {
   border: none;
@@ -490,7 +490,6 @@
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper ul.ui-tabs-nav a,
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper li.ui-tabs-nav-item a {
     white-space: nowrap;
-    width: 6em;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -498,7 +497,7 @@
 @media screen and (max-width: 600px) {
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper ul.ui-tabs-nav a,
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper li.ui-tabs-nav-item a {
-    width: auto;
+    width: 10px;
   }
 }
 @media screen and (max-width: 600px) {
@@ -527,10 +526,6 @@
 }
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs-nav {
   margin-bottom: 10px;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel {
-  padding: 0;
 }
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.image span.no-image {
   background-color: #fff;
