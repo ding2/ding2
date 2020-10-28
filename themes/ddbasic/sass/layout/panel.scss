@@ -105,6 +105,9 @@
         }
         .layout-wrapper {
           @include wrapper;
+          .top-banner-content {
+            @include span-columns(12);
+          }
           .secondary-content {
             @include span-columns(4);
             // Tablet

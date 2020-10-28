@@ -1,0 +1,264 @@
+<?php
+
+/**
+ * @file
+ * Ting subsearch suggestions.
+ */
+
+use Ting\Search\TingSearchResultInterface;
+
+// The Max number of chars supported by PHP's levenshtein algorithm.
+define('TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT', 255);
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ting_subsearch_suggestions_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ting_subsearch_suggestions_menu() {
+  $items = [];
+
+  $items['admin/config/ding/subsearch'] = [
+    'title' => 'Ting subsearch',
+    'description' => 'Configure subsearch modules.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_subsearch_suggestions_admin_settings_form'),
+    'access arguments' => array('configure ting subsearch'),
+    'file' => 'ting_subsearch_suggestions.admin.inc',
+  ];
+
+  $items['admin/config/ding/subsearch/suggestions'] = [
+    'title' => 'Ting subsearch suggestions',
+    'description' => 'Configure ting subsearch suggestions.',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_ting_subsearch_ajax_placeholder_content().
+ */
+function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_content(TingSearchResultInterface $search_result) {
+  $content = '';
+
+  // Get the user search request and keys and attempt to find suggestion.
+  $search_request = $search_result->getSearchRequest();
+  $keys = $search_request->getFullTextQuery();
+  $suggestion = ting_subsearch_suggestions_suggest_keys($keys);
+
+  if (!$suggestion) {
+    return $content;
+  }
+
+  $subsearch_request = $search_request->withFullTextQuery($suggestion);
+  $subsearch_result = ting_subseach_do_subsearch($subsearch_request);
+  $subsearch_num_results = $subsearch_result->getNumTotalObjects();
+
+  $factor = variable_get('ting_subsearch_suggestions_ps_factor');
+  $num_results = $search_result->getNumTotalObjects();
+
+  if ($subsearch_num_results / $num_results >= $factor) {
+    $message = t('Search for <strong>"@suggestion"</strong> - returns <strong>!subsearch-num-results</strong> hits', [
+      '@suggestion' => $suggestion,
+      '!subsearch-num-results' => $subsearch_num_results,
+    ]);
+
+    $content = [
+      '#theme' => 'ting_subsearch_suggestion_message',
+      '#message' => $message,
+      '#subsearch_result' => $subsearch_result,
+      '#module' => 'ting_subsearch_suggestions',
+    ];
+  }
+
+  return $content;
+}
+
+/**
+ * Implements hook_ting_search_results_prefix().
+ *
+ * Perform a redirect if the user search returned zero hits and we can find any
+ * suggestion with results. This hook has the best timing for implementing a
+ * redirect right after ting_search is executed.
+ */
+function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result) {
+  if ($search_result->getNumTotalObjects() > 0) {
+    return '';
+  }
+
+  $search_request = $search_result->getSearchRequest();
+  // Get user search keys.
+  $keys = $search_request->getFullTextQuery();
+
+  $suggestion = ting_subsearch_suggestions_suggest_keys($keys);
+  if ($suggestion) {
+    $subsearch_request = $search_request->withFullTextQuery($suggestion);
+    $subsearch_result = ting_subseach_do_subsearch($subsearch_request);
+
+    // If the subsearch returned any result perform a zero hit redirect and
+    // display a message to the user.
+    if ($subsearch_result->getNumTotalObjects() > 0) {
+      drupal_set_message(t('Showing results for <strong>"@suggestion"</strong>. The search for <strong>"@keys"</strong> returned 0 hits.', [
+        '@suggestion' => $suggestion,
+        '@keys' => $keys,
+      ]));
+
+      drupal_goto('search/ting/' . $suggestion, [
+        'query' => ting_subsearch_get_query_parameters(),
+      ]);
+    }
+  }
+}
+
+/**
+ * Find the best suitable suggestion for the given original search.
+ *
+ * @param string $keys
+ *   The search keys to find suggestion for.
+ *
+ * @return string
+ *   The suggestion or FALSE if it was not possible to find a suggestion within
+ *   the configured constraints.
+ *
+ * @throws Exception
+ */
+function ting_subsearch_suggestions_suggest_keys($keys) {
+  if (!ding_provider_implements('search', 'autocomplete_suggestions')) {
+    return FALSE;
+  }
+
+  $keys = ting_subsearch_normalize_keys($keys);
+
+  if (strlen($keys) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
+    return FALSE;
+  }
+
+  // Build expected query object for provider hook.
+  $query = [];
+  $query['q'] = $keys;
+  $query['type'] = 'all';
+  $suggestions = ding_provider_invoke('search', 'autocomplete_suggestions', $query);
+
+  // We can't use the suggestions directly. For example author suggestions, will
+  // often return something like "emelie schepp (f. 1979)". So we build
+  // candidates word by word from the suggestions and consider them if they get
+  // below acceptable levenshtein distance.
+  $candidates = array_map(function ($suggestion) use ($keys) {
+    // Replace multiple spaces with single space. There might be typos in
+    // bibliographic data.
+    $suggestion = preg_replace('/\s+/', ' ', $suggestion);
+
+    $candidate = '';
+    foreach (explode(' ', $suggestion) as $word) {
+      $candidate .= $word;
+
+      // Exclude and move on to next suggestion if the candidate has grown over
+      // char limit.
+      if (strlen($candidate) > TING_SUBSEARCH_SUGGESTIONS_LEVENSHTEIN_LIMIT) {
+        return FALSE;
+      }
+
+      // Original search is already normalized, but we lower our current
+      // candidate before comparison.
+      $distance = ting_subsearch_suggestions_levenshtein($keys, drupal_strtolower($candidate));
+
+      // It can happen that candidate will be the same as user search. In this
+      // case we should continue adding words, since we might still hit one that
+      // will be within acceptable distance.
+      if ($distance == 0) {
+        continue;
+      }
+
+      if ($distance <= variable_get('ting_subsearch_suggestions_distance', 3)) {
+        return [
+          'candidate' => $candidate,
+          'distance' => $distance,
+        ];
+      }
+
+      // Prepare for next word.
+      $candidate .= ' ';
+    }
+
+    // We could not build an acceptable candidate from the suggestion, so mark
+    // it for exclusion.
+    return FALSE;
+
+  }, $suggestions);
+
+  // Filter out suggestions marked for exclusion.
+  $candidates = array_filter($candidates);
+
+  // Sort for best candidates first.
+  uasort($candidates, function ($candidate_a, $candidate_b) {
+    return $candidate_a['distance'] - $candidate_b['distance'];
+  });
+
+  // Get the final suggestion.
+  $suggestion = reset($candidates);
+
+  if (!empty($suggestion)) {
+    return $suggestion['candidate'];
+  }
+  return FALSE;
+}
+
+/**
+ * Wrapper around PHP's levenshtein that handles multibyte encodings correctly.
+ *
+ * PHP's levenshtein function processes each byte of the input string
+ * individually which can give incorrect results in some cases. E.g. the
+ * distance from "ol" to "øl" would be 2.
+ *
+ * This wrapper uses an approach where non-ascii characters are remapped to
+ * the range [128-255] in order of appearance. Thus it supports up to 128
+ * different multibyte code points max over the whole set of strings used in the
+ * request and sharing this encoding.
+ *
+ * Based on: https://stackoverflow.com/a/26271822.
+ */
+function ting_subsearch_suggestions_levenshtein($str1, $str2) {
+  $str1 = _ting_subsearch_suggestions_utf8_to_ascii($str1);
+  $str2 = _ting_subsearch_suggestions_utf8_to_ascii($str2);
+  return levenshtein($str1, $str2);
+}
+
+/**
+ * Convert an UTF-8 encoded string to a single-byte string for levenshtein.
+ */
+function _ting_subsearch_suggestions_utf8_to_ascii($str) {
+  $ascii_strings = &drupal_static(__FUNCTION__ . '_strings');
+  // Since we remember string we need to ensure we get consistent mapping
+  // between calls in a request.
+  $map = &drupal_static(__FUNCTION__ . '_map');
+
+  if (!isset($ascii_strings[$str])) {
+    // Find all multibyte characters (cf. utf-8 encoding specs).
+    $matches = array();
+    if (!preg_match_all('/[\xC0-\xF7][\x80-\xBF]+/', $str, $matches)) {
+      // Plain ascii string.
+      return $str;
+    }
+
+    // Update the encoding map with the characters not already met.
+    foreach ($matches[0] as $mbc) {
+      if (!isset($map[$mbc])) {
+        $map[$mbc] = chr(128 + count($map));
+      }
+    }
+
+    // Finally remap non-ascii characters.
+    $ascii_strings[$str] = strtr($str, $map);
+  }
+
+  return $ascii_strings[$str];
+}

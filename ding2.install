@@ -1059,3 +1059,16 @@ function ding2_update_7091() {
 
   i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
 }
+
+/**
+ * Enable ting_subsearch modules.
+ */
+function ding2_update_7092() {
+  if (module_exists('opensearch')) {
+    module_enable([
+      'ting_subsearch_bibdk',
+      'ting_subsearch_suggestions',
+      'ting_subsearch_translate',
+    ]);
+  }
+}

@@ -670,6 +670,9 @@ function ding2_module_enable(&$install_state) {
     'ting_infomedia',
     'ting_field_search',
     'ting_smart_search',
+    'ting_subsearch_bibdk',
+    'ting_subsearch_suggestions',
+    'ting_subsearch_translate',
     'ding_eresource',
     'ding_app_content_rss',
     'ding_app_variables',
@@ -767,7 +770,10 @@ function ding2_set_cookie_page() {
     'language' => 'und',
   );
 
-  $paragraph = new ParagraphsItemEntity(array('field_name' => 'field_ding_page_paragraphs', 'bundle' => 'ding_paragraphs_text'));
+  $paragraph = new ParagraphsItemEntity([
+    'field_name' => 'field_ding_page_paragraphs',
+    'bundle' => 'ding_paragraphs_text',
+  ]);
   $paragraph->is_new = TRUE;
   $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['value'] = $body;
   $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['format'] = 'ding_wysiwyg';

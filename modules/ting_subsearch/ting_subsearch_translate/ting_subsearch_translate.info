@@ -1,0 +1,7 @@
+name = Ting subsearch translate
+description = Trigger subsearches with translated user searches and show suggestion
+package = Ding!
+core = 7.x
+dependencies[] = ding_libs
+dependencies[] = opensearch
+dependencies[] = ting_subsearch

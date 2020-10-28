@@ -210,6 +210,7 @@ search/ting
       'attachment_2_1' => NULL,
       'attachment_2_2' => NULL,
       'attachment_1_1' => NULL,
+      'top_banner' => NULL,
     ),
   );
   $display->cache = array();
@@ -516,6 +517,54 @@ search/ting
     $pane->uuid = '793c5d13-8d76-4299-aed9-fad18bf7d920';
     $display->content['new-793c5d13-8d76-4299-aed9-fad18bf7d920'] = $pane;
     $display->panels['main_content'][6] = 'new-793c5d13-8d76-4299-aed9-fad18bf7d920';
+    $pane = new stdClass();
+    $pane->pid = 'new-a13f8fbb-e8be-4a11-8c64-6909ec1bdbaf';
+    $pane->panel = 'top_banner';
+    $pane->type = 'ting_subsearch_suggestions';
+    $pane->subtype = 'ting_subsearch_suggestions';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_string_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'a13f8fbb-e8be-4a11-8c64-6909ec1bdbaf';
+    $display->content['new-a13f8fbb-e8be-4a11-8c64-6909ec1bdbaf'] = $pane;
+    $display->panels['top_banner'][0] = 'new-a13f8fbb-e8be-4a11-8c64-6909ec1bdbaf';
+    $pane = new stdClass();
+    $pane->pid = 'new-93379d22-28a4-4b4d-bce7-f9e0718e90e8';
+    $pane->panel = 'top_banner';
+    $pane->type = 'ting_subsearch_translate';
+    $pane->subtype = 'ting_subsearch_translate';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_string_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '93379d22-28a4-4b4d-bce7-f9e0718e90e8';
+    $display->content['new-93379d22-28a4-4b4d-bce7-f9e0718e90e8'] = $pane;
+    $display->panels['top_banner'][1] = 'new-93379d22-28a4-4b4d-bce7-f9e0718e90e8';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

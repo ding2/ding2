@@ -34,6 +34,7 @@
   stylesheets[all][] = sass_css/components/user.css
   stylesheets[all][] = sass_css/components/modal-content.css
   stylesheets[all][] = sass_css/components/ding-sections.css
+  stylesheets[all][] = sass_css/components/ting-subsearch.css
   stylesheets[all][] = sass_css/components/links.css
 
   stylesheets[all][] = sass_css/components/form/form-user-login.css
