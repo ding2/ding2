@@ -481,7 +481,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'ting_reference',
         'settings' => array(
           'view_mode' => 'teaser',

@@ -25,7 +25,7 @@
           position_of_hovered = hovered.offset();
 
       // If hovered element is left of window center.
-      if(position_of_hovered.left < (window_width / 2)) {
+      if((position_of_hovered.left + (hovered.width() / 2)) < (window_width / 2)) {
         hovered.addClass('move-right');
       } else {
         hovered.addClass('move-left');
