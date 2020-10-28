@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Base setup and functions for Ding!.
@@ -95,6 +96,9 @@ function ding_base_field_formatter_view($entity_type, $entity, $field, $instance
   return $elements;
 }
 
+/**
+ * Field formatter settings form.
+ */
 function ding_base_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
@@ -113,6 +117,9 @@ function ding_base_field_formatter_settings_form($field, $instance, $view_mode, 
   return $element;
 }
 
+/**
+ * Returns summary for field settings.
+ */
 function ding_base_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
@@ -174,7 +181,7 @@ function ding_base_date_formats() {
       'format' => 'l, j. F, Y H:i',
       'locales' => array(),
     ),
-);
+  );
 }
 
 /**
@@ -244,8 +251,8 @@ function ding_base_element_process_tableselect_form($element) {
           $title = '';
           if (!empty($element['#options'][$key]['title']['data']['#title'])) {
             $title = t('Update @title', array(
-                       '@title' => $element['#options'][$key]['title']['data']['#title'],
-                     ));
+              '@title' => $element['#options'][$key]['title']['data']['#title'],
+            ));
           }
           $element[$key] = array(
             '#type' => 'checkbox',
@@ -425,8 +432,6 @@ function ding_base_pathauto_alias_alter(&$alias, array &$context) {
  *
  * Mainly used by ding_groups.
  *
- * @todo: used it in ding_libraries to remove the "slug" field.
- *
  * @param Entity $node
  *   Node entity object for the OG group that should have alias updated.
  * @param string $base
@@ -435,8 +440,10 @@ function ding_base_pathauto_alias_alter(&$alias, array &$context) {
  *   The taxonomy terms objects to generate paths for.
  * @param array $slugs
  *   The sulg to use in the path (e.g. nyheder or arragementer).
+ *
+ * @todo: used it in ding_libraries to remove the "slug" field.
  */
-function ding_base_updated_taxonomy_aliases($node, $base, $terms, $slugs) {
+function ding_base_updated_taxonomy_aliases(Entity $node, $base, array $terms, array $slugs) {
   $group_alias = 'node/' . $node->nid;
 
   // Find node pattern from path auto.
@@ -585,7 +592,7 @@ function ding_base_field_widget_form_alter(&$elements, &$form_state, $context) {
 
   // First extract all indexes of image fields.
   $image_indexes = array_filter(element_children($elements),
-    function($i) use ($elements) {
+    function ($i) use ($elements) {
       return isset($elements[$i]['#type']) && $elements[$i]['#type'] == 'media';
     }
   );
@@ -629,10 +636,11 @@ function ding_base_field_widget_form_alter(&$elements, &$form_state, $context) {
         'height' => $preview_image['height'],
       );
 
-      // If after apllying effects dimensions wasn't changed, when we can't recommend.
+      // If after apllying effects dimensions wasn't changed, when we can't
+      // recommend.
       if ($dimensions['height'] != $original_sample['height'] && $dimensions['width'] != $original_sample['width']) {
         array_walk($dimensions, function (&$i, $k) {
-          $i =  "{$i}px {$k}";
+          $i = "{$i}px {$k}";
         });
 
         $description = t("The image will automatically be resized. The maximum dimensions are %dimensions (Original: {$original_sample['width']}x{$original_sample['height']}).", array(
@@ -688,7 +696,7 @@ function ding_base_js_alter(&$javascript) {
 }
 
 /**
- * Implement hook_page_delivery_callback_alter()
+ * Implements hook_page_delivery_callback_alter()
  *
  * Override the default ajax_deliver callback on lazy_pane requests, so we can
  * handle empty panes.
@@ -836,6 +844,20 @@ function ding_base_form_alter(&$form, &$form_state, $form_id) {
       // Ensure notice is placed at the bottom just above submit button.
       '#weight' => 50,
     ];
+  }
+  // Action forms got a weird naming scheme, so match a prefix and check if
+  // the 'add_roles' and 'remove_roles' form elements is present.
+  elseif (strpos($form_id, 'views_form_admin_views_user') === 0 &&
+          isset($form['add_roles']) && isset($form['remove_roles'])) {
+    // Limit options to roles the user has been delegated using the
+    // role_delegation module.
+    foreach (['add_roles', 'remove_roles'] as $element) {
+      foreach ($form[$element]['#options'] as $rid => $role) {
+        if (!user_access('assign all roles') && !user_access("assign $role role")) {
+          unset($form[$element]['#options'][$rid]);
+        }
+      }
+    }
   }
 }
 
