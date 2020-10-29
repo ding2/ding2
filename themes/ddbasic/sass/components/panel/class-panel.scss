@@ -560,6 +560,10 @@
   .views-widget-filter-field_ding_event_date_value_1 {
     @include omega();
   }
+  .form-type-bef-checkbox {
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+  }
   label:not(.option) {
     @include font('display-small');
     font-weight: normal;
@@ -577,7 +581,7 @@
     .form-item {
       float: none;
     }
-    input {
+    input:not([type="checkbox"]) {
       width: 100%;
       margin-right: 0;
       background-color: $grey;
@@ -650,6 +654,10 @@
       margin-bottom: 10px;
     }
   }
+  .form-type-bef-checkbox {
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+  }
   .form-item {
     display: block;
     margin-right: 0;
@@ -657,7 +665,7 @@
     .form-item {
       float: none;
     }
-    input {
+    input:not([type="checkbox"]) {
       width: 100%;
       margin-right: 0;
       background-color: $grey;
