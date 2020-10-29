@@ -31,7 +31,7 @@
   
     <?php print render($title_prefix); ?>
     <?php if (!empty($title)): ?>
-      <?php $heading_tag_name = $pane->configuration['override_title_heading'] ?? 'h2'; ?>
+      <?php $heading_tag_name = isset($pane->configuration['override_title_heading']) ? $pane->configuration['override_title_heading'] : 'h2'; ?>
       <<?php print $heading_tag_name; ?> <?php print $title_attributes; ?>><?php print t($title); ?></<?php print $heading_tag_name; ?>>
     <?php endif; ?>
     <?php print render($title_suffix); ?>
