@@ -42,22 +42,22 @@
           }, switch_speed);
 
           // Stop tabs rotate when mouse is over the tab roll.
-          tabroll_wrapper.mouseenter(function() {
+          tabroll.mouseenter(function() {
             mouseIn = true;
           });
 
           // Start tabs rotate when mouse is out.
-          tabroll_wrapper.mouseleave(function () {
+          tabroll.mouseleave(function () {
             mouseIn = false;
           });
 
           // Stops tabs rotation when an element within it is in focus.
-          tabroll_wrapper.focusin(function () {
+          tabroll.focusin(function () {
             focusIn = true;
           });
 
           // Starts tabs rotation when an element within it is out of focus.
-          tabroll_wrapper.focusout(function () {
+          tabroll.focusout(function () {
             focusIn = false;
           });
 
