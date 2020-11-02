@@ -7,6 +7,10 @@ jobs:
     steps:
     - checkout
     - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
+    - run:
         name: Install Drush
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
@@ -67,6 +71,10 @@ jobs:
     steps:
     - checkout
     - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
+    - run:
         name: Install PHP linter
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
@@ -81,6 +89,10 @@ jobs:
       - image: circleci/php:5.6-cli
     steps:
       - checkout
+      - run:
+          name: Update composer
+          command: |
+            sudo composer self-update
       - run:
           name: Install PHP linter
           command: |
@@ -99,6 +111,10 @@ jobs:
     steps:
     - attach_workspace:
         at: ~/
+    - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
     - run:
         name: Configure PHP for Drupal
         command: |
@@ -148,6 +164,10 @@ jobs:
     - attach_workspace:
         at: ~/
     - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
+    - run:
         name: Configure PHP for Drupal
         command: |
           sudo apt-get update
@@ -195,6 +215,10 @@ jobs:
     steps:
     - attach_workspace:
         at: ~/
+    - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
     - run:
         name: Configure PHP for Drupal
         command: |
