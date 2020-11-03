@@ -648,6 +648,7 @@
         &:nth-child(n) { // Overwrite previous set nth children for all children
           width: 100%;
           margin: 0;
+          margin-bottom: 30px;
           clear: none;
         }
       }
