@@ -269,8 +269,8 @@
 
   // Call masonry resize when images are loaded.
   Drupal.behaviors.ding_event_teaser_masonry = {
-    if (jQuery.isFunction($.fn.imagesLoaded)) {
-      attach: function (context, settings) {
+    attach: function (context, settings) {
+      if (jQuery.isFunction($.fn.imagesLoaded)) {
         $('.js-masonry-view', context).imagesLoaded(function () {
           handle_ding_event_masonry(true);
         });
