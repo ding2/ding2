@@ -115,6 +115,11 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         // If item is of type 'library materials' (where we can lookup holding
         // data), prepare to check holding on the item.
         if ($entity->is('library_material')) {
+          // Ensure that Drupal ajax is loaded. If the holdings is periodical
+          // there might be reservation buttons for individual issues, which
+          // uses 'use-ajax' links.
+          drupal_add_library('system', 'drupal.ajax');
+
           $attached['js'][] = array(
             'data' => array(
               'ding_availability_mode' => 'holdings',
