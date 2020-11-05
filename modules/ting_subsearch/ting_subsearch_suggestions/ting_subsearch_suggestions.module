@@ -63,7 +63,7 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_content(Ting
   $subsearch_result = ting_subseach_do_subsearch($subsearch_request);
   $subsearch_num_results = $subsearch_result->getNumTotalObjects();
 
-  $factor = variable_get('ting_subsearch_suggestions_ps_factor');
+  $factor = variable_get('ting_subsearch_suggestions_ps_factor', 1.1);
   $num_results = $search_result->getNumTotalObjects();
 
   if ($subsearch_num_results / $num_results >= $factor) {

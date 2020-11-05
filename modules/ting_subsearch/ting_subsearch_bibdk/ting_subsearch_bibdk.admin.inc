@@ -26,14 +26,14 @@ function ting_subsearch_bibdk_admin_settings_form($form, &$form_state) {
   $form['trigger']['ting_subsearch_bibdk_max'] = [
     '#type' => 'textfield',
     '#title' => t('Maximum number of results for user search'),
-    '#default_value' => variable_get('ting_subsearch_bibdk_max', 100),
+    '#default_value' => variable_get('ting_subsearch_bibdk_max', 250),
     '#description' => t("If the user search returned more results than this don't bother performing bibliotek.dk search."),
     '#element_validate' => ['element_validate_integer_positive'],
   ];
   $form['trigger']['ting_subsearch_bibdk_factor'] = [
     '#type' => 'textfield',
     '#title' => t('Minimum ratio between nonfiction and fiction'),
-    '#default_value' => variable_get('ting_subsearch_bibdk_factor', 2),
+    '#default_value' => variable_get('ting_subsearch_bibdk_factor', 1.5),
     '#description' => t('The minimum ratio of nonfiction to fiction in user search result to trigger bibliotek.dk search. Use a decimal value for the ratio with "." as decimal separator'),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];
@@ -41,13 +41,13 @@ function ting_subsearch_bibdk_admin_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Minimum number of results for bibliotek.dk search'),
     '#description' => t("If the bibliotek.dk subsearch returned less results than this don't bother showing any suggestions and links to bibliotek.dk."),
-    '#default_value' => variable_get('ting_subsearch_bibdk_result_min', 100),
+    '#default_value' => variable_get('ting_subsearch_bibdk_result_min', 4),
     '#element_validate' => ['element_validate_integer_positive'],
   ];
   $form['trigger']['ting_subsearch_bibdk_ps_factor'] = [
     '#type' => 'textfield',
     '#title' => t('Minimum ratio between bibliotek.dk and user search results'),
-    '#default_value' => variable_get('ting_subsearch_bibdk_ps_factor', 2),
+    '#default_value' => variable_get('ting_subsearch_bibdk_ps_factor', 0.7),
     '#description' => t('The minimum ratio of between bibliotek.dk and user search results to trigger suggestion. Use a decimal value for the ratio with "." as decimal separator'),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];
