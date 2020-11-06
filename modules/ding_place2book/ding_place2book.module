@@ -700,14 +700,18 @@ function _ding_place2book_get_age_group($tid) {
 function theme_ding_p2b_prices_table($variables) {
   $form = $variables['form'];
   $rows = array();
-  foreach (element_children($form['prices']) as $id) {
-    $rows[] = array(
-      'name' => drupal_render($form['prices'][$id]['name']),
-      'value' => drupal_render($form['prices'][$id]['value']),
-      'sale_begin' => drupal_render($form['prices'][$id]['sale_begin_at']),
-      'sale_end' => drupal_render($form['prices'][$id]['sale_end_at']),
-      'remove' => drupal_render($form['prices'][$id]['remove']),
-    );
+
+  // Ensure we have an array to pass to element_children().
+  if (!empty($form['prices'])) {
+    foreach (element_children($form['prices']) as $id) {
+      $rows[] = array(
+        'name' => drupal_render($form['prices'][$id]['name']),
+        'value' => drupal_render($form['prices'][$id]['value']),
+        'sale_begin' => drupal_render($form['prices'][$id]['sale_begin_at']),
+        'sale_end' => drupal_render($form['prices'][$id]['sale_end_at']),
+        'remove' => drupal_render($form['prices'][$id]['remove']),
+      );
+    }
   }
 
   $header = array(
