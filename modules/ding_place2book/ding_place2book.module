@@ -721,7 +721,7 @@ function theme_ding_p2b_prices_table($variables) {
   $output = theme('table', array(
     'rows' => $rows,
     'header' => $header,
-    'empty' => t('Click to add more for adding a row.'),
+    'empty' => t('No prices added to this event. Click below to add one.'),
     'attributes' => array('id' => 'p2b-prices-table'),
   ));
   $output .= drupal_render_children($form);
