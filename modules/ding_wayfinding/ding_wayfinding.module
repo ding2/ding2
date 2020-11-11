@@ -49,16 +49,27 @@ function ding_wayfinding_preprocess_ding_holdings(&$variables) {
   $active_branches = array_filter(variable_get('ding_wayfinding_branches', []));
   $filtered_branches = array_flip(array_intersect_key($branches, $active_branches));
 
-  $variables['holdings']['#header']['wayfinding'] = t('Map', [], ['context' => 'ding_wayfinding']);
-  foreach ($variables['holdings']['#rows'] as $id => &$row) {
-    $row['wayfinding'] = '';
+  $found = FALSE;
+  $rows = [];
+  foreach ($variables['holdings']['#rows'] as $id => $row) {
+    // This adding to rows are done in this way, and not by reference, to enable
+    // us only add the "Map" row when Point-of-interest is found.
+    $rows[$id] = $row;
+    $rows[$id]['wayfinding'] = '';
 
     if (array_key_exists($item['holdings'][$id]['placement'][0], $filtered_branches)) {
       $branch_id = $filtered_branches[$item['holdings'][$id]['placement'][0]];
       if (ding_wayfinding_has_location($provider_id, $branch_id)) {
-        $row['wayfinding'] = '<span class="wayfinding" data-branch="' . $branch_id . '" data-id="' . $provider_id . '">x</span>';
+        $rows[$id]['wayfinding'] = '<span class="wayfinding" data-branch="' . $branch_id . '" data-id="' . $provider_id . '">x</span>';
+        $found = TRUE;
       }
     }
+  }
+
+  // If POI was found add new rows to the table.
+  if ($found) {
+    $variables['holdings']['#header']['wayfinding'] = t('Map', [], ['context' => 'ding_wayfinding']);
+    $variables['holdings']['#rows'] = $rows;
   }
 }
 
