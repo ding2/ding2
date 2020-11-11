@@ -41,10 +41,18 @@ function ding_wayfinding_get_agency_id($prefix = false) {
   return $ret;
 }
 
+/**
+ * Implements hook_preprocess_ding_holdings.
+ *
+ * Add wayfinding map triggers to holdings table if point-of-interest (POI) if
+ * found for the material request holdings for.
+ */
 function ding_wayfinding_preprocess_ding_holdings(&$variables) {
   $provider_id = $variables['provider_id'];
   $item = $variables['item'];
 
+  // Load information about branch names base on branch id's in selected in the
+  // administrative interface.
   $branches = ding_wayfinding_get_branches();
   $active_branches = array_filter(variable_get('ding_wayfinding_branches', []));
   $filtered_branches = array_flip(array_intersect_key($branches, $active_branches));
@@ -53,7 +61,7 @@ function ding_wayfinding_preprocess_ding_holdings(&$variables) {
   $rows = [];
   foreach ($variables['holdings']['#rows'] as $id => $row) {
     // This adding to rows are done in this way, and not by reference, to enable
-    // us only add the "Map" row when Point-of-interest is found.
+    // us only add the "Map" row when point-of-interest is found.
     $rows[$id] = $row;
     $rows[$id]['wayfinding'] = '';
 
@@ -73,6 +81,12 @@ function ding_wayfinding_preprocess_ding_holdings(&$variables) {
   }
 }
 
+/**
+ * Get available branches from the current provider.
+ *
+ * @return array
+ *   The available branches name keyed by branch id.
+ */
 function ding_wayfinding_get_branches() {
   // Find default branches based on the current provider.
   $provider = _ding_provider_get_provider('user');
@@ -85,6 +99,17 @@ function ding_wayfinding_get_branches() {
   return $branches;
 }
 
+/**
+ * Check the wayfinding server location exists for faust.
+ *
+ * @param int $faust
+ *   The faust to check location for.
+ * @param string $branch
+ *   The branch to check for the faust on.
+ *
+ * @return bool
+ *   If location found TRUE else FALSE.
+ */
 function ding_wayfinding_has_location($faust, $branch) {
   $slug = variable_get('ding_wayfinding_type', 'fbs');
   $url = 'https://wayfinding.libry.dk/api/v1/sdk/bob/' . $slug . '-mapspeople';

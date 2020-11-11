@@ -44,7 +44,10 @@ function ding_wayfinding_settings_form() {
     '#type' => 'select',
     '#title' => t('Type of data to base POI on'),
     '#description' => t(''),
-    '#options' => array('ims' => 'IMS', 'fbs' => 'FBS'),
+    '#options' => [
+      'ims' => 'IMS',
+      'fbs' => 'FBS',
+    ],
     '#default_value' => variable_get('ding_wayfinding_type', 'fbs'),
   ];
 
