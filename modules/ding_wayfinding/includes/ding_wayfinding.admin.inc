@@ -40,6 +40,15 @@ function ding_wayfinding_settings_form() {
     '#default_value' => ding_wayfinding_get_agency_id(),
   ];
 
+  $form['access']['ding_wayfinding_type'] = [
+    '#type' => 'select',
+    '#title' => t('Type of data to base POI on'),
+    '#description' => t(''),
+    '#options' => array('ims' => 'IMS', 'fbs' => 'FBS'),
+    '#default_value' => variable_get('ding_wayfinding_type', 'fbs'),
+  ];
+
+
   $form['branches']['ding_wayfinding_branches'] = [
     '#type' => 'checkboxes',
     '#descriptions' => t('Select the branches that supports way finding'),

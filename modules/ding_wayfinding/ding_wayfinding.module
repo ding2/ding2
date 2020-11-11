@@ -56,7 +56,7 @@ function ding_wayfinding_preprocess_ding_holdings(&$variables) {
     if (array_key_exists($item['holdings'][$id]['placement'][0], $filtered_branches)) {
       $branch_id = $filtered_branches[$item['holdings'][$id]['placement'][0]];
       if (ding_wayfinding_has_location($provider_id, $branch_id)) {
-        $row['wayfinding'] = '<span data-branch="'.$branch_id.'" data-id="'.$provider_id.'">x</span>';
+        $row['wayfinding'] = '<span class="wayfinding" data-branch="' . $branch_id . '" data-id="' . $provider_id . '">x</span>';
       }
     }
   }
@@ -75,7 +75,9 @@ function ding_wayfinding_get_branches() {
 }
 
 function ding_wayfinding_has_location($faust, $branch) {
-  $res =  drupal_http_request('https://wayfinding.libry.dk/api/v1/sdk/bob/ims-mapspeople', [
+  $slug = variable_get('ding_wayfinding_type', 'fbs');
+  $url = 'https://wayfinding.libry.dk/api/v1/sdk/bob/' . $slug . '-mapspeople';
+  $res =  drupal_http_request($url, [
     'method' => 'POST',
     'headers' => [
       'x-api-key' => variable_get('ding_wayfinding_api_key', ''),
