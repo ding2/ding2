@@ -1,0 +1,98 @@
+<?php
+/**
+ * @file
+ * Integration with https://universal-wayfinding.libry.dk/ for way finding.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_wayfinding_menu() {
+  $items = [];
+
+  $items['admin/config/ding/wayfinding'] = [
+    'title' => 'Wayfinding',
+    'description' => 'Library wayfinding.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ding_wayfinding_settings_form'],
+    'access arguments' => ['administer wayfinding'],
+    'file' => 'includes/ding_wayfinding.admin.inc',
+  ];
+
+  return $items;
+}
+
+/**
+ * Get agency id.
+ *
+ * Fallback to ting_agency_id.
+ *
+ * @param bool $prefix
+ *  If true the agency is prefixed with 'DK-'. Default false.
+ *
+ * @return string
+ *   Agency id, if found else the empty string.
+ */
+function ding_wayfinding_get_agency_id($prefix = false) {
+  $ret = variable_get('ding_wayfinding_agency_id', variable_get('ting_agency', ''));
+  if ($prefix && $ret != '') {
+    $ret = 'DK-' . $ret;
+  }
+  return $ret;
+}
+
+function ding_wayfinding_preprocess_ding_holdings(&$variables) {
+  $provider_id = $variables['provider_id'];
+  $item = $variables['item'];
+
+  $branches = ding_wayfinding_get_branches();
+  $active_branches = array_filter(variable_get('ding_wayfinding_branches', []));
+  $filtered_branches = array_flip(array_intersect_key($branches, $active_branches));
+
+  $variables['holdings']['#header']['wayfinding'] = t('Map', [], ['context' => 'ding_wayfinding']);
+  foreach ($variables['holdings']['#rows'] as $id => &$row) {
+    $row['wayfinding'] = '';
+
+    if (array_key_exists($item['holdings'][$id]['placement'][0], $filtered_branches)) {
+      $branch_id = $filtered_branches[$item['holdings'][$id]['placement'][0]];
+      if (ding_wayfinding_has_location($provider_id, $branch_id)) {
+        $row['wayfinding'] = '<span data-branch="'.$branch_id.'" data-id="'.$provider_id.'">x</span>';
+      }
+    }
+  }
+}
+
+function ding_wayfinding_get_branches() {
+  // Find default branches based on the current provider.
+  $provider = _ding_provider_get_provider('user');
+  $function = $provider['module'] . '_user_branches';
+  $branches = [];
+  if (is_callable($function)) {
+    $branches = $function();
+  }
+
+  return $branches;
+}
+
+function ding_wayfinding_has_location($faust, $branch) {
+  $res =  drupal_http_request('https://wayfinding.libry.dk/api/v1/sdk/bob/ims-mapspeople', [
+    'method' => 'POST',
+    'headers' => [
+      'x-api-key' => variable_get('ding_wayfinding_api_key', ''),
+      'Content-Type' => 'application/json',
+    ],
+    'data' => json_encode([
+      'branch' => $branch,
+      'faust' => (string)$faust,
+    ]),
+  ]);
+
+  if ($res->code == 200) {
+    $data = json_decode($res->data);
+    if (!empty($data)) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}

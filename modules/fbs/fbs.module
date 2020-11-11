@@ -473,12 +473,18 @@ function fbs_branches() {
 
 /**
  * Get user select-able branches.
+ *
+ * @param stdClass|bool $account
+ *   User account to filter branches base on. Default false.
+ *
+ * @return array
+ *   Branches keyed by branch id.
  */
-function fbs_user_branches($account) {
+function fbs_user_branches($account = FALSE) {
   $branches = fbs_branches();
   $blacklist = array_filter(variable_get('fbs_user_branches_blacklist', array()));
 
-  if (ding_user_is_provider_user($account)) {
+  if ($account !== false && ding_user_is_provider_user($account)) {
     $patron_info = fbs_get_patron_info($account);
 
     $preferred_branch = $patron_info['preferred_branch'];
