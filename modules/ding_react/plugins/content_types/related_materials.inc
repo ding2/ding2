@@ -83,7 +83,7 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
 /**
  * Format a set of string values to a format suitable for React app data.
  *
- * @param mixed $data
+ * @param string|string[]|FALSE $data
  *   The data to format. Either string or array.
  *
  * @return string
