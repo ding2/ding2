@@ -78,7 +78,8 @@ function ding_wayfinding_preprocess_ding_holdings(&$variables) {
     if (array_key_exists($item['holdings'][$id]['placement'][0], $filtered_branches)) {
       $branch_id = $filtered_branches[$item['holdings'][$id]['placement'][0]];
       if (ding_wayfinding_has_location($provider_id, $branch_id)) {
-        $rows[$id]['wayfinding'] = '<a href="/ding_wayfinding/'.$branch_id.'/'.$provider_id.'" class="wayfinding use-ajax">x</a>';
+        $img = '/' . drupal_get_path('module', 'ding_wayfinding') . '/img/icon_map_thumbnail.png';
+        $rows[$id]['wayfinding'] = '<a href="/ding_wayfinding/'.$branch_id.'/'.$provider_id.'" class="wayfinding use-ajax"><img src="' . $img . '" /></a>';
         $found = TRUE;
       }
     }
