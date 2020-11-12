@@ -19,6 +19,16 @@ function ding_wayfinding_menu() {
     'file' => 'includes/ding_wayfinding.admin.inc',
   ];
 
+  $items['ding_wayfinding/%/%'] = [
+    'title' => 'Wayfinding',
+    'description' => 'Library wayfinding.',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'ding_wayfinding_show_map',
+    'page arguments' => [1, 2],
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => ['access content'],
+  ];
+
   return $items;
 }
 
@@ -68,7 +78,7 @@ function ding_wayfinding_preprocess_ding_holdings(&$variables) {
     if (array_key_exists($item['holdings'][$id]['placement'][0], $filtered_branches)) {
       $branch_id = $filtered_branches[$item['holdings'][$id]['placement'][0]];
       if (ding_wayfinding_has_location($provider_id, $branch_id)) {
-        $rows[$id]['wayfinding'] = '<span class="wayfinding" data-branch="' . $branch_id . '" data-id="' . $provider_id . '">x</span>';
+        $rows[$id]['wayfinding'] = '<a href="/ding_wayfinding/'.$branch_id.'/'.$provider_id.'" class="wayfinding use-ajax">x</a>';
         $found = TRUE;
       }
     }
@@ -133,4 +143,24 @@ function ding_wayfinding_has_location($faust, $branch) {
   }
 
   return FALSE;
+}
+
+/**
+ * Ajax callback function to display map.
+ *
+ * @param $branch
+ *   The branch id to show POI on map (filter.
+ * @param $faust
+ *   The faust of the POI to show on the map.
+ *
+ * @return array
+ *   Render array with ajax-commands.
+ */
+function ding_wayfinding_show_map($branch, $faust) {
+  $commands[] = ajax_command_ding_popup('ding_wayfinding', t('Way finding map'), '<p>' . t('Show me the map') . '</p>');
+
+  return [
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  ];
 }

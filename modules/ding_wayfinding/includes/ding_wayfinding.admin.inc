@@ -20,7 +20,6 @@ function ding_wayfinding_settings_form() {
     ],
   ];
 
-
   $form['access']['ding_wayfinding_customer_id'] = [
     '#type' => 'textfield',
     '#title' => t('Customer id'),
@@ -50,7 +49,6 @@ function ding_wayfinding_settings_form() {
     ],
     '#default_value' => variable_get('ding_wayfinding_type', 'fbs'),
   ];
-
 
   $form['branches']['ding_wayfinding_branches'] = [
     '#type' => 'checkboxes',

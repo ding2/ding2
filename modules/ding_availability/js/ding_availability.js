@@ -50,10 +50,18 @@
               if (id.match(/^availability-/)) {
                 // Update availability indicators.
                 ding_availability_update_availability(id, entity_ids);
+
+                // Trigger behaviors to ensure newly loaded content is
+                // processed. Could be 'use-ajax' links etc.
+                Drupal.attachBehaviors();
               }
               else {
                 // Update holding information.
                 ding_availability_update_holdings(id, entity_ids);
+
+                // Trigger behaviors to ensure newly loaded content is
+                // processed. Could be 'use-ajax' links etc.
+                Drupal.attachBehaviors();
               }
             });
           },
