@@ -66,7 +66,7 @@ function ting_subsearch_bibdk_admin_settings_form($form, &$form_state) {
       'before' => t('Before'),
       'after' => t('After'),
     ],
-    '#default_value' => variable_get('ting_subsearch_bibdk_position', 'before'),
+    '#default_value' => variable_get('ting_subsearch_bibdk_position', 'after'),
     '#description' => t('Should the bibliotek.dk suggestions and links be positioned before or after the search result?'),
   ];
 
