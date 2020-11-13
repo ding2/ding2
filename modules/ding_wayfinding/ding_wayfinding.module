@@ -33,6 +33,17 @@ function ding_wayfinding_menu() {
 }
 
 /**
+ * Implements hook_init().
+ */
+function ding_wayfinding_init() {
+  drupal_add_library('system', 'drupal.ajax');
+
+  // Add JS wayfinding library and custom scripts.
+  drupal_add_js('https://universal-wayfinding.libry.dk/sdk-latest.js', 'external');
+  drupal_add_js('/' . drupal_get_path('module', 'ding_wayfinding') . '/js/ding_wayfinding.js');
+}
+
+/**
  * Get agency id.
  *
  * Fallback to ting_agency_id.
@@ -158,7 +169,23 @@ function ding_wayfinding_has_location($faust, $branch) {
  *   Render array with ajax-commands.
  */
 function ding_wayfinding_show_map($branch, $faust) {
-  $commands[] = ajax_command_ding_popup('ding_wayfinding', t('Way finding map'), '<p>' . t('Show me the map') . '</p>');
+  $commands[] = ajax_command_settings([
+    'ding_wayfinding' => [
+      'id' => [
+        'branch' => $branch,
+        'faust' => $faust,
+      ],
+      'access' => [
+        'customerId' => variable_get('ding_wayfinding_customer_id', ''),
+        'agency' => ding_wayfinding_get_agency_id(TRUE),
+        'apiKey' => variable_get('ding_wayfinding_api_key', ''),
+      ]
+    ],
+  ], TRUE);
+  $commands[] = ajax_command_ding_popup('ding_wayfinding', t('Way finding map'), '<div id="wayfinding-map" style="width: 100%; height: 600px"></div>');
+
+  // Add settings with data need by the map library.
+
 
   return [
     '#type' => 'ajax',
