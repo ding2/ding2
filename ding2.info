@@ -46,6 +46,7 @@ dependencies[] = ding_social_links
 dependencies[] = ding_sections
 dependencies[] = ding_nodelist
 dependencies[] = ting_recommender
+dependencies[] = ding_readers_compass
 
 ; Cache/performance modules
 dependencies[] = entitycache
