@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Rules configuration.
+ * ding_app_content_rss.rules_defaults.inc
  */
 
 /**
@@ -43,12 +43,7 @@ function ding_app_content_rss_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : {
-                "ding_app_content_event_rss:feed" : "ding_app_content_event_rss:feed"
-              }
-            }
-          }
-        }
+        { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : { "ding_app_content_event_rss:feed" : "ding_app_content_event_rss:feed" } } } }
       ]
     }
   }');
@@ -86,12 +81,7 @@ function ding_app_content_rss_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : {
-                "ding_app_content_news_rss:feed" : "ding_app_content_news_rss:feed"
-              }
-            }
-          }
-        }
+        { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : { "ding_app_content_news_rss:feed" : "ding_app_content_news_rss:feed" } } } }
       ]
     }
   }');
