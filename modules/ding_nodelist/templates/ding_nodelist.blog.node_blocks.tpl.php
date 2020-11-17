@@ -36,7 +36,7 @@ if ($item->created < $item->changed) {
 ?>
 
 <article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>" class="item <?php print (!empty($image)) ? 'has-image' : ''; ?>">
-  <a href="<?php print '/node/' . $item->nid; ?>">
+  <a href="<?php print url('node/' . $item->nid); ?>">
     <div class="inner">
       <div class="ding-blog-image background-image-styling-16-9" style="background-image:url(<?php print $img_url; ?>)"></div>
       <div class="blog-text">

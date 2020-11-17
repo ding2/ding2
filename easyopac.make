@@ -2,7 +2,7 @@ core = 7.x
 api = 2
 
 ; Include ding2 make file
-includes[ding2] = "ding2.make"
+includes[ding2] = "project.make"
 
 ; easyOPAC modules
 projects[bibdk_subject_hierarchy][type]             = "module"
@@ -193,6 +193,13 @@ projects[ding_print_button][download][type]   = "git"
 projects[ding_print_button][download][url]    = "git@github.com:easySuite/ding_print_button.git"
 ;projects[ding_print_button][download][tag]    = ""
 projects[ding_print_button][download][branch] = "development"
+
+projects[ding_readers_compass][type]             = "module"
+projects[ding_readers_compass][subdir]           = ""
+projects[ding_readers_compass][download][type]   = "git"
+projects[ding_readers_compass][download][url]    = "git@github.com:easySuite/ding_readers_compass.git"
+;projects[ding_readers_compass][download][tag]    = ""
+projects[ding_readers_compass][download][branch] = "development"
 
 projects[ding_reading_club][type]             = "module"
 projects[ding_reading_club][subdir]           = ""
@@ -605,3 +612,8 @@ projects[easyopac_redirect][download][type]   = "git"
 projects[easyopac_redirect][download][url]    = "git@github.com:easySuite/easyopac_redirect.git"
 ;projects[easyopac_redirect][download][tag]    = ""
 projects[easyopac_redirect][download][branch] = "development"
+
+; Contrib
+projects[media_unsplash][subdir] = "contrib"
+projects[media_unsplash][version] = "1.6"
+projects[media_unsplash][patch][] = "http://storage.easyting.dk/unsplash_alt_title_fetch.patch"
