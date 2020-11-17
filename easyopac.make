@@ -194,6 +194,13 @@ projects[ding_print_button][download][url]    = "git@github.com:easySuite/ding_p
 ;projects[ding_print_button][download][tag]    = ""
 projects[ding_print_button][download][branch] = "development"
 
+projects[ding_readers_compass][type]             = "module"
+projects[ding_readers_compass][subdir]           = ""
+projects[ding_readers_compass][download][type]   = "git"
+projects[ding_readers_compass][download][url]    = "git@github.com:easySuite/ding_readers_compass.git"
+;projects[ding_readers_compass][download][tag]    = ""
+projects[ding_readers_compass][download][branch] = "development"
+
 projects[ding_reading_club][type]             = "module"
 projects[ding_reading_club][subdir]           = ""
 projects[ding_reading_club][download][type]   = "git"
