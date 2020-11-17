@@ -612,7 +612,7 @@ function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default
             '#path' => '#',
             '#options' => [
               'attributes' => [
-                'class' => ['action-button', 'other-formats', 'use-ajax'],
+                'class' => ['action-button', 'other-formats'],
               ],
               'html' => FALSE,
               'external' => TRUE,
