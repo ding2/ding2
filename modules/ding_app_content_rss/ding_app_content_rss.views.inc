@@ -25,5 +25,13 @@ function ding_app_content_rss_views_data() {
     ),
   );
 
+  $data['ding_app_content_rss']['ding_app_content_rss_handler_sales_status'] = array(
+    'title' => t('Sales Status'),
+    'help' => t("Provides a event's sales status."),
+    'field' => array(
+      'handler' => 'ding_app_content_rss_handler_sales_status',
+    ),
+  );
+
   return $data;
 }

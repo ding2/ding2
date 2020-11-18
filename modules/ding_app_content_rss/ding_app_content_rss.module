@@ -162,6 +162,10 @@ function ding_app_content_rss_views_rss_item_elements() {
       'title' => t('Event price'),
       'description' => t('The price of the event.'),
     ),
+    'content-rss:arrangement-sales-status' => array(
+      'title' => t('Event tickets sales status'),
+      'description' => t('The status of event tickets sales.'),
+    ),
     'content-rss:resources' => array(
       'title' => t('Redia resources'),
       'description' => t('The node id of a type which has a relation to ting objects.'),
@@ -195,6 +199,92 @@ function ding_app_content_rss_views_rss_item_elements() {
 }
 
 /**
+ * Preprocess <description> property.
+ */
+function ding_app_content_rss_preprocess_description(&$variables) {
+  if (isset($variables['view']) && $variables['view']->name == 'ding_app_content_news_rss') {
+    $result = [];
+
+    foreach ($variables['raw'] as $key => $paragraph) {
+      /** @var \ParagraphsItemEntity $paragraph_entity */
+      $paragraph_entity = paragraphs_item_load($paragraph['raw']['value']);
+
+      switch ($paragraph_entity->bundle) {
+        case 'ding_paragraphs_text':
+          $build = [];
+          $build['paragraph-markup'] = $paragraph_entity->field_ding_paragraphs_text[LANGUAGE_NONE][0]['safe_value'];
+          break;
+
+        case 'ding_paragraphs_image_and_text':
+          $build = [];
+          $images = [];
+          $images_content = $paragraph_entity->field_ding_paragraphs_image[LANGUAGE_NONE];
+          foreach ($images_content as $item) {
+            $images[] = ['key' => 'paragraph-image', 'value' => file_create_url($item['uri'])];
+          }
+
+          $build['paragraph-images'] = $images;
+          $build['paragraph-image-position'] = $paragraph_entity->field_ding_paragraphs_position[LANGUAGE_NONE][0]['value'];
+          $build['paragraph-display'] = $paragraph_entity->field_ding_paragraphs_display[LANGUAGE_NONE][0]['value'];
+          $build['paragraph-markup'] = $paragraph_entity->field_ding_paragraphs_text[LANGUAGE_NONE][0]['safe_value'];
+          break;
+
+        case 'ding_paragraphs_text_box':
+          $build = [];
+          $build['paragraph-display'] = $paragraph_entity->field_ding_paragraphs_display[LANGUAGE_NONE][0]['value'];
+          $build['paragraph-markup'] = $paragraph_entity->field_ding_paragraphs_box_text[LANGUAGE_NONE][0]['safe_value'];
+          break;
+
+        case 'ding_paragraphs_material_list':
+        case 'ding_paragraphs_carousel':
+          $build = [];
+          $resources = [];
+          $materials = $paragraph_entity->field_ding_paragraphs_material[LANGUAGE_NONE];
+          foreach ($materials as $material) {
+            $relation = relation_load($material['value']->rid);
+            $endpoints = relation_get_endpoints($relation);
+            $ting_object = reset($endpoints['ting_object']);
+            $resources[] = [
+              'key' => 'paragraph-resource',
+              'value' => explode(':', $ting_object->ding_entity_id)[1],
+            ];
+          }
+          $build['paragraph-resources'] = $resources;
+          break;
+
+        case 'ding_paragraphs_image':
+          $build = [];
+          $images = [];
+          $images_content = $paragraph_entity->field_ding_paragraphs_image[LANGUAGE_NONE];
+          foreach ($images_content as $item) {
+            $images[] = ['key' => 'paragraph-image', 'value' => file_create_url($item['uri'])];
+          }
+          $build['paragraph-images'] = $images;
+          $build['paragraph-display'] = $paragraph_entity->field_ding_paragraphs_display[LANGUAGE_NONE][0]['value'];
+          break;
+
+        case 'ding_paragraphs_single_material':
+          $build = [];
+          $build['paragraph-display'] = $paragraph_entity->field_ding_paragraphs_display[LANGUAGE_NONE][0]['value'];
+          $relation = relation_load($paragraph_entity->field_ding_paragraphs_single_mat[LANGUAGE_NONE][0]['value']->rid);
+          $endpoints = relation_get_endpoints($relation);
+          $ting_object = reset($endpoints['ting_object']);
+          $build['paragraph-resource'] = explode(':', $ting_object->ding_entity_id)[1];
+          break;
+      }
+
+      $result['paragraphs'][] = [
+        'key' => 'paragraph',
+        'value' => $build,
+        'attributes' => ['type' => $paragraph_entity->bundle],
+      ];
+    }
+
+    $variables['elements'][0]['value'] = $result;
+  }
+}
+
+/**
  * Preprocess function for item <resources> elements.
  */
 function ding_app_content_rss_preprocess_item_resources(&$variables) {
@@ -218,9 +308,15 @@ function ding_app_content_rss_preprocess_item_resources(&$variables) {
         'value' => $faust_number,
       );
     }
-
   }
 
   // Replace the existing values with the new array.
   $variables['elements']['0']['value'] = $value;
+}
+
+/**
+ * Implements hook_views_rss_item_elements_alter().
+ */
+function ding_app_content_rss_views_rss_item_elements_alter(&$elements) {
+  $elements['views_rss_core']['description']['preprocess functions'][] = 'ding_app_content_rss_preprocess_description';
 }
