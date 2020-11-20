@@ -31,7 +31,7 @@ function ting_subsearch_translate_content_type_render($subtype, $conf, $panel_ar
   }
 
   $num_results = $search_result->getNumTotalObjects();
-  $factor = variable_get('ting_subsearch_translate_factor', 50);
+  $factor = variable_get('ting_subsearch_translate_factor', 1);
   $ratio = ting_subsearch_get_genre_ratio($search_result);
 
   // Trigger ajax subsearch if conditions is satisfied.

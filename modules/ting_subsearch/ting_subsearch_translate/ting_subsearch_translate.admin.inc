@@ -27,14 +27,14 @@ function ting_subsearch_translate_admin_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Minimum ratio between nonfiction and fiction'),
     '#description' => t('The minimum ratio of nonfiction to fiction in user search result to trigger translation. Use a decimal value for the ratio with "." as decimal separator'),
-    '#default_value' => variable_get('ting_subsearch_translate_factor', 50),
+    '#default_value' => variable_get('ting_subsearch_translate_factor', 1),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];
   $form['trigger']['ting_subsearch_translate_ps_factor'] = [
     '#type' => 'textfield',
     '#title' => t('Minimum ratio between suggestion and user search results'),
     '#description' => t('The minimum ratio between suggestion and user search results to trigger suggestion. Use a decimal value for the ratio with "." as decimal separator'),
-    '#default_value' => variable_get('ting_subsearch_translate_ps_factor', 10),
+    '#default_value' => variable_get('ting_subsearch_translate_ps_factor', 1),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];
 
