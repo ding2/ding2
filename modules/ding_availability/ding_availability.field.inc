@@ -118,7 +118,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           // Ensure that Drupal ajax is loaded. If the holdings is periodical
           // there might be reservation buttons for individual issues, which
           // uses 'use-ajax' links.
-          drupal_add_library('system', 'drupal.ajax');
+          $attached['library'][] = array('system', 'drupal.ajax');
 
           $attached['js'][] = array(
             'data' => array(
