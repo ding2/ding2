@@ -424,7 +424,8 @@ function fbs_reservation_is_reservable($provider_ids) {
   try {
     $results = fbs_service()->Catalog->getHoldings(
       fbs_service()->agencyId,
-      $provider_ids
+      $provider_ids,
+      variable_get('fbs_holdings_branches_blacklist', array())
     );
   }
   catch (Exception $e) {
