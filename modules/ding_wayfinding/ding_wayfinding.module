@@ -36,11 +36,37 @@ function ding_wayfinding_menu() {
  * Implements hook_init().
  */
 function ding_wayfinding_init() {
+  $path = drupal_get_path('module', 'ding_wayfinding');
+
   drupal_add_library('system', 'drupal.ajax');
 
   // Add JS wayfinding library and custom scripts.
   drupal_add_js('https://universal-wayfinding.libry.dk/sdk-latest.js', 'external');
-  drupal_add_js('/' . drupal_get_path('module', 'ding_wayfinding') . '/js/ding_wayfinding.js');
+  drupal_add_js($path . '/js/ding_wayfinding.js');
+
+  drupal_add_css($path . '/css/ding_wayfinding.css');
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_wayfinding_theme($existing, $type, $theme, $path) {
+  return [
+    'ding_wayfinding_map' => [
+      'variables' => [
+        'height' => '100%',
+        'width' => '600px',
+        'info' => NULL,
+      ],
+      'template' => 'templates/ding-wayfinding-map',
+    ],
+    'ding_wayfinding_popup' => [
+      'variables' => [
+        'items' => NULL,
+      ],
+      'template' => 'templates/ding-wayfinding-popup',
+    ],
+  ];
 }
 
 /**
@@ -182,7 +208,16 @@ function ding_wayfinding_show_map($branch, $faust) {
       ]
     ],
   ], TRUE);
-  $commands[] = ajax_command_ding_popup('ding_wayfinding', t('Way finding map'), '<div id="wayfinding-map" style="width: 100%; height: 600px"></div>');
+  $data = [
+    '#theme' => 'ding_wayfinding_map',
+    '#height' => '600px',
+    '#width' => '100%',
+    '#info' => [
+      '#theme' => 'ding_wayfinding_popup',
+      '#items' => [],
+    ],
+  ];
+  $commands[] = ajax_command_ding_popup('ding_wayfinding', t('Way finding map'), render($data));
 
   // Add settings with data need by the map library.
 
