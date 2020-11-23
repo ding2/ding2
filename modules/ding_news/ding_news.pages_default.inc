@@ -567,7 +567,7 @@ taxonomy/term/%term:tid',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'markup' => 'h2',
+      'markup' => 'none',
       'class' => '',
       'id' => '',
       'override_title' => 1,
