@@ -1072,3 +1072,10 @@ function ding2_update_7092() {
     ]);
   }
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7093() {
+  ding2_translation_update();
+}
