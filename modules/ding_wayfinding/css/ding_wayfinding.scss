@@ -7,6 +7,7 @@ $spacer: 1em;
 $map-popover-width: 300px;
 
 .map-info-wrapper {
+  display: none;
   position: absolute;
   left: calc(50% - #{$map-popover-width/2});
   top: 30%;
@@ -23,7 +24,7 @@ $map-popover-width: 300px;
   position: relative;
   width: $map-popover-width;
   border-radius: $spacer/2;
-  backgorund-color: $color-light;
+  background-color: $color-light;
   box-shadow: 0 4px 16px transparentize($color-dark, 0.8);
   overflow: hidden;
 

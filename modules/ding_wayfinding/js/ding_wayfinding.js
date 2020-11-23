@@ -33,9 +33,17 @@
       map.addPoiMarkerByWayfindingId(wayfindingId, {
         color: "red",
         onClick: function (e, markerOpts) {
-          alert(`You clicked ${wayfindingId.faust}`);
+          $('.map-info-wrapper').toggle();
         },
       });
+
+      // Attach toggle details button.
+      var button = document.querySelector('#toggleDetailsBtn');
+      button.addEventListener('click', function (event) {
+          document.querySelector('#mapPopoverDetails').classList.toggle('hidden');
+          button.classList.toggle('hidden');
+        }
+      );
     } else {
       alert("There are no locations to show. Dont show map.");
     }

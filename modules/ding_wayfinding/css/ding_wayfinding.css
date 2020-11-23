@@ -1,4 +1,5 @@
 .map-info-wrapper {
+  display: none;
   position: absolute;
   left: calc(50% - 150px);
   top: 30%;
@@ -15,7 +16,7 @@
   position: relative;
   width: 300px;
   border-radius: 0.5em;
-  backgorund-color: #fff;
+  background-color: #fff;
   box-shadow: 0 4px 16px rgba(34, 34, 34, 0.2);
   overflow: hidden;
 }
