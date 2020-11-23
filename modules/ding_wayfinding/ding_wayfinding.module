@@ -65,6 +65,7 @@ function ding_wayfinding_theme($existing, $type, $theme, $path) {
         'cover_url' => NULL,
         'title' => NULL,
         'author' => NULL,
+        'placement' => NULL,
       ],
       'template' => 'templates/ding-wayfinding-popup',
     ],
@@ -102,9 +103,7 @@ function ding_wayfinding_preprocess_ding_holdings(&$variables) {
 
   // Load information about branch names base on branch id's in selected in the
   // administrative interface.
-  $branches = ding_wayfinding_get_branches();
   $active_branches = array_filter(variable_get('ding_wayfinding_branches', []));
-  $filtered_branches = array_flip(array_intersect_key($branches, $active_branches));
 
   $found = FALSE;
   $rows = [];
@@ -114,8 +113,8 @@ function ding_wayfinding_preprocess_ding_holdings(&$variables) {
     $rows[$id] = $row;
     $rows[$id]['wayfinding'] = '';
 
-    if (array_key_exists($item['holdings'][$id]['placement'][0], $filtered_branches)) {
-      $branch_id = $filtered_branches[$item['holdings'][$id]['placement'][0]];
+    if (array_key_exists($item['holdings'][$id]['branch_id'], $active_branches)) {
+      $branch_id = $item['holdings'][$id]['branch_id'];
       if (ding_wayfinding_has_location($provider_id, $branch_id)) {
         $img = '/' . drupal_get_path('module', 'ding_wayfinding') . '/img/icon_map_thumbnail.png';
         $rows[$id]['wayfinding'] = '<a href="/ding_wayfinding/'.$branch_id.'/'.$provider_id.'" class="wayfinding use-ajax"><img src="' . $img . '" /></a>';
@@ -188,7 +187,7 @@ function ding_wayfinding_has_location($faust, $branch) {
 /**
  * Ajax callback function to display map.
  *
- * @param $branch
+ * @param $branch_id
  *   The branch id to show POI on map (filter.
  * @param $faust
  *   The PID of the POI to show on the map.
@@ -196,11 +195,11 @@ function ding_wayfinding_has_location($faust, $branch) {
  * @return array
  *   Render array with ajax-commands.
  */
-function ding_wayfinding_show_map($branch, $faust) {
+function ding_wayfinding_show_map($branch_id, $faust) {
   $commands[] = ajax_command_settings([
     'ding_wayfinding' => [
       'id' => [
-        'branch' => $branch,
+        'branch' => $branch_id,
         'faust' => $faust,
       ],
       'access' => [
@@ -225,6 +224,16 @@ function ding_wayfinding_show_map($branch, $faust) {
     $cover_url = image_style_url('ding_primary_large', reset($covers));
   }
 
+  // Get holdings for the material and find placement base on branch id.
+  $placement = FALSE;
+  $holdings = ding_availability_holdings([$faust]);
+  $holdings = reset($holdings);
+  foreach ($holdings['holdings'] as $holding) {
+    if ($holding['branch_id'] === $branch_id) {
+      $placement = implode(' > ', $holding['placement']);
+    }
+  }
+
   $information = [
     '#theme' => 'ding_wayfinding_map',
     '#height' => '600px',
@@ -232,8 +241,9 @@ function ding_wayfinding_show_map($branch, $faust) {
     '#info' => [
       '#theme' => 'ding_wayfinding_popup',
       '#cover_url' => $tingEntity ? $cover_url: NULL,
-      '#title' => $tingEntity ? $tingEntity->getTitle() : NULL,
-      '#author' => $tingEntity ? reset($tingEntity->getCreators()) : NULL,
+      '#title' => $tingEntity ? $tingEntity->getTitle() : 'Unknown title',
+      '#author' => $tingEntity ? reset($tingEntity->getCreators()) : 'Unknown author',
+      '#placement' => $placement ? $placement : '>',
     ],
   ];
   $commands[] = ajax_command_ding_popup('ding_wayfinding', t('Way finding map'), render($information));

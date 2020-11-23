@@ -96,6 +96,7 @@ function fbs_availability_holdings($provider_ids) {
     );
     foreach ($item->holdings as $item_holding) {
       $result_holding = array(
+        'branch_id' => $item_holding->branch->branchId,
         'available_count' => 0,
         'total_count' => 0,
         // We have no idea about this either.

@@ -39,8 +39,10 @@
 
       // Attach close inside information popup.
       var button = document.querySelector('#toggleDetailsBtn');
+      var details = document.querySelector('#mapPopoverDetails');
       button.addEventListener('click', function (event) {
-          $('.map-info-wrapper').toggle();
+            details.classList.toggle('hidden');
+            button.classList.toggle('hidden');
         }
       );
     }

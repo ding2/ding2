@@ -21,5 +21,10 @@
         <button class="map-popover__btn"><?php print t('Rute') ?></button>
       </div>
     </div>
+    <div class="map-popover__bottom">
+      <div class="map-popover__path">
+        <p><?php print $placement ?></p>
+      </div>
+    </div>
   </div>
 </div>
