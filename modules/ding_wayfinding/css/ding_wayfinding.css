@@ -57,6 +57,10 @@
 .map-popover__bottom {
   border-top: 1px solid #f0f0f0;
   padding: 0 1em;
+  margin: 0;
+}
+.map-popover__bottom p {
+  margin: 1em 0;
 }
 .map-popover__left {
   flex: 1 1 auto;
@@ -75,6 +79,10 @@
   font-size: 1.1em;
   word-break: break-word;
   hyphens: auto;
+  line-height: 1.25;
+}
+.map-popover__author {
+  margin: 1em 0;
 }
 .map-popover__btn {
   border: 0;
@@ -82,4 +90,5 @@
   color: #fff;
   padding: 0.5em 1em;
   border-radius: 0.25em;
+  margin: 0;
 }

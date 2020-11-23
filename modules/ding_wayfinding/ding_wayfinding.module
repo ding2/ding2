@@ -62,7 +62,9 @@ function ding_wayfinding_theme($existing, $type, $theme, $path) {
     ],
     'ding_wayfinding_popup' => [
       'variables' => [
-        'items' => NULL,
+        'cover_url' => NULL,
+        'title' => NULL,
+        'author' => NULL,
       ],
       'template' => 'templates/ding-wayfinding-popup',
     ],
@@ -189,7 +191,7 @@ function ding_wayfinding_has_location($faust, $branch) {
  * @param $branch
  *   The branch id to show POI on map (filter.
  * @param $faust
- *   The faust of the POI to show on the map.
+ *   The PID of the POI to show on the map.
  *
  * @return array
  *   Render array with ajax-commands.
@@ -208,19 +210,33 @@ function ding_wayfinding_show_map($branch, $faust) {
       ]
     ],
   ], TRUE);
-  $data = [
+
+  // Try to get object id from path on the page that was clicked. This is kind
+  // of an hack to get the id.
+  $tingEntity = FALSE;
+  $referer = $_SERVER["HTTP_REFERER"];
+  preg_match('/\d{6}-\w+(%3A|:)\d+$/', $referer, $matches);
+  if (isset($matches[0])) {
+    $pid = urldecode($matches[0]);
+    $tingEntity = ding_entity_load($pid);
+    $tingEntity->getLocalId();
+
+    $covers = ting_covers_get([$pid]);
+    $cover_url = image_style_url('ding_primary_large', reset($covers));
+  }
+
+  $information = [
     '#theme' => 'ding_wayfinding_map',
     '#height' => '600px',
     '#width' => '100%',
     '#info' => [
       '#theme' => 'ding_wayfinding_popup',
-      '#items' => [],
+      '#cover_url' => $tingEntity ? $cover_url: NULL,
+      '#title' => $tingEntity ? $tingEntity->getTitle() : NULL,
+      '#author' => $tingEntity ? reset($tingEntity->getCreators()) : NULL,
     ],
   ];
-  $commands[] = ajax_command_ding_popup('ding_wayfinding', t('Way finding map'), render($data));
-
-  // Add settings with data need by the map library.
-
+  $commands[] = ajax_command_ding_popup('ding_wayfinding', t('Way finding map'), render($information));
 
   return [
     '#type' => 'ajax',

@@ -7,7 +7,6 @@ $spacer: 1em;
 $map-popover-width: 300px;
 
 .map-info-wrapper {
-  display: none;
   position: absolute;
   left: calc(50% - #{$map-popover-width/2});
   top: 30%;
@@ -70,6 +69,11 @@ $map-popover-width: 300px;
   &__bottom {
     border-top: 1px solid $color-gray-300;
     padding: 0 $spacer;
+    margin: 0;
+
+    p {
+      margin: $spacer 0;
+    }
   }
 
   &__left {
@@ -92,10 +96,11 @@ $map-popover-width: 300px;
     font-size: $spacer*1.10;
     word-break: break-word;
     hyphens: auto;
+    line-height: 1.25;
   }
 
   &__author {
-
+    margin: $spacer 0;
   }
 
   &__btn {
@@ -104,5 +109,6 @@ $map-popover-width: 300px;
     color: $color-light;
     padding: $spacer/2 $spacer;
     border-radius: $spacer/4;
+    margin: 0;
   }
 }

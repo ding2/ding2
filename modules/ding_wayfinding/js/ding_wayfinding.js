@@ -37,15 +37,12 @@
         },
       });
 
-      // Attach toggle details button.
+      // Attach close inside information popup.
       var button = document.querySelector('#toggleDetailsBtn');
       button.addEventListener('click', function (event) {
-          document.querySelector('#mapPopoverDetails').classList.toggle('hidden');
-          button.classList.toggle('hidden');
+          $('.map-info-wrapper').toggle();
         }
       );
-    } else {
-      alert("There are no locations to show. Dont show map.");
     }
   }
 

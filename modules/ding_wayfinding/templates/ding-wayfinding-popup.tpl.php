@@ -12,18 +12,13 @@
     <div id="mapPopoverDetails" class="map-popover__top">
       <div class="map-popover__left">
         <div class="map-popover__image">
-          <img src="https://via.placeholder.com/100x160" alt="Placehold image">
+          <img src="<?php print $cover_url ?>" alt="Placehold image">
         </div>
       </div>
       <div class="map-popover__right">
-        <h1 class="map-popover__title">Kartoffelmadder: Inspiration til farverig frokost</h1>
-        <p class="map-popover__author">Grethe Rolle</p>
-        <button class="map-popover__btn">Rute</button>
-      </div>
-    </div>
-    <div class="map-popover__bottom">
-      <div class="map-popover__path">
-        <p>Voksen > 64.16 > Rolle</p>
+        <h1 class="map-popover__title"><?php print $title ?></h1>
+        <p class="map-popover__author"><?php print $author ?></p>
+        <button class="map-popover__btn"><?php print t('Rute') ?></button>
       </div>
     </div>
   </div>
