@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default template for wayfinding marker popup.
@@ -18,7 +19,9 @@
       <div class="map-popover__right">
         <h1 class="map-popover__title"><?php print $title ?></h1>
         <p class="map-popover__author"><?php print $author ?></p>
+        <?php if ($route): ?>
         <button class="map-popover__btn"><?php print t('Rute') ?></button>
+        <?php endif; ?>
       </div>
     </div>
     <div class="map-popover__bottom">

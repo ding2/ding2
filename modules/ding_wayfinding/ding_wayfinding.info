@@ -1,3 +1,4 @@
 name = Ding wayfinding
+description = Add wayfinding on maps to material
 core = 7.x
 package = Ding!

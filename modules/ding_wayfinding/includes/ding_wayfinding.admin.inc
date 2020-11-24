@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Administrative forms for the module.
@@ -42,12 +43,19 @@ function ding_wayfinding_settings_form() {
   $form['access']['ding_wayfinding_type'] = [
     '#type' => 'select',
     '#title' => t('Type of data to base POI on'),
-    '#description' => t(''),
+    '#description' => t('This is used to allow the backend to prefetch POI information from the wayfinding API'),
     '#options' => [
       'ims' => 'IMS',
       'fbs' => 'FBS',
     ],
     '#default_value' => variable_get('ding_wayfinding_type', 'fbs'),
+  ];
+
+  $form['access']['ding_wayfinding_enable_route'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Enable users to use routes on the map'),
+    '#description' => t('When checked an route button will be in the popup.'),
+    '#default_value' => variable_get('ding_wayfinding_enable_route', FALSE),
   ];
 
   $form['branches']['ding_wayfinding_branches'] = [
@@ -57,6 +65,5 @@ function ding_wayfinding_settings_form() {
     '#options' => ding_wayfinding_get_branches(),
   ];
 
-  # Support branches
   return system_settings_form($form);
 }
