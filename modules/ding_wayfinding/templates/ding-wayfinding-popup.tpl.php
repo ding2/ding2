@@ -20,7 +20,7 @@
         <h1 class="map-popover__title"><?php print $title ?></h1>
         <p class="map-popover__author"><?php print $author ?></p>
         <?php if ($route): ?>
-        <button class="map-popover__btn"><?php print t('Rute') ?></button>
+        <button class="map-popover__btn"><?php print t('Route') ?></button>
         <?php endif; ?>
       </div>
     </div>

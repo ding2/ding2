@@ -13,20 +13,9 @@
       const map = await window.libryWayfinding.createMap({
         // Container ID of the html element holding the map
         container: "wayfinding-map",
-        center: { lng: 10.2151585, lat: 56.1531825 },
         zoom: 19.0,
-        deviceLocation: {
-          floor: 3,
-          lngLat: { lng: 10.2151585, lat: 56.1531825 },
-          heading: 70,
-        },
-        // Shows a dot indicating the current device/user location
         showDevicePosition: true,
         showAllPOIs: true,
-      });
-
-      map.updateDeviceLocation({
-        lngLat: { lng: 10.2151585, lat: 56.1531825 },
       });
 
       // Add the wayfinding marker.
@@ -45,6 +34,20 @@
             button.classList.toggle('hidden');
         }
       );
+
+      // Attach click handler to route button.
+      $('.map-popover__btn').click(function() {
+        navigator.geolocation.getCurrentPosition((position) => {
+          map.updateDeviceLocation({
+            lngLat: {
+              lng: position.coords.longitude,
+              lat: position.coords.latitude,
+            },
+          });
+          map.findWayToPoiByWayfindingId(wayfindingId);
+        });
+
+      });
     }
   }
 

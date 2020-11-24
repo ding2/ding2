@@ -9,7 +9,7 @@ $map-popover-width: 300px;
 .map-info-wrapper {
   position: absolute;
   left: calc(50% - #{$map-popover-width/2});
-  top: 30%;
+  top: 60%;
 }
 
 .map-marker {
