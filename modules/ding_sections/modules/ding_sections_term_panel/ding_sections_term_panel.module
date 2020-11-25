@@ -262,92 +262,25 @@ function ding_sections_term_panel_create_term_variant($term) {
   $variant_title = t('Sections term (@term)', array('@term' => $term->name));
   $pipeline = module_exists('panels_ipe') ? 'ipe' : 'standard';
 
-  $base_handler = page_manager_load_task_handler('term_view', '', 'term_section_panel_context');
+  // Clone handler by exporting it and evaluating the export. Seems hacky, but
+  // that's how page_manager itself does it.
+  $export = page_manager_export_task_handler(page_manager_load_task_handler('term_view', '', 'term_section_panel_context'));
+  ob_start();
+  eval($export);
+  ob_end_clean();
 
-  $handler = new stdClass();
-  $handler->disabled = FALSE;
-  $handler->api_version = 1;
   $handler->name = $handler_name;
-  $handler->task = $base_handler->task;
-  $handler->subtask = $base_handler->subtask;
-  $handler->handler = $base_handler->handler;
+  $handler->conf['title'] = $variant_title;
+  $handler->conf['pipeline'] = $pipeline;
   $handler->weight = -50;
-  $conf = [
-    'title' => $variant_title,
-    'no_blocks' => 0,
-    'pipeline' => $pipeline,
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'name' => '',
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'perm',
-          'settings' => array(
-            'perm' => 'view section panels terms',
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'entity_bundle:taxonomy_term',
-          'settings' => array(
-            'type' => array(
-              'section' => 'section',
-            ),
-          ),
-          'context' => 'argument_term_1',
-          'not' => FALSE,
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  ];
-  $handler->conf = $conf;
-
-  $base_display = panels_load_display($base_handler->conf['did']);
-
-  $display = new panels_display();
-  $display->layout = $base_display->layout;
-  $display->layout_settings = $base_display->layout_settings;
-  $display->panel_settings = $base_display->panel_settings;
-  $display->cache = $base_display->cache;
-  $display->title = $base_display->title;
-  $display->uuid = $base_display->uuid;
-  $display->content = $base_display->content;
-
-  foreach ($base_display->panels as $region => $items) {
-    foreach ($items as $key => $pane) {
-      $base_pane = $base_display->content[$pane];
-      $new_pane = new stdClass();
-      $new_pane->pid = 'new-' . $base_pane->uuid;
-      $new_pane->panel = $base_pane->panel;
-      $new_pane->type = $base_pane->type;
-      $new_pane->subtype = $base_pane->subtype;
-      $new_pane->shown = $base_pane->shown;
-      $new_pane->access = $base_pane->access;
-      $new_pane->configuration = $base_pane->configuration;
-      $new_pane->cache = $base_pane->cache;
-      $new_pane->style = $base_pane->style;
-      $new_pane->css = $base_pane->css;
-      $new_pane->extras = $base_pane->extras;
-      $new_pane->position = $base_pane->position;
-      $new_pane->locks = $base_pane->locks;
-      $new_pane->uuid = $base_pane->uuid;
-      $display->content['new-'. $new_pane->uuid] = $new_pane;
-      $display->panels[$region][$key] = 'new-' . $new_pane->uuid;
-    }
-  }
-
-  $display->hide_title = $base_display->hide_title;
-  $display->title_pane = $base_display->title_pane;
-
-  $handler->conf['display'] = $display;
   $handler->conf['access']['plugins'][] = $php_filter;
+
+  // Variant is cloned and added to the Page. Ensure the uuids are re-generated.
+  panels_panel_context_get_display($handler);
+  if (isset($handler->conf['display']) && method_exists($handler->conf['display'], 'clone_display')) {
+    $handler->conf['display'] = $handler->conf['display']
+      ->clone_display();
+  }
 
   page_manager_save_task_handler($handler);
 }
