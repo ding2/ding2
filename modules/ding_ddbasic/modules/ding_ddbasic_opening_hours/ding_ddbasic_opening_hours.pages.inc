@@ -8,7 +8,7 @@
 /**
  * Callback for fetching a week of opening hours.
  */
-function ding_ddbasic_opening_hours_week_callback($node, $from, $to, $categories) {
+function ding_ddbasic_opening_hours_week_callback($node, $from, $to, $categories = '') {
   $commands = array();
 
   if (opening_hours_present_on_node($node->nid)) {
