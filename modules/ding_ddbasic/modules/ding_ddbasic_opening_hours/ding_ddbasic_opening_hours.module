@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Extending opening hours to match the ddbasic theme.
@@ -27,6 +28,7 @@ function ding_ddbasic_opening_hours_menu() {
     'page callback' => 'ding_ddbasic_opening_hours_week_callback',
     'page arguments' => array(3, 4, 5),
     'delivery callback' => 'ajax_deliver',
+    // Should be world readable.
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
     'file' => 'ding_ddbasic_opening_hours.pages.inc',
@@ -90,7 +92,7 @@ function ding_ddbasic_opening_hours_theme($existing, $type, $theme, $path) {
  * @return array
  *   The Table render array.
  */
-function ding_ddbasic_opening_hours_table($title, $categories, $structured) {
+function ding_ddbasic_opening_hours_table($title, array $categories, array $structured) {
   $table = array(
     '#theme' => 'table',
     '#header' => array_merge(array($title), $categories),

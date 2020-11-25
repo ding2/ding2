@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ding DDBasic opening hours themes.
@@ -69,7 +70,7 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
           'end_time' => '0',
           'category_tid' => $category_tid,
           'date' => $date,
-          'closed' => true,
+          'closed' => TRUE,
           'notice' => t('Closed'),
         ];
       }, $category_tids);

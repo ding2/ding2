@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ding DDBasic opening hours pages.

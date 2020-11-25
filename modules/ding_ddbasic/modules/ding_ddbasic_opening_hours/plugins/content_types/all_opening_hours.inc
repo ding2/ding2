@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Content type plugin for all opening hours.
