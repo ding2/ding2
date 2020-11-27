@@ -81,6 +81,8 @@ projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/cre
 ; To be removed together with p2.
 projects[eck][subdir] = "contrib"
 projects[eck][version] = "2.0-rc9"
+; Avoid PDO exception after installation
+projects[eck][patch][] = "https://www.drupal.org/files/issues/eck-pdoexception-2109589-17.patch"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
