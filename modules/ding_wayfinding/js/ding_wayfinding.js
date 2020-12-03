@@ -24,6 +24,10 @@
         onClick: function (e, markerOpts) {
           $('.map-info-wrapper').toggle();
         },
+      }).then(function (markers) {
+        // Update the map to show the floor the marker is on as default.
+        let markerOpts = markers[0].markerOpts;
+        map.setFloor(markerOpts.location.floor);
       });
 
       // Attach close inside information popup.
@@ -42,7 +46,7 @@
             lngLat: {
               lng: position.coords.longitude,
               lat: position.coords.latitude,
-            },
+            }
           });
           map.findWayToPoiByWayfindingId(wayfindingId);
         });
