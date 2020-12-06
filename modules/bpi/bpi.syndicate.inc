@@ -929,7 +929,8 @@ function bpi_build_top_rank(&$form) {
     '#empty' => t('No data so far.'),
   );
 
-  $topNodesSyndicatedCreatedByMe = bpi_get_top_ranked('-3 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node', ['999999']);
+  $self_agency = variable_get('ting_agency', '');
+  $topNodesSyndicatedCreatedByMe = bpi_get_top_ranked('-3 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node', [$self_agency]);
   $rows = bpi_build_top_rank_rows($topNodesSyndicatedCreatedByMe);
   $form['bpi_top_rank']['top_my_nodes_syndicated'] = array(
     '#theme' => 'table',
