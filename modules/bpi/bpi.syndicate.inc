@@ -938,7 +938,7 @@ function bpi_build_top_rank(&$form) {
 
   $self_agency = variable_get('ting_agency', '');
   $topNodesSyndicatedCreatedByMyLibrary = bpi_get_top_ranked('-3 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node', [$self_agency]);
-  $rows = bpi_build_top_rank_rows($topNodesSyndicatedCreatedByMyLibrary);
+  $rows = bpi_build_top_rank_rows($topNodesSyndicatedCreatedByMyLibrary, '/bpi/edit');
   $form['bpi_top_rank']['top_my_nodes_syndicated'] = array(
     '#theme' => 'table',
     '#caption' => t('Most syndicated articles by my library'),

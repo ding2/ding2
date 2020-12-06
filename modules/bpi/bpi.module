@@ -76,6 +76,7 @@ function bpi_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('bpi_syndicate_page_form'),
     'access callback' => 'bpi_access',
+    'access arguments' => ['bpi syndicate content'],
     'file' => 'bpi.syndicate.inc',
   );
 
@@ -148,7 +149,32 @@ function bpi_menu() {
     'file' => 'bpi.admin.inc',
   );
 
+  $menu['bpi/edit/%'] = array(
+    'title' => 'BPI content edit',
+    'access callback' => 'bpi_access',
+    'access arguments' => ['bpi content edit', 2],
+    'page callback' => '_bpi_edit_callback',
+    'page arguments' => array(2),
+    'type' => MENU_CALLBACK,
+  );
+
   return $menu;
+}
+
+/**
+ * Redirects the user to BPI node edit form.
+ *
+ * @param string $bid
+ *   BPI id.
+ */
+function _bpi_edit_callback($bid) {
+
+  if (!$node = bpi_load_node_by_bid($bid)) {
+    drupal_not_found();
+  }
+
+  $path = 'node/' . $node->nid . '/edit';
+  drupal_goto($path);
 }
 
 /**
@@ -160,34 +186,44 @@ function bpi_menu() {
  * @return bool
  *   TRUE on access, FALSE otherwise
  */
-function bpi_access() {
+function bpi_access($access_permission, $bid = null) {
   global $user;
-  // Disallow if user doesn't have permission to syndicate bpi content.
-  if (!user_access('bpi syndicate content')) {
-    return FALSE;
+
+  $access_result = FALSE;
+
+  switch ($access_permission) {
+    case 'bpi syndicate content':
+      // Get roles that are allowed to create content from BPI according to
+      // Workflow settings.
+      $record = NULL;
+      try {
+        $query = db_select('workflow_transitions', 'w');
+        $query->fields('w');
+        $query->condition('w.name', '_creation_to_created_bpi');
+        $record = $query->execute()->fetchAssoc();
+      }
+      catch (PDOException $e) {
+        bpi_error_message($e, 'error');
+      }
+
+      $role_access = FALSE;
+      $roles = unserialize($record['roles']);
+      foreach ($user->roles as $id => $user_role) {
+        if (in_array($id, $roles)) {
+          $role_access = TRUE;
+          break;
+        }
+      }
+
+      $access_result = user_access($access_permission) && $role_access;
+      break;
+    case 'bpi content edit':
+      $node = bpi_load_node_by_bid($bid);
+      $access_result = $node ? node_access('update', $node) : user_access('access content');
+      break;
   }
 
-  // Get roles that are allowed to create content from BPI according to
-  // Workflow settings.
-  $record = NULL;
-  try {
-    $query = db_select('workflow_transitions', 'w');
-    $query->fields('w');
-    $query->condition('w.name', '_creation_to_created_bpi');
-    $record = $query->execute()->fetchAssoc();
-  }
-  catch (PDOException $e) {
-    bpi_error_message($e, 'error');
-  }
-
-  $access = FALSE;
-  $roles = unserialize($record['roles']);
-  foreach ($user->roles as $id => $user_role) {
-    if (in_array($id, $roles)) {
-      $access = TRUE;
-    }
-  }
-  return $access;
+  return $access_result;
 }
 
 /**
@@ -1137,4 +1173,21 @@ function bpi_preprocess_bpi_preview_item(&$variables) {
  */
 function bpi_material_is_sharable($material_id) {
   return !preg_match('/katalog/', $material_id);
+}
+
+/**
+ * Attempts to load a node by BPI id.
+ *
+ * @param string $bid
+ *   BPI id.
+ *
+ * @return mixed
+ *   A node object, or FALSE when no match.
+ */
+function bpi_load_node_by_bid($bid) {
+  $result = db_query('SELECT nid FROM {bpi_syndicated} WHERE bid = :bid', [
+    ':bid' => $bid
+  ])->fetchField();
+
+  return node_load($result);
 }
