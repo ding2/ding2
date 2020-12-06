@@ -884,7 +884,7 @@ function bpi_build_top_rank(&$form) {
     ),
   );
 
-  $topNodesSyndicated = bpi_get_top_ranked('-18 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node');
+  $topNodesSyndicated = bpi_get_top_ranked('-1 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node');
   $rows = bpi_build_top_rank_rows($topNodesSyndicated, '/admin/bpi/syndicate');
   $form['bpi_top_rank']['top_nodes_syndicated'] = array(
     '#theme' => 'table',

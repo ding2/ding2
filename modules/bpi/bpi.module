@@ -168,7 +168,6 @@ function bpi_menu() {
  *   BPI id.
  */
 function _bpi_edit_callback($bid) {
-
   if (!$node = bpi_load_node_by_bid($bid)) {
     drupal_not_found();
   }
@@ -178,10 +177,19 @@ function _bpi_edit_callback($bid) {
 }
 
 /**
- * Check if current user has access to the BPI Syndication menu.
+ * Custom access checker for BPI actions.
  *
- * The logged in user must both have the "bpi syndicate content" permission
- * and access to create content from BPI.
+ * BPI overview:
+ * The logged in user must both have the
+ * "bpi syndicate content" permission and access to create content from BPI.
+ * BPI edit link:
+ * The logged in user must have access to the target node. This is the place
+ * where BPI id parameter is used.
+ *
+ * @param string $access_permission
+ *   Permission identifier.
+ * @param string $bid
+ *   Optional BPI article id.
  *
  * @return bool
  *   TRUE on access, FALSE otherwise
@@ -1177,6 +1185,11 @@ function bpi_material_is_sharable($material_id) {
 
 /**
  * Attempts to load a node by BPI id.
+ *
+ * This is viable only in cases when the node held a certain BPI action,
+ * i.e. there is a record in the respective table.
+ * Obviously, only nodes that were pushed from this instance can be loaded
+ * this way.
  *
  * @param string $bid
  *   BPI id.
