@@ -873,7 +873,7 @@ function bpi_build_search_facets(array &$form) {
 function bpi_build_top_rank(&$form) {
   $heading = array(
     t('Title'),
-    t('Amount')
+    t('Amount of articles')
   );
 
   $form['bpi_top_rank'] = array(
