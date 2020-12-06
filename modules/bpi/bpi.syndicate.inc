@@ -871,11 +871,6 @@ function bpi_build_search_facets(array &$form) {
  * @throws \Bpi\Sdk\Exception\SDKException
  */
 function bpi_build_top_rank(&$form) {
-  $heading = array(
-    t('Title'),
-    t('Amount of articles')
-  );
-
   $form['bpi_top_rank'] = array(
     '#type' => 'fieldset',
     '#title' => t('Top ranking'),
@@ -889,12 +884,15 @@ function bpi_build_top_rank(&$form) {
     ),
   );
 
-  $topNodesSyndicated = bpi_get_top_ranked('-1 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node');
+  $topNodesSyndicated = bpi_get_top_ranked('-18 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node');
   $rows = bpi_build_top_rank_rows($topNodesSyndicated, '/admin/bpi/syndicate');
   $form['bpi_top_rank']['top_nodes_syndicated'] = array(
     '#theme' => 'table',
-    '#caption' => t('Top syndicated (1 month)'),
-    '#header' => $heading,
+    '#caption' => t('Most shared articles (1 month)'),
+    '#header' => array(
+      t('Title'),
+      t('Amount of articles'),
+    ),
     '#rows' => $rows,
     '#empty' => t('No data so far.'),
   );
@@ -903,8 +901,11 @@ function bpi_build_top_rank(&$form) {
   $rows = bpi_build_top_rank_rows($topNodesSyndicated, '/admin/bpi/syndicate');
   $form['bpi_top_rank']['top_nodes_syndicated_three_months'] = array(
     '#theme' => 'table',
-    '#caption' => t('Top syndicated (3 months)'),
-    '#header' => $heading,
+    '#caption' => t('Most shared articles (3 months)'),
+    '#header' => array(
+      t('Title'),
+      t('Amount of articles'),
+    ),
     '#rows' => $rows,
     '#empty' => t('No data so far.'),
   );
@@ -913,8 +914,11 @@ function bpi_build_top_rank(&$form) {
   $rows = bpi_build_top_rank_rows($topAgenciesSyndicate);
   $form['bpi_top_rank']['top_agency_syndications'] = array(
     '#theme' => 'table',
-    '#caption' => t('Top syndications (3 months)'),
-    '#header' => $heading,
+    '#caption' => t('Top agency downloader (3 months)'),
+    '#header' => array(
+      t('Library'),
+      t('Amount of articles'),
+    ),
     '#rows' => $rows,
     '#empty' => t('No data so far.'),
   );
@@ -923,19 +927,25 @@ function bpi_build_top_rank(&$form) {
   $rows = bpi_build_top_rank_rows($topAgenciesPush);
   $form['bpi_top_rank']['top_agency_pushes'] = array(
     '#theme' => 'table',
-    '#caption' => t('Top pushes (3 months)'),
-    '#header' => $heading,
+    '#caption' => t('Top agency contributor (3 months)'),
+    '#header' => array(
+      t('Library'),
+      t('Amount of articles'),
+    ),
     '#rows' => $rows,
     '#empty' => t('No data so far.'),
   );
 
   $self_agency = variable_get('ting_agency', '');
-  $topNodesSyndicatedCreatedByMe = bpi_get_top_ranked('-3 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node', [$self_agency]);
-  $rows = bpi_build_top_rank_rows($topNodesSyndicatedCreatedByMe);
+  $topNodesSyndicatedCreatedByMyLibrary = bpi_get_top_ranked('-3 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node', [$self_agency]);
+  $rows = bpi_build_top_rank_rows($topNodesSyndicatedCreatedByMyLibrary);
   $form['bpi_top_rank']['top_my_nodes_syndicated'] = array(
     '#theme' => 'table',
-    '#caption' => t('Most syndications (3 months) authored by me'),
-    '#header' => $heading,
+    '#caption' => t('Most syndicated articles by my library'),
+    '#header' => array(
+      t('Title'),
+      t('Amount of articles'),
+    ),
     '#rows' => $rows,
     '#empty' => t('No data so far.'),
   );
