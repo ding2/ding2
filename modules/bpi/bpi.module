@@ -225,6 +225,7 @@ function bpi_access($access_permission, $bid = null) {
 
       $access_result = user_access($access_permission) && $role_access;
       break;
+
     case 'bpi content edit':
       $node = bpi_load_node_by_bid($bid);
       $access_result = $node ? node_access('update', $node) : user_access('access content');
@@ -1199,7 +1200,7 @@ function bpi_material_is_sharable($material_id) {
  */
 function bpi_load_node_by_bid($bid) {
   $result = db_query('SELECT nid FROM {bpi_syndicated} WHERE bid = :bid', [
-    ':bid' => $bid
+    ':bid' => $bid,
   ])->fetchField();
 
   return node_load($result);
