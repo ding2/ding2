@@ -68,6 +68,12 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_library_addresse',
@@ -134,6 +140,12 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_library_body',
@@ -188,6 +200,12 @@ function ding_library_field_default_field_instances() {
         'weight' => 4,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -248,6 +266,12 @@ function ding_library_field_default_field_instances() {
         'weight' => 4,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -319,6 +343,12 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_library_lead',
@@ -373,6 +403,12 @@ function ding_library_field_default_field_instances() {
         'weight' => 6,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -453,6 +489,12 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_library_mail',
@@ -512,6 +554,12 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_library_phone_number',
@@ -565,6 +613,12 @@ function ding_library_field_default_field_instances() {
         'weight' => 5,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -637,6 +691,12 @@ function ding_library_field_default_field_instances() {
         'weight' => 3,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -741,6 +801,12 @@ function ding_library_field_default_field_instances() {
         'weight' => 7,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

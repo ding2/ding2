@@ -13,6 +13,334 @@ function ding_user_frontend_default_page_manager_handlers() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'pm_existing_pages_user_contact__panel_context_f66fc201-c74c-4583-8bd6-09f6c4daf4e3';
+  $handler->task = 'pm_existing_pages';
+  $handler->subtask = 'user_contact';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'User contact | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'fd050745-a13a-4ec6-ad59-a118815120ba';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-b3b3dd01-8d23-473d-8930-9b31f5777b03';
+    $pane->panel = 'main_content';
+    $pane->type = 'pm_existing_pages';
+    $pane->subtype = 'pm_existing_pages';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      0 => 'task_id',
+      'task_id' => 'user_contact',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'b3b3dd01-8d23-473d-8930-9b31f5777b03';
+    $display->content['new-b3b3dd01-8d23-473d-8930-9b31f5777b03'] = $pane;
+    $display->panels['main_content'][0] = 'new-b3b3dd01-8d23-473d-8930-9b31f5777b03';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-b3b3dd01-8d23-473d-8930-9b31f5777b03';
+  $handler->conf['display'] = $display;
+  $export['pm_existing_pages_user_contact__panel_context_f66fc201-c74c-4583-8bd6-09f6c4daf4e3'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'pm_existing_pages_user_roles__panel_context_476607c1-82ae-4143-9af9-dac2dd65bea3';
+  $handler->task = 'pm_existing_pages';
+  $handler->subtask = 'user_roles';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'User roles | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = '62d072d7-c027-4091-a42b-db897a3ee33b';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-127722dc-34ef-4c98-9d62-3c9afd6f6c3b';
+    $pane->panel = 'main_content';
+    $pane->type = 'pm_existing_pages';
+    $pane->subtype = 'pm_existing_pages';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      0 => 'task_id',
+      'task_id' => 'user_roles',
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '127722dc-34ef-4c98-9d62-3c9afd6f6c3b';
+    $display->content['new-127722dc-34ef-4c98-9d62-3c9afd6f6c3b'] = $pane;
+    $display->panels['main_content'][0] = 'new-127722dc-34ef-4c98-9d62-3c9afd6f6c3b';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = 'new-127722dc-34ef-4c98-9d62-3c9afd6f6c3b';
+  $handler->conf['display'] = $display;
+  $export['pm_existing_pages_user_roles__panel_context_476607c1-82ae-4143-9af9-dac2dd65bea3'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'pm_existing_pages_user_scheduler__panel_context_7dfa9868-78e1-4a1e-826e-c593533053b9';
+  $handler->task = 'pm_existing_pages';
+  $handler->subtask = 'user_scheduler';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'User scheduler | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'ding_layout_1';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+      'primary' => NULL,
+      'secondary' => NULL,
+      'tertiary' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'cc6064e7-86d4-4d43-9e95-b38ea656866e';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-a557e335-94fd-415b-8992-68a6b7752ba4';
+    $pane->panel = 'primary';
+    $pane->type = 'pm_existing_pages';
+    $pane->subtype = 'pm_existing_pages';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      0 => 'task_id',
+      'task_id' => 'user_scheduler',
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'a557e335-94fd-415b-8992-68a6b7752ba4';
+    $display->content['new-a557e335-94fd-415b-8992-68a6b7752ba4'] = $pane;
+    $display->panels['primary'][0] = 'new-a557e335-94fd-415b-8992-68a6b7752ba4';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = 'new-a557e335-94fd-415b-8992-68a6b7752ba4';
+  $handler->conf['display'] = $display;
+  $export['pm_existing_pages_user_scheduler__panel_context_7dfa9868-78e1-4a1e-826e-c593533053b9'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'pm_existing_pages_user_shortcuts__panel_context_d2f33b14-94b1-42b8-baf0-6d72b3bd48a0';
+  $handler->task = 'pm_existing_pages';
+  $handler->subtask = 'user_shortcuts';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'User shortcuts | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'b8b49358-0597-45e7-9cab-bc287b12f5b7';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-6eb92460-b93f-467e-8ba5-74fddf138fe5';
+    $pane->panel = 'middle';
+    $pane->type = 'pm_existing_pages';
+    $pane->subtype = 'pm_existing_pages';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      0 => 'task_id',
+      'task_id' => 'user_shortcuts',
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '6eb92460-b93f-467e-8ba5-74fddf138fe5';
+    $display->content['new-6eb92460-b93f-467e-8ba5-74fddf138fe5'] = $pane;
+    $display->panels['middle'][0] = 'new-6eb92460-b93f-467e-8ba5-74fddf138fe5';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-6eb92460-b93f-467e-8ba5-74fddf138fe5';
+  $handler->conf['display'] = $display;
+  $export['pm_existing_pages_user_shortcuts__panel_context_d2f33b14-94b1-42b8-baf0-6d72b3bd48a0'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'user_edit_panel_context';
   $handler->task = 'user_edit';
   $handler->subtask = '';
@@ -518,6 +846,158 @@ function ding_user_frontend_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'user_checklist';
+  $page->task = 'page';
+  $page->admin_title = 'User checklist';
+  $page->admin_description = '';
+  $page->path = 'user/%user/checklist';
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'My checklist',
+    'name' => 'navigation',
+    'weight' => '6',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'user' => array(
+      'id' => 1,
+      'identifier' => 'User: ID',
+      'name' => 'entity_id:user',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_user_checklist__panel_context_a822c330-2715-4325-b2b0-6c8012f3c3bf';
+  $handler->task = 'page';
+  $handler->subtask = 'user_checklist';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'My checklist | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'afc7c078-151d-40f8-b503-1ca8abb56201';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'path' => '',
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $display->content['new-2567061b-6c7f-4208-9f1e-81cecd5840ff'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane = new stdClass();
+    $pane->pid = 'new-66777ca4-0106-48a8-90b3-a08d14fb7c04';
+    $pane->panel = 'main_content';
+    $pane->type = 'checklist';
+    $pane->subtype = 'checklist';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '66777ca4-0106-48a8-90b3-a08d14fb7c04';
+    $display->content['new-66777ca4-0106-48a8-90b3-a08d14fb7c04'] = $pane;
+    $display->panels['main_content'][0] = 'new-66777ca4-0106-48a8-90b3-a08d14fb7c04';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-66777ca4-0106-48a8-90b3-a08d14fb7c04';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['user_checklist'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'user_debts';
   $page->task = 'page';
   $page->admin_title = 'User debts';
@@ -729,6 +1209,158 @@ function ding_user_frontend_default_page_manager_pages() {
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_debts'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'user_followed_searches';
+  $page->task = 'page';
+  $page->admin_title = 'User followed searches';
+  $page->admin_description = '';
+  $page->path = 'user/%user/followed-searches';
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'My followed searches',
+    'name' => 'navigation',
+    'weight' => '6',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'user' => array(
+      'id' => 1,
+      'identifier' => 'User: ID',
+      'name' => 'entity_id:user',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_user_followed_searches__panel_context_4d18da20-ecc4-481d-b12f-b399e229d7a1';
+  $handler->task = 'page';
+  $handler->subtask = 'user_followed_searches';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'My searches | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'afc7c078-151d-40f8-b503-1ca8abb56201';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'path' => '',
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $display->content['new-2567061b-6c7f-4208-9f1e-81cecd5840ff'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane = new stdClass();
+    $pane->pid = 'new-61dce110-6adc-41ca-91d4-80cb8e84a680';
+    $pane->panel = 'main_content';
+    $pane->type = 'followed_searches';
+    $pane->subtype = 'followed_searches';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '61dce110-6adc-41ca-91d4-80cb8e84a680';
+    $display->content['new-61dce110-6adc-41ca-91d4-80cb8e84a680'] = $pane;
+    $display->panels['main_content'][0] = 'new-61dce110-6adc-41ca-91d4-80cb8e84a680';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['user_followed_searches'] = $page;
 
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
@@ -1078,161 +1710,6 @@ function ding_user_frontend_default_page_manager_pages() {
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_loans_overdue'] = $page;
-
-  $page = new stdClass();
-  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
-  $page->api_version = 1;
-  $page->name = 'user_my_library';
-  $page->task = 'page';
-  $page->admin_title = 'User my library';
-  $page->admin_description = '';
-  $page->path = 'user/%user/my-library';
-  $page->access = array(
-    'plugins' => array(
-      0 => array(
-        'name' => 'compare_users',
-        'settings' => array(
-          'equality' => '1',
-        ),
-        'context' => array(
-          0 => 'argument_entity_id:user_1',
-          1 => 'logged-in-user',
-        ),
-        'not' => FALSE,
-      ),
-    ),
-    'logic' => 'and',
-  );
-  $page->menu = array(
-    'type' => 'tab',
-    'title' => 'Mit personlige bibliotek',
-    'name' => 'navigation',
-    'weight' => '6',
-    'parent' => array(
-      'type' => 'none',
-      'title' => '',
-      'name' => 'navigation',
-      'weight' => '0',
-    ),
-  );
-  $page->arguments = array(
-    'user' => array(
-      'id' => 1,
-      'identifier' => 'User: ID',
-      'name' => 'entity_id:user',
-      'settings' => array(),
-    ),
-  );
-  $page->conf = array(
-    'admin_paths' => FALSE,
-  );
-  $page->default_handlers = array();
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_user_my_library__panel';
-  $handler->task = 'page';
-  $handler->subtask = 'user_my_library';
-  $handler->handler = 'panel_context';
-  $handler->weight = 0;
-  $handler->conf = array(
-    'title' => 'Panel',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'name' => 'panel',
-    'metatag_panels' => array(
-      'enabled' => 1,
-      'metatags' => array(
-        'title' => array(
-          'value' => 'My personal library | [current-page:pager][site:name]',
-        ),
-      ),
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = '25_50_25';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'left_sidebar' => NULL,
-      'main_content' => NULL,
-      'right_sidebar' => NULL,
-      'attachment_4_1' => NULL,
-      'attachment_4_2' => NULL,
-      'attachment_4_3' => NULL,
-      'attachment_4_4' => NULL,
-      'attachment_3_1' => NULL,
-      'attachment_3_2' => NULL,
-      'attachment_3_3' => NULL,
-      'attachment_2_1' => NULL,
-      'attachment_2_2' => NULL,
-      'attachment_1_1' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->uuid = 'afc7c078-151d-40f8-b503-1ca8abb56201';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
-    $pane->panel = 'left_sidebar';
-    $pane->type = 'user_menu';
-    $pane->subtype = 'user_menu';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'path' => '',
-      'context' => 'argument_entity_id:user_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '2567061b-6c7f-4208-9f1e-81cecd5840ff';
-    $display->content['new-2567061b-6c7f-4208-9f1e-81cecd5840ff'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
-    $pane = new stdClass();
-    $pane->pid = 'new-5d084033-4aa3-42e4-9303-c5fdde6d7d29';
-    $pane->panel = 'main_content';
-    $pane->type = 'lists';
-    $pane->subtype = 'lists';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'pane-user-overview-and-lists',
-    );
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '5d084033-4aa3-42e4-9303-c5fdde6d7d29';
-    $display->content['new-5d084033-4aa3-42e4-9303-c5fdde6d7d29'] = $pane;
-    $display->panels['main_content'][0] = 'new-5d084033-4aa3-42e4-9303-c5fdde6d7d29';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $pages['user_my_library'] = $page;
 
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */

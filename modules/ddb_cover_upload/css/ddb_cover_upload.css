@@ -1,0 +1,4 @@
+/* Hide upload cover butten on carousel items */
+.ding-carousel-item .cover-upload-button {
+  display: none;
+}

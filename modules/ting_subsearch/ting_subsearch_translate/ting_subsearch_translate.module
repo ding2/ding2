@@ -1,0 +1,150 @@
+<?php
+
+/**
+ * @file
+ * Ting subsearch translate.
+ */
+
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use Ting\Search\TingSearchResultInterface;
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ting_subsearch_translate_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ting_subsearch_translate_menu() {
+  $items = [];
+
+  $items['admin/config/ding/subsearch/translate'] = [
+    'title' => 'Ting subsearch translate',
+    'description' => 'Configure ting subsearch translate.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_subsearch_translate_admin_settings_form'),
+    'access arguments' => array('configure ting subsearch'),
+    'file' => 'ting_subsearch_translate.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_opensearch_pre_execute().
+ */
+function ting_subsearch_translate_opensearch_pre_execute($request) {
+  if (get_class($request) != 'TingClientSearchRequest') {
+    return;
+  }
+  // Ensure that facet genreCategory is returned from the well, since we need
+  // it to calculate genre ratio.
+  // See: ting_subsearch_translate_content_type_render().
+  // See: ting_subsearch_get_genre_ratio().
+  $facets = $request->getFacets();
+  if (!in_array('facet.genreCategory', $facets)) {
+    $facets[] = 'facet.genreCategory';
+    $request->setFacets($facets);
+  }
+}
+
+/**
+ * Implements hook_ting_subsearch_ajax_placeholder_content().
+ */
+function ting_subsearch_translate_ting_subsearch_ajax_placeholder_content(TingSearchResultInterface $search_result) {
+  $content = '';
+
+  // Get the user search request and keys and attempt to find suggestion.
+  $search_request = $search_result->getSearchRequest();
+  $keys = $search_request->getFullTextQuery();
+  $suggestion = ting_subsearch_translate_suggest_translated_keys($keys);
+
+  if (!$suggestion) {
+    return $content;
+  }
+
+  // The two search are the same so don't show the suggestion.
+  if (drupal_strtolower($suggestion) == drupal_strtolower($keys)) {
+    return $content;
+  }
+
+  $subsearch_request = $search_request->withFullTextQuery($suggestion);
+  $subsearch_result = ting_subseach_do_subsearch($subsearch_request);
+  $subsearch_num_results = $subsearch_result->getNumTotalObjects();
+
+  // No reason to continue if subsearch didn't provide any results.
+  if ($subsearch_num_results == 0) {
+    return $content;
+  }
+
+  $factor = variable_get('ting_subsearch_translate_ps_factor', 10);
+  // User search number of results.
+  $num_results = $search_result->getNumTotalObjects();
+
+  if ($num_results == 0 || $subsearch_num_results / $num_results >= $factor) {
+    $message = t('Search in english <strong>"@suggestion"</strong> - returns <strong>!subsearch-num-results</strong> hits', [
+      '@suggestion' => $suggestion,
+      '!subsearch-num-results' => $subsearch_num_results,
+    ]);
+
+    $content = [
+      '#theme' => 'ting_subsearch_suggestion_message',
+      '#message' => $message,
+      '#subsearch_result' => $subsearch_result,
+      '#module' => 'ting_subsearch_translate',
+    ];
+  }
+
+  return $content;
+}
+
+/**
+ * Finds suggestion based on Google translation.
+ *
+ * @param string $keys
+ *   The search keys to translate.
+ *
+ * @return string|bool
+ *   The translation or FALSE if no translation was obtained.
+ */
+function ting_subsearch_translate_suggest_translated_keys($keys) {
+  $keys = ting_subsearch_normalize_keys($keys);
+
+  $params = [];
+  $params['q'] = $keys;
+  $params['key'] = variable_get('ting_subsearch_translate_google_key', '');
+  $params['source'] = 'da';
+  $params['target'] = 'en';
+
+  try {
+    $client = new HttpClient();
+    $response = $client->get(
+      variable_get('ting_subsearch_translate_url', 'https://www.googleapis.com/language/translate/v2'),
+      [
+        'query' => $params,
+        'headers' => [
+          'Accept' => 'application/json',
+        ],
+      ]
+    );
+    $result = json_decode($response->getBody());
+
+    if (!empty($result->data->translations[0]->translatedText)) {
+      $translation = (string) $result->data->translations[0]->translatedText;
+      return html_entity_decode($translation, ENT_QUOTES);
+    }
+  }
+  catch (GuzzleClientException $e) {
+    watchdog_exception('ting_subsearch_translate', $e);
+    return FALSE;
+  }
+
+  return FALSE;
+}

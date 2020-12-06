@@ -25,13 +25,20 @@ function ding_user_pathauto_alias_alter(&$alias, $context) {
 }
 
 /**
- * Implements hook_preprocess_html().
+ * Implements hook_page_build().
  */
-function ding_user_preprocess_html(&$variables) {
-  $args = arg();
-  if ($args[0] == 'user') {
-    // Set default title.
-    drupal_set_title('Account');
+function ding_user_page_build() {
+  // Special handling for user pages.
+  if (strpos(current_path(), 'user') === 0) {
+    // Ensure that a generic title is set without the username. If no title is
+    // set, drupal_get_title() will end up calling menu_get_active_title() in
+    // template_preprocess_html() which will add the username to title under
+    // user pages. Note that we intentionally check the current title with
+    // drupal_SET_title() and not drupal_GET_title(), since the set method will
+    // call menu_get_active_title() if no title is present.
+    if (drupal_set_title() === NULL) {
+      drupal_set_title(t('Account'));
+    }
 
     // Check if current user is logged in.
     if (user_is_logged_in()) {
@@ -39,6 +46,18 @@ function ding_user_preprocess_html(&$variables) {
       drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
       drupal_add_http_header('Pragma', 'no-cache');
     }
+
+    // Ensure that search engines doesn't index pages under /user/*. We also add
+    // nofollow since the login page contains links to other pages under /user
+    // that are disallowed in robots.txt.
+    $robots_noindex = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'robots',
+        'content' => 'noindex, nofollow',
+      ),
+    );
+    drupal_add_html_head($robots_noindex, 'ding_user_noindex');
   }
 }
 
@@ -123,10 +142,13 @@ function ding_user_authenticate(array $user_info) {
   $account = FALSE;
 
   try {
+    // Check if more info is provide from the user login form or SSO provider and default to empty array.
+    $extra = (isset($user_info['extra'])) ? $user_info['extra'] : [];
+
     if (array_key_exists('single_sign_on', $user_info) && $user_info['single_sign_on'] == TRUE) {
       // No password provided by the authentication request (not even the empty
       // string), so we assume that this is a single-sign-on request.
-      $auth_res = ding_provider_invoke('auth', 'single_sign_on', $user_info['name']);
+      $auth_res = ding_provider_invoke('auth', 'single_sign_on', $user_info['name'], $extra);
 
       // Store value in session to be used later on to check if user was signed
       // in with SSO.
@@ -134,7 +156,7 @@ function ding_user_authenticate(array $user_info) {
     }
     else {
       // Normal user log in request.
-      $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass']);
+      $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass'], $extra);
     }
   }
   catch (DingProviderNoProvider $exception) {
@@ -161,6 +183,9 @@ function ding_user_authenticate(array $user_info) {
 
     // Check that a profile exists for the user and if not create one.
     _ding_user_create_profile2($account);
+
+    // Attempt to upgrade an existing anonymous consent storage to this user.
+    _ding_user_upgrade_anonymous_ecc_consent($account);
 
     if ($account->data['blocks']) {
       foreach ($account->data['blocks'] as $block_code) {
@@ -321,11 +346,19 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#tree' => FALSE,
   );
 
-  $form['ding_user']['ding_user_pincode_length'] = array(
+  $form['ding_user']['ding_user_pincode_min_length'] = array(
     '#type' => 'textfield',
-    '#title' => t('Pin code length'),
-    '#default_value' => ding_user_get_pincode_length(),
-    '#description' => t('The required length of the pin code used to access the site. This must be a integer value larger than 0.'),
+    '#title' => t('Pin code minimum length'),
+    '#default_value' => variable_get('ding_user_pincode_min_length', 4),
+    '#description' => t('The minimum length of the pin code used to access the site. This must be a integer value larger than 0.'),
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
+
+  $form['ding_user']['ding_user_pincode_max_length'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Pin code maximum length'),
+    '#default_value' => variable_get('ding_user_pincode_max_length', 4),
+    '#description' => t('The maximum length of the pin code used to access the site. This must be a integer value larger than 0.'),
     '#element_validate' => array('element_validate_integer_positive'),
   );
 
@@ -347,23 +380,41 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
 }
 
 /**
- * Helper function to get the pin-code length from the administration UI.
+ * Return the pin-code range.
  *
- * @return int
- *   The length of the pin-code, if not set it will return 4.
+ * @return int[]
+ *   The range, as [MIN, MAX].
  */
-function ding_user_get_pincode_length() {
-  return variable_get('ding_user_pincode_length', 4);
+function ding_user_get_pincode_length_range() {
+  return [
+    variable_get('ding_user_pincode_min_length', 4),
+    variable_get('ding_user_pincode_max_length', 4),
+  ];
+}
+
+/**
+ * Return the pin-code range in human format.
+ *
+ * @return string
+ *   The length range as a single number, or as "MIN-MAX".
+ */
+function ding_user_get_pincode_length_range_string() {
+  $min = variable_get('ding_user_pincode_min_length', 4);
+  $max = variable_get('ding_user_pincode_max_length', 4);
+  if ($min == $max) {
+    return (string) $min;
+  }
+  return $min . '-' . $max;
 }
 
 /**
  * Form element validation handler for pincode elements.
  */
 function ding_user_element_validate_pincode($element, &$form_state, $form) {
-  $pincode_length = ding_user_get_pincode_length();
+  list($min, $max) = ding_user_get_pincode_length_range();
   $pincode = $element['#value'];
-  if (!empty($pincode) && !preg_match('/^\d{' . $pincode_length . '}$/', $pincode)) {
-    form_error($element, t('The pincode must consist of exactly %number digits and only contain integers.', array('%number' => $pincode_length)));
+  if (!empty($pincode) && !preg_match('/^\d{' . $min . ',' . $max . '}$/', $pincode)) {
+    form_error($element, t('The pincode must consist of %number digits and only contain integers.', ['%number' => ding_user_get_pincode_length_range_string()]));
   }
 }
 
@@ -380,7 +431,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     $profile_type = ding_user_get_provider_profile_type();
     if ($form_state['profile2']->type == $profile_type->type) {
       // Add pin-code change field.
-      $maxlength = ding_user_get_pincode_length();
+      list(, $maxlength) = ding_user_get_pincode_length_range();
       $form['pass'] = array(
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
@@ -807,6 +858,36 @@ function _ding_user_create_profile2($account) {
     $profile->save();
   }
   return $profile;
+}
+
+/**
+ * Attempt to upgrade any anonymous consent from this device.
+ */
+function _ding_user_upgrade_anonymous_ecc_consent($account) {
+  $cookie_name = eu_cookie_compliance_get_settings()['cookie_name'] . '-cid';
+  if (isset($_COOKIE[$cookie_name])) {
+    $cid = $_COOKIE[$cookie_name];
+
+    // Upgrade the consent. Use try-catch as we do not in any case wanna cause
+    // issues during provider login process.
+    try {
+      db_update('eu_cookie_compliance_basic_consent')
+        ->fields(['uid' => $account->uid])
+        ->condition('cid', $cid)
+        ->execute();
+
+      watchdog('ding_user', 'Attempted consent storage upgrade for cid: %cid to provider user uid: %uid', [
+        '%cid' => $cid,
+        '%uid' => $account->uid,
+      ]);
+
+      // Remove our cid-cookie again.
+      setcookie($cookie_name, "", 1, '/');
+    }
+    catch (Exception $e) {
+      watchdog_exception('ding_user', $e);
+    }
+  }
 }
 
 /**

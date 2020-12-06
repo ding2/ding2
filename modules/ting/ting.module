@@ -307,6 +307,10 @@ function ting_entity_info() {
           'label' => t('Teaser'),
           'custom settings' => TRUE,
         ),
+        'minimal' => array(
+          'label' => t('Minimal'),
+          'custom settings' => TRUE,
+        ),
       ),
       'bundles' => array(
         'ting_object' => array(
@@ -343,6 +347,10 @@ function ting_entity_info() {
         ),
         'teaser' => array(
           'label' => t('Teaser'),
+          'custom settings' => TRUE,
+        ),
+        'minimal' => array(
+          'label' => t('Minimal'),
           'custom settings' => TRUE,
         ),
       ),
@@ -414,11 +422,11 @@ function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default
       ];
     }
 
-    // Loading collection (specially on empty cache is expensive). So only load
-    // the collection when it's need and here only when this button is required
-    // in the design. Before using context it was load but not used in the
-    // design.
-    if (strpos($view_mode, 'teaser') === FALSE) {
+    // Loading collection (specially on empty cache is expensive). So only show
+    // "Other formats" buttons where it's needed on the main page of the
+    // material.
+    $entity_path = entity_uri('ting_object', $entity)['path'];
+    if (current_path() == $entity_path) {
       $collection = ting_collection_load($entity->id);
       if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
         $buttons[] = [

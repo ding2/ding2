@@ -1,0 +1,18 @@
+# The services of the project.
+#
+# Each service listed will be deployed
+# to power your Platform.sh project.
+
+mysqldb:
+  type: mysql:10.2
+  disk: 2048
+
+memcached:
+  type: memcached:1.4
+
+#rediscache:
+#    type: redis:3.0
+#
+#solrsearch:
+#    type: solr:3.6
+#    disk: 1024

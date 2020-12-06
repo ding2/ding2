@@ -10,30 +10,28 @@
 function connie_auth_single_sign_on($name) {
   $res = array();
 
-  // Default password is the four last letters in the name.
-  $password = drupal_substr($name, -4);
   $passes = variable_get('connie_user_passes', array());
-  if (isset($passes[$name])) {
-    $password = $passes[$name];
-  }
-  
-  // We simply check that the name existed in the $passes, which is basically
-  // what we do at single sign on as log in is validated external.
-  if ($password) {
-    $res['success'] = TRUE;
-    if (preg_match('/blocked/', $name)) {
-      $res['success'] = FALSE;
-      $res['messages'][] = t("Sorry, you're blocked");
-    }
 
+  $auth_patterns = variable_get('connie_auth_patterns', array());
+  $pattern_match = array_reduce($auth_patterns, function(bool $carry, string $pattern) use ($name)  {
+    return $carry || preg_match($pattern, $name);
+  }, FALSE);
+
+  // Allow users in connie_user_passes or who matches connie_auth_patterns.
+  // Password has already been validated by single signon system.
+  if (isset($passes[$name]) || $pattern_match) {
+    $res['success'] = TRUE;
     $res['creds'] = array(
       'name' => $name,
     );
 
+    // Hide last 4 digits in case name looks like a CPR number.
+    $display_name = preg_replace('/(\d{6})(\d{4})/', '\1XXXX', $name);
+
     $res['user'] = array(
-      'mail' => $name . '@example.com',
+      'mail' => hash('crc32', $name) . '@example.com',
       'data' => array(
-        'display_name' => drupal_ucfirst($name),
+        'display_name' => $display_name,
       ),
     );
 

@@ -17,6 +17,7 @@ $classes = implode(" ", $classes);
   <?php if (!empty($item->image) && $position): ?>
     style="background-image: url(<?php print $item->image; ?>);"
   <?php endif; ?>
+  <?php print $attributes; ?>
 >
   <?php if (isset($item->video)): ?>
     <div class="media-container">

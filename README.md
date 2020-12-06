@@ -102,7 +102,7 @@ process using drush make. It will download all the modules and the theme from
 the different repositories at http://github.com/ding2
 ```sh
   ~$ cd DRUPAL/profiles/ding2
-  ~$ drush make --no-core --contrib-destination=. ding2.make
+  ~$ drush make --no-core --contrib-destination=. project.make
 ```
 
 ### Development
@@ -111,9 +111,9 @@ run this command instead. It is because drush automatically deletes _.git_
 folders after it has cloned the repositories and by adding _--working-copy_, it
 will not delete these.
 ```sh
-  ~$ drush make --no-core --working-copy --contrib-destination=. ding2.make
+  ~$ drush make --no-core --working-copy --contrib-destination=. project.make
 ```
-### Site installation 
+### Site installation
 Go to the url for your site, run the ding2 installation profile and fill out
 all the questions.
 
@@ -121,7 +121,7 @@ If you use [Docker](https://docs.docker.com/get-started/) you can also start a c
 
 ```sh
    ~$ docker run -e MYSQL_USER=db -e MYSQL_PASSWORD=db -e MYSQL_DATABASE=db -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d ding2/ding2-mysql:master
-``` 
+```
 
 In this case you should insert the following in your `settings.php` file:
 
@@ -147,7 +147,7 @@ If you are using an deployment system you may not want to patch Drupal core
 manually in a production environment.
 ```sh
   ~$ git clone git@github.com:ding2/ding2.git ding2
-  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/drupal.make .
+  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/project.make .
   ~$ rm -rf ding2
 ```
 
@@ -171,6 +171,17 @@ administration interface.
 
   // Ensure fast tracks for files not found.
   drupal_fast_404();
+```
+
+## Drupal session cookie SameSite attribute
+
+By default we use SameSite=None and Secure on Drupal session cookie. This might
+cause issues with local development if not using https. To fix this add the
+following to settings.php to avoid setting SameSite=None and enforcing secure
+cookies.
+
+```php
+  $conf['samesite_cookie_attribute_value'] = '';
 ```
 
 ## Theme development

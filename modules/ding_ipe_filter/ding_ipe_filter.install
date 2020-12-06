@@ -118,3 +118,14 @@ function ding_ipe_filter_update_7105(&$sandbox) {
 
   variable_set('ding_ipe_filter_panes_selected', $filtered_widgets);
 }
+
+/**
+ * Select ding sections.
+ */
+function ding_ipe_filter_update_7106(&$sandbox) {
+  $selected = _ding_ipe_filter_selected_panes();
+  if (!isset($selected['ding-:ding_sections'])) {
+    $selected['ding-:ding_sections'] = 'ding-:ding_sections';
+    variable_set('ding_ipe_filter_panes_selected', $selected);
+  }
+}

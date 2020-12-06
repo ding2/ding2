@@ -87,6 +87,7 @@
   hide($content['links']);
 ?>
 <div class="<?php print $classes; ?>">
+  <h1 class="page-title"><?php print $title; ?></h1>
   <div class="content"<?php print $content_attributes; ?>>
     <?php print render($content); ?>
   </div>

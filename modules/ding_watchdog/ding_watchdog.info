@@ -27,6 +27,6 @@ features[variable][] = watchdog_filtering_severity_search_api
 features[variable][] = watchdog_filtering_severity_system
 features[variable][] = watchdog_filtering_severity_ting
 features[variable][] = watchdog_filtering_severity_ting%20client
-features[variable][] = watchdog_filtering_severity_ting_covers_addi
+features[variable][] = watchdog_filtering_severity_ting_covers_ddb
 features[variable][] = watchdog_filtering_severity_user
 features[variable][] = watchdog_filtering_severity_varnish

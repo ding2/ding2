@@ -97,22 +97,6 @@ class ObjectPage extends PageBase
     }
 
     /**
-     * HasAddToList.
-     *
-     * @return string
-     *    Nonempty if Add to list is not found.
-     */
-    public function hasAddToList()
-    {
-
-        $button = $this->find('xpath', "//div[contains(@class,'ding-list-add-button')]/a[contains(@class,'trigger')]");
-        if (!$button) {
-            return "Add to list-button is not shown";
-        }
-        return "";
-    }
-
-    /**
      * Has Cover Page.
      *
      * @return string
@@ -120,7 +104,9 @@ class ObjectPage extends PageBase
      */
     public function hasCoverPage()
     {
-        $coverimg = $this->find('xpath', '//div[contains(@class,"ting-cover")]/img');
+        $coverimg = $this->waitFor(5, function ($element) {
+          return $element->find('css', '.ting-cover img');
+        });
         $txt_cover = "";
         if ($coverimg) {
             $txt_cover = $coverimg->getAttribute('src');

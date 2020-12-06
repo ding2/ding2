@@ -7,13 +7,13 @@
 include_once 'ding_contact.features.inc';
 
 /**
- * Implements hook_block_view_alter
+ * Implements hook_block_view_alter().
  *
  * Contact form is taken over by page_manager - @see ctools/plugins/tasks/contact_site.inc, and
  * expects a form to render - the contact module [drupal]/modules/contact returns message as a string if eg.
  * flooding is violated, and thus page_manager fails to render jthe message.
  *
- * check if content on contact site  is a form. If not make it so
+ * Check if content on contact site  is a form. If not make it so.
  * */
 function ding_contact_block_view_alter(&$data, $block) {
   if ($block->delta == 'contact_site') {
@@ -24,14 +24,7 @@ function ding_contact_block_view_alter(&$data, $block) {
 }
 
 /**
- * A simple form that displays a message
- *
- * @param $form
- * @param $form_state
- * @param $message
- *  The message to disply
- * @return array
- *  Very simple form
+ * A simple form that displays a message.
  */
 function ding_contact_flooded_form($form, $form_state, $message) {
   $form = array();
@@ -42,27 +35,41 @@ function ding_contact_flooded_form($form, $form_state, $message) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter (contact_site_form)
- * Alter the contact form: make sure no cached page is delivered, and stop redirect
- * Why ? - to make sure no cached page is delivered
+ * Implements hook_form_FORM_ID_alter().
  */
 function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
+  // Alter the contact form: make sure no cached page is delivered, and stop
+  // redirect. Why ? - to make sure no cached page is delivered.
   $form['actions']['submit']['#attached'] = array(
     'drupal_add_http_header' => array(
-      array('Cache-Control', 'no-cache, no-store, must-revalidate')
+      array('Cache-Control', 'no-cache, no-store, must-revalidate'),
     ),
   );
-  $form['#submit'][] = 'ding_contact_contact_form_stop_redirect';
+  $form['#submit'][] = 'ding_contact_contact_form_submit';
+
+  // Add a notice about not inserting personal data in the contact form. We make
+  // it translatable so that administrators are able to change the link to the
+  // privacy policy page.
+  $privacy_notice = t('Please do not enter your civil registration number (CPR) or sensitive information of any kind in the form. Read more in our <a href="/persondata">privacy policy</a>');
+  $form['privacy_notice'] = [
+    '#type' => 'item',
+    '#markup' => '<p>' . $privacy_notice . '</p>',
+  ];
 }
 
 /**
- * Prevent default redirect to frontpage ( @see contact.pages.inc::contact_personal_form_submit() )
- *
- * @param $form
- * @param $form_state
+ * Ding contact form submission handler for contact_site_form().
  */
-function ding_contact_contact_form_stop_redirect($form, &$form_state) {
+function ding_contact_contact_form_submit($form, &$form_state) {
+  // Prevent default redirect to frontpage.
+  // See: contact.pages.inc::contact_personal_form_submit().
   unset($form_state['redirect']);
+
+  // Ensure the cookies set by the contact module with the user's name and mail
+  // are removed.
+  // See: contact.pages.inc::contact_personal_form_submit().
+  user_cookie_delete('name');
+  user_cookie_delete('mail');
 }
 
 /**
@@ -84,6 +91,21 @@ function ding_contact_mail_alter(&$message) {
       $message['headers']['From'] = $from_value;
       $message['headers']['Reply-To'] = $message['params']['mail'];
       $message['headers']['Sender'] = $sitename;
+
+      // If it is not an anonymous user that has filled out the form,
+      // we want ot make sure their email is included in the message.
+      if (!empty($message['params']['sender']->uid)) {
+        $message['body'][0] .= ' ' . t(
+          "The user's email is !sender-mail.",
+          array(
+            '!sender-mail' => $message['params']['sender']->mail,
+          ),
+          array(
+            'langcode' => $message['language']->language,
+          )
+        );
+      }
+
       break;
   }
 }

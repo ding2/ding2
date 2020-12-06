@@ -80,7 +80,6 @@ features[variable][] = comment_form_location_ding_news
 features[variable][] = comment_preview_ding_news
 features[variable][] = comment_subject_field_ding_news
 features[variable][] = field_bundle_settings_node__ding_news
-features[variable][] = flag_mobile_app_default_ding_news
 features[variable][] = flag_push_to_mongo_default_ding_news
 features[variable][] = language_content_type_ding_news
 features[variable][] = menu_options_ding_news

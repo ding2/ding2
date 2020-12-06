@@ -64,7 +64,7 @@ function ding_user_frontend_user_overview_content_type_render($subtype, $conf, $
     if ($overdues > 0) {
       $list[DING_USER_FRONTEND_LIST_LOANS_OVERDUE] = array(
         'data' =>
-        '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
+        '<a href="' . url($uri['path'] . '/status-loans-overdue') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
         'class' => array('warn'),
       );
     }

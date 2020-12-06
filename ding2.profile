@@ -47,12 +47,8 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
 
     // Set default values in ting search form to help aegir/bulk installations.
     if ($form_id == 'opensearch_admin_settings') {
-      $form['opensearch']['opensearch_url']['#default_value'] = 'https://opensearch.addi.dk/b3.5_5.0/';
+      $form['opensearch']['opensearch_url']['#default_value'] = 'https://opensearch.addi.dk/b3.5_5.2/';
       $form['opensearch']['opensearch_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
-    }
-
-    if ($form_id == 'ting_covers_addi_admin_settings_form') {
-      $form['addi']['ting_covers_addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.11';
     }
   }
 }
@@ -189,6 +185,9 @@ function ding2_add_settings(&$install_state) {
 
   // Set cookie page.
   ding2_set_cookie_page();
+
+  // Set EU cookie compliance settings.
+  ding2_set_eu_cookie_compliance_settings();
 
   // Add menu item to secondary menu.
   $link = array(
@@ -670,6 +669,10 @@ function ding2_module_enable(&$install_state) {
     'ting_fulltext',
     'ting_infomedia',
     'ting_field_search',
+    'ting_smart_search',
+    'ting_subsearch_bibdk',
+    'ting_subsearch_suggestions',
+    'ting_subsearch_translate',
     'ding_eresource',
     'ding_app_content_rss',
     'ding_app_variables',
@@ -730,38 +733,21 @@ function ding2_add_administrators_role($uid) {
  * Add page with std. cookie information.
  */
 function ding2_set_cookie_page() {
-  // Enable translation variables for EU Cookie Compliance.
-  $controller = variable_realm_controller('language');
-  $old_variables = $controller->getEnabledVariables();
-  $old_list = variable_children($old_variables);
-  $variables = array_merge($old_list, array('eu_cookie_compliance'));
-  $controller->setRealmVariable('list', $variables);
-
-  // Set cookie compliance variables
-  $eu_cookie_compliance = i18n_variable_get('eu_cookie_compliance', 'da', variable_get('eu_cookie_compliance', array()));
-  $eu_cookie_compliance = array_merge($eu_cookie_compliance, array(
-    'method' => 'default',
-    'popup_info' => array(
-      'value' => '<p>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse.</p><p>Læs mere her: <a href="' . url('cookies') . '">Hvad er cookies?</a></p>',
-      'format' => 'ding_wysiwyg',
-    ),
-    'popup_agree_button_message' => 'Jeg accepterer brugen af cookies',
-    'show_disagree_button' => 0,
-    'popup_link' => 'cookies',
-    'popup_bg_hex' => '0D0D26',
-    'popup_text_hex' => 'FFFFFF',
-    'popup_delay' => 1000,
-  ));
-  i18n_variable_set('eu_cookie_compliance', $eu_cookie_compliance, 'da');
-
   $body = '<p><strong>Hvad er cookies?</strong></p>
-          <p>En cookie er en lille tekstfil, som lægges på din computer, smartphone, ipad eller lignende med det formål at indhente data. Den gør det muligt for os at måle trafikken på vores site og opsamle viden om f.eks. antal besøg på vores hjemmeside, hvilken browser der bliver brugt, hvilke sider der bliver klikket på, og hvor lang tid der bruges på siden. Alt sammen for at vi kan forbedre brugeroplevelsen og udvikle nye services.</p>
-          <p>Når du logger ind for at se lånerstatus, reservere m.m. sættes en såkaldt sessions-cookie. Denne cookie forsvinder, når du logger ud.</p>
-          <p><strong>Afvis eller slet cookies</strong></p>
-          <p>Du kan altid afvise cookies på din computer ved at ændre indstillingerne i din browser. Du skal dog være opmærksom på, at hvis du slår cookies fra, kan du ikke bruge de funktioner, som forudsætter, at hjemmesiden kan huske dine valg.<br>Alle browsere tillader, at du sletter cookies enkeltvis eller alle på en gang. Hvordan du gør det, afhænger af, hvilken browser du anvender.<br>På Erhvervsstyrelsens hjemmeside kan du finde vejledninger i at afvise og slette cookies i forskellige browsertyper. (<a class="external" href="http://erhvervsstyrelsen.dk/cookies">http://erhvervsstyrelsen.dk/cookies</a>)</p>
-          <p><strong>Webtrends</strong></p>
-          <p>Vi bruger Webtrends til at føre statistik over trafikken på hjemmesiden. Al indsamlet statistik er anonym.<br>- Webtrends - om brug af cookies på websider (<a class="external" href="http://webtrends.com/terms-policies/privacy/cookie-policy">http://webtrends.com/terms-policies/privacy/cookie-policy</a>)<br>- Hvis du vil fravælge cookies fra Webtrends kan du læse mere på <a class="external" href="http://kb.webtrends.com/articles/Information/Opting-out-of-Tracking-Cookies-1365447872915">http://kb.webtrends.com/articles/Information/Opting-out-of-Tracking-Cookies-1365447872915</a> (engelsk) eller trykke på linket <a class="external" href="https://ondemand.webtrends.com/support/optout.asp?action=out">https://ondemand.webtrends.com/support/optout.asp?action=out</a>. For at aktivere cookies igen kan du trykke på linket <a class="external" href="https://ondemand.webtrends.com/support/optout.asp?action=in">https://ondemand.webtrends.com/support/optout.asp?action=in</a></p>
-          <p><strong>Hvorfor informerer Biblioteket om cookies?</strong></p><p>Ifølge "Bekendtgørelse om krav til information og samtykke ved lagring af eller adgang til oplysninger i slutbrugerens terminaludstyr" BEK nr 1148 af 09/12/2011 (<a class="external" href="https://www.retsinformation.dk/Forms/R0710.aspx?id=139279">https://www.retsinformation.dk/Forms/R0710.aspx?id=139279</a>) er alle danske hjemmesider forpligtet til at informere om, hvorvidt de anvender cookies. Det sker, så brugeren kan beslutte, om de fortsat ønsker at besøge hjemmesiden, eller om de evt. ønsker at blokere for cookies.</p>';
+    <p>En cookie er en lille tekstfil, som lægges på din computer, smartphone, ipad eller lignende med det formål at indhente data. Den gør det muligt for os at måle trafikken på vores site og opsamle viden om f.eks. antal besøg på vores hjemmeside, hvilken browser der bliver brugt, hvilke sider der bliver klikket på, og hvor lang tid der bruges på siden. Alt sammen for at vi kan forbedre brugeroplevelsen og udvikle nye services.</p>
+    <p><strong>Hvorfor informerer Biblioteket om cookies?</strong></p><p>Ifølge "Bekendtgørelse om krav til information og samtykke ved lagring af eller adgang til oplysninger i slutbrugerens terminaludstyr" BEK nr 1148 af 09/12/2011 (<a class="external" href="https://www.retsinformation.dk/Forms/R0710.aspx?id=139279">https://www.retsinformation.dk/Forms/R0710.aspx?id=139279</a>) er alle danske hjemmesider forpligtet til at informere om, hvorvidt de anvender cookies. Det sker, så brugeren kan beslutte, om de fortsat ønsker at besøge hjemmesiden, eller om de evt. ønsker at blokere for cookies.</p>
+    <p><strong>Afvis cookies</strong></p>
+    <p>Du kan vælge at afvise cookies ved at trykke "Afvis" i den popup, der vises første gang du besøger vores hjemmeside. Har du tidligere besøgt hjemmesiden og accepteret cookies, kan du tilbagekalde ved at trykke "Privatlivsindstillinger" i bunden og herefter trykke på knappen "Tilbagekald samtykke".</p>
+    <p>Når du afviser blokerer vi alle cookies. Der er dog undtagelser. Strengt nødvendige cookies, som hjemmesiden ikke fungerer korrekt uden, accepterer du automatisk ved brug af hjemmesiden og vil ikke blive påvirket af, at du afviser cookies. Hvis du logger ind som låner eller opretter dig accepterer du samtidig også brug af vores session-cookie (mere om denne i nedenstående) og denne vil ligeledes heller ikke blive påvirket af dit valg om at afvise cookies.</p>
+    <h3>Hvilke cookies bruger vi?</h3>
+    <p><strong>Session-cookie</strong></p>
+    <p>Når du logger ind for at se lånerstatus, reservere m.m. sættes en såkaldt sessions-cookie. Denne cookie forsvinder, når du logger ud igen. Denne cookie er en forudsætning for, at vi kan tilbyde denne funktionalitet, så du når logger ind, accepterer du samtidig også at vi indstiller denne cookie. Den er dermed ikke påvirket af dit valg om at afvise cookies som forklaret i ovenstående. Når du opretter dig som bruger på biblioteket, skal du samtidig også accepterer vores privatlivspolitik, der indeholder yderligere information om, hvordan vi behandler dine data, når du logger ind.</p>
+    <p><strong>Nødvendige cookies</strong></p>
+    <p>Nødvendige cookies hjælper med at gøre en hjemmeside brugbar og den kan ikke fungerer korrekt uden. Du accepterer dermed disse cookies, når du bruger vores hjemmeside, og de vil blive indstillet selvom du afviser. Disse cookies indeholder ingen personfølsomme oplsyninger.</p>
+    <p><strong>Funktionelle cookies</strong></p>
+    <p>Visse stedet bruger vi cookies til at forbedre funktionalitet som f.eks. at huske dine valg, så du ikke skal trykke på samme knap om og om igen. Når du afviser cookies vil disse ikke blive indstillet, og det kan dermed betyde foringelse af brugeroplevelsen.</p>
+    <p><strong>Statistik cookies</strong></p>
+    <p>Vi bruger cookies til at føre statistik over trafikken på hjemmesiden. Al indsamlet statistik gemmes anonymiseret. Vi bruger dette statistik til at undersøge brugsadfærd med det formål at forbedre kvaliteten af indhold og brugeroplevelsen på hjemmesiden. Afviser du cookies vil denne tracking blive blokeret.</p>';
 
   $page_lead = 'Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.';
 
@@ -784,19 +770,115 @@ function ding2_set_cookie_page() {
     'language' => 'und',
   );
 
-  // Create the node.
-  node_save($node);
-
-  $paragraph = new ParagraphsItemEntity(array('field_name' => 'field_ding_page_paragraphs', 'bundle' => 'ding_paragraphs_text'));
+  $paragraph = new ParagraphsItemEntity([
+    'field_name' => 'field_ding_page_paragraphs',
+    'bundle' => 'ding_paragraphs_text',
+  ]);
   $paragraph->is_new = TRUE;
   $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['value'] = $body;
   $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['format'] = 'ding_wysiwyg';
   $paragraph->setHostEntity('node', $node);
+
+  // This will also save the node.
   $paragraph->save();
 
   // Permissions, see: ding_permissions module
   // display EU Cookie Compliance popup: anonymous user, authenticated user
   // administer EU Cookie Compliance popup: administrators, local administrator
+}
+
+/**
+ * Get the nid of the current node used as cookie page.
+ *
+ * @return mixed
+ *   The node ID of the cookie page node.
+ *   FALSE if no cookie page node was found.
+ */
+function ding2_get_cookie_node_nid() {
+  $path = drupal_lookup_path('source', 'cookies');
+  if ($path && strpos($path, 'node/') === 0) {
+    $path = explode('/', $path);
+    return $path[1];
+  }
+  return FALSE;
+}
+
+/**
+ * Sets the standard ding2 settings for EU cookie compliance module.
+ */
+function ding2_set_eu_cookie_compliance_settings() {
+  // Ensure that translation variables are enabled for EU Cookie Compliance.
+  $controller = variable_realm_controller('language');
+  $old_variables = $controller->getEnabledVariables();
+  $old_list = variable_children($old_variables);
+  $variables = array_merge($old_list, array('eu_cookie_compliance'));
+  $controller->setRealmVariable('list', $variables);
+
+  // Set cookie compliance variables.
+  $eu_cookie_compliance = i18n_variable_get('eu_cookie_compliance', 'da', []);
+
+  // Ding2 whitelisted cookies. If more are needed: add to array and call this
+  // function again in an update.
+  $whitelisted_cookies = [
+    'has_js',
+  ];
+
+  // Ensure we don't override any whitelisted cookies added by administrators or
+  // other modules.
+  if (empty($eu_cookie_compliance['whitelisted_cookies'])) {
+    $eu_cookie_compliance['whitelisted_cookies'] = implode("\r\n", $whitelisted_cookies);
+  }
+  else {
+    foreach ($whitelisted_cookies as $cookie) {
+      if (strpos($eu_cookie_compliance['whitelisted_cookies'], $cookie) === FALSE) {
+        $eu_cookie_compliance['whitelisted_cookies'] .= "\r\n" . $cookie;
+      }
+    }
+  }
+
+  $eu_cookie_compliance = array_merge($eu_cookie_compliance, [
+    'method' => 'opt_in',
+    'show_disagree_button' => TRUE,
+    'popup_enabled' => TRUE,
+    'popup_info' => [
+      'value' => '<h2>Hjælp os med at forbedre oplevelsen på hjemmesiden ved at acceptere cookies.</h2>',
+      'format' => 'ding_wysiwyg',
+    ],
+    'popup_agreed' => array(
+      // We do not use the module in a mode where text is displayed after the
+      // user agrees but the module expects a value so set an empty string.
+      'value' => '',
+      'format' => 'ding_wysiwyg',
+    ),
+    // Ensure that this is disabled as it will prevent changing the default text
+    // of the popup_agree_button_message on ECC settings form.
+    'enable_save_preferences_button' => FALSE,
+    'popup_agree_button_message' => 'Acceptér alle',
+    'popup_agreed_enabled' => FALSE,
+    'popup_disagree_button_message' => 'Mere info',
+    'disagree_button_label' => 'Kun nødvendige',
+    'withdraw_enabled' => TRUE,
+    'withdraw_message' => [
+      'value' => '<h2>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse</h2><p>Du har givet os samtykke. Tryk her for at tilbagekalde.</p>',
+      'format' => 'ding_wysiwyg',
+    ],
+    'withdraw_tab_button_label' => 'Privatlivsindstillinger',
+    'withdraw_action_button_label' => 'Tilbagekald samtykke',
+    // This will make the popup use the bottom position.
+    'popup_position' => FALSE,
+    'popup_link' => 'cookies',
+    'popup_bg_hex' => '0D0D26',
+    'popup_text_hex' => 'FFFFFF',
+    'popup_height' => '',
+    'popup_width' => '100%',
+    'popup_delay' => 1000,
+    'exclude_admin_pages' => TRUE,
+    'consent_storage_method' => 'provider',
+    // Use the name of the latest ding2 update hook to change the provider
+    // settings to ensure that users have to agree again.
+    'cookie_name' => 'cookie-agreed-7083',
+  ]);
+  i18n_variable_set('eu_cookie_compliance', $eu_cookie_compliance, 'da');
 }
 
 /**

@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ding_interaction module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_interaction_uninstall() {
+  variable_del('ding_interaction_callbacks');
+  variable_del('ding_interaction_page_count');
+}

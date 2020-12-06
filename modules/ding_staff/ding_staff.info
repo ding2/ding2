@@ -73,5 +73,4 @@ features[rules_config][] = rules_when_profile2_is_updated
 features[taxonomy][] = ding_staff_department
 features[variable][] = realname_pattern
 features[views_view][] = ding_staff
-features[views_view][] = ding_staff_admin_users
 features_exclude[dependencies][ding_staff] = ding_staff

@@ -99,24 +99,10 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
   switch ($variables['view_mode']) {
     case 'full':
       array_push($variables['classes_array'], 'node-full');
-
-      // Make social-share button.
-      $variables['content']['group_right']['share_button'] = array(
-        '#theme' => 'ding_sharer',
-        '#label' => t('Share this news'),
-      );
-
       break;
 
     case 'alternative_layout_full':
       array_push($variables['classes_array'], 'node-full', 'alternative-layout-full');
-
-      // Make social-share button.
-      $variables['content']['group_left']['share_button'] = array(
-        '#theme' => 'ding_sharer',
-        '#label' => t('Share this news'),
-      );
-
       break;
 
     case 'teaser':
@@ -289,12 +275,6 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           ),
         ));
         $variables['event_time'] = $event_time_ra[0]['#markup'];
-
-        // Make social-share button.
-        $variables['share_button'] = array(
-          '#theme' => 'ding_sharer',
-          '#label' => t('Share this event'),
-        );
 
         $book_button_text = t('Participate in the event');
         // If the event has a numeric price show an alternative text. If the
@@ -489,5 +469,14 @@ function ddbasic_preprocess__node__ding_page(&$variables) {
     case 'full':
       array_push($variables['classes_array'], 'node-full');
       break;
+  }
+}
+
+/**
+ * Implements hook_preprocess_image().
+ */
+function ddbasic_preprocess_image(&$vars) {
+  if (empty($vars['attributes']['alt'])) {
+    $vars['attributes']['alt'] = "";
   }
 }

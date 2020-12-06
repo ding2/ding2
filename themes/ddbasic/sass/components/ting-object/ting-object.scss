@@ -86,9 +86,6 @@
           }
         }
       }
-      &.is-hovered {
-        z-index: 2;
-      }
       &.move-right {
         .group-text {
           left: 100%;
@@ -159,10 +156,15 @@
           opacity: 1;
         }
       }
+      // Hide ding react add to list button in teaser views.
+      [data-ddb-app="add-to-checklist"] {
+        display: none;
+      }
 
       // Hover for non touch devices
       &:hover {
         .no-touch & {
+          z-index: 2;
           .ting-cover::after {
             @include transition(opacity $speed $hover-delay $ease);
             opacity: 0;
@@ -330,6 +332,10 @@
         @include media($tablet) {
           width: 42%;
         }
+      }
+      // Hide ding react add to list button in reference teaser views.
+      [data-ddb-app="add-to-checklist"] {
+        display: none;
       }
     }
     .field-name-ting-type {
@@ -736,7 +742,11 @@
           }
         }
       }
-      .group-periodical-issues {
+      .group-periodical-issues,
+      .group-holdings-available {
+        ul {
+          margin-top: 20px;
+        }
         li {
           list-style: none;
           margin: 0;
@@ -826,6 +836,16 @@
           }
         }
       }
+    }
+  }
+
+  // ==========================================================================
+  // Minimal
+  // ==========================================================================
+  &.view-mode-minimal {
+    .field-name-ting-author,
+    .field-name-ting-type {
+      display: inline-block;
     }
   }
 }

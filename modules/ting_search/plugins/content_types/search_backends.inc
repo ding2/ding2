@@ -72,11 +72,14 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
         break;
 
       case 'node':
+        // Strip characters which may work for Ting search queries but trips
+        // up content search.
+        $db_keys = str_replace('\'', '', $keys);
         // Load view which is rendered on node search and getting the total
         // amount of rows returned.
         $view = views_get_view('ding_multiple_search');
         $view->set_display('panel_pane_1');
-        $view->set_arguments(array($keys));
+        $view->set_arguments(array($db_keys));
         $view->execute();
         $count = $view->total_rows;
         $title = $title . ' <span class="count">(' . $count . ')</span>';
@@ -144,4 +147,3 @@ function ting_search_backend_engines_form($form, &$form_state, $options, $defaul
 function ting_search_backend_engines_content_type_edit_form($form, &$form_state) {
   return $form;
 }
-

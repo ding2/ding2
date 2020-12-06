@@ -6,5 +6,6 @@ core = 7.x
 dependencies[] = ding_provider
 dependencies[] = ding_popup
 dependencies[] = ding_entity
+dependencies[] = eu_cookie_compliance
 dependencies[] = profile2
 dependencies[] = ctools

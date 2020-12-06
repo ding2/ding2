@@ -13,6 +13,11 @@
   <?php if(!empty($content['left_sidebar']) || !empty($content['main_content'])) : ?>
   <div class="left-and-main-content">
     <div class="layout-wrapper">
+      <?php if (!empty($content['top_banner'])): ?>
+        <div class="top-banner-content">
+          <?php print $content['top_banner']; ?>
+        </div>
+      <?php endif ?>
       <?php if (!empty($content['left_sidebar'])): ?>
         <aside class="secondary-content">
           <?php print $content['left_sidebar']; ?>

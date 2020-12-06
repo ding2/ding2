@@ -42,13 +42,13 @@ An example name could be `7.x-3.4.2-rc1`.
 
 	5.6. Tag the commit with the release name og push it `git tag 7.x-3.4.2-rc1 && git push origin 7.x-3.4.2-rc1`
 
-6. Update `ding2.make` to point to the new releases of `ting_client` and `bpi_client`.
+6. Update `project.make` to point to the new releases of `ting_client` and `bpi_client`.
 
-7. Update `drupal.make` to point to the new ding2 release tag.
+7. Update `project.make` to point to the new ding2 release tag.
 
 8. In `ding2.info` set `version = 7.x-3.4.2-rc1`
 
-9. Commit your changes `git add ding2.info ding2.make drupal.make && git commit --amend -m "Core: Bumped version to 7.x-3.4.2-rc1"`
+9. Commit your changes `git add ding2.info project.make project-core.make && git commit --amend -m "Core: Bumped version to 7.x-3.4.2-rc1"`
 
 10. In the git repository tag the commit with the release name og push changes and tag `git tag 7.x-3.4.2-rc1 && git push origin release  7.x-3.4.2-rc1 --force`
 
