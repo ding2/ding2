@@ -148,7 +148,31 @@ function bpi_menu() {
     'file' => 'bpi.admin.inc',
   );
 
+  $menu['bpi/edit/%'] = array(
+    'title' => 'BPI content edit',
+    'access callback' => 'bpi_edit_access',
+    'access arguments' => [2],
+    'page callback' => '_bpi_edit_callback',
+    'page arguments' => array(2),
+    'type' => MENU_CALLBACK,
+  );
+
   return $menu;
+}
+
+/**
+ * Redirects the user to BPI node edit form.
+ *
+ * @param string $bid
+ *   BPI id.
+ */
+function _bpi_edit_callback($bid) {
+  if (!$node = bpi_load_node_by_bid($bid)) {
+    drupal_not_found();
+  }
+
+  $path = 'node/' . $node->nid . '/edit';
+  drupal_goto($path);
 }
 
 /**
@@ -188,6 +212,21 @@ function bpi_access() {
     }
   }
   return $access;
+}
+
+/**
+ * Checks BPI node edit access.
+ *
+ * @param string $bid
+ *   BPI id.
+ *
+ * @return bool
+ *   Access result.
+ */
+function bpi_edit_access($bid) {
+  $node = bpi_load_node_by_bid($bid);
+
+  return $node ? node_access('update', $node) : user_access('access content');
 }
 
 /**
@@ -1137,4 +1176,26 @@ function bpi_preprocess_bpi_preview_item(&$variables) {
  */
 function bpi_material_is_sharable($material_id) {
   return !preg_match('/katalog/', $material_id);
+}
+
+/**
+ * Attempts to load a node by BPI id.
+ *
+ * This is viable only in cases when the node held a certain BPI action,
+ * i.e. there is a record in the respective table.
+ * Obviously, only nodes that were pushed from this instance can be loaded
+ * this way.
+ *
+ * @param string $bid
+ *   BPI id.
+ *
+ * @return mixed
+ *   A node object, or FALSE when no match.
+ */
+function bpi_load_node_by_bid($bid) {
+  $result = db_query('SELECT nid FROM {bpi_syndicated} WHERE bid = :bid', [
+    ':bid' => $bid,
+  ])->fetchField();
+
+  return node_load($result);
 }
