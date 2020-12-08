@@ -151,8 +151,8 @@ function bpi_menu() {
 
   $menu['bpi/edit/%'] = array(
     'title' => 'BPI content edit',
-    'access callback' => 'bpi_access',
-    'access arguments' => ['bpi content edit', 2],
+    'access callback' => 'bpi_edit_access',
+    'access arguments' => [2],
     'page callback' => '_bpi_edit_callback',
     'page arguments' => array(2),
     'type' => MENU_CALLBACK,
@@ -177,62 +177,57 @@ function _bpi_edit_callback($bid) {
 }
 
 /**
- * Custom access checker for BPI actions.
+ * Check if current user has access to the BPI Syndication menu.
  *
- * BPI overview:
- * The logged in user must both have the
- * "bpi syndicate content" permission and access to create content from BPI.
- * BPI edit link:
- * The logged in user must have access to the target node. This is the place
- * where BPI id parameter is used.
- *
- * @param string $access_permission
- *   Permission identifier.
- * @param string $bid
- *   Optional BPI article id.
+ * The logged in user must both have the "bpi syndicate content" permission
+ * and access to create content from BPI.
  *
  * @return bool
  *   TRUE on access, FALSE otherwise
  */
-function bpi_access($access_permission, $bid = null) {
+function bpi_access() {
   global $user;
-
-  $access_result = FALSE;
-
-  switch ($access_permission) {
-    case 'bpi syndicate content':
-      // Get roles that are allowed to create content from BPI according to
-      // Workflow settings.
-      $record = NULL;
-      try {
-        $query = db_select('workflow_transitions', 'w');
-        $query->fields('w');
-        $query->condition('w.name', '_creation_to_created_bpi');
-        $record = $query->execute()->fetchAssoc();
-      }
-      catch (PDOException $e) {
-        bpi_error_message($e, 'error');
-      }
-
-      $role_access = FALSE;
-      $roles = unserialize($record['roles']);
-      foreach ($user->roles as $id => $user_role) {
-        if (in_array($id, $roles)) {
-          $role_access = TRUE;
-          break;
-        }
-      }
-
-      $access_result = user_access($access_permission) && $role_access;
-      break;
-
-    case 'bpi content edit':
-      $node = bpi_load_node_by_bid($bid);
-      $access_result = $node ? node_access('update', $node) : user_access('access content');
-      break;
+  // Disallow if user doesn't have permission to syndicate bpi content.
+  if (!user_access('bpi syndicate content')) {
+    return FALSE;
   }
 
-  return $access_result;
+  // Get roles that are allowed to create content from BPI according to
+  // Workflow settings.
+  $record = NULL;
+  try {
+    $query = db_select('workflow_transitions', 'w');
+    $query->fields('w');
+    $query->condition('w.name', '_creation_to_created_bpi');
+    $record = $query->execute()->fetchAssoc();
+  }
+  catch (PDOException $e) {
+    bpi_error_message($e, 'error');
+  }
+
+  $access = FALSE;
+  $roles = unserialize($record['roles']);
+  foreach ($user->roles as $id => $user_role) {
+    if (in_array($id, $roles)) {
+      $access = TRUE;
+    }
+  }
+  return $access;
+}
+
+/**
+ * Checks BPI node edit access.
+ *
+ * @param string $bid
+ *   BPI id.
+ *
+ * @return bool
+ *   Access result.
+ */
+function bpi_edit_access($bid) {
+  $node = bpi_load_node_by_bid($bid);
+
+  return $node ? node_access('update', $node) : user_access('access content');
 }
 
 /**
