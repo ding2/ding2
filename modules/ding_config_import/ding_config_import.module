@@ -37,19 +37,13 @@ function ding_config_import_admin_form() {
     'wrapper' => [
       '#type' => 'fieldset',
       '#title' => t('Configuration upload'),
-      '#description' => t('This module comes with an <a href="/@url">example file</a> that can be used as an template for the upload.', ['@url' => $url]),
+      '#description' => t('This module comes with an <a href="/@url">example file</a> that can be used as an template for the upload. Note that enabled/disable modules may timeout, if it takes longer than the web-servers configuration allows.', ['@url' => $url]),
     ],
   ];
 
   $form['wrapper']['upload'] = [
     '#title' => t('Upload configurations file (yml)'),
     '#type'  => 'file',
-  ];
-
-  $form['wrapper']['combine'] = [
-    '#title' => t('Flatten the YAML array keys into variable set key combined with underscores.'),
-    '#type'  => 'checkbox',
-    '#default_value' => 1,
   ];
 
   $form['submit_upload'] = array(
@@ -65,15 +59,14 @@ function ding_config_import_admin_form() {
  */
 function ding_config_import_admin_form_submit($form, &$form_state) {
   $error = false;
-  $msg = t('The configuration options have been saved.');
-  $flatten = (bool) $form_state['values']['combine'];
+  $msg = t('The configuration options have been saved. You may need to clear cache to rebuild things if you have enabled/disabled modules etc.');
   $file = $_FILES['files']['tmp_name']['upload'];
 
   if (libraries_load('yaml')) {
     $data = file_get_contents($file);
     $values = Yaml::parse($data);
     if (is_array($values)) {
-      _ding_config_import_set_values($values, $flatten);
+      _ding_config_import_set_values($values);
     }
     else {
       $error = true;
@@ -104,21 +97,44 @@ function ding_config_import_admin_form_submit($form, &$form_state) {
  *
  * @param array $values
  *   The values.
- * @param bool $flatten
- *   If true the arrays will be flatten combine the keys to on with underscore
- *   as separator.
  * @param string $prefix
  *   The prefix, array key form previous recursion.
  */
-function _ding_config_import_set_values(array $values, $flatten = TRUE, $prefix = '') {
+function _ding_config_import_set_values(array $values, $prefix = '') {
   foreach ($values as $key => $value) {
-    if ($flatten && is_array($value)) {
-      _ding_config_import_set_values($value, $flatten, _ding_config_import_prefix($prefix, $key));
-      return;
-    }
+    switch ($key) {
+      case 'modules':
+        // Disable modules.
+        if (!empty($value['disable'])) {
+          module_disable($value['disable']);
+        }
 
-    $key = _ding_config_import_prefix($prefix, $key);
-    variable_set($key, $value);
+        // Enabled modules.
+        if (!empty($value['enable'])) {
+          if (!module_enable($value['enable'])) {
+            // Can not throw an exception here as that would stop the other
+            // changes from being applied. So use set message directly here to
+            // notify the use that module enable failed.
+            drupal_set_message(t('Not all module was enabled check the name and the drupal logs for errors.'), 'error');
+          }
+        }
+        break;
+
+      default:
+        if (is_array($value) && _ding_config_import_is_associative($value)) {
+          if (!isset($value['array'])) {
+            _ding_config_import_set_values($value, _ding_config_import_prefix($prefix, $key));
+            break;
+          }
+        }
+
+        if (isset($value['array']) && $value['array'] == 1) {
+          unset($value['array']);
+        }
+
+        $key = _ding_config_import_prefix($prefix, $key);
+        variable_set($key, $value);
+    }
   }
 }
 
@@ -135,4 +151,19 @@ function _ding_config_import_set_values(array $values, $flatten = TRUE, $prefix 
  */
 function _ding_config_import_prefix($prefix, $key) {
   return empty($prefix) ? $key : $prefix . '_' . $key;
+}
+
+/**
+ * Helper function to detect if array is associative.
+ *
+ * This is done by detecting if the array has any keys that is a string.
+ *
+ * @param array $array
+ *   The array to test.
+ *
+ * @return bool
+ *   TRUE if associative else FALSE.
+ */
+function _ding_config_import_is_associative(array $array) {
+  return count(array_filter(array_keys($array), 'is_string')) > 0;
 }
