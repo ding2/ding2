@@ -674,3 +674,9 @@ libraries[fabric][download][type] = "get"
 libraries[fabric][download][url] = https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js
 libraries[fabric][directory_name] = "fabric"
 libraries[fabric][destination] = "libraries"
+
+; Library used by Configuration import (older version to be able to run on PHP 5.6).
+libraries[yaml][download][type] = "get"
+libraries[yaml][download][url] = https://github.com/symfony/yaml/archive/v3.4.47.tar.gz
+libraries[yaml][directory_name] = "yaml"
+libraries[yaml][destination] = "libraries"

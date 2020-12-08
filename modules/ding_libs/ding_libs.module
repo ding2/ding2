@@ -260,5 +260,14 @@ function ding_libs_libraries_info() {
         'js' => array('fabric.js'),
       ),
     ),
+    'yaml' => array(
+      'name' => 'Symfony YAML',
+      'vendor url' => 'https://symfony.com/doc/current/components/yaml.html',
+      'download url' => 'https://github.com/symfony/yaml/archive/v5.2.0.tar.gz',
+      'version' => '5.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
   );
 }
