@@ -139,7 +139,7 @@ jobs:
           --site-name=Ding2 --account-name=admin --account-pass=admin \
           install_configure_form.update_status_module='array(FALSE,FALSE)' \
           ding2_module_selection_form.providers_selection=connie \
-          opensearch_admin_settings.opensearch_url=https://oss-services.dbc.dk/opensearch/5.2/ \
+          opensearch_admin_settings.opensearch_url=https://opensearch.addi.dk/test_5.2/ \
           opensearch_admin_settings.ting_agency=100200 \
           opensearch_admin_settings.opensearch_search_profile=test \
     - run:
