@@ -26,12 +26,28 @@ function ding_config_import_menu() {
  * Administration form for yaml file upload.
  */
 function ding_config_import_admin_form() {
-  $form = [];
+  $url = drupal_get_path('module', 'ding_config_import') . '/example.config.yml';
 
-  $form['#attributes']['enctype'] = 'multipart/form-data';
-  $form['upload'] = [
-    '#title' => t('Upload configurations file'),
+  $form = [
+    '#attributes' => [
+      'enctype' => 'multipart/form-data',
+    ],
+    'wrapper' => [
+      '#type' => 'fieldset',
+      '#title' => t('Configuration upload'),
+      '#description' => t('This module comes with an <a href="/@url">example file</a> that can be used as an template for the upload.', ['@url' => $url]),
+    ],
+  ];
+
+  $form['wrapper']['upload'] = [
+    '#title' => t('Upload configurations file (yml)'),
     '#type'  => 'file',
+  ];
+
+  $form['wrapper']['combine'] = [
+    '#title' => t('Flatten the YAML array keys into variable set key combined with underscores.'),
+    '#type'  => 'checkbox',
+    '#default_value' => 1,
   ];
 
   $form['submit_upload'] = array(
@@ -49,13 +65,15 @@ function ding_config_import_admin_form_submit($form, &$form_state) {
 
   $error = false;
   $msg = t('The configuration options have been saved.');
+  $flatten = (bool) $form_state['values']['combine'];
   $file = $_FILES['files']['tmp_name']['upload'];
+
 
   if (libraries_load('yaml')) {
     $data = file_get_contents($file);
     $values = \Symfony\Component\Yaml\Yaml::parse($data);
     if (is_array($values)) {
-      _ding_config_import_set_values($values);
+      _ding_config_import_set_values($values, $flatten);
     }
     else {
       $error = true;
@@ -84,18 +102,21 @@ function ding_config_import_admin_form_submit($form, &$form_state) {
  *
  * @param array $values
  *   The values.
+ * @param bool $flatten
+ *   If true the arrays will be flatten combine the keys to on with underscore
+ *   as separator.
  * @param string $prefix
  *   The prefix, array key form previous recursion.
  */
-function _ding_config_import_set_values(array $values, $prefix = '') {
+function _ding_config_import_set_values(array $values, $flatten = TRUE, $prefix = '') {
   foreach ($values as $key => $value) {
-    if (is_array($value)) {
-      _ding_config_import_set_values($value, _ding_config_import_prefix($prefix, $key));
+    if ($flatten && is_array($value)) {
+      _ding_config_import_set_values($value, $flatten, _ding_config_import_prefix($prefix, $key));
       return;
     }
 
     $key = _ding_config_import_prefix($prefix, $key);
-    variable_set($key, $key);
+    variable_set($key, $value);
   }
 }
 
