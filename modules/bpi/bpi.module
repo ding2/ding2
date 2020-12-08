@@ -76,7 +76,6 @@ function bpi_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('bpi_syndicate_page_form'),
     'access callback' => 'bpi_access',
-    'access arguments' => ['bpi syndicate content'],
     'file' => 'bpi.syndicate.inc',
   );
 
