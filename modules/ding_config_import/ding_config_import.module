@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * @file
+ * Implementation of simple form to upload YAML file.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_config_import_menu() {
+  $item = [];
+
+  $item['admin/config/ding/config'] = [
+    'title' => 'Upload configuration',
+    'description' => 'Upload and import configuration from YAML.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_config_import_admin_form'),
+    'access arguments' => array('administer site configuration'),
+  ];
+
+  return $item;
+}
+
+/**
+ * Administration form for yaml file upload.
+ */
+function ding_config_import_admin_form() {
+  $form = [];
+
+  $form['#attributes']['enctype'] = 'multipart/form-data';
+  $form['upload'] = [
+    '#title' => t('Upload configurations file'),
+    '#type'  => 'file',
+  ];
+
+  $form['submit_upload'] = array(
+    '#type'  =>  'submit',
+    '#value'  =>  t('Upload'),
+  );
+
+  return $form;
+}
+
+/**
+ * Form submit handler.
+ */
+function ding_config_import_admin_form_submit($form, &$form_state) {
+
+  $error = false;
+  $msg = t('The configuration options have been saved.');
+  $file = $_FILES['files']['tmp_name']['upload'];
+
+  if (libraries_load('yaml')) {
+    $data = file_get_contents($file);
+    $values = \Symfony\Component\Yaml\Yaml::parse($data);
+    if (is_array($values)) {
+      _ding_config_import_set_values($values);
+    }
+    else {
+      $error = true;
+      $msg = t('Fail to parse the YAML file.');
+    }
+  }
+  else {
+    $error = true;
+    $msg = t('Fail to load YAML parsing library. Please contact the system administrator.');
+  }
+
+  if ($error) {
+    drupal_set_message($msg, 'error');
+  }
+  else {
+    drupal_set_message($msg, 'status');
+  }
+
+  // Ensure tmp file is removed. It contains secrets.
+  @unlink($file);
+}
+
+/**
+ * Recursive walk the array using the key as prefix if this multilevel joined
+ * with "_".
+ *
+ * @param array $values
+ *   The values.
+ * @param string $prefix
+ *   The prefix, array key form previous recursion.
+ */
+function _ding_config_import_set_values(array $values, $prefix = '') {
+  foreach ($values as $key => $value) {
+    if (is_array($value)) {
+      _ding_config_import_set_values($value, _ding_config_import_prefix($prefix, $key));
+      return;
+    }
+
+    $key = _ding_config_import_prefix($prefix, $key);
+    variable_set($key, $key);
+  }
+}
+
+/**
+ * Help function to prefix key.
+ *
+ * @param $prefix
+ *   The prefix.
+ * @param $key
+ *   The key to suffix the prefix.
+ *
+ * @return string
+ *   The key prefixed with prefix if prefix was not empty.
+ */
+function _ding_config_import_prefix($prefix, $key) {
+  return empty($prefix) ? $key : $prefix . '_' . $key;
+}
