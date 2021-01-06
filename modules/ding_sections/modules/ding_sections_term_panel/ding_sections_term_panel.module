@@ -300,7 +300,6 @@ function ding_sections_term_panel_form_taxonomy_form_term_alter(&$form, &$form_s
       '#title' => t('Term page'),
       '#group' => 'section_tabs',
     );
-    $form['field_term_page']['#disabled'] = TRUE;
 
     $form['ding_sections']['term_panel']['field_term_page'] = $form['field_term_page'];
     unset($form['field_term_page']);
