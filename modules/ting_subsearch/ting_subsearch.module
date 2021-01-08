@@ -48,7 +48,7 @@ function ting_subsearch_admin_overview() {
 /**
  * Implements hook_permission().
  */
-function ting_subseach_permission() {
+function ting_subsearch_permission() {
   return [
     'configure ting subsearch' => [
       'title' => t('Configure ting subsearch'),
