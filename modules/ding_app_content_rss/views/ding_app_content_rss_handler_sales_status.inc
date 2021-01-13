@@ -6,18 +6,19 @@
  */
 
 /**
- * Class ding_app_content_rss_handler_sales_status.
+ * Custom ticket status field handler.
  */
-class ding_app_content_rss_handler_sales_status extends views_handler_field {
-  /**
-   * {@inheritdoc}
-   */
-  function query() {}
+class DingAppContentRssHandlerSalesStatus extends views_handler_field {
 
   /**
    * {@inheritdoc}
    */
-  function render($values) {
+  public function query() {}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function render($values) {
     if (!module_exists('ding_place2book')) {
       return;
     }

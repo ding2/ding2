@@ -208,6 +208,7 @@ function ding_app_content_rss_views_rss_item_elements() {
  *   The text to be processed.
  *
  * @return string|string[]|null
+ *   Processed text.
  */
 function ding_app_content_rss_ting_links_convert($value) {
   return preg_replace('#http://([\w\.])+(/ting)/(.+)#Ui', 'bappsp://$3', $value);
@@ -220,7 +221,7 @@ function ding_app_content_rss_preprocess_description(&$variables) {
   if (isset($variables['view']) && $variables['view']->name == 'ding_app_content_news_rss') {
     $result = [];
 
-    foreach ($variables['raw'] as $key => $paragraph) {
+    foreach ($variables['raw'] as $paragraph) {
       /** @var \ParagraphsItemEntity $paragraph_entity */
       $paragraph_entity = paragraphs_item_load($paragraph['raw']['value']);
 
@@ -357,11 +358,11 @@ function ding_app_content_rss_views_rss_item_elements_alter(&$elements) {
  */
 function ding_app_content_rss_views_rss_feed_alter(&$rss_feed) {
   $channel = &$rss_feed['value'][0]['value'];
-  foreach ($channel as $key => &$channel_item) {
+  foreach ($channel as &$channel_item) {
     switch ($channel_item['key']) {
       case 'item':
         $item = &$channel_item['value'];
-        foreach ($item as $i => &$element) {
+        foreach ($item as &$element) {
           switch ($element['key']) {
             case 'description':
               $element['value'] = htmlspecialchars(format_xml_elements($element['value']));

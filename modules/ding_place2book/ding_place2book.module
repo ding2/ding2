@@ -747,7 +747,7 @@ function theme_ding_p2b_prices_table($variables) {
  *
  * @throws \Exception
  */
-function ding_place2book_ticket_status($event_maker_id, $event_id, $p2b) {
+function ding_place2book_ticket_status($event_maker_id, $event_id, \P2b\P2b $p2b) {
   $event = $p2b->getEvent($event_maker_id, $event_id);
   $meta_data = $event->meta_data;
   $state = $event->state;
