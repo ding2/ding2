@@ -16,10 +16,7 @@ function ding_app_content_rss_views_pre_render(&$view) {
   if ($view->name == 'ding_app_content_event_rss' || $view->name == 'ding_app_content_news_rss') {
     foreach ($view->result as $key => $result) {
       if ($view->name == 'ding_app_content_event_rss') {
-        $view->result[$key]->field_field_ding_event_body[0]['rendered'] = preg_replace('#http://([\w\.])+(/ting)/(.+)#Ui', 'bappsp://$3', $result->field_field_ding_event_body[0]['rendered']);
-      }
-      elseif ($view->name == 'ding_app_content_news_rss') {
-        $view->result[$key]->field_field_ding_news_body[0]['rendered'] = preg_replace('#http://([\w\.])+(/ting)/(.+)#Ui', 'bappsp://$3', $result->field_field_ding_news_body[0]['rendered']);
+        $view->result[$key]->field_field_ding_event_body[0]['rendered'] = ding_app_content_rss_ting_links_convert($result->field_field_ding_event_body[0]['rendered']);
       }
     }
   }
@@ -29,39 +26,45 @@ function ding_app_content_rss_views_pre_render(&$view) {
  * Implements hook_field_formatter_info().
  */
 function ding_app_content_rss_field_formatter_info() {
-  return array(
-    'ding_app_content_rss_location' => array(
+  return [
+    'ding_app_content_rss_location' => [
       'label' => t('RSS friendly location'),
-      'field types' => array('addressfield'),
+      'field types' => ['addressfield'],
       'description' => t('Output address information on a single HTML stripped line.'),
-    ),
-    'ding_app_content_rss_date_time' => array(
+    ],
+    'ding_app_content_rss_date_time' => [
       'label' => t('RFC-2822 formatted date'),
-      'field types' => array('datetime'),
+      'field types' => ['datetime'],
       'description' => t('Format date and time as RFC-2822 date/time string.'),
-    ),
-  );
+    ],
+  ];
 }
 
 /**
  * Implements hook_field_formatter_view().
  */
 function ding_app_content_rss_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $element = array();
+  $element = [];
   switch ($display['type']) {
     case 'ding_app_content_rss_date_time':
       foreach ($items as $delta => $item) {
-        $element[$delta] = array(
+        $element[$delta] = [
           '#markup' => strtotime($item[$display['settings']['fromto']] . ' ' . $item['timezone_db']),
-        );
+        ];
       }
       break;
 
     case 'ding_app_content_rss_location':
       foreach ($items as $delta => $item) {
-        $location = array();
+        $location = [];
 
-        $accepted_fields = ['name_line', 'thoroughfare', 'postal_code', 'locality', 'country'];
+        $accepted_fields = [
+          'name_line',
+          'thoroughfare',
+          'postal_code',
+          'locality',
+          'country',
+        ];
         if (!empty($item['name_line'])) {
           foreach ($item as $key => $part) {
             if (!empty($part) && in_array($key, $accepted_fields)) {
@@ -87,9 +90,9 @@ function ding_app_content_rss_field_formatter_view($entity_type, $entity, $field
           }
         }
 
-        $element[$delta] = array(
+        $element[$delta] = [
           '#markup' => implode(', ', array_reverse($location)),
-        );
+        ];
       }
       break;
   }
@@ -102,18 +105,18 @@ function ding_app_content_rss_field_formatter_view($entity_type, $entity, $field
 function ding_app_content_rss_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
-  $form = array();
-  $form['fromto'] = array(
+  $form = [];
+  $form['fromto'] = [
     '#title' => t('Display:'),
     '#type' => 'select',
-    '#options' => array(
+    '#options' => [
       'value' => t('Start date only'),
       'value2' => t('End date only'),
-    ),
+    ],
     '#access' => $field['settings']['todate'],
     '#default_value' => $settings['fromto'],
     '#weight' => 1,
-  );
+  ];
 
   return $form;
 }
@@ -122,10 +125,10 @@ function ding_app_content_rss_field_formatter_settings_form($field, $instance, $
  * Implements hook_views_rss_namespaces().
  */
 function ding_app_content_rss_views_rss_namespaces() {
-  $namespaces['content-rss'] = array(
+  $namespaces['content-rss'] = [
     'prefix' => 'xmlns',
     'uri' => 'http://xml.redia.dk/rss',
-  );
+  ];
   return $namespaces;
 }
 
@@ -133,69 +136,81 @@ function ding_app_content_rss_views_rss_namespaces() {
  * Implements hook_views_rss_item_elements().
  */
 function ding_app_content_rss_views_rss_item_elements() {
-  return array(
-    'content-rss:subheadline' => array(
+  return [
+    'content-rss:subheadline' => [
       'title' => t('Subheadline'),
       'description' => t('The subheadline'),
-    ),
-    'content-rss:arrangement-starttime' => array(
+    ],
+    'content-rss:arrangement-starttime' => [
       'title' => t('Event starttime'),
       'description' => t('When does the event start (UTC Timestamp)'),
-    ),
-    'content-rss:arrangement-endtime' => array(
+    ],
+    'content-rss:arrangement-endtime' => [
       'title' => t('Event endtime'),
       'description' => t('When does the event end (UTC Timestamp)'),
-    ),
-    'content-rss:display-starttime' => array(
+    ],
+    'content-rss:display-starttime' => [
       'title' => t('Display starttime'),
       'description' => t('Start displaying the event at (UTC Timestamp)'),
-    ),
-    'content-rss:display-endtime' => array(
+    ],
+    'content-rss:display-endtime' => [
       'title' => t('Display endtime'),
       'description' => t('End displaying the event at (UTC Timestamp)'),
-    ),
-    'content-rss:arrangement-location' => array(
+    ],
+    'content-rss:arrangement-location' => [
       'title' => t('Event location'),
       'description' => t('The location of the event'),
-    ),
-    'content-rss:arrangement-price' => array(
+    ],
+    'content-rss:arrangement-price' => [
       'title' => t('Event price'),
       'description' => t('The price of the event.'),
-    ),
-    'content-rss:arrangement-sales-status' => array(
+    ],
+    'content-rss:arrangement-sales-status' => [
       'title' => t('Event tickets sales status'),
       'description' => t('The status of event tickets sales.'),
-    ),
-    'content-rss:resources' => array(
+    ],
+    'content-rss:resources' => [
       'title' => t('Redia resources'),
       'description' => t('The node id of a type which has a relation to ting objects.'),
-      'preprocess functions' => array('ding_app_content_rss_preprocess_item_resources'),
-    ),
-    'content-rss:library-id' => array(
+      'preprocess functions' => ['ding_app_content_rss_preprocess_item_resources'],
+    ],
+    'content-rss:library-id' => [
       'title' => t('Library ID'),
       'description' => t('Identificator of library to which this node is assigned.'),
-    ),
-    'content-rss:booking-url' => array(
+    ],
+    'content-rss:booking-url' => [
       'title' => t('Booking URL'),
       'description' => t('Link to tickets.'),
-    ),
-    'content-rss:promoted' => array(
+    ],
+    'content-rss:promoted' => [
       'title' => t('Promoted to front page'),
       'description' => t('Boolean value for promoted to front page.'),
-    ),
-    'content-rss:sticky' => array(
+    ],
+    'content-rss:sticky' => [
       'title' => t('Sticky'),
       'description' => t('Boolean value for sticky.'),
-    ),
-    'content-rss:place_room' => array(
+    ],
+    'content-rss:place_room' => [
       'title' => t('Place/Room'),
       'description' => t('Use this to direct your guests to the correct place'),
-    ),
-    'content-rss:organizers' => array(
+    ],
+    'content-rss:organizers' => [
       'title' => t('Organizers'),
       'description' => t('One or more organizers of the event.'),
-    ),
-  );
+    ],
+  ];
+}
+
+/**
+ * Converting links to ting materials into bappsp links.
+ *
+ * @param string $value
+ *   The text to be processed.
+ *
+ * @return string|string[]|null
+ */
+function ding_app_content_rss_ting_links_convert($value) {
+  return preg_replace('#http://([\w\.])+(/ting)/(.+)#Ui', 'bappsp://$3', $value);
 }
 
 /**
@@ -212,7 +227,8 @@ function ding_app_content_rss_preprocess_description(&$variables) {
       switch ($paragraph_entity->bundle) {
         case 'ding_paragraphs_text':
           $build = [];
-          $build['paragraph-markup'] = $paragraph_entity->field_ding_paragraphs_text[LANGUAGE_NONE][0]['safe_value'];
+          $markup = $paragraph_entity->field_ding_paragraphs_text[LANGUAGE_NONE][0]['safe_value'];
+          $build['paragraph-markup'] = ding_app_content_rss_ting_links_convert($markup);
           break;
 
         case 'ding_paragraphs_image_and_text':
@@ -220,19 +236,24 @@ function ding_app_content_rss_preprocess_description(&$variables) {
           $images = [];
           $images_content = $paragraph_entity->field_ding_paragraphs_image[LANGUAGE_NONE];
           foreach ($images_content as $item) {
-            $images[] = ['key' => 'paragraph-image', 'value' => file_create_url($item['uri'])];
+            $images[] = [
+              'key' => 'paragraph-image',
+              'value' => file_create_url($item['uri']),
+            ];
           }
 
           $build['paragraph-images'] = $images;
           $build['paragraph-image-position'] = $paragraph_entity->field_ding_paragraphs_position[LANGUAGE_NONE][0]['value'];
           $build['paragraph-display'] = $paragraph_entity->field_ding_paragraphs_display[LANGUAGE_NONE][0]['value'];
-          $build['paragraph-markup'] = $paragraph_entity->field_ding_paragraphs_text[LANGUAGE_NONE][0]['safe_value'];
+          $markup = $paragraph_entity->field_ding_paragraphs_text[LANGUAGE_NONE][0]['safe_value'];
+          $build['paragraph-markup'] = ding_app_content_rss_ting_links_convert($markup);
           break;
 
         case 'ding_paragraphs_text_box':
           $build = [];
           $build['paragraph-display'] = $paragraph_entity->field_ding_paragraphs_display[LANGUAGE_NONE][0]['value'];
-          $build['paragraph-markup'] = $paragraph_entity->field_ding_paragraphs_box_text[LANGUAGE_NONE][0]['safe_value'];
+          $markup = $paragraph_entity->field_ding_paragraphs_box_text[LANGUAGE_NONE][0]['safe_value'];
+          $build['paragraph-markup'] = ding_app_content_rss_ting_links_convert($markup);
           break;
 
         case 'ding_paragraphs_material_list':
@@ -244,6 +265,9 @@ function ding_app_content_rss_preprocess_description(&$variables) {
             $relation = relation_load($material['value']->rid);
             $endpoints = relation_get_endpoints($relation);
             $ting_object = reset($endpoints['ting_object']);
+            if (!$ting_object) {
+              continue;
+            }
             $resources[] = [
               'key' => 'paragraph-resource',
               'value' => explode(':', $ting_object->ding_entity_id)[1],
@@ -257,7 +281,10 @@ function ding_app_content_rss_preprocess_description(&$variables) {
           $images = [];
           $images_content = $paragraph_entity->field_ding_paragraphs_image[LANGUAGE_NONE];
           foreach ($images_content as $item) {
-            $images[] = ['key' => 'paragraph-image', 'value' => file_create_url($item['uri'])];
+            $images[] = [
+              'key' => 'paragraph-image',
+              'value' => file_create_url($item['uri']),
+            ];
           }
           $build['paragraph-images'] = $images;
           $build['paragraph-display'] = $paragraph_entity->field_ding_paragraphs_display[LANGUAGE_NONE][0]['value'];
@@ -266,10 +293,14 @@ function ding_app_content_rss_preprocess_description(&$variables) {
         case 'ding_paragraphs_single_material':
           $build = [];
           $build['paragraph-display'] = $paragraph_entity->field_ding_paragraphs_display[LANGUAGE_NONE][0]['value'];
-          $relation = relation_load($paragraph_entity->field_ding_paragraphs_single_mat[LANGUAGE_NONE][0]['value']->rid);
-          $endpoints = relation_get_endpoints($relation);
-          $ting_object = reset($endpoints['ting_object']);
-          $build['paragraph-resource'] = explode(':', $ting_object->ding_entity_id)[1];
+          if (!empty($paragraph_entity->field_ding_paragraphs_single_mat)) {
+            $relation = relation_load($paragraph_entity->field_ding_paragraphs_single_mat[LANGUAGE_NONE][0]['value']->rid);
+            $endpoints = relation_get_endpoints($relation);
+            $ting_object = reset($endpoints['ting_object']);
+            if ($ting_object) {
+              $build['paragraph-resource'] = explode(':', $ting_object->ding_entity_id)[1];
+            }
+          }
           break;
       }
 
@@ -290,7 +321,7 @@ function ding_app_content_rss_preprocess_description(&$variables) {
 function ding_app_content_rss_preprocess_item_resources(&$variables) {
   // Load the node via entity metadata wrapper.
   $node = entity_metadata_wrapper('node', node_load($variables['elements'][0]['value']));
-  $value = array();
+  $value = [];
 
   // The relation name is the same even though field names differ between
   // content types.
@@ -302,11 +333,11 @@ function ding_app_content_rss_preprocess_item_resources(&$variables) {
       $id_parts = explode(':', $ting_object->id);
       $faust_number = end($id_parts);
 
-      $value[] = array(
+      $value[] = [
         // This must be the name of the tag wrapping each value.
         'key' => 'content-rss:resource',
         'value' => $faust_number,
-      );
+      ];
     }
   }
 
@@ -319,4 +350,26 @@ function ding_app_content_rss_preprocess_item_resources(&$variables) {
  */
 function ding_app_content_rss_views_rss_item_elements_alter(&$elements) {
   $elements['views_rss_core']['description']['preprocess functions'][] = 'ding_app_content_rss_preprocess_description';
+}
+
+/**
+ * Implements hook_views_rss_feed_alter().
+ */
+function ding_app_content_rss_views_rss_feed_alter(&$rss_feed) {
+  $channel = &$rss_feed['value'][0]['value'];
+  foreach ($channel as $key => &$channel_item) {
+    switch ($channel_item['key']) {
+      case 'item':
+        $item = &$channel_item['value'];
+        foreach ($item as $i => &$element) {
+          switch ($element['key']) {
+            case 'description':
+              $element['value'] = htmlspecialchars(format_xml_elements($element['value']));
+              $element['encoded'] = TRUE;
+              break;
+          }
+        }
+        break;
+    }
+  }
 }
