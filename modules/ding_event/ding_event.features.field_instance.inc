@@ -87,7 +87,9 @@ function ding_event_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 10,
     ),
@@ -221,7 +223,9 @@ function ding_event_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 11,
     ),
@@ -499,7 +503,7 @@ function ding_event_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_ding_event_list_filter',
     'label' => 'Event list filter',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -929,8 +933,6 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'module' => 'text',
         'settings' => array(),
-        'type' => 'number_integer',
-        'weight' => 8,
         'type' => 'text_default',
         'weight' => 3,
       ),
@@ -1106,7 +1108,9 @@ function ding_event_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 13,
     ),
@@ -1381,7 +1385,9 @@ function ding_event_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 6,
     ),

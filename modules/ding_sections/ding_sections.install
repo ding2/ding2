@@ -252,3 +252,13 @@ function _ding_sections_purge_image_field() {
 function ding_sections_update_7001() {
   _ding_sections_create_image_field();
 }
+
+/**
+ * Add manualcrop settings to term image.
+ */
+function ding_sections_update_7101() {
+  $instance = field_read_instance('taxonomy_term', 'field_ding_sections_image', 'section');
+  $instance['widget']['settings']['manualcrop_enable'] = 1;
+  $instance['widget']['settings']['manualcrop_styles_list'] = ['crop_16_9' => 'crop_16_9'];
+  field_update_instance($instance);
+}

@@ -84,7 +84,7 @@ function ting_subsearch_translate_ting_subsearch_ajax_placeholder_content(TingSe
     return $content;
   }
 
-  $factor = variable_get('ting_subsearch_translate_ps_factor', 10);
+  $factor = variable_get('ting_subsearch_translate_ps_factor', 1);
   // User search number of results.
   $num_results = $search_result->getNumTotalObjects();
 

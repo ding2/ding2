@@ -25,20 +25,15 @@ function ting_subsearch_suggestions_ctools_plugin_directory($module, $plugin) {
 function ting_subsearch_suggestions_menu() {
   $items = [];
 
-  $items['admin/config/ding/subsearch'] = [
-    'title' => 'Ting subsearch',
-    'description' => 'Configure subsearch modules.',
+  $items['admin/config/ding/subsearch/suggestions'] = [
+    'title' => 'Ting subsearch suggestions',
+    'description' => 'Configure ting subsearch suggestions.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_subsearch_suggestions_admin_settings_form'),
     'access arguments' => array('configure ting subsearch'),
     'file' => 'ting_subsearch_suggestions.admin.inc',
-  ];
-
-  $items['admin/config/ding/subsearch/suggestions'] = [
-    'title' => 'Ting subsearch suggestions',
-    'description' => 'Configure ting subsearch suggestions.',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10,
+    'type' => MENU_LOCAL_TASK,
+    'weight' => -9,
   ];
 
   return $items;
@@ -63,7 +58,7 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_content(Ting
   $subsearch_result = ting_subseach_do_subsearch($subsearch_request);
   $subsearch_num_results = $subsearch_result->getNumTotalObjects();
 
-  $factor = variable_get('ting_subsearch_suggestions_ps_factor');
+  $factor = variable_get('ting_subsearch_suggestions_ps_factor', 1.1);
   $num_results = $search_result->getNumTotalObjects();
 
   if ($subsearch_num_results / $num_results >= $factor) {

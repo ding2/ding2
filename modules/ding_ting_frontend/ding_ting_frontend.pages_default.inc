@@ -434,12 +434,9 @@ search/ting
     $pane->access = array(
       'plugins' => array(
         0 => array(
-          'name' => 'role',
+          'name' => 'perm',
           'settings' => array(
-            'rids' => array(
-              0 => 3,
-              1 => 4,
-            ),
+            'perm' => 'configure smart search',
           ),
           'context' => 'logged-in-user',
           'not' => FALSE,

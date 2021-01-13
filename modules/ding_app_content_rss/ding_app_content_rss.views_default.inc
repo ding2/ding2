@@ -31,7 +31,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Relationship: Content: Author */
+  /* Relationship: Content: Content author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
@@ -65,7 +65,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'r';
-  /* Field: Content: Promoted to front page */
+  /* Field: Content: Promoted to front page status */
   $handler->display->display_options['fields']['promote']['id'] = 'promote';
   $handler->display->display_options['fields']['promote']['table'] = 'node';
   $handler->display->display_options['fields']['promote']['field'] = 'promote';
@@ -73,7 +73,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['promote']['type'] = 'true-false';
   $handler->display->display_options['fields']['promote']['not'] = 0;
-  /* Field: Content: Sticky */
+  /* Field: Content: Sticky status */
   $handler->display->display_options['fields']['sticky']['id'] = 'sticky';
   $handler->display->display_options['fields']['sticky']['table'] = 'node';
   $handler->display->display_options['fields']['sticky']['field'] = 'sticky';
@@ -214,7 +214,7 @@ function ding_app_content_rss_views_default_views() {
     'ding_event' => 'ding_event',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Published */
+  /* Filter criterion: Content: Published status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -331,7 +331,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'r';
-  /* Field: Content: Promoted to front page */
+  /* Field: Content: Promoted to front page status */
   $handler->display->display_options['fields']['promote']['id'] = 'promote';
   $handler->display->display_options['fields']['promote']['table'] = 'node';
   $handler->display->display_options['fields']['promote']['field'] = 'promote';
@@ -339,7 +339,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['promote']['type'] = 'true-false';
   $handler->display->display_options['fields']['promote']['not'] = 0;
-  /* Field: Content: Sticky */
+  /* Field: Content: Sticky status */
   $handler->display->display_options['fields']['sticky']['id'] = 'sticky';
   $handler->display->display_options['fields']['sticky']['table'] = 'node';
   $handler->display->display_options['fields']['sticky']['field'] = 'sticky';
@@ -495,7 +495,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_place2book']['click_sort_column'] = 'event_id';
   $handler->display->display_options['fields']['field_place2book']['delta_offset'] = '0';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Sticky */
+  /* Sort criterion: Content: Sticky status */
   $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['table'] = 'node';
   $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
