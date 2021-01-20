@@ -38,20 +38,32 @@ function ting_field_search_panels_pane_prerender($pane) {
  */
 function ting_field_search_panels_pane_content_alter($content, $pane, $args, $contexts) {
   if ($pane->type == 'search_result') {
-    ting_field_search_set_alter_request(NULL);
+    ting_field_search_set_alter_request(FALSE);
   }
 }
 
 /**
- * Helper function to set/unset the alter_request static variable.
+ * Set/get the static $alter_request variable.
  *
- * @param mixed $alter_request
- *   A boolean indication whether opensearch requests should be altered.
- *   NULL to unset again.
+ * This can be used to turn altering on/off for a series of requests or if
+ * alteration is dependent on timing from some hook, it can be more convenient
+ * than implementing alter_hook().
+ *
+ * @param boolean $alter_request (optional)
+ *   Use TRUE to alter behavior and FALSE to turn off again.
+ *
+ * @return boolean
+ *   Current value of $alter_request static variable.
  */
-function ting_field_search_set_alter_request($alter_request) {
-  $static = &drupal_static('ting_field_search_alter_request', NULL);
-  $static = $alter_request;
+function ting_field_search_set_alter_request($alter_request = NULL) {
+  // Default behavior is to not alter request.
+  $static = &drupal_static('ting_field_search_alter_request', FALSE);
+
+  if (isset($alter_request)) {
+    $static = $alter_request;
+  }
+
+  return $static;
 }
 
 /**
@@ -60,8 +72,6 @@ function ting_field_search_set_alter_request($alter_request) {
  * @see ting_field_search_opensearch_pre_execute()
  */
 function ting_field_search_ting_field_search_alter_request($request) {
-  $alter_request = NULL;
-
   // For new we only support alteration of the following types of requests, so
   // return early if it's not one of these.
   $class = get_class($request);
@@ -74,13 +84,9 @@ function ting_field_search_ting_field_search_alter_request($request) {
     return FALSE;
   }
 
-  // First check if the static alter_request variable is set. This can be
-  // switched on/off with ting_field_search_set_alter_request(). If alteration
-  // is dependent on timing from some hook, this can be more handy instead of
-  // implementing hook_ting_field_search_alter_request().
-  $alter_request = drupal_static('ting_field_search_alter_request', NULL);
-  if (isset($alter_request)) {
-    return $alter_request;
+  // First check if alter request is turned on via the static variable.
+  if (ting_field_search_set_alter_request()) {
+    return TRUE;
   }
 
   // Special handling for object and collection requests. The request should be
@@ -105,12 +111,14 @@ function ting_field_search_ting_field_search_alter_request($request) {
           $request_pid = $request->getObjectId();
         }
 
-        $alter_request = ($path_pid === $request_pid);
+        if ($path_pid === $request_pid) {
+          return TRUE;
+        }
       }
     }
   }
 
-  return $alter_request;
+  return NULL;
 }
 
 /**
