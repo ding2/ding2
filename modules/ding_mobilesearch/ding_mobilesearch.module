@@ -353,47 +353,56 @@ function _ding_mobilesearch_map_entity_fields($entity_type, $bundle, $entity) {
       case 'taxonomy_term_reference':
         $vocabulary_machine_name = NULL;
         $info = field_info_field($field_name);
+        $items = field_get_items($entity_type, $entity, $field_name);
         if (!empty($info['settings']['allowed_values']) && is_array($info['settings']['allowed_values'])) {
           $settings = reset($info['settings']['allowed_values']);
           if (!empty($settings['vocabulary'])) {
             $vocabulary_machine_name = $settings['vocabulary'];
           }
         }
+
+        // Taxonomy based list.
         if ($vocabulary_machine_name) {
           $vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_machine_name);
           $vocabulary = $vocabulary->name;
-        }
-        else {
-          $vocabulary = $field['label'];
-        }
-        $items = field_get_items($entity_type, $entity, $field_name);
-        $mapping['taxonomy'][$field_name] = array(
-          'name' => $vocabulary,
-          'terms' => array(),
-        );
-        if (is_array($items)) {
-          foreach ($items as $row) {
-            if (!empty($row['tid'])) {
-              $terms = taxonomy_get_parents_all($row['tid']);
+          $mapping['taxonomy'][$field_name] = array(
+            'name' => $vocabulary,
+            'terms' => array(),
+          );
+          if (is_array($items)) {
+            foreach ($items as $row) {
+              if (!empty($row['tid'])) {
+                $terms = taxonomy_get_parents_all($row['tid']);
 
-              $mapping['taxonomy'][$field_name]['terms'] = array();
-              if (!empty($terms)) {
-                $parents = array();
-                $parents[$terms[0]->name] = array();
-                for ($i = 1; $i < count($terms); $i++) {
-                  $parents[$terms[$i]->name] = $parents;
-                  unset($parents[$terms[$i - 1]->name]);
+                $mapping['taxonomy'][$field_name]['terms'] = array();
+                if (!empty($terms)) {
+                  $parents = array();
+                  $parents[$terms[0]->name] = array();
+                  for ($i = 1; $i < count($terms); $i++) {
+                    $parents[$terms[$i]->name] = $parents;
+                    unset($parents[$terms[$i - 1]->name]);
+                  }
+                  $mapping['taxonomy'][$field_name]['terms'] = $parents;
                 }
-                $mapping['taxonomy'][$field_name]['terms'] = $parents;
               }
             }
           }
+          if (empty($mapping['taxonomy'][$field_name]['terms'])) {
+            unset($mapping['taxonomy'][$field_name]);
+          }
         }
-        if (empty($mapping['taxonomy'][$field_name]['terms'])) {
-          unset($mapping['taxonomy'][$field_name]);
-        }
+        elseif ($info['type'] == 'list_text') {
+          $mapping['fields'][$field_name] = [
+            'name' => $field['label'],
+            'value' => [],
+            'attr' => [],
+          ];
 
-        if ($info['type'] == 'entityreference') {
+          foreach ($items as $item) {
+            $mapping['fields'][$field_name]['value'][] = $item['value'];
+          }
+        }
+        elseif ($info['type'] == 'entityreference') {
           $target = $info['settings']['target_type'];
 
           $mapping['fields'][$field_name] = array(
