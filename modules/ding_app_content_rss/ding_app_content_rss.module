@@ -216,7 +216,6 @@ function ding_app_content_rss_ting_links_convert($value) {
  * Preprocess <description> property.
  */
 function ding_app_content_rss_preprocess_description(&$variables) {
-  $a= 1;
   if (isset($variables['view']) && $variables['view']->name == 'ding_app_content_news_rss') {
     $result = [];
 
