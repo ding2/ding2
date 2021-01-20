@@ -72,48 +72,34 @@ function ting_field_search_set_alter_request($alter_request = NULL) {
  * @see ting_field_search_opensearch_pre_execute()
  */
 function ting_field_search_ting_field_search_alter_request($request) {
-  // For new we only support alteration of the following types of requests, so
-  // return early if it's not one of these.
-  $class = get_class($request);
-  $supported_classes = array(
-    'TingClientObjectRequest',
-    'TingClientCollectionRequest',
-    'TingClientSearchRequest',
-  );
-  if (!in_array($class, $supported_classes)) {
-    return FALSE;
-  }
-
   // First check if alter request is turned on via the static variable.
   if (ting_field_search_set_alter_request()) {
     return TRUE;
   }
 
+  $class = get_class($request);
   // Special handling for object and collection requests. The request should be
   // altered if it's for the main material of the page.
   if ($class == 'TingClientObjectRequest' || $class == 'TingClientCollectionRequest') {
     $path = current_path();
-    if (strpos($path, 'ting/object') === 0 || strpos($path, 'ting/collection') === 0) {
-      $parts = explode('/', $path);
-      // Require precise path and non-empty id.
-      if (count($parts) == 3 && !empty($parts[2])) {
-        $path_pid = $parts[2];
+    $pattern = '/^ting\/(?:object|collection)\/(.+:.+)/';
+    if (preg_match($pattern, current_path(), $matches)) {
+      $path_pid = $matches[1];
 
-        // Different ways to get the pid from request.
-        $request_pid = NULL;
-        if ($class == 'TingClientObjectRequest') {
-          if (!empty($request->getObjectIds())) {
-            $object_ids = $request->getObjectIds();
-            $request_pid = array_shift($object_ids);
-          }
+      // Different ways to get the pid from request.
+      $request_pid = NULL;
+      if ($class == 'TingClientObjectRequest') {
+        if (!empty($request->getObjectIds())) {
+          $object_ids = $request->getObjectIds();
+          $request_pid = array_shift($object_ids);
         }
-        else {
-          $request_pid = $request->getObjectId();
-        }
+      }
+      else {
+        $request_pid = $request->getObjectId();
+      }
 
-        if ($path_pid === $request_pid) {
-          return TRUE;
-        }
+      if ($path_pid === $request_pid) {
+        return TRUE;
       }
     }
   }
@@ -163,6 +149,17 @@ function ting_field_search_get_active_profile() {
  * Implements hook_opensearch_pre_execute().
  */
 function ting_field_search_opensearch_pre_execute($request) {
+  // Do we support the class of this request?
+  $class = get_class($request);
+  $supported_classes = array(
+    'TingClientObjectRequest',
+    'TingClientCollectionRequest',
+    'TingClientSearchRequest',
+  );
+  if (!in_array($class, $supported_classes)) {
+    return;
+  }
+
   // Find out if we should alter the request.
   $result = module_invoke_all('ting_field_search_alter_request', $request);
   // Return if anyone returned false or nobody returned true.
@@ -189,7 +186,7 @@ function ting_field_search_opensearch_pre_execute($request) {
   }
 
   // Following modification should only be made on search requests.
-  if (get_class($request) == 'TingClientSearchRequest') {
+  if ($class == 'TingClientSearchRequest') {
     // Users should always be allowed to search without entering keywords when
     // using a profile.
     if (empty($request->getQuery())) {
