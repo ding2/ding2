@@ -214,21 +214,21 @@ function ting_subsearch_ajax_placeholder_callback() {
  *   The result object of the subsearch.
  */
 function ting_subseach_do_subsearch(TingSearchRequest $subsearch_request) {
+  $reset_alter_request = FALSE;
   if (module_exists('ting_field_search')) {
-    // If a profile is active but no context is set, we set our own to ensure
-    // ting_field_search will activate.
-    if (ting_field_search_get_active_profile() && !ting_field_search_get_context()) {
-      ting_field_search_set_context('ting_subsearch');
+
+    // If a profile is active ensure ting_field_search will alter request. If
+    // we activate it, ensure we reset again after subsearch.
+    if (ting_field_search_get_active_profile() && !ting_field_search_set_alter_request()) {
+      ting_field_search_set_alter_request(TRUE);
+      $reset_alter_request = TRUE;
     }
   }
 
   $subsearch_result = $subsearch_request->execute();
 
-  if (module_exists('ting_field_search')) {
-    // If we used our own context remove it again.
-    if (ting_field_search_get_context() == 'ting_subsearch') {
-      ting_field_search_set_context(NULL);
-    }
+  if ($reset_alter_request) {
+    ting_field_search_set_alter_request(FALSE);
   }
 
   return $subsearch_result;
