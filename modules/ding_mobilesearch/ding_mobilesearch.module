@@ -252,7 +252,7 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
     $node_wrapper = entity_metadata_wrapper('node', $node);
     $paragraphs_item_entities = $node_wrapper->{$paragraphs_field}->value();
 
-    $mapping['fields'][$paragraphs_field]['value'] = array_map(function($paragraphs_item_entity) {
+    $mapping['fields'][$paragraphs_field]['value'] = array_map(function ($paragraphs_item_entity) {
       $bundle = $paragraphs_item_entity->bundle();
       $mapping = _ding_mobilesearch_map_entity_fields('paragraphs_item', $bundle, $paragraphs_item_entity);
       return [
