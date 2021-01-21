@@ -510,7 +510,7 @@ function _ding_nodelist_plugin_widget_section(&$form, $node_type, $conf, $defaul
     '#suffix' => '</div></div>',
   );
 
-  $autoscrolling_widgets = array(DING_NODELIST_WIDGET_CAROUSEL);
+  $autoscrolling_widgets = array(DING_NODELIST_WIDGET_CAROUSEL, DING_NODELIST_WIDGET_ROLLTAB);
   if (in_array($widget_type, $autoscrolling_widgets)) {
     $generic_autoscroll_delay = variable_get('ding_nodelist_' . $widget_type . '_delay', $default_conf['autoscroll_delay']);
     $form['ding_nodelist_wrapper']['widget_dependent']['autoscroll_delay'] = array(
@@ -767,7 +767,7 @@ function _ding_nodelist_plugin_content_section(&$form, &$form_state, $node_type,
 
     // Set default field value.
     $first_field = array_shift(array_keys($allowed_fields));
-    $filter = $field_settings[$first_field];
+    $filter = isset($field_settings[$first_field]) ? $field_settings[$first_field] : [];
 
     $form['ding_nodelist_wrapper']['nodelist_content']['nodelist_content_wrapper']['ding_nodelist_dynamic']['taxonomy_filters'][$key]
       = _ding_nodelist_taxonomy_filter($allowed_fields, $filter, $key);

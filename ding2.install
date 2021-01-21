@@ -1044,8 +1044,45 @@ function ding2_update_7090() {
 }
 
 /**
- * Enable Ding SEO module.
+ * Update cookie compliance settings.
  */
 function ding2_update_7091() {
+  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da', []);
+
+  // Ensure that this is disabled as it will prevent changing the default text
+  // of the popup_agree_button_message on ECC settings form.
+  $ecc_settings['enable_save_preferences_button'] = FALSE;
+
+  // Change default text on popup agree and disagree buttons.
+  $ecc_settings['popup_agree_button_message'] = 'Acceptér alle';
+  $ecc_settings['disagree_button_label'] = 'Kun nødvendige';
+
+  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
+}
+
+/**
+ * Enable ting_subsearch modules.
+ */
+function ding2_update_7092() {
+  if (module_exists('opensearch')) {
+    module_enable([
+      'ting_subsearch_bibdk',
+      'ting_subsearch_suggestions',
+      'ting_subsearch_translate',
+    ]);
+  }
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7093() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable Ding SEO module.
+ */
+function ding2_update_7094() {
   module_enable(['ding_seo']);
 }

@@ -10,6 +10,7 @@
  */
 function ding_sections_install() {
   _ding_sections_create_base();
+  _ding_sections_create_image_field();
   _ding_sections_create_fields();
   ding_sections_section_shortcut();
 
@@ -32,6 +33,7 @@ function ding_sections_install() {
  */
 function ding_sections_uninstall() {
   _ding_sections_purge_fields();
+  _ding_sections_purge_image_field();
   _ding_sections_purge_base();
 
   variable_del('ding_section_content_types');
@@ -135,4 +137,128 @@ function ding_sections_section_shortcut_exists() {
   }
 
   return FALSE;
+}
+
+/**
+ * Create image field for sections taxonomy term.
+ */
+function _ding_sections_create_image_field() {
+  $field_definition = [
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => [],
+    'field_name' => 'field_ding_sections_image',
+    'foreign keys' => [
+      'fid' => [
+        'columns' => [
+          'fid' => 'fid',
+        ],
+        'table' => 'file_managed',
+      ],
+    ],
+    'indexes' => [
+      'fid' => [
+        0 => 'fid',
+      ],
+    ],
+    'locked' => 0,
+    'module' => 'image',
+    'settings' => [
+      'default_image' => 0,
+      'profile2_private' => FALSE,
+      'uri_scheme' => 'public',
+    ],
+    'translatable' => 0,
+    'type' => 'image',
+  ];
+
+  field_create_field($field_definition);
+
+  $field_instance_definition = [
+    'bundle' => 'section',
+    'deleted' => 0,
+    'description' => '',
+    'display' => [
+      'default' => [
+        'label' => 'above',
+        'settings' => [],
+        'type' => 'hidden',
+        'weight' => 3,
+      ],
+    ],
+    'entity_type' => 'taxonomy_term',
+    'field_name' => 'field_ding_sections_image',
+    'label' => 'Content image.',
+    'required' => 0,
+    'settings' => [
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => '',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ],
+    'widget' => [
+      'active' => 1,
+      'module' => 'media',
+      'settings' => [
+        'allowed_schemes' => [
+          'public' => 'public',
+          'vimeo' => 0,
+          'youtube' => 0,
+        ],
+        'allowed_types' => [
+          'audio' => 0,
+          'document' => 0,
+          'image' => 'image',
+          'video' => 0,
+        ],
+        'browser_plugins' => [
+          'ding_content' => 0,
+          'media_default--media_browser_1' => 'media_default--media_browser_1',
+          'media_default--media_browser_my_files' => 0,
+          'media_internet' => 0,
+          'upload' => 'upload',
+          'youtube' => 0,
+        ],
+      ],
+      'type' => 'media_generic',
+      'weight' => 3,
+    ],
+  ];
+
+  field_create_instance($field_instance_definition);
+}
+
+/**
+ * Purge image field from sections.
+ */
+function _ding_sections_purge_image_field() {
+  $field_instance = field_read_instance('taxonomy_term', 'field_ding_sections_image', 'section');
+
+  if (!empty($field_instance)) {
+    field_delete_instance($field_instance);
+    field_delete_field('field_ding_sections_image');
+  }
+}
+
+/**
+ * Create image field.
+ */
+function ding_sections_update_7001() {
+  _ding_sections_create_image_field();
+}
+
+/**
+ * Add manualcrop settings to term image.
+ */
+function ding_sections_update_7101() {
+  $instance = field_read_instance('taxonomy_term', 'field_ding_sections_image', 'section');
+  $instance['widget']['settings']['manualcrop_enable'] = 1;
+  $instance['widget']['settings']['manualcrop_styles_list'] = ['crop_16_9' => 'crop_16_9'];
+  field_update_instance($instance);
 }

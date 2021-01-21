@@ -50,7 +50,7 @@ function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
   // Add a notice about not inserting personal data in the contact form. We make
   // it translatable so that administrators are able to change the link to the
   // privacy policy page.
-  $privacy_notice = t('<strong>NOTICE</strong>: NEVER insert personal data of any kind in the formular. Read more in our <a href="/persondata">privacy policy</a>.');
+  $privacy_notice = t('Please do not enter your civil registration number (CPR) or sensitive information of any kind in the form. Read more in our <a href="/persondata">privacy policy</a>');
   $form['privacy_notice'] = [
     '#type' => 'item',
     '#markup' => '<p>' . $privacy_notice . '</p>',
@@ -79,18 +79,16 @@ function ding_contact_mail_alter(&$message) {
   switch ($message['id']) {
     case 'contact_page_mail':
     case 'contact_page_copy':
-      $subject = $message['subject'];
-      $sitename = variable_get('site_name', 'DDB CMS');
-      $default_from = variable_get('site_mail', ini_get('sendmail_from'));
-      $from_value = t('"!subject via !site_name" <!site_mail>', array(
-        '!subject' => $subject,
-        '!site_name' => $sitename,
-        '!site_mail' => $default_from,
-      ));
+      $site_name = variable_get('site_name', 'DDB CMS');
+      $site_mail = variable_get('site_mail', ini_get('sendmail_from'));
+      $from_value = format_string('"!site_name" <!site_mail>', [
+        '!site_name' => $site_name,
+        '!site_mail' => $site_mail,
+      ]);
       $message['from'] = $from_value;
       $message['headers']['From'] = $from_value;
       $message['headers']['Reply-To'] = $message['params']['mail'];
-      $message['headers']['Sender'] = $sitename;
+      $message['headers']['Sender'] = $site_mail;
 
       // If it is not an anonymous user that has filled out the form,
       // we want ot make sure their email is included in the message.

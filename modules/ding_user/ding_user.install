@@ -153,3 +153,13 @@ function ding_user_update_7011() {
   db_query("UPDATE users a INNER JOIN authmap b ON a.uid=b.uid SET a.init=b.authname WHERE a.init<>b.authname;")
     ->execute();
 }
+
+/**
+ * Change pincode length to a max/min setting.
+ */
+function ding_user_update_7101() {
+  $length = variable_get('ding_user_pincode_length', 4);
+  variable_set('ding_user_pincode_min_length', $length);
+  variable_set('ding_user_pincode_max_length', $length);
+  variable_del('ding_user_pincode_length');
+}

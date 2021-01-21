@@ -105,21 +105,26 @@
   // Nodelist "Promoted Nodes".
   Drupal.behaviors.ding_nodelist_promoted_nodes = {
     attach: function (context, settings) {
-      // "Promoted nodes" items classes list.
-      var classes = ['first-left-block', 'first-right-block', 'last-left-block', 'last-right-block'];
-      classes.forEach(function (value) {
-        // Attach mouseover/click handler to every item wrapper.
-        var itemWrapper = $('.' + value);
-        itemWrapper.on('mouseover click', function (event) {
-          // Always display pointer cursor.
-          itemWrapper.css('cursor', 'pointer');
-          // If click event; use data-href value on current item wrapper as link
-          // to new page.
-          if (event.type === 'click') {
-            window.location.href = $(this).data('href');
-          }
+      var pnNodelistPanes = $('.pane-ding-nodelist .ding_nodelist', context);
+      if (pnNodelistPanes.length > 0) {
+        $(pnNodelistPanes).each(function (i, block) {
+          // "Promoted nodes" items classes list.
+          var classes = ['first-left-block', 'first-right-block', 'last-left-block', 'last-right-block'];
+          classes.forEach(function (value) {
+            // Attach mouseover/click handler to every item wrapper.
+            var itemWrapper = $('.' + value);
+            itemWrapper.on('mouseover click', function (event) {
+              // Always display pointer cursor.
+              itemWrapper.css('cursor', 'pointer');
+              // If click event; use data-href value on current item wrapper as link
+              // to new page.
+              if (event.type === 'click') {
+                window.location.href = $(this).data('href');
+              }
+            });
+          });
         });
-      });
+      }
     }
   };
 

@@ -32,6 +32,7 @@ function ding_webtrekk_menu() {
  * Implements hook_page_alter().
  */
 function ding_webtrekk_page_alter(&$page) {
+  global $user;
   $domain = variable_get('webtrekk_ti_domain', '');
   $id = variable_get('webtrekk_ti_id', '');
 
@@ -87,7 +88,7 @@ function ding_webtrekk_page_alter(&$page) {
     }
     // Fallback to cpr+pin if none the modules we know about was used to log in.
     else {
-      if (ding_user_is_provider_user()) {
+      if (ding_user_is_provider_user($user)) {
         $params['p_isloggedin'] = 'cpr+pinkode';
       }
       else {

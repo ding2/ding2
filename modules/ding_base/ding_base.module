@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Base setup and functions for Ding!.
@@ -95,6 +96,9 @@ function ding_base_field_formatter_view($entity_type, $entity, $field, $instance
   return $elements;
 }
 
+/**
+ * Field formatter settings form.
+ */
 function ding_base_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
@@ -113,6 +117,9 @@ function ding_base_field_formatter_settings_form($field, $instance, $view_mode, 
   return $element;
 }
 
+/**
+ * Returns summary for field settings.
+ */
 function ding_base_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
@@ -174,7 +181,7 @@ function ding_base_date_formats() {
       'format' => 'l, j. F, Y H:i',
       'locales' => array(),
     ),
-);
+  );
 }
 
 /**
@@ -244,8 +251,8 @@ function ding_base_element_process_tableselect_form($element) {
           $title = '';
           if (!empty($element['#options'][$key]['title']['data']['#title'])) {
             $title = t('Update @title', array(
-                       '@title' => $element['#options'][$key]['title']['data']['#title'],
-                     ));
+              '@title' => $element['#options'][$key]['title']['data']['#title'],
+            ));
           }
           $element[$key] = array(
             '#type' => 'checkbox',
@@ -425,9 +432,7 @@ function ding_base_pathauto_alias_alter(&$alias, array &$context) {
  *
  * Mainly used by ding_groups.
  *
- * @todo: used it in ding_libraries to remove the "slug" field.
- *
- * @param Entity $node
+ * @param stdClass $node
  *   Node entity object for the OG group that should have alias updated.
  * @param string $base
  *   Base path for the group (e.g. library or temaer).
@@ -435,8 +440,10 @@ function ding_base_pathauto_alias_alter(&$alias, array &$context) {
  *   The taxonomy terms objects to generate paths for.
  * @param array $slugs
  *   The sulg to use in the path (e.g. nyheder or arragementer).
+ *
+ * @todo: used it in ding_libraries to remove the "slug" field.
  */
-function ding_base_updated_taxonomy_aliases($node, $base, $terms, $slugs) {
+function ding_base_updated_taxonomy_aliases(stdClass $node, $base, array $terms, array $slugs) {
   $group_alias = 'node/' . $node->nid;
 
   // Find node pattern from path auto.
@@ -585,7 +592,7 @@ function ding_base_field_widget_form_alter(&$elements, &$form_state, $context) {
 
   // First extract all indexes of image fields.
   $image_indexes = array_filter(element_children($elements),
-    function($i) use ($elements) {
+    function ($i) use ($elements) {
       return isset($elements[$i]['#type']) && $elements[$i]['#type'] == 'media';
     }
   );
@@ -629,10 +636,11 @@ function ding_base_field_widget_form_alter(&$elements, &$form_state, $context) {
         'height' => $preview_image['height'],
       );
 
-      // If after apllying effects dimensions wasn't changed, when we can't recommend.
+      // If after apllying effects dimensions wasn't changed, when we can't
+      // recommend.
       if ($dimensions['height'] != $original_sample['height'] && $dimensions['width'] != $original_sample['width']) {
         array_walk($dimensions, function (&$i, $k) {
-          $i =  "{$i}px {$k}";
+          $i = "{$i}px {$k}";
         });
 
         $description = t("The image will automatically be resized. The maximum dimensions are %dimensions (Original: {$original_sample['width']}x{$original_sample['height']}).", array(
@@ -688,7 +696,7 @@ function ding_base_js_alter(&$javascript) {
 }
 
 /**
- * Implement hook_page_delivery_callback_alter()
+ * Implements hook_page_delivery_callback_alter()
  *
  * Override the default ajax_deliver callback on lazy_pane requests, so we can
  * handle empty panes.
@@ -829,13 +837,27 @@ function ding_base_form_alter(&$form, &$form_state, $form_id) {
     // hardcoded since we currently don't have any central place for setting
     // up a privacy poplicy page, and we use translation here primarly for
     // administrators to be able to change the link.
-    $privacy_notice = t('<strong>NOTICE</strong>: NEVER insert personal data of any kind in the formular. Read more in our <a href="/persondata">privacy policy</a>.');
+    $privacy_notice = t('Please do not enter your civil registration number (CPR) or sensitive information of any kind in the form. Read more in our <a href="/persondata">privacy policy</a>');
     $form['submitted']['privacy_notice'] = [
       '#type' => 'item',
       '#markup' => '<p>' . $privacy_notice . '</p>',
       // Ensure notice is placed at the bottom just above submit button.
       '#weight' => 50,
     ];
+  }
+  // Action forms got a weird naming scheme, so match a prefix and check if
+  // the 'add_roles' and 'remove_roles' form elements is present.
+  elseif (strpos($form_id, 'views_form_admin_views_user') === 0 &&
+          isset($form['add_roles']) && isset($form['remove_roles'])) {
+    // Limit options to roles the user has been delegated using the
+    // role_delegation module.
+    foreach (['add_roles', 'remove_roles'] as $element) {
+      foreach ($form[$element]['#options'] as $rid => $role) {
+        if (!user_access('assign all roles') && !user_access("assign $role role")) {
+          unset($form[$element]['#options'][$rid]);
+        }
+      }
+    }
   }
 }
 
@@ -902,51 +924,5 @@ function ding_base_taxonomy_autocomplete($vid, $tag) {
     }
 
     drupal_json_output($items);
-  }
-}
-
-/**
- * Implements hook_mail_alter().
- */
-function ding_base_mail_alter(&$message) {
-  // To protect against personal data from webform submissions getting send
-  // unencrypted in mail to various mail servers, we alter every webform
-  // submission mail and replace any [submission:values] tokens with
-  // [submission:url] token. Administrators must then visit the submission
-  // URL to see/download the data, and the mail will only serve as a
-  // notification of a new submission and not as a method of data transfer.
-  if ($message['id'] == 'webform_submission') {
-    $params = $message['params'];
-    $email = $params['email'];
-    $node = $params['node'];
-    $submission = $params['submission'];
-
-    // Get the original mail template without replaced tokens.
-    // Copied from: webform_submission_send_mail().
-    if ($email['template'] == 'default') {
-      $email['message'] = theme(
-        ['webform_mail_' . $node->nid, 'webform_mail', 'webform_mail_message'],
-        ['node' => $node, 'submission' => $submission, 'email' => $email]
-      );
-    }
-    else {
-      $email['message'] = $email['template'];
-    }
-
-    $count = 0;
-    // We can also have more specific submission values tokens of the form
-    // [submission:values:?] that reference a specific component on the form,
-    // so we use a regular expression.
-    $email['message'] = preg_replace('/\[submission:values.*\]/', '[submission:url]',  $email['message'], -1, $count);
-
-    // Replace tokens in the message (again) if any replacements was performed.
-    if ($count > 0) {
-      // Copied from: webform_submission_send_mail().
-      $email['message'] = webform_replace_tokens($email['message'], $node, $submission, $email, (boolean) $email['html']);
-
-      // Insert new message in body replacing the old completely.
-      $message['body'] = [];
-      $message['body'][] = $email['message'];
-    }
   }
 }

@@ -307,6 +307,10 @@ function ting_entity_info() {
           'label' => t('Teaser'),
           'custom settings' => TRUE,
         ),
+        'minimal' => array(
+          'label' => t('Minimal'),
+          'custom settings' => TRUE,
+        ),
       ),
       'bundles' => array(
         'ting_object' => array(
@@ -343,6 +347,10 @@ function ting_entity_info() {
         ),
         'teaser' => array(
           'label' => t('Teaser'),
+          'custom settings' => TRUE,
+        ),
+        'minimal' => array(
+          'label' => t('Minimal'),
           'custom settings' => TRUE,
         ),
       ),

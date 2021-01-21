@@ -78,9 +78,10 @@ projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
 
-; To be removed together with p2.
 projects[eck][subdir] = "contrib"
 projects[eck][version] = "2.0-rc9"
+; Avoid PDO exception after installation
+projects[eck][patch][] = "https://www.drupal.org/files/issues/eck-pdoexception-2109589-17.patch"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -154,8 +155,7 @@ projects[geophp][subdir] = "contrib"
 projects[geophp][version] = "1.7"
 
 projects[globalredirect][subdir] = "contrib"
-projects[globalredirect][version] = "1.5"
-projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_view_node-1399506-2.patch"
+projects[globalredirect][version] = "1.6"
 
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
@@ -305,6 +305,9 @@ projects[oembed][version] = "1.0-rc2"
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
 ; Added a check to ensure that a menu item exists before trying to alter it in order to fix a PHP error.
 projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch"
+; Embedly scheme regex too long (back-port to rc1)
+projects[oembed][patch][] = "patches/split-up-regex-2739023-1.patch"
+
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
@@ -323,6 +326,9 @@ projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_
 ; Add "hide if empty" option to field settings.
 ; https://www.drupal.org/node/2820005
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-hours-2820005-hide-field-if-empty.patch"
+; Delete opening hours when node is deleted.
+; https://www.drupal.org/project/opening_hours/issues/3007293
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/2018-10-17/3007293-2.patch"
 
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
@@ -512,7 +518,7 @@ libraries[bpi-client][download][branch] = "master"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_standard.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.14.0/ckeditor_4.14.0_standard.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 

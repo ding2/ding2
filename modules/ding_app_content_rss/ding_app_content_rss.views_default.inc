@@ -31,7 +31,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Relationship: Content: Author */
+  /* Relationship: Content: Content author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
@@ -65,7 +65,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'r';
-  /* Field: Content: Promoted to front page */
+  /* Field: Content: Promoted to front page status */
   $handler->display->display_options['fields']['promote']['id'] = 'promote';
   $handler->display->display_options['fields']['promote']['table'] = 'node';
   $handler->display->display_options['fields']['promote']['field'] = 'promote';
@@ -73,7 +73,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['promote']['type'] = 'true-false';
   $handler->display->display_options['fields']['promote']['not'] = 0;
-  /* Field: Content: Sticky */
+  /* Field: Content: Sticky status */
   $handler->display->display_options['fields']['sticky']['id'] = 'sticky';
   $handler->display->display_options['fields']['sticky']['table'] = 'node';
   $handler->display->display_options['fields']['sticky']['field'] = 'sticky';
@@ -214,7 +214,7 @@ function ding_app_content_rss_views_default_views() {
     'ding_event' => 'ding_event',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Published */
+  /* Filter criterion: Content: Published status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -330,7 +330,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'r';
-  /* Field: Content: Promoted to front page */
+  /* Field: Content: Promoted to front page status */
   $handler->display->display_options['fields']['promote']['id'] = 'promote';
   $handler->display->display_options['fields']['promote']['table'] = 'node';
   $handler->display->display_options['fields']['promote']['field'] = 'promote';
@@ -338,7 +338,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['promote']['type'] = 'true-false';
   $handler->display->display_options['fields']['promote']['not'] = 0;
-  /* Field: Content: Sticky */
+  /* Field: Content: Sticky status */
   $handler->display->display_options['fields']['sticky']['id'] = 'sticky';
   $handler->display->display_options['fields']['sticky']['table'] = 'node';
   $handler->display->display_options['fields']['sticky']['field'] = 'sticky';
@@ -479,7 +479,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_organizers']['type'] = 'taxonomy_term_reference_plain';
   $handler->display->display_options['fields']['field_ding_event_organizers']['delta_offset'] = '0';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Sticky */
+  /* Sort criterion: Content: Sticky status */
   $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['table'] = 'node';
   $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
@@ -488,6 +488,84 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['sorts']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
   $handler->display->display_options['sorts']['field_ding_event_date_value']['table'] = 'field_data_field_ding_event_date';
   $handler->display->display_options['sorts']['field_ding_event_date_value']['field'] = 'field_ding_event_date_value';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['filter_groups']['operator'] = 'OR';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'AND',
+  );
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ding_event' => 'ding_event',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Date -  start date (field_ding_event_date) */
+  $handler->display->display_options['filters']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
+  $handler->display->display_options['filters']['field_ding_event_date_value']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['filters']['field_ding_event_date_value']['field'] = 'field_ding_event_date_value';
+  $handler->display->display_options['filters']['field_ding_event_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_ding_event_date_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_ding_event_date_value']['default_date'] = 'now';
+  /* Filter criterion: Content: Date -  start date (field_ding_event_date) */
+  $handler->display->display_options['filters']['field_ding_event_date_value_1']['id'] = 'field_ding_event_date_value_1';
+  $handler->display->display_options['filters']['field_ding_event_date_value_1']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['filters']['field_ding_event_date_value_1']['field'] = 'field_ding_event_date_value';
+  $handler->display->display_options['filters']['field_ding_event_date_value_1']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_ding_event_date_value_1']['group'] = 1;
+  $handler->display->display_options['filters']['field_ding_event_date_value_1']['default_date'] = '+180 day';
+  /* Filter criterion: Content: Published status */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'node';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'ding_event' => 'ding_event',
+  );
+  $handler->display->display_options['filters']['type_1']['group'] = 2;
+  /* Filter criterion: Content: Event list filter (field_ding_event_list_filter) */
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value_1']['id'] = 'field_ding_event_list_filter_value_1';
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value_1']['table'] = 'field_data_field_ding_event_list_filter';
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value_1']['field'] = 'field_ding_event_list_filter_value';
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value_1']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value_1']['group'] = 2;
+  /* Filter criterion: Content: Event list filter (field_ding_event_list_filter) */
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value']['id'] = 'field_ding_event_list_filter_value';
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value']['table'] = 'field_data_field_ding_event_list_filter';
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value']['field'] = 'field_ding_event_list_filter_value';
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value']['value'] = array(
+    'show_all' => 'show_all',
+  );
+  $handler->display->display_options['filters']['field_ding_event_list_filter_value']['group'] = 2;
+  /* Filter criterion: Content: Date - end date (field_ding_event_date:value2) */
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['id'] = 'field_ding_event_date_value2';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['field'] = 'field_ding_event_date_value2';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['group'] = 2;
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['default_date'] = 'now';
+  /* Filter criterion: Content: Date -  start date (field_ding_event_date) */
+  $handler->display->display_options['filters']['field_ding_event_date_value_2']['id'] = 'field_ding_event_date_value_2';
+  $handler->display->display_options['filters']['field_ding_event_date_value_2']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['filters']['field_ding_event_date_value_2']['field'] = 'field_ding_event_date_value';
+  $handler->display->display_options['filters']['field_ding_event_date_value_2']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_ding_event_date_value_2']['group'] = 2;
+  $handler->display->display_options['filters']['field_ding_event_date_value_2']['default_date'] = '+180 day';
+  /* Filter criterion: Content: Published status */
+  $handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+  $handler->display->display_options['filters']['status_1']['table'] = 'node';
+  $handler->display->display_options['filters']['status_1']['field'] = 'status';
+  $handler->display->display_options['filters']['status_1']['value'] = '1';
+  $handler->display->display_options['filters']['status_1']['group'] = 2;
   $handler->display->display_options['path'] = 'ding-redia-rss/event';
   $translatables['ding_app_content_event_rss'] = array(
     t('Master'),
@@ -599,15 +677,6 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_news_lead']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_news_lead']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_news_lead']['type'] = 'text_plain';
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['field_ding_news_body']['id'] = 'field_ding_news_body';
-  $handler->display->display_options['fields']['field_ding_news_body']['table'] = 'field_data_field_ding_news_body';
-  $handler->display->display_options['fields']['field_ding_news_body']['field'] = 'field_ding_news_body';
-  $handler->display->display_options['fields']['field_ding_news_body']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_news_body']['alter']['strip_tags'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_news_body']['alter']['preserve_tags'] = '<a><b><em><u><i><li><ul><ol><h2><h3><strong><p><br/><br><br />';
-  $handler->display->display_options['fields']['field_ding_news_body']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_news_body']['element_default_classes'] = FALSE;
   /* Field: Content: Paragraphs */
   $handler->display->display_options['fields']['field_ding_news_paragraphs']['id'] = 'field_ding_news_paragraphs';
   $handler->display->display_options['fields']['field_ding_news_paragraphs']['table'] = 'field_data_field_ding_news_paragraphs';

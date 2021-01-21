@@ -176,3 +176,11 @@ function ding_staff_update_7005() {
 function ding_staff_update_7006() {
   module_enable(array('realname'));
 }
+
+/**
+ * Delete menu links to old ding_users view.
+ */
+function ding_staff_update_7101() {
+  // Seems that views doesn't clean up after itself.
+  menu_link_delete(NULL, 'admin/ding_users');
+}

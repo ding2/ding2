@@ -7,6 +7,17 @@
  * Provides integration with section system.
  */
 
+include_once 'ding_sections.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_sections_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
 /**
  * Implements hook_menu().
  */
@@ -29,6 +40,13 @@ function ding_sections_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_sections_admin_content_types'),
     'file' => 'ding_sections.admin.inc',
+  );
+
+  $menu['ding_sections/autocomplete'] = array(
+    'title' => 'Autocomplete',
+    'page callback' => 'ding_sections_autocomplete',
+    'access arguments' => array('administer section'),
+    'type' => MENU_CALLBACK,
   );
 
   return $menu;
@@ -174,5 +192,259 @@ function ding_sections_secure_permissions($role) {
 
   if (isset($permissions[$role])) {
     return $permissions[$role];
+  }
+}
+
+/**
+ * Custom autocomplete menu callback.
+ *
+ * @param string $keys
+ *   Keys to be searched in database table.
+ */
+function ding_sections_autocomplete($keys = '') {
+  $results = [];
+  $vocabulary = taxonomy_vocabulary_machine_name_load('section');
+
+  $items = db_select('taxonomy_term_data', 'td')
+    ->fields('td', ['tid', 'name'])
+    ->condition('vid', $vocabulary->vid)
+    ->condition('name', '%' . db_like($keys) . '%', 'LIKE')
+    ->execute()
+    ->fetchAllKeyed();
+
+  foreach ($items as $tid => $name) {
+    $results[$name . ' [tid:' . $tid . ']'] = $name;
+  }
+
+  drupal_json_output($results);
+}
+
+/**
+ * Theming function.
+ */
+function theme_ding_sections_items_table($variables) {
+  $form = $variables['form'];
+  $rows = [];
+  $headers = ['', t('Selected section'), t('Weight'), ''];
+
+  foreach (element_children($form) as $key) {
+    // Set special classes for drag and drop updating.
+    $form[$key]['weight']['#attributes']['class'] = ['ding_sections-weight'];
+
+    // Build the table row.
+    $row = [
+      'data' => [
+        ['class' => ['choice-flag']],
+        drupal_render($form[$key]['term']),
+        drupal_render($form[$key]['weight']),
+        drupal_render($form[$key]['section_delete_' . $key]),
+      ],
+      'class' => ['draggable'],
+    ];
+
+    // Add any additional classes set on the row.
+    if (!empty($form[$key]['#attributes']['class'])) {
+      $row['class'] = array_merge($row['class'], $form[$key]['#attributes']['class']);
+    }
+
+    $rows[] = $row;
+  }
+
+  drupal_add_tabledrag('ding_sections-selected-table', 'order', 'sibling', 'ding_sections-weight');
+
+  $output = theme(
+    'table',
+    [
+      'header' => $headers,
+      'rows' => $rows,
+      'attributes' => [
+        'id' => 'ding_sections-selected-table',
+      ],
+    ]
+  );
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_sections_theme($existing, $type, $theme, $path) {
+  return [
+    'ding_sections_items_table' => [
+      'render element' => 'form',
+    ],
+  ];
+}
+
+/**
+ * Generate a form piece for dynamic term select form.
+ *
+ * @param string $key
+ *   Unique key for this piece.
+ * @param array|null $term
+ *   Array with the term object.
+ * @param int $weight
+ *   Piece weight.
+ *
+ * @return array
+ *   Form structure.
+ */
+function _ding_sections_selected_term($key, $term, $weight = 0) {
+  $form = [
+    '#tree' => TRUE,
+    '#weight' => $weight,
+  ];
+
+  // Set default value for 'term'.
+  $term_default = (!is_null($term) && isset($term['term'])) ? $term['term'] : '';
+
+  // Custom autocomplete form field, used for defining of custom sections.
+  $form['term'] = [
+    '#type' => 'textfield',
+    '#title' => t('Select new term to add to list'),
+    '#title_display' => 'invisible',
+    '#parents' => ['selected_sections', $key, 'term'],
+    '#autocomplete_path' => 'ding_sections/autocomplete',
+    '#default_value' => $term_default,
+  ];
+
+  // Value which will be passed to panel settings.
+  $form['tid'] = [
+    '#type' => 'value',
+    '#value' => NULL,
+    '#parents' => ['selected_sections', $key, 'tid'],
+  ];
+
+  // Set default value for 'tid' if not empty field.
+  if (!is_null($term) && isset($term['tid']) && ctype_digit($term['tid'])) {
+    $form['tid']['#value'] = $term['tid'];
+  }
+  elseif (!is_null($term) && isset($term['term'])) {
+    $tmp_tid = explode(':', $term['term']);
+    $tmp_tid = array_pop($tmp_tid);
+    $tmp_tid = substr($tmp_tid, 0, -1);
+    if (ctype_digit($tmp_tid)) {
+      $term['tid'] = $tmp_tid;
+    }
+  }
+
+  $form['weight'] = [
+    '#type' => 'weight',
+    '#title' => $term['tid'] !== '' ? t('Weight for term @label', ['@label' => $term['tid']]) : t('Weight for new choice'),
+    '#title_display' => 'invisible',
+    '#default_value' => $weight,
+    '#delta' => 50,
+    '#parents' => ['selected_sections', $key, 'weight'],
+  ];
+
+  $form['section_delete_' . $key] = [
+    '#name' => 'section_delete_' . $key,
+    '#type' => 'submit',
+    '#title_display' => 'invisible',
+    '#value' => t('Delete'),
+    '#parents' => ['selected_sections', $key, 'section_delete_' . $key],
+    '#submit' => ['ding_sections_section_delete_submit'],
+    '#limit_validation_errors' => [],
+    '#ajax' => [
+      'wrapper' => 'ding_sections-selected-sections',
+      'callback' => 'ding_sections_js_add_section',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ],
+  ];
+  return $form;
+}
+
+/**
+ * Custom submit function to add more choices.
+ */
+function ding_sections_add_section_submit($form, &$form_state) {
+  // Add new section to list.
+  $form_state['values']['selected_sections_count'] = count($form_state['values']['selected_sections']) + 1;
+  unset($form_state['input']['selected_sections']);
+  foreach ($form_state['values']['selected_sections'] as $key => $term) {
+    if (!empty($term['term'])) {
+      _ding_sections_get_term_tid($key, $term, $form_state);
+    }
+  }
+
+  // Copy 'input' since limit_validation_errors empties 'values'.
+  $form_state['values'] += $form_state['input'];
+  _ding_sections_content_type_form_save($form_state, TRUE);
+}
+
+/**
+ * Extract term tid.
+ *
+ * @param int $key
+ *   Position of element.
+ * @param array $term
+ *   Term value from form.
+ * @param array $form_state
+ *   Form state.
+ */
+function _ding_sections_get_term_tid($key, array $term, array &$form_state) {
+  $tmp_tid = explode(':', $term['term']);
+  $tmp_tid = array_pop($tmp_tid);
+  $tmp_tid = substr($tmp_tid, 0, -1);
+  // TODO: Implement more complex check for given title + ID.
+  if (ctype_digit($tmp_tid)) {
+    $form_state['values']['selected_sections'][$key]['tid'] = $tmp_tid;
+  }
+}
+
+/**
+ * Pane settings form save.
+ */
+function _ding_sections_content_type_form_save(&$form_state, $rebuild = FALSE) {
+  $form_state['conf']['override_title_text'] = $form_state['values']['override_title_text'];
+  $form_state['conf']['selected_sections'] = !empty($form_state['values']['selected_sections']) ? $form_state['values']['selected_sections'] : [];
+
+  // Not a final save yet.
+  if ($rebuild) {
+    $form_state['rebuild'] = TRUE;
+  }
+}
+
+/**
+ * Ajax handler for custom terms actions.
+ */
+function ding_sections_js_add_section($form, &$form_state) {
+  return $form['ding_sections_wrapper']['sections_content']['sections_content_wrapper']['ding_sections_sections']['selected_sections'];
+}
+
+/**
+ * Custom submit function for term deletion.
+ */
+function ding_sections_section_delete_submit($form, &$form_state) {
+  $deleted_section = $form_state['triggering_element']['#parents'][1];
+  unset($form_state['values']['selected_sections'][$deleted_section]);
+  unset($form_state['input']['selected_sections'][$deleted_section]);
+
+  // Re-index after deletion and save.
+  $form_state['input']['selected_sections'] = array_values($form_state['input']['selected_sections']);
+  $form_state['values'] = $form_state['input'];
+  _ding_sections_content_type_form_save($form_state, TRUE);
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields().
+ *
+ * Ensure that the image styles used in responsive images for ding groups are
+ * optimized in relation to the number of promoted groups.
+ */
+function ding_sections_preprocess_views_view_fields(&$vars) {
+  if ($vars['view']->name == 'ding_sections' && $vars['view']->current_display == 'ding_sections_groups') {
+    $vars['link_attributes'] = [];
+
+    // Render image with right image_style.
+    if (!empty($vars['row']->field_field_ding_sections_image[0]['raw']['uri'])) {
+      $img_url = image_style_url(
+        'ding_panorama_list_large_desaturate',
+        $vars['row']->field_field_ding_sections_image[0]['raw']['uri']
+      );
+      $vars['link_attributes']['style'] = 'background-image:url("' . $img_url . '");';
+    }
   }
 }

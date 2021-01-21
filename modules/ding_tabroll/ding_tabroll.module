@@ -41,28 +41,31 @@ function ding_tabroll_theme($existing, $type, $theme, $path) {
  */
 function ding_tabroll_preprocess_views_view_unformatted(&$variables) {
   if ($variables['view']->name == 'ding_tabroll') {
-    $path = drupal_get_path('module', 'ding_tabroll');
-
-    // Add jQuery UI tabs library.
-    drupal_add_library('system', 'ui.tabs');
-
-    // Add default CSS and JavaScript.
-    drupal_add_js($path . '/js/ding_tabroll.js');
-
-    // Add fix to get tabs rotate back.
-    // @see http://jqueryui.com/upgrade-guide/1.9/#removed-rotate-method
-    drupal_add_js($path . '/js/jquery-ui-tabs-rotate.js');
-
     // Add class if theme setting no-overlay is chosen.
     $variables['no_overlay_class'] = '';
     if (theme_get_setting('ding_rolltab_disable_overlay')) {
       $variables['no_overlay_class'] = 'no-overlay';
     }
 
-    // Set slide switching delay.
-    $switch_speed = variable_get('ding_tabroll_speed', 5000);
-    drupal_add_js(array('ding_tabroll' => array('switch_speed' => $switch_speed)), 'setting');
+    ding_tabroll_add_js();
   }
+}
+
+function ding_tabroll_add_js($switch_speed = null) {
+  if (!$switch_speed) {
+    // Use default switch speed.
+    $switch_speed = variable_get('ding_tabroll_speed', 5000);
+  }
+
+  $path = drupal_get_path('module', 'ding_tabroll');
+
+  // Add jQuery UI tabs library.
+  drupal_add_library('system', 'ui.tabs');
+
+  // Add default CSS and JavaScript.
+  drupal_add_js($path . '/js/ding_tabroll.js');
+
+  drupal_add_js(array('ding_tabroll' => array('switch_speed' => $switch_speed)), 'setting');
 }
 
 function ding_tabroll_preprocess_views_view_fields(&$variables) {

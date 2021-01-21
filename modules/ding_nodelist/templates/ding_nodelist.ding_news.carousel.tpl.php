@@ -12,7 +12,7 @@ if (!empty($item->image)) {
   $image = '<div class="article_image" style="background-image:url(' . $item->image . ');"></div>';
 }
 ?>
-<div class="item">
+<div class="item"<?php print $attributes; ?>>
   <?php print $image; ?>
   <div class="article-info">
     <div class="label-wrapper"><?php print drupal_render($item->category_link); ?></div>
