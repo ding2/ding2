@@ -646,12 +646,12 @@ $label-bg: url('../images/p.png');
 
           &:after {
             @extend %icomoon-base;
-            font-size: 37px;
+            font-size: 28px;
             top: 0;
             position: relative;
             display: inline-block;
-            margin-top: -1px;
-            margin-left: -1px;
+            margin-top: 4px;
+            margin-left: 4px;
           }
         }
       }
@@ -734,11 +734,11 @@ $label-bg: url('../images/p.png');
           @include place-icon(close, $color-primary);
 
           &:after {
-            font-size: 55px;
+            font-size: 54px;
             top: 0;
             line-height: 1;
-            margin-top: -8px;
-            margin-left: -11px;
+            margin-top: -9px;
+            margin-left: -9px;
             font-weight: bolder;
             position: relative;
             @extend %icomoon-base;
