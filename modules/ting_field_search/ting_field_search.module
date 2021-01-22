@@ -50,7 +50,8 @@ function ting_field_search_panels_pane_content_alter($content, $pane, $args, $co
  * than implementing alter_hook().
  *
  * @param bool $alter_request
- *   Use TRUE to alter behavior and FALSE to turn off again.
+ *   Optional. Use TRUE to turn on alter request mode and FALSE to turn off
+ *   again.
  *
  * @return bool
  *   Current value of $alter_request static variable.
