@@ -49,10 +49,10 @@ function ting_field_search_panels_pane_content_alter($content, $pane, $args, $co
  * alteration is dependent on timing from some hook, it can be more convenient
  * than implementing alter_hook().
  *
- * @param boolean $alter_request (optional)
+ * @param bool $alter_request
  *   Use TRUE to alter behavior and FALSE to turn off again.
  *
- * @return boolean
+ * @return bool
  *   Current value of $alter_request static variable.
  */
 function ting_field_search_set_alter_request($alter_request = NULL) {
@@ -81,7 +81,6 @@ function ting_field_search_ting_field_search_alter_request($request) {
   // Special handling for object and collection requests. The request should be
   // altered if it's for the main material of the page.
   if ($class == 'TingClientObjectRequest' || $class == 'TingClientCollectionRequest') {
-    $path = current_path();
     $pattern = '/^ting\/(?:object|collection)\/(.+:.+)/';
     if (preg_match($pattern, current_path(), $matches)) {
       $path_pid = $matches[1];
