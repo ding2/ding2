@@ -122,7 +122,7 @@
 .ding_nodelist-promoted_nodes .first-left-block .eresource-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .first-left-block .event-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .first-left-block .page-info .pn-media-play i::after {
-  content: "\ea15";
+  content: "\e91a";
 }
 
 .ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-prev:after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-carousel .icon-next:after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
@@ -174,7 +174,7 @@
 .ding_nodelist-promoted_nodes .first-left-block .eresource-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .first-left-block .event-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .first-left-block .page-info .pn-media-play i::after {
-  content: "\ea15";
+  content: "\e91a";
 }
 
 /* Colors variables
@@ -801,12 +801,12 @@
 .ding_nodelist-promoted_nodes .first-left-block .eresource-info .pn-media-play i:after,
 .ding_nodelist-promoted_nodes .first-left-block .event-info .pn-media-play i:after,
 .ding_nodelist-promoted_nodes .first-left-block .page-info .pn-media-play i:after {
-  font-size: 37px;
+  font-size: 28px;
   top: 0;
   position: relative;
   display: inline-block;
-  margin-top: -1px;
-  margin-left: -1px;
+  margin-top: 4px;
+  margin-left: 4px;
 }
 .ding_nodelist-promoted_nodes .last-right-block .item-event-body,
 .ding_nodelist-promoted_nodes .first-left-block .item-event-body {
@@ -903,11 +903,11 @@
   top: 0;
 }
 .ding_nodelist-promoted_nodes .has-video .media-container .pn-close-media i:after {
-  font-size: 55px;
+  font-size: 54px;
   top: 0;
   line-height: 1;
-  margin-top: -8px;
-  margin-left: -11px;
+  margin-top: -9px;
+  margin-left: -9px;
   font-weight: bolder;
   position: relative;
 }

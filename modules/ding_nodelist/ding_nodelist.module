@@ -1673,7 +1673,7 @@ function _ding_nodelist_get_dams_image_info($node, $image_field) {
     if (!empty($node->video) && strpos($image['filemime'], 'video') !== FALSE) {
       $video_id = explode("?v=", $node->video);
       $video_id = $video_id[1];
-      $url = "http://img.youtube.com/vi/$video_id/maxresdefault.jpg";
+      $url = "https://img.youtube.com/vi/$video_id/hqdefault.jpg";
 
       $file = system_retrieve_file($url, 'public://list_image/' . $node->type, TRUE, FILE_EXISTS_RENAME);
       if ($file) {

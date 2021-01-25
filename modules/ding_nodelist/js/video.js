@@ -125,7 +125,7 @@
 
       //////////////////FRONT PAGE //////////////
       $('.pn-media-play', context).on('click', function (event) {
-        event.preventDefault();
+        event.stopPropagation();
         var $this = $(this),
           top = $this.parent().parent(),
           url = top.children('.media-container')
@@ -144,7 +144,7 @@
         if (url.indexOf("vimeo") !== -1) {
           mediasrc = "vimeo";
           stripurl = url.replace("http://vimeo.com/", '');
-          mediaurl = "http://player.vimeo.com/video/" + stripurl + "?autoplay=1";
+          mediaurl = "http://player.vimeo.com/video/" + stripurl + "?autoplay=1&muted=1";
           iframe = '<iframe class="media-vimeo-player" width="100%" height="300px" src="' + mediaurl + '" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" id="target"></iframe>';
 
           //fade out info
@@ -154,6 +154,7 @@
           top.children('.eresource-info').fadeOut();
           //append the video
           top.children('.media-container')
+            .css('z-index', '2')
             .children('.media-content')
             .append(iframe);
         }
@@ -168,13 +169,14 @@
               video_id = video_id.substring(0, ampersandPosition);
             }
             mediaurl = "https://www.youtube.com/embed/" + video_id + "?autoplay=1&autohide=1&enablejsapi=1";
-            iframe = '<iframe class="media-youtube-player" width="100%" height="300px" src="' + mediaurl + '" frameborder="0" allowfullscreen="" id="target" autohide="1"></iframe>';
+            iframe = '<iframe class="media-youtube-player" width="100%" height="300px" src="' + mediaurl + '" frameborder="0" allowfullscreen="" id="target" autohide="1" allow="autoplay"></iframe>';
 
             top.children('.news-info').fadeOut();
             top.children('.event-info').fadeOut();
             top.children('.page-info').fadeOut();
             top.children('.eresource-info').fadeOut();
             top.children('.media-container')
+              .css('z-index', '2')
               .children('.media-content')
               .append(iframe);
           }
@@ -192,6 +194,7 @@
               top.children('.page-info').fadeOut();
               top.children('.eresource-info').fadeOut();
               top.children('.media-container')
+                .css('z-index', '2')
                 .children('.media-content')
                 .append(iframe);
 
@@ -202,7 +205,8 @@
       //End pn-media-play click
 
       //Close btn
-      $('.pn-close-media', context).on('click', function () {
+      $('.pn-close-media', context).on('click', function (e) {
+        e.stopPropagation();
         var $this = $(this);
         $this.fadeOut();
         $this.parent().children('.media-content').empty();
