@@ -788,6 +788,7 @@ function ding_permissions_secure_permissions($role) {
       'administer bpi',
       'administer comments',
       'administer contact forms',
+      'administer bpi',
       'administer ddb_cp',
       'administer dibs settings',
       'administer dibs transactions',
