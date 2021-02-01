@@ -214,16 +214,16 @@ projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.15"
 
 projects[manualcrop][subdir] = "contrib"
-projects[manualcrop][version] = "1.6"
-; Fix loading of updated JavaScript library.
-; https://www.drupal.org/node/2836970
-projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-imgareaselect_library_version_arguments-2836970-14-d7.patch"
+projects[manualcrop][version] = "1.7"
 ; Fix crop display when the same file is used in multiple fields
 ; https://www.drupal.org/node/2503175
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-duplicatepreview-2503175-41.patch"
 ; Fix horizontal alignment of preview and buttons.
 ; https://www.drupal.org/node/2874825
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop_media-widget-alignment-2874825-2.patch"
+; Fix undefined index in manualcrop_media_element_after_build().
+; https://www.drupal.org/node/3038112
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/2019-03-20/undefined-index-3038112.patch"
 
 projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
