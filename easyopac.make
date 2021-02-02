@@ -12,6 +12,13 @@ projects[bibdk_subject_hierarchy][download][url]    = "git@github.com:easySuite/
 ;projects[bibdk_subject_hierarchy][download][tag]    = ""
 projects[bibdk_subject_hierarchy][download][branch] = "development"
 
+projects[bibliofil_lists][type]             = "module"
+projects[bibliofil_lists][subdir]           = ""
+projects[bibliofil_lists][download][type]   = "git"
+projects[bibliofil_lists][download][url]    = "git@github.com:easySuite/bibliofil_lists.git"
+;projects[bibliofil_lists][download][tag]    = ""
+projects[bibliofil_lists][download][branch] = "development"
+
 projects[ding_billetexpressen_import][type]             = "module"
 projects[ding_billetexpressen_import][subdir]           = ""
 projects[ding_billetexpressen_import][download][type]   = "git"
