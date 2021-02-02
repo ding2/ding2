@@ -294,7 +294,6 @@ function ding_availability_holdings(array $provider_ids) {
     }
     elseif (!empty($item['issues'])) {
       $issues = $item['issues'];
-      krsort($issues);
 
       // Try to load the entity, so we can make reserve buttons if the
       // periodical issues is reservable.
@@ -416,9 +415,22 @@ function theme_ding_holdings_periodical($variables) {
   // Remember if this periodical was reservable in any of the issues.
   $reservable = FALSE;
 
+  // The provider is expected to return issues as arrays of volumes, where each
+  // volume can contain several issues. We can't know how the provider choose to
+  // key and order these arrays, but we would like them to appear with latest
+  // volumes and issues first.
+  // So we reverse key sort both the volumes array and the nested issues arrays,
+  // and since we can't know wether we're dealing with strings, numbers or a
+  // hybrid of both, we use PHP's natural sort to ensure that the periodical
+  // issues is presented in a correct order.
+  krsort($variables['issues'], SORT_NATURAL);
+
   foreach ($variables['issues'] as $volume => $issues) {
     $iss = array();
     $i = 0;
+
+    // Sort these volume issues in natural order. See comment above.
+    krsort($issues, SORT_NATURAL);
 
     foreach ($issues as $key => $availability) {
       $issue = $key;
