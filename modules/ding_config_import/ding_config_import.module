@@ -140,14 +140,13 @@ function _ding_config_import_modules(array $modules) {
 function _ding_config_import_set_values(array $values, $prefix = '') {
   foreach ($values as $key => $value) {
     if (is_array($value) && _ding_config_import_is_associative($value)) {
-      if (!isset($value['array'])) {
+      if (!isset($value['array']) || $value['array'] != 1) {
         _ding_config_import_set_values($value, _ding_config_import_prefix($prefix, $key));
         break;
       }
-    }
-
-    if (isset($value['array']) && $value['array'] == 1) {
-      unset($value['array']);
+      else {
+        unset($value['array']);
+      }
     }
 
     $key = _ding_config_import_prefix($prefix, $key);
