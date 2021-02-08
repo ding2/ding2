@@ -1,75 +1,76 @@
 ---
-ting:
-  agency: "DK-xxxxxx"
-  infomedia_url: "https://useraccessinfomedia.addi.dk/1.5/"
-  search_form_style: "extended"
-  covers:
-    ddb_url: "http://cover.dandigbib.org"
-    ddb_enable_logging: 1
-    ddb_development_token: "INSERT TOKEN"
-  language_default: "Dansk"
-  smart:
+settings:
+  ting:
+    agency: "DK-xxxxxx"
+    infomedia_url: "https://useraccessinfomedia.addi.dk/1.5/"
+    search_form_style: "extended"
+    covers:
+      ddb_url: "http://cover.dandigbib.org"
+      ddb_enable_logging: 1
+      ddb_development_token: "INSERT TOKEN"
+    language_default: "Dansk"
+    smart:
+      search:
+        automatic_active: 1
+        master_server: "https://staging.randersbib.dk/data/autodata.txt"
+        webtrekk_server_feed: "https://staging.randersbib.dk/data/searchdata.csv"
+
+  fbs:
+    endpoint: "https://cicero-fbs.com/rest/"
+    agency: "DK-xxxxxx"
+    username: "xxxx"
+    password: "yyyy"
+    enable_reservation_deletion: 1
+    holdings_suffix_type: "shelf_mark"
+    branches_blacklist:
+      - "FBS-751010"
+    user_branches_blacklist:
+      - "FBS-751010"
+      - "FBS-751031"
+      - "FBS-751009"
+    holdings_branches_blacklist:
+      - "FBS-751010"
+      - "FBS-751010"
+      - "FBS-751024"
+
+  opensearch:
+    url: "https://opensearch.addi.dk/b3.5_5.2/"
+    use_auth: 1
+    search_profile: "opac"
+    auth:
+      group: "xxxxx"
+      name: "yyyy"
+      pass: "zzzz"
+    enable_logging: 0
+    recommendation_url: "http://openadhl.addi.dk/1.1/"
     search:
-      automatic_active: 1
-      master_server: "https://staging.randersbib.dk/data/autodata.txt"
-      webtrekk_server_feed: "https://staging.randersbib.dk/data/searchdata.csv"
+      autocomplete_method: "facets"
+      autocomplete_suggestion_url: "http://opensuggestion.addi.dk/b3.5_2.0/"
 
-fbs:
-  endpoint: "https://cicero-fbs.com/rest/"
-  agency: "DK-xxxxxx"
-  username: "xxxx"
-  password: "yyyy"
-  enable_reservation_deletion: 1
-  holdings_suffix_type: "shelf_mark"
-  branches_blacklist:
-    - "FBS-751010"
-  user_branches_blacklist:
-    - "FBS-751010"
-    - "FBS-751031"
-    - "FBS-751009"
-  holdings_branches_blacklist:
-    - "FBS-751010"
-    - "FBS-751010"
-    - "FBS-751024"
+  ding:
+    ting_frontend_group_holdings_available: "open"
+    adgangsplatformen:
+      settings:
+        array: 1
+        clientId: ''
+        clientSecret: ''
+        auth_client:
+          authClientId: ''
+          authClientSecret: ''
+        redirectUri: "https://www.aakb.dk/adgangsplatformen/callback"
+        urlAuthorize: "https://login.bib.dk/oauth/authorize"
+        urlAccessToken: "https://login.bib.dk/oauth/token/"
+        urlResourceOwnerDetails: "https://login.bib.dk/userinfo/"
+        urlLogout: "https://login.bib.dk/logout/"
+        singleLogout: 1
+        automaticallyAgency: 1
+        singleLogoutOrigin: "https://login.bib.dk/"
+        revoke: "https://login.bib.dk/oauth/revoke"
 
-opensearch:
-  url: "https://opensearch.addi.dk/b3.5_5.2/"
-  use_auth: 1
-  search_profile: "opac"
-  auth:
-    group: "xxxxx"
-    name: "yyyy"
-    pass: "zzzz"
-  enable_logging: 0
-  recommendation_url: "http://openadhl.addi.dk/1.1/"
-  search:
-    autocomplete_method: "facets"
-    autocomplete_suggestion_url: "http://opensuggestion.addi.dk/b3.5_2.0/"
-
-ding:
-  ting_frontend_group_holdings_available: "open"
-  adgangsplatformen:
-    settings:
-      array: 1
-      clientId: ''
-      clientSecret: ''
-      auth_client:
-        authClientId: ''
-        authClientSecret: ''
-      redirectUri: "https://www.aakb.dk/adgangsplatformen/callback"
-      urlAuthorize: "https://login.bib.dk/oauth/authorize"
-      urlAccessToken: "https://login.bib.dk/oauth/token/"
-      urlResourceOwnerDetails: "https://login.bib.dk/userinfo/"
-      urlLogout: "https://login.bib.dk/logout/"
-      singleLogout: 1
-      automaticallyAgency: 1
-      singleLogoutOrigin: "https://login.bib.dk/"
-      revoke: "https://login.bib.dk/oauth/revoke"
-
-ding_adgangsplatformen_token:
-  client:
-    id: 'xxxx'
-    secret: 'yyyy'
+  ding_adgangsplatformen_token:
+    client:
+      id: 'xxxx'
+      secret: 'yyyy'
 
 modules:
   enable:

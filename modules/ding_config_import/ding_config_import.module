@@ -66,7 +66,22 @@ function ding_config_import_admin_form_submit($form, &$form_state) {
     $data = file_get_contents($file);
     $values = Yaml::parse($data);
     if (is_array($values)) {
-      _ding_config_import_set_values($values);
+      foreach (array_keys($values) as $key => $data) {
+        switch (mb_strtolower($key)) {
+          case "settings":
+            _ding_config_import_set_values($data);
+            break;
+
+          case "modules":
+            _ding_config_import_modules($data);
+            break;
+
+          default:
+            $error = true;
+            $msg = t('Fail to load understand root element: %key', ['%key' => $key]);
+            break;
+        }
+      }
     }
     else {
       $error = true;
@@ -82,11 +97,33 @@ function ding_config_import_admin_form_submit($form, &$form_state) {
     drupal_set_message($msg, 'error');
   }
   else {
-    drupal_set_message($msg, 'status');
+    drupal_set_message($msg);
   }
 
-  // Ensure tmp file is removed. It contains secrets.
+  // Ensure tmp file is removed. It may contain secrets.
   @unlink($file);
+}
+
+/**
+ * Helper function to dis-/en-able modules.
+ *
+ * @param array $modules
+ */
+function _ding_config_import_modules(array $modules) {
+  if (!empty($modules['disable'])) {
+    // Disable modules.
+    module_disable($modules['disable']);
+  }
+
+  if (!empty($modules['enable'])) {
+    // Enabled modules.
+    if (!module_enable($modules['enable'])) {
+      // Can not throw an exception here as that would stop the other
+      // changes from being applied. So use set message directly here to
+      // notify the use that module enable failed.
+      drupal_set_message(t('Not all modules were enabled check the name and the drupal logs for errors.'), 'error');
+    }
+  }
 }
 
 /**
@@ -102,39 +139,19 @@ function ding_config_import_admin_form_submit($form, &$form_state) {
  */
 function _ding_config_import_set_values(array $values, $prefix = '') {
   foreach ($values as $key => $value) {
-    switch ($key) {
-      case 'modules':
-        // Disable modules.
-        if (!empty($value['disable'])) {
-          module_disable($value['disable']);
-        }
-
-        // Enabled modules.
-        if (!empty($value['enable'])) {
-          if (!module_enable($value['enable'])) {
-            // Can not throw an exception here as that would stop the other
-            // changes from being applied. So use set message directly here to
-            // notify the use that module enable failed.
-            drupal_set_message(t('Not all modules were enabled check the name and the drupal logs for errors.'), 'error');
-          }
-        }
+    if (is_array($value) && _ding_config_import_is_associative($value)) {
+      if (!isset($value['array'])) {
+        _ding_config_import_set_values($value, _ding_config_import_prefix($prefix, $key));
         break;
-
-      default:
-        if (is_array($value) && _ding_config_import_is_associative($value)) {
-          if (!isset($value['array'])) {
-            _ding_config_import_set_values($value, _ding_config_import_prefix($prefix, $key));
-            break;
-          }
-        }
-
-        if (isset($value['array']) && $value['array'] == 1) {
-          unset($value['array']);
-        }
-
-        $key = _ding_config_import_prefix($prefix, $key);
-        variable_set($key, $value);
+      }
     }
+
+    if (isset($value['array']) && $value['array'] == 1) {
+      unset($value['array']);
+    }
+
+    $key = _ding_config_import_prefix($prefix, $key);
+    variable_set($key, $value);
   }
 }
 
