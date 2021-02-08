@@ -145,7 +145,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
           '#weight' => 8,
         ),
       ),
-      '#disabled' => (bool) $debt->invoice_number,
+      '#disabled' => !$debt->payableByClient,
     );
 
     // Add material number if available.

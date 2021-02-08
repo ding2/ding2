@@ -36,7 +36,7 @@ class ExternalPaymentApi extends SwaggerApi
      */
     public function getFees($agencyid, $patronid, $includepaid, $includenonpayable)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patron/{patronid}/fees");
+        $request = $this->newRequest("GET", "/external/{agencyid}/patron/{patronid}/fees/v2");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("query", "includepaid", $includepaid);
