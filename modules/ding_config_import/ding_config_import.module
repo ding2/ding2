@@ -6,6 +6,7 @@
  */
 
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Implements hook_menu().
@@ -13,7 +14,7 @@ use Symfony\Component\Yaml\Yaml;
 function ding_config_import_menu() {
   $item = [];
 
-  $item['admin/config/ding/config'] = [
+  $item['admin/config/ding/config_import'] = [
     'title' => 'Upload configuration',
     'description' => 'Upload and import configuration from YAML.',
     'page callback' => 'drupal_get_form',
@@ -31,9 +32,6 @@ function ding_config_import_admin_form() {
   $url = drupal_get_path('module', 'ding_config_import') . '/example.config.yml';
 
   $form = [
-    '#attributes' => [
-      'enctype' => 'multipart/form-data',
-    ],
     'wrapper' => [
       '#type' => 'fieldset',
       '#title' => t('Configuration upload'),
@@ -58,47 +56,44 @@ function ding_config_import_admin_form() {
  * Form submit handler.
  */
 function ding_config_import_admin_form_submit($form, &$form_state) {
-  $error = false;
+  $type = 'status';
   $msg = t('The configuration options have been saved. You may need to clear cache to rebuild things if you have enabled/disabled modules etc.');
   $file = $_FILES['files']['tmp_name']['upload'];
 
   if (libraries_load('yaml')) {
     $data = file_get_contents($file);
-    $values = Yaml::parse($data);
-    if (is_array($values)) {
-      foreach (array_keys($values) as $key => $data) {
-        switch (mb_strtolower($key)) {
-          case "settings":
-            _ding_config_import_set_values($data);
-            break;
+    try {
+      $values = Yaml::parseFile($data);
+      if (is_array($values)) {
+        foreach (array_keys($values) as $key => $data) {
+          switch (mb_strtolower($key)) {
+            case "settings":
+              _ding_config_import_set_values($data);
+              break;
 
-          case "modules":
-            _ding_config_import_modules($data);
-            break;
+            case "modules":
+              _ding_config_import_modules($data);
+              break;
 
-          default:
-            $error = true;
-            $msg = t('Fail to load understand root element: %key', ['%key' => $key]);
-            break;
+            default:
+              $type = 'error';
+              $msg = t('Failed to use the root element: %key', ['%key' => $key]);
+              break;
+          }
         }
       }
     }
-    else {
-      $error = true;
-      $msg = t('Fail to parse the YAML file.');
+    catch (ParseException $e) {
+      $type = 'error';
+      $msg = t('Error parsing YAML file: %msg', ['%msg' => $e->getMessage()]);
     }
   }
   else {
-    $error = true;
+    $type = 'error';
     $msg = t('Fail to load YAML parsing library. Please contact the system administrator.');
   }
 
-  if ($error) {
-    drupal_set_message($msg, 'error');
-  }
-  else {
-    drupal_set_message($msg);
-  }
+  drupal_set_message($msg, $type);
 
   // Ensure tmp file is removed. It may contain secrets.
   @unlink($file);
@@ -108,6 +103,7 @@ function ding_config_import_admin_form_submit($form, &$form_state) {
  * Helper function to dis-/en-able modules.
  *
  * @param array $modules
+ *   Arrays of modules to disable or enable keyed by "disable" or "enable".
  */
 function _ding_config_import_modules(array $modules) {
   if (!empty($modules['disable'])) {
@@ -128,9 +124,6 @@ function _ding_config_import_modules(array $modules) {
 
 /**
  * Recursive walk the array using the key as prefix.
- *
- * If this an multilevel array the keys are joined with "_". If the flatten
- * parameter is FALSE.
  *
  * @param array $values
  *   The values.
