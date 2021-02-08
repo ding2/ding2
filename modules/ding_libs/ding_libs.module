@@ -263,8 +263,8 @@ function ding_libs_libraries_info() {
     'yaml' => array(
       'name' => 'Symfony YAML',
       'vendor url' => 'https://symfony.com/doc/current/components/yaml.html',
-      'download url' => 'https://github.com/symfony/yaml/archive/v5.2.0.tar.gz',
-      'version' => '5.2',
+      'download url' => 'https://github.com/symfony/yaml/archive/v3.4.47.tar.gz',
+      'version' => '3.4',
       'xautoload' => function ($adapter) {
         $adapter->composerJson('composer.json');
       },
