@@ -115,7 +115,7 @@ function _ding_config_import_set_values(array $values, $prefix = '') {
             // Can not throw an exception here as that would stop the other
             // changes from being applied. So use set message directly here to
             // notify the use that module enable failed.
-            drupal_set_message(t('Not all module was enabled check the name and the drupal logs for errors.'), 'error');
+            drupal_set_message(t('Not all modules were enabled check the name and the drupal logs for errors.'), 'error');
           }
         }
         break;
