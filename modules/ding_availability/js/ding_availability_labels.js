@@ -94,9 +94,9 @@
           element.removeClass('pending').addClass('processed');
         }
 
-        // Get hold of the reserve button (it hidden as default, so we may need
+        // Get hold of the reserve button on collection items (it hidden as default, so we may need
         // to show it).
-        var reserver_btn = element.parents('.ting-object:first').find('.reserve-button');
+        var reserver_btn = element.parents('.ting-collection-wrapper').find('.reserve-button');
 
         update_availability_elements(element, reserver_btn, status);
       }
