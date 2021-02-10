@@ -1,0 +1,221 @@
+[
+  {
+    "feeId": 159786,
+    "type": "fee",
+    "reasonMessage": "Gebyr (For sent)",
+    "amount": 0.5,
+    "dueDate": "2028-11-17",
+    "creationDate": "2017-12-07",
+    "paidDate": null,
+    "payableByClient": true,
+    "materials": [
+      {
+        "materialItemNumber": "5160562503",
+        "recordId": "53161480",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      }
+    ]
+  },
+  {
+    "feeId": 159837,
+    "type": "fee",
+    "reasonMessage": "Gebyr (For sent)",
+    "amount": 10.0,
+    "dueDate": "2028-11-17",
+    "creationDate": "2017-12-07",
+    "paidDate": null,
+    "payableByClient": false,
+    "materials": [
+      {
+        "materialItemNumber": "3843952681",
+        "recordId": "27365817",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      },
+      {
+        "materialItemNumber": "5056745892",
+        "recordId": "51590961",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      }
+    ]
+  },
+  {
+    "feeId": 172464,
+    "type": "fee",
+    "reasonMessage": "Gebyr (For sent)",
+    "amount": 55.0,
+    "dueDate": "2028-11-17",
+    "creationDate": "2018-01-31",
+    "paidDate": null,
+    "payableByClient": true,
+    "materials": [
+      {
+        "materialItemNumber": "4931754209",
+        "recordId": "29367477",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      },
+      {
+        "materialItemNumber": "3843071766",
+        "recordId": "24929604",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      },
+      {
+        "materialItemNumber": "3845598176",
+        "recordId": "27437087",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      },
+      {
+        "materialItemNumber": "4934838462",
+        "recordId": "29570221",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      }
+    ]
+  },
+  {
+    "feeId": 172470,
+    "type": "fee",
+    "reasonMessage": "Gebyr (For sent)",
+    "amount": 55.0,
+    "dueDate": "2028-11-17",
+    "creationDate": "2018-01-31",
+    "paidDate": null,
+    "payableByClient": true,
+    "materials": [
+      {
+        "materialItemNumber": "3847293836",
+        "recordId": "27618553",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      }
+    ]
+  },
+  {
+    "feeId": 172473,
+    "type": "fee",
+    "reasonMessage": "Gebyr (For sent)",
+    "amount": 55.0,
+    "dueDate": "2028-11-17",
+    "creationDate": "2018-01-31",
+    "paidDate": null,
+    "payableByClient": true,
+    "materials": [
+      {
+        "materialItemNumber": "5056745892",
+        "recordId": "51590961",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      }
+    ]
+  },
+  {
+    "feeId": 185099,
+    "type": "fee",
+    "reasonMessage": "Gebyr (For sent)",
+    "amount": 230.0,
+    "dueDate": "2028-11-17",
+    "creationDate": "2018-04-04",
+    "paidDate": null,
+    "payableByClient": false,
+    "materials": [
+      {
+        "materialItemNumber": "4931754209",
+        "recordId": "29367477",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      },
+      {
+        "materialItemNumber": "4934838462",
+        "recordId": "29570221",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      },
+      {
+        "materialItemNumber": "3843071766",
+        "recordId": "24929604",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      },
+      {
+        "materialItemNumber": "3845598176",
+        "recordId": "27437087",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      },
+      {
+        "materialItemNumber": "5056745892",
+        "recordId": "51590961",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      }
+    ]
+  },
+  {
+    "feeId": 185105,
+    "type": "fee",
+    "reasonMessage": "Gebyr (For sent)",
+    "amount": 230.0,
+    "dueDate": "2028-11-17",
+    "creationDate": "2018-04-04",
+    "paidDate": null,
+    "payableByClient": true,
+    "materials": [
+      {
+        "materialItemNumber": "3847293836",
+        "recordId": "27618553",
+        "periodical": null,
+        "materialGroup": {
+          "name": "standard",
+          "description": "31 dages lånetid til alm lånere"
+        }
+      }
+    ]
+  }
+]
