@@ -88,6 +88,8 @@ function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
       $media_field = field_view_field('node', $node, $field);
       if ($media_field['#items'][0]['type'] == 'video') {
         $node->video = file_create_url($media_field['#items'][0]['uri']);
+        $filemime = explode('/', $media_field['#items'][0]['filemime']);
+        $node->video_service = $filemime[1];
       }
     }
   }
