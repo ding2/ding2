@@ -88,7 +88,7 @@
 ?>
 <div class="<?php print $classes; ?>" <?php print $attributes; ?>>
   <div class="ding-campaign ding-campaign--content <?php print $type . " " . $panel_style; ?>" <?php print $background; ?>>
-    <a href="<?php print $link; ?>" target="<?php print $target; ?>">
+    <a href="<?php print $link; ?>" target="<?php print $target; ?>" aria-label="<?php print t('Go to') . ' ' . $title; ?>">
       <?php // If campaign type is "text" or "text on image" hide image here. ?>
       <?php if ($type != "text" && $type != "text-on-image"): ?>
         <?php print $image; ?>
