@@ -1348,14 +1348,16 @@ function ddbasic_form_views_exposed_form_alter(&$form, &$form_state) {
 /**
  * Modify events exposed form immediately before rendering the form.
  *
- * @param $element
+ * @param array $element
  *   The exposed form.
+ *
  * @return mixed
  *   The changed form.
  */
-function _ddbasic_exposed_form_events_prerender($element) {
-  // Completely remove Date field title for accesseibility reasons.
+function _ddbasic_exposed_form_events_prerender(array $element) {
+  // Completely remove Date field title for accessibility reasons.
   unset($element['date']['value']['date']['#title']);
   unset($element['field_ding_event_date_value_1']['value']['date']['#title']);
+
   return $element;
 }
