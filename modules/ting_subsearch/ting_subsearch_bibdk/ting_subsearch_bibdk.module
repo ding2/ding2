@@ -88,7 +88,7 @@ function ting_subsearch_bibdk_opensearch_pre_execute($request) {
     // Store the final query used in the bibliotek.dk search for use when
     // generating search links. Various modules might apply additional search
     // keys based on query parameters that are not supported on bibliotek.dk.
-    ting_subsearch_bibdk_get_bibdk_subsearch_query($request->getQuery());
+    ting_subsearch_bibdk_subsearch_query($request->getQuery());
   }
 
   // Ensure that facet genreCategory is returned from the well, since we need
@@ -137,7 +137,7 @@ function ting_subsearch_bibdk_is_bibdk_subsearch($new_value = NULL) {
  * @return mixed
  *   Returns NULL if no bibdk subearch has been performed in the request.
  */
-function ting_subsearch_bibdk_get_bibdk_subsearch_query($new_value = NULL) {
+function ting_subsearch_bibdk_subsearch_query($new_value = NULL) {
   $bibdk_subsearch_query = &drupal_static(__FUNCTION__);
   if (isset($new_value)) {
     $bibdk_subsearch_query = $new_value;
@@ -205,7 +205,7 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_content(TingSearch
 
   // Get the final query used in bibliotek.dk search. See comment in
   // ting_subsearch_bibdk_opensearch_pre_execute().
-  $bibdk_query = ting_subsearch_bibdk_get_bibdk_subsearch_query();
+  $bibdk_query = ting_subsearch_bibdk_subsearch_query();
 
   $bibdk_num_results = $bibdk_result->getNumTotalObjects();
   $bibdk_result_min = variable_get('ting_subsearch_bibdk_result_min', 4);
