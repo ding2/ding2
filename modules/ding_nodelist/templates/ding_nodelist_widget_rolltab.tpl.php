@@ -17,7 +17,7 @@
 
 ?>
 <?php if ($items): ?>
-  <div class="<?php print $conf['classes'] ?>">
+  <div class="<?php print $conf['classes'] ?>" data-widget-type="rolltab">
     <div class="ding_nodelist-items">
       <div class="ding_nodelist-rolltab-wrapper">
         <div id="ding_nodelist-rolltab" class="ding_nodelist-rolltab ding-tabroll">
