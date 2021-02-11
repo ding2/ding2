@@ -18,8 +18,6 @@ $plugin = array(
  */
 function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = isset($context->data) ? $context->data : NULL;
-  $total_amount = 0;
-  $has_invoiced_fees = FALSE;
 
   $block = new stdClass();
   $block->module = 'ding_debt';
@@ -28,20 +26,10 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
 
   $debts = ding_provider_invoke('debt', 'list', $account);
 
-  if (count($debts) == TRUE) {
-    foreach ($debts as $debt) {
-      // Invoiced fees can't be paid online.
-      if (!$debt->invoice_number) {
-        $total_amount += $debt->amount;
-        $total_amount -= $debt->amount_paid;
-        $debt->is_invoice = FALSE;
-      }
-      else {
-        $debt->is_invoice = TRUE;
-        $has_invoiced_fees = TRUE;
-      }
-    }
-    $build = ding_provider_get_form('ding_debt_debts_form', $debts, $has_invoiced_fees, $total_amount);
+  if ($debts) {
+    $internal_debts = array_filter($debts, '_ding_debt_filter_payable');
+    $external_debts = array_filter($debts, '_ding_debt_filter_nonpayable');
+    $build = ding_provider_get_form('ding_debt_debts_form', $internal_debts, $external_debts);
     $block->content = render($build);
   }
   else {
@@ -62,53 +50,167 @@ function ding_debt_debts_content_type_edit_form($form, &$form_state) {
 /**
  * Implements a drupal form, which implements a pay button and debts data.
  */
-function ding_debt_debts_form($form, &$form_state, $debts, $has_invoiced_fees, $total_amount) {
-  ding_debt_form_details($form, $debts, $has_invoiced_fees, $total_amount);
+function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_debts) {
+  if (variable_get('ding_debt_external_show_introtext', TRUE)) {
+    $ding_debt_external_introtext = variable_get('ding_debt_external_introtext', _ding_debt_external_introtext_default());
 
-  if ($total_amount) {
-    // Init debts.
-    if (!isset($debts)) {
-      $debts = array();
+    $form['external_introtext'] = [
+      '#markup' => check_markup($ding_debt_external_introtext['value'], $ding_debt_external_introtext['format']),
+    ];
+  }
+
+  if (variable_get('ding_debt_enable_internal', TRUE)) {
+    if (variable_get('ding_debt_enable_external', TRUE) && variable_get('ding_debt_internal_title', '')) {
+      $form['internal_title'] = [
+        '#prefix' => '<h2>',
+        '#suffix' => '</h2>',
+        '#markup' => check_plain(variable_get('ding_debt_internal_title', '')),
+      ];
     }
 
+    $form['internal_debts'] = ding_debt_list_items($internal_debts);
+
+    $total = array_reduce($internal_debts, function ($total, $debt) {
+      return $total + $debt->amount - $debt->amount_paid;
+    }, 0);
+
+    $form['internal_total'] = array(
+      '#type' => 'item',
+      '#prefix' => '<div class="total-amount">',
+      '#suffix' => '</div>',
+      '#markup' => t('Total') . ': <span class="amount">' . number_format($total, 2, ',', ' ') . ' ' . t('Kr') . '</span>',
+    );
+
+    // Pass debts to submit handler.
     $form['debt_data'] = array(
       '#type' => 'value',
-      '#value' => $debts,
+      '#value' => $internal_debts,
     );
 
-    $form['accept_terms'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('I accept the terms of service'),
-      '#required' => TRUE,
+    if (variable_get('ding_debt_enable_internal_button', TRUE)) {
+      $provider = ding_provider_get_provider_module_name('payment');
+      if (!empty($provider)) {
+        // Yeah, this is extremely hacky, but DIBS payments are being phased out,
+        // so refactoring ding_dibs so we can include the contents of these blocks
+        // isn't worth the efford.
+        if ($provider === 'ding_dibs') {
+          $block = ding_dibs_block_view('dibs-cards-supported');
+          $form['cards_header'] = [
+            '#prefix' => '<h3>',
+            '#suffix' => '</h3>',
+            '#markup' => check_plain($block['subject']),
+          ];
+
+          $form['cards_body'] = [
+            '#markup' => $block['content'],
+          ];
+
+          $block = ding_dibs_block_view('dibs-terms-of-sale');
+          $form['terms_header'] = [
+            '#prefix' => '<h3>',
+            '#suffix' => '</h3>',
+            '#markup' => check_plain($block['subject']),
+          ];
+
+          $form['terms_body'] = [
+            '#markup' => $block['content'],
+          ];
+        }
+
+        $form['accept_terms'] = array(
+          '#type' => 'checkbox',
+          '#title' => t('I accept the terms of service'),
+          '#required' => TRUE,
+        );
+
+        $form['internal_buttons'] = [
+          '#type' => 'container',
+          '#attributes' => [
+            'class' => ['pay-buttons'],
+          ],
+          '#tree' => FALSE,
+        ];
+
+        $form['internal_buttons']['pay_selected'] = array(
+          '#type' => 'submit',
+          '#prefix' => '<div class="pay-button">',
+          '#value' => t('Pay selected debts'),
+          '#suffix' => '</div>',
+          '#submit' => array('ding_debt_debts_form_submit_pay_selected'),
+          '#states' => array(
+            'disabled' => array(
+              ':input[name="accept_terms"]' => array('checked' => FALSE),
+            ),
+          ),
+        );
+
+        $form['internal_buttons']['pay_all'] = array(
+          '#type' => 'submit',
+          '#prefix' => '<div class="pay-button">',
+          '#value' => t('Pay all debts'),
+          '#suffix' => '</div>',
+          '#submit' => array('ding_debt_debts_form_submit_pay_all'),
+          '#states' => array(
+            'disabled' => array(
+              ':input[name="accept_terms"]' => array('checked' => FALSE),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  if (variable_get('ding_debt_enable_external', FALSE)) {
+    if (variable_get('ding_debt_enable_internal', TRUE) && variable_get('ding_debt_external_title', '')) {
+      $form['external_title'] = [
+        '#prefix' => '<h2>',
+        '#suffix' => '</h2>',
+        '#markup' => check_plain(variable_get('ding_debt_external_title', '')),
+      ];
+    }
+
+    $form['external_debts'] = ding_debt_list_items($external_debts);
+
+    $total = array_reduce($external_debts, function ($total, $debt) {
+      return $total + $debt->amount - $debt->amount_paid;
+    }, 0);
+
+    $form['external_total'] = array(
+      '#type' => 'item',
+      '#prefix' => '<div class="total-amount">',
+      '#suffix' => '</div>',
+      '#markup' => t('Total') . ': <span class="amount">' . number_format($total, 2, ',', ' ') . ' ' . t('Kr') . '</span>',
     );
 
-    $provider = ding_provider_get_provider_module_name('payment');
-    if (!empty($provider)) {
-      $form['pay_selected'] = array(
-        '#type' => 'submit',
-        '#prefix' => '<div class="pay-button">',
-        '#value' => t('Pay selected debts'),
-        '#suffix' => '</div>',
-        '#submit' => array('ding_debt_debts_form_submit_pay_selected'),
-        '#states' => array(
-          'disabled' => array(
-            ':input[name="accept_terms"]' => array('checked' => FALSE),
-          ),
-        ),
-      );
+    if (variable_get('ding_debt_external_show_extra_information', TRUE)) {
+      $ding_debt_external_extra_information = variable_get('ding_debt_external_extra_information', _ding_debt_external_extra_information_default());
 
-      $form['pay_all'] = array(
-        '#type' => 'submit',
-        '#prefix' => '<div class="pay-button">',
-        '#value' => t('Pay all debts'),
-        '#suffix' => '</div>',
-        '#submit' => array('ding_debt_debts_form_submit_pay_all'),
-        '#states' => array(
-          'disabled' => array(
-            ':input[name="accept_terms"]' => array('checked' => FALSE),
-          ),
-        ),
-      );
+      $form['external_extra_information'] = [
+        '#markup' => check_markup($ding_debt_external_extra_information['value'], $ding_debt_external_extra_information['format']),
+      ];
+    }
+
+    if (variable_get('ding_debt_enable_external_button', FALSE)) {
+      $text = variable_get('ding_debt_external_button_text', '');
+      $url = variable_get('ding_debt_external_button_url', '');
+
+      $form['external_buttons'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => ['pay-buttons'],
+        ],
+        '#tree' => FALSE,
+      ];
+
+      $options = [
+        'attributes' => [
+          'class' => 'external-payment',
+          'target' => '_blank',
+        ],
+      ];
+      $form['external_buttons']['external_link'] = [
+        '#markup' => l($text, $url, $options),
+      ];
     }
   }
 
@@ -118,7 +220,9 @@ function ding_debt_debts_form($form, &$form_state, $debts, $has_invoiced_fees, $
 /**
  * Helper function to render the details of the debt form.
  */
-function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amount) {
+function ding_debt_list_items($debts) {
+  $items = [];
+
   foreach ($debts as $debt) {
     $item = array(
       '#type' => 'material_item',
@@ -140,12 +244,12 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
         ),
         'amount' => array(
           'label' => t('Amount'),
-          'data' => $debt->is_invoice ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' ' . t('Kr') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' ' . t('Kr'),
+          'data' => number_format($debt->amount - $debt->amount_paid, 2, ',', ' ') . ' ' . t('Kr'),
           'class' => 'fee_amount',
           '#weight' => 8,
         ),
       ),
-      '#disabled' => (bool) $debt->invoice_number,
+      '#disabled' => !$debt->payable,
     );
 
     // Add material number if available.
@@ -159,25 +263,10 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
     }
 
     // Add the debt to the form.
-    $form['debts'][$debt->id] = $item;
+    $items[] = $item;
   }
 
-  // Add item with the total amount.
-  $form['total'] = array(
-    '#type' => 'item',
-    '#prefix' => '<div class="total-amount">',
-    '#suffix' => '</div>',
-    '#markup' => t('Total') . ': <span class="amount">' . number_format($total_amount, 2, ',', ' ') . ' ' . t('Kr') . '</span>',
-  );
-
-  if ($has_invoiced_fees) {
-    $form['notice'] = array(
-      '#type' => 'item',
-      '#prefix' => '<div class="messages warning">',
-      '#suffix' => '</div>',
-      '#markup' => t("* Invoiced fees can't be paid online."),
-    );
-  }
+  return $items;
 }
 
 /**
@@ -187,13 +276,8 @@ function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
   $amount = 0;
   $debts = $form_state['values']['debt_data'];
   foreach ($debts as $debt_id => $debt_data) {
-    if (!$form_state['values']['debt_data'][$debt_id]->invoice_number) {
-      $amount += $form_state['values']['debt_data'][$debt_id]->amount;
-      $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
-    }
-    else {
-      unset($debts[$debt_id]);
-    }
+    $amount += $form_state['values']['debt_data'][$debt_id]->amount;
+    $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
   }
   ding_debt_debts_perform_payment($debts, $amount, $form_state);
 }
@@ -207,11 +291,9 @@ function ding_debt_debts_form_submit_pay_selected($form, &$form_state) {
   $debts = $form_state['values']['debt_data'];
   foreach ($debts as $debt_id => $debt_data) {
     if (!empty($form_state['values'][$debt_id])) {
-      if (!$debt_data->invoice_number) {
-        $amount += $form_state['values']['debt_data'][$debt_id]->amount;
-        $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
-        $payments[$debt_id] = $form_state['values']['debt_data'][$debt_id];
-      }
+      $amount += $form_state['values']['debt_data'][$debt_id]->amount;
+      $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
+      $payments[$debt_id] = $form_state['values']['debt_data'][$debt_id];
     }
   }
   ding_debt_debts_perform_payment($payments, $amount, $form_state);

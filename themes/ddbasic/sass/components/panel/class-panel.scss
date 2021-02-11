@@ -284,23 +284,17 @@
   @include clearfix();
   .total-amount {
     width: 100%;
-    float: left;
     margin: 10px 0;
   }
-  .pay-button {
-    float: left;
-    margin-right: getGutter(8);
 
-    // Mobile
-    @include media($mobile) {
-      margin-bottom: 10px;
-    }
-    input {
-      padding-right: 80px;
-    }
+  .pay-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
   }
-  .pay-button + .pay-button {
-    margin-right: 0;
+
+  .pay-button {
+    margin-left: getGutter(8);
   }
 }
 

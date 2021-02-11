@@ -116,7 +116,6 @@ class ProviderTest extends ProviderTestCase {
         'display_name' => 'For sent afleveret',
         'amount' => 100.0,
         'amount_paid' => 0,
-        'invoice_number' => NULL,
         'type' => 'fee',
       )),
       57 => new DingProviderDebt(57, array(
@@ -124,7 +123,6 @@ class ProviderTest extends ProviderTestCase {
         'display_name' => 'Erstatning',
         'amount' => 150.0,
         'amount_paid' => 0,
-        'invoice_number' => NULL,
         'type' => 'compensation',
       )),
       58 => new DingProviderDebt(58, array(
@@ -132,7 +130,6 @@ class ProviderTest extends ProviderTestCase {
         'display_name' => 'bestillingsgebyr',
         'amount' => 200.0,
         'amount_paid' => 0,
-        'invoice_number' => NULL,
         'type' => 'fee',
         'material_number' => '3829213434'
       ))
