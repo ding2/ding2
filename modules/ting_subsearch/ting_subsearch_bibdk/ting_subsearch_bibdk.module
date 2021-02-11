@@ -132,10 +132,10 @@ function ting_subsearch_bibdk_is_bibdk_subsearch($new_value = NULL) {
  * Get the query of the last bibdk subsearch performed in the request.
  *
  * @param string $new_value
- *  Used internally to control the static variable.
+ *   Used internally to control the static variable.
  *
  * @return mixed
- *  Returns NULL if no bibdk subearch has been performed in the request.
+ *   Returns NULL if no bibdk subearch has been performed in the request.
  */
 function ting_subsearch_bibdk_get_bibdk_subsearch_query($new_value = NULL) {
   $bibdk_subsearch_query = &drupal_static(__FUNCTION__);
