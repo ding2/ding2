@@ -20,7 +20,7 @@
   <div class="layout-wrapper">
     <div class="pane-content">
       <div class="primary-content">
-        <h2 class="pane-title"><?php print render($title); ?></h2>
+        <h1 class="pane-title"><?php print render($title); ?></h1>
         <?php print render($content); ?>
       </div>
     </div>
