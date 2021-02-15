@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Admin for opening hours.
