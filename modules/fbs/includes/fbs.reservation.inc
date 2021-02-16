@@ -204,12 +204,15 @@ function fbs_reservation_create($account, $record_id, array $options) {
       case 'material_lost':
       case 'material_not_found':
       case 'material_part_of_collection':
+      case 'not_reservable':
+      case 'no_reservable_materials':
+      case 'interlibrary_material_not_reservable':
         throw new DingProviderReservationNotAvailable();
 
       // Success shouldn't happen.
       case 'success':
       default:
-        watchdog('fbs', 'Unexpected state "@state" on failed reservaiton', array('@state' => $result->result), WATCHDOG_WARNING);
+        watchdog('fbs', 'Unexpected state "@state" on failed reservation', array('@state' => $result->result), WATCHDOG_WARNING);
         throw new DingProviderEnduserException(t('Unknown error from library system while attempting to reserve.'));
     };
   }
