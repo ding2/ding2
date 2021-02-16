@@ -62,16 +62,17 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
     $sources = explode(',', $sources);
 
     $data = [
-      'subjects' => ding_react_related_materials_format_strings($object->getSubjects()),
-      'categories' => ding_react_related_materials_format_strings($object->getAudience()),
-      'sources' => ding_react_related_materials_format_strings($sources),
-      'exclude-title' => ding_react_related_materials_format_string($object->getTitle()),
+      'subjects' => ding_react_related_materials_format_data($object->getSubjects()),
+      'categories' => ding_react_related_materials_format_data($object->getAudience()),
+      'sources' => ding_react_related_materials_format_data($sources),
+      'exclude-title' => ding_react_related_materials_format_data($object->getTitle()),
       // We cannot use url() here as it will encode the colon in the placeholder.
       'search-url' => '/search/ting/:query?sort=:sort',
       'material-url' => '/ting/object/:pid',
       'cover-service-url' => ding_react_cover_service_url(),
       'title-text' => t('Related materials'),
       'search-text' => t('Show search result for related materials'),
+      'agency-id' => variable_get('ting_agency', ''),
     ];
     $block->content = ding_react_app('related-materials', $data);
   }
@@ -82,15 +83,21 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
 /**
  * Format a set of string values to a format suitable for React app data.
  *
- * @param string[] $strings
- *   The string values.
+ * @param string|string[]|FALSE $data
+ *   The data to format. Either string or array.
  *
  * @return string
  *   A single formatted string containing all the values.
  */
-function ding_react_related_materials_format_strings(array $strings) {
-  $formatted_strings = array_map('ding_react_related_materials_format_string', $strings);
-  return implode(",", $formatted_strings);
+function ding_react_related_materials_format_data($data) {
+  if (empty($data)) {
+    return '';
+  }
+  if (is_array($data)) {
+    $formatted_strings = array_map('ding_react_related_materials_format_string', $data);
+    return implode(',', $formatted_strings);
+  }
+  return ding_react_related_materials_format_string($data);
 }
 
 /**

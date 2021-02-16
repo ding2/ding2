@@ -28,6 +28,11 @@ define('BPI_DEFAULT_PAGE_SIZE', 10);
 define('BPI_ALL_FACETS_KEY', 'BPI_ALL_FACETS');
 
 /**
+ * Amount of ranked items in statistics.
+ */
+define('BPI_TOP_RANK_AMOUNT', 10);
+
+/**
  * Define syndication page markup.
  *
  * This includes search form, filtering and found content.
@@ -38,144 +43,148 @@ define('BPI_ALL_FACETS_KEY', 'BPI_ALL_FACETS');
  * @ingroup forms
  */
 function bpi_syndicate_page_form($form, &$form_state) {
-  // Check configuration have been,
-  if (bpi_service_is_configured()) {
-    drupal_add_library('system', 'drupal.ajax');
+  // Check whether service configuration has been set.
+  if (!bpi_service_is_configured()) {
+    return $form;
+  }
 
-    $query_form = array(
-      '#type' => 'container',
-      '#attributes' => array(
-        'class' => array(
-          'bpi-query',
-        ),
+  drupal_add_library('system', 'drupal.ajax');
+
+  $query_form = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array(
+        'bpi-query',
       ),
-    );
+    ),
+  );
 
-    $query_form['bpi_search'] = array(
-      '#type' => 'container',
-      '#attributes' => array(
-        'class' => array('bpi-search'),
+  $query_form['bpi_search'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('bpi-search', 'clearfix'),
+    ),
+  );
+
+  bpi_build_top_rank($query_form);
+
+  $query_form['bpi_search']['bpi_search_query'] = array(
+    '#type' => 'textfield',
+    '#default_value' => _bpi_get_current_search_phrase(),
+    '#description' => t('Search in body, teaser, title and category'),
+  );
+
+  $query_form['bpi_search']['bpi_search_actions'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array(
+        drupal_html_class('container-inline'),
       ),
-    );
+    ),
+  );
 
-    $query_form['bpi_search']['bpi_search_query'] = array(
-      '#type' => 'textfield',
-      '#default_value' => _bpi_get_current_search_phrase(),
-      '#description' => t('Search in body, teaser, title and category'),
-    );
+  $query_form['bpi_search']['bpi_search_actions']['bpi_search_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Search'),
+  );
 
-    $query_form['bpi_search']['bpi_search_actions'] = array(
-      '#type' => 'container',
-      '#attributes' => array(
-        'class' => array(
-          drupal_html_class('container-inline'),
-        ),
-      ),
-    );
-
-    $query_form['bpi_search']['bpi_search_actions']['bpi_search_submit'] = array(
-      '#type' => 'submit',
-      '#value' => t('Search'),
-    );
-
-    if (_bpi_get_current_search_phrase()) {
-      $query_form['bpi_search']['bpi_search_actions']['bpi_search_reset'] = array(
-        '#type' => 'item',
-        '#markup' => l(t('Reset search'), current_path(), array(
-          'query' => NULL,
-          'attributes' => array(
-            'class' => array('button'),
-          ),
-        )),
-      );
-    }
-
-    // Must be called before building facets ui.
-    $items = bpi_search_get_items();
-
-    bpi_build_search_facets($query_form);
-
-    $total_items = isset($items[0]['total_count']) ? $items[0]['total_count'] : 0;
-    $page_size = _bpi_get_query_parameter('amount', BPI_DEFAULT_PAGE_SIZE);
-    pager_default_initialize($total_items, $page_size);
-
-    $result_form = array(
-      '#type' => 'container',
-      '#attributes' => array(
-        'class' => array(
-          'bpi-result',
-        ),
-      ),
-    );
-
-    if (!empty($items)) {
-      $result_form['bpi_search_info'] = array(
-        '#type' => 'container',
-        '#attributes' => array(
-          'class' => array('bpi-search-info', 'container-inline'),
-        ),
-      );
-
-      $current_page = pager_find_page();
-      $items_from = $current_page * $page_size + 1;
-      $items_to = min(($current_page + 1) * $page_size, $total_items);
-
-      $result_form['bpi_search_info']['bpi_search_paging_info'] = array(
-        '#type' => 'item',
-        '#markup' => ($items_from < $items_to
-                      ? t('Showing items @from–@to of @total', array(
-                        '@from' => $items_from,
-                        '@to' => $items_to,
-                        '@total' => $total_items,
-                      ))
-                      : t('Showing item @from of @total', array(
-                        '@from' => $items_from,
-                        '@total' => $total_items,
-                      ))),
-      );
-
-      $result_form['bpi_search_info']['bpi_search_amount'] = array(
-        '#type' => 'select',
-        '#title' => t('Page size'),
-        '#options' => drupal_map_assoc(array(10, 20, 50, 100)),
-        '#default_value' => _bpi_get_query_parameter('amount', BPI_DEFAULT_PAGE_SIZE),
-        '#attributes' => array(
-          'onchange' => 'form.submit()',
-        ),
-      );
-    }
-    else {
-      $result_form['bpi_search_amount'] = array(
-        '#type' => 'hidden',
-      );
-    }
-
-    $result_form['bpi_search_results'] = array(
+  if (_bpi_get_current_search_phrase()) {
+    $query_form['bpi_search']['bpi_search_actions']['bpi_search_reset'] = array(
       '#type' => 'item',
-      '#markup' => theme('bpi_search_results', array(
-        'items' => $items,
-        'empty' => t('No results'),
+      '#markup' => l(t('Reset search'), current_path(), array(
+        'query' => NULL,
+        'attributes' => array(
+          'class' => array('button'),
+        ),
       )),
     );
-
-    $result_form['bpi_search_pager'] = array(
-      '#type' => 'item',
-      '#markup' => theme('pager'),
-    );
-
-    $query_form['loading'] = array(
-      '#type' => 'item',
-      '#markup' => '<div class="loading"><div class="message">' . t('Please wait') . '</div></div>',
-    );
-
-    $form['bpi_query'] = $query_form;
-    $form['bpi_result'] = $result_form;
-
-    $form['#attributes']['class'][] = 'bpi';
-    $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
-    $form['#attached']['js'][] = drupal_get_path('module', 'bpi') . '/js/bpi-admin.js';
-    $form['#submit'][] = 'bpi_syndicate_page_form_submit';
   }
+
+  // Must be called before building facets ui.
+  $items = bpi_search_get_items();
+
+  bpi_build_search_facets($query_form);
+
+  $total_items = isset($items[0]['total_count']) ? $items[0]['total_count'] : 0;
+  $page_size = _bpi_get_query_parameter('amount', BPI_DEFAULT_PAGE_SIZE);
+  pager_default_initialize($total_items, $page_size);
+
+  $result_form = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array(
+        'bpi-result',
+      ),
+    ),
+  );
+
+  if (!empty($items)) {
+    $result_form['bpi_search_info'] = array(
+      '#type' => 'container',
+      '#attributes' => array(
+        'class' => array('bpi-search-info', 'container-inline'),
+      ),
+    );
+
+    $current_page = pager_find_page();
+    $items_from = $current_page * $page_size + 1;
+    $items_to = min(($current_page + 1) * $page_size, $total_items);
+
+    $result_form['bpi_search_info']['bpi_search_paging_info'] = array(
+      '#type' => 'item',
+      '#markup' => ($items_from < $items_to
+                    ? t('Showing items @from–@to of @total', array(
+                      '@from' => $items_from,
+                      '@to' => $items_to,
+                      '@total' => $total_items,
+                    ))
+                    : t('Showing item @from of @total', array(
+                      '@from' => $items_from,
+                      '@total' => $total_items,
+                    ))),
+    );
+
+    $result_form['bpi_search_info']['bpi_search_amount'] = array(
+      '#type' => 'select',
+      '#title' => t('Page size'),
+      '#options' => drupal_map_assoc(array(10, 20, 50, 100)),
+      '#default_value' => _bpi_get_query_parameter('amount', BPI_DEFAULT_PAGE_SIZE),
+      '#attributes' => array(
+        'onchange' => 'form.submit()',
+      ),
+    );
+  }
+  else {
+    $result_form['bpi_search_amount'] = array(
+      '#type' => 'hidden',
+    );
+  }
+
+  $result_form['bpi_search_results'] = array(
+    '#type' => 'item',
+    '#markup' => theme('bpi_search_results', array(
+      'items' => $items,
+      'empty' => t('No results'),
+    )),
+  );
+
+  $result_form['bpi_search_pager'] = array(
+    '#type' => 'item',
+    '#markup' => theme('pager'),
+  );
+
+  $query_form['loading'] = array(
+    '#type' => 'item',
+    '#markup' => '<div class="loading"><div class="message">' . t('Please wait') . '</div></div>',
+  );
+
+  $form['bpi_query'] = $query_form;
+  $form['bpi_result'] = $result_form;
+
+  $form['#attributes']['class'][] = 'bpi';
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
+  $form['#attached']['js'][] = drupal_get_path('module', 'bpi') . '/js/bpi-admin.js';
+  $form['#submit'][] = 'bpi_syndicate_page_form_submit';
 
   return $form;
 }
@@ -225,6 +234,54 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
 
   // Redirect to search results.
   drupal_goto('admin/bpi', array('query' => _bpi_build_query($bpi_query, TRUE)));
+}
+
+/**
+ * Fetches top ranking for various data.
+ *
+ * @param string $period
+ *   The period until current moment (use php formats).
+ * @param int $top_amount
+ *   Amount of top records.
+ * @param string $action
+ *   Action type of the ranked data.
+ * @param string $group_by
+ *   Group data by this bpi entity type.
+ * @param array $limitByOwnerAgency
+ *   For nodes ranking, limit data to articles authored by certain agency(es).
+ *
+ * @return array
+ *   A set of ranked data.
+ *
+ * @throws \Bpi\Sdk\Exception\SDKException
+ */
+function bpi_get_top_ranked($period = '-3 months', $top_amount = BPI_TOP_RANK_AMOUNT, $action = 'syndicate', $group_by = 'agency', $limitByOwnerAgency = array()) {
+  $sid = __FUNCTION__ . serialize(func_get_args());
+  $top = &drupal_static($sid, []);
+
+  if (empty($top)) {
+    $to = new \DateTime();
+    $from = clone $to;
+
+    $bpi = bpi_client_instance();
+    try {
+      $stats = $bpi->getStatisticsExtended(
+        $from->modify($period),
+        $to,
+        $top_amount,
+        $action,
+        $group_by,
+        $limitByOwnerAgency
+      );
+
+      $top = $stats->getTop();
+    }
+    catch (\Bpi\Sdk\Exception\SDKException $exception) {
+      watchdog_exception('bpi', $exception);
+    }
+  }
+
+  return $top;
 }
 
 /**
@@ -803,6 +860,120 @@ function bpi_build_search_facets(array &$form) {
 
     $form['bpi_filter'] = $filter_form;
   }
+}
+
+/**
+ * Build the top rank form element.
+ *
+ * @param $form
+ *   The main form.
+ *
+ * @throws \Bpi\Sdk\Exception\SDKException
+ */
+function bpi_build_top_rank(&$form) {
+  $form['bpi_top_rank'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Top ranking'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#attributes' => array(
+      'class' => array(
+        'clearfix',
+        'bpi-top-rank',
+      ),
+    ),
+  );
+
+  $bpi_rank_results = bpi_get_top_ranked('-1 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node');
+  $rows = bpi_build_top_rank_rows($bpi_rank_results, '/admin/bpi/syndicate');
+  $form['bpi_top_rank']['top_nodes_syndicated'] = array(
+    '#theme' => 'table',
+    '#caption' => t('Most shared articles (1 month)'),
+    '#header' => array(
+      t('Title'),
+      t('Amount of articles'),
+    ),
+    '#rows' => $rows,
+    '#empty' => t('No data so far.'),
+  );
+
+  $bpi_rank_results = bpi_get_top_ranked('-3 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node');
+  $rows = bpi_build_top_rank_rows($bpi_rank_results, '/admin/bpi/syndicate');
+  $form['bpi_top_rank']['top_nodes_syndicated_three_months'] = array(
+    '#theme' => 'table',
+    '#caption' => t('Most shared articles (3 months)'),
+    '#header' => array(
+      t('Title'),
+      t('Amount of articles'),
+    ),
+    '#rows' => $rows,
+    '#empty' => t('No data so far.'),
+  );
+
+  $bpi_rank_results = bpi_get_top_ranked('-3 months');
+  $rows = bpi_build_top_rank_rows($bpi_rank_results);
+  $form['bpi_top_rank']['top_agency_syndications'] = array(
+    '#theme' => 'table',
+    '#caption' => t('Top agency downloader (3 months)'),
+    '#header' => array(
+      t('Library'),
+      t('Amount of articles'),
+    ),
+    '#rows' => $rows,
+    '#empty' => t('No data so far.'),
+  );
+
+  $bpi_rank_results = bpi_get_top_ranked('-3 months', BPI_TOP_RANK_AMOUNT, 'push');
+  $rows = bpi_build_top_rank_rows($bpi_rank_results);
+  $form['bpi_top_rank']['top_agency_pushes'] = array(
+    '#theme' => 'table',
+    '#caption' => t('Top agency contributor (3 months)'),
+    '#header' => array(
+      t('Library'),
+      t('Amount of articles'),
+    ),
+    '#rows' => $rows,
+    '#empty' => t('No data so far.'),
+  );
+
+  $self_agency = variable_get('ting_agency', '');
+  $bpi_rank_results = bpi_get_top_ranked('-3 months', BPI_TOP_RANK_AMOUNT, 'syndicate', 'node', [$self_agency]);
+  $rows = bpi_build_top_rank_rows($bpi_rank_results, '/bpi/edit');
+  $form['bpi_top_rank']['top_my_nodes_syndicated'] = array(
+    '#theme' => 'table',
+    '#caption' => t('Most syndicated articles by my library'),
+    '#header' => array(
+      t('Title'),
+      t('Amount of articles'),
+    ),
+    '#rows' => $rows,
+    '#empty' => t('No data so far.'),
+  );
+}
+
+/**
+ * Builds the rows for top ranking tables.
+ *
+ * @param $data
+ *   Top ranking data from BPI.
+ * @param string $link_url_prefix
+ *   Url prefix to create an url instead of plain title.
+ *
+ * @return array
+ *   A set of data ready for table render.
+ */
+function bpi_build_top_rank_rows($data, $link_url_prefix = '') {
+  $is_link = !empty($link_url_prefix) && valid_url($link_url_prefix);
+  $rows = array();
+
+  foreach ($data as $item) {
+    $rows[] = array(
+      $is_link ? l($item['title'], $link_url_prefix . '/' . $item['name']) : $item['title'],
+      $item['value']
+    );
+  }
+
+  return $rows;
 }
 
 /**

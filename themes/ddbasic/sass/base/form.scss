@@ -153,103 +153,143 @@ textarea {
 }
 
 // ==========================================================================
-// Checkbox and radiobutton
+// Checkbox, radiobutton and switch
 // ==========================================================================
 
-input[type="checkbox"],
-input[type="radio"] {
-  display: none;
-  & + label {
-    display: block;
-    padding: 7px 0 1px 42px;
+@supports(-webkit-appearance: none) or (-moz-appearance: none) {
+  input[type='checkbox'],
+  input[type='radio'] {
+    --active: $color-primary;
+    --active-inner: #fff;
+    --focus: 2px $color-primary;
+    --border: $grey;
+    --border-hover: $color-primary;
+    --background: $grey;
+    --disabled: #F6F8FF;
+    --disabled-inner: #E1E6F9;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 21px;
+    outline: none;
+    display: inline-block;
+    vertical-align: top;
     position: relative;
-    font-weight: normal;
-    &::before {
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid var(--bc, var(--border));
+    background: var(--b, var(--background));
+    transition: background .3s, border-color .3s, box-shadow .2s;
+    &:after {
       content: '';
-      position: absolute;
+      display: block;
       left: 0;
       top: 0;
-      width: 28px;
-      height: 28px;
-      margin: 0 10px 5px 0;
-      background-color: $grey;
-    }
-  }
-}
-
-.form-checkboxes,
-.form-radios {
-  .form-item {
-    margin-top: 0;
-    margin-bottom: 15px;
-    width: 100%;
-    float: left;
-  }
-}
-
-// Checkbox
-//
-// :checked   - When checkbox is checked
-//
-// Markup:
-// <input type="checkbox" class="{{modifier_class}}">
-// <label>Label</label>
-//
-// Styleguide 1.2.3
-
-input[type="checkbox"] {
-  & + label {
-    &::before {
-      border-radius: $round-corner;
-    }
-  }
-  &:checked {
-    & + label {
-      @include place-icon(check, $color-text-on-primary, 28px);
-      &::after {
-        left: 0;
-      }
-      &::before {
-        background-color: $color-primary;
-      }
-    }
-  }
-}
-
-// Radiobutton
-//
-// :checked   - When radiobutton is selected
-//
-// Markup:
-// <input type="radio" class="{{modifier_class}}">
-// <label>Label</label>
-//
-// Styleguide 1.2.4
-
-input[type="radio"] {
-  & + label {
-    &::before {
-      border-radius: 50%;
-    }
-    &::after {
-      content: '';
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
       position: absolute;
-      top: 9px;
-      left: 9px;
-      background-color: $white;
+      transition: transform var(--d-t, .3s) var(--d-t-e, ease), opacity var(--d-o, .2s);
+    }
+    &:checked {
+      --b: var(--active);
+      --bc: var(--active);
+      --d-o: .3s;
+      --d-t: .6s;
+      --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+    }
+    &:disabled {
+      --b: var(--disabled);
+      cursor: not-allowed;
+      opacity: .9;
+      &:checked {
+        --b: var(--disabled-inner);
+        --bc: var(--border);
+      }
+      & + label {
+        cursor: not-allowed;
+      }
+    }
+    &:hover {
+      &:not(:checked) {
+        &:not(:disabled) {
+          --bc: var(--border-hover);
+        }
+      }
+    }
+    &:focus {
+      box-shadow: 0 0 0 var(--focus);
+    }
+    &:not(.switch) {
+      width: 21px;
+      &:after {
+        opacity: var(--o, 0);
+      }
+      &:checked {
+        --o: 1;
+      }
+    }
+    & + label {
+      display: inline-block;
+      vertical-align: top;
+      cursor: pointer;
+      margin-left: 4px;
     }
   }
-  &:checked {
-    & + label {
-      &::after {
-        background-color: $color-primary;
+  input[type='checkbox'] {
+    &:not(.switch) {
+      border-radius: 5px;
+      &:after {
+        width: 4px;
+        height: 10px;
+        border: 2px solid var(--active-inner);
+        border-top: 0;
+        border-left: 0;
+        left: 7px;
+        top: 3px;
+        transform: rotate(var(--r, 20deg));
+      }
+      &:checked {
+        --r: 43deg;
+      }
+    }
+    &.switch {
+      width: 38px;
+      border-radius: 11px;
+      &:after {
+        left: 2px;
+        top: 2px;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        background: var(--ab, var(--border));
+        transform: translateX(var(--x, 0));
+      }
+      &:checked {
+        --ab: var(--active-inner);
+        --x: 17px;
+      }
+      &:disabled {
+        &:not(:checked) {
+          &:after {
+            opacity: .6;
+          }
+        }
       }
     }
   }
+  input[type='radio'] {
+    border-radius: 50%;
+    &:after {
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      background: var(--active-inner);
+      opacity: 0;
+      transform: scale(var(--s, .7));
+    }
+    &:checked {
+      --s: .5;
+    }
+  }
 }
+
 
 // ==========================================================================
 // Select list

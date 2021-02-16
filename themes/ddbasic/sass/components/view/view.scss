@@ -603,3 +603,55 @@
     width: 100%;
   }
 }
+
+// ==========================================================================
+// View ding sections
+// ==========================================================================
+
+.view-ding-sections {
+  .views-row {
+    margin-bottom: getGutter();
+  }
+  &.view-display-id-ding_sections_groups {
+    @include media($tablet-min-width) {
+      .views-row {
+        &:nth-child(1),
+        &:nth-child(2) {
+          @include span-columns(6);
+        }
+        &:nth-child(2) {
+          @include omega();
+        }
+        &:nth-child(n+3) {
+          @include span-columns(3);
+        }
+        &:nth-child(4n+6) {
+          @include omega();
+        }
+        &:nth-child(4n+7) {
+          clear: left;
+        }
+      }
+    }
+
+    // Tablet
+    @include media($tablet) {
+      .views-row {
+        @include span-columns(4);
+        @include omega(3n);
+      }
+    }
+
+    // Mobile
+    @include media($mobile) {
+      .views-row {
+        &:nth-child(n) { // Overwrite previous set nth children for all children
+          width: 100%;
+          margin: 0;
+          margin-bottom: 30px;
+          clear: none;
+        }
+      }
+    }
+  }
+}

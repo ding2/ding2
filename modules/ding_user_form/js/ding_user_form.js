@@ -24,19 +24,7 @@
         }
       }
 
-      /**
-       * Attach open login events.
-       */
-      Drupal.behaviors.open_login = {
-        attach: function(context, settings) {
-          $('a.open-login', context).bind('click', function (evt) {
-            evt.preventDefault();
-            openLogin();
-          });
-        }
-      };
-
-      $('a.js-topbar-link-user', context).on('click', function(evt) {
+      $('a.js-topbar-link-user,a.open-login', context).on('click', function(evt) {
         evt.preventDefault();
         openLogin();
       });

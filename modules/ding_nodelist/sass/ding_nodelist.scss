@@ -453,7 +453,6 @@ $label-bg: url('../images/p.png');
   }
 
   .ding_nodelist-rolltab-wrapper,
-  #ding_nodelist-rolltab,
   ul.ui-tabs-nav,
   li.ui-tabs-nav-item {
     border: none;
@@ -469,13 +468,12 @@ $label-bg: url('../images/p.png');
 
         @include media($tablet) {
           white-space: nowrap;
-          width: 6em;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
         @include media($mobile) {
-          width: auto;
+          width: 10px;
         }
       }
 
@@ -513,8 +511,6 @@ $label-bg: url('../images/p.png');
 
     .ui-tabs,
     div.ui-tabs-panel {
-      padding: 0;
-
       .pn-media-play {
         font-size: 180%;
         position: absolute;
@@ -1293,7 +1289,7 @@ $label-bg: url('../images/p.png');
         );
         @include media($mobile) {
           display: none;
-        }
+        }      
       }
       .background {
         @include transition(
@@ -1349,7 +1345,7 @@ $label-bg: url('../images/p.png');
       }
     }
 
-    &.is-hovered {
+    &:hover {
       z-index: 2;
     }
   }

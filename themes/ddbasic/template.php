@@ -316,6 +316,10 @@ function ddbasic_preprocess_views_view(&$vars) {
           break;
       }
       break;
+
+    case 'ding_sections':
+      $vars['classes_array'][] = 'slide-on-mobile';
+      break;
   }
 }
 

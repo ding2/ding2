@@ -618,7 +618,6 @@
   border: none;
 }
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper,
-.ding_nodelist-rolltab #ding_nodelist-rolltab,
 .ding_nodelist-rolltab ul.ui-tabs-nav,
 .ding_nodelist-rolltab li.ui-tabs-nav-item {
   border: none;
@@ -635,7 +634,6 @@
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper ul.ui-tabs-nav a,
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper li.ui-tabs-nav-item a {
     white-space: nowrap;
-    width: 6em;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -643,7 +641,7 @@
 @media screen and (max-width: 600px) {
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper ul.ui-tabs-nav a,
   .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper li.ui-tabs-nav-item a {
-    width: auto;
+    width: 10px;
   }
 }
 @media screen and (max-width: 600px) {
@@ -672,10 +670,6 @@
 }
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs-nav {
   margin-bottom: 10px;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel {
-  padding: 0;
 }
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play,
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play {
@@ -1607,7 +1601,7 @@
     display: none;
   }
 }
-.ding_nodelist-node_blocks .nb-item.is-hovered {
+.ding_nodelist-node_blocks .nb-item:hover {
   z-index: 2;
 }
 .ding_nodelist-node_blocks .more-links {
@@ -2315,3 +2309,5 @@ table td.minimal-title {
 table td.minimal-title td.minimal-date {
   width: 20%;
 }
+
+/*# sourceMappingURL=ding_nodelist.css.map */

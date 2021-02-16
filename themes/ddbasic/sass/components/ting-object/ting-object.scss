@@ -86,9 +86,6 @@
           }
         }
       }
-      &.is-hovered {
-        z-index: 2;
-      }
       &.move-right {
         .group-text {
           left: 100%;
@@ -167,6 +164,7 @@
       // Hover for non touch devices
       &:hover {
         .no-touch & {
+          z-index: 2;
           .ting-cover::after {
             @include transition(opacity $speed $hover-delay $ease);
             opacity: 0;
@@ -838,6 +836,16 @@
           }
         }
       }
+    }
+  }
+
+  // ==========================================================================
+  // Minimal
+  // ==========================================================================
+  &.view-mode-minimal {
+    .field-name-ting-author,
+    .field-name-ting-type {
+      display: inline-block;
     }
   }
 }

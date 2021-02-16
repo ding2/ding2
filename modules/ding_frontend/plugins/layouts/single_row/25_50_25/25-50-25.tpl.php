@@ -32,6 +32,11 @@ else if (!empty($content['left_sidebar']) && !empty($content['right_sidebar'])) 
 ?>
 <div <?php if (!empty($css_id)) { print 'id="' . $css_id . '"'; } ?> class="<?php echo $add_class; ?> default-layout">
   <div class="layout-wrapper">
+    <?php if (!empty($content['top_banner'])): ?>
+      <div class="top-banner-content">
+        <?php print $content['top_banner']; ?>
+      </div>
+    <?php endif ?>
     <div class="primary-content">
       <?php print $content['main_content']; ?>
     </div>

@@ -512,7 +512,7 @@ function _ding_nodelist_plugin_widget_section(&$form, $node_type, $conf, $defaul
     '#suffix' => '</div></div>',
   );
 
-  $autoscrolling_widgets = array(DING_NODELIST_WIDGET_CAROUSEL, DING_NODELIST_WIDGET_HOR_ACCORDION);
+  $autoscrolling_widgets = array(DING_NODELIST_WIDGET_CAROUSEL, DING_NODELIST_WIDGET_ROLLTAB, DING_NODELIST_WIDGET_HOR_ACCORDION);
   if (in_array($widget_type, $autoscrolling_widgets)) {
     $generic_autoscroll_delay = variable_get('ding_nodelist_' . $widget_type . '_delay', $default_conf['autoscroll_delay']);
     $form['ding_nodelist_wrapper']['widget_dependent']['autoscroll_delay'] = array(

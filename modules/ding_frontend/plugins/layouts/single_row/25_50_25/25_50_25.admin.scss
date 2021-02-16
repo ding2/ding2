@@ -15,7 +15,13 @@ $zen-gutter-width: 20px;
   margin-bottom: $zen-gutter-width;
 }
 
+.top-banner-content {
+  @include zen-grid-item(12, 1);
+  margin-bottom: $zen-gutter-width;
+}
+
 .primary-content {
+  @include zen-clear(both);
   @include zen-grid-item(6, 4);
 }
 
@@ -41,7 +47,7 @@ $zen-gutter-width: 20px;
   }
   .attachment-fourth {
     @include zen-grid-item(3, 1, right);
-  }  
+  }
 }
 
 .attachments-3-3 {

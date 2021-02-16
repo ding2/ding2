@@ -29,7 +29,7 @@ $classes = ['item'];
 $classes[] = (isset($item->video) ? 'has-video' : NULL);
 $classes = implode(' ', $classes);
 ?>
-<div class="<?php print $classes; ?>">
+<div class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <?php print $video_player; ?>
   <?php print $image; ?>
   <div class="article-info">

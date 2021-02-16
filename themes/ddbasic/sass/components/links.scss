@@ -1,0 +1,10 @@
+// Links inside body text should have underline
+[class*="-body"],
+.paragraphs-text {
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
