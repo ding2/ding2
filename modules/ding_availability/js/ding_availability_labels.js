@@ -94,11 +94,7 @@
           element.removeClass('pending').addClass('processed');
         }
 
-        // Get hold of the reserve button (it hidden as default, so we may need
-        // to show it).
-        var reserver_btn = element.parents('.ting-object:first').find('.reserve-button');
-
-        update_availability_elements(element, reserver_btn, status);
+        update_availability_elements(element, status);
       }
 
       /**
@@ -185,7 +181,7 @@
        * @param status
        *   Structure with available and reservable state.
        */
-      function update_availability_elements(element, btn, status) {
+      function update_availability_elements(element, status) {
         var class_name = null;
 
         for (var i in status) {
@@ -193,9 +189,6 @@
             class_name = i;
           }
           element.addClass(class_name);
-          if (btn.length) {
-            btn.addClass(class_name);
-          }
         }
 
         update_availability_type(element, status);

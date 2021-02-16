@@ -954,6 +954,7 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
     case DING_NODELIST_WIDGET_CAROUSEL:
       drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
       drupal_add_js($mod_path . '/js/carousel.js', 'file');
+      drupal_add_js($mod_path . '/js/video.js', 'file');
       break;
 
     case DING_NODELIST_WIDGET_SLIDER:
@@ -969,15 +970,11 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
       break;
 
     case DING_NODELIST_WIDGET_ROLLTAB:
-      drupal_add_library('system', 'ui.tabs');
-      drupal_add_js($mod_path . '/js/jquery-ui-tabs-rotate.js');
-      drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
-      drupal_add_js($mod_path . '/js/rolltab.js', 'file');
+      ding_tabroll_add_js($autoscroll_delay);
+      drupal_add_js($mod_path . '/js/video.js', 'file');
       break;
 
     case DING_NODELIST_WIDGET_NODE_BLOCKS:
-      drupal_add_library('system', 'ui.tabs');
-      drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
       drupal_add_js($mod_path . '/js/node_blocks.js', 'file');
       break;
 
@@ -1670,10 +1667,20 @@ function _ding_nodelist_get_dams_image_info($node, $image_field) {
     $title = !empty($image['field_file_image_title_text']) ? $image['field_file_image_title_text']['und'][0]['safe_value'] : '';
     $alt = !empty($image['field_file_image_alt_text']) ? $image['field_file_image_alt_text']['und'][0]['safe_value'] : $title;
 
-    if (!empty($node->video) && strpos($image['filemime'], 'video') !== FALSE) {
-      $video_id = explode("?v=", $node->video);
-      $video_id = $video_id[1];
-      $url = "http://img.youtube.com/vi/$video_id/maxresdefault.jpg";
+    if (!empty($node->video)) {
+      switch ($image['filemime']) {
+        case 'video/youtube':
+          $media_wrapper = new MediaYouTubeStreamWrapper();
+          $media_wrapper->setUri($path);
+          $url = $media_wrapper->getOriginalThumbnailPath();
+          break;
+
+        case 'video/vimeo':
+          $media_wrapper = new MediaVimeoStreamWrapper();
+          $media_wrapper->setUri($path);
+          $url = $media_wrapper->getOriginalThumbnailPath();
+          break;
+      }
 
       $file = system_retrieve_file($url, 'public://list_image/' . $node->type, TRUE, FILE_EXISTS_RENAME);
       if ($file) {
@@ -1777,8 +1784,12 @@ function _ding_nodelist_striptags($nodes) {
   foreach ($nodes as $n => $node) {
     if (!is_array($node)) {
       $body_field = 'field_' . $node->type . '_body';
-      foreach ($node->{$body_field} as $lng => $body) {
-        $nodes[$n]->{$body_field}[$lng][0]['value'] = strip_tags($body[0]['value']);
+
+      // Not all node types has a body field, so check first.
+      if (isset($node->{$body_field})) {
+        foreach ($node->{$body_field} as $lng => $body) {
+          $nodes[$n]->{$body_field}[$lng][0]['value'] = strip_tags($body[0]['value']);
+        }
       }
     }
     else {

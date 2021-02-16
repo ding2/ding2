@@ -1,9 +1,7 @@
 <?php
 
-define('DING_REACT_FOLLOW_SEARCHES_PROD_URL', 'https://prod.followsearches.dandigbib.org');
-define('DING_REACT_FOLLOW_SEARCHES_STAGE_URL', 'https://stage.followsearches.dandigbib.org');
-define('DING_REACT_MATERIAL_LIST_PROD_URL', 'https://prod.materiallist.dandigbib.org');
-define('DING_REACT_MATERIAL_LIST_TEST_URL', 'https://test.materiallist.dandigbib.org');
+define('DING_REACT_FOLLOW_SEARCHES_URL', 'https://prod.followsearches.dandigbib.org');
+define('DING_REACT_MATERIAL_LIST_URL', 'https://prod.materiallist.dandigbib.org');
 define('DING_REACT_COVER_SERVICE_URL', 'https://cover.dandigbib.org/api/v2');
 define('DING_REACT_MIGRATED_UID_PREFIX', 'migrated-');
 
@@ -372,7 +370,7 @@ function ding_react_login_url() {
  *   Url to Material List service instance.
  */
 function ding_react_material_list_url() {
-  return variable_get('ding_react_material_list_url', DING_REACT_MATERIAL_LIST_TEST_URL);
+  return variable_get('ding_react_material_list_url', DING_REACT_MATERIAL_LIST_URL);
 }
 
 /**
@@ -382,7 +380,7 @@ function ding_react_material_list_url() {
  *   Url to Follow Searches service instance.
  */
 function ding_react_follow_searches_url() {
-  return variable_get('ding_react_follow_searches_url', DING_REACT_FOLLOW_SEARCHES_STAGE_URL);
+  return variable_get('ding_react_follow_searches_url', DING_REACT_FOLLOW_SEARCHES_URL);
 }
 
 /**

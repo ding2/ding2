@@ -17,10 +17,10 @@
 
 ?>
 <?php if ($items): ?>
-  <div class="<?php print $conf['classes'] ?>">
+  <div class="<?php print $conf['classes'] ?>" data-widget-type="rolltab">
     <div class="ding_nodelist-items">
-      <div class="ding_nodelist-rolltab-wrapper">
-        <div id="ding_nodelist-rolltab" class="ding_nodelist-rolltab ding-tabroll">
+      <div class="ding_nodelist-rolltab-wrapper ding-tabroll-wrapper">
+        <div class="ding_nodelist-rolltab ding-tabroll">
           <ul class="ui-tabs-nav">
             <?php foreach ($items as $i => $result) : ?>
               <li class="ui-tabs-nav-item count-<?php print $i; ?>">
@@ -49,15 +49,6 @@
             </div>
           <?php endforeach; ?>
         </div>
-
-        <!-- Used for responsive -->
-        <select class="ding_nodelist-rolltab-select-tabs">
-          <?php foreach ($items as $id => $result) : ?>
-            <option class="nodelist-tabs-item">
-              <?php print $result->title; ?>
-            </option>
-          <?php endforeach; ?>
-        </select>
       </div>
     </div>
     <?php if (!empty($links)): ?>

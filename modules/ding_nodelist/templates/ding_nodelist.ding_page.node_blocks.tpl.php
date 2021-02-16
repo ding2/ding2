@@ -6,7 +6,7 @@
  */
 ?>
 
-<article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>" class="node node-ding-page node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>">
+<article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>" class="node node-ding-page node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>"<?php print $attributes; ?>>
   <a href="<?php print url('node/' . $item->nid); ?>">
     <div class="inner">
       <div class="background">

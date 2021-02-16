@@ -112,3 +112,13 @@ div.form-item-bpi-search-query {
 .ding-popup-content .bpi-single-preview-item {
   max-height: 60vh;
 }
+
+.bpi-top-rank table {
+  float: left;
+  margin-right: 15px;
+  width: 19%;
+}
+
+.bpi-top-rank table:last-of-type {
+  margin-right: 0;
+}

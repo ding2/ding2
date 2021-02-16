@@ -242,9 +242,16 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         ),
       );
 
+      // Initialize prices count first time the form is rendered.
       if (!isset($form_state['prices_count'])) {
-        $form_state['prices_count'] = empty($prices) ? range(0, 0) : range(0, count($prices));
+        if (!empty($prices)) {
+          $form_state['prices_count'] = range(0, count($prices) - 1);
+        }
+        else {
+          $form_state['prices_count'] = [];
+        }
       }
+
       $price_name = variable_get('ding_p2b_default_price_name', '');
 
       // We have elements that are required depending on other fields. This

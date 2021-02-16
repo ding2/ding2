@@ -1,0 +1,322 @@
+<?php
+
+/**
+ * @file
+ * Ting Subsearch module.
+ */
+
+use Ting\Search\TingSearchRequest;
+use Ting\Search\TingSearchResultInterface;
+
+/**
+ * Implements hook_menu().
+ */
+function ting_subsearch_menu() {
+  $items = [];
+
+  $items['ting_subsearch/ajax_placeholder_callback'] = [
+    'title' => 'Ting subsearch AJAX placeholder callback',
+    'page callback' => 'ting_subsearch_ajax_placeholder_callback',
+    'access arguments' => array('access content'),
+  ];
+
+  $items['admin/config/ding/subsearch'] = [
+    'title' => 'Ting subsearch',
+    'description' => 'Configure subsearch modules.',
+    'page callback' => 'ting_subsearch_admin_overview',
+    'access arguments' => array('configure ting subsearch'),
+  ];
+  $items['admin/config/ding/subsearch/subsearch'] = [
+    'title' => 'Overview',
+    'description' => 'Ting subsearch overview',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  ];
+
+  return $items;
+}
+
+/**
+ * Ting subsearch admin overview page.
+ */
+function ting_subsearch_admin_overview() {
+  return [
+    '#markup' => t('Subsearch modules allow additional searches to be made based on predefined conditions.'),
+  ];
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ting_subsearch_permission() {
+  return [
+    'configure ting subsearch' => [
+      'title' => t('Configure ting subsearch'),
+      'description' => t('Allows configuration of subsearch modules.'),
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_subsearch_theme() {
+  return [
+    'ting_subsearch_suggestion_message' => [
+      'variables' => [
+        'message' => NULL,
+        'subsearch_result' => NULL,
+        // Subsearch module displaying suggestion.
+        'module' => NULL,
+      ],
+    ],
+    'ting_subsearch_ajax_placeholder' => [
+      'variables' => [
+        // Module implementing hook_ting_subsearch_ajax_placeholder_content().
+        'module' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Theme preprocess function for ting_subsearch_suggestion_message.
+ */
+function template_preprocess_ting_subsearch_suggestion_message(&$variables) {
+  $variables['classes_array'] = ['ting-subsearch-suggestion-message'];
+  $variables['attributes_array'] = [];
+  $module = $variables['module'];
+  $variables['theme_hook_suggestions'][] = 'ting_subsearch_suggestion_message__' . $module;
+  $variables['attributes_array']['id'] = drupal_html_id(str_replace('_', '-', $module) . '-suggestion-message');
+}
+
+/**
+ * Theme process function for ting_subsearch_suggestion_message.
+ */
+function template_process_ting_subsearch_suggestion_message(&$variables) {
+  $variables['classes'] = implode(' ', $variables['classes_array']);
+  $variables['attributes'] = drupal_attributes($variables['attributes_array']);
+}
+
+/**
+ * Returns default HTML for ting_subsearch_suggestion_message.
+ */
+function theme_ting_subsearch_suggestion_message($variables) {
+  $message = $variables['message'];
+  $classes = $variables['classes'];
+  $attributes = $variables['attributes'];
+
+  $suggestion = $variables['subsearch_result']
+    ->getSearchRequest()
+    ->getFullTextQuery();
+  // Wrap the message in search link to suggestion.
+  $message = l($message, 'search/ting/' . $suggestion, [
+    'html' => TRUE,
+    'attributes' => ['target' => 'blank'],
+    'query' => ting_subsearch_get_query_parameters(),
+  ]);
+
+  $output .= "<div class='$classes'$attributes>";
+  $output .= $message;
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
+ * Returns default HTML for ting subsearch ajax placeholder.
+ */
+function theme_ting_subsearch_ajax_placeholder($variables) {
+  $module = $variables['module'];
+  return "<div class='js-ting-subsearch-ajax-placeholder' data-ting-subsearch-module='$module'></div>";
+}
+
+/**
+ * Returns render array for a subsearch ajax placeholder.
+ *
+ * This should be called on a ting_search page after search execute, since the
+ * placeholders need the current ting search result object available to work.
+ *
+ * @param string $module
+ *   The subsearch module. Must implement placeholder callback hook.
+ *
+ * @return array
+ *   The placeholder render array.
+ */
+function ting_subsearch_get_ajax_placeholder_render_array($module) {
+  $placeholder['#theme'] = 'ting_subsearch_ajax_placeholder';
+  $placeholder['#module'] = $module;
+  $placeholder['#attached']['js'][] = [
+    'data' => drupal_get_path('module', 'ting_subsearch') . '/js/ting_subsearch_ajax_placeholder.js',
+    'type' => 'file',
+    'scope' => 'footer',
+  ];
+
+  // Pass settings used by all placeholders.
+  $settings = [];
+
+  // Ensure the current search result object is available for the placeholder
+  // callbacks.
+  $search_result = ting_search_current_results();
+  $settings['searchResult'] = serialize($search_result);
+
+  // Construct a query string with the current search related parameters and
+  // pass it to frontend for use in POST callback URL. This is a convenient way
+  // to activate ting_field_search profile and for subsearch modules to generate
+  // correct suggestion search links in their placeholder callbacks.
+  $query = drupal_http_build_query(ting_subsearch_get_query_parameters());
+  $settings['query'] = empty($query) ? $query : '?' . $query;
+
+  $placeholder['#attached']['js'][] = [
+    'data' => ['tingSubsearch' => $settings],
+    'type' => 'setting',
+  ];
+
+  return $placeholder;
+}
+
+/**
+ * AJAX placeholder callback for async subsearches.
+ */
+function ting_subsearch_ajax_placeholder_callback() {
+  $content = '';
+
+  if (!empty($_POST['searchResult']) && !empty($_POST['module'])) {
+    $module = $_POST['module'];
+    $search_result = unserialize($_POST['searchResult']);
+
+    if ($search_result instanceof TingSearchResultInterface) {
+      // Get the placeholder content from the subsearch module.
+      $content = module_invoke($module, 'ting_subsearch_ajax_placeholder_content', $search_result);
+      // Ensure that there actually was a module implementing the hook.
+      if (isset($content)) {
+        drupal_alter('ting_subsearch_ajax_placeholder_content', $content, $module);
+        // Allow modules to return a render array. If not we assume HTML string.
+        $content = is_array($content) ? drupal_render($content) : $content;
+      }
+    }
+  }
+
+  drupal_json_output($content);
+  drupal_exit();
+}
+
+/**
+ * Performs a subsearch.
+ *
+ * Subsearch modules should use this function when performing a subsearch to
+ * ensure it's executed the same way as the user search.
+ *
+ * @param \Ting\Search\TingSearchRequest $subsearch_request
+ *   The subsearch request object to execute.
+ *
+ * @return \Ting\Search\TingSearchResultInterface
+ *   The result object of the subsearch.
+ */
+function ting_subseach_do_subsearch(TingSearchRequest $subsearch_request) {
+  if (module_exists('ting_field_search')) {
+    // If a profile is active but no context is set, we set our own to ensure
+    // ting_field_search will activate.
+    if (ting_field_search_get_active_profile() && !ting_field_search_get_context()) {
+      ting_field_search_set_context('ting_subsearch');
+    }
+  }
+
+  $subsearch_result = $subsearch_request->execute();
+
+  if (module_exists('ting_field_search')) {
+    // If we used our own context remove it again.
+    if (ting_field_search_get_context() == 'ting_subsearch') {
+      ting_field_search_set_context(NULL);
+    }
+  }
+
+  return $subsearch_result;
+}
+
+/**
+ * Custom validate function for subsearch factor fields.
+ */
+function ting_subsearch_factor_field_validate($element, &$form_state) {
+  $value = $element['#value'];
+  if ($value !== '' && (!is_numeric($value) || $value <= 0)) {
+    form_error($element, t('%name must be a positive number', [
+      '%name' => $element['#title'],
+    ]));
+  }
+}
+
+/**
+ * Get non-fiction / ficion ratio from a search result.
+ *
+ * @param \Ting\Search\TingSearchResultInterface $search_result
+ *   A search result object with genreCategory facet.
+ *
+ * @return float
+ *   A float describing the ratio of non-fiction to fiction with 0 representing
+ *   no non-fiction objects/materials in the result and INF representing no
+ *   fiction objects.
+ */
+function ting_subsearch_get_genre_ratio(TingSearchResultInterface $search_result) {
+  if ($search_result->getNumTotalObjects() == 0) {
+    return 0;
+  }
+
+  $facets = $search_result->getFacets();
+  $terms = $facets['facet.genreCategory']->getTerms();
+  $nonfiction = isset($terms['nonfiktion']) ? (int) $terms['nonfiktion']->getCount() : 0;
+  $fiction = isset($terms['fiktion']) ? (int) $terms['fiktion']->getCount() : 0;
+
+  // Avoid division by zero.
+  if ($fiction == 0) {
+    // Since non-fiction must be non-zero in this case, we return INF which can
+    // be used in comparisons.
+    return INF;
+  }
+
+  return $nonfiction / $fiction;
+}
+
+/**
+ * Helper function to normalize user entered search keys before comparison.
+ *
+ * @param string $keys
+ *   The search keys to normalize.
+ *
+ * @return string
+ *   The normalized search keys.
+ */
+function ting_subsearch_normalize_keys($keys) {
+  $keys = trim($keys);
+  // Support users quoting their search keys.
+  $keys = trim($keys, '"');
+  // Replace multiple spaces with single space.
+  $keys = preg_replace('/\s+/', ' ', $keys);
+  $keys = drupal_strtolower($keys);
+  return $keys;
+}
+
+/**
+ * Get search related query parameters from the current request.
+ *
+ * When generating suggestion search links this function should be used to get
+ * the needed query parameters to ensure the correct result is shown to users
+ * when following link. We also use these query parameters in placeholder POST
+ * back. See comment in ting_subsearch_get_ajax_placeholder_render_array().
+ *
+ * @return array
+ *   An array containing the query parameters.
+ */
+function ting_subsearch_get_query_parameters() {
+  if (empty($_GET)) {
+    return [];
+  }
+  // Search links should use the current sort and facets. If ting_field_search
+  // is active a current search profile may be used.
+  $supported_query_parameters = [
+    'sort',
+    'facets',
+    'profile',
+  ];
+  return array_intersect_key($_GET, array_flip($supported_query_parameters));
+}

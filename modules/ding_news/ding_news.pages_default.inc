@@ -567,7 +567,7 @@ taxonomy/term/%term:tid',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'markup' => 'h2',
+      'markup' => 'none',
       'class' => '',
       'id' => '',
       'override_title' => 1,
@@ -879,8 +879,9 @@ news/%tid:name',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
+      'override_title_heading' => 'h1',
     );
     $pane->cache = array();
     $pane->style = array(

@@ -24,7 +24,7 @@ $classes = implode(" ", $classes);
 >
   <?php if (isset($item->video)): ?>
     <div class="media-container">
-      <div class="media-content" data-url="<?php print $item->video; ?>"></div>
+      <div class="media-content" data-url="<?php print $item->video; ?>" data-service="<?php print $item->video_service; ?>"></div>
       <div class="pn-close-media"><i class="icon-cross"></i></div>
     </div>
   <?php

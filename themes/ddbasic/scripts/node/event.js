@@ -60,14 +60,6 @@
       // Set height for title and lead text.
       var title_and_lead_height = $(teaser).find('.title').outerHeight(true) + $(teaser).find('.field-name-field-ding-event-lead .field-items').outerHeight(true) + 20;
       $(teaser).find('.title-and-lead').css('min-height', title_and_lead_height);
-
-      // Set timeout to make shure element is still above while it animates
-      // out.
-      var hovered = $(teaser);
-      setTimeout(function(){
-        $('.node-ding-event.node-teaser').removeClass('is-hovered');
-        hovered.addClass('is-hovered');
-      }, 300);
     },
 
     deactivateTeaser: function(teaser) {

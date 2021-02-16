@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Wrapper functions for Opensearch client.
@@ -146,7 +147,7 @@ function opensearch_get_objects(array $ids, $local = FALSE) {
  * @throws \TingClientException
  *   This may throw this exception if the search request fails.
  */
-function opensearch_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
+function opensearch_do_search($query, $page = 1, $results_per_page = 10, array $options = array()) {
   $request = opensearch_get_request_factory()->getSearchRequest();
 
   $request->setQuery($query);
@@ -413,14 +414,14 @@ function opensearch_execute(TingClientRequest $request) {
 
     // Build maps of singular requests for objects by id or local id.
     $object_ids = array_combine($object_ids, $object_ids);
-    $object_id_requests = array_map(function($id) use ($request) {
+    $object_id_requests = array_map(function ($id) use ($request) {
       $object_request = clone $request;
       $object_request->setObjectId($id);
       return $object_request;
     }, $object_ids);
 
     $local_ids = array_combine($local_ids, $local_ids);
-    $local_id_requests = array_map(function($id) use ($request) {
+    $local_id_requests = array_map(function ($id) use ($request) {
       $object_request = clone $request;
       $object_request->setLocalId($id);
       return $object_request;
@@ -545,10 +546,19 @@ function opensearch_execute(TingClientRequest $request) {
     return $response;
   }
   catch (TingClientException $e) {
-    if (isset($e->user_message)) {
-      drupal_set_message($e->user_message, 'warning');
+    if ($e->getType() === TingClientException::TYPE_SYNTAX_ERROR) {
+      drupal_set_message(t('Syntax error in search query'), 'warning', FALSE);
     }
-    watchdog('ting client', 'Error performing request: ' . $e->getMessage(), NULL, WATCHDOG_ERROR, 'http://' . $_SERVER["HTTP_HOST"] . request_uri());
+    elseif ($e->getType() === TingClientException::TYPE_INTERNAL_ERROR) {
+      drupal_set_message(t('Internal server error, please try again later'), 'warning', FALSE);
+    }
+    watchdog(
+      'ting client',
+      'Error performing request: @message',
+      array('@message' => $e->getMessage()),
+      WATCHDOG_ERROR,
+      'http://' . $_SERVER["HTTP_HOST"] . request_uri()
+    );
     return FALSE;
   }
   finally {
@@ -657,10 +667,10 @@ function _opensearch_predict_cache(array $collections, TingClientRequest $reques
  *
  * @param TingClientRequest $request
  *   The search request for which to set/retrieve a cached response.
- * @param \TingClientSearchResult|\TingClientObjectCollection|\TingClientObject[]|NULL $response
+ * @param \TingClientSearchResult|\TingClientObjectCollection|\TingClientObject[]|null $response
  *   The response to cache. NULL to reset the cache entry for the request.
  *
- * @return \TingClientSearchResult|\TingClientObjectCollection|\TingClientObject[]|NULL
+ * @return \TingClientSearchResult|\TingClientObjectCollection|\TingClientObject[]|null
  *   The cached response. NULL if no cached entry exists.
  */
 function _opensearch_cache(TingClientRequest $request, $response = NULL) {

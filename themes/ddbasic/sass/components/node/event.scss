@@ -16,9 +16,6 @@
     position: relative;
     float: left;
     width: 100%;
-    &.is-hovered {
-      z-index: 2;
-    }
     a {
       position: absolute;
       width: 100%;
@@ -157,8 +154,8 @@
     }
     // Hover for non touch devices
     .no-touch & {
-      &.is-hovered,
       &:hover {
+        z-index: 2;
         .background {
           @include transition(
             width $speed $hover-delay $ease,

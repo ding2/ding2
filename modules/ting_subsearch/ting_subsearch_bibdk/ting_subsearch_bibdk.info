@@ -1,0 +1,6 @@
+name = Ting subsearch bibliotek.dk
+description = Trigger bibliotek.dk subsearches and show suggestions and links to bibliotek.dk
+package = Ding!
+core = 7.x
+dependencies[] = opensearch
+dependencies[] = ting_subsearch
