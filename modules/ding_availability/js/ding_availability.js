@@ -58,6 +58,7 @@
             });
 
             $(document).trigger('ding_availability_update_holdings');
+            Drupal.attachBehaviors(context);
           },
           error: function () {
             $('div.loader').remove();
@@ -116,6 +117,7 @@
         // Insert/update holding information for material.
         var holdings = Drupal.DADB[entity_id];
         $('#' + id).html(holdings.html);
+        Drupal.attachBehaviors($('#' + id));
 
         if (holdings.is_periodical) {
           // Hide all elements.

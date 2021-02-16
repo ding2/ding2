@@ -1,0 +1,5 @@
+name = Ting subsearch suggestions
+description = Trigger subsearches based on autocomplete suggestions and levenshtein distance
+package = Ding!
+core = 7.x
+dependencies[] = ting_subsearch

@@ -38,3 +38,13 @@ function ding_user_frontend_update_7002() {
     views_delete_view($view);
   }
 }
+
+/**
+ * Ensure exported page manager pages is enabled.
+ */
+function ding_user_frontend_update_7003() {
+  variable_set('pm_existing_pages_disabled_user_contact', FALSE);
+  variable_set('pm_existing_pages_disabled_user_roles', FALSE);
+  variable_set('pm_existing_pages_disabled_user_scheduler', FALSE);
+  variable_set('pm_existing_pages_disabled_user_shortcuts', FALSE);
+}

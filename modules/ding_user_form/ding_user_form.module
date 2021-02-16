@@ -51,7 +51,7 @@ function ding_user_form_form_alter(&$form, $form_state, $form_id) {
       $form['name']['#attributes']['placeholder'] = t('Loan/social security number (without dash)');
       $form['name']['#title_display'] = 'invisible';
       $form['pass']['#attributes']['placeholder'] = t('Pincode (@length digits)',
-        ['@length' => ding_user_get_pincode_length()]);
+        ['@length' => ding_user_get_pincode_length_range_string()]);
       $form['pass']['#title_display'] = 'invisible';
 
       // Add our own validation handler, after the default Drupal login

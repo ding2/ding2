@@ -670,6 +670,9 @@ function ding2_module_enable(&$install_state) {
     'ting_infomedia',
     'ting_field_search',
     'ting_smart_search',
+    'ting_subsearch_bibdk',
+    'ting_subsearch_suggestions',
+    'ting_subsearch_translate',
     'ding_eresource',
     'ding_app_content_rss',
     'ding_app_variables',
@@ -768,7 +771,10 @@ function ding2_set_cookie_page() {
     'language' => 'und',
   );
 
-  $paragraph = new ParagraphsItemEntity(array('field_name' => 'field_ding_page_paragraphs', 'bundle' => 'ding_paragraphs_text'));
+  $paragraph = new ParagraphsItemEntity([
+    'field_name' => 'field_ding_page_paragraphs',
+    'bundle' => 'ding_paragraphs_text',
+  ]);
   $paragraph->is_new = TRUE;
   $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['value'] = $body;
   $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['format'] = 'ding_wysiwyg';
@@ -833,7 +839,7 @@ function ding2_set_eu_cookie_compliance_settings() {
 
   $eu_cookie_compliance = array_merge($eu_cookie_compliance, [
     'method' => 'opt_in',
-    'show_disagree_button' => 1,
+    'show_disagree_button' => TRUE,
     'popup_enabled' => TRUE,
     'popup_info' => [
       'value' => '<h2>Hjælp os med at forbedre oplevelsen på hjemmesiden ved at acceptere cookies.</h2>',
@@ -845,11 +851,14 @@ function ding2_set_eu_cookie_compliance_settings() {
       'value' => '',
       'format' => 'ding_wysiwyg',
     ),
-    'popup_agree_button_message' => 'Jeg accepterer brugen af cookies',
+    // Ensure that this is disabled as it will prevent changing the default text
+    // of the popup_agree_button_message on ECC settings form.
+    'enable_save_preferences_button' => FALSE,
+    'popup_agree_button_message' => 'Acceptér alle',
     'popup_agreed_enabled' => FALSE,
     'popup_disagree_button_message' => 'Mere info',
-    'disagree_button_label' => 'Afvis',
-    'withdraw_enabled' => 1,
+    'disagree_button_label' => 'Kun nødvendige',
+    'withdraw_enabled' => TRUE,
     'withdraw_message' => [
       'value' => '<h2>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse</h2><p>Du har givet os samtykke. Tryk her for at tilbagekalde.</p>',
       'format' => 'ding_wysiwyg',

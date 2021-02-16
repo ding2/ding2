@@ -71158,3 +71158,191 @@ msgstr "Du har ingen aktive lån. Husk også at tjekke dine <a href="@url">overs
 #: /ting/object/870970-basis%3A27073301
 msgid "Show search result for related materials"
 msgstr "Vis søgeresultat for relaterede materialer"
+
+#: ting_subsearch.module:32
+msgid "Configure ting subsearch"
+msgstr "Konfigurer subsearch-modulerne"
+
+#: ting_subsearch.module:33
+msgid "Allows configuration of subsearch modules."
+msgstr "Konfiguration af subsearch-modulerne."
+
+#: ting_subsearch.module:221
+msgid "%name must be a positive number"
+msgstr "%name skal være et positivt tal"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:18
+msgid "Trigger bibliotek.dk subsearches and show suggestions and links to bibliotek.dk."
+msgstr "Viser og linker til søgeresultater fra bibliotek.dk når de valgte kriterier er opfyldt."
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:28 ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:35
+msgid "Maximum number of results for user search"
+msgstr "Højeste antal resultater fra primærsøgningen for at vise forslag"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:30
+msgid "If the user search returned more results than this don't bother performing bibliotek.dk search."
+msgstr "Højere tal -> Forslag vises oftere. Hvis primærsøgningen giver et stort antal resultater, er der mindre sandsynlighed for at brugeren har behov for at søge i bibliotek.dk. Hvor stort angives her."
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:35 ting_subsearch_translate/ting_subsearch_translate.admin.inc:28
+msgid "Minimum ratio between nonfiction and fiction"
+msgstr "Faktoren mellem nonfiktion og fiktion"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:37
+msgid "The minimum ratio of nonfiction to fiction in user search result to trigger bibliotek.dk search. Use a decimal value for the ratio with \".\" as decimal separator"
+msgstr "Lavere tal -> Forslag vises oftere. Brug punktum som decimalseparator."
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:42
+msgid "Minimum number of results for bibliotek.dk search"
+msgstr "Laveste antal resultater fra søgning i bibliotek.dk"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:43
+msgid "If the bibliotek.dk subsearch returned less results than this don't bother showing any suggestions and links to bibliotek.dk."
+msgstr "Lavere tal -> Forslag vises oftere. Hvis søgning i bibliotek.dk kun giver et lavt antal resultater, mindskes sandsynligheden for at forslaget vil gavne brugeren."
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:49
+msgid "Minimum ratio between bibliotek.dk and user search results"
+msgstr "Faktoren mellem antallet af resultater fra søgning i bibliotek.dk og primærsøgningen"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:51
+msgid "The minimum ratio of between bibliotek.dk and user search results to trigger suggestion. Use a decimal value for the ratio with "." as decimal separator"
+msgstr "Lavere tal -> Forslag vises oftere. Brug punktum som decimalseparator."
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:58
+msgid "Number of results to show"
+msgstr "Antal resultater der vises."
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:60
+msgid "How many results from the bibliotek.dk subsearch should be shown to the user."
+msgstr "Hvor mange resultater skal der vises fra bibliotek.dk."
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:64
+msgid "Position of message"
+msgstr "Forslagenes placering"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.admin.inc:70
+msgid "Should the bibliotek.dk suggestions and links be positioned before or after the search result?"
+msgstr "Skal forslag vises før eller efter primær-søgningen?"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.module:207
+msgid "If you search for \"<strong>@keys</strong>\" on bibliotek.dk instead you will get <strong>!bibdk-num-results hits</strong>"
+msgstr "Hvis du søger på \"<strong>@keys</strong>\" på bibliotek.dk i stedet, får du <strong>!bibdk-num-results resultater</strong>"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.module:216
+msgid "If you search for \"<strong>@keys</strong>\" on bibliotek.dk instead you will get other results where some of them is the following:"
+msgstr "Hvis du søger på \"<strong>@keys</strong>\" på bibliotek.dk i stedet, får du nogle andre resultater, fx:"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.module:219
+msgid "If you search for \"<strong>@keys</strong>\" on bibliotek.dk instead you will get <strong>!bibdk-num-results hits</strong> where some of them is the following:"
+msgstr "Hvis du søger på \"<strong>@keys</strong>\" på bibliotek.dk i stedet, får du <strong>!bibdk-num-results resultater</strong>, fx:"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.module:232
+msgid "See more materials at bibliotek.dk"
+msgstr "Se flere resultater på bibliotek.dk"
+
+#: ting_subsearch_bibdk/ting_subsearch_bibdk.module:21
+msgid "Configure ting subsearch bibliotek.dk."
+msgstr "Konfigurer Forslag fra bibliotek.dk."
+
+#: ting_subsearch_bibdk/templates/ting-subsearch-bibdk-message-box-items-list.tpl.php:19
+msgid "More details"
+msgstr "Se mere"
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:17 ting_subsearch_suggestions/ting_subsearch_suggestions.module:38 ting_subsearch_suggestions/ting_subsearch_suggestions.info:0 ting_subsearch_suggestions/plugins/content_types/ting_subsearch_suggestions.inc:9
+msgid "Ting subsearch suggestions"
+msgstr "Indstillinger af Mente-du"
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:18
+msgid "Trigger subsearches based on autocomplete suggestions and levenshtein distance."
+msgstr "Viser forslag til søgeord der er sprogligt tæt på primær-søgningen, når de valgte kriterier er opfyldt."
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:28
+msgid "Maximum Levenshtein distance"
+msgstr "Højeste levenshtein-afstand"
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:30
+msgid "The maximum Levenshtein distance between a suggestion and the user search for it to be used in a subsearch and possibly shown as a suggestion to the user. A higher numbere allows for less similar words to be suggested."
+msgstr "Højere tal -> Forslag vises oftere.  For høj, og den returnerer meningsløse forslag. For lav og forslag vises (næsten) aldrig."
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:37
+msgid "If the user search returned more results than this don't bother trying to find a suggestion and perform subsearch."
+msgstr "Højere tal -> Forslag vises oftere. Hvis primær-søgningen giver et stort antal resultater, er der mindre sandsynlighed for at brugeren har behov for forslag. Hvor stort angives her."
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:42 ting_subsearch_translate/ting_subsearch_translate.admin.inc:35
+msgid "Minimum ratio between suggestion and user search results"
+msgstr "Faktoren mellem antallet af resultater fra sekundær- og primær-søgning."
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:44 ting_subsearch_translate/ting_subsearch_translate.admin.inc:36
+msgid "The minimum ratio between suggestion and user search results to trigger suggestion. Use a decimal value for the ratio with \".\" as decimal separator"
+msgstr "Lavere tal -> Forslag vises oftere. Brug punktum som decimalseparator."
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:50
+msgid "NOTICE: Special case if user search returned 0 results."
+msgstr "BEMÆRK: 0 hits på primær-søgning udløser altid sekundær-søgning."
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.admin.inc:51
+msgid "If the user search returned 0 results, an attempt to find a suggestion within acceptable Levenshtein distance will always be performed. If the suggestion has a non-empty search result a redirect to that subsearch will be performed. This is done regardless of the trigger conditions."
+msgstr "Hvis primær-søgningen giver 0 hits, og hvis modulet finder et forslag indenfor den valgte levenshtein-afstand, og hvis denne søgeterm ikke også giver 0 hits, omdirigeres der automatisk til sekundær-søgningen, uanset om øvrige triggers er opfyldt."
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.module:70
+msgid "Search for <strong>\"@suggestion\"</strong> - returns <strong>!subsearch-num-results</strong> hits"
+msgstr "Søg på <strong>\"@suggestion\"</strong> (!subsearch-num-results)"
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.module:110
+msgid "Showing results for <strong>\"@suggestion\"</strong>. The search for <strong>\"@keys\"</strong> returned 0 hits."
+msgstr "Viser resultater for <strong>\"@suggestion\"</strong>. Søgning på <strong>\"@keys\"</strong> gav ingen resultater."
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.module:30
+msgid "Configure subsearch modules."
+msgstr "Konfigurer subsearch-modulerne"
+
+#: ting_subsearch_suggestions/ting_subsearch_suggestions.module:39
+msgid "Configure ting subsearch suggestions."
+msgstr "Konfigurer Mente-du"
+
+#: ting_subsearch_translate/ting_subsearch_translate.admin.inc:17 ting_subsearch_translate/ting_subsearch_translate.module:28 ting_subsearch_translate/ting_subsearch_translate.info:0 ting_subsearch_translate/plugins/content_types/ting_subsearch_translate.inc:9
+msgid "Ting subsearch translate"
+msgstr "Indstillinger af Oversatte forslag"
+
+#: ting_subsearch_translate/ting_subsearch_translate.admin.inc:18
+msgid "Trigger subsearches with translated user searches and show suggestion."
+msgstr "Brugeren foreslås søgning på engelsk i stedet for dansk, hvis kriterierne er opfyldt."
+
+#: ting_subsearch_translate/ting_subsearch_translate.admin.inc:29
+msgid "The minimum ratio of nonfiction to fiction in user search result to trigger translation. Use a decimal value for the ratio with \".\" as decimal separator"
+msgstr "Lavere tal -> Forslag vises oftere. Brug punktum som decimalseparator."
+
+#: ting_subsearch_translate/ting_subsearch_translate.admin.inc:44
+msgid "Google translation service url"
+msgstr "Google Cloud Translation API URL"
+
+#: ting_subsearch_translate/ting_subsearch_translate.admin.inc:45
+msgid "Google Translation API endpoint. <strong>Example:</strong> https://www.googleapis.com/language/translate/v2"
+msgstr "Fx https://www.googleapis.com/language/translate/v2"
+
+#: ting_subsearch_translate/ting_subsearch_translate.admin.inc:50
+msgid "Google Cloud Translation API key"
+msgstr "Google Cloud Translation API nøgle"
+
+#: ting_subsearch_translate/ting_subsearch_translate.admin.inc:51
+msgid "You need to have an API key configured with billing for this to work. take a look at <a href=\"https://cloud.google.com/translate/pricing\">Pricing</a>"
+msgstr "Du skal oprette et oversættelses-projekt hos Google for at få en nøgle. <br> Læs mere her: <a href=\"https://platform.dandigbib.org/projects/ddb-cms/wiki/Ddb-cms-manual_konfiguration#Google-Cloud-Translation-API-URL-og-Google-Cloud-Translation-API-key\">Vejledning i at få en translation API key</a>."
+
+#: ting_subsearch_translate/ting_subsearch_translate.module:92
+msgid "Search in english <strong>\"@suggestion\"</strong> - returns <strong>!subsearch-num-results</strong> hits"
+msgstr "Søg på engelsk <strong>\"@suggestion\"</strong> (!subsearch-num-results)"
+
+#: ting_subsearch_translate/ting_subsearch_translate.module:29
+msgid "Configure ting subsearch translate."
+msgstr "Konfigurer Oversatte forslag"
+
+#: /search/ting/potter?
+msgid "Ask us at the library or get help at <a href=\"http://biblioteksvagten.dk\">biblioteksvagten.dk</a><br />\nOr you can keep looking at <a href=\"https://bibliotek.dk\">bibliotek.dk</a>"
+msgstr "Spørg os på biblioteket eller få hjælp på <a href=\"http://biblioteksvagten.dk\">biblioteksvagten.dk</a><br />\nDu kan også søge videre på <a href=\"https://bibliotek.dk\">bibliotek.dk</a>"
+
+#: /contact
+msgid "Please do not enter your civil registration number (CPR) or sensitive information of any kind in the form. Read more in our <a href=\"/persondata\">privacy policy</a>"
+msgstr "<strong>BEMÆRK!</strong>: Indsæt aldrig CPR-nummer eller følsomme oplysninger i formularen. Læs mere om <a href=\"/persondata\">behandlingen af persondata i vores privatlivspolitik</a>."
+
+#: /node/5/edit?destination=admin/content%3Fstatus%3DAll%26type%3Dding_library%26sid%3DAll%26language%3DAll
+msgid "The image will automatically be resized. The maximum dimensions are %dimensions (Original: 800x600)."
+msgstr "Billedet vil automatisk blive tilpasset. Se vejledning om <a href=\"https://platform.dandigbib.org/projects/ddb-cms/wiki/Ddb-cms-manual_struktur-og-indhold#St%C3%B8rrelser-for-billeder-ift-de-forskellige-indholdstyper\">Størrelser for billeder ift. de forskellige indholdstyper</a>"

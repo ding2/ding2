@@ -12,7 +12,7 @@
 
 ?>
 <?php if ($items): ?>
-  <div class="<?php print $conf['classes'] ?>">
+  <div class="<?php print $conf['classes'] ?>" data-widget-type="carousel">
     <div class="ding_nodelist-items">
       <?php
       foreach ($items as $node) {

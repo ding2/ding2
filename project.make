@@ -71,9 +71,9 @@ projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
 
-; To be removed together with p2.
 projects[eck][subdir] = "contrib"
 projects[eck][version] = "2.0-rc9"
+; Avoid PDO exception after installation
 projects[eck][patch][] = "https://www.drupal.org/files/issues/eck-pdoexception-2109589-17.patch"
 
 projects[email][subdir] = "contrib"
@@ -150,8 +150,7 @@ projects[geophp][subdir] = "contrib"
 projects[geophp][version] = "1.7"
 
 projects[globalredirect][subdir] = "contrib"
-projects[globalredirect][version] = "1.5"
-projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_view_node-1399506-2.patch"
+projects[globalredirect][version] = "1.6"
 
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
@@ -214,16 +213,16 @@ projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.15"
 
 projects[manualcrop][subdir] = "contrib"
-projects[manualcrop][version] = "1.6"
-; Fix loading of updated JavaScript library.
-; https://www.drupal.org/node/2836970
-projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-imgareaselect_library_version_arguments-2836970-14-d7.patch"
+projects[manualcrop][version] = "1.7"
 ; Fix crop display when the same file is used in multiple fields
 ; https://www.drupal.org/node/2503175
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-duplicatepreview-2503175-41.patch"
 ; Fix horizontal alignment of preview and buttons.
 ; https://www.drupal.org/node/2874825
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop_media-widget-alignment-2874825-2.patch"
+; Fix undefined index in manualcrop_media_element_after_build().
+; https://www.drupal.org/node/3038112
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/2019-03-20/undefined-index-3038112.patch"
 
 projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
@@ -240,7 +239,7 @@ projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "3.0"
+projects[media_youtube][version] = "3.10"
 
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.6"
@@ -295,6 +294,9 @@ projects[oembed][version] = "1.0-rc2"
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
 ; Added a check to ensure that a menu item exists before trying to alter it in order to fix a PHP error.
 projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch"
+; Embedly scheme regex too long (back-port to rc1)
+projects[oembed][patch][] = "patches/split-up-regex-2739023-1.patch"
+
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
@@ -316,6 +318,9 @@ projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_
 ; Add "hide if empty" option to field settings.
 ; https://www.drupal.org/node/2820005
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-hours-2820005-hide-field-if-empty.patch"
+; Delete opening hours when node is deleted.
+; https://www.drupal.org/project/opening_hours/issues/3007293
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/2018-10-17/3007293-2.patch"
 
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
@@ -499,11 +504,11 @@ projects[xautoload][version] = "5.7"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-6.1.0"
+libraries[bpi-client][download][tag] = "7.x-6.2.1"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_standard.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.14.0/ckeditor_4.14.0_standard.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
@@ -576,7 +581,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-6.1.0"
+libraries[ting-client][download][tag] = "7.x-6.2.1"
 
 ; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"
@@ -630,7 +635,7 @@ libraries[smart-app-banner][destination] = "libraries"
 
 ; For ding_react.
 libraries[ddb-react][download][type] = "get"
-libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/2.0.3/dist.zip
+libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/2.1.0/dist.zip
 libraries[ddb-react][directory_name] = "ddb-react"
 libraries[ddb-react][destination] = "libraries"
 
@@ -670,8 +675,8 @@ libraries[fabric][directory_name] = "fabric"
 libraries[fabric][destination] = "libraries"
 
 ; easyOPAC contribution modules
-projects[add_to_head][version]              = "1.2"
 projects[add_to_head][subdir]               = "contrib"
+projects[add_to_head][version]              = "1.2"
 
 projects[ckeditor_link][subdir]             = "contrib"
 projects[ckeditor_link][version]            = "2.4"
@@ -707,11 +712,11 @@ projects[domain_variable][version]          = "1.1"
 projects[domain_views][subdir]              = "contrib"
 projects[domain_views][version]             = "1.5"
 
-projects[extlink][version]                  = "1.18"
 projects[extlink][subdir]                   = "contrib"
+projects[extlink][version]                  = "1.18"
 
-projects[features_override][version]        = "2.0-rc1"
 projects[features_override][subdir]         = "contrib"
+projects[features_override][version]        = "2.0-rc1"
 
 projects[feeds_ex][subdir]                  = "contrib"
 projects[feeds_ex][version]                 = "1.0-beta2"
@@ -719,20 +724,24 @@ projects[feeds_ex][version]                 = "1.0-beta2"
 projects[feeds_xpathparser][subdir]         = "contrib"
 projects[feeds_xpathparser][version]        = "1.1"
 
-projects[field_reference_delete][version]   = "1.0-beta1"
 projects[field_reference_delete][subdir]    = "contrib"
+projects[field_reference_delete][version]   = "1.0-beta1"
 
-projects[httprl][version]                   = "1.14"
 projects[httprl][subdir]                    = "contrib"
+projects[httprl][version]                   = "1.14"
 
 projects[imagemagick][subdir]               = "contrib"
 projects[imagemagick][version]              = "1.0"
 
-projects[linkchecker][version]              = "1.2"
 projects[linkchecker][subdir]               = "contrib"
+projects[linkchecker][version]              = "1.2"
 
-projects[memcache_storage][version]         = "1.4"
+projects[media_unsplash][subdir]            = "contrib"
+projects[media_unsplash][version]           = "1.6"
+projects[media_unsplash][patch][]           = "http://storage.easyting.dk/unsplash_alt_title_fetch.patch"
+
 projects[memcache_storage][subdir]          = "contrib"
+projects[memcache_storage][version]         = "1.4"
 
 projects[mimemail][subdir]                  = "contrib"
 projects[mimemail][version]                 = "1.1"
@@ -745,8 +754,8 @@ projects[mkdru_ding][download][type]        = "git"
 projects[mkdru_ding][download][url]         = "https://github.com/easySuite/mkdru_ding.git"
 projects[mkdru_ding][download][branch]      = "develop"
 
-projects[opengraph_meta][version]           = "1.3"
 projects[opengraph_meta][subdir]            = "contrib"
+projects[opengraph_meta][version]           = "1.3"
 
 libraries[notify][download][type]           = "git"
 libraries[notify][download][url]            = "git@github.com:notifyjs/notifyjs.git"
@@ -758,17 +767,17 @@ projects[quiz][subdir]                      = "contrib"
 projects[quiz][version]                     = "5.0-rc4"
 projects[quiz][patch][]                     = "https://www.drupal.org/files/issues/2018-06-20/quiz-question_pdo_exception_v50-2980495-3-D7.patch"
 
-projects[references][version]               = "2.1"
 projects[references][subdir]                = "contrib"
+projects[references][version]               = "2.1"
 
-projects[search404][version]                = "1.3"
 projects[search404][subdir]                 = "contrib"
+projects[search404][version]                = "1.3"
 
-projects[search_api_autocomplete][subdir] = "contrib"
-projects[search_api_autocomplete][version] = "1.5"
+projects[search_api_autocomplete][subdir]   = "contrib"
+projects[search_api_autocomplete][version]  = "1.5"
 
-projects[taxonomy_menu][version]            = "1.4"
 projects[taxonomy_menu][subdir]             = "contrib"
+projects[taxonomy_menu][version]            = "1.4"
 projects[taxonomy_menu][patch][]            = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
 
 ; Required to run FeedsEx test. Those are failing CircleCI build.
@@ -778,8 +787,8 @@ projects[tunit][version]                    = "1.x-dev"
 projects[views_data_export][subdir]         = "contrib"
 projects[views_data_export][version]        = "3.1"
 
-projects[xmlsitemap][version]               = "2.0"
 projects[xmlsitemap][subdir]                = "contrib"
+projects[xmlsitemap][version]               = "2.0"
 
 libraries[pz2][download][type]              = "get"
 libraries[pz2][download][url]               = http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz

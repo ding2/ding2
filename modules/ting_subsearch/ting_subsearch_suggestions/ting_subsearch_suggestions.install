@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Installation of Suggestions sub search module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ting_subsearch_suggestions_uninstall() {
+  variable_del('ting_subsearch_suggestions_distance');
+  variable_del('ting_subsearch_suggestions_trigger_limit');
+  variable_del('ting_subsearch_suggestions_ps_factor');
+}

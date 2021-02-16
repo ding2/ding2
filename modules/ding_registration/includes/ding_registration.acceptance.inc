@@ -63,11 +63,12 @@ function ding_registration_acceptance_form($form_state) {
   $options = ding_provider_invoke('reservation', 'options', $user);
   $form['branch'] = $options[$provider['module'] . '_preferred_branch'];
 
+  list(, $maxlength) = ding_user_get_pincode_length_range();
   $form['pin'] = array(
     '#type' => 'password',
     '#title' => t('Pin code'),
-    '#description' => t('Pin code with an max length of %length', array('%length' => ding_user_get_pincode_length())),
-    '#maxlength' => ding_user_get_pincode_length(),
+    '#description' => t('Pin code with a length of %length digits', array('%length' => ding_user_get_pincode_length_range_string())),
+    '#maxlength' => $maxlength,
     '#required' => TRUE,
     '#element_validate' => array('ding_user_element_validate_pincode'),
     '#attributes' => array(

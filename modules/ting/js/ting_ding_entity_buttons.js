@@ -34,26 +34,38 @@
 
       // Identifiers object is keyed with button types, therefore loop
       // the types and send ajax request for each.
-      for (var i in identifiers) {
+      for (let i in identifiers) {
         if (identifiers[i].length === 0) {
-          continue;
+          delete identifiers[i];
         }
+      }
 
-        $this.renderDingEntityButtons(identifiers[i], i);
+      $this.renderDingEntityButtons(identifiers);
+    },
+
+    renderDingEntityButtons: async function (identifiers) {
+      for (let i in identifiers) {
+        await this.sendButtonAjaxRequest(identifiers[i], i).then(() => {});
       }
     },
 
-    renderDingEntityButtons: function (identifiers, type) {
-      var element_settings = {
-        url: '/ting/ding_entity_buttons/nojs/' + type,
-        submit: {
-          'js': true,
-          'identifiers[]': identifiers
-        }
-      };
+    sendButtonAjaxRequest: function (identifier, type) {
+      return new Promise(resolve => {
+        var element_settings = {
+          url: '/ting/ding_entity_buttons/nojs/' + type,
+          submit: {
+            'js': true,
+            'identifiers[]': identifier
+          },
+          success: function (response, status) {
+            resolve();
+            Drupal.ajax.prototype.success.apply(this, arguments);
+          }
+        };
 
-      var ajax = new Drupal.ajax(null, document.body, element_settings);
-      ajax.eventResponse(ajax, {});
+        var ajax = new Drupal.ajax(null, document.body, element_settings);
+        ajax.eventResponse(ajax, {});
+      });
     }
   };
 }(jQuery));

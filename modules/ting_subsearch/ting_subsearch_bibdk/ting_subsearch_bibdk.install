@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Installation file for Ting subsearch bibdk.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ting_subsearch_bibdk_uninstall() {
+  variable_del('ting_subsearch_bibdk_max');
+  variable_del('ting_subsearch_bibdk_factor');
+  variable_del('ting_subsearch_bibdk_result_min');
+  variable_del('ting_subsearch_bibdk_ps_factor');
+  variable_del('ting_subsearch_bibdk_number_of_results');
+  variable_del('ting_subsearch_bibdk_position');
+}

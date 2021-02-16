@@ -1,0 +1,122 @@
+// ting_subsearch styling.
+
+@import '../base.scss';
+
+.ting-subsearch-suggestion-message {
+  padding-bottom: 40px;
+}
+
+.ting-subsearch-bibdk-message-box {
+  width: 100%;
+  float: left;
+  border: none;
+  padding: 20px 15px;
+  background-color: $color-primary;
+  color: $color-text-on-primary;
+
+  &.after {
+    margin-top: 30px;
+  }
+
+  &.before {
+    margin-bottom: 30px;
+  }
+
+  a,
+  a.active {
+    &:hover {
+      color: $charcoal;
+    }
+  }
+
+  .ting-subsearch-bibdk-message-box--list-items ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  // Need to use div to make it specific enough.
+  div.ting-subsearch-bibdk-message-box--title {
+    margin-bottom: 12px;
+
+    > strong {
+      font-size: 16px;
+    }
+  }
+
+  .ting-subsearch-bibdk-message-box-list-item a {
+    margin-bottom: 5px;
+    padding: 10px 25px 10px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    min-height: 56px;
+    background-color: $grey-light;
+    overflow: hidden;
+
+    .ting-subsearch-bibdk-message-box-list-item--content {
+      position: absolute;
+      overflow: hidden;
+      .field-name-ting-title h2 {
+        font-size: 100%;
+        font-weight: bold;
+        margin-bottom: 0;
+        line-height: unset;
+      }
+
+      @media screen and(max-width: 1200px) {
+        position: unset;
+      }
+    }
+
+    .ting-subsearch-bibdk-message-box-list-item--see-more {
+      transition: background-color .3s cubic-bezier(.165,.84,.44,1),color .3s cubic-bezier(.165,.84,.44,1);
+      background-color: $grey;
+      color: $charcoal;
+      height: 36px;
+      padding: 10px 16px;
+      border-radius: 5px;
+      margin-left: auto;
+      z-index: 1;
+      box-shadow: -20px 0px rgba(241, 242, 242, 1);
+
+      &:hover {
+        background-color: $grey-dark;
+        color: $white;
+      }
+
+      @media screen and(max-width: 1200px) {
+        display: none;
+      }
+    }
+  }
+
+  .ting-subsearch-bibdk-message-box--external-search {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+      margin-top: 15px;
+      padding: 12px 25px 7px 25px;
+      background-color: #000;
+      border-radius: 5px;
+      color: $color-text-on-secondary;
+
+      &:hover {
+        color: $color-text-on-secondary;
+      }
+    }
+  }
+
+  .field-name-ting-type {
+    @media screen and(max-width: 970px) {
+      display: none !important;
+    }
+  }
+}

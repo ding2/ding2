@@ -5,6 +5,11 @@
  * Handles user reservations.
  */
 
+use FBS\Model\CreateReservation;
+use FBS\Model\CreateReservationBatch;
+use FBS\Model\UpdateReservation;
+use FBS\Model\UpdateReservationBatch;
+
 /**
  * Implements provider reservation, list.
  *
@@ -140,10 +145,10 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
  *   Reservation options.
  */
 function fbs_reservation_create($account, $record_id, array $options) {
-  $batch = new FBS\Model\CreateReservationBatch();
+  $batch = new CreateReservationBatch();
   $batch->reservations = array();
 
-  $reservation = new FBS\Model\CreateReservation();
+  $reservation = new CreateReservation();
   // We use our own custom ids prefixed with "fbs-" for periodicals.
   if (preg_match('/^fbs-/', $record_id)) {
     list($record_id, $periodical) = _fbs_periodical_parse_local_id($record_id);
@@ -199,12 +204,15 @@ function fbs_reservation_create($account, $record_id, array $options) {
       case 'material_lost':
       case 'material_not_found':
       case 'material_part_of_collection':
+      case 'not_reservable':
+      case 'no_reservable_materials':
+      case 'interlibrary_material_not_reservable':
         throw new DingProviderReservationNotAvailable();
 
       // Success shouldn't happen.
       case 'success':
       default:
-        watchdog('fbs', 'Unexpected state "@state" on failed reservaiton', array('@state' => $result->result), WATCHDOG_WARNING);
+        watchdog('fbs', 'Unexpected state "@state" on failed reservation', array('@state' => $result->result), WATCHDOG_WARNING);
         throw new DingProviderEnduserException(t('Unknown error from library system while attempting to reserve.'));
     };
   }
@@ -224,10 +232,10 @@ function fbs_reservation_create($account, $record_id, array $options) {
  *   TRUE if no errors else FALSE.
  */
 function fbs_reservation_update($account, array $reservation_ids, array $options) {
-  $batch = new FBS\Model\UpdateReservationBatch();
+  $batch = new UpdateReservationBatch();
   $batch->reservations = array();
   foreach ($reservation_ids as $reservation_id) {
-    $reservation = new FBS\Model\UpdateReservation();
+    $reservation = new UpdateReservation();
     $reservation->reservationId = $reservation_id;
     $reservation->expiryDate = date('Y-m-d', REQUEST_TIME + ($options['interest_period'] * 24 * 60 * 60));
     $reservation->pickupBranch = $options['fbs_preferred_branch'];
@@ -436,7 +444,8 @@ function fbs_reservation_is_reservable($provider_ids) {
   try {
     $results = fbs_service()->Catalog->getHoldings(
       fbs_service()->agencyId,
-      $provider_ids
+      $provider_ids,
+      variable_get('fbs_holdings_branches_blacklist', array())
     );
   }
   catch (Exception $e) {

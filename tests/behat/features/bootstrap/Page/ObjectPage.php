@@ -104,7 +104,9 @@ class ObjectPage extends PageBase
      */
     public function hasCoverPage()
     {
-        $coverimg = $this->find('xpath', '//div[contains(@class,"ting-cover")]/img');
+        $coverimg = $this->waitFor(5, function ($element) {
+          return $element->find('css', '.ting-cover img');
+        });
         $txt_cover = "";
         if ($coverimg) {
             $txt_cover = $coverimg->getAttribute('src');

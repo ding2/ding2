@@ -15,6 +15,14 @@ define('DDB_COVER_UPLOAD_FILE_PATH', 'ddb_cover_upload_uploaded');
 use CoverServiceUpload\Configuration;
 use GuzzleHttp\Client;
 
+
+/**
+ * Implements hook_init().
+ */
+function ddb_cover_upload_init() {
+  drupal_add_css(drupal_get_path('module', 'ddb_cover_upload') . '/css/ddb_cover_upload.css');
+}
+
 /**
  * Implements hook_menu().
  */
@@ -259,7 +267,7 @@ function ddb_cover_upload_ding_entity_buttons($type, $entity, $view_mode, $widge
           ),
           'attributes' => array(
             'class' => array(
-              'action-button',
+              'action-button cover-upload-button',
             ),
             'data-local-id' => $entity->localId,
           ),

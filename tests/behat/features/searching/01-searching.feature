@@ -89,7 +89,7 @@ Feature: SEEK redroute 01
     When I sort the search result on "title_descending"
     Then paging allows to get all the results
 
-  @api @seek013 @seekNologin @regression
+  @api @seek013 @seekNologin @regression @no_ci
   Scenario: S013 Check sorting for published date descending
     Given I have searched for "phrase.titleSeries=B*"
     And I set control mode for "searchMaxPages" to be "2"

@@ -13,7 +13,7 @@
  */
 ?>
 <?php if ($items): ?>
-  <div class="<?php print $conf['classes'] ?>">
+  <div class="<?php print $conf['classes'] ?>" data-widget-type="promoted_nodes">
     <div class="ding_nodelist-items">
       <div class="ding_nodelist-pn-items">
         <?php

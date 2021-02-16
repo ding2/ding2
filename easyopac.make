@@ -12,6 +12,13 @@ projects[bibdk_subject_hierarchy][download][url]    = "git@github.com:easySuite/
 ;projects[bibdk_subject_hierarchy][download][tag]    = ""
 projects[bibdk_subject_hierarchy][download][branch] = "development"
 
+projects[bibliofil_lists][type]             = "module"
+projects[bibliofil_lists][subdir]           = ""
+projects[bibliofil_lists][download][type]   = "git"
+projects[bibliofil_lists][download][url]    = "git@github.com:easySuite/bibliofil_lists.git"
+;projects[bibliofil_lists][download][tag]    = ""
+projects[bibliofil_lists][download][branch] = "development"
+
 projects[ding_billetexpressen_import][type]             = "module"
 projects[ding_billetexpressen_import][subdir]           = ""
 projects[ding_billetexpressen_import][download][type]   = "git"
@@ -411,13 +418,6 @@ projects[emailkanon][download][url]    = "git@github.com:easySuite/emailkanon.gi
 ;projects[emailkanon][download][branch] = "master"
 projects[emailkanon][download][branch] = "development"
 
-projects[gronbib_frontend][type]             = "module"
-projects[gronbib_frontend][subdir]           = ""
-projects[gronbib_frontend][download][type]   = "git"
-projects[gronbib_frontend][download][url]    = "git@github.com:easySuite/gronbib_frontend.git"
-;projects[gronbib_frontend][download][tag]    = ""
-projects[gronbib_frontend][download][branch] = "development"
-
 projects[kultunaut_events][type]             = "module"
 projects[kultunaut_events][subdir]           = ""
 projects[kultunaut_events][download][type]   = "git"
@@ -612,8 +612,3 @@ projects[easyopac_redirect][download][type]   = "git"
 projects[easyopac_redirect][download][url]    = "git@github.com:easySuite/easyopac_redirect.git"
 ;projects[easyopac_redirect][download][tag]    = ""
 projects[easyopac_redirect][download][branch] = "development"
-
-; Contrib
-projects[media_unsplash][subdir] = "contrib"
-projects[media_unsplash][version] = "1.6"
-projects[media_unsplash][patch][] = "http://storage.easyting.dk/unsplash_alt_title_fetch.patch"
