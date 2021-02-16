@@ -391,7 +391,7 @@
 
 .pane-node-field-ding-library-lead,
 .pane-node-field-ding-library-body {
-  @include span-columns(5 of 8);
+  @include span-columns(8);
   margin-bottom: 30px;
   p:last-child {
     margin-bottom: 0;
