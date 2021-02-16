@@ -16,11 +16,29 @@
   // Call resize function when images are loaded.
   Drupal.behaviors.ding_news_teaser_loaded = {
     attach: function(context, settings) {
-      if ($.isFunction($.fn.imagesLoaded)) {
-        $('.view-ding-news .view-elements').imagesLoaded( function() {
-          $(window).triggerHandler('resize.ding_news_teaser');
-        });
-      }
+      $('.view-ding-news .view-elements').imagesLoaded( function() {
+        $(window).triggerHandler('resize.ding_news_teaser');
+      });
+    }
+  };
+
+  /**
+   * Hover first item in view ding news with class "first-child-large"
+   */
+  Drupal.behaviors.hover_view_ding_news_first_child_large = {
+    attach: function(context, settings) {
+      var text_element_height;
+      $('.view-ding-news.first-child-large .views-row:first-child', context).mouseenter(function() {
+        if(!ddbasic.breakpoint.is('mobile')) {
+          text_element_height = $(this).find('.inner').outerHeight() - $(this).find('.news-text').outerHeight();
+          $(this).find('.field-name-field-ding-news-lead').height(text_element_height);
+        }
+      });
+      $('.view-ding-news.first-child-large .views-row:first-child', context).mouseleave(function() {
+        if(!ddbasic.breakpoint.is('mobile')) {
+          $(this).find('.field-name-field-ding-news-lead').height(0);
+        }
+      });
     }
   };
 
