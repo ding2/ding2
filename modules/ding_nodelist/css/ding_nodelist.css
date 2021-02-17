@@ -106,7 +106,11 @@
   content: "\e907";
 }
 
-.ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-slider .next-prev .next::after, .ding_nodelist-slider .next-prev .prev::after, .ding_nodelist-taxonomy .event-list-leaf ~ .item .event-arrow-link a::after {
+.ding_nodelist-carousel .icon-prev::after,
+.ding_nodelist-carousel .icon-next::after,
+.ding_nodelist-slider .next-prev .next::after,
+.ding_nodelist-slider .next-prev .prev::after,
+.ding_nodelist-taxonomy .event-list-leaf ~ .item .event-arrow-link a::after {
   content: "\e903";
 }
 
@@ -154,7 +158,11 @@
   content: "\e907";
 }
 
-.ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-slider .next-prev .next::after, .ding_nodelist-slider .next-prev .prev::after, .ding_nodelist-taxonomy .event-list-leaf ~ .item .event-arrow-link a::after {
+.ding_nodelist-carousel .icon-prev::after,
+.ding_nodelist-carousel .icon-next::after,
+.ding_nodelist-slider .next-prev .next::after,
+.ding_nodelist-slider .next-prev .prev::after,
+.ding_nodelist-taxonomy .event-list-leaf ~ .item .event-arrow-link a::after {
   content: "\e903";
 }
 
