@@ -73,11 +73,7 @@
     opacity: 1;
   }
 }
-.ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-prev:after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-carousel .icon-next:after, .ding_nodelist-carousel .pn-media-play i::after, .ding_nodelist-carousel .pn-media-play i:after, .ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-carousel .has-video .media-container .pn-close-media i:after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play i:after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play i:after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i:after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i:after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
+.ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-prev:after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-carousel .icon-next:after, .ding_nodelist-carousel .pn-media-play i::after, .ding_nodelist-carousel .pn-media-play i:after, .ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-carousel .has-video .media-container .pn-close-media i:after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .eresource-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .event-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .page-info .pn-media-play i::after,
@@ -102,13 +98,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i::after, .ding_nodelist-promoted_nodes .has-video .media-container .pn-close-media i::after {
+.ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-promoted_nodes .has-video .media-container .pn-close-media i::after {
   content: "\e907";
 }
 
-.ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i::after, .ding_nodelist-promoted_nodes .has-video .media-container .pn-close-media i::after {
+.ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-promoted_nodes .has-video .media-container .pn-close-media i::after {
   content: "\e907";
 }
 
@@ -120,8 +114,7 @@
   content: "\e909";
 }
 
-.ding_nodelist-carousel .pn-media-play i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play i::after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
+.ding_nodelist-carousel .pn-media-play i::after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .eresource-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .event-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .page-info .pn-media-play i::after,
@@ -132,11 +125,7 @@
   content: "\e91a";
 }
 
-.ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-prev:after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-carousel .icon-next:after, .ding_nodelist-carousel .pn-media-play i::after, .ding_nodelist-carousel .pn-media-play i:after, .ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-carousel .has-video .media-container .pn-close-media i:after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play i:after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play i:after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i:after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i:after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
+.ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-prev:after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-carousel .icon-next:after, .ding_nodelist-carousel .pn-media-play i::after, .ding_nodelist-carousel .pn-media-play i:after, .ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-carousel .has-video .media-container .pn-close-media i:after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .eresource-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .event-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .page-info .pn-media-play i::after,
@@ -161,13 +150,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i::after, .ding_nodelist-promoted_nodes .has-video .media-container .pn-close-media i::after {
+.ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-promoted_nodes .has-video .media-container .pn-close-media i::after {
   content: "\e907";
 }
 
-.ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i::after, .ding_nodelist-promoted_nodes .has-video .media-container .pn-close-media i::after {
+.ding_nodelist-carousel .has-video .media-container .pn-close-media i::after, .ding_nodelist-promoted_nodes .has-video .media-container .pn-close-media i::after {
   content: "\e907";
 }
 
@@ -179,8 +166,7 @@
   content: "\e909";
 }
 
-.ding_nodelist-carousel .pn-media-play i::after, .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play i::after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
+.ding_nodelist-carousel .pn-media-play i::after, .ding_nodelist-promoted_nodes .last-right-block .news-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .eresource-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .event-info .pn-media-play i::after,
 .ding_nodelist-promoted_nodes .last-right-block .page-info .pn-media-play i::after,
@@ -670,92 +656,6 @@
 }
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs-nav {
   margin-bottom: 10px;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play {
-  font-size: 180%;
-  position: absolute;
-  right: 15px;
-  bottom: 15px;
-  background: #fff;
-  border-radius: 100px;
-  width: 35px;
-  height: 35px;
-  text-align: center;
-  cursor: pointer;
-  z-index: 50;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play i,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play i {
-  font-style: normal;
-  position: relative;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play i::after {
-  font-size: 54px;
-  line-height: 1;
-  color: #4d898e;
-  display: block;
-  position: absolute;
-  top: 0;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .pn-media-play i:after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .pn-media-play i:after {
-  font-size: 28px;
-  top: 0;
-  position: relative;
-  display: inline-block;
-  margin-top: 4px;
-  margin-left: 4px;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media {
-  position: absolute;
-  z-index: 100;
-  color: #fff;
-  top: 15px;
-  left: 15px;
-  display: none;
-  width: 36px;
-  height: 36px;
-  background: #fff;
-  border-radius: 100px;
-  cursor: pointer;
-  text-align: center;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i {
-  font-style: normal;
-  position: relative;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i::after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i::after {
-  font-size: 54px;
-  line-height: 1;
-  color: #4d898e;
-  display: block;
-  position: absolute;
-  top: 0;
-}
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper .ui-tabs .has-video .media-container .pn-close-media i:after,
-.ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.ui-tabs-panel .has-video .media-container .pn-close-media i:after {
-  font-size: 54px;
-  top: 0;
-  line-height: 1;
-  margin-top: -9px;
-  margin-left: -9px;
-  font-weight: bolder;
-  position: relative;
 }
 .ding_nodelist-rolltab .ding_nodelist-rolltab-wrapper div.image span.no-image {
   background-color: #fff;
@@ -2309,5 +2209,3 @@ table td.minimal-title {
 table td.minimal-title td.minimal-date {
   width: 20%;
 }
-
-/*# sourceMappingURL=ding_nodelist.css.map */

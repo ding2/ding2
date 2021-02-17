@@ -971,7 +971,6 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
 
     case DING_NODELIST_WIDGET_ROLLTAB:
       ding_tabroll_add_js($autoscroll_delay);
-      drupal_add_js($mod_path . '/js/video.js', 'file');
       break;
 
     case DING_NODELIST_WIDGET_NODE_BLOCKS:

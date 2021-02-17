@@ -19,25 +19,8 @@ if (!empty($body) && substr($body, 0, 2) === '<p') {
   $p_body_wrapper = FALSE;
 }
 
-$video_player = '';
-if (isset($item->video)) {
-  $video_player = '<div class="media-container">';
-  $video_player .= '<div class="media-content" data-url="' . $item->video . '" data-service="' . $item->video_service . '"></div>';
-  $video_player .= '<div class="pn-close-media"><i class="icon-cross"></i></div>';
-  $video_player .= '</div>';
-}
-
-$video_play_btn = '';
-if (isset($item->video)) {
-  $video_play_btn = "<div class='pn-media-play'><div class='pn-play pn-round'><i class='icon-play'></i></div></div>";
-}
-
-$classes = ['ui-tabs-panel'];
-$classes[] = (isset($item->video) ? 'has-video' : NULL);
-$classes = implode(' ', $classes);
 ?>
-<div class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <?php print $video_player; ?>
+<div class="ui-tabs-panel"<?php print $attributes; ?>>
   <div class="image">
     <?php if (!$item->image): ?>
       <span class="no-image"></span>
@@ -55,5 +38,4 @@ $classes = implode(' ', $classes);
       </p>
     <?php endif; ?>
   </div>
-  <?php print $video_play_btn; ?>
 </div>

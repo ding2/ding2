@@ -65,9 +65,6 @@ function ding_tabroll_add_js($switch_speed = null) {
   // Add default CSS and JavaScript.
   drupal_add_js($path . '/js/ding_tabroll.js');
 
-  // Add video support.
-  drupal_add_js($path . '/js/video.js');
-
   drupal_add_js(array('ding_tabroll' => array('switch_speed' => $switch_speed)), 'setting');
 }
 
