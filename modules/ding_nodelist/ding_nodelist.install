@@ -485,3 +485,18 @@ function ding_nodelist_update_7008() {
       ->execute();
   }
 }
+
+/**
+ * Remove horizontal accordion widget.
+ */
+function ding_nodelist_update_7009() {
+  // Remove from nodelist templates.
+  db_delete('ding_nodelist_templates')
+    ->condition('widget', 'horizontal_accordion')
+    ->execute();
+
+  // Remove variables left.
+  variable_del('ding_nodelist_horizontal_accordion_delay');
+  variable_del('ding_nodelist_horizontal_accordion_teaser_trim');
+  variable_del('ding_nodelist_horizontal_accordion_title_trim');
+}

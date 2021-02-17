@@ -12,8 +12,6 @@
 #  templates/ding_nodelist.ding_news.text.tpl.php: n/a
 #  plugins/content_types/ding_nodelist.inc: n/a
 #  ding_nodelist.info: n/a
-#  templates/ding_nodelist.ding_event.horizontal_accordion.tpl.php: n/a
-#  templates/ding_nodelist.ding_news.haccordion.tpl.php: n/a
 #
 msgid ""
 msgstr ""
@@ -404,10 +402,6 @@ msgstr ""
 #: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2145
 msgid "Carousel"
 msgstr "Karrusel"
-
-#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2146
-msgid "Horizontal accordion"
-msgstr "Vandret akkordeon"
 
 #: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2148
 msgid "Slider"
