@@ -1086,3 +1086,17 @@ function ding2_update_7093() {
 function ding2_update_7094() {
   module_enable(['ding_seo']);
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7095() {
+  ding2_translation_update();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7096() {
+  ding2_translation_update();
+}

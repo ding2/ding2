@@ -5,23 +5,31 @@
  * Ding SEO module file.
  */
 
- define('DING_SEO_EMPTY_PIVOT_VALUE', '|EMPTY|');
- define('DING_SEO_COMMA_PIVOT_VALUE', '|COMMA|');
+use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+use DingSEO\TingObjectSchemaWrapperInterface;
+use Ting\TingObjectInterface;
 
 /**
  * Implements hook_menu().
  */
 function ding_seo_menu() {
-  $items = array();
+  $items = [];
 
-  $items['admin/config/ding/ding_seo'] = array(
+  $items['admin/config/ding/ding_seo'] = [
     'title' => 'Ding SEO',
     'description' => 'Configure the SEO module.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_seo_admin_settings'),
-    'access arguments' => array('configure seo settings'),
+    'page arguments' => ['ding_seo_admin_settings'],
+    'access arguments' => ['configure seo settings'],
     'file' => 'ding_seo.admin.inc',
-  );
+  ];
+
+  $items['ding_seo/jsonld/ting_object/%'] = [
+    'title' => 'Ding SEO JSON-LD',
+    'page callback' => 'ding_seo_jsonld_ting_object_callback',
+    'page arguments' => [3],
+    'access arguments' => ['access content'],
+  ];
 
   return $items;
 }
@@ -30,165 +38,189 @@ function ding_seo_menu() {
  * Implements hook_permission().
  */
 function ding_seo_permission() {
-  return array(
-    'configure seo' => array(
+  return [
+    'configure seo' => [
       'title' => t('Configure SEO settings'),
       'description' => t('Configure settings of the SEO module'),
-    ),
-  );
-}
-
-/**
- * Implements hook_metatag_metatags_view_alter().
- *
- * Schema metatag uses commas as delimiter for multiple values. This poses a
- * problem if one of our token values contains a comma. This is a known problem
- * with a proposed solution, but there's no patch for the Drupal 7 version.
- * There's also the issue with empty values which does not play nicely with the
- * pivot operation performed by schema metatag. For this issue there is a Drupal
- * 7 patch, but since we need to handle the comma issue anyway, we chose to
- * handle both in our alter and avoid the patch. An alternative solution would
- * be to submit our own Drupal 7 patch to the commma-issue.
- *
- * Comma issue: https://www.drupal.org/project/schema_metatag/issues/2988052
- * Empty values issue: https://www.drupal.org/project/metatag/issues/3067803
- */
-function ding_seo_metatag_metatags_view_alter(&$output, $instance, $options) {
-  foreach ($output as $metatag => $metatag_output) {
-    if (!empty($output[$metatag]['#attached']['drupal_add_html_head'][0][0]['#attributes']['schema_metatag'])) {
-      $content = &$output[$metatag]['#attached']['drupal_add_html_head'][0][0]['#attributes']['content'];
-      if (is_array($content)) {
-        $content = ding_seo_format_pivoted_values_recursive($content);
-      }
-    }
-  }
-}
-
-/**
- * Format pivoted values recursively.
- *
- * @param $values
- *   Array of pivoted values from shema_metatag module.
- *
- * @return array
- *   The filtered array.
- */
-function ding_seo_format_pivoted_values_recursive($values) {
-  // Termination.
-  if (!is_array($values)) {
-    return $values;
-  }
-  // Recursive step.
-  $values = array_map(function($value) {
-    return ding_seo_format_pivoted_values_recursive($value);
-  }, $values);
-
-  $values = array_map(function($value) {
-    // Mark empty values so they get filtered out below.
-    if ($value === DING_SEO_EMPTY_PIVOT_VALUE) {
-      return FALSE;
-    }
-    // Replace commas if single value string.
-    if (is_string($value)) {
-      $value = str_replace(DING_SEO_COMMA_PIVOT_VALUE, ',', $value);
-    }
-    return $value;
-  }, $values);
-  // Filter out the empty values.
-  return array_filter($values);
-}
-
-/**
- * Implements hook_metatag_get_entity_metatags_instance_alter().
- *
- * Note: appearently this hook has to reside in module file and can not be in
- * ding_seo.metatag.inc. or else it will ONLY be called on first page load
- * after a cache clear. Investigate why this happens?
- */
-function ding_seo_metatag_get_entity_metatags_instance_alter(&$instance, $entity, $entity_type, $bundle) {
-  if ($entity_type == 'ting_object') {
-    // Use simple material type checking for now to decide a ting objects schema
-    // type. We will have to get more complex in the future, when we have to
-    // distinguish between movies and tv-series for example. Also if we wish to
-    // be provider independant we need a mechanism to avoid hard coded values.
-    // For now this is opensearch speficic anb based and DKABM types:
-    // http://www.danbib.dk/docs/abm/types.xml
-    $material_type = drupal_strtolower($entity->getType());
-
-    $schema_type_mapping = [
-      'book' => [
-        'bog',
-        'bog stor skrift',
-        'billedbog',
-        'ebog',
-        'lydbog (bånd)',
-        'lydbog (cd)',
-        'lydbog (net)',
-        'lydbog (cd-mp3)',
-        'årbog',
-      ],
-      'movie' => [
-        'dvd',
-        'dvd (film)',
-        'blu-ray',
-        'blu-ray 4k',
-        'blu-ray 3d',
-        'film',
-        'film (net)',
-        'video',
-      ]
-    ];
-
-    foreach ($schema_type_mapping as $schema_type => $material_types) {
-      if (in_array($material_type, $material_types)) {
-        $instance = 'ting_object:' . $schema_type;
-        return;
-      }
-    }
-  }
-}
-
-/**
- * Determine the schema.org bookFormat for a ting_object.
- *
- * We aim to support the format types supported by Google;
- * https://developers.google.com/search/docs/data-types/book#work-example
- *
- * @param $ting_object
- *   The ting_object to determine book format for.
- *
- * @return mixed
- *   One of the supported book format types as string. NULL if no book format
- *   could be determined for the $ting_object.
- */
-function ding_seo_get_schema_book_format($ting_object) {
-  $material_type = drupal_strtolower($ting_object->getType());
-
-  $schema_book_format_mapping = [
-    'EBook' => [
-      'ebog'
-    ],
-    // TODO: Can differentiaie between Hardcove and Paperback?
-    // For now use map all physical books to Hardcover.
-    'Paperback' => [],
-    'Hardcover' => [
-      'bog',
-      'bog stor skrift',
-      'billedbog',
-    ],
-    'AudioBook' => [
-      'lydbog (bånd)',
-      'lydbog (cd)',
-      'lydbog (net)',
-      'lydbog (cd-mp3)',
     ],
   ];
+}
 
-  foreach ($schema_book_format_mapping as $book_format => $material_types) {
-    if (in_array($material_type, $material_types)) {
-      return $book_format;
+/**
+ * Implements hook_xautoload().
+ */
+function ding_seo_xautoload(LocalDirectoryAdapter $adapter) {
+  $adapter->addPsr4('DingSEO', 'src');
+}
+
+/**
+ * Get provider specific ting object schema wrapper.
+ *
+ * @param \Ting\TingObjectInterface $ting_object
+ *   The ting object to be wrapped.
+ *
+ * @return \Ting\TingObjectSchemaWrapperInterface|NULL
+ *   provider specific ting object schema wrapper. NULL if search provider
+ *   doesn't implement or the wrapper didn't implement required interface.
+ */
+function ding_seo_get_ting_object_schema_wrapper(TingObjectInterface $ting_object) {
+  if (ding_provider_implements('search', 'ting_object_schema_wrapper')) {
+    $schema_wrapper = ding_provider_invoke('search', 'ting_object_schema_wrapper', $ting_object);
+
+    if ($schema_wrapper instanceof TingObjectSchemaWrapperInterface) {
+      return $schema_wrapper;
     }
   }
   return NULL;
 }
 
+/**
+ * Implements hook_ding_entity_view().
+ */
+function ding_seo_ding_entity_view($ting_object, $view_mode) {
+  // Only proceed if this is the main page of the ting object.
+  $ting_object_path = entity_uri('ting_object', $ting_object)['path'];
+  if ($view_mode != 'full' || current_path() != $ting_object_path) {
+    return;
+  }
+
+  /** @var \Ting\TingObjectInterface */
+  $ting_object = $ting_object->getTingObject();
+
+  // Get the wrapper to check if a schema type can be determined.
+  $schema_wrapper = ding_seo_get_ting_object_schema_wrapper($ting_object);
+  if (!isset($schema_wrapper) || !$schema_wrapper->getSchemaType()) {
+    return;
+  }
+
+  drupal_add_js(drupal_get_path('module', 'ding_seo') . '/ding_seo.js', [
+    'scope' => 'footer'
+  ]);
+  drupal_add_js([
+    'dingSeo' => [
+      'tingObjectId' => $ting_object->getId(),
+    ],
+  ],'setting');
+}
+
+/**
+ * Callback for async JSON-LD for ting objects.
+ */
+function ding_seo_jsonld_ting_object_callback($ting_object_id) {
+  $schema_wrapper = NULL;
+  // Load the ting object directly since we're wrapping the ting object and not
+  // the ting entity, so might as well safe some time by not going through
+  // entity API.
+  /** @var \Ting\TingObjectInterface */
+  $ting_object = ting_search_object_load($ting_object_id);
+  if (isset($ting_object)) {
+    /** @var DingSEO\TingObjectSchemaWrapperInterface */
+    $schema_wrapper = ding_seo_get_ting_object_schema_wrapper($ting_object);
+  }
+
+  // Bail out if we were not able to produce a schema wrapper or the schema
+  // type could not be determined.
+  $schema_type = NULL;
+  if (!isset($schema_wrapper) || !$schema_type = $schema_wrapper->getSchemaType()) {
+    print '';
+    drupal_exit();
+  }
+
+  // Common properties.
+  $node = [
+    '@type' => $schema_type,
+    'name' => $schema_wrapper->getName(),
+    'description' => $schema_wrapper->getDescription(),
+  ];
+  if ($image_url = $schema_wrapper->getImageURL()) {
+    $node['image'] = [
+      '@type' => 'ImageObject',
+      'representativeOfPage' => 'True',
+      'url' => $image_url,
+    ];
+
+    // TODO: Find out if it's ok to omit dimensions or we should just ditch
+    // it all together if not found. We know there's a cover, but it might
+    // not be fecthed yet so we can check dimensions.
+    if ($image_dimensions = $schema_wrapper->getImageDimensions()) {
+      $node['image'] += [
+        'width' => "$image_dimensions[0]",
+        'height' => "$image_dimensions[1]",
+      ];
+    }
+  }
+
+  switch ($schema_type) {
+    case 'Book':
+      $authors = $schema_wrapper->getAuthors();
+      $node += [
+        '@id' => $schema_wrapper->getCollectionURL(),
+        'url' => $schema_wrapper->getCollectionURL(),
+        'author' => ding_seo_get_person_nodes($authors),
+      ];
+
+      foreach ($schema_wrapper->getWorkExamples() as $work_example_wrapper) {
+        $work_example = [
+          '@type' => 'Book',
+          '@id' => $work_example_wrapper->getObjectURL(),
+          'url' => $work_example_wrapper->getObjectURL(),
+          'name' => $work_example_wrapper->getName(),
+          'bookEdition' => $work_example_wrapper->getBookEdition(),
+          'datePublished' => $work_example_wrapper->getDatePublished(),
+          'isbn' => $work_example_wrapper->getISBN(),
+          'bookFormat' => $work_example_wrapper->getBookFormat(),
+        ];
+
+        $work_example_authors = $work_example_wrapper->getAuthors();
+        // Only include author information if it's different than the
+        // information on the top level Book entity.
+        if ($work_example_authors != $authors) {
+          $work_example['author'] = ding_seo_get_person_nodes($work_example_authors);
+        }
+        // Filter out any empty fields before adding to node.
+        $node['workExample'][] = array_filter($work_example);
+      }
+      break;
+    case 'Movie':
+      $node += [
+        '@id' => $schema_wrapper->getObjectURL(),
+        'url' => $schema_wrapper->getObjectURL(),
+        'duration' => $schema_wrapper->getDuration(),
+        'datePublished' => $schema_wrapper->getDatePublished(),
+        'actor' => ding_seo_get_person_nodes($schema_wrapper->getActors()),
+        'director' => ding_seo_get_person_nodes($schema_wrapper->getDirectors()),
+        'musicBy' => ding_seo_get_person_nodes($schema_wrapper->getComposers()),
+        'producer' => ding_seo_get_person_nodes($schema_wrapper->getProducers()),
+      ];
+      break;
+  }
+
+  // Filter out any empty fields.
+  $node = array_filter($node);
+  $jsonld = [
+    '@context' => 'https://schema.org',
+    '@graph' => [ $node ],
+  ];
+  $jsonld = SchemaMetatagManager::encodeJsonld($jsonld);
+  $jsonld = SchemaMetatagManager::renderArrayJsonLd($jsonld);
+  print drupal_render($jsonld);
+  drupal_exit();
+}
+
+/**
+ * Generate array of person nodes.
+ *
+ * @param string[] $names
+ *   The array of names to use in person nodes.
+ *
+ * @return array[]
+ *   An array of person nodes (arrays).
+ */
+function ding_seo_get_person_nodes(array $names) {
+  return array_map(function ($name) {
+    return [
+      '@type' => 'Person',
+      'name' => $name,
+    ];
+  }, $names);
+}

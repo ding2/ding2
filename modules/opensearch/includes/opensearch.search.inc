@@ -7,6 +7,7 @@
 use OpenSearch\OpenSearchStatementGroupRender;
 use OpenSearch\OpenSearchTingObject;
 use OpenSearch\OpenSearchTingObjectCollection;
+use OpenSearch\OpenSearchTingObjectSchemaWrapper;
 use OpenSearch\OpenSearchTingSearchResult;
 use Ting\Search\DingProviderStrategy;
 use Ting\Search\SearchProviderException;
@@ -731,4 +732,17 @@ function opensearch_search_autocomplete_suggestions(array $query) {
   }
 
   return $items;
+}
+
+/**
+ * Return opensearch specific ting object schema wrapper.
+ *
+ * @param \OpenSearch\OpenSearchTingObject $opensearch_ting_object
+ *   The opensearch ting object to be wrapped.
+ *
+ * @return \OpenSearch\OpenSearchTingObjectSchemaWrapper
+ *   The wrapper.
+ */
+function opensearch_search_ting_object_schema_wrapper(OpenSearchTingObject $opensearch_ting_object) {
+  return new OpenSearchTingObjectSchemaWrapper($opensearch_ting_object);
 }

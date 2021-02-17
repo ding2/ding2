@@ -17,5 +17,3 @@ features[metatag][] = node
 features[metatag][] = node:ding_event
 features[metatag][] = node:ding_library
 features[metatag][] = node:ding_news
-features[metatag][] = ting_object:book
-features[metatag][] = ting_object:movie
