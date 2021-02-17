@@ -99,11 +99,6 @@
                 data.height = Math.round(top.height()) + 'px';
                 $(wrapper).find('.ding_nodelist-items').slick('slickPause');
                 break;
-
-              case 'rolltab':
-                top = $this.parent();
-                data.height = Math.round(top.height()) + 'px';
-                break;
             }
 
             let url = NodelistVideo.getVideoUrl(top);
