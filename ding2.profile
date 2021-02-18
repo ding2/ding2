@@ -788,6 +788,29 @@ function ding2_set_cookie_page() {
 }
 
 /**
+ * Updates cookie page and make backup of existing.
+ */
+function ding2_update_cookie_page() {
+  // If we can find the old cookie information page make a backup, so we don't
+  // lose any information added by administrative users.
+  if ($nid = ding2_get_cookie_node_nid()) {
+    $node = node_load($nid);
+    $node->title .= ' (BACKUP)';
+    node_save($node);
+    // Delete "cookies" alias.
+    $path = path_load([
+      'source' => 'node/' . $node->nid,
+      'alias' => 'cookies',
+    ]);
+    if ($path) {
+      path_delete($path['pid']);
+    }
+  }
+  // Set the new cookie page.
+  ding2_set_cookie_page();
+}
+
+/**
  * Get the nid of the current node used as cookie page.
  *
  * @return mixed
