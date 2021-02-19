@@ -12,7 +12,6 @@
 #  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_news.text.tpl.php: n/a
 #  profiles/ding2/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc: n/a
 #  profiles/ding2/modules/ding_nodelist/ding_nodelist.info: n/a
-#  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.horizontal_accordion.tpl.php: n/a
 #  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.taxonomy.tpl.php: n/a
 #
 #, fuzzy
@@ -380,10 +379,6 @@ msgstr ""
 msgid "Carousel"
 msgstr ""
 
-#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2146
-msgid "Horizontal accordion"
-msgstr ""
-
 #: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2148
 msgid "Slider"
 msgstr ""
@@ -451,4 +446,3 @@ msgstr ""
 #: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.image_text.tpl.php:33
 msgid "Time:"
 msgstr ""
-

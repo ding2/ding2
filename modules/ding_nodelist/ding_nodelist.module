@@ -9,7 +9,6 @@ include_once 'ding_nodelist.features.inc';
 
 define('DING_NODELIST_WIDGET_LIST', 'simple');
 define('DING_NODELIST_WIDGET_CAROUSEL', 'carousel');
-define('DING_NODELIST_WIDGET_HOR_ACCORDION', 'horizontal_accordion');
 define('DING_NODELIST_WIDGET_SLIDER', 'slider');
 define('DING_NODELIST_WIDGET_TAXONOMY_LIKE', 'taxonomy');
 define('DING_NODELIST_WIDGET_ROLLTAB', 'rolltab');
@@ -614,16 +613,6 @@ function ding_nodelist_theme() {
         'conf' => NULL,
       ),
     ),
-    'ding_nodelist_widget_horizontal_accordion' => array(
-      'path' => $path,
-      'template' => 'ding_nodelist_widget_horizontal_accordion',
-      'variables' => array(
-        'items' => NULL,
-        'template' => NULL,
-        'links' => NULL,
-        'conf' => NULL,
-      ),
-    ),
     'ding_nodelist_widget_carousel' => array(
       'path' => $path,
       'template' => 'ding_nodelist_widget_carousel',
@@ -963,12 +952,6 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
       drupal_add_js($mod_path . '/js/slider.js', 'file');
       break;
 
-    case DING_NODELIST_WIDGET_HOR_ACCORDION:
-      drupal_add_js($mod_path . '/js/jquery.zaccordion.min.js', 'file');
-      drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
-      drupal_add_js($mod_path . '/js/haccordion.js', 'file');
-      break;
-
     case DING_NODELIST_WIDGET_ROLLTAB:
       ding_tabroll_add_js($autoscroll_delay);
       break;
@@ -995,9 +978,6 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
 function _ding_nodelist_init_image_style($widget) {
   // Init image_styles for region.
   switch ($widget) {
-    case DING_NODELIST_WIDGET_HOR_ACCORDION:
-      return 'ding_nodelist_medium';
-
     case DING_NODELIST_WIDGET_CAROUSEL:
       return 'ding_nodelist_large';
 
@@ -1453,7 +1433,6 @@ function _ding_nodelist_is_valid_link($link = '') {
 function _ding_nodelist_get_widget_human_name($machine_name) {
   $widgets = array(
     DING_NODELIST_WIDGET_CAROUSEL => t('Carousel'),
-    DING_NODELIST_WIDGET_HOR_ACCORDION => t('Horizontal accordion'),
     DING_NODELIST_WIDGET_SLIDER => t('Slider'),
     DING_NODELIST_WIDGET_TAXONOMY_LIKE => t('Taxonomy like'),
     DING_NODELIST_WIDGET_ROLLTAB => t('Rolltab'),
@@ -1480,7 +1459,6 @@ function _ding_nodelist_get_widget_human_name($machine_name) {
 function _ding_nodelist_get_widget_types($content_types = '') {
   $widgets = array(
     DING_NODELIST_WIDGET_CAROUSEL => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_CAROUSEL),
-    DING_NODELIST_WIDGET_HOR_ACCORDION => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_HOR_ACCORDION),
     DING_NODELIST_WIDGET_SLIDER => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_SLIDER),
     DING_NODELIST_WIDGET_TAXONOMY_LIKE => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_TAXONOMY_LIKE),
     DING_NODELIST_WIDGET_ROLLTAB => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_ROLLTAB),
@@ -1814,7 +1792,6 @@ function _ding_nodelist_widgets_content_trim() {
     DING_NODELIST_WIDGET_CAROUSEL,
     DING_NODELIST_WIDGET_LIST,
     DING_NODELIST_WIDGET_SLIDER,
-    DING_NODELIST_WIDGET_HOR_ACCORDION,
     DING_NODELIST_WIDGET_SLIDER,
     DING_NODELIST_WIDGET_TAXONOMY_LIKE,
     DING_NODELIST_WIDGET_ROLLTAB,
