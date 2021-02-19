@@ -1158,10 +1158,11 @@ function ding_user_comment_load($comments) {
  * Implements hook_FROM_ID_alter().
  *
  * Alters the site wide contact form to allow all users to send a copy to them
- * self.
+ * self, but only if they are logged in to avoid it being used as a spam tool
+ * by anonymous users.
  */
 function ding_user_form_contact_site_form_alter(&$form, $form_state, $form_id) {
-  $form['copy']['#access'] = TRUE;
+  $form['copy']['#access'] = user_is_logged_in();
 }
 
 /**
