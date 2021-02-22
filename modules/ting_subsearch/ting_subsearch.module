@@ -20,13 +20,35 @@ function ting_subsearch_menu() {
     'access arguments' => array('access content'),
   ];
 
+  $items['admin/config/ding/subsearch'] = [
+    'title' => 'Ting subsearch',
+    'description' => 'Configure subsearch modules.',
+    'page callback' => 'ting_subsearch_admin_overview',
+    'access arguments' => array('configure ting subsearch'),
+  ];
+  $items['admin/config/ding/subsearch/subsearch'] = [
+    'title' => 'Overview',
+    'description' => 'Ting subsearch overview',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  ];
+
   return $items;
+}
+
+/**
+ * Ting subsearch admin overview page.
+ */
+function ting_subsearch_admin_overview() {
+  return [
+    '#markup' => t('Subsearch modules allow additional searches to be made based on predefined conditions.'),
+  ];
 }
 
 /**
  * Implements hook_permission().
  */
-function ting_subseach_permission() {
+function ting_subsearch_permission() {
   return [
     'configure ting subsearch' => [
       'title' => t('Configure ting subsearch'),

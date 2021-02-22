@@ -7,6 +7,10 @@ jobs:
     steps:
     - checkout
     - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
+    - run:
         name: Install Drush
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
@@ -67,6 +71,10 @@ jobs:
     steps:
     - checkout
     - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
+    - run:
         name: Install PHP linter
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
@@ -81,6 +89,10 @@ jobs:
       - image: circleci/php:5.6-cli
     steps:
       - checkout
+      - run:
+          name: Update composer
+          command: |
+            sudo composer self-update
       - run:
           name: Install PHP linter
           command: |
@@ -99,6 +111,10 @@ jobs:
     steps:
     - attach_workspace:
         at: ~/
+    - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
     - run:
         name: Configure PHP for Drupal
         command: |
@@ -123,7 +139,7 @@ jobs:
           --site-name=Ding2 --account-name=admin --account-pass=admin \
           install_configure_form.update_status_module='array(FALSE,FALSE)' \
           ding2_module_selection_form.providers_selection=connie \
-          opensearch_admin_settings.opensearch_url=https://oss-services.dbc.dk/opensearch/5.2/ \
+          opensearch_admin_settings.opensearch_url=https://opensearch.addi.dk/test_5.2/ \
           opensearch_admin_settings.ting_agency=100200 \
           opensearch_admin_settings.opensearch_search_profile=test \
     - run:
@@ -147,6 +163,10 @@ jobs:
     steps:
     - attach_workspace:
         at: ~/
+    - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
     - run:
         name: Configure PHP for Drupal
         command: |
@@ -195,6 +215,10 @@ jobs:
     steps:
     - attach_workspace:
         at: ~/
+    - run:
+        name: Update composer
+        command: |
+          sudo composer self-update
     - run:
         name: Configure PHP for Drupal
         command: |

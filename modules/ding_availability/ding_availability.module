@@ -449,7 +449,6 @@ function theme_ding_holdings_periodical($variables) {
                   'available',
                   'use-ajax',
                 ),
-                'id' => 'reservation-' . $issue_id,
               ),
               'html' => FALSE,
             ),
@@ -468,7 +467,7 @@ function theme_ding_holdings_periodical($variables) {
 
       // Normal behavior - periodicals, dc.type=tidsskrift.
       $iss[$i] = array(
-        'data' => '<span id="periodical-id-' . $normalized_id . '" class="ding-periodical-fold ding-reservable-periodical periodical-id-' . $normalized_id . '">' . $issue . '</span>',
+        'data' => '<span class="ding-periodical-fold ding-reservable-periodical">' . $issue . '</span>',
         'class' => array(
           drupal_html_class('ding-periodical-container'),
         ),
@@ -480,7 +479,6 @@ function theme_ding_holdings_periodical($variables) {
         $iss[$i]['data'] = $holdings[0]['data'];
         $iss[$i]['class'][] = drupal_html_class('ding-periodical-no-issues');
         $iss[$i]['class'][] = drupal_html_class('ding-reservable-periodical');
-        $iss[$i]['id'][] = drupal_html_id('periodical-id-' . $normalized_id);
       }
       else {
         // Set children with holding information for periodicals.

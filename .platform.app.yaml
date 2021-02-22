@@ -111,6 +111,7 @@ hooks:
     set -e
     cd public
     drush -y updatedb
+    drush secure-permissions-rebuild
     drush css-generate
     drush cc all
 

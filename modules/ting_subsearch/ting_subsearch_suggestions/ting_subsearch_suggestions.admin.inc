@@ -33,14 +33,14 @@ function ting_subsearch_suggestions_admin_settings_form($form, &$form_state) {
   $form['trigger']['ting_subsearch_suggestions_trigger_limit'] = [
     '#type' => 'textfield',
     '#title' => t('Maximum number of results for user search'),
-    '#default_value' => variable_get('ting_subsearch_suggestions_trigger_limit', 5),
+    '#default_value' => variable_get('ting_subsearch_suggestions_trigger_limit', 15),
     '#description' => t("If the user search returned more results than this don't bother trying to find a suggestion and perform subsearch."),
     '#element_validate' => ['element_validate_integer_positive'],
   ];
   $form['trigger']['ting_subsearch_suggestions_ps_factor'] = [
     '#type' => 'textfield',
     '#title' => t('Minimum ratio between suggestion and user search results'),
-    '#default_value' => variable_get('ting_subsearch_suggestions_ps_factor', 10),
+    '#default_value' => variable_get('ting_subsearch_suggestions_ps_factor', 1.1),
     '#description' => t('The minimum ratio between suggestion and user search results to trigger suggestion. Use a decimal value for the ratio with "." as decimal separator'),
     '#element_validate' => ['ting_subsearch_factor_field_validate'],
   ];

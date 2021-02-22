@@ -81,16 +81,14 @@ function ting_subsearch_bibdk_opensearch_pre_execute($request) {
     return;
   }
 
-  $bibdk_subsearch = drupal_static('ting_subsearch_bibdk_subsearch');
-  if ($bibdk_subsearch === TRUE) {
+  if (ting_subsearch_bibdk_is_bibdk_subsearch()) {
     $request->setProfile(TING_SUBSEARCH_BIBDK_PROFILE);
     $request->setAgency(TING_SUBSEARCH_BIBDK_AGENCY);
 
     // Store the final query used in the bibliotek.dk search for use when
     // generating search links. Various modules might apply additional search
     // keys based on query parameters that are not supported on bibliotek.dk.
-    $bibdk_query = &drupal_static('ting_subsearch_bibdk_query');
-    $bibdk_query = $request->getQuery();
+    ting_subsearch_bibdk_subsearch_query($request->getQuery());
   }
 
   // Ensure that facet genreCategory is returned from the well, since we need
@@ -105,12 +103,55 @@ function ting_subsearch_bibdk_opensearch_pre_execute($request) {
 }
 
 /**
+ * Implements hook_opensearch_cache_key_alter().
+ */
+function ting_subsearch_bibdk_opensearch_cache_key_alter(&$cid, $request) {
+  if (ting_subsearch_bibdk_is_bibdk_subsearch()) {
+    $cid .= ':ting_subsearch_bibdk';
+  }
+}
+
+/**
+ * Whether a bibdk subsearch is currently being performed.
+ *
+ * @param bool $new_value
+ *   Used internally to control the static variable.
+ *
+ * @return bool
+ *   TRUE if bibdk subsearch is currently being performed. FALSE otherwise.
+ */
+function ting_subsearch_bibdk_is_bibdk_subsearch($new_value = NULL) {
+  $is_bibdk_subsearch = &drupal_static(__FUNCTION__, FALSE);
+  if (isset($new_value)) {
+    $is_bibdk_subsearch = $new_value;
+  }
+  return $is_bibdk_subsearch;
+}
+
+/**
+ * Get the query of the last bibdk subsearch performed in the request.
+ *
+ * @param string $new_value
+ *   Used internally to control the static variable.
+ *
+ * @return mixed
+ *   Returns NULL if no bibdk subearch has been performed in the request.
+ */
+function ting_subsearch_bibdk_subsearch_query($new_value = NULL) {
+  $bibdk_subsearch_query = &drupal_static(__FUNCTION__);
+  if (isset($new_value)) {
+    $bibdk_subsearch_query = $new_value;
+  }
+  return $bibdk_subsearch_query;
+}
+
+/**
  * Implements hook_ting_search_results_prefix().
  *
  * @throws \Exception
  */
 function ting_subsearch_bibdk_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result) {
-  if (variable_get('ting_subsearch_bibdk_position', 'before') == 'before') {
+  if (variable_get('ting_subsearch_bibdk_position', 'after') == 'before') {
     return _ting_subsearch_bibdk_trigger_ajax_placeholder($search_result);
   }
 }
@@ -121,7 +162,7 @@ function ting_subsearch_bibdk_ting_search_results_prefix($keys, $conditions, Tin
  * @throws \Exception
  */
 function ting_subsearch_bibdk_ting_search_results_suffix($keys, $conditions, TingSearchResultInterface $search_result) {
-  if (variable_get('ting_subsearch_bibdk_position', 'before') == 'after') {
+  if (variable_get('ting_subsearch_bibdk_position', 'after') == 'after') {
     return _ting_subsearch_bibdk_trigger_ajax_placeholder($search_result);
   }
 }
@@ -133,11 +174,11 @@ function _ting_subsearch_bibdk_trigger_ajax_placeholder(TingSearchResultInterfac
   $num_results = $search_result->getNumTotalObjects();
 
   // Bail out if the user search returned more results than allowed.
-  if ($num_results > variable_get('ting_subsearch_bibdk_max', 100)) {
+  if ($num_results > variable_get('ting_subsearch_bibdk_max', 250)) {
     return;
   }
 
-  $factor = variable_get('ting_subsearch_bibdk_factor', 2);
+  $factor = variable_get('ting_subsearch_bibdk_factor', 1.5);
   $ratio = ting_subsearch_get_genre_ratio($search_result);
 
   // If user search returnes zero results we always try a bibliotek.dk search.
@@ -156,28 +197,25 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_content(TingSearch
 
   $search_request = $search_result->getSearchRequest();
 
-  // Mark the subsearch we're about to perform is a bibliotek.dk subsearch,
-  // which should have bibliotek.dk agency and profil set in our implementation
-  // of hook_opensearch_pre_execute().
-  $bibdk_subsearch = &drupal_static('ting_subsearch_bibdk_subsearch');
-  $bibdk_subsearch = TRUE;
+  // Mark the subsearch we're about to perform is a bibliotek.dk subsearch. We
+  // turn off it later after we have fetched collections, since we need these
+  // to be fetched with biddk agency and profile also.
+  ting_subsearch_bibdk_is_bibdk_subsearch(TRUE);
   $bibdk_result = ting_subseach_do_subsearch($search_request);
-  drupal_static_reset('ting_subsearch_bibdk_subsearch');
 
   // Get the final query used in bibliotek.dk search. See comment in
   // ting_subsearch_bibdk_opensearch_pre_execute().
-  $bibdk_query = drupal_static('ting_subsearch_bibdk_query');
-  drupal_static_reset('ting_subsearch_bibdk_query');
+  $bibdk_query = ting_subsearch_bibdk_subsearch_query();
 
   $bibdk_num_results = $bibdk_result->getNumTotalObjects();
-  $bibdk_result_min = variable_get('ting_subsearch_bibdk_result_min', 100);
+  $bibdk_result_min = variable_get('ting_subsearch_bibdk_result_min', 4);
 
   // Bail out if bibliotek.dk search didn't return enough results.
   if ($bibdk_num_results < $bibdk_result_min) {
     return $content;
   }
 
-  $factor = variable_get('ting_subsearch_bibdk_ps_factor', 2);
+  $factor = variable_get('ting_subsearch_bibdk_ps_factor', 0.7);
   // Get number of results for original search.
   $num_results = $search_result->getNumTotalObjects();
 
@@ -240,6 +278,8 @@ function ting_subsearch_bibdk_ting_subsearch_ajax_placeholder_content(TingSearch
       ];
     }
   }
+
+  ting_subsearch_bibdk_is_bibdk_subsearch(FALSE);
 
   return $content;
 }

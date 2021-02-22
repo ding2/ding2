@@ -31,7 +31,7 @@ function ting_subsearch_suggestions_content_type_render($subtype, $conf, $panel_
   }
 
   $num_result = $search_result->getNumTotalObjects();
-  $limit = variable_get('ting_subsearch_suggestions_trigger_limit', 5);
+  $limit = variable_get('ting_subsearch_suggestions_trigger_limit', 15);
 
   // Trigger ajax subsearch if user search num result is below limit.
   if ($num_result <= $limit) {

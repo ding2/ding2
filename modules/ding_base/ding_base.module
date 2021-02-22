@@ -432,7 +432,7 @@ function ding_base_pathauto_alias_alter(&$alias, array &$context) {
  *
  * Mainly used by ding_groups.
  *
- * @param Entity $node
+ * @param stdClass $node
  *   Node entity object for the OG group that should have alias updated.
  * @param string $base
  *   Base path for the group (e.g. library or temaer).
@@ -443,7 +443,7 @@ function ding_base_pathauto_alias_alter(&$alias, array &$context) {
  *
  * @todo: used it in ding_libraries to remove the "slug" field.
  */
-function ding_base_updated_taxonomy_aliases(Entity $node, $base, array $terms, array $slugs) {
+function ding_base_updated_taxonomy_aliases(stdClass $node, $base, array $terms, array $slugs) {
   $group_alias = 'node/' . $node->nid;
 
   // Find node pattern from path auto.

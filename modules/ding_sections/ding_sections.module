@@ -436,41 +436,14 @@ function ding_sections_section_delete_submit($form, &$form_state) {
  */
 function ding_sections_preprocess_views_view_fields(&$vars) {
   if ($vars['view']->name == 'ding_sections' && $vars['view']->current_display == 'ding_sections_groups') {
-    $total = (int) $vars['view']->total_rows;
-    $rows = ceil($total / 4);
-    $current = $vars['id'];
+    $vars['link_attributes'] = [];
 
-    if ((($rows - 1) * 4) < $current) {
-      // Last row (top row).
-      $count = (($total - 1) % 4) + 1;
-      switch ($count) {
-        case '1';
-          // One image.
-          $vars['row']->field_field_ding_sections_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_large';
-          $vars['row']->field_field_ding_sections_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_medium';
-          $vars['row']->field_field_ding_sections_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_large';
-          $vars['row']->field_field_ding_sections_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_medium';
-          $vars['fields']['field_ding_sections_image']->content = drupal_render($vars['row']->field_field_ding_sections_image[0]['rendered']);
-          break;
-
-        case '2';
-          // Two image.
-          $vars['row']->field_field_ding_sections_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_medium';
-          $vars['row']->field_field_ding_sections_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_small';
-          $vars['row']->field_field_ding_sections_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_medium';
-          $vars['row']->field_field_ding_sections_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_small';
-          $vars['fields']['field_ding_sections_image']->content = drupal_render($vars['row']->field_field_ding_sections_image[0]['rendered']);
-          break;
-      }
-    }
-
-    // Processing item's image.
-    $vars['link_attributes'] = [
-      'style' => '',
-    ];
-
+    // Render image with right image_style.
     if (!empty($vars['row']->field_field_ding_sections_image[0]['raw']['uri'])) {
-      $img_url = image_style_url('ding_panorama_list_large_desaturate', $vars['row']->field_field_ding_sections_image[0]['raw']['uri']);
+      $img_url = image_style_url(
+        'ding_panorama_list_large_desaturate',
+        $vars['row']->field_field_ding_sections_image[0]['raw']['uri']
+      );
       $vars['link_attributes']['style'] = 'background-image:url("' . $img_url . '");';
     }
   }

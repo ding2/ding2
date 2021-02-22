@@ -111,9 +111,11 @@ function ding_session_cache_get($module, $cid, $default = FALSE) {
  *   Name of the module that the date is stored under (prefix).
  * @param string $cid
  *   Index data is stored under.
+ * @param bool $wildcard
+ *   If TRUE cache IDs starting with $cid are deleted.
  */
-function ding_session_cache_clear($module, $cid) {
-  cache_clear_all(_ding_session_cache_get_cid($module, $cid), 'cache_ding_session_cache', FALSE);
+function ding_session_cache_clear($module, $cid, $wildcard = FALSE) {
+  cache_clear_all(_ding_session_cache_get_cid($module, $cid), 'cache_ding_session_cache', $wildcard);
 }
 
 /**
@@ -150,8 +152,10 @@ function _ding_session_cache_enabled($module) {
 }
 
 /**
- * Get expire timestamp based on the maximum cache lifetime for the module
- * given as parameter.
+ * Get expire timestamp.
+ *
+ * The timestamp is based on the maximum cache lifetime for the module given
+ * as parameter.
  *
  * @param string $module
  *   Name of the module to get the expire for.
