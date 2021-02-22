@@ -96,8 +96,7 @@ function ting_smart_search_admin_form($form, &$form_state) {
 /**
  * Implements submit callback
  */
-function ting_smart_search_export_form_submit($form, &$form_state)
-{
+function ting_smart_search_export_form_submit($form, &$form_state) {
   $destination = 'public://' . variable_get('site_name', 'ddb-cms') . '-' . date('d-m-Y-H-i') . '.json';
 
   $data = ting_smart_search_get_records();
