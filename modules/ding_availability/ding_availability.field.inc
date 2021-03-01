@@ -96,12 +96,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
       ),
     );
 
-    // Extract records' source.
-    if ($field['type'] != 'ting_collection_types') {
-      /* @var \TingEntity $entity */
-      $ac_source = $entity->getAc_source();
-    }
-
     switch ($display['type']) {
       case 'ding_availability_default':
         // Generate an unique id.
@@ -212,9 +206,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
         // Loop over the different material types.
         foreach ($typed_entities as $type => $entities) {
-          // Extract records' source.
-          $ac_source = $entities[0]->getAc_source();
-
           // Filter out any materials of this type with online access and show
           // them separately.
           $online_entities = array_filter($entities, function ($entity) {
@@ -261,9 +252,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           $entities = array_diff_key($entities, $online_entities);
           if (!empty($entities)) {
             $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
-
-            // Extract records' source.
-            $ac_source = $entities[0]->getAc_source();
 
             // There might be several entities for a type. If that's the case,
             // to avoid displaying many links with the same type, we use a
