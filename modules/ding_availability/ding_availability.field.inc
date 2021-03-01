@@ -212,27 +212,29 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
         // Loop over the different material types.
         foreach ($typed_entities as $type => $entities) {
-          /* @var \TingEntity[] $entities */
-          // Generate an unique id.
-          $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
-
           // Extract records' source.
           $ac_source = $entities[0]->getAc_source();
 
-          // Get link to first element in the collection of the current type.
-          // If more than one exists link to the collection.
-          if (count($entities) == 1) {
-            $url = entity_uri('ting_object', $entities[0]);
-          }
-          else {
-            $url = entity_uri('ting_collection', $entities[0]);
-          }
+          // Filter out any materials of this type with online access and show
+          // them separately.
+          $online_entities = array_filter($entities, function ($entity) {
+            return $entity->is('online');
+          });
 
-          // Mark as available if it is an online resource. As some types are
-          // not always predefined online type we need to check if the entity
-          // has an online URL. Please not tht that this in most cases will
-          // trigger a search request with get all relations.
-          if (in_array(drupal_strtolower($type), $online_types) || $entities[0]->isOnline()) {
+          if (!empty($online_entities)) {
+            $id = drupal_html_id('availability-' . $online_entities[0]->id . '-' . $type);
+
+            // There might be several online entities for a type. If that's the
+            // case, to avoid displaying many links with the same type, we use
+            // a collection url to the first entity and just show one link for
+            // the online type group.
+            if (count($online_entities) == 1) {
+              $url = entity_uri('ting_object', $online_entities[0]);
+            }
+            else {
+              $url = entity_uri('ting_collection', $online_entities[0]);
+            }
+
             if (!isset($output['#types']['online'])) {
               // Add label "online" to output.
               $output['#types']['online'] = array(
@@ -253,7 +255,27 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               ),
             );
           }
-          else {
+
+          // Check availability for any remaining entities that are not online,
+          // where can possible check availability.
+          $entities = array_diff_key($entities, $online_entities);
+          if (!empty($entities)) {
+            $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
+
+            // Extract records' source.
+            $ac_source = $entities[0]->getAc_source();
+
+            // There might be several entities for a type. If that's the case,
+            // to avoid displaying many links with the same type, we use a
+            // collection url to the first entity and just show one link for
+            // the type group.
+            if (count($entities) == 1) {
+              $url = entity_uri('ting_object', $entities[0]);
+            }
+            else {
+              $url = entity_uri('ting_collection', $entities[0]);
+            }
+
             if (!isset($output['#types']['pending'])) {
               // Add label "Pending" to output as in waiting for information.
               $output['#types']['pending'] = array(
@@ -283,7 +305,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
                 ),
               ),
             );
-          }
 
           // If item is of type 'library materials' (where we can lookup
           // availability data), map the HTML id to the list of entity ids.
