@@ -447,10 +447,10 @@ function ding_loan_loans_form_submit($form, &$form_state) {
     }
   }
 
-  // If any loans was succesfully renewed; clear session cache and remember
+  // If any loans was successfully renewed; clear session cache and remember
   // these loans throughout the session.
   if ($clear_cache && module_exists('ding_session_cache')) {
-    ding_session_cache_clear('ding_loan', 'list');
+    ding_session_cache_clear('ding_loan', 'list-', TRUE);
     ding_session_cache_set('ding_loan', 'renewed_ids', $renewed_ids);
   }
 }
