@@ -306,12 +306,13 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               ),
             );
 
-          // If item is of type 'library materials' (where we can lookup
-          // availability data), map the HTML id to the list of entity ids.
-          // This is for the current material type group (book, cd, etc.).
-          if ($entities[0]->is('library_material')) {
-            foreach ($entities as $object_entity) {
-              $id_mapping[$id][] = $object_entity->localId;
+            // Add entities of the type 'library materials' (where we can lookup
+            // availability data), map the HTML id to the list of entity ids.
+            // This is for the current material type group (book, cd, etc.).
+            foreach ($entities as $entity) {
+              if ($entity->is('library_material')) {
+                $id_mapping[$id][] = $entity->localId;
+              }
             }
           }
         }
