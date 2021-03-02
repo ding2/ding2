@@ -269,7 +269,6 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-
   $strongarm->name = 'ding_varnish_content_types';
   $strongarm->value = array(
     'ding_event' => 'ding_event',
@@ -696,9 +695,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_file_audio'] = $strongarm;
@@ -712,9 +709,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_file_document'] = $strongarm;
@@ -728,9 +723,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_file_image'] = $strongarm;
@@ -744,9 +737,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_file_video'] = $strongarm;
@@ -760,9 +751,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_campaign_plus'] = $strongarm;
@@ -776,9 +765,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_eresource'] = $strongarm;
@@ -793,8 +780,6 @@ temaer/*';
     'verification' => 'verification',
     'schema_event' => 'schema_event',
     'schema_article' => 0,
-    'schema_book' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_event'] = $strongarm;
@@ -808,9 +793,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_group'] = $strongarm;
@@ -825,9 +808,7 @@ temaer/*';
     'verification' => 'verification',
     'schema_organization' => 'schema_organization',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_library'] = $strongarm;
 
@@ -840,9 +821,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 'schema_article',
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_news'] = $strongarm;
@@ -856,9 +835,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_page'] = $strongarm;
@@ -872,9 +849,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_rolltab'] = $strongarm;
@@ -888,9 +863,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_node_panel'] = $strongarm;
@@ -904,9 +877,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_node_webform'] = $strongarm;
@@ -920,9 +891,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_profile2_ding_staff_profile'] = $strongarm;
@@ -936,9 +905,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_profile2_provider_fbs'] = $strongarm;
@@ -952,9 +919,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_category'] = $strongarm;
@@ -968,9 +933,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_ding_content_tags'] = $strongarm;
@@ -984,9 +947,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_ding_staff_department'] = $strongarm;
@@ -1000,9 +961,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_event_category'] = $strongarm;
@@ -1016,9 +975,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_event_organizer'] = $strongarm;
@@ -1032,9 +989,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_event_target'] = $strongarm;
@@ -1048,9 +1003,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_e_resource_availability'] = $strongarm;
@@ -1064,9 +1017,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_e_resource_category'] = $strongarm;
@@ -1080,9 +1031,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_group_category'] = $strongarm;
@@ -1096,9 +1045,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_news_category'] = $strongarm;
@@ -1112,9 +1059,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_section'] = $strongarm;
@@ -1126,8 +1071,6 @@ temaer/*';
   $strongarm->value = array(
     'basic' => 'basic',
     'advanced' => 'advanced',
-    'schema_book' => 'schema_book',
-    'schema_movie' => 'schema_movie',
     'verification' => 0,
     'schema_article' => 0,
     'schema_event' => 0,
@@ -1142,8 +1085,6 @@ temaer/*';
   $strongarm->value = array(
     'basic' => 'basic',
     'advanced' => 'advanced',
-    'schema_book' => 'schema_book',
-    'schema_movie' => 'schema_movie',
     'verification' => 0,
     'schema_article' => 0,
     'schema_event' => 0,
@@ -1160,9 +1101,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_ting_type_smart_search_string'] = $strongarm;
@@ -1176,9 +1115,7 @@ temaer/*';
     'advanced' => 'advanced',
     'verification' => 'verification',
     'schema_article' => 0,
-    'schema_book' => 0,
     'schema_event' => 0,
-    'schema_movie' => 0,
     'schema_organization' => 0,
   );
   $export['metatag_entity_type_groups_user_user'] = $strongarm;
