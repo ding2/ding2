@@ -28,7 +28,7 @@ function ting_smart_search_admin_form($form, &$form_state) {
   $form['import_automatic_data']['ting_smart_search_master_server'] = array(
     '#title' => t('Master server for automatic smart search'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('ting_smart_search_master_server', 'https://staging.randersbib.dk/data/autodata.txt'),
+    '#default_value' => variable_get('ting_smart_search_master_server', 'https://smartsearch.dandigbib.org/data/autodata.txt'),
     '#required' => FALSE,
     '#states' => array(
       'visible' => array(
@@ -48,7 +48,7 @@ function ting_smart_search_admin_form($form, &$form_state) {
   $form['import_webtrekk_stats']['ting_smart_search_webtrekk_server_feed'] = array(
     '#title' => t('Webtrekk statistics feed'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('ting_smart_search_webtrekk_server_feed', 'https://staging.randersbib.dk/data/searchdata.csv'),
+    '#default_value' => variable_get('ting_smart_search_webtrekk_server_feed', 'https://smartsearch.dandigbib.org/data/searchdata.csv'),
     '#required' => FALSE,
     '#description' => t('The path to search data files, fetches stats on popular search terms'),
   );
