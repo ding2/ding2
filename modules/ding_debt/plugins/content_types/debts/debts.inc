@@ -59,7 +59,7 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     ];
   }
 
-  if (variable_get('ding_debt_enable_internal', TRUE)) {
+  if (variable_get('ding_debt_enable_internal', TRUE) && !empty($internal_debts)) {
     if (variable_get('ding_debt_enable_external', TRUE) && variable_get('ding_debt_internal_title', '')) {
       $form['internal_title'] = [
         '#prefix' => '<h2>',
@@ -160,7 +160,7 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     }
   }
 
-  if (variable_get('ding_debt_enable_external', FALSE)) {
+  if (variable_get('ding_debt_enable_external', FALSE) && !empty($external_debts)) {
     if (variable_get('ding_debt_enable_internal', TRUE) && variable_get('ding_debt_external_title', '')) {
       $form['external_title'] = [
         '#prefix' => '<h2>',
