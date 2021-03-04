@@ -51,6 +51,18 @@ function ding_debt_debts_content_type_edit_form($form, &$form_state) {
  * Implements a drupal form, which implements a pay button and debts data.
  */
 function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_debts) {
+  $has_internal = !empty($internal_debts);
+  $has_external = !empty($external_debts);
+
+  // Cop out early if there's no debts.
+  if (!$has_internal && !$has_external) {
+    $form['no_debts'] = [
+      '#markup' => t("There's no unpaid debts."),
+    ];
+
+    return $form;
+  }
+
   if (variable_get('ding_debt_external_show_introtext', TRUE)) {
     $ding_debt_external_introtext = variable_get('ding_debt_external_introtext', _ding_debt_external_introtext_default());
 
@@ -59,7 +71,7 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     ];
   }
 
-  if (variable_get('ding_debt_enable_internal', TRUE) && !empty($internal_debts)) {
+  if (variable_get('ding_debt_enable_internal', TRUE) && $has_internal) {
     if (variable_get('ding_debt_enable_external', TRUE) && variable_get('ding_debt_internal_title', '')) {
       $form['internal_title'] = [
         '#prefix' => '<h2>',
@@ -160,7 +172,7 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     }
   }
 
-  if (variable_get('ding_debt_enable_external', FALSE) && !empty($external_debts)) {
+  if (variable_get('ding_debt_enable_external', FALSE) && $has_external) {
     if (variable_get('ding_debt_enable_internal', TRUE) && variable_get('ding_debt_external_title', '')) {
       $form['external_title'] = [
         '#prefix' => '<h2>',
