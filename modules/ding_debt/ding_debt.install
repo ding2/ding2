@@ -9,6 +9,8 @@
  * Implements hook_uninstall().
  */
 function ding_debt_uninstall() {
+  variable_del('ding_debt_show_introtext');
+  variable_del('ding_debt_introtext');
   variable_del('ding_debt_enable_internal');
   variable_del('ding_debt_internal_title');
   variable_del('ding_debt_enable_internal_button');
@@ -17,8 +19,6 @@ function ding_debt_uninstall() {
   variable_del('ding_debt_enable_external_button');
   variable_del('ding_debt_external_button_text');
   variable_del('ding_debt_external_button_url');
-  variable_del('ding_debt_external_show_introtext');
-  variable_del('ding_debt_external_introtext');
   variable_del('ding_debt_external_show_extra_information');
   variable_del('ding_debt_external_extra_information');
 }

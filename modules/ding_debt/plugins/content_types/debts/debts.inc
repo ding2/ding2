@@ -63,11 +63,11 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     return $form;
   }
 
-  if (variable_get('ding_debt_external_show_introtext', TRUE)) {
-    $ding_debt_external_introtext = variable_get('ding_debt_external_introtext', _ding_debt_external_introtext_default());
+  if (variable_get('ding_debt_show_introtext', TRUE)) {
+    $ding_debt_introtext = variable_get('ding_debt_introtext', _ding_debt_introtext_default());
 
-    $form['external_introtext'] = [
-      '#markup' => check_markup($ding_debt_external_introtext['value'], $ding_debt_external_introtext['format']),
+    $form['introtext'] = [
+      '#markup' => check_markup($ding_debt_introtext['value'], $ding_debt_introtext['format']),
     ];
   }
 

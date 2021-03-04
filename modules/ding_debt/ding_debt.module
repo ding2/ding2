@@ -83,9 +83,9 @@ function ding_debt_payment_callback($transaction) {
 }
 
 /**
- * Default value for external payment introtext.
+ * Default value for payment introtext.
  */
-function _ding_debt_external_introtext_default() {
+function _ding_debt_introtext_default() {
   return [
     'value' => '<p>Gebyrer og erstatninger overgår til et nyt system, hvor betalingen sker gennem løsningen Mit betalingsoverblik.</p>',
     'format' => 'ding_wysiwyg',

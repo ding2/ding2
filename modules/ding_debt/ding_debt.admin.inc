@@ -9,6 +9,45 @@
  * Settings form.
  */
 function ding_debt_settings_form($form, $form_state) {
+  $form['introtext'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Introtext'),
+    '#tree' => FALSE,
+    '#description' => t('Text displayed at the top of the page, useful for explaining the move to a new system.'),
+  ];
+
+  $form['introtext']['ding_debt_show_introtext'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Show introtext'),
+    '#default_value' => variable_get('ding_debt_show_introtext', TRUE),
+  ];
+
+  $ding_debt_introtext = variable_get('ding_debt_introtext', _ding_debt_introtext_default());
+
+  // We have to apply states to a wrapper, else it will only apply it to the
+  // text field and not the text format selector. As suggested here:
+  // https://www.drupal.org/project/drupal/issues/997826#comment-9119483
+  $form['introtext']['wrapper'] = [
+    '#type' => 'container',
+    '#states' => [
+      'visible' => [
+        ':input[name="ding_debt_show_introtext"]' => ['checked' => TRUE],
+      ],
+    ],
+  ];
+
+  $form['introtext']['wrapper']['ding_debt_introtext'] = [
+    '#type' => 'text_format',
+    '#title' => t('Introtext'),
+    '#default_value' => $ding_debt_introtext['value'],
+    '#format' => $ding_debt_introtext['format'],
+    '#states' => [
+      'visible' => [
+        ':input[name="ding_debt_show_introtext"]' => ['checked' => TRUE],
+      ],
+    ],
+  ];
+
   $form['internal'] = [
     '#type' => 'fieldset',
     '#title' => t('Payable on site'),
@@ -110,50 +149,6 @@ function ding_debt_settings_form($form, $form_state) {
     '#title' => t('Payment button url'),
     '#description' => t('URL for the payment button.'),
     '#default_value' => variable_get('ding_debt_external_button_url', ''),
-  ];
-
-  $form['external']['introtext'] = [
-    '#type' => 'fieldset',
-    '#title' => t('Introtext'),
-    '#tree' => FALSE,
-    '#description' => t('Text displayed at the top of the page, useful for explaining the move to a new system.'),
-    '#states' => [
-      'visible' => [
-        ':input[name="ding_debt_enable_external"]' => ['checked' => TRUE],
-      ],
-    ],
-  ];
-
-  $form['external']['introtext']['ding_debt_external_show_introtext'] = [
-    '#type' => 'checkbox',
-    '#title' => t('Show introtext'),
-    '#default_value' => variable_get('ding_debt_external_show_introtext', TRUE),
-  ];
-
-  $ding_debt_external_introtext = variable_get('ding_debt_external_introtext', _ding_debt_external_introtext_default());
-
-  // We have to apply states to a wrapper, else it will only apply it to the
-  // text field and not the text format selector. As suggested here:
-  // https://www.drupal.org/project/drupal/issues/997826#comment-9119483
-  $form['external']['introtext']['wrapper'] = [
-    '#type' => 'container',
-    '#states' => [
-      'visible' => [
-        ':input[name="ding_debt_external_show_introtext"]' => ['checked' => TRUE],
-      ],
-    ],
-  ];
-
-  $form['external']['introtext']['wrapper']['ding_debt_external_introtext'] = [
-    '#type' => 'text_format',
-    '#title' => t('Introtext'),
-    '#default_value' => $ding_debt_external_introtext['value'],
-    '#format' => $ding_debt_external_introtext['format'],
-    '#states' => [
-      'visible' => [
-        ':input[name="ding_debt_external_show_introtext"]' => ['checked' => TRUE],
-      ],
-    ],
   ];
 
   $form['external']['extra_information'] = [
