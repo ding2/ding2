@@ -19,7 +19,7 @@ function ding_debt_settings_form($form, $form_state) {
   $form['introtext']['ding_debt_show_introtext'] = [
     '#type' => 'checkbox',
     '#title' => t('Show introtext'),
-    '#default_value' => variable_get('ding_debt_show_introtext', TRUE),
+    '#default_value' => variable_get('ding_debt_show_introtext', FALSE),
   ];
 
   $ding_debt_introtext = variable_get('ding_debt_introtext', _ding_debt_introtext_default());
@@ -166,7 +166,7 @@ function ding_debt_settings_form($form, $form_state) {
   $form['external']['extra_information']['ding_debt_external_show_extra_information'] = [
     '#type' => 'checkbox',
     '#title' => t('Show extra information'),
-    '#default_value' => variable_get('ding_debt_external_show_extra_information', TRUE),
+    '#default_value' => variable_get('ding_debt_external_show_extra_information', FALSE),
   ];
 
   $ding_debt_external_extra_information = variable_get('ding_debt_external_extra_information', _ding_debt_external_extra_information_default());
