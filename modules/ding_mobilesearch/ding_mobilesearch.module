@@ -264,6 +264,16 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
 
 /**
  * Helper function to map common fields from an entity.
+ *
+ * @param string $entity_type
+ *   The entity type of passed $entity.
+ * @param string $bundle
+ *   The bundle of passed $entity.
+ * @param object $entity
+ *   The entity to extract data from.
+ *
+ * @return array $mapping
+ *   A mapping array with data from the entity.
  */
 function _ding_mobilesearch_map_entity_fields($entity_type, $bundle, $entity) {
   $mapping = [
