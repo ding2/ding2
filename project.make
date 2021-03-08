@@ -477,14 +477,8 @@ projects[watchdog_filtering][version] = "1.3"
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.10"
 
-projects[webform_purge][type] = "module"
 projects[webform_purge][subdir] = "contrib"
-projects[webform_purge][download][type] = "git"
-projects[webform_purge][download][url] = "http://git.drupal.org/project/webform_purge.git"
-; Need to get this dev version since our patch is based on work not released yet.
-projects[webform_purge][download][revision] = "1ec24ff"
-; Re-add the posibility to purge all submissions.
-projects[webform_purge][patch][] = "https://www.drupal.org/files/issues/2021-02-15/webform-purge-all-submissions-3198574-1.patch"
+projects[webform_purge][version] = "1.3"
 
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
