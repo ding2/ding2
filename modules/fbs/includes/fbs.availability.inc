@@ -256,15 +256,12 @@ function fbs_availability_holdings($provider_ids) {
             // Generate "vol key". Both volume and volumeNumber can be empty so
             // if one is empty just use the other or if both are present we use
             // "volume-volumeNumber".
-            $separator = '';
-            $volume = $material->periodical->volume;
-            $volume_number = $material->periodical->volumeNumber;
-            if (!empty($volume) && !empty($volume_number)) {
-              $separator = '-';
-            }
-
+            $volume_string = implode('-', array_filter([
+              $material->periodical->volume,
+              $material->periodical->volumeNumber,
+            ]));
             $tmp_issues[$key] = array(
-              'vol' => $volume . $separator . $volume_number,
+              'vol' => $volume_string,
               'year' => $material->periodical->volumeYear,
               'available' => $material->available ? 1 : 0,
               'total' => 1,
