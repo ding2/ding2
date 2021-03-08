@@ -124,14 +124,11 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
   // Map common fields on the node.
   $mapping = _ding_mobilesearch_map_entity_fields('node', $node->type, $node);
 
-  $username = db_select('users', 'u')
-    ->fields('u', array('name'))
-    ->condition('u.uid', $node->uid)
-    ->execute()
-    ->fetchField();
+  $author = user_load($node->uid);
+  $author_name = format_username($author);
   $tz = date_default_timezone(FALSE);
 
-  // Add additional fields from props on the node and username.
+  // Add additional fields from props on the node and author name.
   $mapping['fields'] += array(
     'title' => array(
       'name' => t('Title'),
@@ -140,7 +137,7 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
     ),
     'author' => array(
       'name' => t('Author'),
-      'value' => $username,
+      'value' => $author_name,
       'attr' => array(),
     ),
     'created' => array(
