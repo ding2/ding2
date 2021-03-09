@@ -590,7 +590,7 @@ function ting_smart_search_get_records() {
     foreach ($string_items_nids as $string_item_nid) {
       $item_boostvalues = $data[$string_item_nid]->field_custom_boost_values_p;
       if (!empty($item_boostvalues)) {
-        foreach ($item_boostvalues['und'] as $key => $field_collection_id) {
+        foreach ($item_boostvalues[LANGUAGE_NONE] as $key => $field_collection_id) {
           $fce_fields = array();
           $field_collection_entity = entity_load('paragraphs_item', $field_collection_id);
           $fce_fields = array(
@@ -598,7 +598,7 @@ function ting_smart_search_get_records() {
             'field_field_boost_weight' => $field_collection_entity[$field_collection_id['value']]->field_field_boost_weight,
             'field_field_name' => $field_collection_entity[$field_collection_id['value']]->field_field_name,
           );
-          $data[$string_item_nid]->field_custom_boost_values_p['und'][$key] = $fce_fields;
+          $data[$string_item_nid]->field_custom_boost_values_p[LANGUAGE_NONE][$key] = $fce_fields;
         }
       }
     }
