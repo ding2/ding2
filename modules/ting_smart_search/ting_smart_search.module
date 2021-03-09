@@ -20,7 +20,7 @@ function ting_smart_search_menu() {
     'file' => 'includes/ting_smart_search.admin.inc',
   );
 
-  $items['ting/smartsearch/records'] = array(
+  $items['ding/smartsearch'] = array(
     'title' => 'Ting smart search records',
     'page callback' => 'ting_smart_search_records',
     'access arguments' => array('access content'),
