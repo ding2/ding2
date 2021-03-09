@@ -24,6 +24,8 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
   $searches = $conf['searches'];
 
   if (!empty($searches)) {
+    $block->title = t('Ting search carousel');
+
     $carousels = array();
     foreach ($searches as $search) {
       $search += array(
