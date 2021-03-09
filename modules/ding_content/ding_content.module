@@ -90,3 +90,41 @@ function ding_content_wysiwyg_editor_settings_alter(&$settings, $context) {
     $settings['customConfig'] = '/' . $path . '/js/ding_content.editor_config.js';
   }
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_content_form_alter(&$form, &$form_state, $form_id) {
+  // Make some modifications for all panel pane configure forms rendered with
+  // Panels IPE and Ding IPE filter.
+  // See: ctools_content_form() and ctools_content_configure_form_defaults().
+  if (strpos($form['#action'], '/panels/ajax/ipe/') !== FALSE && $form_state['modal'] == TRUE) {
+    // Ensure override title element is present. Some panel's content types may
+    // have 'no title override' in plugin definition causing it to not be
+    // present and always use the default title.
+    if (!empty($form['override_title'])) {
+      // Enforce h2 header tag for the panel title.
+      $form['override_title_heading']['#default_value'] = 'h2';
+      $form['override_title_heading']['#access'] = FALSE;
+
+      // Simplify and improve title configuration:
+      //
+      //   1. Remove override title option.
+      //   2. Enable title override and show title field as default.
+      //   3. Use '%title' as default value to keep current behavior where the
+      //      panels default title (if any) is used as default.
+      //   4. Insert label above title field.
+      //   5. Insert better decsription below title field that only mentions the
+      //      %title keyword and recommends updating.
+      //
+      // The goal is the make it more likely that the administrators sees and
+      // updates and title field.
+      $conf = $form_state['conf'];
+      $form['override_title']['#access'] = FALSE;
+      $form['override_title']['#default_value'] = TRUE;
+      $form['override_title_text']['#default_value'] = isset($conf['override_title_text']) ? $conf['override_title_text'] : '%title';
+      $form['override_title_text']['#title'] = t('Title');
+      $form['override_title_markup']['#markup'] = t("The default value %title uses the panel's default title. For better accesibility it's recommended to change it and use a title more specific to the context.");
+    }
+  }
+}
