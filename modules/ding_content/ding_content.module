@@ -110,11 +110,16 @@ function ding_content_form_alter(&$form, &$form_state, $form_id) {
       // Simplify and improve title configuration:
       //
       //   1. Remove override title option.
-      //   2. Enable title override and show title field as default.
-      //   3. Use '%title' as default value to keep current behavior where the
-      //      panels default title (if any) is used as default.
-      //   4. Insert label above title field.
-      //   5. Insert better decsription below title field that only mentions the
+      //   2. Enable title override as default. This will make the title field
+      //      appear when the form is renderede initially.
+      //   3. Make title field required.
+      //   4. Use '%title' as default value to keep current behavior where the
+      //      panels default title (if any) is used as default. This also
+      //      minimizes the chance that administrators will leave the title
+      //      empty making the "Add one more" AJAX button fail silenty because
+      //      of required validation error.
+      //   5. Insert label above title field.
+      //   6. Insert better decsription below title field that only mentions the
       //      %title keyword and recommends updating.
       //
       // The goal is the make it more likely that the administrators sees and
@@ -122,6 +127,7 @@ function ding_content_form_alter(&$form, &$form_state, $form_id) {
       $conf = $form_state['conf'];
       $form['override_title']['#access'] = FALSE;
       $form['override_title']['#default_value'] = TRUE;
+      $form['override_title_text']['#required'] = TRUE;
       $form['override_title_text']['#default_value'] = isset($conf['override_title_text']) ? $conf['override_title_text'] : '%title';
       $form['override_title_text']['#title'] = t('Title');
       $form['override_title_markup']['#markup'] = t("The default value %title uses the panel's default title. For better accesibility it's recommended to change it and use a title more specific to the context.");
