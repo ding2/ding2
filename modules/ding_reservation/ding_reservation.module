@@ -982,15 +982,17 @@ function ding_reservation_delete_reservations_form($form, $form_state, $account,
 
 /**
  * Delete reservation ajax callback.
+ *
+ * @param string $reservation_ids
+ *   Imploded reservation id's.
+ *
+ * @return array
+ *   Ajax command.
  */
-function ding_reservation_delete_reservations_form_ajax_submit($reservation_ids, $form_state) {
+function ding_reservation_delete_reservations_form_ajax_submit($reservation_ids) {
   global $user;
-  if (!empty($form_state['triggering_element']['#reservation_id'])) {
-    $reservations = array($form_state['triggering_element']['#reservation_id']);
-  }
-  else {
-    $reservations = array_map('rawurldecode', explode(',', $reservation_ids));
-  }
+
+  $reservations = array_map('rawurldecode', explode(',', $reservation_ids));
 
   $html = FALSE;
   foreach ($reservations as $reservation_id) {
