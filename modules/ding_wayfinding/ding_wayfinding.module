@@ -164,7 +164,9 @@ function ding_wayfinding_get_branches() {
  */
 function ding_wayfinding_has_location($faust, $branch) {
   $slug = variable_get('ding_wayfinding_type', 'fbs');
-  $url = 'https://wayfinding.libry.dk/api/v1/sdk/bob/' . $slug . '-mapspeople';
+  $customer_id = variable_get('ding_wayfinding_customer_id', 'bob');
+
+  $url = 'https://wayfinding.libry.dk/api/v1/sdk/' . $customer_id . '/' . $slug . '-mapspeople';
   $res = drupal_http_request($url, [
     'method' => 'POST',
     'headers' => [
