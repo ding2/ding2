@@ -272,9 +272,9 @@ projects[message][version] = "1.12"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
-; Custom patch added to improve performance of metatag when using schema.org modules.
+; Improve performance of metatag when using schema.org modules.
 ; See: https://www.drupal.org/project/metatag/issues/2981238
-projects[metatag][patch][] = "patches/2981238-entity-type-groups-option.patch"
+projects[metatag][patch][] = "https://git.drupalcode.org/project/metatag/-/merge_requests/15.diff"
 
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
