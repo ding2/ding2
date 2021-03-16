@@ -67608,9 +67608,6 @@ msgstr "Tilføjet til gemte søgninger"
 msgid "Title for followed search"
 msgstr "Titel på gemt søgning"
 
-msgid "Add"
-msgstr "Gem"
-
 #: /search/ting/harry%20potter?
 msgid "See your followed searches."
 msgstr "Se mine gemte søgninger"
