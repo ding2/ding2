@@ -3,7 +3,7 @@
 
   let isInitialized = false;
 
-  async function displayMap(wayfindingId) {
+  async function displayMap(wayfindingId, openPopup) {
     const hasLocations = await window.libryWayfinding.wayfindingIdHasLocations(
       wayfindingId
     );
@@ -28,6 +28,9 @@
         // Update the map to show the floor the marker is on as default.
         let markerOpts = markers[0].markerOpts;
         map.setFloor(markerOpts.location.floor);
+        if (openPopup) {
+          $('.map-info-wrapper').toggle();
+        }
       });
 
       // Attach close inside information popup.
@@ -64,7 +67,7 @@
         const wayfindingId = settings.ding_wayfinding.id;
 
         if (isInitialized) {
-          displayMap(wayfindingId);
+          displayMap(wayfindingId, settings.ding_wayfinding.openPopup);
         }
         else {
           let access = settings.ding_wayfinding.access;
@@ -75,7 +78,7 @@
               access.apiKey,
             ).then(function () {
               isInitialized = true;
-              displayMap(wayfindingId);
+              displayMap(wayfindingId, settings.ding_wayfinding.openPopup);
             }
           );
         }

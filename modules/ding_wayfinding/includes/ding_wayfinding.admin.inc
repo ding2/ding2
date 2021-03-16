@@ -58,6 +58,13 @@ function ding_wayfinding_settings_form() {
     '#default_value' => variable_get('ding_wayfinding_enable_route', FALSE),
   ];
 
+  $form['access']['ding_wayfinding_popup_open'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Open popup (as default)'),
+    '#description' => t('When the checked the popup will be open as default when map is loaded.'),
+    '#default_value' => variable_get('ding_wayfinding_popup_open', FALSE),
+  ];
+
   $form['branches']['ding_wayfinding_branches'] = [
     '#type' => 'checkboxes',
     '#descriptions' => t('Select the branches that supports way finding'),

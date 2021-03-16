@@ -213,6 +213,7 @@ function ding_wayfinding_show_map($branch_id, $faust) {
         'apiKey' => variable_get('ding_wayfinding_api_key', ''),
       ],
       'route' => (bool) variable_get('ding_wayfinding_enable_route', FALSE),
+      'openPopup' => (bool) variable_get('ding_wayfinding_popup_open', FALSE),
     ],
   ], TRUE);
 
