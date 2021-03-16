@@ -51,6 +51,13 @@ function ding_wayfinding_settings_form() {
     '#default_value' => variable_get('ding_wayfinding_type', 'fbs'),
   ];
 
+  $form['access']['ding_wayfinding_zoom_level'] = [
+    '#type' => 'textfield',
+    '#title' => t('Map zoom level'),
+    '#description' => t('The zoom level when the map is opened.'),
+    '#default_value' => variable_get('ding_wayfinding_zoom_level', '19.0'),
+  ];
+
   $form['access']['ding_wayfinding_enable_route'] = [
     '#type' => 'checkbox',
     '#title' => t('Enable users to use routes on the map'),

@@ -214,6 +214,7 @@ function ding_wayfinding_show_map($branch_id, $faust) {
       ],
       'route' => (bool) variable_get('ding_wayfinding_enable_route', FALSE),
       'openPopup' => (bool) variable_get('ding_wayfinding_popup_open', FALSE),
+      'zoomLevel' => (float) variable_get('ding_wayfinding_zoom_level', '19.0'),
     ],
   ], TRUE);
 

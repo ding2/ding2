@@ -3,17 +3,18 @@
 
   let isInitialized = false;
 
-  async function displayMap(wayfindingId, openPopup) {
+  async function displayMap(wayfindingId, openPopup, zoomLevel) {
     const hasLocations = await window.libryWayfinding.wayfindingIdHasLocations(
       wayfindingId
     );
 
     // Check if a wayfindingId has any locations that can be shown on the map
     if (hasLocations) {
+      console.log(zoomLevel);
       const map = await window.libryWayfinding.createMap({
         // Container ID of the html element holding the map
         container: "wayfinding-map",
-        zoom: 19.0,
+        zoom: zoomLevel,
         showDevicePosition: true,
         showAllPOIs: true,
       });
@@ -67,7 +68,7 @@
         const wayfindingId = settings.ding_wayfinding.id;
 
         if (isInitialized) {
-          displayMap(wayfindingId, settings.ding_wayfinding.openPopup);
+          displayMap(wayfindingId, settings.ding_wayfinding.openPopup, settings.ding_wayfinding.zoomLevel);
         }
         else {
           let access = settings.ding_wayfinding.access;
@@ -78,7 +79,7 @@
               access.apiKey,
             ).then(function () {
               isInitialized = true;
-              displayMap(wayfindingId, settings.ding_wayfinding.openPopup);
+              displayMap(wayfindingId, settings.ding_wayfinding.openPopup, settings.ding_wayfinding.zoomLevel);
             }
           );
         }
