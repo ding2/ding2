@@ -653,6 +653,24 @@ function _opensearch_predict_cache(array $collections, TingClientRequest $reques
         $object_response[$object->id] = clone $object;
         _opensearch_cache($object_request, $object_response);
       }, [$object_id_request, $local_id_request]);
+
+      // Prebuild cache with relations. Since we always fetch full relations
+      // this is important to avoid extra calls to the well.
+      if (!empty($object->relations)) {
+        /** @var \TingClientObject[] */
+        $relations = $object->relations;
+        array_map(function (TingClientObject $relation) use ($object_request) {
+          $relation_request = clone $object_request;
+          $relation_request->setObjectId($relation->id);
+          $params = module_invoke_all('opensearch_pre_execute', $relation_request);
+          if (!empty($params)) {
+            $relation_request->setParameters($params);
+          }
+          $relation_response = array();
+          $relation_response[$relation->id] = $relation;
+          _opensearch_cache($relation_request, $relation_response);
+        }, $relations);
+      }
     }
   }
 }
