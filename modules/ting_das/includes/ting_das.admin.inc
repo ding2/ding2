@@ -9,9 +9,12 @@ define('TING_DAS_PLACEMENT_WEIGHT_ABOVE', 10);
 define('TING_DAS_PLACEMENT_WEIGHT_BELOW', 20);
 
 /**
- * Admin settings form for Ting DAS integration.
+ * Admin credentials settings form.
+ *
+ * The credentials settings have been moved into their own form with own menu
+ * access as per the wishes of the customer.
  */
-function ting_das_admin_settings_form() {
+function ting_das_credentials_settings_form() {
   $form = array();
 
   $form['ting_das'] = array(
@@ -50,6 +53,15 @@ function ting_das_admin_settings_form() {
     '#default_value' => $defaults['password'],
     '#required' => TRUE,
   );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Admin settings form for Ting DAS integration.
+ */
+function ting_das_admin_settings_form() {
+  $form = array();
 
   $types = variable_get('ting_well_types', _ting_fetch_well_types());
   $form['ting_das_types'] = array(

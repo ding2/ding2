@@ -11,12 +11,31 @@
 function ting_das_menu() {
   $items = array();
 
-  $items['admin/config/ting/das'] = array(
-    'title' => 'Digital article service',
-    'description' => 'Configure access to DAS.',
+  $items['admin/config/ting/das']= array(
+    'title' => t('Digital article service.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_das_admin_settings_form'),
     'access arguments' => array('administer site configuration'),
+    'file' => 'includes/ting_das.admin.inc',
+  );
+
+  $items['admin/config/ting/das/config'] = array(
+    'title' => 'Digital article service',
+    'description' => 'Configure DAS.',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_das_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/ting_das.admin.inc',
+  );
+
+  $items['admin/config/ting/das/credentials'] = array(
+    'title' => 'Digital article service credentials',
+    'description' => 'Configure DAS credentials.',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_das_credentials_settings_form'),
+    'access arguments' => array('administer das'),
     'file' => 'includes/ting_das.admin.inc',
   );
 
@@ -28,6 +47,18 @@ function ting_das_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ting_das_permission() {
+  return array(
+    'administer das' => array(
+      'title' => t('Administer DAS credentials'),
+      'description' => t('Administer the API access credentials for DAS.'),
+    ),
+  );
 }
 
 /**
@@ -282,7 +313,7 @@ function ting_das_order_form_ajax_callback($form, &$form_state) {
 
       try {
         $client->send();
-      } 
+      }
       catch (Exception $exception) {
         watchdog_exception('ting_das', $exception);
       }
