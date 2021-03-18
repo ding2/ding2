@@ -457,6 +457,7 @@ function ding_event_preprocess_node(&$variables) {
   else {
     $variables['event_price'] = t('Free', array(), array('context' => 'Price'));
   }
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
