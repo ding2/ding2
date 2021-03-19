@@ -654,8 +654,11 @@ function _opensearch_predict_cache(array $collections, TingClientRequest $reques
         _opensearch_cache($object_request, $object_response);
       }, [$object_id_request, $local_id_request]);
 
-      // Prebuild cache with relations. Since we always fetch full relations
-      // this is important to avoid extra calls to the well.
+      // Relations are well object themselves and can also be accessed as ting
+      // object entities. So use the data we have at hand now to pre-heat the
+      // cache with this object's relations. This way we can avoid an extra
+      // request to the well, if they are loaded as ting entities in the current
+      // or subsequent requests.
       if (!empty($object->relations)) {
         /** @var \TingClientObject[] */
         $relations = $object->relations;
