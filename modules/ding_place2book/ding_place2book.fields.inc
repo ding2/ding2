@@ -50,7 +50,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
   if (!empty($items)) {
     // If items is non-empty we might be on a node clone form.
     // See: ding_place2book_clone_node_alter()
-    if ($items[$delta]['do_clone']) {
+    if (!empty($items[$delta]['do_clone'])) {
       $event = $items[$delta]['event_clone'];
       $meta_data = isset($event->meta_data) ? $event->meta_data : NULL;
       $prices = $items[$delta]['prices_clone'];
@@ -645,7 +645,7 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
     }
 
     foreach ($prices as $price) {
-      if (empty($price['name']) || (empty($price['value']) && $price['value'] !== '0')) {
+      if (empty($price['name']) || !isset($price['value'])) {
         continue;
       }
 

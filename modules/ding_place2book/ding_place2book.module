@@ -367,6 +367,9 @@ function ding_place2book_clone_node_alter(&$node, $context) {
     $node_wrapper->field_ding_event_ticket_link->set(NULL);
   }
 
+  // Need this when setting field later on.
+  $field_language = field_language('node', $node, 'field_place2book');
+
   // Fetch the p2b-event and prices associated with the original node. We need
   // the data to replicate p2b-event on the cloned node.
   try {
@@ -383,7 +386,7 @@ function ding_place2book_clone_node_alter(&$node, $context) {
     watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
     // If can't get the data from p2b API we can't setup the clone perfectly. At
     // least we removed the event_id, so just return now.
-    $node->field_place2book[LANGUAGE_NONE][0] = $field_place2book;
+    $node->field_place2book[$field_language][0] = $field_place2book;
     return;
   }
 
@@ -402,30 +405,13 @@ function ding_place2book_clone_node_alter(&$node, $context) {
     // Signal to the widget that a clone should be performed.
     $field_place2book['do_clone'] = TRUE;
   }
-  // Otherwise save-edit or action method is used and we need to simulate the
-  // items array passed to our field presave implementation.
+  // Otherwise save-edit or action method is used and we need to emulate widget
+  // form submission.
   else {
-    $field_place2book['capacity'] = $event->capacity;
-    $field_place2book['kultunaut_export'] = $event->kultunaut_export;
-    $field_place2book['passive'] = $event->passive;
-
-    $field_place2book['prices_wrapper']['prices'] = array_map(function($price) {
-      return [
-        'name' => $price->name,
-        'value' => $price->value,
-        'sale_begin_at' => date('Y-m-d H:i:s', strtotime($price->sale_begin_at)),
-        'sale_end_at' => date('Y-m-d H:i:s', strtotime($price->sale_end_at)),
-      ];
-    }, $prices);
-
-    // Need to set this otherwise event will not be sync'ed by our presave
-    // implementation. The widget form takes care of setting it also, but in
-    // this clone method we skip the form and save the node immediatly, so we
-    // need to set it here.
-    $field_place2book['do_sync'] = TRUE;
+    $field_place2book = _ding_place2book_emulate_widget_form_submission($event, $prices, $field_place2book);
   }
 
-  $node->field_place2book[LANGUAGE_NONE][0] = $field_place2book;
+  $node->field_place2book[$field_language][0] = $field_place2book;
 }
 
 /**
@@ -436,11 +422,87 @@ function ding_place2book_clone_node_alter(&$node, $context) {
  * same p2b event.
  */
 function ding_place2book_replicate_field_ding_p2b(&$replica, $entity_type, $field_name) {
-  $field_language = field_language($entity_type, $replica, $field_name);
-  if (isset($replica->{$field_name}[$field_language])) {
-    $replica->{$field_name}[$field_language][0]['event_id'] = NULL;
+  list(, , $bundle) =  entity_extract_ids($entity_type, $replica);
+  if ($entity_type != 'node' || $bundle != 'ding_event' || $field_name != 'field_place2book') {
+    return;
   }
+
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($replica)) {
+    return;
+  }
+
+  $original_event_id = $field_place2book['event_id'];
+  $field_place2book['event_id'] = NULL;
+
+  // Need this when setting field later on.
+  $field_language = field_language($entity_type, $replica, $field_name);
+
+  // Fetch the p2b-event and prices associated with the original node. We need
+  // the data to replicate p2b-event on the replica.
+  try {
+    $p2b = ding_place2book_instance();
+    $event = $p2b->getEvent($field_place2book['event_maker_id'], $original_event_id);
+
+    $prices = [];
+    // Only fetch prices for non-passive events.
+    if (empty($event->passive)) {
+      $prices = $p2b->getPrices($field_place2book['event_maker_id'], $original_event_id);
+    }
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+    // If can't get the data from p2b API we can't setup the clone perfectly. At
+    // least we removed the event_id, so just return now.
+    $node->{$field_name}[$field_language][0] = $field_place2book;
+    return;
+  }
+
+  // Emulate widget form submission. Reset the prices sale begin/end dates
+  // first to enfore "the begin now - end at event start"-default. This is the
+  // only sensible thing to do as we can't now if the original event's sale
+  // begin/end will make sense (or even are valid) in the context of the
+  // replicated event's start/end dates.
+  array_walk($prices, function (&$price) {
+    $price->sale_begin_at = '';
+    $price->sale_end_at = '';
+  });
+  $field_place2book = _ding_place2book_emulate_widget_form_submission($event, $prices, $field_place2book);
+  $replica->{$field_name}[$field_language][0] = $field_place2book;
 }
+
+/**
+ * Helper function to emulate ding_p2b field widget form submission.
+ *
+ * @param stdClass $event
+ *   The p2b event object fetched from the p2b API.
+ * @param array $prices
+ *   The prices of the event. Empty if no prices.
+ * @param array $field_place2book
+ *   The p2b field items array as loaded from the DB.
+ *
+ * @return array
+ *   Returns the p2b field items array populated with the required data that is
+ *   added in the widget form submission flow.
+ */
+function _ding_place2book_emulate_widget_form_submission(stdClass $event, array $prices, array $field_place2book) {
+  $field_place2book['capacity'] = $event->capacity;
+  $field_place2book['kultunaut_export'] = $event->kultunaut_export;
+  $field_place2book['passive'] = !empty($event->passive);
+  $field_place2book['original_event'] = $event;
+  $field_place2book['prices_wrapper']['prices'] = array_map(function ($price) {
+    return [
+      'name' => $price->name,
+      'value' => (string) $price->value,
+      'sale_begin_at' => !empty($price->sale_begin_at) ? date('Y-m-d H:i:s', strtotime($price->sale_begin_at)) : '',
+      'sale_end_at' => !empty($price->sale_end_at) ? date('Y-m-d H:i:s', strtotime($price->sale_end_at)) : '',
+    ];
+  }, $prices);
+  // Need to set this otherwise event will not be sync'ed by our presave
+  // implementation. The widget form will set this also.
+  $field_place2book['do_sync'] = TRUE;
+  return $field_place2book;
+}
+
 
 /**
  * Creates and initializes instance of P2b class.
