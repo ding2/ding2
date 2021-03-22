@@ -422,8 +422,7 @@ function ding_place2book_clone_node_alter(&$node, $context) {
  * same p2b event.
  */
 function ding_place2book_replicate_field_ding_p2b(&$replica, $entity_type, $field_name) {
-  list(, , $bundle) =  entity_extract_ids($entity_type, $replica);
-  if ($entity_type != 'node' || $bundle != 'ding_event' || $field_name != 'field_place2book') {
+  if ($entity_type != 'node' || $replica->type != 'ding_event' || $field_name != 'field_place2book') {
     return;
   }
 

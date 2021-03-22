@@ -122,6 +122,20 @@ class P2b {
   private $divider = 100;
 
   /**
+   * Static cache for events.
+   *
+   * @var array
+   */
+  private $eventCache = [];
+
+  /**
+   * Static cache for event prices.
+   *
+   * @var array
+   */
+  private $eventPricesCache = [];
+
+  /**
    * P2b protected constructor for realisation singleton design pattern.
    *
    * @param array $settings
@@ -190,8 +204,10 @@ class P2b {
    *   String that represents eventMaker id on p2b service.
    * @param string $event_id
    *   String that represents event id on p2b service.
+   * @param boolean $reset
+   *   Whether to bypass static cache. Defaults to FALSE.
    *
-   * @return object
+   * @return stdClass
    *   Return object with data related to event.
    *
    * @throws \Exception
@@ -199,9 +215,15 @@ class P2b {
    *
    * @see http://developer.place2book.com/v1/events/
    */
-  public function getEvent($event_maker_id, $event_id) {
+  public function getEvent($event_maker_id, $event_id, $reset = FALSE) {
     if (empty($event_id) || empty($event_maker_id)) {
       throw new \Exception("Params event_id, event_maker_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}.");
+    }
+
+    $cid = "$event_maker_id:$event_id";
+
+    if (!$reset && isset($this->eventCache[$cid])) {
+      return $this->eventCache[$cid];
     }
 
     $placeholders = array(
@@ -211,8 +233,11 @@ class P2b {
 
     $url = $this->p2bFormatUrl($this->getEvent, $placeholders);
     $result = $this->p2bRequest($url, 'GET');
+    $event = $result->event;
 
-    return $result->event;
+    $this->eventCache[$cid] = $event;
+
+    return $event;
   }
 
   /**
@@ -223,7 +248,7 @@ class P2b {
    * @param array $data
    *   Array with all needed data for creating event.
    *
-   * @return array
+   * @return stdClass
    *   Return object with data related to event.
    *
    * @throws \Exception
@@ -258,8 +283,13 @@ class P2b {
     $url = $this->p2bFormatUrl($this->createEvent, $placeholders);
 
     $event = $this->p2bRequest($url, 'POST', $data, 201);
+    $event = $event->event;
 
-    return $event->event;
+    $event_id = $event->id;
+    $cid = "$event_maker_id:$event_id";
+    $this->eventCache[$cid] = $event;
+
+    return $event;
   }
 
   /**
@@ -272,7 +302,7 @@ class P2b {
    * @param array $data
    *   Array with all needed data for updating event.
    *
-   * @return array
+   * @return stdClass
    *   Return object with data related to event.
    *
    * @throws \Exception
@@ -307,8 +337,12 @@ class P2b {
     );
     $url = $this->p2bFormatUrl($this->updateEvent, $placeholders);
     $event = $this->p2bRequest($url, 'PUT', $data);
+    $event = $event->event;
 
-    return $event->event;
+    $cid = "$event_maker_id:$event_id";
+    $this->eventCache[$cid] = $event;
+
+    return $event;
   }
 
   /**
@@ -319,7 +353,7 @@ class P2b {
    * @param string $event_id
    *   String that represents event id on p2b service.
    *
-   * @return array
+   * @return stdClass
    *   Return object with data related to event.
    *
    * @throws \Exception
@@ -339,6 +373,9 @@ class P2b {
     $url = $this->p2bFormatUrl($this->deleteEvent, $placeholders);
     $event = $this->p2bRequest($url, 'DELETE', array(), 204);
 
+    $cid = "$event_maker_id:$event_id";
+    unset($this->eventCache[$cid]);
+
     return $event;
   }
 
@@ -352,8 +389,8 @@ class P2b {
    * @param array $data
    *   Array with all needed data for creating event.
    *
-   * @return array
-   *   Return object with data related to event.
+   * @return stdClass
+   *   Return object with data related to the price.
    *
    * @throws \Exception
    *   In case when not all required params was given.
@@ -380,6 +417,9 @@ class P2b {
     $data['price']['value'] *= $this->divider;
     $price = $this->p2bRequest($url, 'POST', $data, 201);
 
+    $cid = "$event_maker_id:$event_id";
+    unset($this->eventPricesCache[$cid]);
+
     return $price;
   }
 
@@ -394,7 +434,7 @@ class P2b {
    * @param string $price_id
    *   String that represents price id id on p2b service.
    *
-   * @return object
+   * @return stdClass
    *   Return object with data related to event price.
    *
    * @throws \Exception
@@ -406,18 +446,17 @@ class P2b {
     if (empty($event_id) || empty($event_maker_id) || empty($price_id)) {
       throw new \Exception("Params event_id, event_maker_id and price_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}, price_id: {$price_id}.");
     }
+
     $placeholders = array(
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
       ':price_id' => $price_id,
     );
     $url = $this->p2bFormatUrl($this->getPrice, $placeholders);
-    $result = $this->p2bRequest($url, 'GET');
-    foreach ($result as $price) {
-      $price->value /= $this->divider;
-    }
+    $price = $this->p2bRequest($url, 'GET');
+    $price->value /= $this->divider;
 
-    return $result;
+    return $price;
   }
 
   /**
@@ -427,30 +466,43 @@ class P2b {
    *   String that represents eventMaker id on p2b service.
    * @param string $event_id
    *   String that represents event id on p2b service.
+   * @param boolean $reset
+   *   Whether to bypass static cache. Defaults to FALSE.
    *
-   * @return object
-   *   Return object with list of prices.
+   * @return array
+   *   Return array of price objects.
    *
    * @throws \Exception
    *   In case when not all required params was given.
    *
    * @see http://developer.place2book.com/v1/prices/
    */
-  public function getPrices($event_maker_id, $event_id) {
+  public function getPrices($event_maker_id, $event_id, $reset = FALSE) {
     if (empty($event_id) || empty($event_maker_id)) {
       throw new \Exception("Params event_id, event_maker_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}.");
     }
+
+    $cid = "$event_maker_id:$event_id";
+
+    if (!$reset && isset($this->eventPricesCache[$cid])) {
+      return $this->eventPricesCache[$cid];
+    }
+
     $placeholders = array(
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
     );
     $url = $this->p2bFormatUrl($this->getPrices, $placeholders);
-    $result = $this->p2bRequest($url, 'GET');
-    foreach ($result as $price) {
+    $prices = $this->p2bRequest($url, 'GET');
+    foreach ($prices as $price) {
       $price->value /= $this->divider;
     }
-    return $result;
+
+    $this->eventPricesCache[$cid] = $prices;
+
+    return $prices;
   }
+
   /**
    * Request to p2b for update price.
    *
@@ -463,8 +515,8 @@ class P2b {
    * @param array $data
    *   Array with all needed data for creating event.
    *
-   * @return array
-   *   Return object with data related to event.
+   * @return stdClass
+   *   Return object with data related to the price.
    *
    * @throws \Exception
    *   In case when not all required params was given.
@@ -490,9 +542,12 @@ class P2b {
     );
     $url = $this->p2bFormatUrl($this->updatePrice, $placeholders);
     $data['price']['value'] *= $this->divider;
-    $result = $this->p2bRequest($url, 'PUT', $data);
+    $price = $this->p2bRequest($url, 'PUT', $data);
 
-    return $result;
+    $cid = "$event_maker_id:$event_id";
+    unset($this->eventPricesCache[$cid]);
+
+    return $price;
   }
 
   /**
@@ -505,8 +560,8 @@ class P2b {
    * @param string $price_id
    *   String that represents price id id on p2b service.
    *
-   * @return array
-   *   Return object with data related to event.
+   * @return stdClass
+   *   Return object with data related to the price.
    *
    * @throws \Exception
    *   In case when not all required params was given.
@@ -524,9 +579,12 @@ class P2b {
       ':price_id' => $price_id,
     );
     $url = $this->p2bFormatUrl($this->deletePrice, $placeholders);
-    $result = $this->p2bRequest($url, 'DELETE', array(), 204);
+    $price = $this->p2bRequest($url, 'DELETE', array(), 204);
 
-    return $result;
+    $cid = "$event_maker_id:$event_id";
+    unset($this->eventPricesCache[$cid]);
+
+    return $price;
   }
 
   /**
