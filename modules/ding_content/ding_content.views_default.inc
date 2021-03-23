@@ -616,6 +616,10 @@ function ding_content_views_default_views() {
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
   /* Filter criterion: Content: Published status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -623,6 +627,19 @@ function ding_content_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Date - end date (field_ding_event_date:value2) */
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['id'] = 'field_ding_event_date_value2';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['field'] = 'field_ding_event_date_value2';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['operator'] = 'empty';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['group'] = 2;
+  /* Filter criterion: Content: Date - end date (field_ding_event_date:value2) */
+  $handler->display->display_options['filters']['field_ding_event_date_value2_1']['id'] = 'field_ding_event_date_value2_1';
+  $handler->display->display_options['filters']['field_ding_event_date_value2_1']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['filters']['field_ding_event_date_value2_1']['field'] = 'field_ding_event_date_value2';
+  $handler->display->display_options['filters']['field_ding_event_date_value2_1']['operator'] = '>';
+  $handler->display->display_options['filters']['field_ding_event_date_value2_1']['group'] = 2;
+  $handler->display->display_options['filters']['field_ding_event_date_value2_1']['default_date'] = '-1 day';
 
   /* Display: Tags */
   $handler = $view->new_display('panel_pane', 'Tags', 'ding_content_tags');
