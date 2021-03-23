@@ -1079,3 +1079,10 @@ function ding2_update_7092() {
 function ding2_update_7093() {
   ding2_translation_update();
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7094() {
+  ding2_translation_update();
+}
