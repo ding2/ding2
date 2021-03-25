@@ -61,9 +61,8 @@ function ding_config_import_admin_form_submit($form, &$form_state) {
   $file = $_FILES['files']['tmp_name']['upload'];
 
   if (libraries_load('yaml')) {
-    $data = file_get_contents($file);
     try {
-      $values = Yaml::parseFile($data);
+      $values = Yaml::parseFile($file);
       if (is_array($values)) {
         foreach (array_keys($values) as $key => $data) {
           switch (mb_strtolower($key)) {
