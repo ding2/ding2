@@ -13,6 +13,7 @@ function ting_das_menu() {
 
   $items['admin/config/ting/das']= array(
     'title' => t('Digital article service.'),
+    'description' => 'Configure Digital article service.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_das_admin_settings_form'),
     'access arguments' => array('administer site configuration'),
@@ -389,4 +390,22 @@ function _ting_das_get_interest_periods() {
   }
 
   return $options;
+}
+
+/**
+ * Default usage text.
+ *
+ * @param $type
+ *   The type of text to fetch (description, gdpr).
+ *
+ * @return string
+ *   The text for the type given.
+ */
+function _ting_das_default_usage_text($type) {
+  $data = array(
+    'description' => '<p>Som bruger af [bibliotek] og borger i kommunen kan du via Digital Artikelservice, Det Kgl. Bibliotek, Aarhus, bestille digitale kopier af tidskriftartikler og få dem sendt som PDF direkte til din e-mail. Artiklerne digitaliseres og leveres fra Det Kgl. Biblioteks samlinger af fysiske danske tidsskrifter, som indeholder over 40.000 forskellige titler. Leveringstiden er på få minutter for artikler som allerede er scannede, imens “ny-bestilte” artikler (dvs. artikler som ikke tidligere er bestilt) scannes og sendes i løbet af maksimalt 24 timer på hverdage.',
+    'gdpr' => '<p>I forbindelse med anvendelse af Digital Artikelservice, skal vi jf. Databeskyttelsesforordningen informere dig om [bibliotekets behandling af personoplysninger.][sæt et link ind til oplysningsteksten]</p><p>Se endvidere Det Kgl. Biblioteks privatlivs politik: <a href="http://www.kb.dk/da/kb/webstedet/privatliv.html" target="_blank">http://www.kb.dk/da/kb/webstedet/privatliv.html</a></p>'
+  );
+
+  return $data[$type];
 }

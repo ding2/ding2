@@ -81,11 +81,11 @@ function ting_das_admin_settings_form() {
   $defaults = variable_get('ting_das_text', array(
     'description' => array(
       'format' => 'ding_wysiwyg',
-      'value' => '',
+      'value' => _ting_das_default_usage_text('description'),
     ),
     'gdpr' => array(
       'format' => 'ding_wysiwyg',
-      'value' => '',
+      'value' => _ting_das_default_usage_text('gdpr'),
     ),
     'placement' => TING_DAS_PLACEMENT_WEIGHT_ABOVE,
   ));
