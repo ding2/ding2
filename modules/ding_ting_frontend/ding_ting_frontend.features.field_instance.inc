@@ -633,7 +633,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting_covers',
         'settings' => array(
-          'image_style' => 'ding_list_medium',
+          'image_style' => 'ding_primary_large',
           'link_type' => 'none',
         ),
         'type' => 'ting_cover_default',
