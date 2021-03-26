@@ -106,7 +106,7 @@ function ding_news_field_default_field_instances() {
       'weight' => 32,
     ),
   );
-  
+
   // Exported field_instance: 'node-ding_news-field_ding_news_body'.
   $field_instances['node-ding_news-field_ding_news_body'] = array(
     'bundle' => 'ding_news',
@@ -466,7 +466,7 @@ function ding_news_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'ting_cover_small',
+          'image_style' => 'ding_list_small',
         ),
         'type' => 'image',
         'weight' => 4,
