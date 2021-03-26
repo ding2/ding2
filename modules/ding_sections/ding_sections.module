@@ -128,6 +128,80 @@ function ding_sections_form_taxonomy_form_term_alter(&$form, &$form_state) {
 }
 
 /**
+ * Implements hook_preprocess().
+ */
+function ding_sections_preprocess(&$variables, $hook) {
+  if (!variable_get('ding_sections_preprocess_enabled', FALSE)) {
+    return;
+  }
+
+  // Process nodes with sections.
+  if ($hook == 'node') {
+    if (!empty($variables['field_ding_section'])) {
+      $node_entity = $variables['node'];
+      $field_entity = field_get_items('node', $node_entity, 'field_ding_section');
+      $tid = $field_entity[0]['tid'];
+      $nid = $variables['nid'];
+      $variables['classes_array'][] = 'section-' . $tid . '-' . $nid;
+    }
+  }
+
+  // Process ding_event_calendar events list.
+  if ($hook == 'ding_events_list') {
+    $items = $variables['items'];
+
+    $event_list_items = [];
+    foreach ($items as $item) {
+      if (!empty($item->field_ding_section)) {
+        $tid = $item->field_ding_section['und'][0]['tid'];
+        $nid = $item->nid;
+        $event_list_items[] = 'section-' . $tid . '-' . $nid;
+      }
+    }
+
+    drupal_add_js(['ding_sections' => ['section_event_list_items' => $event_list_items]], 'setting');
+    drupal_add_js(drupal_get_path('module', 'ding_sections') . '/js/ding_sections.js', 'file');
+  }
+
+  // Process ding_nodelist widgets.
+  if (strpos($hook, 'ding_nodelist') !== FALSE) {
+    $nodelist_items = [];
+    $widget_unique = '';
+    if (!empty($variables['conf']) && !empty($variables['conf']['classes'])) {
+      $classes = explode(' ', $variables['conf']['classes']);
+      $widget_unique = !empty($classes[2]) ? $classes[2] : '';
+    }
+
+    // This scenario normally should not happen.
+    // But, at least, it won't break JS part if it still occurs.
+    if (empty($widget_unique)) {
+      return;
+    }
+
+    $items = [];
+    if (!empty($variables['items'])) {
+      $items = $variables['items'];
+    }
+    foreach ($items as $item) {
+      if (!empty($item->field_ding_section)) {
+        $tid = $item->field_ding_section['und'][0]['tid'];
+        $nid = $item->nid;
+        // Set concatenation of hook name and nodelist_id in order as a key for
+        // correct pane processing.
+        $nodelist_items[$hook . ':' . $widget_unique][] = 'section-' . $tid . '-' . $nid;
+      }
+      else {
+        // Pass "empty" value in order to keep order.
+        $nodelist_items[$hook . ':' . $widget_unique][] = 'empty';
+      }
+    }
+
+    drupal_add_js(['ding_sections' => ['nodelist_items' => $nodelist_items]], 'setting');
+    drupal_add_js(drupal_get_path('module', 'ding_sections') . '/js/ding_sections.js', 'file');
+  }
+}
+
+/**
  * Implements hook_secure_permissions().
  */
 function ding_sections_secure_permissions($role) {
@@ -162,6 +236,7 @@ function ding_sections_secure_permissions($role) {
       'edit any section content',
       'edit own section content',
       'view section panels terms',
+      'use section panels terms',
     ),
     'local editor' => array(
       'view section panels terms',

@@ -89,6 +89,10 @@ function ding_library_field_default_field_instances() {
         'available_countries' => array(
           'DE' => 'DE',
           'DK' => 'DK',
+          'FO' => 'FO',
+          'GL' => 'GL',
+          'NO' => 'NO',
+          'SE' => 'SE',
         ),
         'format_handlers' => array(
           'address' => 'address',
@@ -765,6 +769,62 @@ function ding_library_field_default_field_instances() {
     ),
   );
 
+  // @todo This should be moved to separate module.
+  // Exported field_instance: 'node-ding_library-field_hide_news_and_events'
+  $field_instances['node-ding_library-field_hide_news_and_events'] = array(
+    'bundle' => 'ding_library',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'News and events on library page will be hidden if checked.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 24,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_hide_news_and_events',
+    'label' => 'Hide News and Events',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 31,
+    ),
+  );
+
   // Exported field_instance: 'node-ding_library-group_group'.
   $field_instances['node-ding_library-group_group'] = array(
     'bundle' => 'ding_library',
@@ -852,9 +912,11 @@ function ding_library_field_default_field_instances() {
   t('E-mail');
   t('Fax number');
   t('Geocode');
+  t('Hide News and Events');
   t('If enabled, events and news can be marked as related to this library and will show up on its library page.');
   t('Lead');
   t('Links');
+  t('News and events on library page will be hidden if checked.');
   t('Phone number');
   t('Show related content on library page');
   t('Slug');

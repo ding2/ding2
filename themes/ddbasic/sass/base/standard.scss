@@ -236,3 +236,33 @@ ol {
 label {
   font-weight: normal;
 }
+
+// Media
+.page-node {
+  .field-type-text-long .media-element-container {
+    display: inherit;
+    margin-right: 10px;
+    margin-bottom: 5px;
+
+    .media-image-right {
+      float: right;
+      margin-left: 10px;
+    }
+    .media-image-left {
+      float: left;
+      margin-right: 10px;
+    }
+  }
+}
+
+.field-type-text-long {
+  ol, ul {
+    margin: 0;
+    padding-left: 40px;
+    list-style-position: initial;
+
+    li p {
+      margin: 5px 0;
+    }
+  }
+}

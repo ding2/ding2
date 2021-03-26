@@ -91,7 +91,6 @@ features[variable][] = node_options_ding_library
 features[variable][] = node_preview_ding_library
 features[variable][] = node_submitted_ding_library
 features[variable][] = og_menu_default_links_node_ding_library
-features[variable][] = opening_hours_category_vocabulary_ding_library
 features[variable][] = opening_hours_enabled_ding_library
 features[variable][] = opening_hours_enabled_library
 features[variable][] = pathauto_node_ding_library_pattern

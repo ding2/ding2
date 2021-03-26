@@ -52,7 +52,7 @@ function ding_content_filter_default_formats() {
         'weight' => -45,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <p> <em> <strong> <cite> <blockquote> <ul> <ol> <li> <dl> <dt> <dd> <table> <tr> <th> <td> <br> <img> <iframe> <h2> <h3> <h4> <h5> <h6> <div> <audio> <source>',
+          'allowed_html' => '<a> <b> <p> <em> <strong> <cite> <blockquote> <ul> <ol> <li> <dl> <dt> <dd> <table> <tr> <th> <td> <br> <img> <iframe> <h2> <h3> <h4> <h5> <h6> <div> <audio> <source> <address> <pre> <u> <script> <style> <object> <param> <embed> <video> <audio>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 0,
         ),

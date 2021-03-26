@@ -88,6 +88,8 @@ function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
       $media_field = field_view_field('node', $node, $field);
       if ($media_field['#items'][0]['type'] == 'video') {
         $node->video = file_create_url($media_field['#items'][0]['uri']);
+        $filemime = explode('/', $media_field['#items'][0]['filemime']);
+        $node->video_service = $filemime[1];
       }
     }
   }
@@ -510,16 +512,19 @@ function _ding_nodelist_plugin_widget_section(&$form, $node_type, $conf, $defaul
     '#suffix' => '</div></div>',
   );
 
-  $autoscrolling_widgets = array(DING_NODELIST_WIDGET_CAROUSEL, DING_NODELIST_WIDGET_ROLLTAB);
+  $autoscrolling_widgets = [
+    DING_NODELIST_WIDGET_CAROUSEL,
+    DING_NODELIST_WIDGET_ROLLTAB,
+  ];
   if (in_array($widget_type, $autoscrolling_widgets)) {
     $generic_autoscroll_delay = variable_get('ding_nodelist_' . $widget_type . '_delay', $default_conf['autoscroll_delay']);
-    $form['ding_nodelist_wrapper']['widget_dependent']['autoscroll_delay'] = array(
+    $form['ding_nodelist_wrapper']['widget_dependent']['autoscroll_delay'] = [
       '#type' => 'textfield',
       '#title' => t('Delay (miliseconds)'),
       '#default_value' => !empty($conf['autoscroll_delay']) ? $conf['autoscroll_delay'] : $generic_autoscroll_delay,
       '#description' => t('Time in milliseconds an item will be shown before switching to the next one'),
       '#size' => 4,
-    );
+    ];
   }
 }
 

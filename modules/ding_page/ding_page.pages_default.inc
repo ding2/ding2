@@ -101,38 +101,6 @@ function ding_page_default_page_manager_handlers() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-cc5c609c-5ad8-4a91-abf2-3b9befd8f376';
-    $pane->panel = 'attachment_1_1';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
-      'ding_campaign_style' => 'ding_campaign_full_width',
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-        1 => 'argument_entity_id:node_1',
-        2 => 'empty',
-        3 => 'relationship_terms_from_node_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = 'cc5c609c-5ad8-4a91-abf2-3b9befd8f376';
-    $display->content['new-cc5c609c-5ad8-4a91-abf2-3b9befd8f376'] = $pane;
-    $display->panels['attachment_1_1'][0] = 'new-cc5c609c-5ad8-4a91-abf2-3b9befd8f376';
-    $pane = new stdClass();
     $pane->pid = 'new-c0f4377f-e23d-4357-b631-d0e52d4a41df';
     $pane->panel = 'attachment_1_1';
     $pane->type = 'ding_campaign_plus';
@@ -247,13 +215,12 @@ function ding_page_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-0c1b010b-aad2-4a5e-badd-f2fe5334a80c';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
+      'style' => 'ribbon',
       'context' => array(
         0 => 'argument_entity_id:node_1',
         1 => 'relationship_og_node_from_group_1',

@@ -17,7 +17,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-color: $grey-light;
+    background-color: $color-topbar;
     box-shadow: $box-shadow;
 
     // Tablet
@@ -71,7 +71,6 @@
         margin-top: 0;
         padding: 10px 5%;
         box-shadow: $box-shadow;
-        background-color: $grey-light;
         z-index: 5;
       }
     }
@@ -268,7 +267,7 @@
         position: fixed;
         z-index: $z-header - 10;
         width: 100%;
-        background-color: $charcoal;
+        background-color: $charcoal-lighter;
 
         // Tablet
         @include media($tablet) {

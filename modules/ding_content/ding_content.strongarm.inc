@@ -14,7 +14,7 @@ function ding_content_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'media_wysiwyg_default_render';
-  $strongarm->value = 'file_entity';
+  $strongarm->value = 'field_attach';
   $export['media_wysiwyg_default_render'] = $strongarm;
 
   $strongarm = new stdClass();

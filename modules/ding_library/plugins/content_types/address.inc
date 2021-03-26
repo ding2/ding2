@@ -20,7 +20,7 @@ function ding_library_address_content_type_render($subtype, $conf, $panel_args, 
   $content = ' <div class="library-address">';
   if (!empty($node->field_ding_library_addresse['und'])) {
     $content .= '
-      <div class="library-address-street">' . $node->field_ding_library_addresse['und'][0]['thoroughfare'] . '</div>
+      <div class="library-address-street">' . $node->field_ding_library_addresse[LANGUAGE_NONE][0]['thoroughfare'] . '<br />' . $node->field_ding_library_addresse[LANGUAGE_NONE][0]['premise'] . '</div>
       <div class="library-address-city-wrapper">
         <span class="library-address-postal-code">' . $node->field_ding_library_addresse['und'][0]['postal_code'] . '</span><span class="library-address-city">' . $node->field_ding_library_addresse['und'][0]['locality'] . '</span>
       </div>';

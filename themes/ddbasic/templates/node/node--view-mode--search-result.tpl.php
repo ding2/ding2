@@ -84,6 +84,5 @@
 <div class="<?php print $classes; ?> view-mode-search-result">
   <div class="content"<?php print $content_attributes; ?>>
     <?php print render($content); ?>
-    <?php print l('<div class="button">' . t('Read more') . '</div>', 'node/' . $node->nid, array('html' => TRUE)); ?>
   </div>
 </div>

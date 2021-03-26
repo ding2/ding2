@@ -88,3 +88,9 @@ function ting_search_carousel_update_7101() {
   // Ensure that the pane can be selected in IPE.
   ting_search_carousel_enable();
 }
+
+/**
+ * Deprecated.
+ */
+function ting_search_carousel_update_7005() {
+}

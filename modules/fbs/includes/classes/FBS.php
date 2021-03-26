@@ -4,7 +4,6 @@
  * Define FBS class for ding provider integration.
  */
 
-use Reload\Prancer;
 use Reload\Prancer\HttpClient;
 use Reload\Prancer\Serializer;
 use Reload\Prancer\Serializer\JsonMapperSerializer;

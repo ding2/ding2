@@ -162,7 +162,13 @@ function ding_frontend_image_default_styles() {
   $styles['ding_full_width'] = array(
     'label' => 'Ding full width',
     'effects' => array(
-      1 => array(
+      2 => array(
+        'label' => 'Manual Crop: Reuse cropped style',
+        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
+        'effect callback' => 'manualcrop_reuse_effect',
+        'form callback' => 'manualcrop_reuse_form',
+        'summary theme' => 'manualcrop_reuse_summary',
+        'module' => 'manualcrop',
         'name' => 'manualcrop_reuse',
         'data' => array(
           'reuse_crop_style' => 'crop_16_9',
@@ -170,13 +176,21 @@ function ding_frontend_image_default_styles() {
         ),
         'weight' => 0,
       ),
-      3 => array(
-        'name' => 'image_scale_and_crop',
+      4 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
         'data' => array(
           'width' => 1124,
-          'height' => 631,
+          'height' => '',
+          'upscale' => 0,
         ),
-        'weight' => 2,
+        'weight' => 3,
       ),
     ),
   );
@@ -505,6 +519,30 @@ function ding_frontend_image_default_styles() {
 }
 
 /**
+ * Implements hook_default_search_api_autocomplete_search().
+ */
+function ding_frontend_default_search_api_autocomplete_search() {
+  $items = array();
+  $items['search_api_views_ding_multiple_search'] = entity_import('search_api_autocomplete_search', '{
+    "machine_name" : "search_api_views_ding_multiple_search",
+    "name" : "Ding multiple search",
+    "index_id" : "default_multiple_index",
+    "suggester_id" : "server",
+    "type" : "search_api_views",
+    "enabled" : "1",
+    "options" : {
+      "suggester_configuration" : { "fields" : [ "node:title" ] },
+      "min_length" : "1",
+      "results" : 0,
+      "custom" : { "display" : "default" },
+      "submit_button_selector" : ":submit",
+      "autosubmit" : 1
+    }
+  }');
+  return $items;
+}
+
+/**
  * Implements hook_default_search_api_index().
  */
 function ding_frontend_default_search_api_index() {
@@ -538,8 +576,14 @@ function ding_frontend_default_search_api_index() {
         "node:field_ding_library_phone_number" : { "type" : "text" },
         "node:field_ding_news_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
         "node:field_ding_news_lead" : { "type" : "text" },
+        "node:field_ding_news_paragraphs" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "paragraphs_item" },
+        "node:field_ding_news_paragraphs:field_ding_paragraphs_box_text:value" : { "type" : "list\\u003Ctext\\u003E" },
+        "node:field_ding_news_paragraphs:field_ding_paragraphs_text:value" : { "type" : "list\\u003Ctext\\u003E" },
         "node:field_ding_news_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "node:field_ding_page_lead" : { "type" : "text" },
+        "node:field_ding_page_paragraphs" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "paragraphs_item" },
+        "node:field_ding_page_paragraphs:field_ding_paragraphs_box_text:value" : { "type" : "list\\u003Ctext\\u003E" },
+        "node:field_ding_page_paragraphs:field_ding_paragraphs_text:value" : { "type" : "list\\u003Ctext\\u003E" },
         "node:field_ding_page_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "node:nid" : { "type" : "integer" },
         "node:title" : { "type" : "text", "boost" : "2.0" },
@@ -1323,6 +1367,38 @@ function ding_frontend_default_search_api_server() {
           "user:profile_ding_staff_profile:field_ding_staff_work_areas" : {
             "table" : "search_api_db_default_multiple_index_text",
             "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:field_ding_page_paragraphs" : {
+            "table" : "search_api_db_default_multiple_index_node_field_ding_page_para",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_page_paragraphs:field_ding_paragraphs_text:value" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "list\\u003Ctext\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_news_paragraphs" : {
+            "table" : "search_api_db_default_multiple_index_node_field_ding_news_para",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_news_paragraphs:field_ding_paragraphs_text:value" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "list\\u003Ctext\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_news_paragraphs:field_ding_paragraphs_box_text:value" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "list\\u003Ctext\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_page_paragraphs:field_ding_paragraphs_box_text:value" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "list\\u003Ctext\\u003E",
             "boost" : "1.0"
           }
         }

@@ -9900,8 +9900,8 @@ msgid "JS Logout AHAH Set Last"
 msgstr ""
 
 #: /user/6/status/debts
-msgid "Kr"
-msgstr "Kr"
+msgid "kr."
+msgstr "kr."
 
 #: /user/6/status/debts
 msgid "Total"
@@ -53554,7 +53554,7 @@ msgid "Terms of sale (%language_name)"
 msgstr ""
 
 #: /admin/config/payment/ding_dibs?render=overlay
-msgid "\" n\"        For instance:<br/> n\"        The debt is paid in full to: [name] library, [adress], \"[email], CVR no. [number].<br/> n\"        Once the fee is paid, it is not possible to cancel the \"payment.<br/> n\"        The amount is not withdrawn from the account, until it is \"confirmed that the amount owed is paid in local system.<br/> n\"        Please note: PBS charges a transaction fee to handle your \"payment. The amount is 1.45 kr. + 0.1% of the fee.<br/> n\"        For example: A fee of 15.00 kr. rises for PBS to 16.47 Kr."
+msgid "\" n\"        For instance:<br/> n\"        The debt is paid in full to: [name] library, [adress], \"[email], CVR no. [number].<br/> n\"        Once the fee is paid, it is not possible to cancel the \"payment.<br/> n\"        The amount is not withdrawn from the account, until it is \"confirmed that the amount owed is paid in local system.<br/> n\"        Please note: PBS charges a transaction fee to handle your \"payment. The amount is 1.45 kr. + 0.1% of the fee.<br/> n\"        For example: A fee of 15.00 kr. rises for PBS to 16.47 kr."
 msgstr ""
 
 #: /admin/config/payment/ding_dibs?render=overlay
@@ -66913,6 +66913,3308 @@ msgid ""
 "</ul>"
 msgstr "<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p><p>Spørg os på biblioteket eller se kontaktoplysningerne til biblioteket nederst på siden.</p><p>Du "
 "kan også søge videre på <a href=\"http://bibliotek.dk/\">Bibliotek.dk</a></p>"
+
+#: ding_christmas_calendar.admin.inc:17
+msgid "For !ph1 or !ph2 Christmas calendar page"
+msgstr ""
+
+#: quiz.admin.inc:19
+msgid "Global configuration"
+msgstr ""
+
+#: quiz.admin.inc:22;162
+msgid "Control aspects of the Quiz module's display"
+msgstr ""
+
+#: quiz.admin.inc:27
+msgid "Auto revisioning"
+msgstr ""
+
+#: quiz.admin.inc:29
+msgid "It is strongly recommended that auto revisioning is always on. It makes sure that when a question or quiz is changed a new revision is created if the current revision has been answered. If this feature is switched off result reports might be broken because a users saved answer might be connected to a wrong version of the quiz and/or question she was answering. All sorts of errors might appear."
+msgstr ""
+
+#: quiz.admin.inc:34
+msgid "Delete results when a user is deleted"
+msgstr ""
+
+#: quiz.admin.inc:36
+msgid "When a user is deleted delete any and all results for that user."
+msgstr ""
+
+#: quiz.admin.inc:41
+msgid "Index questions"
+msgstr ""
+
+#: quiz.admin.inc:43
+msgid "If you turn this off, questions will not show up in search results. Note that you will need to enable the \"View quiz question outside of a quiz\" permission for anonymous users, as search needs this to index the question."
+msgstr ""
+
+#: quiz.admin.inc:48
+msgid "Default number of days before a @quiz is closed"
+msgstr ""
+
+#: quiz.admin.inc:52
+msgid "Supply a number of days to calculate the default close date for new quizzes."
+msgstr ""
+
+#: quiz.admin.inc:57
+msgid "Allow quiz creators to set a pass/fail option when creating a @quiz."
+msgstr ""
+
+#: quiz.admin.inc:59
+msgid "Check this to display the pass/fail options in the @quiz form. If you want to prohibit other quiz creators from changing the default pass/fail percentage, uncheck this option."
+msgstr ""
+
+#: quiz.admin.inc:64
+msgid "Maximum result options"
+msgstr ""
+
+#: quiz.admin.inc:65
+msgid "Set the maximum number of result options (categorizations for scoring a quiz). Set to 0 to disable result options."
+msgstr ""
+
+#: quiz.admin.inc:74
+msgid "Remove incomplete quiz records (older than)"
+msgstr ""
+
+#: quiz.admin.inc:76
+msgid "Number of days to keep incomplete quiz attempts."
+msgstr ""
+
+#: quiz.admin.inc:82
+msgid "Length of automatically set question titles"
+msgstr ""
+
+#: quiz.admin.inc:85
+msgid "Integer between 0 and 128. If the question creator doesn't set a question title the system will make a title automatically. Here you can decide how long the autotitle can be."
+msgstr ""
+
+#: quiz.admin.inc:91
+msgid "Pager start"
+msgstr ""
+
+#: quiz.admin.inc:94
+msgid "If a quiz has this many questions, a pager will be displayed instead of a select box."
+msgstr ""
+
+#: quiz.admin.inc:100
+msgid "Pager siblings"
+msgstr ""
+
+#: quiz.admin.inc:103
+msgid "Number of siblings to show."
+msgstr ""
+
+#: quiz.admin.inc:109
+msgid "Time limit buffer"
+msgstr ""
+
+#: quiz.admin.inc:112
+msgid "How many seconds after the time limit runs out to allow answers."
+msgstr ""
+
+#: quiz.admin.inc:119
+msgid "Administrator review options"
+msgstr ""
+
+#: quiz.admin.inc:121
+msgid "Control what feedback types quiz administrators will see when viewing results for other users."
+msgstr ""
+
+#: quiz.admin.inc:138
+msgid "JQuery Countdown"
+msgstr ""
+
+#: quiz.admin.inc:143
+msgid "Addons configuration"
+msgstr ""
+
+#: quiz.admin.inc:144
+msgid "Quiz has built in integration with some other modules. Disabled checkboxes indicates that modules are not enabled."
+msgstr ""
+
+#: quiz.admin.inc:151
+msgid "Display timer"
+msgstr ""
+
+#: quiz.admin.inc:153
+msgid "!jquery_countdown is an <strong>optional</strong> module for Quiz. It is used to display a timer when taking a quiz. Without this timer, the user will not know how much time they have left to complete the Quiz"
+msgstr ""
+
+#: quiz.admin.inc:159
+msgid "Look and feel"
+msgstr ""
+
+#: quiz.admin.inc:167
+msgid "Display name"
+msgstr "Display"
+
+#: quiz.admin.inc:169
+msgid "Change the name of the quiz type. Do you call it <em>test</em> or <em>assessment</em> instead? Change the display name of the module to something else. By default, it is called <em>Quiz</em>."
+msgstr ""
+
+#: quiz.admin.inc:186
+msgid "The default number of days before a quiz is closed must be a number greater than 0."
+msgstr ""
+
+#: quiz.admin.inc:190
+msgid "The autotitle length value must be an integer between 0 and 128."
+msgstr ""
+
+#: quiz.admin.inc:194
+msgid "The number of resultoptions must be an integer between 0 and 100."
+msgstr ""
+
+#: quiz.admin.inc:198
+msgid "The quiz name must be plain text."
+msgstr ""
+
+#: quiz.admin.inc:233
+msgid "Here you can change the default @quiz settings for new users."
+msgstr ""
+
+#: quiz.admin.inc:246
+msgid "Save"
+msgstr "Gem"
+
+#: quiz.admin.inc:337 quiz.module:457
+msgid "Manage questions"
+msgstr ""
+
+#: quiz.admin.inc:342 includes/views/defaults/quiz_question_bank.view.inc:261
+msgid "Question bank"
+msgstr ""
+
+#: quiz.admin.inc:382;698 question_types/quiz_question/quiz_question.pages.inc:75 question_types/scale/scale.module:241
+msgid "Submit"
+msgstr "Indsend"
+
+#: quiz.admin.inc:392
+msgid "There are not enough questions in the requested categories."
+msgstr ""
+
+#: quiz.admin.inc:432
+msgid "Add category"
+msgstr "Tilføj kategori"
+
+#: quiz.admin.inc:439 quiz.theme.inc:251
+msgid "Category"
+msgstr "Kategori"
+
+#: quiz.admin.inc:440
+msgid "Type in the name of the term you would like to add questions from."
+msgstr ""
+
+#: quiz.admin.inc:442
+msgid "browse"
+msgstr "vis oversigt"
+
+#: quiz.admin.inc:446 quiz.theme.inc:252
+msgid "Number of questions"
+msgstr ""
+
+#: quiz.admin.inc:447
+msgid "How many questions would you like to draw from this term?"
+msgstr ""
+
+#: quiz.admin.inc:451
+msgid "Max score for each question"
+msgstr ""
+
+#: quiz.admin.inc:452
+msgid "The number of points a user will be awarded for each question he gets correct."
+msgstr ""
+
+#: quiz.admin.inc:462;975
+msgid "This content has been modified by another user, changes cannot be saved."
+msgstr ""
+"Indholdet er blevet ændret af en anden bruger. Ændringerne kan ikke "
+"gemmes."
+
+#: quiz.admin.inc:473
+msgid "You need to be more specific, or use the autocomplete feature. The term name you entered matches several terms: %terms"
+msgstr ""
+
+#: quiz.admin.inc:476
+msgid "The term name you entered doesn't match any registered question terms."
+msgstr ""
+
+#: quiz.admin.inc:480
+msgid "The category you are trying to add has already been added to this quiz."
+msgstr ""
+
+#: quiz.admin.inc:487
+msgid "The number of questions needs to be a positive integer"
+msgstr ""
+
+#: quiz.admin.inc:490
+msgid "The max score needs to be a positive integer or 0"
+msgstr ""
+
+#: quiz.admin.inc:560
+msgid "Updates were made for the following terms: %terms"
+msgstr ""
+
+#: quiz.admin.inc:563
+msgid "The following terms were removed: %terms"
+msgstr ""
+
+#: quiz.admin.inc:574
+msgid "The term was added"
+msgstr ""
+
+#: quiz.admin.inc:661
+msgid "Questions in this @quiz"
+msgstr ""
+
+#: quiz.admin.inc:677
+msgid "There are currently no questions in this @quiz. Assign existing questions by using the question browser below. You can also use the links above to create new questions."
+msgstr ""
+
+#: quiz.admin.inc:718
+msgid "Create new question"
+msgstr ""
+
+#: quiz.admin.inc:732
+msgid "Create @name"
+msgstr "Opret @name"
+
+#: quiz.admin.inc:747
+msgid "You have not enabled any question type module or no has permission been given to create any question."
+msgstr ""
+
+#: quiz.admin.inc:767
+msgid "Settings for random questions"
+msgstr ""
+
+#: quiz.admin.inc:775
+msgid "Number of random questions"
+msgstr ""
+
+#: quiz.admin.inc:776
+msgid "The number of questions to be randomly selected each time someone takes this quiz"
+msgstr ""
+
+#: quiz.admin.inc:784
+msgid "Max score for each random question"
+msgstr ""
+
+#: quiz.admin.inc:792
+msgid "Terms"
+msgstr "Ord"
+
+#: quiz.admin.inc:796
+msgid "Randomly select from questions with this term, or choose from the question pool below"
+msgstr ""
+
+#: quiz.admin.inc:906
+msgid "Edit"
+msgstr "Redigér"
+
+#: quiz.admin.inc:915 quiz.theme.inc:254
+msgid "Remove"
+msgstr "Fjern"
+
+#: quiz.admin.inc:920
+msgid "<em>Up to date</em>"
+msgstr ""
+
+#: quiz.admin.inc:926
+msgid "Latest"
+msgstr ""
+
+#: quiz.admin.inc:928
+msgid "revisions"
+msgstr ""
+
+#: quiz.admin.inc:948
+msgid "This quiz has been answered. To maintain correctness of existing answers and reports, changes should be saved as a new revision."
+msgstr ""
+
+#: quiz.admin.inc:952
+msgid "Allow question status changes to create a new revision of the quiz?"
+msgstr ""
+
+#: quiz.admin.inc:958
+msgid "New revision"
+msgstr "Ny version"
+
+#: quiz.admin.inc:1028
+msgid "Max score needs to be a positive number"
+msgstr ""
+
+#: quiz.admin.inc:1149
+msgid "The number of random questions for this @quiz have been lowered to %anum to match the number of questions you assigned."
+msgstr ""
+
+#: quiz.admin.inc:1157
+msgid "There are currently not enough questions assigned to this term (@random). Please lower the number of random quetions or assign more questions to this taxonomy term before taking this @quiz."
+msgstr ""
+
+#: quiz.admin.inc:1188
+msgid "Questions updated successfully."
+msgstr "Spørgsmål opdateret korrekt."
+
+#: quiz.admin.inc:1191
+msgid "There was an error updating the @quiz."
+msgstr ""
+
+#: quiz.admin.inc:1264
+msgid "Up to date"
+msgstr "Seneste version installeret"
+
+#: quiz.admin.inc:1297
+msgid "Never"
+msgstr "Aldrig"
+
+#: quiz.admin.inc:1298
+msgid "1 Day"
+msgstr "1 dag"
+
+#: quiz.admin.inc:1299
+msgid "2 Days"
+msgstr "2 dage"
+
+#: quiz.admin.inc:1300
+msgid "3 Days"
+msgstr "3 dage"
+
+#: quiz.admin.inc:1301
+msgid "4 Days"
+msgstr "4 dage"
+
+#: quiz.admin.inc:1302
+msgid "5 Days"
+msgstr "5 dage"
+
+#: quiz.admin.inc:1303
+msgid "6 Days"
+msgstr "6 dage"
+
+#: quiz.admin.inc:1304
+msgid "7 Days"
+msgstr ""
+
+#: quiz.admin.inc:1305
+msgid "8 Days"
+msgstr ""
+
+#: quiz.admin.inc:1306
+msgid "9 Days"
+msgstr ""
+
+#: quiz.admin.inc:1307
+msgid "10 Days"
+msgstr ""
+
+#: quiz.admin.inc:1308
+msgid "11 Days"
+msgstr ""
+
+#: quiz.admin.inc:1309
+msgid "12 Days"
+msgstr ""
+
+#: quiz.admin.inc:1310
+msgid "13 Days"
+msgstr ""
+
+#: quiz.admin.inc:1311
+msgid "14 Days"
+msgstr ""
+
+#: quiz.admin.inc:1312
+msgid "15 Days"
+msgstr ""
+
+#: quiz.admin.inc:1313
+msgid "16 Days"
+msgstr ""
+
+#: quiz.admin.inc:1314
+msgid "17 Days"
+msgstr ""
+
+#: quiz.admin.inc:1315
+msgid "18 Days"
+msgstr ""
+
+#: quiz.admin.inc:1316
+msgid "19 Days"
+msgstr ""
+
+#: quiz.admin.inc:1317
+msgid "20 Days"
+msgstr ""
+
+#: quiz.admin.inc:1318
+msgid "21 Days"
+msgstr ""
+
+#: quiz.admin.inc:1319
+msgid "22 Days"
+msgstr ""
+
+#: quiz.admin.inc:1320
+msgid "23 Days"
+msgstr ""
+
+#: quiz.admin.inc:1321
+msgid "24 Days"
+msgstr ""
+
+#: quiz.admin.inc:1322
+msgid "25 Days"
+msgstr ""
+
+#: quiz.admin.inc:1323
+msgid "26 Days"
+msgstr ""
+
+#: quiz.admin.inc:1324
+msgid "27 Days"
+msgstr ""
+
+#: quiz.admin.inc:1325
+msgid "28 Days"
+msgstr ""
+
+#: quiz.admin.inc:1326
+msgid "29 Days"
+msgstr ""
+
+#: quiz.admin.inc:1327
+msgid "30 Days"
+msgstr ""
+
+#: quiz.admin.inc:1328
+msgid "35 Days"
+msgstr ""
+
+#: quiz.admin.inc:1329
+msgid "40 Days"
+msgstr ""
+
+#: quiz.admin.inc:1330
+msgid "45 Days"
+msgstr ""
+
+#: quiz.admin.inc:1331
+msgid "50 Days"
+msgstr ""
+
+#: quiz.admin.inc:1332
+msgid "55 Days"
+msgstr ""
+
+#: quiz.admin.inc:1333
+msgid "60 Days"
+msgstr ""
+
+#: quiz.admin.inc:1334
+msgid "65 Days"
+msgstr ""
+
+#: quiz.admin.inc:1335
+msgid "70 Days"
+msgstr ""
+
+#: quiz.admin.inc:1336
+msgid "75 Days"
+msgstr ""
+
+#: quiz.admin.inc:1337
+msgid "80 Days"
+msgstr ""
+
+#: quiz.admin.inc:1338
+msgid "85 Days"
+msgstr ""
+
+#: quiz.admin.inc:1339
+msgid "90 Days"
+msgstr ""
+
+#: quiz.admin.inc:1340
+msgid "95 Days"
+msgstr ""
+
+#: quiz.admin.inc:1341
+msgid "100 Days"
+msgstr ""
+
+#: quiz.admin.inc:1342
+msgid "105 Days"
+msgstr ""
+
+#: quiz.admin.inc:1343
+msgid "110 Days"
+msgstr ""
+
+#: quiz.admin.inc:1344
+msgid "115 Days"
+msgstr ""
+
+#: quiz.admin.inc:1345
+msgid "120 Days"
+msgstr ""
+
+#: quiz.admin.inc:1363
+msgid "Time"
+msgstr "Tid"
+
+#: quiz.admin.inc:1363
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: quiz.admin.inc:1363
+msgid "Conditions"
+msgstr "Vilkår"
+
+#: quiz.admin.inc:1368
+msgid "Quiz feedback conditions"
+msgstr ""
+
+#: quiz.devel.inc:11
+msgid "Quiz types"
+msgstr ""
+
+#: quiz.devel.inc:25
+msgid "Question types"
+msgstr ""
+
+#: quiz.devel.inc:33
+msgid "Number of quizzes to generate"
+msgstr ""
+
+#: quiz.devel.inc:37
+msgid "Quiz authors will be randomly assigned."
+msgstr ""
+
+#: quiz.devel.inc:42
+msgid "Number of questions per quiz"
+msgstr ""
+
+#: quiz.devel.inc:46
+msgid "Question authors will be randomly assigned."
+msgstr ""
+
+#: quiz.devel.inc:51
+msgid "Number of results per quiz"
+msgstr ""
+
+#: quiz.devel.inc:55
+msgid "Results will be randomly assigned to users already in the system."
+msgstr ""
+
+#: quiz.devel.inc:60
+msgid "Generate"
+msgstr "Opret"
+
+#: quiz.help.inc:16
+msgid "\n\n<p>The quiz module allows users to administer a quiz, as a sequence of questions, and track the answers given. It allows for the creation of questions (and their answers), and organizes these questions into a quiz. Its target audience includes educational institutions, online training programs, employers, and people who just want to add a fun activity for their visitors to their Drupal site.</p>\n\n<p>The quiz module has a plethora of permission options. Unless you take care setting your permissions, the quiz module might not do everything you want it to do.</p>\n\n<p>For more information about quiz, and resources on how to use quiz, see the <a href=\"http://drupal.org/project/quiz\">Quiz project website</a></p>\n\n    "
+msgstr ""
+
+#: quiz.help.inc:26
+msgid "A collection of questions designed to create interactive tests"
+msgstr ""
+
+#: quiz.pages.inc:42
+msgid "Note that this @quiz is set to only keep each users best answer."
+msgstr ""
+
+#: quiz.pages.inc:48
+msgid "The scoring data you provided has been saved."
+msgstr ""
+
+#: quiz.pages.inc:59
+msgid "This @quiz has not been scored yet."
+msgstr ""
+
+#: quiz.rules_defaults.inc:10
+msgid "Quiz attempt"
+msgstr ""
+
+#: quiz.rules_defaults.inc:12
+msgid "@title feedback conditions"
+msgstr ""
+
+#: quiz.theme.inc:20 question_types/multichoice/multichoice.classes.inc:582 question_types/multichoice/theme/multichoice-alternative-creation-table.tpl.php:27
+msgid "Correct"
+msgstr ""
+
+#: quiz.theme.inc:24
+msgid "Incorrect"
+msgstr ""
+
+#: quiz.theme.inc:28
+msgid "Unknown"
+msgstr "Ukendt"
+
+#: quiz.theme.inc:32
+msgid "Should have chosen"
+msgstr ""
+
+#: quiz.theme.inc:36
+msgid "Should not have chosen"
+msgstr ""
+
+#: quiz.theme.inc:40
+msgid "Almost"
+msgstr ""
+
+#: quiz.theme.inc:44
+msgid "Selected"
+msgstr "Valgt"
+
+#: quiz.theme.inc:48
+msgid "Unselected"
+msgstr ""
+
+#: quiz.theme.inc:122 quiz.module:810 modules/quiz_stats/quiz_stats.admin.inc:443
+msgid "Questions"
+msgstr "Spørgsmål"
+
+#: quiz.theme.inc:127 quiz.module:1246
+msgid "Unlimited"
+msgstr "Ubegrænset"
+
+#: quiz.theme.inc:129
+msgid "Attempts allowed"
+msgstr "Tilladte antal forsøg"
+
+#: quiz.theme.inc:135
+msgid "Available"
+msgstr "Tilgængelig"
+
+#: quiz.theme.inc:136
+msgid "Always"
+msgstr "Altid"
+
+#: quiz.theme.inc:141
+msgid "Opens"
+msgstr ""
+
+#: quiz.theme.inc:145
+msgid "Closes"
+msgstr ""
+
+#: quiz.theme.inc:151
+msgid "Pass rate"
+msgstr "For at bestå kræves"
+
+#: quiz.theme.inc:157 quiz.module:1294
+msgid "Time limit"
+msgstr ""
+
+#: quiz.theme.inc:162 quiz.module:1177
+msgid "Backwards navigation"
+msgstr "Mulighed for at navigere baglæns"
+
+#: quiz.theme.inc:163
+msgid "Allowed"
+msgstr "Tilladt"
+
+#: quiz.theme.inc:163
+msgid "Forbidden"
+msgstr ""
+
+#: quiz.theme.inc:204
+msgid "first"
+msgstr "første"
+
+#: quiz.theme.inc:222
+msgid "last"
+msgstr ""
+
+#: quiz.theme.inc:253
+msgid "Max score per question"
+msgstr ""
+
+#: quiz.theme.inc:255;292 question_types/multichoice/theme/multichoice-alternative-creation-table.tpl.php:27
+msgid "Weight"
+msgstr "Vægt"
+
+#: quiz.theme.inc:288 quiz.module:77;3838 question_types/matching/theme/matching.theme.inc:19 question_types/quiz_question/quiz_question.core.inc:72 theme/quiz-report-form.tpl.php:42
+msgid "Question"
+msgstr "Spørgsmål"
+
+#: quiz.theme.inc:288 includes/views/defaults/quiz_question_bank.view.inc:280
+msgid "Type"
+msgstr "Type"
+
+#: quiz.theme.inc:288
+msgid "Actions"
+msgstr "Handlinger"
+
+#: quiz.theme.inc:288 question_types/quiz_question/quiz_question.pages.inc:81
+msgid "Update"
+msgstr "Opdatér"
+
+#: quiz.theme.inc:288
+msgid "Max score"
+msgstr ""
+
+#: quiz.theme.inc:288
+msgid "Auto update max score"
+msgstr ""
+
+#: quiz.theme.inc:288
+msgid "Delete"
+msgstr "Slet"
+
+#: quiz.theme.inc:290
+msgid "Compulsory"
+msgstr ""
+
+#: quiz.theme.inc:293
+msgid "Parent ID"
+msgstr "Overordnet ID"
+
+#: quiz.theme.inc:295
+msgid "ID"
+msgstr "ID"
+
+#: quiz.module:92
+msgid "Administer quiz configuration"
+msgstr ""
+
+#: quiz.module:93
+msgid "Control the various settings and behaviours of quiz"
+msgstr ""
+
+#: quiz.module:98
+msgid "Take quiz"
+msgstr ""
+
+#: quiz.module:99
+msgid "Can access (take) all quizzes."
+msgstr ""
+
+#: quiz.module:103
+msgid "View any quiz results"
+msgstr ""
+
+#: quiz.module:104
+msgid "Can view results for all quizzes and users."
+msgstr ""
+
+#: quiz.module:107
+msgid "View own quiz results"
+msgstr ""
+
+#: quiz.module:108
+msgid "Quiz takers can view their own results, also when quiz is not passed."
+msgstr ""
+
+#: quiz.module:111
+msgid "View results for own quiz"
+msgstr ""
+
+#: quiz.module:112
+msgid "Quiz makers can view results for their own quizzes."
+msgstr ""
+
+#: quiz.module:116
+msgid "Delete any quiz results"
+msgstr ""
+
+#: quiz.module:119
+msgid "Delete own quiz results"
+msgstr ""
+
+#: quiz.module:123
+msgid "Score any quiz"
+msgstr ""
+
+#: quiz.module:126
+msgid "Score own quiz"
+msgstr ""
+
+#: quiz.module:129
+msgid "score taken quiz answer"
+msgstr ""
+
+#: quiz.module:130
+msgid "Allows attendee to score questions needing manual evaluation."
+msgstr ""
+
+#: quiz.module:134
+msgid "View quiz question outside of a quiz"
+msgstr ""
+
+#: quiz.module:135
+msgid "Questions can only be accessed through taking a quiz (not as individual nodes) unless this permission is given."
+msgstr ""
+
+#: quiz.module:139
+msgid "View any quiz question correct response"
+msgstr ""
+
+#: quiz.module:140
+msgid "Allow the user to see the correct answer, when viewed outside a quiz."
+msgstr ""
+
+#: quiz.module:145
+msgid "Edit question titles"
+msgstr ""
+
+#: quiz.module:146
+msgid "Questions automatically get a title based on the question text. This allows titles to be set manually."
+msgstr ""
+
+#: quiz.module:152
+msgid "Manual quiz revisioning"
+msgstr ""
+
+#: quiz.module:153
+msgid "Quizzes are revisioned automatically each time they are changed. This allows you to do revisions manually."
+msgstr ""
+
+#: quiz.module:156
+msgid "Administer quiz result types"
+msgstr ""
+
+#: quiz.module:157
+msgid "Allow users to manage quiz result types and fields."
+msgstr ""
+
+#: quiz.module:299;366
+msgid "@quiz"
+msgstr ""
+
+#: quiz.module:526
+msgid "Here, you can configure how Quiz result answers behave."
+msgstr ""
+
+#: quiz.module:599
+msgid "Cancel"
+msgstr "Annullér"
+
+#: quiz.module:625
+msgid "You just created a new @quiz. Now you have to add questions to it. This page is for adding and managing questions. Here you can create new questions or add some of your already created questions. If you want to change the quiz settings, you can use the \"edit\" tab."
+msgstr ""
+
+#: quiz.module:722
+msgid "Some of the updated settings may not apply to quiz being taken already. To see all changes in action you need to start again."
+msgstr ""
+
+#: quiz.module:745
+msgid "Take @quiz button"
+msgstr ""
+
+#: quiz.module:746
+msgid "The take button."
+msgstr ""
+
+#: quiz.module:750;751
+msgid "@quiz summary"
+msgstr ""
+
+#: quiz.module:757;1133
+msgid "Taking options"
+msgstr ""
+
+#: quiz.module:758
+msgid "Fieldset for customizing how a @quiz is taken"
+msgstr ""
+
+#: quiz.module:762;1305
+msgid "Availability options"
+msgstr ""
+
+#: quiz.module:763
+msgid "Fieldset for customizing when a @quiz is available"
+msgstr ""
+
+#: quiz.module:767
+msgid "Summary options"
+msgstr "Resumé"
+
+#: quiz.module:768
+msgid "Fieldset for customizing summaries in the @quiz reports"
+msgstr ""
+
+#: quiz.module:772
+msgid "Result options"
+msgstr ""
+
+#: quiz.module:773
+msgid "Fieldset for customizing result comments in @quiz reports"
+msgstr ""
+
+#: quiz.module:777
+msgid "Remember settings"
+msgstr ""
+
+#: quiz.module:778;783
+msgid "Checkbox for remembering @quiz settings"
+msgstr ""
+
+#: quiz.module:782;1487
+msgid "Remember as global"
+msgstr ""
+
+#: quiz.module:790
+msgid "Feedback table"
+msgstr ""
+
+#: quiz.module:791
+msgid "A table of feedback."
+msgstr ""
+
+#: quiz.module:798
+msgid "Feedback for @label."
+msgstr ""
+
+#: quiz.module:805;3846 includes/QuizResultAnswerController.class.inc:42 includes/views/defaults/quiz_results.view.inc:250 includes/views/defaults/quiz_user_results.view.inc:154 modules/quiz_stats/quiz_stats.admin.inc:295;339
+msgid "Score"
+msgstr "Karakter"
+
+#: quiz.module:806
+msgid "The score of the result."
+msgstr ""
+
+#: quiz.module:811
+msgid "The questions in this result."
+msgstr ""
+
+#: quiz.module:815
+msgid "Summary"
+msgstr "Resumé"
+
+#: quiz.module:816
+msgid "The summary and pass/fail text."
+msgstr ""
+
+#: quiz.module:1017;3983
+msgid "Start @quiz"
+msgstr ""
+
+#: quiz.module:1047
+msgid "Resuming a previous @quiz in-progress."
+msgstr ""
+
+#: quiz.module:1113 includes/views/defaults/quiz_question_bank.view.inc:279 question_types/quiz_question/quiz_question.core.inc:97
+msgid "Title"
+msgstr "titel"
+
+#: quiz.module:1115
+msgid "The name of this @quiz."
+msgstr ""
+
+#: quiz.module:1124
+msgid "Result type"
+msgstr ""
+
+#: quiz.module:1128
+msgid "Before starting the quiz, the fields on this result type will be displayed to the user."
+msgstr ""
+
+#: quiz.module:1142
+msgid "Allow resume"
+msgstr ""
+
+#: quiz.module:1144
+msgid "Allow users to leave this @quiz incomplete and then resume it from where they left off."
+msgstr ""
+
+#: quiz.module:1148
+msgid "Allow skipping"
+msgstr ""
+
+#: quiz.module:1150
+msgid "Allow users to skip questions in this @quiz."
+msgstr ""
+
+#: quiz.module:1154
+msgid "Allow jumping"
+msgstr ""
+
+#: quiz.module:1156
+msgid "Allow users to jump to any question using a menu or pager in this @quiz."
+msgstr ""
+
+#: quiz.module:1160
+msgid "Allow changing answers"
+msgstr ""
+
+#: quiz.module:1162
+msgid "If the user is able to visit a previous question, allow them to change the answer."
+msgstr ""
+
+#: quiz.module:1166
+msgid "Allow changing blank answers"
+msgstr ""
+
+#: quiz.module:1168
+msgid "If the user is able to visit a previous skipped question, allow them to enter an answer."
+msgstr ""
+
+#: quiz.module:1179
+msgid "Allow users to go back and revisit questions already answered."
+msgstr ""
+
+#: quiz.module:1183
+msgid "Repeat until correct"
+msgstr ""
+
+#: quiz.module:1185
+msgid "Require the user to retry the question until answered correctly."
+msgstr ""
+
+#: quiz.module:1190
+msgid "Fresh attempt every time"
+msgstr ""
+
+#: quiz.module:1191
+msgid "Prepopulate with correct answers from last result"
+msgstr ""
+
+#: quiz.module:1192
+msgid "Prepopulate with all answers from last result"
+msgstr ""
+
+#: quiz.module:1194
+msgid "Each attempt builds on the last"
+msgstr ""
+
+#: quiz.module:1196
+msgid "Instead of starting a fresh @quiz, users can base a new attempt on the last attempt, with correct answers prefilled. Set the default selection users will see. Selecting \"fresh attempt every time\" will not allow the user to choose."
+msgstr ""
+
+#: quiz.module:1200
+msgid "Mark doubtful"
+msgstr ""
+
+#: quiz.module:1202
+msgid "Allow users to mark their answers as doubtful."
+msgstr ""
+
+#: quiz.module:1206
+msgid "Show passed status"
+msgstr ""
+
+#: quiz.module:1208
+msgid "Show a message if the user has previously passed the @quiz."
+msgstr ""
+
+#: quiz.module:1213
+msgid "Randomize questions"
+msgstr ""
+
+#: quiz.module:1215
+msgid "No randomization"
+msgstr ""
+
+#: quiz.module:1216 question_types/multichoice/multichoice.classes.inc:532
+msgid "Random order"
+msgstr ""
+
+#: quiz.module:1217
+msgid "Random questions"
+msgstr ""
+
+#: quiz.module:1218
+msgid "Categorized random questions"
+msgstr ""
+
+#: quiz.module:1220
+msgid "<strong>Random order</strong> - all questions display in random order"
+msgstr ""
+
+#: quiz.module:1221
+msgid "<strong>Random questions</strong> - specific number of questions are drawn randomly from this @quiz's pool of questions"
+msgstr ""
+
+#: quiz.module:1222
+msgid "<strong>Categorized random questions</strong> - specific number of questions are drawn from each specified taxonomy term"
+msgstr ""
+
+#: quiz.module:1228
+msgid "Review options"
+msgstr ""
+
+#: quiz.module:1232
+msgid "Control what feedback appears and when. To display any per-question feedback, one of the \"Question\" review options must be enabled."
+msgstr ""
+
+#: quiz.module:1252
+msgid "Multiple takes"
+msgstr ""
+
+#: quiz.module:1256
+msgid "Allow users to take this @quiz multiple times."
+msgstr ""
+
+#: quiz.module:1260
+msgid "Allowed number of attempts"
+msgstr "Tilladte antal forsøg"
+
+#: quiz.module:1263
+msgid "The number of times a user is allowed to take this @quiz. <strong>Anonymous users are only allowed to take @quiz that allow an unlimited number of attempts.</strong>"
+msgstr ""
+
+#: quiz.module:1267
+msgid "Display allowed number of attempts"
+msgstr ""
+
+#: quiz.module:1269
+msgid "Display the allowed number of attempts on the starting page for this @quiz."
+msgstr ""
+
+#: quiz.module:1275
+msgid "Store results"
+msgstr ""
+
+#: quiz.module:1276
+msgid "These results should be stored for each user."
+msgstr ""
+
+#: quiz.module:1278
+msgid "The best"
+msgstr ""
+
+#: quiz.module:1279
+msgid "The newest"
+msgstr ""
+
+#: quiz.module:1280 includes/views/defaults/quiz_results.view.inc:258 includes/views/defaults/quiz_user_results.view.inc:161
+msgid "All"
+msgstr "Alle"
+
+#: quiz.module:1296
+msgid "Set the maximum allowed time in seconds for this @quiz. Use 0 for no limit."
+msgstr ""
+
+#: quiz.module:1297
+msgid "It is recommended to install the !countdown module, and enable the option in !link to show the time left to the user."
+msgstr ""
+
+#: quiz.module:1314
+msgid "Always available"
+msgstr ""
+
+#: quiz.module:1316
+msgid "Ignore the open and close dates."
+msgstr ""
+
+#: quiz.module:1324
+msgid "Open date"
+msgstr ""
+
+#: quiz.module:1326
+msgid "The date this @quiz will become available."
+msgstr ""
+
+#: quiz.module:1330
+msgid "Close date"
+msgstr ""
+
+#: quiz.module:1332
+msgid "The date this @quiz will become unavailable."
+msgstr ""
+
+#: quiz.module:1336
+msgid "Enable the Date Popup (date_popup) module from the !date project to enable support for open and close dates."
+msgstr ""
+
+#: quiz.module:1342
+msgid "Pass/fail options"
+msgstr ""
+
+#: quiz.module:1352
+msgid "Passing rate for @quiz (%)"
+msgstr ""
+
+#: quiz.module:1354
+msgid "Passing rate for this @quiz as a percentage score."
+msgstr ""
+
+#: quiz.module:1360
+msgid "Summary text if passed"
+msgstr ""
+
+#: quiz.module:1363
+msgid "Summary text for when the user passes the @quiz. Leave blank to not give summary text if passed, or if not using the \"passing rate\" field above. If not using the \"passing rate\" field above, this text will not be used."
+msgstr ""
+
+#: quiz.module:1376
+msgid "Summary text if failed"
+msgstr ""
+
+#: quiz.module:1379
+msgid "Summary text for when the user fails the @quiz. Leave blank to not give summary text if failed, or if not using the \"passing rate\" field above. If not using the \"passing rate\" field above, this text will not be used."
+msgstr ""
+
+#: quiz.module:1415
+msgid "Result feedback"
+msgstr ""
+
+#: quiz.module:1428
+msgid "Result option"
+msgstr ""
+
+#: quiz.module:1434
+msgid "Range title"
+msgstr ""
+
+#: quiz.module:1438
+msgid "e.g., \"A\" or \"Passed\""
+msgstr ""
+
+#: quiz.module:1442
+msgid "Percentage low"
+msgstr ""
+
+#: quiz.module:1443;1450
+msgid "Show this result for scored @quiz in this range (0-100)."
+msgstr ""
+
+#: quiz.module:1449
+msgid "Percentage high"
+msgstr ""
+
+#: quiz.module:1457;354 includes/QuizResultAnswerController.class.inc:43 question_types/matching/theme/matching.theme.inc:21;60 question_types/quiz_question/quiz_question.module:977
+msgid "Feedback"
+msgstr "Tilbagemelding"
+
+#: quiz.module:1459
+msgid "This is the text that will be displayed when the user's score falls in this range."
+msgstr ""
+
+#: quiz.module:1480
+msgid "Remember my settings"
+msgstr ""
+
+#: quiz.module:1481
+msgid "If this box is checked most of the @quiz specific settings you have made will be remembered and will be your default settings next time you create a @quiz."
+msgstr ""
+
+#: quiz.module:1488
+msgid "If this box is checked most of the @quiz specific settings you have made will be remembered and will be everyone's default settings next time they create a @quiz."
+msgstr ""
+
+#: quiz.module:1495 question_types/quiz_question/quiz_question.core.inc:147;328
+msgid "The current revision has been answered. We create a new revision so that the reports from the existing answers stays correct."
+msgstr ""
+
+#: quiz.module:1507
+msgid "The Close date must be greater than the Open date."
+msgstr ""
+
+#: quiz.module:1513
+msgid "\"Passing rate\" must be a number between 0 and 100."
+msgstr ""
+
+#: quiz.module:1519
+msgid "\"Time limit\" must be a positive number."
+msgstr ""
+
+#: quiz.module:1530
+msgid "Range has no summary text."
+msgstr ""
+
+#: quiz.module:1537
+msgid "The range %start value must be a number between 0 and 100."
+msgstr ""
+
+#: quiz.module:1543
+msgid "The start must be less than the end of the range."
+msgstr ""
+
+#: quiz.module:1549
+msgid "The ranges must not overlap each other. (%intersect)"
+msgstr ""
+
+#: quiz.module:1557
+msgid "Range has a summary, but no name."
+msgstr ""
+
+#: quiz.module:1564
+msgid "If jumping is allowed, skipping must also be allowed."
+msgstr ""
+
+#: quiz.module:1606
+msgid "You are making your first @quiz. On this page you set the attributes, most of which you may tell the system to remember as defaults for the future. On the next screen you can add questions."
+msgstr ""
+
+#: quiz.module:1985
+msgid "Time left"
+msgstr ""
+
+#: quiz.module:1988;3608 question_types/quiz_question/quiz_question.module:218;244
+msgid "Finish"
+msgstr "Afslut"
+
+#: quiz.module:1989 question_types/quiz_question/quiz_question.module:218;244
+msgid "Next"
+msgstr "Næste"
+
+#: quiz.module:2215
+msgid "You are marked as an administrator or owner for this @quiz. While you can take this @quiz, the open/close times prohibit other users from taking this @quiz."
+msgstr ""
+
+#: quiz.module:2223
+msgid "This @quiz is closed."
+msgstr ""
+
+#: quiz.module:2229
+msgid "This @quiz is not yet open."
+msgstr ""
+
+#: quiz.module:2247
+msgid "You have taken this @quiz already. You are marked as an owner or administrator for this quiz, so you can take this quiz as many times as you would like."
+msgstr ""
+
+#: quiz.module:2258
+msgid "You have already taken this @quiz @really. You may not take it again."
+msgstr ""
+
+#: quiz.module:2267
+msgid "You can only take this @quiz @allowed. You have taken it @really."
+msgstr ""
+
+#: quiz.module:2278
+msgid "You have already passed this @quiz."
+msgstr ""
+
+#: quiz.module:2287
+msgid "You are not allowed to take this @quiz."
+msgstr ""
+
+#: quiz.module:2394
+msgid "The module for the questiontype %type is not enabled"
+msgstr ""
+
+#: quiz.module:2888
+msgid "You need to install and enable at least one question type to use Quiz."
+msgstr ""
+
+#: quiz.module:3494
+msgid "Quiz result type"
+msgstr ""
+
+#: quiz.module:3496
+msgid "Quiz result types"
+msgstr ""
+
+#: quiz.module:3497
+msgid "Quiz result types."
+msgstr ""
+
+#: quiz.module:3615
+msgid "Next question"
+msgstr "Næste spørgsmål"
+
+#: quiz.module:3628;3642;3973 includes/QuizResultController.class.inc:167
+msgid "Question @num"
+msgstr ""
+
+#: quiz.module:3678
+msgid "Jump"
+msgstr ""
+
+#: quiz.module:3749
+msgid "Add questions to @quiz"
+msgstr ""
+
+#: quiz.module:3843
+msgid "Attempt"
+msgstr ""
+
+#: quiz.module:3844
+msgid "Choices"
+msgstr "Valgmuligheder"
+
+#: quiz.module:3845
+msgid "Whether correct"
+msgstr ""
+
+#: quiz.module:3847
+msgid "Answer feedback"
+msgstr ""
+
+#: quiz.module:3848 question_types/quiz_question/quiz_question.core.inc:137 question_types/quiz_question/quiz_question.module:978
+msgid "Question feedback"
+msgstr ""
+
+#: quiz.module:3849 includes/QuizResultAnswerController.class.inc:44 question_types/matching/theme/matching.theme.inc:20 question_types/short_answer/short_answer.classes.inc:206 question_types/truefalse/truefalse.classes.inc:150 question_types/truefalse/truefalse.module:88
+msgid "Correct answer"
+msgstr ""
+
+#: quiz.module:3850
+msgid "@quiz feedback"
+msgstr ""
+
+#: quiz.module:3864
+msgid "After the question"
+msgstr ""
+
+#: quiz.module:3865
+msgid "Show feedback after the question"
+msgstr ""
+
+#: quiz.module:3868
+msgid "After the quiz"
+msgstr ""
+
+#: quiz.module:3869
+msgid "Show feedback after the quiz"
+msgstr ""
+
+#: quiz.module:3942
+msgid "Keep answers from last attempt?"
+msgstr ""
+
+#: quiz.module:3945
+msgid "No answers"
+msgstr ""
+
+#: quiz.module:3946
+msgid "Only correct answers"
+msgstr ""
+
+#: quiz.module:3947
+msgid "All answers"
+msgstr ""
+
+#: quiz.module:3950
+msgid "You can choose to keep previous answers or start a new attempt."
+msgstr ""
+
+#: quiz.module:3989
+msgid "Save score"
+msgstr ""
+
+#: quiz.module:4031
+msgid "Label"
+msgstr "Etiket"
+
+#: quiz.module:4034
+msgid "The human-readable name of this quiz result type."
+msgstr ""
+
+#: quiz.module:4048
+msgid "A unique machine-readable name for this quiz result type. It must only contain lowercase letters, numbers, and underscores."
+msgstr ""
+
+#: quiz.module:4054
+msgid "Save quiz result type"
+msgstr ""
+
+#: quiz.module:4104
+msgid "Show this field on @quiz start."
+msgstr ""
+
+#: quiz.module:4106
+msgid "If checked, this field will be presented when starting a course."
+msgstr ""
+
+#: quiz.module:2239;2240
+msgid "1 time"
+msgid_plural "@count times"
+msgstr[0] ""
+msgstr[1] ""
+
+#: quiz.module:331;343
+msgid "Take"
+msgstr ""
+
+#: quiz.module:368
+msgid "View results, score answers, run reports and edit configurations."
+msgstr ""
+
+#: quiz.module:378
+msgid "@quiz settings"
+msgstr ""
+
+#: quiz.module:380
+msgid "Change settings for the all Quiz project modules."
+msgstr ""
+
+#: quiz.module:389
+msgid "@quiz configuration"
+msgstr ""
+
+#: quiz.module:391
+msgid "Configure the Quiz module."
+msgstr ""
+
+#: quiz.module:400
+msgid "@quiz form configuration"
+msgstr ""
+
+#: quiz.module:402
+msgid "Configure default values for the quiz creation form."
+msgstr ""
+
+#: quiz.module:411
+msgid "@quiz reports and scoring"
+msgstr ""
+
+#: quiz.module:413
+msgid "View reports and score answers."
+msgstr ""
+
+#: quiz.module:423
+msgid "Quiz result answer"
+msgstr ""
+
+#: quiz.module:424
+msgid "Configure Quiz result answer behaviors"
+msgstr ""
+
+#: quiz.module:431 includes/views/defaults/quiz_results.view.inc:257 includes/views/defaults/quiz_user_results.view.inc:160
+msgid "View"
+msgstr "Vis"
+
+#: quiz.module:437;470
+msgid "User results"
+msgstr ""
+
+#: quiz.module:447
+msgid "Results"
+msgstr "Resultater"
+
+#: quiz.module:489
+msgid "Generate quiz"
+msgstr ""
+
+#: quiz.module:490
+msgid "Generate a given number of quizzes and questions."
+msgstr ""
+
+#: quiz.module:499 theme/quiz-report-form.tpl.php:64
+msgid "Quiz feedback"
+msgstr ""
+
+#: quiz.module:500
+msgid "Configure Quiz feedback behaviors"
+msgstr ""
+
+#: quiz.install:25
+msgid "Quiz module has been enabled. To !create_a_quiz go to Create Content -> Quiz."
+msgstr ""
+
+#: quiz.install:25
+msgid "create a quiz"
+msgstr ""
+
+#: quiz.install:743
+msgid "Show passed field added to quiz config."
+msgstr ""
+
+#: quiz.install:749
+msgid "Done !"
+msgstr ""
+
+#: quiz.install:763
+msgid "Added new format fields to the tables if they didn't already exist."
+msgstr ""
+
+#: quiz.install:793
+msgid "Increased the maximum quiz size."
+msgstr ""
+
+#: quiz.install:807
+msgid "Removed unsigned attribute from field time_start and time_end in quiz_node_results table"
+msgstr ""
+
+#: quiz.install:822
+msgid "Added new format fields to the tables"
+msgstr ""
+
+#: quiz.install:836
+msgid "Added new auto update max score field to the quiz_node_relationship table"
+msgstr ""
+
+#: quiz.install:848
+msgid "Adding userpoints tid column to quiz_node_properties"
+msgstr ""
+
+#: quiz.install:871
+msgid "Added new layout field to the quiz_node_results table"
+msgstr ""
+
+#: quiz.install:887
+msgid "Added new result_answer_id field to the quiz_node_results_answers table."
+msgstr ""
+
+#: quiz.install:903
+msgid "Added new qnr_id field to the quiz_node_relationship table."
+msgstr ""
+
+#: quiz.install:918
+msgid "Added new qnr_pid field to the quiz_node_relationship table."
+msgstr ""
+
+#: quiz.install:933
+msgid "Removed default attribute from field time_start and time_end in quiz_node_results table."
+msgstr ""
+
+#: quiz.install:1279
+msgid "Added indexes to {quiz_node_relationship} table."
+msgstr ""
+
+#: quiz.install:1351
+msgid "Added quiz result bundle table and column."
+msgstr ""
+
+#: quiz.info:0 includes/QuizMetadataController.class.inc:8 modules/quiz_stats/quiz_stats.admin.inc:438 plugins/content_types/quiztake_pane.inc:12
+msgid "Quiz"
+msgstr ""
+
+#: quiz.info:0
+msgid "Create interactive quizzes. This module must have at least one question type module enabled in order to function properly."
+msgstr ""
+
+#: quiz.info:0 question_types/quiz_directions/quiz_directions.info:0 question_types/quiz_page/quiz_page.info:0 question_types/quiz_question/quiz_question.info:0
+msgid "Quiz core"
+msgstr ""
+
+#: includes/QuizMetadataController.class.inc:9
+msgid "Quiz properties"
+msgstr ""
+
+#: includes/QuizResult.class.inc:61
+msgid "@user's @quiz result in \"@title\""
+msgstr ""
+
+#: includes/QuizResultAnswerController.class.inc:39
+msgid "Your answer"
+msgstr ""
+
+#: includes/QuizResultAnswerController.class.inc:40
+msgid "Choice"
+msgstr "Valgmulighed"
+
+#: includes/QuizResultAnswerController.class.inc:41
+msgid "Correct?"
+msgstr ""
+
+#: includes/QuizResultAnswerController.class.inc:73
+msgid "?"
+msgstr "?"
+
+#: includes/QuizResultController.class.inc:75
+msgid "Not enough random questions were found. Please add more questions before trying to take this @quiz."
+msgstr ""
+
+#: includes/QuizResultController.class.inc:80
+msgid "No questions were found. Please !assign_questions before trying to take this @quiz."
+msgstr ""
+
+#: includes/QuizResultController.class.inc:80
+msgid "assign questions"
+msgstr ""
+
+#: includes/QuizResultController.class.inc:138
+msgid "Parts of this @quiz have not been evaluated yet. The score below is not final."
+msgstr ""
+
+#: includes/QuizResultController.class.inc:148
+msgid "You"
+msgstr ""
+
+#: includes/QuizResultController.class.inc:150
+msgid "Your"
+msgstr ""
+
+#: includes/QuizResultController.class.inc:150
+msgid "Total"
+msgstr "Total"
+
+#: includes/QuizResultController.class.inc:190
+msgid "!username got %num_correct of %question_count possible points."
+msgstr ""
+
+#: includes/QuizResultController.class.inc:191
+msgid "!yourtotal score: @score%"
+msgstr ""
+
+#: includes/views/quiz.views.inc:71 includes/views/defaults/quiz_question_bank.view.inc:284
+msgid "Question type"
+msgstr ""
+
+#: includes/views/quiz.views.inc:72
+msgid "Filter by quiz question type."
+msgstr ""
+
+#: includes/views/quiz.views.inc:82 question_types/long_answer/long_answer.info:0 question_types/matching/matching.info:0 question_types/multichoice/multichoice.info:0 question_types/quiz_question/quiz_question.info:0 question_types/scale/scale.info:0 question_types/short_answer/short_answer.info:0 question_types/truefalse/truefalse.info:0
+msgid "Quiz question"
+msgstr ""
+
+#: includes/views/quiz.views.inc:83
+msgid "Filter by quiz question."
+msgstr ""
+
+#: includes/views/quiz.views.inc:92
+msgid "Answers"
+msgstr ""
+
+#: includes/views/quiz.views.inc:93
+msgid "When rendered, this field will be replaced by all the answers."
+msgstr ""
+
+#: includes/views/quiz.views.inc:101 question_types/long_answer/long_answer.classes.inc:122 question_types/matching/matching.classes.inc:322 question_types/matching/matching.module:118 question_types/multichoice/multichoice.classes.inc:505 question_types/multichoice/multichoice.views.inc:84 question_types/multichoice/theme/multichoice-alternative-creation-table.tpl.php:27 question_types/scale/scale.classes.inc:394 question_types/short_answer/short_answer.classes.inc:128;162 question_types/short_answer/short_answer.module:168
+msgid "Answer"
+msgstr "Svar"
+
+#: includes/views/quiz.views.inc:102
+msgid "When rendered, this field will be replaced by a requested answer."
+msgstr ""
+
+#: includes/views/quiz.views.inc:131
+msgid "@num. @question"
+msgstr ""
+
+#: includes/views/defaults/quiz_question_bank.view.inc:260 includes/views/defaults/quiz_results.view.inc:228 includes/views/defaults/quiz_user_results.view.inc:135
+msgid "Master"
+msgstr "Master"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:262 includes/views/defaults/quiz_results.view.inc:230 includes/views/defaults/quiz_user_results.view.inc:137
+msgid "more"
+msgstr "mere"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:263 includes/views/defaults/quiz_results.view.inc:231 includes/views/defaults/quiz_user_results.view.inc:138
+msgid "Apply"
+msgstr "Udfør"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:264 includes/views/defaults/quiz_results.view.inc:232 includes/views/defaults/quiz_user_results.view.inc:139
+msgid "Reset"
+msgstr "Gendan"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:265 includes/views/defaults/quiz_results.view.inc:233 includes/views/defaults/quiz_user_results.view.inc:140
+msgid "Sort by"
+msgstr "Sortér efter"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:266 includes/views/defaults/quiz_results.view.inc:234 includes/views/defaults/quiz_user_results.view.inc:141
+msgid "Asc"
+msgstr "Stigende"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:267 includes/views/defaults/quiz_results.view.inc:235 includes/views/defaults/quiz_user_results.view.inc:142
+msgid "Desc"
+msgstr "Faldende"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:268 includes/views/defaults/quiz_results.view.inc:236 includes/views/defaults/quiz_user_results.view.inc:143
+msgid "Items per page"
+msgstr "Antal elementer"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:269 includes/views/defaults/quiz_results.view.inc:237 includes/views/defaults/quiz_user_results.view.inc:144
+msgid "- All -"
+msgstr "- Alle -"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:270 includes/views/defaults/quiz_results.view.inc:238 includes/views/defaults/quiz_user_results.view.inc:145
+msgid "Offset"
+msgstr "Forskydning"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:271 includes/views/defaults/quiz_results.view.inc:239 includes/views/defaults/quiz_user_results.view.inc:146
+msgid "« first"
+msgstr "« første"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:272 includes/views/defaults/quiz_results.view.inc:240 includes/views/defaults/quiz_user_results.view.inc:147
+msgid "‹ previous"
+msgstr "‹ forrige"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:273 includes/views/defaults/quiz_results.view.inc:241 includes/views/defaults/quiz_user_results.view.inc:148
+msgid "next ›"
+msgstr "næste ›"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:274 includes/views/defaults/quiz_results.view.inc:242 includes/views/defaults/quiz_user_results.view.inc:149
+msgid "last »"
+msgstr "sidste »"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:275
+msgid "No questions found using the given criteria."
+msgstr ""
+
+#: includes/views/defaults/quiz_question_bank.view.inc:276
+msgid "author"
+msgstr "forfatter"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:277
+msgid "Content"
+msgstr "Indhold"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:278 includes/views/defaults/quiz_results.view.inc:246
+msgid "- Choose an operation -"
+msgstr "- Vælg en handling -"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:281
+msgid "Changed"
+msgstr "Ændret"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:282 modules/quiz_stats/quiz_stats.admin.inc:439
+msgid "Author"
+msgstr "Forfatter"
+
+#: includes/views/defaults/quiz_question_bank.view.inc:283
+msgid "Question title"
+msgstr ""
+
+#: includes/views/defaults/quiz_results.view.inc:229 modules/quiz_stats/quiz_stats.admin.inc:367
+msgid "Quiz results"
+msgstr ""
+
+#: includes/views/defaults/quiz_results.view.inc:243 includes/views/defaults/quiz_user_results.view.inc:150
+msgid "There are no attempts on this Quiz yet."
+msgstr ""
+
+#: includes/views/defaults/quiz_results.view.inc:244 includes/views/defaults/quiz_user_results.view.inc:151
+msgid "User"
+msgstr "Bruger"
+
+#: includes/views/defaults/quiz_results.view.inc:245
+msgid "Quiz result"
+msgstr ""
+
+#: includes/views/defaults/quiz_results.view.inc:247
+msgid "Username"
+msgstr "Brugernavn"
+
+#: includes/views/defaults/quiz_results.view.inc:248 includes/views/defaults/quiz_user_results.view.inc:152
+msgid "Date started"
+msgstr ""
+
+#: includes/views/defaults/quiz_results.view.inc:249 includes/views/defaults/quiz_user_results.view.inc:153
+msgid "Date finished"
+msgstr ""
+
+#: includes/views/defaults/quiz_results.view.inc:251 includes/views/defaults/quiz_user_results.view.inc:155
+msgid "."
+msgstr "."
+
+#: includes/views/defaults/quiz_results.view.inc:252 includes/views/defaults/quiz_user_results.view.inc:156
+msgid ","
+msgstr ","
+
+#: includes/views/defaults/quiz_results.view.inc:253
+msgid "Evaluated"
+msgstr ""
+
+#: includes/views/defaults/quiz_results.view.inc:254 includes/views/defaults/quiz_user_results.view.inc:157
+msgid "Nid"
+msgstr "Nid"
+
+#: includes/views/defaults/quiz_results.view.inc:255 includes/views/defaults/quiz_user_results.view.inc:158
+msgid "Quiz result ID"
+msgstr ""
+
+#: includes/views/defaults/quiz_results.view.inc:256 includes/views/defaults/quiz_user_results.view.inc:159
+msgid "Operations"
+msgstr "Handlinger"
+
+#: includes/views/defaults/quiz_results.view.inc:259 includes/views/defaults/quiz_user_results.view.inc:162 question_types/quiz_page/quiz_page.classes.inc:37
+msgid "Page"
+msgstr "Side"
+
+#: includes/views/defaults/quiz_user_results.view.inc:136
+msgid "My results"
+msgstr ""
+
+#: includes/views/handlers/quiz_views_handler_filter_quiz_question.inc:18
+msgid "Yes"
+msgstr "Ja"
+
+#: includes/views/handlers/quiz_views_handler_filter_quiz_question.inc:19
+msgid "No"
+msgstr "Nej"
+
+#: includes/views/handlers/quiz_views_handler_filter_quiz_question_type.inc:7
+msgid "Quiz question types"
+msgstr ""
+
+#: modules/ajax_quiz/ajax_quiz.module:13
+msgid "AJAX version of quiz. Successive quiz questions will be loaded in the same page without page reload."
+msgstr ""
+
+#: modules/ajax_quiz/ajax_quiz.module:23
+msgid "access ajax quiz"
+msgstr ""
+
+#: modules/ajax_quiz/ajax_quiz.module:24
+msgid "Allowed to take a quiz with ajax."
+msgstr ""
+
+#: modules/ajax_quiz/ajax_quiz.info:0
+msgid "AJAX Quiz"
+msgstr ""
+
+#: modules/ajax_quiz/ajax_quiz.info:0
+msgid "This module doesn't degrade gracefully, and we don't recommend using it until it does. This module attempts to provide an AJAX version of quiz. Successive quiz questions will be loaded in the same page without page reload, but it doesn't work flawlessly at the moment."
+msgstr ""
+
+#: modules/ajax_quiz/ajax_quiz.info:0 modules/quiz_stats/quiz_stats.info:0
+msgid "Quiz addon"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:26
+msgid "Something went wrong. Please try again"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:34
+msgid "There are !num revisions of this quiz that have been taken.\n    Different revisions may have different scoring, difficulity and other differences affecting its statistics.\n    Because of this you have to choose the revision you want to see statistics from."
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:55
+msgid "No Statistics found."
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:119
+msgid "Distribution"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:120
+msgid "This chart shows the distribution of the scores on this quiz."
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:160
+msgid "Top scorers"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:161
+msgid "This chart shows which quiz takers have the highest scores."
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:195
+msgid "Status"
+msgstr "Status"
+
+#: modules/quiz_stats/quiz_stats.admin.inc:196
+msgid "This chart shows the status for all attempts made to answer this revision of the quiz."
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:234
+msgid "Activity"
+msgstr "Aktivitet"
+
+#: modules/quiz_stats/quiz_stats.admin.inc:235
+msgid "This chart shows how many times the quiz has been taken each day over the last !days days."
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:281
+msgid "Score distribution"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:285
+msgid "% of quiz takers"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:306
+msgid "Grade istribution"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:326
+msgid "Quiz Top Scorers"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:373;401 question_types/multichoice/multichoice.views.inc:149
+msgid "Result"
+msgstr "Resultat"
+
+#: modules/quiz_stats/quiz_stats.admin.inc:395
+msgid "Activity by date"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:434
+msgid "No questions were found."
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:440
+msgid "Created"
+msgstr "Oprettet"
+
+#: modules/quiz_stats/quiz_stats.admin.inc:444
+msgid "Attempts"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:447
+msgid "Charts"
+msgstr "Diagrammer"
+
+#: modules/quiz_stats/quiz_stats.admin.inc:447
+msgid "See charts"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.admin.inc:462
+msgid "Chart icon from !url"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.module:15
+msgid "Module creates a report to analyse and compare the results of quiz attendees. The reports will be displayed visually using goolge chart API."
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.module:25
+msgid "access user stats"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.module:28
+msgid "access author stats"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.module:39
+msgid "Quiz Statistics"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.module:40;48;59;70
+msgid "Generates a report on quiz results for quiz creators."
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.module:47;58
+msgid "Statistics"
+msgstr "Statistik"
+
+#: modules/quiz_stats/quiz_stats.module:69;78
+msgid "Result Statistics"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.info:0
+msgid "Quiz statistics"
+msgstr ""
+
+#: modules/quiz_stats/quiz_stats.info:0
+msgid "Creates a report to compare and analyse the results of quiz attendees."
+msgstr ""
+
+#: modules/quiz_stats/theme/quiz_stats_charts.tpl.php:37
+msgid "If there are no statistics for this quiz (or quiz revision), this is probably because nobody has yet run this quiz (or quiz revision). If the quiz has multiple revisions, it is possible that the other revisions do have statistics. If this is the last revision, taking the quiz should generate some statistics."
+msgstr ""
+
+#: modules/quiz_stats/theme/quiz_stats_revision_selector.tpl.php:6
+msgid "revision !num"
+msgstr ""
+
+#: plugins/content_types/quiztake_pane.inc:9
+msgid "@quiz Pane: Take"
+msgstr ""
+
+#: plugins/content_types/quiztake_pane.inc:13
+msgid "The quiz on the referenced node"
+msgstr ""
+
+#: plugins/content_types/quiztake_pane.inc:14
+msgid "Node"
+msgstr "Indholdselement"
+
+#: plugins/content_types/quiztake_pane.inc:31
+msgid "Placeholder title."
+msgstr ""
+
+#: plugins/content_types/quiztake_pane.inc:32
+msgid "Placeholder content goes here."
+msgstr ""
+
+#: plugins/page_manager/tasks/quiztake.inc:13
+msgid "Take @quiz"
+msgstr ""
+
+#: plugins/page_manager/tasks/quiztake.inc:14
+msgid "The take page for @quiz."
+msgstr ""
+
+#: plugins/page_manager/tasks/quiztake.inc:15
+msgid "When enabled, this overrides the default view at node/%node/take"
+msgstr ""
+
+#: plugins/page_manager/tasks/quiztake.inc:54
+msgid "Page manager module is unable to enable Quiz take Node because some other module already has overridden with %callback."
+msgstr ""
+
+#: plugins/page_manager/tasks/quiztake.inc:116
+msgid "Node being taken"
+msgstr ""
+
+#: question_types/long_answer/long_answer.classes.inc:99;165 question_types/long_answer/long_answer.module:157
+msgid "Rubric"
+msgstr ""
+
+#: question_types/long_answer/long_answer.classes.inc:123
+msgid "Enter your answer here. If you need more space, click on the grey bar at the bottom of this area and drag it down."
+msgstr ""
+"Skriv dit svar her. Hvis du har brug for mere plads, kan du trække "
+"den grå linje i dette område nedad."
+
+#: question_types/long_answer/long_answer.classes.inc:151 question_types/multichoice/multichoice.classes.inc:774 question_types/scale/scale.classes.inc:371 question_types/short_answer/short_answer.classes.inc:150 question_types/truefalse/truefalse.classes.inc:129
+msgid "You must provide an answer."
+msgstr ""
+
+#: question_types/long_answer/long_answer.classes.inc:166
+msgid "Specify the criteria for grading the response."
+msgstr ""
+
+#: question_types/long_answer/long_answer.classes.inc:174
+msgid "Answer text processing"
+msgstr ""
+
+#: question_types/long_answer/long_answer.classes.inc:175
+msgid "Allowing filtered text may enable the user to input HTML tags in their answer."
+msgstr ""
+
+#: question_types/long_answer/long_answer.classes.inc:178
+msgid "Plain text"
+msgstr "Ren tekst"
+
+#: question_types/long_answer/long_answer.classes.inc:179
+msgid "Filtered text (user selects text format)"
+msgstr "Filtreret tekst (bruger vælger tekstformat)"
+
+#: question_types/long_answer/long_answer.classes.inc:301 question_types/short_answer/short_answer.classes.inc:370
+msgid "This answer has not yet been scored."
+msgstr ""
+
+#: question_types/long_answer/long_answer.classes.inc:311 question_types/short_answer/short_answer.classes.inc:380
+msgid "Enter feedback"
+msgstr ""
+
+#: question_types/long_answer/long_answer.module:18
+msgid "This module provides long-answer (essay, multi-paragraph) questions to the quiz module."
+msgstr ""
+
+#: question_types/long_answer/long_answer.module:19
+msgid "A long-answer question is designed to provide the quiz taker a lengthy area to expand on ideas.\n      Common forms of long-answer questions include essays, single paragraph responses, hypothesis design problems,\n      outlines and summaries, and lengthier math problems\n      where the focus is on showing work rather than simply getting the correct answer."
+msgstr ""
+
+#: question_types/long_answer/long_answer.module:32
+msgid "Long answer question"
+msgstr ""
+
+#: question_types/long_answer/long_answer.module:33
+msgid "Quiz questions that allow a user to enter multiple paragraphs of text."
+msgstr ""
+
+#: question_types/long_answer/long_answer.module:47 question_types/short_answer/short_answer.module:55
+msgid "Default max score"
+msgstr ""
+
+#: question_types/long_answer/long_answer.module:48
+msgid "Choose the default maximum score for a long answer question."
+msgstr ""
+
+#: question_types/long_answer/long_answer.module:60 question_types/short_answer/short_answer.module:68
+msgid "The default max score must be greater than 0"
+msgstr ""
+
+#: question_types/long_answer/long_answer.module:158
+msgid "Specify the criteria for grading the response"
+msgstr ""
+
+#: question_types/long_answer/long_answer.install:182
+msgid "Added text format selection for long answer rubrics and answers."
+msgstr ""
+
+#: question_types/long_answer/long_answer.info:0
+msgid "Quiz - Long answer"
+msgstr ""
+
+#: question_types/long_answer/long_answer.info:0
+msgid "This provides long answer (essay, multi-paragraph) question types for use by the Quiz module."
+msgstr ""
+
+#: question_types/matching/matching.classes.inc:230
+msgid "You lose points by selecting incorrect options. You may leave an option blank to avoid losing points."
+msgstr ""
+
+#: question_types/matching/matching.classes.inc:244
+msgid "You need to match at least one of the items."
+msgstr ""
+
+#: question_types/matching/matching.classes.inc:294
+msgid "Instruction"
+msgstr ""
+
+#: question_types/matching/matching.classes.inc:308 question_types/matching/matching.module:113 question_types/multichoice/multichoice.classes.inc:517
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: question_types/matching/matching.classes.inc:314
+msgid "Penalty for guessing"
+msgstr ""
+
+#: question_types/matching/matching.classes.inc:315
+msgid "Subtract 1 point from the users score for each incorrect match. Scores cannot go below 0."
+msgstr ""
+
+#: question_types/matching/matching.classes.inc:326
+msgid "Write your pairs in the question and answer columns. For the user the question will be fixed and the answers will be shown as alternatives in a dropdown box."
+msgstr ""
+
+#: question_types/matching/matching.module:17
+msgid "Matching question type for quiz module."
+msgstr ""
+
+#: question_types/matching/matching.module:20
+msgid "A question type for the quiz module: allows you to create matching type questions, which connect terms with one another."
+msgstr ""
+
+#: question_types/matching/matching.module:32
+msgid "Matching"
+msgstr ""
+
+#: question_types/matching/matching.module:33
+msgid "Matching question type for quiz module. A question type for the quiz module: allows you to create matching type questions, which connect terms with one another."
+msgstr ""
+
+#: question_types/matching/matching.module:49
+msgid "Match Question Size"
+msgstr ""
+
+#: question_types/matching/matching.module:50
+msgid "Number of questions allowed to wrap under a matching type question."
+msgstr ""
+
+#: question_types/matching/matching.module:55
+msgid "Shuffle Matching Questions"
+msgstr ""
+
+#: question_types/matching/matching.module:57
+msgid "If checked matching questions will be shuffled"
+msgstr ""
+
+#: question_types/matching/matching.module:68
+msgid "The number of questions must be between 2 and 50"
+msgstr ""
+
+#: question_types/matching/matching.module:114
+msgid "The settings for the matching question."
+msgstr ""
+
+#: question_types/matching/matching.module:119
+msgid "The sets of matches for this question."
+msgstr ""
+
+#: question_types/matching/matching.info:0
+msgid "Quiz - Matching question"
+msgstr ""
+
+#: question_types/matching/matching.info:0
+msgid "Provide a way to create matching type of questions."
+msgstr ""
+
+#: question_types/matching/theme/matching.theme.inc:60;64
+msgid "Subquestion"
+msgstr "Underspørgsmål"
+
+#: question_types/matching/theme/matching.theme.inc:60
+msgid "Correct match"
+msgstr "Korrekt match"
+
+#: question_types/matching/theme/matching.theme.inc:64
+msgid "Possible match"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:81
+msgid "go back"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:84
+msgid "Your question allows multiple answers. Only one of the alternatives have been marked as correct. If this wasn't intended please !go_back and correct it."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:88
+msgid "Your question doesn't allow multiple answers. More than one of the alternatives have been marked as correct. If this wasn't intended please !go_back and correct it."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:296
+msgid "You have not marked any alternatives as correct. If there are no correct alternatives you should allow multiple answers."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:306
+msgid "The alternative is marked as correct, but gives more points if you don't select it."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:309
+msgid "The alternative is not marked as correct, but gives more points if you select it."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:436
+msgid "Choose all that apply"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:445 question_types/scale/scale.classes.inc:356 question_types/truefalse/truefalse.classes.inc:108
+msgid "Choose one"
+msgstr "Vælg en"
+
+#: question_types/multichoice/multichoice.classes.inc:520
+msgid "Your settings will be remembered."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:525
+msgid "Multiple answers"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:526
+msgid "Allow any number of answers(checkboxes are used). If this box is not checked, one, and only one answer is allowed(radiobuttons are used)."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:533
+msgid "Present alternatives in random order when @quiz is being taken."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:539
+msgid "Simple scoring"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:540
+msgid "Give max score if everything is correct. Zero points otherwise."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:549;669
+msgid "Add choice"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:603
+msgid "Advanced options"
+msgstr "Avancerede indstillinger"
+
+#: question_types/multichoice/multichoice.classes.inc:609
+msgid "Feedback if chosen"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:610
+msgid "This feedback is given to users who chooses this alternative."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:620
+msgid "Feedback if not chosen"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:621
+msgid "This feedback is given to users who doesn't choose this alternative."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:630
+msgid "Score if chosen"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:633
+msgid "This score is added to the user's total score if the user chooses this alternative."
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:648
+msgid "Score if not chosen"
+msgstr ""
+
+#: question_types/multichoice/multichoice.classes.inc:651
+msgid "This score is added to the user's total score if the user doesn't choose this alternative. Only used if multiple answers are allowed."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:23
+msgid "Answer ID"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:24
+msgid "The ID identifying an individual answer."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:41
+msgid "Answers Question Node NID"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:42;154
+msgid "The ID of the Question Node."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:51;163
+msgid "Filter results to a particular subset of question versions."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:58;170
+msgid "node"
+msgstr "indholdselement"
+
+#: question_types/multichoice/multichoice.views.inc:62
+msgid "Answers Question Node VID"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:63;175
+msgid "The Version ID of the Question Node."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:79;191
+msgid "node revision"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:85
+msgid "Answer text"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:109
+msgid "User answer set ID"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:110
+msgid "The ID identifying an answer set for a user."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:127
+msgid "Result ID"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:128
+msgid "The ID identifying a particular set of quiz results. This ID is unique with respect to the quiz nid and vid of the quiz, uid of the quizee, and the take of the quiz."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:141
+msgid "Filter results to a particular result set"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:153
+msgid "Result Question Node NID"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:174
+msgid "Result Question Node VID"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:199
+msgid "Quiz Multichoice Answers"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:210
+msgid "User answer set id"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:211
+msgid "The ID of a user's answer set."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:218
+msgid "Filter results to a particular subset of a user's answer set."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:223
+msgid "Answer id"
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:224
+msgid "The ID of a user's answer."
+msgstr ""
+
+#: question_types/multichoice/multichoice.views.inc:238
+msgid "answer"
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:19
+msgid "\n      <p>This module provides a multiple choice question type for Quiz.</p>\n\n      <p>The module has three settings.\n      <em>Multiple answers</em> allows the quiz taker to select more than one alternative\n      (it also allows for the possibility that none of the alternatives are correct).\n      Alternatives are selected using checkboxes instead of radio buttons.\n      <em>Random order</em> displays the alternatives in random order when quiz is beeing taken.\n      <em>Simple scoring</em> gives max score if everything is correct. Zero points otherwise.</p>\n\n      <p>The scoring system in multichoice is a bit complex. With multiple answers each alternative adds a given number of points to\n      the total score if it is chosen, and another number of points is added if the alternative isn't chosen. Both <em>score if chosen</em> and\n      <em>score if not chosen</em> may be edited for each alternative by the question creator.\n      If multiple answers isn't allowed the score will be set to the <em>score if chosen</em> of the alternative that has been chosen.\n      The question is considered correct if the quiz taker gets the maximum amount of points possible for the question.</p>\n    "
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:43
+msgid "Multiple choice question"
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:44
+msgid "This provides multiple choice questions for use by the Quiz module."
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:57
+msgid "Default number of alternatives"
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:62
+msgid "Default scoring method"
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:63
+msgid "Choose the default scoring method for questions with multiple correct answers."
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:65
+msgid "Give minus one point for incorrect answers"
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:66
+msgid "Give one point for each incorrect option that haven't been chosen"
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:79
+msgid "The default number of alternatives must be between 2 and 50"
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:143 question_types/scale/scale.classes.inc:414 question_types/scale/theme/scale.theme.inc:18
+msgid "Alternatives"
+msgstr ""
+
+#: question_types/multichoice/multichoice.module:144
+msgid "Alternatives for multichoice"
+msgstr ""
+
+#: question_types/multichoice/multichoice.install:250
+msgid "Added weights for multichoice alternatives."
+msgstr ""
+
+#: question_types/multichoice/multichoice.info:0
+msgid "Quiz - Multichoice"
+msgstr ""
+
+#: question_types/multichoice/multichoice.info:0
+msgid "Multiple choice question type for quiz."
+msgstr ""
+
+#: question_types/multichoice/theme/multichoice.theme.inc:73
+msgid "Score if chosen: @sc Score if not chosen: @nc"
+msgstr ""
+
+#: question_types/multichoice/theme/multichoice.theme.inc:77
+msgid "You are not allowed to view the solution for this question"
+msgstr ""
+
+#: question_types/quiz_directions/quiz_directions.classes.inc:66
+msgid "Direction"
+msgstr "Retning"
+
+#: question_types/quiz_directions/quiz_directions.module:15
+msgid "Provides directions which can be inserted alongside questions in a quiz."
+msgstr ""
+
+#: question_types/quiz_directions/quiz_directions.module:25
+msgid "@quiz directions"
+msgstr ""
+
+#: question_types/quiz_directions/quiz_directions.module:26
+msgid "@quiz directions allow you to drop in directions anywhere in a quiz. You can also use them to insert a confirmation step at the end of the quiz."
+msgstr ""
+
+#: question_types/quiz_directions/quiz_directions.info:0
+msgid "Quiz - Directions"
+msgstr ""
+
+#: question_types/quiz_directions/quiz_directions.info:0
+msgid "Provide a slot to add directions for a quiz or some sub-portion of a quiz."
+msgstr ""
+
+#: question_types/quiz_page/quiz_page.module:14
+msgid "Provides pages which can contain questions in a quiz."
+msgstr ""
+
+#: question_types/quiz_page/quiz_page.module:24
+msgid "@quiz page"
+msgstr ""
+
+#: question_types/quiz_page/quiz_page.module:25
+msgid "Quiz pages allow you display questions across multiple pages."
+msgstr ""
+
+#: question_types/quiz_page/quiz_page.info:0
+msgid "Quiz - Pages"
+msgstr ""
+
+#: question_types/quiz_page/quiz_page.info:0
+msgid "Provides support for pages of questions."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.core.inc:101
+msgid "Add a title that will help distinguish this question from other questions. This will not be seen during the @quiz."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.core.inc:140
+msgid "This feedback will show when configured and the user answers a question, regardless of correctness."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.core.inc:330
+msgid "New revision has been created for the @quiz %n"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.core.inc:789
+msgid "The score needs to be a number between 0 and @max"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:36
+msgid "You have created a new revision of a question that belongs to %num quizzes. Choose what you want to do with the different quizzes."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:53
+msgid "Update (no revision)"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:55;86
+msgid "Create new revision"
+msgstr "Opret ny version"
+
+#: question_types/quiz_question/quiz_question.pages.inc:56;92
+msgid "Do nothing"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:61
+msgid "answered"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:61
+msgid "unanswered"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:61
+msgid "published"
+msgstr "udgivet"
+
+#: question_types/quiz_question/quiz_question.pages.inc:61
+msgid "unpublished"
+msgstr "afpubliceret"
+
+#: question_types/quiz_question/quiz_question.pages.inc:67
+msgid "Leave published"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:67
+msgid "Publish"
+msgstr "Udgiv"
+
+#: question_types/quiz_question/quiz_question.pages.inc:82
+msgid "Replace the old revision of the question with the new revision. This may affect reporting. It is the default when the most recent Quiz revision has not been answered."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:87
+msgid "If the current revision of a Quiz has been answered, you should make a new revision to ensure that existing answer statistics and reports remain correct."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:88
+msgid "If the new revision of the question only corrects spelling errors, you do not need to create a new revision of the Quiz."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:93
+msgid "The quiz will not be revised, and will still use the old revision of the question."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:123
+msgid "Quiz %title succesfully revised."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:129
+msgid "Quiz %title succesfully updated."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.pages.inc:133
+msgid "Quiz not updated, please use the Quiz question listing to if you decide to update the quiz manually."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:14
+msgid "Support for Quiz question types."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:181
+msgid "Question @question"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:196
+msgid "Changing answers is disabled."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:204
+msgid "Doubtful?"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:228
+msgid "Back"
+msgstr "Tilbage"
+
+#: question_types/quiz_question/quiz_question.module:236
+msgid "This is the last question. Press Finish to deliver your answers"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:251
+msgid "By proceeding you won't be able to go back and edit your answers."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:260
+msgid "Leave blank and finish"
+msgstr "Spring over og afslut"
+
+#: question_types/quiz_question/quiz_question.module:260
+msgid "Leave blank"
+msgstr "Spring over"
+
+#: question_types/quiz_question/quiz_question.module:621
+msgid "The question-response isn't a QuizQuestionResponse. It needs to extend the QuizQuestionResponse interface, or extend the abstractQuizQuestionResponse class."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:738
+msgid "The last answer was not submitted, as the time ran out."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:922
+msgid "The answer was incorrect. Please try again."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:699
+msgid "quiz"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:699
+msgid "Attempt to add body field was failed as question content type %type is not defined."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:24
+msgid "Revision actions"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:34
+msgid "Question configuration"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.module:35
+msgid "Configure the question types."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.install:128
+msgid "Added global quiz question feedback fields and migrated true/false feedback."
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.install:136
+msgid "Dropped table {quiz_question_latest_quizzes}"
+msgstr ""
+
+#: question_types/quiz_question/quiz_question.info:0
+msgid "Helper module for all quiz question types"
+msgstr ""
+
+#: question_types/scale/scale.classes.inc:395
+msgid "Provide alternatives for the user to answer."
+msgstr ""
+
+#: question_types/scale/scale.classes.inc:403
+msgid "Presets"
+msgstr ""
+
+#: question_types/scale/scale.classes.inc:406
+msgid "Select a set of alternatives"
+msgstr ""
+
+#: question_types/scale/scale.classes.inc:421 question_types/scale/scale.module:202
+msgid "Alternative !i"
+msgstr ""
+
+#: question_types/scale/scale.classes.inc:430
+msgid "Save as a new preset"
+msgstr ""
+
+#: question_types/scale/scale.classes.inc:431
+msgid "Current alternatives will be saved as a new preset"
+msgstr ""
+
+#: question_types/scale/scale.classes.inc:434 question_types/scale/scale.module:100
+msgid "Manage presets"
+msgstr ""
+
+#: question_types/scale/scale.module:20
+msgid "This module provides a scale question type for Quiz. It may be used to construct surveys."
+msgstr ""
+
+#: question_types/scale/scale.module:76
+msgid "Administer presets"
+msgstr ""
+
+#: question_types/scale/scale.module:87
+msgid "Scale question"
+msgstr ""
+
+#: question_types/scale/scale.module:88
+msgid "Quiz questions that allow a user to choose from a scale."
+msgstr ""
+
+#: question_types/scale/scale.module:103
+msgid "Maximum number of alternatives allowed"
+msgstr ""
+
+#: question_types/scale/scale.module:115
+msgid "The number of alternatives must be between 2 and 50"
+msgstr ""
+
+#: question_types/scale/scale.module:179
+msgid "New global collection(available to all users)"
+msgstr ""
+
+#: question_types/scale/scale.module:186
+msgid "You don't have any preset collections."
+msgstr ""
+
+#: question_types/scale/scale.module:214
+msgid "Available to all users"
+msgstr ""
+
+#: question_types/scale/scale.module:220
+msgid "What will you do?"
+msgstr ""
+
+#: question_types/scale/scale.module:223
+msgid "Save changes, do not change questions using this preset"
+msgstr ""
+
+#: question_types/scale/scale.module:224
+msgid "Save changes, and change your own questions who uses this preset"
+msgstr ""
+
+#: question_types/scale/scale.module:225
+msgid "Delete this preset(This will not affect existing questions)"
+msgstr ""
+
+#: question_types/scale/scale.module:315
+msgid "New preset has been added"
+msgstr ""
+
+#: question_types/scale/scale.module:322
+msgid "!changed presets have been changed."
+msgstr ""
+
+#: question_types/scale/scale.module:325
+msgid "!deleted presets have been deleted."
+msgstr ""
+
+#: question_types/scale/scale.module:339
+msgid "New preset must have atleast two alternatives."
+msgstr ""
+
+#: question_types/scale/scale.module:29
+msgid "Manage your preset collections"
+msgstr ""
+
+#: question_types/scale/scale.install:151
+msgid "The Scale module has been uninstalled. Scale nodes may still exist, but they will not function properly."
+msgstr ""
+
+#: question_types/scale/scale.info:0
+msgid "Quiz - Scale"
+msgstr ""
+
+#: question_types/scale/scale.info:0
+msgid "Scale question type for quiz."
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:57
+msgid "An answer must be specified for any evaluation type other than manual scoring."
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:129
+msgid "Enter your answer here"
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:163 question_types/short_answer/short_answer.module:169
+msgid "Provide the answer and the method by which the answer will be evaluated."
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:170
+msgid "Automatic and case sensitive"
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:171
+msgid "Automatic. Not case sensitive"
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:175
+msgid "Match against a regular expression (answer must match the supplied regular expression)"
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:177
+msgid "Manual"
+msgstr "Manuel"
+
+#: question_types/short_answer/short_answer.classes.inc:181
+msgid "Pick an evaluation method"
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:182
+msgid "Choose how the answer shall be evaluated."
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:190
+msgid "About regular expressions"
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:197
+msgid "Regular expressions are an advanced syntax for pattern matching. They allow you to create a concise set of rules that must be met before a value can be considered a match."
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:199
+msgid "For more on regular expression syntax, visit !url."
+msgstr ""
+
+#: question_types/short_answer/short_answer.classes.inc:207
+msgid "Specify the answer. If this question is manually scored, no answer needs to be supplied."
+msgstr ""
+
+#: question_types/short_answer/short_answer.module:17
+msgid "This module provides a short answer question type for Quiz."
+msgstr ""
+
+#: question_types/short_answer/short_answer.module:27
+msgid "use regex for short answer"
+msgstr ""
+
+#: question_types/short_answer/short_answer.module:28
+msgid "Use PHP \"regular expressions\" the advanced option for automated response evaluation."
+msgstr ""
+
+#: question_types/short_answer/short_answer.module:40
+msgid "Short answer question"
+msgstr ""
+
+#: question_types/short_answer/short_answer.module:41
+msgid "Quiz questions that allow a user to enter a line of text."
+msgstr ""
+
+#: question_types/short_answer/short_answer.module:56
+msgid "Choose the default maximum score for a short answer question."
+msgstr ""
+
+#: question_types/short_answer/short_answer.info:0
+msgid "Quiz - Short answer"
+msgstr ""
+
+#: question_types/short_answer/short_answer.info:0
+msgid "Short answer question type for Quiz."
+msgstr ""
+
+#: question_types/short_answer/theme/short_answer.theme.inc:15
+msgid "Correct Answer"
+msgstr ""
+
+#: question_types/short_answer/theme/short_answer.theme.inc:15
+msgid "User Answer"
+msgstr ""
+
+#: question_types/truefalse/truefalse.classes.inc:86;110;152;275;312
+msgid "True"
+msgstr "Sandt"
+
+#: question_types/truefalse/truefalse.classes.inc:86;111;153;284;312
+msgid "False"
+msgstr "Falsk"
+
+#: question_types/truefalse/truefalse.classes.inc:92
+msgid "Answer hidden"
+msgstr ""
+
+#: question_types/truefalse/truefalse.classes.inc:139
+msgid "True/false statement"
+msgstr ""
+
+#: question_types/truefalse/truefalse.classes.inc:158
+msgid "Choose if the correct answer for this question is \"true\" or \"false\"."
+msgstr ""
+
+#: question_types/truefalse/truefalse.module:17
+msgid "TrueFalse question type for the quiz module."
+msgstr ""
+
+#: question_types/truefalse/truefalse.module:20
+msgid "A question type for the quiz module. A simplified version of multichoice where \"true\" and \"false\" are the alternatives."
+msgstr ""
+
+#: question_types/truefalse/truefalse.module:32
+msgid "True/false question"
+msgstr ""
+
+#: question_types/truefalse/truefalse.module:33
+msgid "Quiz questions that allow a user to select \"true\" or \"false\" as his response to a statement."
+msgstr ""
+
+#: question_types/truefalse/truefalse.module:89
+msgid "The answer for this question."
+msgstr ""
+
+#: question_types/truefalse/truefalse.info:0
+msgid "Quiz - True false"
+msgstr ""
+
+#: question_types/truefalse/truefalse.info:0
+msgid "Module to create True or False Kind of Questions"
+msgstr ""
+
+#: theme/quiz-question-score.tpl.php:3
+msgid "Score:"
+msgstr ""
+
+#: theme/quiz-question-score.tpl.php:3
+msgid "of"
+msgstr "af"
+
+#: theme/quiz-report-form.tpl.php:20
+msgid "Question results"
+msgstr ""
+
+#: theme/quiz-report-form.tpl.php:48
+msgid "Response"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:18
+msgid "For !ph1 or !ph2 Christmas calendar page"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:19
+msgid "viewing"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:20
+msgid "editing"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:29
+msgid "Questions"
+msgstr "Spørgsmål"
+
+#: ding_christmas_calendar.admin.inc:36
+msgid "Edit"
+msgstr "Redigér"
+
+#: ding_christmas_calendar.admin.inc:42 ding_christmas_calendar.views_default.inc:144
+msgid "Title"
+msgstr "titel"
+
+#: ding_christmas_calendar.admin.inc:43
+msgid "Operations"
+msgstr "Handlinger"
+
+#: ding_christmas_calendar.admin.inc:54
+msgid "Delete questions"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:55
+msgid "At this moment already exists questions for christmas calendar. Calendar can purged by pressing this button."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:66
+msgid "Dates:"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:72
+msgid "Start date of Christmas calendar"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:80
+msgid "Duration in days"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:88
+msgid "On pressing this button will be generated questions for XMas, starting from date which is defined above."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:89
+msgid "Generate"
+msgstr "Opret"
+
+#: ding_christmas_calendar.admin.inc:100
+msgid "Quiz:"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:106
+msgid "Background image"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:107
+msgid "Background image for Christmas calendar."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:113
+msgid "Allow to add background image for Xmas calendar."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:114
+msgid "Save quiz settings"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:127
+msgid "Something happened. Variable `ding_christmas_calendar_quiz_id` is empty. Reinstall module or create a quiz and initialize variable with actual value"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:145
+msgid "Please enter valid date."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:149
+msgid "Please enter valid duration."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:155
+msgid "Please provide image."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:175
+msgid "Image was successfully saved."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:179;244
+msgid "Error occurred. Check log for details."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:272
+msgid "Calendar was successfully cleared"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:276
+msgid "Something goes wrong. Check reports."
+msgstr ""
+
+#: ding_christmas_calendar.pages.inc:52
+msgid "Login form"
+msgstr ""
+
+#: ding_christmas_calendar.views_default.inc:128
+msgid "Master"
+msgstr "Master"
+
+#: ding_christmas_calendar.views_default.inc:129
+msgid "more"
+msgstr "mere"
+
+#: ding_christmas_calendar.views_default.inc:130
+msgid "Apply"
+msgstr "Udfør"
+
+#: ding_christmas_calendar.views_default.inc:131
+msgid "Reset"
+msgstr "Gendan"
+
+#: ding_christmas_calendar.views_default.inc:132
+msgid "Sort by"
+msgstr "Sortér efter"
+
+#: ding_christmas_calendar.views_default.inc:133
+msgid "Asc"
+msgstr "Stigende"
+
+#: ding_christmas_calendar.views_default.inc:134
+msgid "Desc"
+msgstr "Faldende"
+
+#: ding_christmas_calendar.views_default.inc:135
+msgid "Items per page"
+msgstr "Antal elementer"
+
+#: ding_christmas_calendar.views_default.inc:136
+msgid "- All -"
+msgstr "- Alle -"
+
+#: ding_christmas_calendar.views_default.inc:137
+msgid "Offset"
+msgstr "Forskydning"
+
+#: ding_christmas_calendar.views_default.inc:138
+msgid "« first"
+msgstr "« første"
+
+#: ding_christmas_calendar.views_default.inc:139
+msgid "‹ previous"
+msgstr "‹ forrige"
+
+#: ding_christmas_calendar.views_default.inc:140
+msgid "next ›"
+msgstr "næste ›"
+
+#: ding_christmas_calendar.views_default.inc:141
+msgid "last »"
+msgstr "sidste »"
+
+#: ding_christmas_calendar.views_default.inc:142
+msgid "Data export"
+msgstr ""
+
+#: ding_christmas_calendar.views_default.inc:143
+msgid "User"
+msgstr "Bruger"
+
+#: ding_christmas_calendar.views_default.inc:145
+msgid "User name"
+msgstr "Brugernavn"
+
+#: ding_christmas_calendar.views_default.inc:146
+msgid "Nid"
+msgstr "Nid"
+
+#: ding_christmas_calendar.views_default.inc:147
+msgid "."
+msgstr "."
+
+#: ding_christmas_calendar.views_default.inc:148
+msgid ","
+msgstr ","
+
+#: ding_christmas_calendar.views_default.inc:149
+msgid "Score"
+msgstr "Karakter"
+
+#: ding_christmas_calendar.views_default.inc:150
+msgid "Evaluated"
+msgstr ""
+
+#: ding_christmas_calendar.views_default.inc:151
+msgid "Date started"
+msgstr ""
+
+#: ding_christmas_calendar.views_default.inc:152
+msgid "Date finished"
+msgstr ""
+
+#: ding_christmas_calendar.module:348
+msgid "Save"
+msgstr "Gem"
+
+#: ding_christmas_calendar.module:349;354
+msgid "Back to calendar"
+msgstr ""
+
+#: ding_christmas_calendar.module:32
+msgid "Ding Christmas calendar settings"
+msgstr ""
+
+#: ding_christmas_calendar.module:33
+msgid "Configure the start and end dates of Christmas calendar."
+msgstr ""
+
+#: ding_christmas_calendar.module:41
+msgid "Represents wrapper for quiz_quiztake function."
+msgstr ""
+
+#: ding_christmas_calendar.install:17;20
+msgid "XMas calendar settings"
+msgstr ""
+
+#: ding_christmas_calendar.install:63 plugins/content_types/ding_christmas_calendar_mobile.inc:11;21 plugins/content_types/ding_christmas_calendar_widget.inc:11;21
+msgid "Christmas calendar"
+msgstr ""
+
+#: ding_christmas_calendar.install:304
+msgid "Quiz date"
+msgstr ""
+
+#: ding_christmas_calendar.info:0
+msgid "Ding Christmas calendar"
+msgstr ""
+
+#: ding_christmas_calendar.info:0
+msgid "Represents christmas calendar widget based on quiz module."
+msgstr ""
+
+#: ding_christmas_calendar.info:0
+msgid "Ding!"
+msgstr "Ding!"
+
+#: js/ding_christmas_calendar.js:0
+msgid "Hov Hov. Do not cheat! You can not open the door yet"
+msgstr ""
+
+#: plugins/content_types/ding_christmas_calendar_mobile.inc:9
+msgid "Mobile Christmas calendar"
+msgstr ""
+
+#: plugins/content_types/ding_christmas_calendar_mobile.inc:10
+msgid "Represents widget for displaying Christmas calendar for mobile devices."
+msgstr ""
+
+#: plugins/content_types/ding_christmas_calendar_widget.inc:9
+msgid "Full-page Christmas calendar"
+msgstr ""
+
+#: plugins/content_types/ding_christmas_calendar_widget.inc:10
+msgid "Represents widget for displaying Christmas calendar."
+msgstr ""
+
+#: templates/ding_christmas_calendar.tpl.php:20
+msgid "Hov Hov"
+msgstr ""
+
+#: templates/ding_christmas_calendar.tpl.php:21
+msgid "Do not cheat! You can not open the door yet"
+msgstr ""
 
 #: /list/107/share
 msgid ""

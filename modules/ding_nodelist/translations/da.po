@@ -12,7 +12,6 @@
 #  templates/ding_nodelist.ding_news.text.tpl.php: n/a
 #  plugins/content_types/ding_nodelist.inc: n/a
 #  ding_nodelist.info: n/a
-#  templates/ding_nodelist.ding_news.haccordion.tpl.php: n/a
 #
 msgid ""
 msgstr ""
@@ -404,13 +403,13 @@ msgstr ""
 msgid "Carousel"
 msgstr "Karrusel"
 
-#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2146
-msgid "Horizontal accordion"
-msgstr "Vandret akkordeon"
-
 #: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2148
 msgid "Slider"
 msgstr "Rullebånd"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2149
+msgid "Taxonomy like"
+msgstr "Liste"
 
 #: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2383
 msgid "Show only day."
@@ -466,7 +465,7 @@ msgstr "Gør det muligt at lave yderst tilpassede lister af indhold"
 #: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.slider.tpl.php:30
 #: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.taxonomy.tpl.php:59
 msgid "kr."
-msgstr ""
+msgstr "kr."
 
 #: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.carousel.tpl.php:41
 #: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.image_text.tpl.php:48

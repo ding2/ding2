@@ -652,23 +652,31 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
       if (user_access('use personalisation')) {
         $ting_object = ting_object_load($context['value']);
 
-        // Add a follow action for authors.
-        $data = array_merge(
-          $data,
-          ding_list_get_add_to_list_ting_object_creators($ting_object)
-        );
+        // This one expects that item is in the well, which is not always possible.
+        // Providers are able to mimic the TingObject with minimal data
+        // from the LMS system to fulfill this requirement, however current
+        // "drupal_alter" implementation used here does not allow
+        // easily to pass this pseudo-object.
+        // Therefore, "following an author" for these items would be disabled.
+        if (!empty($ting_object)) {
+          // Add a follow action for authors.
+          $data = array_merge(
+            $data,
+            ding_list_get_add_to_list_ting_object_creators($ting_object)
+          );
 
-        $data[] = array(
-          'custom' => array(
-            'title' => '<div class="list-title">' . t('New list') . '</div><div class="add-to-list-button button">' . t('Add to new list') . '</div>',
-            'href' => 'list/create',
-            'attributes' => array(
-              'class' => array(),
+          $data[] = array(
+            'custom' => array(
+              'title' => '<div class="list-title">' . t('New list') . '</div><div class="add-to-list-button button">' . t('Add to new list') . '</div>',
+              'href' => 'list/create',
+              'attributes' => array(
+                'class' => array(),
+              ),
+              'query' => array('at' => $context['type'], 'av' => $context['value']),
+              'html' => TRUE,
             ),
-            'query' => array('at' => $context['type'], 'av' => $context['value']),
-            'html' => TRUE,
-          ),
-        );
+          );
+        }
       }
       elseif (!user_is_logged_in()) {
         $login_path = '#';

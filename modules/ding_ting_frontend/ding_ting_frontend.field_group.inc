@@ -10,6 +10,39 @@
 function ding_ting_frontend_field_group_info() {
   $field_groups = array();
 
+  // @todo This should be moved to separate module.
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_contenbox|ting_object|ting_object|compact';
+  $field_group->group_name = 'group_contenbox';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'compact';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Contentbox',
+    'weight' => '0',
+    'children' => array(
+      0 => 'ting_cover',
+      1 => 'group_overlay',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Contentbox',
+      'instance_settings' => array(
+        'classes' => 'contentbox',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_contenbox|ting_object|ting_object|compact'] = $field_group;
+
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;

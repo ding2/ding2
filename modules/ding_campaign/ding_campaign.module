@@ -137,7 +137,7 @@ function template_preprocess_ding_campaign(&$variables) {
  * @return array
  *   Render array with the campaigns found.
  */
-function ding_campaign_display($context, $count, $offset, $style = 'medium') {
+function ding_campaign_display($context, $count, $offset, $style = 'medium', $subtype = 'relevant_campaign', $more_link = array()) {
   $content = array();
   // Get node id's for the campaign nodes matching the context.
   $campaigns = ding_campaign_get_campaigns($context, $count, $offset);
@@ -317,11 +317,10 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process taxonomy campaigns.
-  if ($context['taxonomy_term'] != NULL && isset($context['taxonomy_term']->tids)) {
-    $tids = $context['taxonomy_term']->tids;
+  if ($context['taxonomy_term'] != NULL && isset($context['taxonomy_term']->tid)) {
+    $tid = $context['taxonomy_term']->tid;
 
-    foreach ($tids as $tid) {
-      $result = db_query('SELECT r.cid
+    $result = db_query('SELECT r.cid
       FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
       WHERE r.nid = :tid
         AND r.type = \'rule_taxonomy\'
@@ -329,11 +328,10 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
         AND r.cid = d.cid
         AND r.cid = n.nid
       ORDER BY d.weight DESC', array(':tid' => (int) $tid))
-        ->fetchAll();
+      ->fetchAll();
 
-      foreach ($result as $key => $value) {
-        @$campaigns[$value->cid] += 3;
-      }
+    foreach ($result as $key => $value) {
+      @$campaigns[$value->cid] += 3;
     }
   }
 
@@ -637,4 +635,32 @@ function _ding_campaign_rule_by_type($node_type) {
   }
 
   return $type;
+}
+
+/**
+ * Implements hook_preprocess().
+ *
+ * @todo This should be moved to separate module.
+ */
+function ding_campaign_preprocess(&$variables, $hook) {
+  switch ($hook) {
+    case 'node':
+      $types = array('ding_event', 'ding_news', 'ding_eresource');
+      if ($variables['view_mode'] == 'full' && in_array($variables['type'], $types)) {
+        // Load panes for fetching campaign pane settings.
+        $conf = [];
+        $panels = panels_load_display(1);
+        foreach ($panels->content as $panel) {
+          if ($panel->type == 'campaign' && $panel->subtype == 'campaign') {
+            $conf = $panel->configuration;
+          }
+        }
+
+        $context = ['search_term' => [], 'taxonomy_term' => []];
+        $context['page'] = $variables['node'];
+        $campaigns = ding_campaign_display($context, $conf['ding_campaign_count'], $conf['ding_campaign_offset']);
+        $variables['campaigns'] = $campaigns;
+      }
+      break;
+  }
 }

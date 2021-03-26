@@ -8,7 +8,7 @@
    */
   $(document).ready(function() {
     // Click the label link when a radio button is clicked.
-    $('#ting-search-backend-engines-form input[type="radio"]').change(function() {
+    $('form[id^="ting-search-backend-engines-form"] input[type="radio"]').change(function() {
       var link = $(this).parent().find('a');
       Drupal.TingSearchOverlay();
       window.location = link.attr('href');

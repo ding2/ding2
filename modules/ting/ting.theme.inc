@@ -12,6 +12,7 @@ function template_preprocess_ting_object(&$variables) {
 
   $variables['page'] = $variables['elements']['#view_mode'] == 'full';
   $variables['classes_array'][] = drupal_html_class('view-mode-' . $variables['elements']['#view_mode']);
+  $variables['attributes_array']['ting-object-id'] = $variables['object']->id;
   // Helpful $content variable for templates.
   foreach (element_children($variables['elements']) as $key) {
     $variables['content'][$key] = $variables['elements'][$key];

@@ -23,7 +23,7 @@
    endif; ?>">
       <div class="site-name"><?php print $site_name; ?></div>
       <?php if ($logo): ?>
-        <img alt="" src="<?php print $logo; ?>" />
+        <img alt="<?php print $site_name; ?>" title="<?php print $site_name; ?>" src="<?php print $logo; ?>" />
         <span class="vertical-helper"></span>
       <?php endif; ?>
     </div>

@@ -117,8 +117,6 @@ function _ding_mobilesearch_types() {
   return $types;
 }
 
-
-
 /**
  * Implements hook_mobilesearch_node_export_mapping().
  */
@@ -156,6 +154,22 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       'status' => array(
         'name' => t('Status'),
         'value' => $node->status,
+        'attr' => array(),
+      ),
+      // Having a text index in the database and passing the language as a part
+      // of the node payload, will result in an
+      // "insertDocument :: caused by :: 17261 found language override field
+      // in document with non-string type" error.
+      // See: https://docs.mongodb.com/manual/tutorial/specify-language-for-text-index/
+      // Possible solutions:
+      // - disable text index entirely for respective collection;
+      // - override the source field of content language for the appropriate
+      // index definition;
+      // - provide a two digit language code as this field value,
+      // without the generic structure of an array with name/value/attr keys.
+      'language' => array(
+        'name' => t('Language'),
+        'value' => !empty($node->language) ? $node->language : 'en',
         'attr' => array(),
       ),
     ),
@@ -229,6 +243,7 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           foreach ($items as $delta => $row) {
             $file = file_load($row['fid']);
             $mapping['fields'][$machine_name]['value'][$delta] = base64_encode(file_get_contents($file->uri));
+            // Send the mimetype so service decodes this into an image file.
             $mapping['fields'][$machine_name]['attr'][$delta] = $file->filemime;
           }
         }
@@ -620,5 +635,25 @@ function _ding_mobilesearch_opening_hours_update_worker($nid) {
 
   if ($node) {
     ding_mobilesearch_rest_exec('hook_node_update', 'node', $node);
+  }
+}
+
+/**
+ * Implements hook_scheduler_api().
+ */
+function ding_mobilesearch_scheduler_api($node, $action) {
+  /** @var \flag_flag $flag */
+  $flag = flag_get_flag('push_to_mongo');
+  $needs_update = $flag && $flag->is_flagged($node->nid);
+
+  if (!$needs_update) {
+    return;
+  }
+
+  switch ($action) {
+    case 'publish':
+    case 'unpublish':
+      ding_mobilesearch_rest_exec('hook_node_update', 'node', $node);
+      break;
   }
 }

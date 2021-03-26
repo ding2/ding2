@@ -16,6 +16,12 @@ require_once __DIR__ . '/template.field.php';
 function ddbasic_preprocess_html(&$vars) {
   global $language;
 
+  drupal_add_library('system', 'ui');
+
+  if (in_array('html__node__newsletter', $vars['theme_hook_suggestions'])) {
+    $vars['newsletter'] = $vars['page']['content']['system_main']['main']['#markup'];
+  }
+
   // Setup iOS logo if it's set.
   $vars['ios_logo'] = theme_get_setting('iosicon_upload');
 
@@ -89,6 +95,38 @@ function ddbasic_process_html(&$vars) {
 }
 
 /**
+ * Implementation of hook_entity_view_alter().
+ */
+function ddbasic_entity_view_alter(&$build, $type) {
+  if (in_array($build['#view_mode'], array('full', 'search_result'))) {
+    if (isset($build['field_ding_section'])) {
+      $items = field_get_items('node', $build['#node'], 'field_ding_section', LANGUAGE_NONE);
+      if (!empty($items)) {
+        $build['field_ding_section'] = array($build['field_ding_section']);
+        $build['field_ding_section']['#theme'] = 'field';
+        $build['field_ding_section']['#view_mode'] = $build['#view_mode'];
+        $build['field_ding_section']['#field_name'] = 'field_ding_section';
+        $build['field_ding_section']['#field_type'] = 'taxonomy_term_reference';
+        $build['field_ding_section']['#formatter '] = 'taxonomy_term_reference_link';
+        $build['field_ding_section']['#label_display'] = 'hidden';
+        $build['field_ding_section']['#title'] = t('Section');
+        $build['field_ding_section']['#language '] = LANGUAGE_NONE;
+        $build['field_ding_section']['#field_translatable'] = 0 ;
+        $build['field_ding_section']['#entity_type'] = 'node';
+        $build['field_ding_section']['#bundle'] = $build['#node']->type;
+        $build['field_ding_section']['#weight'] = isset($build['field_' . $build['#node']->type . '_tags']['#weight']) ?
+          $build['field_' . $build['#node']->type . '_tags']['#weight'] + 1  : 7;
+        $build['field_ding_section']['#access'] = TRUE;
+        foreach ($items as $item) {
+          $term = field_view_value('node', $build['#node'], 'field_ding_section', $item);
+          $build['field_ding_section']['#items'][] = array('tid' => $item, 'taxonomy_term' => $term);
+        }
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess_panels_pane().
  */
 function ddbasic_preprocess_panels_pane(&$vars) {
@@ -126,11 +164,11 @@ function ddbasic_preprocess_panels_pane(&$vars) {
     $vars['classes_array'][] = 'sub-menu-wrapper';
 
     // Change the theme wrapper for both menu-block and OG menu.
-    if (isset($vars['content']['#content'])) {
+    if (isset($vars['content']['#content']) && is_array($vars['content']['#content'])) {
       // Menu-block.
       $vars['content']['#content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
-    else {
+    elseif(is_array($vars['content'])) {
       // OG menu.
       if (is_array($vars['content'])) {
         $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
@@ -300,6 +338,8 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
     $vars['type_class'] = drupal_html_class($first_node->type);
   }
 
+  $vars['no_masonry'] = FALSE;
+
   // Set no-masonry to true for frontpage event view.
   if ($vars['view']->name == 'ding_event' && $vars['view']->current_display == 'ding_event_list_frontpage') {
     $vars['no_masonry'] = TRUE;
@@ -380,9 +420,11 @@ function ddbasic_preprocess_user_profile(&$variables) {
   if ($variables['elements']['#view_mode'] == 'search_result') {
     $user_id = $variables['elements']['#account']->uid;
     $user_profiles = profile2_load_by_user($user_id);
-    $profile_view = profile2_view($user_profiles['ding_staff_profile'], 'search_result');
-    $variables['user_profile']['profile_ding_staff_profile']['#access'] = TRUE;
-    $variables['user_profile']['profile_ding_staff_profile']['view'] = $profile_view;
+    if (!empty($user_profiles)) {
+      $profile_view = profile2_view($user_profiles['ding_staff_profile'], 'search_result');
+      $variables['user_profile']['profile_ding_staff_profile']['#access'] = TRUE;
+      $variables['user_profile']['profile_ding_staff_profile']['view'] = $profile_view;
+    }
   }
 }
 
@@ -1323,11 +1365,39 @@ function ddbasic_select($variables) {
   $element = $variables['element'];
   element_set_attributes($element, array('id', 'name', 'size'));
   _form_set_class($element, array('form-select'));
+  $multiple = !empty($variables['element']['#attributes']['multiple']) ? $variables['element']['#attributes']['multiple'] : '';
 
-  if (isset($variables['element']['#attributes']['multiple']) && $variables['element']['#attributes']['multiple'] == 'multiple') {
+  if (!empty($multiple) && $multiple == 'multiple') {
     return '<div class="select-wrapper select-wrapper-multiple"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
   }
   else {
     return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Rewrites view's output.
+ */
+function ddbasic_views_pre_render(&$view) {
+  if ($view->name == 'ding_event') {
+    foreach ($view->result as &$item) {
+      $node = node_load($item->nid);
+
+      // TODO: Library nodes can be encountered, which can be a view flaw.
+      if ($node->type != 'ding_event') {
+        continue;
+      }
+
+      $field = $node->field_ding_event_date['und'][0];
+      $val = $field['value'];
+      if ($val == $field['value2']) {
+        $date = new DateTime($val, new DateTimeZone($field['timezone_db']));
+        $date->setTimezone(new DateTimeZone($field['timezone']));
+        $date = $date->format('H:i');
+        $field['rendered']['#markup'] = $date . ' - ' . t('All day');
+      }
+    }
   }
 }

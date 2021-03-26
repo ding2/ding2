@@ -404,13 +404,12 @@ taxonomy/term/%term:tid',
     $pane = new stdClass();
     $pane->pid = 'new-e96436de-1a68-4813-91aa-63662d84d299';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
+      'style' => 'ribbon',
       'context' => array(
         0 => 'empty',
         1 => 'empty',
@@ -420,7 +419,10 @@ taxonomy/term/%term:tid',
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => '0',
+      'settings' => array(),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -672,13 +674,12 @@ events
     $pane = new stdClass();
     $pane->pid = 'new-fb32e006-e3f2-4f14-a1a2-0513758f77e8';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
+      'style' => 'ribbon',
       'context' => array(
         0 => 'empty',
         1 => 'empty',
@@ -992,13 +993,12 @@ node/%node:nid/events
     $pane = new stdClass();
     $pane->pid = 'new-150601e8-429a-4460-8500-c20fc264900a';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
+      'style' => 'ribbon',
       'context' => array(
         0 => 'empty',
         1 => 'argument_entity_id:node_1',

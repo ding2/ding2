@@ -42,6 +42,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
       if (isset($form_state['build_info']['args'][0]) && $form_state['build_info']['args'][0] === 'ddbasic') {
         $form['color']['palette']['primary']['#description'] = t('Is used e.g. as background-color for the main menu, checkboxes and radio-buttons');
         $form['color']['palette']['secondary']['#description'] = t('Is used e.g. as background-color for the log-in button, read-more buttons');
+        $form['color']['palette']['topbar']['#description'] = t('Is used e.g. as background-color for the site topbar.');
 
         // Limit the choices on text colors.
         $default_value = DING_DDBASIC_COLOR_BLACK;

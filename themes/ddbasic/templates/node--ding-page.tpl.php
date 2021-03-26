@@ -95,6 +95,7 @@
     // Hide fields.
     hide($content['comments']);
     hide($content['links']);
+    hide($content['field_ding_page_materials']);
   ?>
 
   <?php print render($content); ?>

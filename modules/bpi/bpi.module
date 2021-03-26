@@ -354,6 +354,13 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       // Make a copy of the default field settings and values.
       $default_field = $form[$materials_field][$current_language][0];
 
+      // If only one material was added, we will get string.
+      if (is_string($bpi_content['material'])) {
+        $material_id = $bpi_content['material'];
+        unset($bpi_content['material']);
+        $bpi_content['material'][0] = $material_id;
+      }
+
       // Loop over materials from BPI inserting new default field for each.
       foreach ($bpi_content['material'] as $key => $material_number) {
         $id = bpi_validate_material($material_number);

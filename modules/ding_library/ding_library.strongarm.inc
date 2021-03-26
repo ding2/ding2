@@ -95,6 +95,12 @@ function ding_library_strongarm() {
         'path' => array(
           'weight' => '7',
         ),
+        'og_menu' => array(
+          'weight' => '0',
+        ),
+        'redirect' => array(
+          'weight' => '30',
+        ),
       ),
       'display' => array(
         'opening_hours_week' => array(
@@ -214,13 +220,6 @@ Arrangementer|bibliotek/[node:field-ding-library-slug]/arrangementer
 Personale|bibliotek/[node:field-ding-library-slug]/personale
 Om|bibliotek/[node:field-ding-library-slug]/om';
   $export['og_menu_default_links_node_ding_library'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'opening_hours_category_vocabulary_ding_library';
-  $strongarm->value = 'category';
-  $export['opening_hours_category_vocabulary_ding_library'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

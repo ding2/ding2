@@ -652,10 +652,12 @@ function ding_user_default_authname($name) {
   // characters, leaving enough room for our suffix.
   $hash = hash('sha512', ding_user_get_private_key() . $name, TRUE);
 
-  // The string length of the hash have been changed in the line below and we
-  // need to update the accounts with new hash values, hence this function call.
-  _ding_user_update_old_accounts($hash);
-  return _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
+  // Hence the strlen().
+  $authname = _password_base64_encode($hash, strlen($hash)) . '@ding_user';
+
+  _ding_user_update_authname($authname);
+
+  return $authname;
 }
 
 /**
@@ -689,49 +691,55 @@ function ding_user_get_private_key() {
 /**
  * This method updates the user authname hash.
  *
- * It will become deprecated after a while.
+ * Brings compatibility of user accounts across various php versions.
+ * Issue caused by drupal_strlen() -> mb_strlen(), whose
+ * behavior was changed somewhat in php 5.4+
  *
- * @param string $hash
- *   Hash used as provider users authname.
+ * @see http://php.net/releases/NEWS_5_4_0_beta2.txt
+ * - "Ill-formed UTF-8 check for security enhancements."
  */
-function _ding_user_update_old_accounts($hash) {
-  // Create authname hash using old workflow (the difference is in strlen VS
-  // drupal_strlen).
-  $auth_name_old = _password_base64_encode($hash, strlen($hash)) . '@ding_user';
+function _ding_user_update_authname($authname) {
+  // We'll check for first 32 chars to get a match.
+  // Hope _password_base64_encode() gives unique results.
+  $authname_chunk = substr($authname, 0, 32);
 
-  // Try to find the users uid based on the old hash value (length of the old
-  // hash should be 96).
-  $uid = db_select('authmap', 'a')
+  // Pick the user id that has almost the authname value that we seek,
+  // which is still different from what it should be.
+  $query = db_select('authmap', 'a')
     ->fields('a', array('uid'))
-    ->condition('authname', $auth_name_old)
+    ->condition('authname', $authname_chunk . '%', 'LIKE');
+  $uids = $query
     ->execute()
-    ->fetchField();
+    ->fetchCol();
 
-  // Proceed only in the case it exists and needs to be updated.
-  if ($uid) {
-    // Create new hash.
-    $auth_name_new = _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
-    $account_new = user_external_load($auth_name_new);
+  // In the case there is still a user with requested authname,
+  // update his authname tokens in database.
+  if ($uids) {
+    $latest_uid = max($uids);
+    $original_uid = min($uids);
 
-    // Update old account (authmap and init) only when there is no new account
-    // for the same user.
-    if (!$account_new) {
-      db_update('authmap')
-        ->fields(array(
-          'authname' => $auth_name_new,
-        ))
-        ->condition('authname', $auth_name_old)
-        ->execute();
-
-      db_update('users')
-        ->fields(array(
-          'init' => $auth_name_new,
-        ))
-        ->condition('uid', $uid)
-        ->execute();
+    // In case of same provider user created erroneously, delete the one
+    // with latest uid assigned. But being aware that there are actually
+    // more users with same authname chunk, yet with different uid's.
+    if ($latest_uid != $original_uid) {
+      user_delete($latest_uid);
     }
-    // @todo Should the old account be deleted when the user already has a new
-    // account?
+
+    db_update('authmap')
+      ->fields(array(
+        'authname' => $authname,
+      ))
+      ->condition('uid', $original_uid, '=')
+      ->condition('authname', $authname, '<>')
+      ->execute();
+
+    db_update('users')
+      ->fields(array(
+        'init' => $authname,
+      ))
+      ->condition('uid', $original_uid, '=')
+      ->condition('init', $authname, '<>')
+      ->execute();
   }
 }
 
@@ -926,13 +934,18 @@ function ding_user_forms($form_id, $args) {
  *   Ajax command array.
  */
 function ajax_command_ding_user_authenticate($extra_data, $redirect_uri = '') {
+  global $language;
+
   $hook = 'ajax_login_command';
   $modules = module_implements($hook);
+
+  $url = parse_url($_SERVER['HTTP_REFERER']);
+  $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
+  $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
+  $referer = preg_replace("/^{$language->language}\//", '', $referer);
+
   if (count($modules) > 0) {
     if (empty($redirect_uri)) {
-      $url = parse_url($_SERVER['HTTP_REFERER']);
-      $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
-      $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
       $redirect_uri = empty($referer) ? '/' : urldecode($referer);
     }
 
@@ -944,9 +957,6 @@ function ajax_command_ding_user_authenticate($extra_data, $redirect_uri = '') {
     // Change default ajax action to default login form's if https is enabled.
     if (variable_get('https', FALSE)) {
       $form = drupal_get_form('user_login');
-      $url = parse_url($_SERVER['HTTP_REFERER']);
-      $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
-      $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
 
       $form['#action'] = 'https://' . $_SERVER['SERVER_NAME'] . url('user/login') . '?destination=' . $referer;
     }

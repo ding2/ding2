@@ -62,6 +62,13 @@ function ding_frontend_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
+  $items['ding_frontend/autocomplete'] = [
+    'title' => 'Autocomplete taxonomy',
+    'page callback' => 'ding_frontend_taxonomy_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  ];
+
   return $items;
 }
 
@@ -90,6 +97,14 @@ function ding_frontend_theme() {
     'ding_frontend_panel_wrapper' => array(
       'render element'  => 'element',
       'template' => 'templates/ding-frontend-panel-wrapper'
+    ),
+    'views_exposed_form_widgets' => array(
+      'variables' => array(
+        'title' => NULL,
+        'items' => NULL,
+        'element' => NULL,
+      ),
+      'template' => 'templates/ding-frontpage--views-exposed-form-widget',
     ),
   );
 }
@@ -267,4 +282,124 @@ function ding_frontend_search_api_views_query_alter(view &$view, SearchApiViewsQ
       $query->keys($new_args);
     }
   }
+}
+
+/**
+ * Implements hook_search_api_query_alter().
+ */
+function ding_frontend_search_api_query_alter(SearchApiQueryInterface $query) {
+  if (isset($_GET['tags_filter']) && !empty($_GET['tags_filter'])) {
+    $tag = $_GET['tags_filter'];
+
+    $term = taxonomy_get_term_by_name($tag, 'ding_content_tags');
+    if (!empty($term)) {
+      $term = reset($term);
+      $subfilter = $query->createFilter('OR');
+      $subfilter->condition('node:field_ding_event_tags', $term->tid, '=');
+      $subfilter->condition('node:field_ding_news_tags', $term->tid, '=');
+      $subfilter->condition('node:field_ding_page_tags', $term->tid, '=');
+      $query->filter($subfilter);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_frontend_form_alter(&$form, &$form_state, $form_id) {
+  if ($form['#id'] == 'views-exposed-form-ding-multiple-search-panel-pane-1') {
+    $options = $form['ct']['#options'];
+    $default_values = $form['ct']['#default_value'];
+
+    $cleared = array_filter($options, function ($key) use ($default_values) {
+      if (in_array($key, array_keys($default_values))) {
+        return $key;
+      }
+    }, ARRAY_FILTER_USE_KEY);
+
+    $form['ct']['#options'] = $cleared;
+    $form['ct']['#default_value'] = [];
+
+    // Add "Tags" filter.
+    $form['#info']['tags_filter'] = [
+      'value' => 'tags_filter',
+      'label' => 'Tags',
+      'weight' => -11,
+    ];
+
+    $form['tags_filter'] = [
+      '#type' => 'textfield',
+      '#autocomplete_path' => 'ding_frontend/autocomplete',
+      '#id' => 'custom-tags-filter',
+      '#attributes' => [
+        'class' => [
+          'ctools-auto-submit-exclude',
+        ],
+        'placeholder' => t('Filter by tags'),
+      ],
+      '#attached' => [
+        'js' => [
+          drupal_get_path('module', 'ding_frontend') . '/js/ding_frontend.js',
+        ]
+      ]
+    ];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_frontend_preprocess_views_exposed_form(&$variables) {
+  if ($variables['form']['#id'] == 'views-exposed-form-ding-multiple-search-panel-pane-1') {
+    $form = $variables['form'];
+    $excluded_widgets = ['tags_filter'];
+    foreach ($form['#info'] as $widget => $item) {
+      if (!in_array($item['value'], $excluded_widgets)) {
+        $items = [];
+        $title = $item['label'];
+        unset($variables['widgets'][$widget]->label);
+
+        $items_list = $form[$item['value']]['#options'];
+        foreach ($items_list as $id => $option) {
+          if (is_object($option)) {
+            $clean_option = array_keys($option->option);
+            $key = array_shift($clean_option);
+            $items[$key] = $option->option[$key];
+          }
+          else {
+            $items[$id] = $option;
+          }
+        }
+
+        $render = theme('views_exposed_form_widgets', [
+            'title' => $title,
+            'items' => $items,
+            'element' => $form[$item['value']],
+          ]
+        );
+
+        $variables['widgets'][$widget]->widget = $render;
+      }
+    }
+  }
+}
+
+/**
+ * Editorial search "tags" filter autocomplete callback.
+ */
+function ding_frontend_taxonomy_autocomplete($tag) {
+    $vid = taxonomy_vocabulary_machine_name_load('ding_content_tags');
+    $tags = db_select('taxonomy_term_data', 't')
+      ->fields('t', ['tid', 'name'])
+      ->condition('vid', $vid->vid)
+      ->condition('t.name', '%' . db_like($tag) . '%', 'LIKE')
+      ->execute()
+      ->fetchAll();
+
+    $items = [];
+    foreach ($tags as $item) {
+      $items[$item->name] = $item->name;
+    }
+
+    drupal_json_output($items);
 }

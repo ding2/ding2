@@ -94,8 +94,8 @@
   .slick-slider {
     position: relative;
     clear: left;
-    min-height: 418px; // Prevent page from jumping when content is loaded in
-    max-height: 418px;
+    min-height: 318px; // Prevent page from jumping when content is loaded in
+    max-height: 318px;
 
     //If ting-object-no-overlay
     @at-root .ting-object-no-overlay#{&} {
@@ -110,7 +110,7 @@
     }
 
     .slick-list {
-      max-height: 418px;
+      max-height: 332px;
 
       //If ting-object-no-overlay
       @at-root .ting-object-no-overlay#{&} {
@@ -124,13 +124,18 @@
 
     .slick-track {
       .slick-slide {
-        width: 260px;
+        width: 194px;
         margin-right: 28px;
         text-align: left;
         margin-bottom: 0;
 
         &:last-child {
           margin-right: 0;
+        }
+
+        img {
+          height: 284px !important;
+          display: block;
         }
 
         // Tablet
@@ -148,7 +153,7 @@
 
       .placeholder {
         @include linear-gradient(to top, $grey-light 30px, $grey-medium 100%);
-        min-height: 336px;
+        min-height: 266px;
 
         .icon-spinner {
           position: relative;

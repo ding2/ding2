@@ -100,8 +100,8 @@
   Drupal.behaviors.ding_ting_object_scrollto_other_formats = {
     attach: function(context, settings) {
       var other_formats_btn = $('a.other-formats', context),
-          pane_ting_object_types = $('.pane-ting-ting-object-types', context),
-          html = $('html, body');
+        pane_ting_object_types = $('.pane-ting-ting-object-types', context),
+        html = $('html, body');
 
       other_formats_btn.on('click', function(event){
         event.preventDefault();

@@ -102,6 +102,8 @@ function ding_eresource_default_page_manager_handlers() {
   $display->cache = array();
   $display->title = '';
   $display->uuid = 'd82976d5-f78c-46b3-8d9a-c2ba458d539c';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'node_view_panel_context_ding_eresource';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();

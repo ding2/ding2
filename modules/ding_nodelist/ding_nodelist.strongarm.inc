@@ -29,6 +29,7 @@ function ding_nodelist_strongarm() {
     'ding_eresource' => 'ding_eresource',
     'ding_campaign' => 0,
     'ding_library' => 0,
+    'newsletter' => 0,
   );
   $export['ding_nodelist_node_types'] = $strongarm;
 

@@ -1,0 +1,510 @@
+<?php
+/**
+ * @file
+ * Code for the Ding Christmas calendar feature.
+ */
+
+include_once 'ding_christmas_calendar.features.inc';
+
+/**
+ * @file
+ * Represents functionality for Christmas calendar.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_christmas_calendar_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_christmas_calendar_menu() {
+  $items = array();
+
+  $items['admin/config/ding/ding-christmas-calendar'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_christmas_calendar_settings_form'),
+    'title' => 'Ding Christmas calendar settings',
+    'description' => 'Configure the start and end dates of Christmas calendar.',
+    'access arguments' => array('administer xmas calendar'),
+    'file' => 'ding_christmas_calendar.admin.inc',
+  );
+
+  $items['ding-christmas-calendar/%/take/%'] = array(
+    'page callback' => 'ding_christmas_calendar_take_wrapper',
+    'page arguments' => array(1, 3),
+    'description' => 'Represents wrapper for quiz_quiztake function.',
+    'access arguments' => array('access quiz'),
+    'file' => 'ding_christmas_calendar.pages.inc',
+  );
+
+  $items['ding-christmas-calendar/%ctools_js/login'] = array(
+    'page callback' => 'ding_christmas_login_popup',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_christmas_calendar.pages.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_christmas_calendar_permission() {
+  return array(
+    'administer xmas calendar' => array(
+      'title' => t('Administer Xmas calendar'),
+      'description' => t('Perform administration tasks for Xmas calendar.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_christmas_calendar_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_christmas_calendar_widget' => array(
+      'variables' => array(
+        'quiz_id' => NULL,
+      ),
+      'template' => 'ding_christmas_calendar',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ding_christmas_calendar_libraries_info() {
+  $libraries = array();
+
+  $libraries['slick'] = array(
+    'name' => 'Slick.js library',
+    'path' => 'slick',
+    'vendor url' => 'https://github.com/kenwheeler/slick',
+    'download url' => 'https://github.com/kenwheeler/slick/archive/master.zip',
+    'version callback' => 'ding_christmas_calendar_get_version',
+    'files' => array(
+      'js' => array('slick.min.js'),
+      'css' => array('slick.css', 'slick-theme.css'),
+    ),
+  );
+
+  $libraries['notify'] = array(
+    'name' => 'Notify.js library',
+    'path' => 'dist',
+    'vendor url' => 'https://github.com/notifyjs/notifyjs/',
+    'download url' => 'https://github.com/notifyjs/notifyjs/archive/master.zip',
+    'version callback' => 'ding_christmas_calendar_get_version',
+    'files' => array(
+      'js' => array('notify.js'),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Helper function.
+ */
+function ding_christmas_calendar_get_version() {
+  return TRUE;
+}
+
+/**
+ * Support function for generating content of Christmas calendar.
+ *
+ * @param string $quiz_id
+ *   ID of quiz node.
+ * @param bool $mobile
+ *   Indicates type of widget.
+ *
+ * @return array
+ *   Structured array for template.
+ */
+function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
+  if (user_is_anonymous()) {
+    ctools_include('ajax');
+    ctools_include('modal');
+    ctools_modal_add_js();
+    $modal = array(
+      'ding-christmas-modal-style' => array(
+        'modalSize' => array(
+          'type' => 'fixed',
+          'width' => 600,
+          'height' => 300,
+          'addWidth' => 10,
+          'addHeight' => 10,
+          'contentRight' => 0,
+          'contentBottom' => 0,
+        ),
+        'modalOptions' => array(
+          'opacity' => .6,
+          'background-color' => '#684C31',
+        ),
+        'animation' => 'fadeIn',
+      ),
+    );
+    drupal_add_js($modal, 'setting');
+  }
+  $output = array(
+    'content' => '',
+    'body' => '',
+    'summary' => '',
+    'background' => '',
+  );
+  if (!empty($quiz_id)) {
+    $quiz = node_load($quiz_id);
+    $background = field_get_items('node', $quiz, 'field_background');
+    if ($background) {
+      $output['background'] = file_create_url($background[0]['uri']);
+    }
+
+    $current = DateTime::createFromFormat('Y-m-d', date('Y-m-d'));
+    $current->setTime(0, 0);
+
+    $rows = array();
+    $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid, 'multichoice');
+    $count = count($questions);
+    if (($count % 4) > 0) {
+      $count = $count - ($count % 4) + 4;
+    }
+    for ($i = 0; $i < $count; $i++) {
+      $rid = (int) ($i / 4);
+      $cid = $i % 4;
+      if (isset($questions[$i])) {
+        $rows[$rid][$cid] = ding_christmas_calendar_generate_url($quiz, $current, $questions[$i]);
+      }
+      else {
+        $rows[$rid][$cid] = '<span></span>';
+      }
+    }
+
+    if (!$mobile) {
+      $output['classes'] = 'ding-christmas-calendar-mobile';
+      $output['content'] = theme('table', array(
+        'rows' => $rows,
+      ));
+    }
+    else {
+      $output['classes'] = 'ding-christmas-calendar';
+      foreach ($rows as $row) {
+        foreach ($row as $item) {
+          $output['content'] .= '<div class="ding-christmas-calendar-mobile-cell">' . $item . '</div>';
+        }
+      }
+    }
+
+    $body = field_get_items('node', $quiz, 'body');
+    if (isset($body[0]['value'])) {
+      $output['body'] = $body[0]['value'];
+    }
+
+    if (isset($body[0]['summary'])) {
+      $output['summary'] = $body[0]['summary'];
+    }
+  }
+  return $output;
+}
+
+/**
+ * Support function for generating content of Christmas calendar.
+ *
+ * @param object $quiz
+ *   Object of quiz.
+ * @param DateTime $current
+ *   Represents current date.
+ * @param object $question
+ *   Object of question.
+ *
+ * @return string
+ *   Generated url.
+ */
+function ding_christmas_calendar_generate_url($quiz, DateTime $current, $question) {
+  $quiz_result = quiz_take_quiz($quiz);
+  if (!$quiz_result) {
+    $quiz_result = entity_create('quiz_result', array(
+      'nid' => $quiz->nid,
+      'vid' => $quiz->vid,
+      'uid' => $GLOBALS['user']->uid,
+      'type' => $quiz->quiz->result_type,
+    ));
+
+    $quiz_result->save();
+    $_SESSION['quiz'][$quiz_result->nid]['result_id'] = empty($quiz_result->result_id) ? 1 : $quiz_result->result_id;
+    $_SESSION['quiz'][$quiz_result->nid]['current'] = 1;
+    quiz_take_quiz($quiz);
+  }
+
+  $result = ding_christmas_get_question_number($question, $quiz->nid);
+  $number = !$result ? 1 : $result->number - 1;
+  $_SESSION['quiz'][$quiz->nid]['current'] = $number;
+  $question = node_load($question->nid);
+  $date = field_get_items('node', $question, 'field_quiz_date');
+  $class = 'future-day';
+  $path = "#";
+  if ($date[0]['value'] < $current->getTimestamp()) {
+    $class = 'past-day';
+    $path = "ding-christmas-calendar/{$quiz->nid}/take/{$number}";
+  }
+  elseif ($date[0]['value'] == $current->getTimestamp()) {
+    $class = 'active-day';
+    $path = "ding-christmas-calendar/{$quiz->nid}/take/{$number}";
+  }
+
+  $attributes = array();
+  if (user_is_anonymous()) {
+    $attributes = array(
+      'class' => array(
+        'ctools-use-modal',
+        'ctools-modal-ding-christmas-modal-style',
+      ),
+    );
+    $path = 'ding-christmas-calendar/nojs/login';
+  }
+
+  return '<span class="' . $class . '">' . l("{$question->title}", $path, array('attributes' => $attributes)) . '</span>';
+}
+
+/**
+ * Support function for getting questions.
+ *
+ * @param string $nid
+ *   Id of Quiz.
+ * @param string $vid
+ *   Vid of Quiz.
+ * @param string $type
+ *   Type of node.
+ *
+ * @return array
+ *   Array with id of questions.
+ */
+function ding_christmas_calendar_questions($nid, $vid, $type = NULL) {
+  $questions = array();
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid', 'type'));
+  $query->fields('nr', array('vid', 'title'));
+  $query->fields('qnr', array(
+    'question_status',
+    'weight',
+    'max_score',
+    'auto_update_max_score',
+    'qnr_id',
+    'qnr_pid',
+    'child_nid',
+    'child_vid',
+  ));
+  $query->addField('n', 'vid', 'latest_vid');
+  $query->join('node_revision', 'nr', 'n.nid = nr.nid');
+  $query->leftJoin('quiz_node_relationship', 'qnr', 'nr.vid = qnr.child_vid');
+  if (!empty($type)) {
+    $query->condition('n.type', $type);
+  }
+  $query->condition('qnr.parent_nid', $nid);
+  $query->condition('qnr.parent_vid', $vid);
+  if (empty($type)) {
+    $query->condition('qnr_pid', NULL, 'IS');
+  }
+  elseif ($type == 'multichoice') {
+    $query->condition('qnr_pid', NULL, 'IS NOT');
+  }
+
+  $query->orderBy('qnr.weight');
+
+  $result = $query->execute();
+  foreach ($result as $question) {
+    $questions[] = $question;
+    if (empty($type)) {
+      quiz_get_sub_questions($question->qnr_id, $questions);
+    }
+  }
+
+  return $questions;
+}
+
+/**
+ * Support function for getting number of question.
+ *
+ * @param mixed $input
+ *   Id of node or object of node.
+ *
+ * @return mixed
+ *   Actual id of question or FALSE.
+ */
+function ding_christmas_get_question_number($input, $quiz_id) {
+  $nid = is_object($input) ? $input->nid : $input;
+  $result = isset($_SESSION['quiz'][$quiz_id]['result_id']) ? $_SESSION['quiz'][$quiz_id]['result_id'] : NULL;
+  $obj = db_select('quiz_node_results_answers', 't')
+    ->fields('t')
+    ->condition('t.question_nid', $nid)
+    ->condition('t.result_id', $result)
+    ->execute()
+    ->fetch();
+
+  return $obj;
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function ding_christmas_calendar_node_view($node, $view_mode, $langcode) {
+  if (in_array($node->type, array('quiz_page', 'multichoice'))) {
+    $path = drupal_get_path('module', 'ding_christmas_calendar');
+    drupal_add_js($path . '/js/ding_christmas_calendar.js');
+    libraries_load('slick');
+    libraries_load('notify');
+  }
+  elseif (in_array($node->type, array('quiz')) && isset($node->content['take'])) {
+    unset($node->content['take']);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'quiz_question_answering_form':
+      end($form['question']);
+      $key = key($form['question']);
+      $form['question'][$key]['header']['#markup'] = '<h2>' . $form['question'][$key]['question']['#node']->title . '</h2>  ';
+      $form['navigation']['submit']['#value'] = t('Save');
+      $form['navigation']['skip']['#value'] = t('Back to calendar');
+      $form['navigation']['skip']['#submit'] = array('ding_christmas_calendar_back_submit');
+
+      // If user already answered to question, disable changing.
+      foreach ($form['question'] as &$item) {
+        $answer = &$item['answer'];
+        $condition1 = isset($answer['#theme']) && $answer['#theme'] == 'multichoice_alternative';
+        $condition2 = isset($answer['user_answer']) && $answer['user_answer']['#default_value'] != NULL;
+        if ($condition1 && $condition2) {
+          $answer['user_answer']['#attributes']['disabled'] = 'disabled';
+          $form['navigation']['submit']['#access'] = FALSE;
+          $form['#validate'][] = 'ding_christmas_calendar_validate_question';
+        }
+      }
+      break;
+
+    case 'quiz_take_question_feedback_form':
+      $form['actions']['next']['#value'] = t('Back to calendar');
+      $form['actions']['next']['#submit'] = array('ding_christmas_calendar_back_submit');
+      break;
+
+    case 'quiz_jumper_form':
+      unset($form['question_number']);
+      break;
+  }
+}
+
+/**
+ * Custom handler for go back to calendar.
+ */
+function ding_christmas_calendar_back_submit($form, &$form_state) {
+  $form_state['redirect'] = 'ding-christmas-calendar';
+}
+
+/**
+ * Validate handler for preventing changing already answered question.
+ */
+function ding_christmas_calendar_validate_question($form, &$form_state) {
+  $element = $form_state['triggering_element'];
+  if ($element['#id'] == 'edit-navigation-submit') {
+    foreach ($form['question'] as &$item) {
+      $answer = &$item['answer'];
+      $condition1 = isset($answer['#theme']) && $answer['#theme'] == 'multichoice_alternative';
+      $condition2 = isset($answer['user_answer']) && $answer['user_answer']['#default_value'] != NULL;
+      if ($condition1 && $condition2) {
+        drupal_set_message(t('Sorry you already answered to question.'), 'warning');
+      }
+    }
+  }
+}
+
+/**
+ * Support function for getting id of question.
+ *
+ * @param mixed $input
+ *   Id of node or object of node.
+ *
+ * @return mixed
+ *   Actual id of question or FALSE.
+ */
+function ding_christmas_get_question_id($input) {
+  $nid = is_object($input) ? $input->nid : $input;
+  $id = db_select('quiz_node_relationship', 't')
+    ->fields('t', array('qnr_id'))
+    ->condition('t.child_nid', $nid)
+    ->execute()
+    ->fetchField();
+
+  return $id;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_christmas_calendar_menu_alter(&$items) {
+  $items['node/%quiz_menu/take']['access arguments'][] = $items['node/%quiz_menu/take']['access callback'];
+  $items['node/%quiz_menu/take']['access callback'] = 'ding_christmas_calendar_access_callback';
+  $items['node/%/quiz']['access arguments'][] = $items['node/%/quiz']['access callback'];
+  $items['node/%/quiz']['access callback'] = 'ding_christmas_calendar_access_callback';
+}
+
+/**
+ * Custom access callback for preventing access to quiz for provider role.
+ */
+function ding_christmas_calendar_access_callback($arg, $original) {
+  global $user;
+  if (in_array('provider', $user->roles)) {
+    return FALSE;
+  }
+  else {
+    if (function_exists($original)) {
+      call_user_func($original, $arg);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function ding_christmas_calendar_node_access($node, $op, $account) {
+  $user = user_load($account->uid);
+  $quiz_id = variable_get('ding_christmas_calendar_quiz_id', NULL);
+  if (is_object($node) && $node->nid == $quiz_id && $op == 'view' && in_array('provider', $user->roles)) {
+    return NODE_ACCESS_DENY;
+  }
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function ding_christmas_calendar_views_data_alter(&$data) {
+  $data['quiz_node_results']['answer'] = array(
+    'title' => t('Answer'),
+    'help' => t('When rendered, this field will be replaced by a requested answer.'),
+    'field' => array(
+      'title' => 'Answer',
+      'handler' => 'ding_christmas_calendar_views_handler_field_quiz_question_result_answer',
+    ),
+  );
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function ding_christmas_calendar_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'views_data_alter') {
+    $data = $implementations['ding_christmas_calendar'];
+    unset($implementations['ding_christmas_calendar']);
+    $implementations['ding_christmas_calendar'] = $data;
+  }
+}

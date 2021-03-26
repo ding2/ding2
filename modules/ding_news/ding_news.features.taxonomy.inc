@@ -17,5 +17,13 @@ function ding_news_taxonomy_default_vocabularies() {
       'module' => 'taxonomy',
       'weight' => 0,
     ),
+    'section' => array(
+      'name' => 'Section',
+      'machine_name' => 'section',
+      'description' => NULL,
+      'hierarchy' => 0,
+      'module' => 'taxonomy',
+      'weight' => 0,
+    ),
   );
 }

@@ -89,11 +89,15 @@
   <div class="ding-news-inner">
       <div class="ding-news-left has-paragraphs">
           <?php print render($content['group_left']); ?>
+          <?php if (!empty($campaigns)): ?>
+            <?php print drupal_render($campaigns); ?>
+          <?php endif; ?>
       </div>
       <div class="ding-news-right has-paragraphs">
           <h1><?php print $title; ?></h1>
           <?php print render($content['group_right']['og_group_ref']); ?>
           <?php print render($content['group_right']['field_ding_news_category']); ?>
+          <?php print render($content['group_right']['field_ding_section']); ?>
           <div class="section meta">
               <div class="author"><?php print t("By"); ?> <?php print $name; ?></div>
               <div class="created"><?php print $news_submitted ?>

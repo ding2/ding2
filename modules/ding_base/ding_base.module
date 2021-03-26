@@ -584,6 +584,48 @@ function ding_base_rewrite_color_stylesheet() {
 }
 
 /**
+ * Implements hook_file_presave().
+ */
+function ding_base_file_presave($file) {
+  // Check if uploaded file is image.
+  $file_dir = file_validate_is_image($file);
+  if (empty($file_dir)) {
+    $toolkit = image_get_toolkit();
+
+    // Check if gd2 library available.
+    if ('gd' == $toolkit) {
+      // We just copy image without any changes to remove EXIF metadata,
+      // and replace already uploaded image with made copy.
+      switch (exif_imagetype($file->uri)) {
+        case IMAGETYPE_JPEG:
+          $image = imagecreatefromjpeg($file->destination);
+          imagedestroy(imagecreatefromjpeg($file->destination));
+          imagejpeg($image, $file->destination, 100);
+          break;
+        case IMAGETYPE_GIF:
+          $image = imagecreatefromgif($file->destination);
+          imagedestroy(imagecreatefromgif($file->destination));
+          imagegif($image, $file->destination);
+          break;
+        case IMAGETYPE_PNG:
+          $image = imagecreatefrompng($file->destination);
+          imagedestroy(imagecreatefrompng($file->destination));
+          imagepng($image, $file->destination, 7);
+          break;
+        default:
+          break;
+      }
+    }
+    elseif ('imagemagick' == $toolkit) {
+      // We don't use PECL because it don't exist for some php versions or unstable,
+      // use imagemagic using command line.
+      $file_path = drupal_realpath($file->destination);
+      exec('convert ' . $file_path . ' -strip ' . $file_path);
+    }
+  }
+}
+
+/**
  * Implements hook_field_widget_form_alter().
  */
 function ding_base_field_widget_form_alter(&$elements, &$form_state, $context) {
@@ -767,6 +809,49 @@ function ding_base_validate_email($email) {
 }
 
 /**
+ * Implements hook_views_query_alter().
+ *
+ * Enabling Domain Access module support for content views.
+ */
+function ding_base_views_query_alter(&$view, &$query) {
+  if (module_exists('domain')) {
+    $domain = domain_get_domain();
+
+    $enabled_views = views_get_enabled_views();
+
+    $content_modules = [
+      'ding_eresource',
+      'ding_event',
+      'ding_news',
+      'ding_library',
+      'ding_groups',
+    ];
+
+    $processed_views = [];
+    foreach ($enabled_views as $module) {
+      if (in_array($module->name, $content_modules)) {
+        $display_names = array_keys($module->display);
+        $processed_views[] = $display_names;
+      }
+    }
+
+    $inlined = call_user_func_array('array_merge', $processed_views);
+    foreach ($inlined as $item) {
+      if ($view->current_display == $item) {
+        $query->add_table('domain_access');
+
+        $query->add_where_expression(
+          'filter',
+          "node.nid=domain_access.nid AND ((domain_access.realm = 'domain_id' AND domain_access.gid=***CURRENT_DOMAIN***) OR (domain_access.realm = 'domain_site' AND domain_access.gid = :domain_id))",
+          ['domain_id' => $domain['domain_id']],
+          'formula'
+        );
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_views_default_views_alter().
  *
  * Adding custom Taxonomy Terms filter to admin_views_node view.
@@ -810,6 +895,7 @@ function ding_base_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'admin_views_node') {
     $form['ding_base_term_name']['#type'] = 'textfield';
     $form['ding_base_term_name']['#id'] = 'edit-ding-base-term-name';
+
     $form['ding_base_term_name']['#attached']['js'][] = [
       'data' => drupal_get_path('module', 'ding_base') . '/js/ding_base.prevent_auto_submit.js',
       'type' => 'file',

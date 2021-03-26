@@ -293,14 +293,12 @@ function ding_content_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-2cce61b7-483f-44da-b603-745b6a13ab0b';
     $pane->panel = 'attachment_1_1';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
-      'ding_campaign_style' => 'ding_campaign_full_width',
+      'style' => 'ribbon',
       'context' => array(
         0 => 'empty',
         1 => 'empty',
@@ -311,7 +309,10 @@ function ding_content_default_page_manager_handlers() {
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => '0',
+      'settings' => array(),
+    );
     $pane->style = array(
       'settings' => NULL,
     );

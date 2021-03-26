@@ -6,6 +6,7 @@
 
 .field-type-text-long {
   .media-element-container {
+    display: inline-block;
     margin-right: 10px;
     margin-bottom: 5px;
     &.media-wysiwyg-align-right {
@@ -63,18 +64,16 @@
   }
 }
 
-.field-name-ting-details-subjects,
-.field-name-ting-details-contributor,
-.field-name-ting-details-tracks,
-.field-name-ting-details-genre {
-  .ting-material-detail {
+.ting-material-detail {
+  display: inline-block;
+  margin-right: 5px;
+
+  &::after {
+    content: ', ';
+  }
+  &:last-child {
     &::after {
-      content: ', ';
-    }
-    &:last-child {
-      &::after {
-        content: '';
-      }
+      content: '';
     }
   }
 }
@@ -87,6 +86,7 @@
 }
 
 .field-name-field-ding-news-title-image,
+.field-name-field-ding-eresource-title-image,
 .field-name-field-ding-event-title-image {
   .field-item {
     margin-bottom: 10px;
@@ -308,7 +308,7 @@ div.search-field-in-content--message {
 .ting-reference-item {
   .placeholder {
     @include linear-gradient(to top, $grey-light 30px, $grey-medium 100%);
-    min-height: 336px;
+    min-height: 266px;
 
     .icon-spinner {
       position: relative;

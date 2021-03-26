@@ -124,7 +124,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = [], $search = FAL
       if (count($facet->getTerms()) > 0) {
         $form[$facet->getName()] = array(
           '#type' => 'fieldset',
-          '#title' => check_plain($configured_facet['title']),
+          '#title' => t(check_plain($configured_facet['title'])),
           '#attributes'  => array(
             'id' => str_replace('.', '-', $facet->getName()),
             'data' => array(

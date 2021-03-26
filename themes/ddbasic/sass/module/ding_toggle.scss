@@ -1,0 +1,78 @@
+@import '../base.scss';
+
+a#ding-toggle-format {
+  width: 150px;
+  display: inline-flex;
+}
+
+.pane-ding-toggle-format-toggle #ding-toggle-format:before {
+  content: "\ea7a";
+  font-family: 'icomoon';
+}
+
+.pane-ding-toggle-format-toggle #ding-toggle-format:after {
+  content: "\e9ba";
+  font-family: 'icomoon';
+}
+
+.pane-ding-toggle-format-toggle #ding-toggle-format:before,
+.pane-ding-toggle-format-toggle #ding-toggle-format:after {
+  color: #bcbcbc;
+  display: inline-block;
+  font-family: "icomoon";
+  font-size: 100%;
+  height: 20px;
+  margin-top: 5px;
+  text-decoration: none;
+  width: 20px;
+  padding-left: 10px;
+}
+
+.pane-ding-toggle-format-toggle #ding-toggle-format.ding-toggle-format-short:before,
+.pane-ding-toggle-format-toggle #ding-toggle-format.ding-toggle-format-long:after {
+ color: $color-primary;
+}
+
+.pane-ting-collection .ding-format-short,
+.ding-format-short {
+  .ting-object {
+    .ting-cover,
+    .info-container .field-name-ting-abstract,
+    .field-name-ting-abstract,
+    .field-type-ting-series,
+    .subjects.field-type-ting-subjects,
+    .availability.search-result--availability,
+    .field-group-format.group-rating,
+    .group-rating {
+      display: none;
+    }
+
+    &.list-item-style>.inner .ting-object-right {
+      float: initial;
+    }
+
+    .ting-object-left {
+      display: none;
+    }
+  }
+}
+
+.page-ting-object {
+  .pane-ding-toggle-format-toggle .pane-content {
+    max-width: 1124px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    position: relative;
+  }
+}
+
+@include media($mobile) {
+  .ding2-site-template .pane-ding-toggle-format-toggle {
+    span.ding-toggle-format-label,
+    a#ding-toggle-format {
+      display: none;
+      height: 0;
+    }
+  }
+}

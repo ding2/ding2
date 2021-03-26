@@ -3,17 +3,72 @@ div.pane-ding-toggle-format-toggle div.pane-content {
   padding-bottom: 0;
 }
 
-img#ding-toggle-format-image {
-  height: 15px;
-  width: 35px;
+.pane-ding-toggle-format-toggle {
+  margin-top: -8px;
 }
 
-a.ding-toggle-format-short {
-    background: transparent url(../images/toggle_format_short.png) no-repeat right center;
+.pane-ding-toggle-format-toggle span.ding-toggle-format-label {
+  display: inline-block;
+  width: auto;
+  margin-left: 10px;
 }
 
-a.ding-toggle-format-long {
-    background: transparent url(../images/toggle_format_long.png) no-repeat right center;
+a#ding-toggle-format {
+  width: 150px;
+  display: inline-flex;
 }
 
+.pane-ding-toggle-format-toggle #ding-toggle-format:before {
+  content: "\ea7a";
+  font-family: 'icomoon';
+}
 
+.pane-ding-toggle-format-toggle #ding-toggle-format:after {
+  content: "\e9ba";
+  font-family: 'icomoon';
+}
+
+.page-ting-object .pane-ding-toggle-format-toggle {
+  width: 800px;
+  margin: 0 auto;
+  background: transparent;
+  padding-left: 88px;
+  margin-top: 32px;
+  margin-bottom: -30px;
+}
+
+@media (min-width: 812px) and (max-width: 1024px) {
+  .page-ting-object .pane-ding-toggle-format-toggle {
+    width: 500px;
+    margin: 0 auto;
+    background: transparent;
+    padding-left: 0;
+    margin-top: 32px;
+    margin-bottom: -30px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 812px) {
+  .page-ting-object .pane-ding-toggle-format-toggle {
+    width: 500px;
+    margin: 0 auto;
+    background: transparent;
+    padding-left: 50px;
+    margin-top: 32px;
+    margin-bottom: -30px;
+  }
+}
+
+.pane-ding-toggle-format-toggle #ding-toggle-format:before,
+.pane-ding-toggle-format-toggle #ding-toggle-format:after {
+  color: #bcbcbc;
+  display: inline-block;
+  font-family: "icomoon";
+  font-size: 100%;
+  height: 20px;
+  margin-top: 5px;
+  text-decoration: none;
+  width: 20px;
+  padding-left: 10px;
+  z-index: 10;
+}

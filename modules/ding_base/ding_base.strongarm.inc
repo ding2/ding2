@@ -662,6 +662,41 @@ temaer/*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'imagemagick_convert';
+  $strongarm->value = '/usr/bin/convert';
+  $export['imagemagick_convert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'imagemagick_debug';
+  $strongarm->value = 0;
+  $export['imagemagick_debug'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'imagemagick_gm';
+  $strongarm->value = 0;
+  $export['imagemagick_gm'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'imagemagick_quality';
+  $strongarm->value = '80';
+  $export['imagemagick_quality'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_toolkit';
+  $strongarm->value = 'imagemagick';
+  $export['image_toolkit'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'jquery_update_compression_type';
   $strongarm->value = 'min';
   $export['jquery_update_compression_type'] = $strongarm;
@@ -670,7 +705,7 @@ temaer/*';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'jquery_update_jquery_cdn';
-  $strongarm->value = 'none';
+  $strongarm->value = 'google';
   $export['jquery_update_jquery_cdn'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -1072,6 +1107,38 @@ temaer/*';
   $strongarm->name = 'varnish_version';
   $strongarm->value = '3';
   $export['varnish_version'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'environment_indicator_favicon_overlay';
+  $strongarm->value = 1;
+  $export['environment_indicator_favicon_overlay'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'environment_indicator_git_support';
+  $strongarm->value = 1;
+  $export['environment_indicator_git_support'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'environment_indicator_integration';
+  $strongarm->value = array(
+    'toolbar' => 'toolbar',
+    'admin_menu' => 'admin_menu',
+    'navbar' => 'navbar',
+  );
+  $export['environment_indicator_integration'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'environment_indicator_suppress_pages';
+  $strongarm->value = '';
+  $export['environment_indicator_suppress_pages'] = $strongarm;
 
   return $export;
 }

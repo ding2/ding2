@@ -164,6 +164,19 @@ class OpenSearchTingObject implements TingObjectInterface {
   /**
    * {@inheritdoc}
    */
+  public function getClassificationText() {
+    $dk5_text = $this->firstEntry($this->getRecordEntry('dc:subject', 'dkdcplus:DK5-Text'));
+
+    if (empty($dk5_text)) {
+      return FALSE;
+    }
+
+    return $dk5_text;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getCreators($format = TingObjectInterface::NAME_FORMAT_DEFAULT) {
     // Get all authors, filter away instances of the field that is only used for
     // search internals (eg, a sort-field).
@@ -202,7 +215,20 @@ class OpenSearchTingObject implements TingObjectInterface {
    * {@inheritdoc}
    */
   public function getLanguage() {
-    return $this->firstEntry($this->getRecordEntry('dc:language'));
+    if (!isset($this->reply->record['dc:language'])) {
+      return FALSE;
+    }
+    $languages = $this->reply->record['dc:language'];
+    $languages_string = '';
+    foreach (reset($languages) as $key => $lang) {
+      if ($lang == 'mul') {
+        continue;
+      }
+      $translated_lang = i18n_string('easyopac:title:language:' . $languages[''][$key], $languages[''][$key], array('update' => TRUE));
+      $languages_string .= ', ' . $translated_lang;
+    }
+    $languages_string = (!empty($languages_string)) ? ltrim($languages_string, ', ') : FALSE;
+    return $languages_string;
   }
 
   /**
@@ -393,7 +419,20 @@ class OpenSearchTingObject implements TingObjectInterface {
    * {@inheritdoc}
    */
   public function getDescription() {
-    return $this->firstEntry($this->getRecordEntry('dc:description'));
+    $description = $this->firstEntry($this->getRecordEntry('dc:description'));
+
+    if (empty($description)) {
+      return FALSE;
+    }
+
+    if (drupal_strlen($description) > TING_OBJ_DESCRIPTION_LENGTH) {
+      $description = truncate_utf8($description, TING_OBJ_DESCRIPTION_LENGTH, TRUE, TRUE);
+    }
+    else {
+      $description .= t('...');
+    }
+
+    return $description;
   }
 
   /**

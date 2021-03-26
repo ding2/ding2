@@ -26,3 +26,10 @@ function ding_ddbasic_opening_hours_all_opening_hours_content_type_render($subty
 
   return $block;
 }
+
+/**
+ * Pane settings form.
+ */
+function ding_ddbasic_opening_hours_all_opening_hours_content_type_edit_form($form, &$form_state) {
+  return $form;
+}

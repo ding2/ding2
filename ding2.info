@@ -46,6 +46,7 @@ dependencies[] = ding_ddbasic_opening_hours
 dependencies[] = ding_social_links
 dependencies[] = ding_sections
 dependencies[] = ding_nodelist
+dependencies[] = ting_recommender
 
 ; Cache/performance modules
 dependencies[] = entitycache

@@ -398,7 +398,7 @@ function _opensearch_search_relation_render_abstract(\TingRelation $relation) {
       break;
   }
 
-  return empty($abstract) ? FALSE : $abstract;
+  return empty($abstract) ? FALSE : strip_tags($abstract);
 }
 
 /**
@@ -413,6 +413,7 @@ function _opensearch_search_relation_render_abstract(\TingRelation $relation) {
 function _opensearch_search_relation_render_online_url(\TingRelation $relation) {
   $url = FALSE;
   $title = '';
+  $external = 'target="_blank"';
 
   $object = $relation->getObject();
   switch ($relation->getType()) {
@@ -427,6 +428,7 @@ function _opensearch_search_relation_render_online_url(\TingRelation $relation) 
       if ($object->is('library_material')) {
         $title = t('Read more about the material');
         $url = '/ting/object/' . $object->id;
+        $external = '';
       }
       else {
         $title = t('Read more at %source', array('%source' => $object->getAc_source()));
@@ -466,6 +468,7 @@ function _opensearch_search_relation_render_online_url(\TingRelation $relation) 
     $url = array(
       'url' => $url,
       'title' => $title,
+      'external' => $external,
     );
   }
 

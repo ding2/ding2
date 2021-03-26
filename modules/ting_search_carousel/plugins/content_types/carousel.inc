@@ -166,6 +166,11 @@ function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$f
       $searches[] = $search;
     }
   }
+
+  $form_state['conf']['override_title'] = $form_state['input']['override_title'];
+  $form_state['conf']['override_title_text'] = $form_state['input']['override_title_text'];
+  $form_state['conf']['override_title_heading'] = $form_state['input']['override_title_heading'];
+
   $form_state['conf']['searches'] = $searches;
   $form_state['conf']['settings'] = $form_state['values']['settings'];
 }

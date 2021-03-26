@@ -112,3 +112,15 @@ function ding_ting_frontend_form_ting_search_sort_form_alter(&$form, &$form_stat
 
   drupal_add_js(drupal_get_path('module', 'ding_ting_frontend') . '/js/select_autosize.js');
 }
+
+/**
+ * Implements hook_post_features_revert().
+ *
+ * @todo This does not belong in this module.
+ */
+function ding_ting_frontend_post_features_revert($component) {
+  if (module_exists('easyddb_search_result_reservation')) {
+    drupal_load('module', 'easyddb_search_result_reservation');
+    _easyddb_search_result_reservation_field_create();
+  }
+}

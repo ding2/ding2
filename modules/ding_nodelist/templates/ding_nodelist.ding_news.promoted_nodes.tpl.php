@@ -27,7 +27,7 @@ if (!empty($item->image) && !$position) {
 $video_player = '';
 if (isset($item->video)) {
   $video_player = '<div class="media-container">';
-  $video_player .= '<div class="media-content" data-url="' . $item->video . '"></div>';
+  $video_player .= '<div class="media-content" data-url="' . $item->video . '" data-service="' . $item->video_service . '"></div>';
   $video_player .= '<div class="pn-close-media"><i class="icon-cross"></i></div>';
   $video_player .= '</div>';
 }

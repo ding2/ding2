@@ -18,6 +18,7 @@
   // general styles for all campaigns
   .ding-campaign-headline {
     @include font('display-large-bold');
+    display: none;
   }
   .ding-campaign-description {
     @include font('display-small');
@@ -27,12 +28,12 @@
    position: relative;
    height: 100%;
    z-index: 3;
-   color: $color-text-on-primary;
+   color: $color-text-link;
   }
   .no-touch & {
     &:hover {
       a {
-        color: $white;
+        color: $color-text-link-on-dark;
       }
     }
   }
@@ -199,6 +200,12 @@
   }
   // image only layout
   &.image {
+    .node-type-ding-news &,
+    .node-type-ding-eresource &,
+    .node-type-ding-event & {
+      margin: 20px 0;
+    }
+
     img {
       width: 100%;
     }
@@ -209,6 +216,48 @@
       .secondary-content & {
         margin-top: getGutter();
       }
+    }
+  }
+}
+
+@include media($mobile) {
+  .node-ding-campaign {
+    display: none;
+    &.mobile-show {
+      display: block;
+
+      .ding-campaign-text {
+        float: inherit;
+        width: auto;
+        padding: 50px 30px;
+
+        .ding-campaign-headline {
+          width: 100%;
+        }
+
+        .ding-campaign-description {
+          float: none;
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
+.node-type-ding-campaign {
+  .node.node-ding-campaign{
+    max-width: 1124px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    overflow: auto;
+    padding-top: 15px;
+  }
+
+  .image {
+    img {
+      width: auto;
+      display: block
     }
   }
 }

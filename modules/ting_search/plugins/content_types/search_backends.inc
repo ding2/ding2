@@ -87,7 +87,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
     }
 
     // Set default value.
-    if (arg(1) == $backend['module']) {
+    if (arg(1) == $backend['path']) {
       $default_value = $backend['module'];
     }
 

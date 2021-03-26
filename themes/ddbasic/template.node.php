@@ -344,14 +344,17 @@ function ddbasic_preprocess__node__ding_campaign_plus(&$variables) {
  */
 function ddbasic_preprocess__node__ding_campaign(&$variables) {
   $type = ding_base_get_value('node', $variables['node'], 'field_camp_settings', 'value');
-  $image_uri = ding_base_get_value('node', $variables['node'], 'field_camp_image', 'uri');
-  $image_style = "ding_full_width";
-  $image_url = image_style_url($image_style, $image_uri);
   $variables['type'] = drupal_html_class($type);
-  $variables['background'] = ($type == 'text_on_image' ? 'style="background-image: url(' . $image_url . ');"' : " ");
+  if (!empty($variables['field_camp_image'])) {
+    $image_uri = ding_base_get_value('node', $variables['node'], 'field_camp_image', 'uri');
+    $image_style = "ding_full_width";
+    $image_url = file_create_url($image_uri);
+    $variables['image'] = '<img src="' . $image_url . '">';
+    $variables['background'] = ($type == 'text_on_image' ? 'style="background-image: url(' . $image_url . ');"' : " ");
+  }
   $variables['link'] = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'value');
   $variables['target'] = ding_base_get_value('node', $variables['node'], 'field_camp_new_window') ? '_blank' : '';
-  $variables['panel_style'] = drupal_html_class($variables['elements']['#style']);
+  $variables['panel_style'] = !empty($variables['elements']['#style']) ? drupal_html_class($variables['elements']['#style']) : '';
 
   if (isset($type)) {
     switch ($type) {

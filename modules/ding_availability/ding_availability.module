@@ -187,10 +187,19 @@ function ding_availability_items(array $provider_ids) {
  */
 function ding_availability_holdings(array $provider_ids) {
   $items = ding_provider_invoke('availability', 'holdings', $provider_ids);
+
+  $provider_name = ding_provider_get_provider_module_name('availability');
+  if ($provider_name == 'alma') {
+    $items = array_filter($items, function($v) { return $v['availability_information']; });
+  }
+
   if (!$items) {
     return array();
   }
   foreach ($items as $provider_id => &$item) {
+    // Allow alteration of item array by other modules.
+    drupal_alter('ding_availability_item_data', $item);
+
     $item += array(
       'reservable' => FALSE,
       'available' => FALSE,
@@ -237,6 +246,7 @@ function ding_availability_holdings(array $provider_ids) {
         $rows = array();
         $copies = 0;
         $closest_loan = NULL;
+        $in_acquisition = 0;
         foreach ($item['holdings'] as $holding) {
           // This item is considered to be waited for.
           // Next, the number of holdings is compared to reserved ones.
@@ -379,6 +389,7 @@ function ding_availability_holdings_row(array $holding, array $fields) {
 
       case 'ordered_count':
         // Copies in acquisition.
+        $ordered_count = isset($holding['ordered_count']) ? (int) $holding['ordered_count'] : 0;
         $row['ordered_count'] = $ordered_count;
         break;
     }
@@ -612,8 +623,6 @@ function ding_availability_block_view($delta) {
  * Return rendered legend block for availability types.
  */
 function ding_availability_render_legend() {
-
-  drupal_add_css(drupal_get_path('module', 'ding_availability') . '/css/ding_availability_legend.css');
 
   // Construct the image's path (.gif stored in a module subdir).
   $image_path = drupal_get_path('module', 'ding_availability') . '/images/blank.gif';

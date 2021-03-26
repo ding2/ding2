@@ -7,10 +7,15 @@
 
 include_once 'ding_nodelist.features.inc';
 
+define('DING_NODELIST_WIDGET_LIST', 'simple');
 define('DING_NODELIST_WIDGET_CAROUSEL', 'carousel');
+define('DING_NODELIST_WIDGET_SLIDER', 'slider');
+define('DING_NODELIST_WIDGET_TAXONOMY_LIKE', 'taxonomy');
 define('DING_NODELIST_WIDGET_ROLLTAB', 'rolltab');
 define('DING_NODELIST_WIDGET_PROMOTED_NODES', 'promoted_nodes');
 define('DING_NODELIST_WIDGET_NODE_BLOCKS', 'node_blocks');
+define('DING_NODELIST_WIDGET_MINIMAL_DISPLAY', 'minimal_display');
+define('DING_NODELIST_WIDGET_GRID_IMAGES', 'grid_images');
 
 define('DING_NODELIST_COL_FULL', 'full');
 define('DING_NODELIST_COL_HALF', 'half');
@@ -598,9 +603,39 @@ function ding_nodelist_theme() {
       'render element' => 'form',
     ),
     // Widget templates.
+    'ding_nodelist_widget_simple' => array(
+      'path' => $path,
+      'template' => 'ding_nodelist_widget_simple',
+      'variables' => array(
+        'items' => NULL,
+        'template' => NULL,
+        'links' => NULL,
+        'conf' => NULL,
+      ),
+    ),
     'ding_nodelist_widget_carousel' => array(
       'path' => $path,
       'template' => 'ding_nodelist_widget_carousel',
+      'variables' => array(
+        'items' => NULL,
+        'template' => NULL,
+        'links' => NULL,
+        'conf' => NULL,
+      ),
+    ),
+    'ding_nodelist_widget_slider' => array(
+      'path' => $path,
+      'template' => 'ding_nodelist_widget_slider',
+      'variables' => array(
+        'items' => NULL,
+        'template' => NULL,
+        'links' => NULL,
+        'conf' => NULL,
+      ),
+    ),
+    'ding_nodelist_widget_taxonomy' => array(
+      'path' => $path,
+      'template' => 'ding_nodelist_widget_taxonomy',
       'variables' => array(
         'items' => NULL,
         'template' => NULL,
@@ -631,6 +666,26 @@ function ding_nodelist_theme() {
     'ding_nodelist_widget_node_blocks' => array(
       'path' => $path,
       'template' => 'ding_nodelist_widget_node_blocks',
+      'variables' => array(
+        'items' => NULL,
+        'template' => NULL,
+        'links' => NULL,
+        'conf' => NULL,
+      ),
+    ),
+    'ding_nodelist_widget_minimal_display' => array(
+      'path' => $path,
+      'template' => 'ding_nodelist_widget_minimal_display',
+      'variables' => array(
+        'items' => NULL,
+        'template' => NULL,
+        'links' => NULL,
+        'conf' => NULL,
+      ),
+    ),
+    'ding_nodelist_widget_grid_images' => array(
+      'path' => $path,
+      'template' => 'ding_nodelist_widget_grid_images',
       'variables' => array(
         'items' => NULL,
         'template' => NULL,
@@ -888,6 +943,13 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
     case DING_NODELIST_WIDGET_CAROUSEL:
       drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
       drupal_add_js($mod_path . '/js/carousel.js', 'file');
+      drupal_add_js($mod_path . '/js/video.js', 'file');
+      break;
+
+    case DING_NODELIST_WIDGET_SLIDER:
+      drupal_add_js($mod_path . '/js/jquery.newsTicker.min.js', 'file');
+      drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
+      drupal_add_js($mod_path . '/js/slider.js', 'file');
       break;
 
     case DING_NODELIST_WIDGET_ROLLTAB:
@@ -919,6 +981,8 @@ function _ding_nodelist_init_image_style($widget) {
     case DING_NODELIST_WIDGET_CAROUSEL:
       return 'ding_nodelist_large';
 
+    case DING_NODELIST_WIDGET_GRID_IMAGES:
+    case DING_NODELIST_WIDGET_TAXONOMY_LIKE:
     case DING_NODELIST_WIDGET_NODE_BLOCKS:
       return 'ding_panorama_list_large';
 
@@ -1369,9 +1433,13 @@ function _ding_nodelist_is_valid_link($link = '') {
 function _ding_nodelist_get_widget_human_name($machine_name) {
   $widgets = array(
     DING_NODELIST_WIDGET_CAROUSEL => t('Carousel'),
+    DING_NODELIST_WIDGET_SLIDER => t('Slider'),
+    DING_NODELIST_WIDGET_TAXONOMY_LIKE => t('Taxonomy like'),
     DING_NODELIST_WIDGET_ROLLTAB => t('Rolltab'),
     DING_NODELIST_WIDGET_PROMOTED_NODES => t('Promoted nodes'),
     DING_NODELIST_WIDGET_NODE_BLOCKS => t('Nodes in blocks'),
+    DING_NODELIST_WIDGET_MINIMAL_DISPLAY => t('Minimal display'),
+    DING_NODELIST_WIDGET_GRID_IMAGES => t('Grid Images'),
   );
   return $widgets[$machine_name];
 }
@@ -1391,9 +1459,13 @@ function _ding_nodelist_get_widget_human_name($machine_name) {
 function _ding_nodelist_get_widget_types($content_types = '') {
   $widgets = array(
     DING_NODELIST_WIDGET_CAROUSEL => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_CAROUSEL),
+    DING_NODELIST_WIDGET_SLIDER => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_SLIDER),
+    DING_NODELIST_WIDGET_TAXONOMY_LIKE => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_TAXONOMY_LIKE),
     DING_NODELIST_WIDGET_ROLLTAB => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_ROLLTAB),
     DING_NODELIST_WIDGET_PROMOTED_NODES => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_PROMOTED_NODES),
     DING_NODELIST_WIDGET_NODE_BLOCKS => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_NODE_BLOCKS),
+    DING_NODELIST_WIDGET_MINIMAL_DISPLAY => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_MINIMAL_DISPLAY),
+    DING_NODELIST_WIDGET_GRID_IMAGES => _ding_nodelist_get_widget_human_name(DING_NODELIST_WIDGET_GRID_IMAGES),
   );
 
   // Fetch only widgets that have templates configured.
@@ -1572,10 +1644,20 @@ function _ding_nodelist_get_dams_image_info($node, $image_field) {
     $title = !empty($image['field_file_image_title_text']) ? $image['field_file_image_title_text']['und'][0]['safe_value'] : '';
     $alt = !empty($image['field_file_image_alt_text']) ? $image['field_file_image_alt_text']['und'][0]['safe_value'] : $title;
 
-    if (!empty($node->video) && strpos($image['filemime'], 'video') !== FALSE) {
-      $video_id = explode("?v=", $node->video);
-      $video_id = $video_id[1];
-      $url = "http://img.youtube.com/vi/$video_id/maxresdefault.jpg";
+    if (!empty($node->video)) {
+      switch ($image['filemime']) {
+        case 'video/youtube':
+          $media_wrapper = new MediaYouTubeStreamWrapper();
+          $media_wrapper->setUri($path);
+          $url = $media_wrapper->getOriginalThumbnailPath();
+          break;
+
+        case 'video/vimeo':
+          $media_wrapper = new MediaVimeoStreamWrapper();
+          $media_wrapper->setUri($path);
+          $url = $media_wrapper->getOriginalThumbnailPath();
+          break;
+      }
 
       $file = system_retrieve_file($url, 'public://list_image/' . $node->type, TRUE, FILE_EXISTS_RENAME);
       if ($file) {
@@ -1708,9 +1790,14 @@ function _ding_nodelist_striptags($nodes) {
 function _ding_nodelist_widgets_content_trim() {
   return array(
     DING_NODELIST_WIDGET_CAROUSEL,
+    DING_NODELIST_WIDGET_LIST,
+    DING_NODELIST_WIDGET_SLIDER,
+    DING_NODELIST_WIDGET_SLIDER,
+    DING_NODELIST_WIDGET_TAXONOMY_LIKE,
     DING_NODELIST_WIDGET_ROLLTAB,
     DING_NODELIST_WIDGET_PROMOTED_NODES,
     DING_NODELIST_WIDGET_NODE_BLOCKS,
+    DING_NODELIST_WIDGET_GRID_IMAGES,
   );
 }
 
@@ -1762,6 +1849,14 @@ function ding_nodelist_preprocess(&$variables, $hook) {
         $items[$key]->lead = $lead;
 
         $image_field = 'field_' . $item->type . '_list_image';
+        if ($item->type == 'blog') {
+          $image_field = 'field_ding_blog_list_image';
+
+          $items[$key]->date = date('d.m.y', $item->created);
+          if ($item->created < $item->changed) {
+            $items[$key]->date = date('d.m.y', $item->changed);
+          }
+        }
         $image = _ding_nodelist_get_dams_image_info($item, $image_field);
         $img_url = FALSE;
         if (!empty($image['path'])) {
@@ -1817,7 +1912,7 @@ function ding_nodelist_preprocess(&$variables, $hook) {
         $items[$key]->price = t('Free');
         if (is_array($fee_field) && !empty($fee_field[0]['value'])) {
           $fee = current($fee_field);
-          $items[$key]->price = $fee['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
+          $items[$key]->price = $fee['value'] . ' ' . variable_get('ding_event_currency_type', 'kr.');
         }
       }
 

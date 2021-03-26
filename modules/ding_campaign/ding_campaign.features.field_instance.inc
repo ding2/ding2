@@ -543,6 +543,7 @@ function ding_campaign_field_default_field_instances() {
   t('Campaign settings');
   t('Campaign text');
   t('Libraries and Groups');
+  t('Open in new tab/window');
   t('Weight');
 
   return $field_instances;

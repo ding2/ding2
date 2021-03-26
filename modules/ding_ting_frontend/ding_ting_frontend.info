@@ -47,6 +47,7 @@ features[field_base][] = ting_series
 features[field_base][] = ting_subjects
 features[field_base][] = ting_title
 features[field_base][] = ting_type
+features[field_group][] = group_contenbox|ting_object|ting_object|compact
 features[field_group][] = group_holdings_available|ting_object|ting_object|default
 features[field_group][] = group_image|ting_object|ting_object|teaser
 features[field_group][] = group_info|ting_object|ting_object|search_result

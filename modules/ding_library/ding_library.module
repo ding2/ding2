@@ -196,7 +196,7 @@ function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
   if (isset($form['field_ding_library_slug'][$form['#node']->language])) {
     $form['field_ding_library_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
-  elseif (isset($form['field_ding_library_slug']['und'])) {
+  elseif (isset($form['field_ding_library_slug'][LANGUAGE_NONE])) {
     $form['field_ding_library_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
 }
@@ -404,5 +404,16 @@ function ding_library_node_delete($node) {
 
     // Remove the node to the queue.
     nodequeue_subqueue_remove_node($sub_queue->sqid, $node->nid);
+  }
+}
+
+/**
+ * Implements hook_field_extra_fields_display_alter().
+ */
+function ding_library_field_extra_fields_display_alter(&$displays, $context) {
+  if ($context['entity_type'] == 'node' && $context['bundle'] == 'ding_library' && $context['view_mode'] == 'search_result') {
+    if (isset($displays['opening_hours_week'])) {
+      $displays['opening_hours_week']['visible'] = FALSE;
+    }
   }
 }

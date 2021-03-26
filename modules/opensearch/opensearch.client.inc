@@ -139,6 +139,7 @@ function opensearch_get_objects(array $ids, $local = FALSE) {
  *    - collectionType: The type of results to return. Single
  *      manifestions(object) or works (collections). Possible values
  *      manifestion ,work or work-1. Defaults to work.
+ *    - filterLocalHoldings: Whether to filter with local agency-id.
  *
  * @return TingClientSearchResult
  *   The search result.
@@ -155,6 +156,10 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, array $
   }
   $request->setStart($results_per_page * ($page - 1) + 1);
   $request->setNumResults($results_per_page);
+
+  if (isset($options['filterLocalHoldings'])) {
+    $request->setFilterLocalHoldings($options['filterLocalHoldings']);
+  }
 
   if (!isset($options['facets']) and module_exists('ding_facetbrowser')) {
     $options['facets'] = array();

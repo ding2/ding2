@@ -56,3 +56,17 @@ function ding_loan_ding_session_cache_defaults() {
     'expire' => 3600,
   );
 }
+
+/**
+ * Preprocess materials_item.
+ */
+function ding_loan_preprocess_material_item(&$variables) {
+  if (isset($variables['element']['#loan']) && module_exists('ding_list')) {
+    $bookmark_button = ding_list_ding_entity_buttons('ding_entity', $variables['element']['#loan']);
+    $variables['information']['loan_bookmark'] = array(
+      'data' => drupal_render($bookmark_button),
+      'class' => 'field-name-ding-entity-buttons bookmark',
+      '#weight' => 99,
+    );
+  }
+}

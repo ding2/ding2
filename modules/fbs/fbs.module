@@ -169,7 +169,14 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $seria
 
     // Ensure exactly one trailing slash.
     $endpoint = rtrim($endpoint, '/') . '/';
-    $service = new FBS($agency_id, $endpoint, $client, $serializer);
+    try {
+      $service = new FBS($agency_id, $endpoint, $client, $serializer);
+    }
+    catch (FBSException $e) {
+      watchdog_exception('fbs', $e);
+
+      return FALSE;
+    }
   }
 
   return $service;
@@ -345,7 +352,7 @@ function fbs_profile2_presave($entity) {
     'emailAddress' => $wrapper->field_fbs_mail->value(),
     'receiveSms' => (bool) $wrapper->field_fbs_phone_notification->value(),
     'receiveEmail' => (bool) $wrapper->field_fbs_mail_notification->value(),
-    'preferredPickupBranch' => $wrapper->field_fbs_preferred_branch->value(),
+    'preferredPickupBranch' => (string) $wrapper->field_fbs_preferred_branch->value(),
   );
 
   // Opt out of messages if unsetting phone number.
@@ -369,7 +376,7 @@ function fbs_profile2_presave($entity) {
     'emailAddress' => $patron['mail'],
     'receiveSms' => (bool) $patron['phone_notification'],
     'receiveEmail' => (bool) $patron['mail_notification'],
-    'preferredPickupBranch' => $patron['preferred_branch'],
+    'preferredPickupBranch' => (string) $patron['preferred_branch'],
     'onHold' => $patron['on_hold'],
   );
 
@@ -910,8 +917,12 @@ function fbs_opensearch_pre_execute($request) {
       $request->setQuery($query);
 
     }
-    // Since FBS is using data-well 3.5 we need to filter local holdings.
-    $request->setFilterLocalHoldings(TRUE);
+    // Since FBS is using data-well 3.5 we need to filter local holdings. We
+    // will only do this however, if it's not already set. This makes it
+    // possible to override this when searching or fetching objects.
+    if ($request->getFilterLocalHoldings() === NULL) {
+      $request->setFilterLocalHoldings(TRUE);
+    }
   }
 }
 

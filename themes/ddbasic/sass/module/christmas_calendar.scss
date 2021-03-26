@@ -1,0 +1,633 @@
+@import '../base.scss';
+
+.ding2-site-template {
+  background: rgb(239, 239, 239);
+}
+
+.page-ding-christmas-calendar {
+  .pane-page-content {
+    clear: both;
+  }
+  
+  .notifyjs-bootstrap-info {
+    background: $color-text-link;
+    color: $white;
+
+    span {
+      white-space: normal;
+    }
+  }
+
+  #quiz-progress,
+  .quiz-question-multichoice .field-name-field-quiz-date,
+  .quiz-question-multichoice .form-type-radios {
+    display: none;
+  }
+
+  table td {
+    vertical-align: inherit;
+    padding: 30px 0 30px 20px;
+
+    p {
+      margin: 0;
+    }
+
+    input[type=radio] {
+      display: block;
+    }
+  }
+
+  .answering-form  {
+    div.form-actions {
+      margin-bottom: 10px;
+      padding-top: 20px
+    }
+  }
+
+  #quiz-question-answering-form {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    tbody {
+      tr.even {
+        background-color: $grey-light;
+      }
+      td p,
+      td input {
+        cursor: pointer;
+      }
+    }
+
+    input {
+      &#edit-navigation-skip,
+      &#edit-navigation-submit {
+        display: inline-block;
+        padding: 20px 80px 14px 15px;
+      }
+  
+      &#edit-navigation-submit {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+#quiz-take-question-feedback-form {
+  div.fieldset-wrapper {
+    width: 100%;
+  }
+  tbody {
+    tr.even {
+      background-color: $grey-light;
+    }
+
+    td {
+      border: solid 1px $grey-medium;
+      text-align: center;
+
+      .quiz-score-icon {
+        margin: auto;
+        width: 30px;
+      }
+    }
+  }
+
+  input#edit-next.form-submit {
+    display: inline-block;
+    padding: 20px 80px 14px 15px;
+  }
+}
+
+.page-node-take-feedback {
+  .entity-quiz-result-answer {
+    .field-type-text-with-summary,
+    .field-name-field-quiz-date {
+      display: none;
+    }
+  }
+}
+
+.pane-ding-christmas-calendar-mobile {
+  display: none;
+}
+
+.pane-ding-christmas-calendar-widget {
+  background: $white;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 1124px;
+  width: 90%;
+
+  .calendar-summary {
+    font-weight: bold;
+  }
+}
+
+.pane-ding-christmas-calendar-mobile {
+  .calendar-popup {
+    display: none;
+  }
+}
+
+.pane-ding-christmas-calendar-widget,
+.pane-ding-christmas-calendar-mobile {
+
+  .calendar-popup {
+    .future-day-popup {
+      background: $white;
+      border-radius: 20px;
+      display: none;
+      height: 200px;
+      left: calc(50% - 150px);
+      margin-top: -100px;
+      padding: 20px;
+      position: fixed;
+      text-align: center;
+      top: 50%;
+      width: 260px;
+      touch-action: manipulation;
+      z-index: 100;
+
+      strong {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: block;
+      }
+    }
+  }
+}
+
+#ding-christmas-calendar-content {
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+
+  table {
+    border: none;
+  }
+
+  tr {
+    background-color: transparent;
+    border: none;
+    text-align: center;
+    border-radius: 0;
+  }
+
+  td {
+    border: 5px solid $white;
+    border-radius: 0;
+    height: 180px;
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
+    vertical-align: top;
+
+    span {
+      color: $white;
+      font-weight: bold;
+      display: block;
+      padding: 0;
+      height: 100%;
+      
+      
+      a {
+        position: relative;
+      }
+
+      &.past-day {
+        &:hover {
+          cursor: pointer;
+
+          a {
+            width: 100%;
+            height: 100%;
+            position: relative;
+          }
+        }
+
+        a {
+          background: rgba(255, 255, 255, 0.2);
+          color: $white;
+          text-decoration: none;
+        }
+      }
+      
+      &.future-day {
+        &:hover {
+          a {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: default;
+          }
+        }
+
+        a {
+          background: rgba(0, 0, 0, 0.4);
+          color: $white;
+          text-decoration: none;
+        }
+      }
+      
+      &.active-day {
+        background: none;
+        height: 100%;
+        padding: 0;
+        
+        &:hover {
+          cursor: pointer;
+
+          a {
+            width: 100%;
+            height: 100%;
+            position: relative;
+          }
+        }
+      }
+    }
+
+    a {
+      background: rgba(0, 0, 0, 0.7);
+      color: $white;
+      font-weight: bold;
+      display: block;
+      padding: 5px 0;
+      text-decoration: underline;
+
+
+      &:hover {
+        &:before {
+          content: "+";
+          font-size: 3em;
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: calc(50% - 10px);
+        }
+      }
+    }
+  }
+}
+
+.page-node-take,
+.page-node-quiz-results {
+  .pane-page-content {
+    clear: both;
+    background: $white;
+    padding: 20px;
+    margin: 20px 0;
+
+    td {
+      vertical-align: middle;
+
+      &:first-child {
+        text-align: center;
+      }
+    }
+
+    tr.selected {
+      td {
+        background: #00cafe;
+        color: $white;
+
+        &:first-child + td {
+          border-left: 1px solid $white;
+        }
+      }
+    }
+    
+    .form-submit {
+      margin-right: 20px;
+    }
+  }
+
+  .pane-page-tabs {
+    margin: 10px 0;
+  }
+
+  .form-actions {
+    margin-top: 30px;
+  }
+
+  #quiz_score_possible {
+    font-size: 130%;
+    font-weight: bold;
+    margin: 20px 0;
+
+    em {
+      font-weight: bold;
+    }
+  }
+
+  #quiz_score_percent {
+    font-weight: bold;
+    margin: 20px 0;
+  }
+
+  .quiz-report-score-container {
+    display: none;
+  }
+}
+
+@include media($tablet) {
+  .pane-ding-christmas-calendar-widget {
+    display: none;
+  }
+
+  .pane-ding-christmas-calendar-mobile {
+    display: block;
+    background: $white;
+    margin: 20px;
+    padding: 20px 20px 40px 20px;
+    
+    .slick-slider .slick-list {
+       padding-bottom: 0; 
+    }
+
+    .ding-christmas-calendar-mobile-cell {
+      height: 180px;
+      text-align: center;
+      font-size: 130%;
+
+      a {
+        border-right: 5px solid $white;
+      }
+
+      .slick-dotted.slick-slider {
+        margin-bottom: 30px;
+      }
+
+      span {
+        color: $white;
+        font-weight: bold;
+        display: block;
+        padding: 0;
+        height: 100%;
+
+        &.active-day {
+          a {
+            background: rgba(0, 0, 0, 0.7);
+            color: $white;
+          }
+        }
+        
+        &.past-day {
+          a {
+            background: rgba(255, 255, 255, 0.2);
+            color: $white;
+          }
+        }
+        
+        &.future-day {
+          a {
+            background: rgba(0, 0, 0, 0.3);
+            color: $white;
+          }
+        }
+      }
+
+      a {
+        font-weight: bold;
+        display: block;
+        padding: 5px 0;
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+        &:before {
+          content: "+";
+          font-size: 3em;
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: calc(50% - 10px);
+        }
+      }
+    }
+
+    .calendar-summary {
+      font-weight: bold;
+    }
+
+    .slick-dots {
+      position: absolute;
+      width: 100%;
+      padding: 0;
+      list-style: none;
+      text-align: center;
+      margin-top: 10px;
+
+      li {
+        display: inline-block;
+        list-style: none;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        margin: 0 5px;
+        padding: 0;
+        cursor: pointer;
+
+        button {
+          background: #ccc;
+          border-radius: 50px;
+          color: transparent;
+          width: 20px;
+          height: 20px;
+          padding: 5px;
+
+          &:before {
+            font-size: 2em;
+          }
+        }
+
+        &.slick-active button {
+          background: $color-text-link;
+        }
+      }
+    }
+
+    .slick-prev,
+    .slick-next {
+      display: none;
+    }
+  }
+}
+
+@include media($mobile) {
+  .pane-ding-christmas-calendar-mobile {
+    .ding-christmas-calendar-mobile-cell {
+      border: none;
+
+      a {
+        border: solid $white;
+      }
+    }
+
+    .slick-prev,
+    .slick-next {
+      display: block;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 50px;
+      height: 40px;
+      width: 40px;
+      z-index: 200;
+      top: 40%;
+    }
+
+    .slick-slider .slick-prev {
+      left: 10px;
+
+      &:after {
+        line-height: 1.3;
+        left: -5px;
+        background: $color-secondary;
+      }
+    }
+
+    .slick-slider .slick-next {
+      right: 10px;
+
+      &:after {
+        line-height: 1.3;
+        right: -5px;
+        background: $color-secondary;
+      }
+
+    }
+
+    .slick-prev:hover,
+    .slick-prev:focus,
+    .slick-next:hover,
+    .slick-next:focus {
+      background: rgba(0, 0, 0, 1);
+    }
+  }
+  .page-ding-christmas-calendar #quiz-question-answering-form {
+    input#edit-navigation-submit {
+      margin-left: 0;
+    }
+
+    input#edit-navigation-skip {
+      margin-right: 10px;
+    }
+  }
+}
+
+.not-logged-in.page-ding-christmas-calendar .modal-default {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 20px;
+  color: $color-text-link;
+
+  .modal-header {
+    background: $grey-medium;
+    color: $color-text-link;
+    padding: 20px 20px 0 20px;
+  }
+
+  div.ctools-modal-content {
+    border: none;
+
+    a.close {
+      float: right;
+      padding: 0;
+      top: 10px;
+      width: auto;
+      background: none;
+      border: none;
+      color: transparent;
+      font-size: 50px;
+      font-weight: bold;
+
+      &:before {
+        font-family: 'icomoon';
+        margin-bottom: -1px;
+        right: 60px;
+        position: absolute;
+        content: "\e907";
+        color: $color-text-link;
+      }
+
+      img {
+        display: none;
+      }
+    }
+  }
+
+  span {
+    color: $color-text-link;
+    font-family: "SourceSansProSemibold";
+    font-weight: normal;
+    font-size: 200%;
+
+    .modal-title {
+      float: left;
+      margin: .1em 0;
+      white-space: nowrap;
+      width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .ctools-modal-content {
+    -webkit-box-shadow: rgba(0,0,0,0.35) 0 0 10px;
+    -moz-box-shadow: rgba(0,0,0,0.35) 0 0 10px;
+    box-shadow: rgba(0,0,0,0.35) 0 0 10px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border-radius: 8px;
+    background: $grey-medium;
+    min-width: 450px;
+    max-width: 450px;
+    padding: 15px;
+    min-height: 380px;
+    max-height: 380px;
+
+    .modal-content {
+      position: relative;
+      border: 0;
+      padding: 1em 1.5em;
+      background: 0;
+      overflow: hidden;
+      width: auto !important;
+      position: relative;
+
+      .form-type-password input[type="password"] {
+        width: 100%;
+      }
+
+      label {
+        font-family: "SourceSansProSemibold";
+        font-weight: normal;
+      }
+    }
+  }
+
+  .modal-content {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+}
+
+.not-logged-in.page-ding-christmas-calendar {
+  .ctools-modal-content .modal-content {
+    form div.form-actions {
+      padding-top: 0;
+      position: absolute;
+      height: 50px;
+      bottom: 0;
+      width: 210px;
+    }
+  }
+}

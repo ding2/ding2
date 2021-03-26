@@ -3,6 +3,19 @@
   'use strict';
 
   /**
+   * Facebook block position.
+   */
+  Drupal.behaviors.facebookSharePosition = {
+    attach: function (context) {
+      var fb = $('.block-facebookshare', context);
+
+      if (fb.length !== 0) {
+        fb.prependTo($('.layout-wrapper', context));
+      }
+    }
+  };
+
+  /**
    * Toggle opening hours
    */
   function toggle_opening_hours() {
@@ -68,10 +81,61 @@
     }
   }
 
+  /**
+   * Autofocus inputs.
+   */
+  function autofocusInputs() {
+    // Set autofocus on page load (instead of autofocus attr)
+    if (!/iPad|iPhone|iPod/g.test(navigator.userAgent)) {
+      $('.search-form-extended input[name="search_block_form"]').focus();
+    }
+
+    // Search button click
+    $('.search-form-extended .search-extended-button').click(function() {
+      var input = $('input[name="search_block_form"]');
+      input.focus();
+    });
+
+    // Login button click
+    $('.topbar-link-user').click(function() {
+      var input = $('input[name="name"]');
+      if ($(this).is('.active')) {
+        input.focus();
+      }
+    });
+  }
+
+  /**
+   * Sets sarousel image as background.
+   */
+  function setCarouselBg() {
+    $('.ding_nodelist-carousel img, .ding_nodelist-single img').each( function() {
+      var imageSrc = $(this).attr("src");
+      var bgItem = $(this).parent();
+      bgItem.css('background-image', 'url(' + imageSrc + ')');
+    });
+  }
+
   // When ready start the magic.
   $(document).ready(function () {
+    // Autofocus inputs
+    autofocusInputs();
+
+    // Carousel bg
+    setCarouselBg();
+
     // Toggle opening hours.
     toggle_opening_hours();
+
+    // Expand block when accesed from "Opening hours" widget.
+    var hash = window.location.hash;
+    if (hash == '#toggle-opening-hours') {
+      var element = $('a.js-opening-hours-toggle');
+      if (!$(element).hasClass('js-expanded')) {
+        $(element).toggleClass('js-collapsed js-expanded');
+        $('.js-opening-hours-toggle-element').css('display','block');
+      };
+    };
 
     // Check an organic group and library content.
     // If a group does not contain both news and events
@@ -93,11 +157,46 @@
   Drupal.behaviors.ding_submenu = {
     attach: function(context, settings) {
 
-      $('.sub-menu-title', context).click(function(evt) {
+      $('.sub-menu-title', context).unbind().click(function(evt) {
         if ($('.is-tablet').is(':visible')) {
           evt.preventDefault();
           $(this).parent().find('ul').slideToggle("fast");
         }
+      });
+    }
+  };
+
+  /**
+   * Make clicks on anchor links to stop on correct position.
+   */
+  Drupal.behaviors.findTopForAnchor = {
+    attach: function (context, settings) {
+      var offset = $('#page')[0].offsetTop;
+      var queryString = window.location.hash;
+
+      function scrollToAnchor(anchorId) {
+        var target, anchorObject = $(anchorId);
+        if (anchorObject.length !== 0) {
+          target = anchorObject.offset().top - offset - 61;
+        }
+        else {
+          return false;
+        }
+
+        $('html, body').animate({scrollTop: target}, 'fast', function () {
+          window.location.hash = anchorId;
+        });
+      }
+
+      if (queryString !== "") {
+        scrollToAnchor(queryString);
+      }
+
+      $('article a[href^="#"]').click(function (event) {
+        event.preventDefault();
+        var anchorId = $(this).attr('href');
+        scrollToAnchor(anchorId);
+        return false;
       });
     }
   };
@@ -112,7 +211,7 @@
           var classes = ['first-left-block', 'first-right-block', 'last-left-block', 'last-right-block'];
           classes.forEach(function (value) {
             // Attach mouseover/click handler to every item wrapper.
-            var itemWrapper = $('.' + value);
+            var itemWrapper = $('.' + value, block);
             itemWrapper.on('mouseover click', function (event) {
               // Always display pointer cursor.
               itemWrapper.css('cursor', 'pointer');

@@ -1,0 +1,332 @@
+<?php
+/**
+ * @file
+ *  Represents logic on installing module and DB schema definition.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_christmas_calendar_install() {
+  _ding_christmas_calendar_create_quiz();
+  _ding_christmas_calendar_create_field();
+  variable_set('scheduler_publish_enable_quiz_page', TRUE);
+  variable_set('scheduler_unpublish_enable_quiz_page', TRUE);
+
+  $shortcut_set = new stdClass();
+  $shortcut_set->set_name = 'shortcut-set-1';
+  $shortcut_set->links = array(
+    array('link_path' => 'admin/config/ding/ding-christmas-calendar', 'link_title' => t('XMas calendar settings'),),
+  );
+  shortcut_set_save($shortcut_set);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_christmas_calendar_uninstall() {
+  field_delete_field('field_background');
+  field_delete_field('field_quiz_date');
+
+  $id = variable_get('ding_christmas_calendar_quiz_id', NULL);
+  $quiz = node_load($id);
+  try {
+    quiz_delete($quiz);
+
+    module_load_include('module', 'ding_christmas_calendar');
+    $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
+    foreach ($questions as $question) {
+      node_delete($question->nid);
+    }
+    node_delete($id);
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding_christmas_calendar', $ex);
+  }
+  variable_del('scheduler_publish_enable_quiz_page');
+  variable_del('scheduler_unpublish_enable_quiz_page');
+  variable_del('ding_christmas_calendar_quiz_id');
+
+  $shortcut_set = shortcut_set_load("shortcut-set-1");
+  $link = reset(array_filter(array_map(function($i) {
+    return $i['link_path'] == 'admin/config/ding/ding-christmas-calendar' ? $i : NULL;
+  }, $shortcut_set->links)));
+  menu_link_delete($link['mlid']);
+}
+
+/**
+ * Support function for creating quiz node.
+ */
+function _ding_christmas_calendar_create_quiz() {
+  $quiz = new stdClass();
+  $quiz->uid = 1;
+  $quiz->type = 'quiz';
+  $quiz->title = t('Christmas calendar');
+  $quiz->status = 1;
+  $quiz->language = 'en';
+  $quiz->number_of_random_questions = '0';
+  $quiz->max_score_for_random = '1';
+  $quiz->pass_rate = '100';
+  $quiz->summary_pass = '';
+  $quiz->summary_pass_format = 'plain_text';
+  $quiz->summary_default = '';
+  $quiz->summary_default_format = 'plain_text';
+  $quiz->randomization = '0';
+  $quiz->backwards_navigation = '0';
+  $quiz->repeat_until_correct = '0';
+  $quiz->feedback_time = '2';
+  $quiz->display_feedback = '0';
+  $date = mktime(0, 0, 0, 12, 1, date('Y'));
+  $quiz->quiz_open = $date;
+  $date = mktime(0, 0, 0, 12, 24, date('Y'));
+  $quiz->quiz_close = $date;
+  $quiz->takes = '0';
+  $quiz->show_attempt_stats = '1';
+  $quiz->keep_results = '2';
+  $quiz->time_limit = '0';
+  $quiz->quiz_always = '1';
+  $quiz->tid = '0';
+  $quiz->has_userpoints = '0';
+  $quiz->userpoints_tid = '0';
+  $quiz->allow_skipping = '1';
+  $quiz->allow_resume = '1';
+  $quiz->allow_jumping = '1';
+  $quiz->show_passed = '0';
+  $quiz->mark_doubtful = '0';
+  $quiz->max_score = '24';
+  $quiz->allow_change_blank = '0';
+  $quiz->review_options = array(
+    'question' => array(
+      'quiz_question_view_full' => 'quiz_question_view_full',
+      'attempt' => 'attempt',
+      'choice' => 'choice',
+      'score' => 'score',
+      'solution' => 'solution',
+      'quiz_question_view_teaser' => 0,
+      'quiz_question_view_teaser_highlight' => 0,
+      'correct' => 0,
+      'answer_feedback' => 0,
+      'question_feedback' => 0,
+      'quiz_feedback' => 0,
+    ),
+    'end' => array(
+      'quiz_question_view_full' => 0,
+      'attempt' => 0,
+      'choice' => 0,
+      'score' => 0,
+      'solution' => 0,
+      'quiz_question_view_teaser' => 0,
+      'quiz_question_view_teaser_highlight' => 0,
+      'correct' => 0,
+      'answer_feedback' => 0,
+      'question_feedback' => 0,
+      'quiz_feedback' => 0,
+    ),
+  );
+
+  node_save($quiz);
+  variable_set('ding_christmas_calendar_quiz_id', $quiz->nid);
+}
+
+/**
+ * Support function for creating field for storing image.
+ */
+function _ding_christmas_calendar_create_field() {
+  $field_background = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_background',
+    'foreign keys' => array(
+      'fid' => array(
+        'columns' => array(
+          'fid' => 'fid',
+        ),
+        'table' => 'file_managed',
+      ),
+    ),
+    'indexes' => array(
+      'fid' => array(
+        0 => 'fid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'file',
+    'settings' => array(
+      'display_default' => 0,
+      'display_field' => 0,
+      'profile2_private' => FALSE,
+      'uri_scheme' => 'public',
+    ),
+    'translatable' => 0,
+    'type' => 'file',
+  );
+  field_create_field($field_background);
+
+  $field_background_instance = array(
+    'bundle' => 'quiz',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'file',
+        'settings' => array(),
+        'type' => 'file_default',
+        'weight' => 1,
+      ),
+      'question' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_background',
+    'label' => 'Background',
+    'required' => 0,
+    'settings' => array(
+      'description_field' => 0,
+      'file_directory' => '',
+      'file_extensions' => 'png jpeg gif jpg',
+      'max_filesize' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'media',
+      'settings' => array(
+        'allowed_schemes' => array(
+          'public' => 'public',
+          'vimeo' => 0,
+          'youtube' => 0,
+        ),
+        'allowed_types' => array(
+          'audio' => 0,
+          'document' => 0,
+          'image' => 'image',
+          'video' => 0,
+        ),
+        'browser_plugins' => array(
+          'ding_content' => 0,
+          'media_default--media_browser_1' => 0,
+          'media_default--media_browser_my_files' => 0,
+          'media_internet' => 0,
+          'upload' => 0,
+          'youtube' => 0,
+        ),
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'media_generic',
+      'weight' => 32,
+    ),
+  );
+
+  field_create_instance($field_background_instance);
+
+  $field_quiz_date = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_quiz_date',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'date',
+    'settings' => array(
+      'cache_count' => 4,
+      'cache_enabled' => 0,
+      'granularity' => array(
+        'day' => 'day',
+        'hour' => 0,
+        'minute' => 0,
+        'month' => 'month',
+        'second' => 0,
+        'year' => 'year',
+      ),
+      'profile2_private' => FALSE,
+      'timezone_db' => '',
+      'todate' => '',
+      'tz_handling' => 'none',
+    ),
+    'translatable' => 0,
+    'type' => 'datestamp',
+  );
+  field_create_field($field_quiz_date);
+
+  $field_quiz_date_instance = array(
+    'bundle' => 'multichoice',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 1,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_quiz_date',
+    'label' => t('Quiz date'),
+    'required' => 0,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'display_all_day' => 0,
+        'increment' => 15,
+        'input_format' => 'd-m-Y H:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_text',
+      'weight' => 31,
+    ),
+  );
+
+  field_create_instance($field_quiz_date_instance);
+}

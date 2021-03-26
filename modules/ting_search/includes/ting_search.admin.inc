@@ -96,5 +96,16 @@ function ting_search_admin_settings($form_state) {
     '#default_value' => variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL),
   );
 
+  // @todo This should be moved to separate module.
+  // Disable types on ting objects.
+  $disable_types = variable_get('ting_search_disable_type', FALSE);
+
+  $form['ting_search']['ting_search_disable_type'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Disable type in titles on search page.'),
+    '#description' => t('Disable or enable type in titles on search results page.'),
+    '#default_value' => $disable_types,
+  );
+
   return system_settings_form($form);
 }

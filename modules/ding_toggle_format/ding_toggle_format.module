@@ -5,6 +5,94 @@
  */
 
 /**
+ * Implements hook_menu().
+ */
+function ding_toggle_format_menu() {
+  $menu_items['admin/config/ding/toggle_format'] = array(
+    'title' => 'Ding toggle format settings',
+    'description' => 'Configure Ding toggle format settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_toggle_format_settings_admin_form'),
+    'access arguments' => array('administer ding toggle format'),
+  );
+
+  return $menu_items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_toggle_format_permission() {
+  $permissions = array(
+    'administer ding toggle format' => array(
+      'title' => t('Administer ding toggle format'),
+    ),
+  );
+  return $permissions;
+}
+
+/**
+ * Implements hook_secure_permissions().
+ */
+function ding_toggle_format_secure_permissions($role) {
+  $permissions = array(
+    'administrators' => array(
+      'administer ding toggle format',
+    ),
+    'local administrator' => array(
+      'administer ding toggle format',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Ding toggle format settings form.
+ *
+ * @ingroup forms
+ *
+ * @see system_settings_form()
+ */
+function ding_toggle_format_settings_admin_form($form, &$form_state) {
+  $materials_toggle_pages = array(
+    'search/ting' => t('Ting search results.'),
+    'ting/object' => t('Ting object page.'),
+    'ting/collection' => t('Ting collection page'),
+  );
+
+  $user_toggle_pages = array(
+    'status' => t('User status page(s).'),
+    'bookmarks' => t('User bookmarks page.'),
+  );
+
+  $form['ding_toggle_format_pages'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Toggle page'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['ding_toggle_format_pages']['materials_toggle'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Ding toggle format for materials pages.'),
+    '#options' => $materials_toggle_pages,
+    '#default_value' => variable_get('materials_toggle', array()),
+  );
+
+  $form['ding_toggle_format_pages']['user_toggle'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Ding toggle format for user pages.'),
+    '#options' => $user_toggle_pages,
+    '#default_value' => variable_get('user_toggle', array()),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
  * Implements hook_block_info().
  */
 function ding_toggle_format_block_info() {
@@ -77,4 +165,80 @@ function ding_toggle_format_render_link() {
   }
 
   return $format_link;
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function ding_toggle_format_preprocess(&$variables, $hook) {
+  if ($hook == '25_50_25' || $hook == 'ding2_site_template') {
+    $materials_toggle = variable_get('materials_toggle', array());
+    $user_toggle = variable_get('user_toggle', array());
+
+    $togglable = array_filter(array_merge($materials_toggle, $user_toggle));
+
+    $is_toggle_page = ding_toggle_format_check_page($materials_toggle) ||
+      ding_toggle_format_check_page($user_toggle, 'user', 2);
+
+    $current_path = current_path();
+
+    foreach ($togglable as $item) {
+      if ($is_toggle_page && strpos($current_path, $item) !== FALSE) {
+        $block = module_invoke('ding_toggle_format', 'block_view', '');
+        $toggle_format_markup
+          = '<div class="panel-pane pane-block pane-ding-toggle-format-toggle"><div class="pane-content">' .
+          render($block['content']) .
+          '</div></div>';
+
+        $content_var = ($item == 'ting/object') ? 'content' : 'main_content';
+        if (!is_object($variables['display']->args[0])) {
+          $existing_content = $variables['content'][$content_var];
+          $variables['content'][$content_var] = $toggle_format_markup . $existing_content;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Function determine if current page should have toggle format buttons.
+ *
+ * @param array    $toggle_pages key represent part or uri on which toggle buttons
+ *  should be visible.
+ *
+ * @param string $complex_uri should be used only for pages which contain id's
+ *  and some other parameters after it, e.g. user/%uid/status.
+ *  Consider that you have to transfer to this parameters only first part of uri
+ *  which son't contain id's, from example shown above it will bee 'user'.
+ *
+ * @param bool|int $complex_page_arg number of uri parameter which will be compared
+ *  with $toggle_pages variable. E.g. for user/%uid/status URI it should be 2.
+ *  FYI, numbering of URI parameters should coincide with arg() function numbering.
+ *
+ * @return bool
+ */
+function ding_toggle_format_check_page($toggle_pages, $complex_uri = '', $complex_page_arg = FALSE) {
+  // Skip complex urls if parameters empty.
+  if (!empty($complex_uri)) {
+    if (is_bool($complex_page_arg) && FALSE == $complex_page_arg) {
+      return FALSE;
+    }
+
+    foreach ($toggle_pages as $toggle_page) {
+      if (strstr($_GET['q'], $complex_uri) && arg($complex_page_arg) == $toggle_page) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
+
+  // Check for non complex uri's
+  foreach ($toggle_pages as $toggle_page) {
+    if (strstr($_GET['q'], $toggle_page)) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }

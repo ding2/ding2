@@ -47,14 +47,31 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
 
   // Get all active library title and nid's.
   $nodes = db_select('node', 'n')
+    ->addTag('library_list')
     ->fields('n', array('nid', 'title'))
     ->condition('type', 'ding_library')
-    ->condition('status', '1')
-    ->execute()
-    ->fetchAll();
+    ->condition('status', '1');
+
+  if (module_exists('ding_language')) {
+    $nodes->addTag('language');
+  }
+  $nodes = $nodes->execute()->fetchAll();
 
   // Generate link for each library.
   if (!empty($nodes)) {
+    // Filter out the nodes that are "owned" by the active domain.
+    if (module_exists('domain')) {
+      $domain = domain_get_domain();
+
+      foreach ($nodes as $k => $node) {
+        $node_domain = domain_get_node_match($node->nid);
+
+        if ($node_domain['domain_id'] != $domain['domain_id']) {
+          unset($nodes[$k]);
+        }
+      }
+    }
+
     uasort($nodes, 'ding_library_library_list_sort_title');
 
     $items = array();
@@ -66,7 +83,11 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
     }
 
     foreach ($nodes as $node) {
-      $uri = drupal_lookup_path('alias', 'node/' . $node->nid) . '/' . $conf['slug'] . $suffix;
+      $node_path = 'node/' . $node->nid;
+      $node_alias = drupal_lookup_path('alias', $node_path);
+      $path_args =  '/' . $conf['slug'] . $suffix;
+      // If we have a alias then use it, else use original path.
+      $uri = !empty($node_alias) ? $node_alias . $path_args : $node_path . $path_args;
       $items[$uri] = $node->title;
     }
 

@@ -118,6 +118,17 @@ function ting_menu() {
     'file' => 'ting.admin.inc',
   );
 
+  $items['ting/ding_entity_buttons/nojs/%'] = array(
+    'title' => 'Render ding entity buttons',
+    'page callback' => 'ting_render_ding_entity_buttons_callback',
+    'page arguments' => array(2, 3),
+    'access arguments' => array('access content'),
+  );
+
+  $items['ting/ding_entity_buttons/ajax/%'] = array(
+    'delivery callback' => 'ajax_deliver',
+  ) + $items['ting/ding_entity_buttons/nojs/%'];
+
   $items['admin/config/ting/language'] = array(
     'title' => 'Language',
     'description' => 'Configure how languages affect Ting objects.',
@@ -128,6 +139,151 @@ function ting_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Ajax callback helper to render ding entity buttons.
+ *
+ * This wraps two expensive calls for item details which would
+ * severely slow down search result page.
+ *
+ * @param string $request_type
+ *   Request type.
+ * @param string $button_type
+ *   Button type to render.
+ *
+ * @return array
+ *   A set of drupal ajax commands.
+ */
+function ting_render_ding_entity_buttons_callback($request_type, $button_type) {
+  $identifiers = !empty($_POST['identifiers']) && is_array($_POST['identifiers']) ? $_POST['identifiers'] : array();
+  $entities = ting_object_load_multiple($identifiers);
+
+  $commands = [];
+
+  foreach ((array) $entities as $entity) {
+    switch ($button_type) {
+      case 'see-online':
+        $markup = ting_entity_see_online_button($entity);
+        $html = render($markup);
+
+        $commands[] = ajax_command_replace(
+          '#see-online-' . $entity->localId . '.ding-entity-button-placeholder',
+          $html
+        );
+        break;
+
+      case 'infomedia':
+        $markup = ting_entity_infomedia_button($entity);
+        $html = render($markup);
+
+        $commands[] = ajax_command_replace(
+          '#infomedia-' . $entity->localId . '.ding-entity-button-placeholder',
+          $html
+        );
+        break;
+
+      case 'other-formats':
+        $markup = ting_entity_other_formats_button($entity);
+        $html = render($markup);
+
+        $commands[] = ajax_command_replace(
+          '#other-formats-' . $entity->localId . '.ding-entity-button-placeholder',
+          $html
+        );
+        break;
+    }
+  }
+
+  if ($request_type == 'ajax') {
+    return array('#type' => 'ajax', '#commands' => $commands);
+  }
+
+  // Non-ajax calls are not taken into account, for now.
+  drupal_exit(0);
+}
+
+/**
+ * Fetches online type label and link for "See online" type buttons.
+ *
+ * @param \TingEntity $entity
+ *   Ting entity as the source of button markup.
+ *
+ * @return array
+ *   Button markup as render-able array.
+ */
+function ting_entity_see_online_button(TingEntity $entity) {
+  $entity_type = drupal_strtolower($entity->type);
+
+  $markup = [];
+
+  if ($entity->is('online')) {
+    $online_url_labels = variable_get('ting_url_labels', _ting_default_url_labels());
+    $label = !empty($online_url_labels[$entity_type]) ? $online_url_labels[$entity_type] : $online_url_labels['_default'];
+
+    $markup = [
+      '#type' => 'markup',
+      '#markup' => '<a class="button-see-online action-button use-ajax" target="_blank" href="' . $entity->online_url . '">' . $label . '</a>',
+    ];
+  }
+
+  return $markup;
+}
+
+/**
+ * Render "Infomedia" button.
+ *
+ * @param \TingEntity $entity
+ *   Ting entity as the source of button markup.
+ *
+ * @return array
+ *   Button markup as render-able array.
+ */
+function ting_entity_infomedia_button(TingEntity $entity) {
+  $markup = [];
+
+  if ($entity->is('infomedia')) {
+    $label = t('Read article');
+
+    $markup = [
+      '#type' => 'markup',
+      '#markup' => '<a class="button-infomedia action-button use-ajax" target="_blank" href="' . $entity->online_url . '">' . $label . '</a>',
+    ];
+  }
+
+  return $markup;
+}
+
+/**
+ * Fetches collection item count used for "Other formats" type buttons.
+ *
+ * @param \TingEntity $entity
+ *   Ting entity as the source of button markup.
+ *
+ * @return array
+ *   Button markup as render-able array.
+ */
+function ting_entity_other_formats_button(TingEntity $entity) {
+  $collection = ting_collection_load($entity->id);
+
+  $markup = [];
+
+  if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
+    $markup = [
+      '#theme' => 'link',
+      '#text' => t('Other formats'),
+      '#path' => '#',
+      '#options' => [
+        'attributes' => [
+          'class' => ['action-button', 'other-formats'],
+        ],
+        'html' => FALSE,
+        'external' => TRUE,
+      ],
+    ];
+  }
+
+  return $markup;
 }
 
 /**
@@ -229,8 +385,12 @@ function ting_block_view($delta = '') {
         $items = array();
 
         foreach ($collection->getEntities() as $entity) {
-          $item = ting_object_view($entity, 'teaser');
-          $items[] = render($item);
+          // Exclude current page ting_object from carousel in order to avoid
+          // duplications.
+          if ($collection->ding_entity_id != $entity->ding_entity_id) {
+            $item = ting_object_view($entity, 'teaser');
+            $items[] = render($item);
+          }
         }
 
         // Only display block if there are more than one item.
@@ -400,52 +560,77 @@ function ting_ding_entity_is($object, $class) {
  * Implements hook_ding_entity_buttons().
  */
 function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
-  if ($entity instanceof TingEntity) {
-    $buttons = array();
+  if (!$entity instanceof TingEntity) {
+    return;
+  }
 
-    if ($entity->is('online')) {
-      $settings = variable_get('ting_url_labels', _ting_default_url_labels());
-      $type = drupal_strtolower($entity->type);
-      $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
-      // The link can't use l() as it will encode the url from ting_proxy. Use
-      // get online as the dc:identifier in $entity->online is not always the
-      // correct url.
-      $buttons[] = [
-        '#type' => 'html_tag',
-        '#tag' => 'a',
-        '#value' => $label,
-        '#attributes' => [
-          'class' => ['button-see-online', 'action-button'],
-          'href' => $entity->getOnline_url(),
-          'target' => '_new',
+  $buttons = [];
+  // @TODO: Find more proper way of rendering placeholders.
+  if (strpos($_GET['q'], 'search/ting/') !== FALSE || strpos($_GET['q'], 'ting/collection/') !== FALSE) {
+    // Simply render button placeholders that would be replaced with proper
+    // buttons via ajax.
+    $buttons[] = [
+      '#type' => 'markup',
+      '#markup' => '<span id="see-online-' . $entity->localId . '" class="ding-entity-button-see-online ding-entity-button-placeholder"></span>',
+    ];
+
+    $buttons[] = [
+      '#type' => 'markup',
+      '#markup' => '<span id="other-formats-' . $entity->localId . '" class="ding-entity-button-other-formats ding-entity-button-placeholder"></span>',
+      '#attached' => [
+        'js' => [
+          drupal_get_path('module', 'ting') . '/js/ting_ding_entity_buttons.js',
         ],
-      ];
-    }
+      ],
+    ];
+  }
+  else {
+    if ($entity instanceof TingEntity) {
+      $buttons = [];
 
-    // Loading collection (specially on empty cache is expensive). So only show
-    // "Other formats" buttons where it's needed on the main page of the
-    // material.
-    $entity_path = entity_uri('ting_object', $entity)['path'];
-    if (current_path() == $entity_path) {
-      $collection = ting_collection_load($entity->id);
-      if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
+      if ($entity->is('online')) {
+        $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+        $type = drupal_strtolower($entity->type);
+        $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+        // The link can't use l() as it will encode the url from ting_proxy. Use
+        // get online as the dc:identifier in $entity->online is not always the
+        // correct url.
         $buttons[] = [
-          '#theme' => 'link',
-          '#text' => t('Other formats'),
-          '#path' => '#',
-          '#options' => [
-            'attributes' => [
-              'class' => ['action-button', 'other-formats'],
-            ],
-            'html' => FALSE,
-            'external' => TRUE,
+          '#type' => 'html_tag',
+          '#tag' => 'a',
+          '#value' => $label,
+          '#attributes' => [
+            'class' => ['button-see-online', 'action-button', 'use-ajax'],
+            'href' => $entity->getOnline_url(),
+            'target' => '_new',
           ],
         ];
       }
-    }
 
-    return $buttons;
+      // Loading collection (specially on empty cache is expensive). So only show
+      // "Other formats" buttons where it's needed on the main page of the
+      // material.
+      $entity_path = entity_uri('ting_object', $entity)['path'];
+      if (current_path() == $entity_path) {
+        $collection = ting_collection_load($entity->id);
+        if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
+          $buttons[] = [
+            '#theme' => 'link',
+            '#text' => t('Other formats'),
+            '#path' => '#',
+            '#options' => [
+              'attributes' => [
+                'class' => ['action-button', 'other-formats'],
+              ],
+              'html' => FALSE,
+              'external' => TRUE,
+            ],
+          ];
+        }
+      }
+    }
   }
+  return $buttons;
 }
 
 /**
@@ -574,7 +759,7 @@ function ting_object_view($object, $view_mode = 'full', $langcode = NULL) {
   // local ID.
   field_attach_prepare_view('ting_object', array($object->tid => $object), $view_mode, $langcode);
   entity_prepare_view('ting_object', array($object->id => $object), $langcode);
-  $object->content += field_attach_view('ting_object', $object, $view_mode, $langcode);
+  $object->content = field_attach_view('ting_object', $object, $view_mode, $langcode);
 
   // Allow modules to make their own additions to the object.
   module_invoke_all('ding_entity_view', $object, $view_mode, $langcode);

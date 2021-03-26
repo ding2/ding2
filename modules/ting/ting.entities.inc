@@ -5,6 +5,8 @@
  * Entity classes for ting objects and collections.
  */
 
+define('TING_OBJ_DESCRIPTION_LENGTH', 180);
+
 use Ting\TingObjectInterface;
 use Ting\TingObjectCollectionInterface;
 
@@ -364,6 +366,17 @@ class TingEntity extends DingEntity {
   public function getIsbn() {
     return empty($this->reply) ? FALSE : $this->reply->getIsbn();
   }
+
+  /**
+   * The Classification Text.
+   *
+   * @return string
+   *   Empty or classification text.
+   */
+  public function getClassificationText() {
+    return empty($this->reply) ? FALSE : $this->reply->getClassificationText();
+  }
+
 }
 
 /**

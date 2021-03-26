@@ -266,7 +266,7 @@ Campaign box is located at the bottom of the left column, on the page types wher
     'label' => 'Text',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
+      'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(

@@ -132,14 +132,18 @@ function ding_adgangsplatformen_ding_provider_user() {
  * Implements hook_ajax_login_command().
  */
 function ding_adgangsplatformen_ajax_login_command($path) {
+  global $language;
+
   // Javascript needed to do the redirect is loaded in the init hook.
   ctools_include('ajax');
 
   // Get authentication url and set the path to be redirected back to.
   $url = ding_adgangsplatformen_generate_login_url($path);
 
+  $request_path = request_path();
+  $request_path = preg_replace("/^{$language->language}\//", '', $request_path);
   // Store the ajax callback url that triggered the ajax auth redirect.
-  $_SESSION['oauth2ajax'] = request_path() . '?' . drupal_http_build_query(drupal_get_query_parameters());
+  $_SESSION['oauth2ajax'] = $request_path . '?' . drupal_http_build_query(drupal_get_query_parameters());
 
   return ctools_ajax_command_redirect($url);
 }

@@ -264,6 +264,9 @@ function ding_user_frontend_build_menu($path = NULL) {
     drupal_alter('ding_user_frontend_build_menu', $menu, $menu_item_defaults);
   }
 
+  // Gives possibility to change user menu.
+  drupal_alter('ding_user_menu', $menu);
+
   return $menu;
 }
 

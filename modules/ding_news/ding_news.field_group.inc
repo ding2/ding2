@@ -391,6 +391,7 @@ function ding_news_field_group_info() {
       5 => 'field_ding_news_tags',
       6 => 'og_group_ref',
       7 => 'webform',
+      8 => 'field_ding_section',
     ),
     'format_type' => 'div',
     'format_settings' => array(

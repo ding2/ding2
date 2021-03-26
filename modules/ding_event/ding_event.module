@@ -35,6 +35,13 @@ function ding_event_menu() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function ding_event_menu_alter(&$items) {
+  $items['node/%node/clone/%clone_token']['type'] = MENU_LOCAL_TASK;
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function ding_event_field_formatter_info() {
@@ -78,6 +85,14 @@ function ding_event_theme() {
           'attributes' => NULL,
         ),
       ),
+    ),
+    'views_exposed_form_widgets' => array(
+      'variables' => array(
+        'title' => NULL,
+        'items' => NULL,
+        'element' => NULL,
+      ),
+      'template' => 'templates/views-exposed-form-widget',
     ),
   );
 }
@@ -327,6 +342,13 @@ function ding_event_views_pre_build(&$view) {
 function ding_event_form_views_exposed_form_alter(&$form, &$form_state) {
   if ($form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
 
+    // Enable Search API Autocomplete support fot custom search field.
+    $search = search_api_autocomplete_search_load('search_api_views_ding_multiple_search');
+    if ($search && $search->enabled) {
+      // Add autocomplete feature.
+      $search->alterElement($form['title']);
+    }
+
     // Add placeholder to title field.
     if (!empty($form['title'])) {
       $form['title']['#attributes']['placeholder'] = t('Search for an event');
@@ -339,17 +361,43 @@ function ding_event_form_views_exposed_form_alter(&$form, &$form_state) {
     if (empty($input)) {
       $form['reset']['#access'] = FALSE;
     }
+  }
+}
 
-    if (!empty($form['#info']['filter-field_ding_event_category_tid'])) {
-      $label = $form['#info']['filter-field_ding_event_category_tid']['label'];
-      unset($form['#info']['filter-field_ding_event_category_tid']['label']);
-      $form['field_ding_event_category_tid']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
-    }
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_event_preprocess_views_exposed_form(&$variables) {
+  if (arg(0) == 'arrangementer') {
+    $form = $variables['form'];
+    $excluded_widgets = ['title', 'date', 'field_ding_event_date_value_1'];
+    foreach ($form['#info'] as $widget => $item) {
+      if (!in_array($item['value'], $excluded_widgets)) {
+        $items = [];
+        $title = $item['label'];
+        unset($variables['widgets'][$widget]->label);
 
-    if (!empty($form['#info']['filter-og_group_ref_target_id_entityreference_filter'])) {
-      $label = $form['#info']['filter-og_group_ref_target_id_entityreference_filter']['label'];
-      unset($form['#info']['filter-og_group_ref_target_id_entityreference_filter']['label']);
-      $form['og_group_ref_target_id_entityreference_filter']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
+        $items_list = $form[$item['value']]['#options'];
+        foreach ($items_list as $id => $option) {
+          if (is_object($option)) {
+            $clean_option = array_keys($option->option);
+            $key = array_shift($clean_option);
+            $items[$key] = $option->option[$key];
+          }
+          else {
+            $items[$id] = $option;
+          }
+        }
+
+        $render = theme('views_exposed_form_widgets', [
+            'title' => $title,
+            'items' => $items,
+            'element' => $form[$item['value']],
+          ]
+        );
+
+        $variables['widgets'][$widget]->widget = $render;
+      }
     }
   }
 }
@@ -434,7 +482,7 @@ function ding_event_metatag_metatags_view_alter(&$output, $instance, $options) {
 }
 
 /**
- * Implements hook_preprocess_node().
+ * Implements hook_preprocess_HOOK().
  */
 function ding_event_preprocess_node(&$variables) {
   if ($variables['type'] != 'ding_event') {
@@ -456,5 +504,54 @@ function ding_event_preprocess_node(&$variables) {
   // If the price is empty use "Free" text instead.
   else {
     $variables['event_price'] = t('Free', array(), array('context' => 'Price'));
+  }
+
+  if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
+    // Fields to be processed.
+    $fields = array(
+      'field_ding_event_category',
+      'field_ding_event_date',
+      'field_ding_event_target',
+    );
+
+    // Process fields.
+    foreach ($fields as $field) {
+      if (!empty($variables['content'][$field])) {
+        $attributes = array();
+        switch ($variables['content'][$field]['#field_name']) {
+          case 'field_ding_event_category':
+            $category = $variables['content']['field_ding_event_category']['#items'][0]['tid'];
+
+            $attributes = array(
+              'event_category_term_node_tid_depth[]' => $category,
+            );
+            break;
+
+          case 'field_ding_event_date':
+            $date_value = $variables['content']['field_ding_event_date']['#items'][0]['value'];
+            $dateobject = new DateTime($date_value);
+            $dateobject->add(new DateInterval('PT2H'));
+            $date_value = format_date($dateobject->getTimestamp(), 'custom', 'd-m-Y');
+
+            $attributes = array(
+              'date[value][date]' => $date_value,
+              'field_ding_event_date_value_1[value][date]' => $date_value,
+            );
+            break;
+
+          case 'field_ding_event_target':
+            $target = $variables['content']['field_ding_event_target']['#items'][0]['tid'];
+
+            $attributes = array(
+              'field_ding_event_target_tid[]' => $target,
+            );
+            break;
+        }
+
+        // Form and return markup.
+        $link_text = $variables['content'][$field][0]['#markup'];
+        $variables['content'][$field][0]['#markup'] = l($link_text, 'arrangementer', array('query' => array($attributes), 'html' => TRUE));
+      }
+    }
   }
 }

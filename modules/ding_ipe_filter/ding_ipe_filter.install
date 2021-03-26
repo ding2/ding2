@@ -120,9 +120,30 @@ function ding_ipe_filter_update_7105(&$sandbox) {
 }
 
 /**
- * Select ding sections.
+ * Remove category from selection identifiers.
  */
 function ding_ipe_filter_update_7106(&$sandbox) {
+  /*
+   * Category key is loaded based on the active language. It needs to have the
+   * same set for all languages. Uniqueness is kept based on the pane sub-type.
+   */
+  $selected = _ding_ipe_filter_selected_panes();
+  $new_selections = array();
+  foreach ($selected as $value) {
+    $matches = array();
+    preg_match('/(\S+):(\S+)/', $value, $matches);
+    if (!empty($matches[2])) {
+      $new_selections[$matches[2]] = $matches[2];
+    }
+  }
+
+  variable_set('ding_ipe_filter_panes_selected', $new_selections);
+}
+
+/**
+ * Select ding sections.
+ */
+function ding_ipe_filter_update_7107(&$sandbox) {
   $selected = _ding_ipe_filter_selected_panes();
   if (!isset($selected['ding-:ding_sections'])) {
     $selected['ding-:ding_sections'] = 'ding-:ding_sections';

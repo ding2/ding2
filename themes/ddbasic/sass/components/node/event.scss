@@ -397,8 +397,20 @@
     }
 
     .field-name-field-ding-event-lead,
-    .field-name-field-ding-event-body p {
-      margin: 20px 0;
+    .field-name-field-ding-event-body {
+      p {
+        margin: 20px 0;
+      }
+
+      ol, ul {
+        margin: 0;
+        padding-left: 40px;
+        list-style-position: initial;
+      
+        li p {
+          margin: 5px 0;
+        }
+      }
     }
   }
 }

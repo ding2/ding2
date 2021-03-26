@@ -88,14 +88,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
   $element = array();
   $online_types = array_filter(variable_get('ting_online_types', _ting_default_online_types()));
 
-  // Attach front-end style and JS to the element.
   foreach ($items as $delta => $item) {
-    $attached = array(
-      'css' => array(
-        drupal_get_path('module', 'ding_availability') . '/css/ding_availability.css',
-      ),
-    );
-
     // Extract records' source.
     if ($field['type'] != 'ting_collection_types') {
       /* @var \TingEntity $entity */
@@ -178,6 +171,9 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
         $element[$delta] = array(
           '#theme' => 'item_list',
+          '#attributes' => array(
+            'class' => 'availability',
+          ),
           '#attached' => $attached,
           '#items' => array(
             array(
@@ -207,7 +203,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $output = array(
           '#theme' => 'ding_availability_types',
           '#types' => array(),
-          '#attached' => $attached,
+          '#attached' => isset($attached) ? $attached : [],
         );
 
         // Loop over the different material types.

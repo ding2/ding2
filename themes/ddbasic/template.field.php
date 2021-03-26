@@ -80,6 +80,14 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 
     if ($field_name == 'og_group_ref') {
       $vars['classes_array'][] = 'field-name-ding-library-name';
+
+      // Show libraries inline.
+      $inline = [];
+      foreach ($vars['items'] as $item) {
+        $inline[] = $item['#markup'];
+      }
+
+      $vars['inlined_libraries'] = implode(', ', $inline);
     }
   }
 
@@ -161,8 +169,10 @@ function ddbasic_preprocess__field__ting_author(&$vars) {
  * Ding news list image.
  */
 function ddbasic_preprocess__field__field_ding_news_list_image(&$vars) {
-  // Set image styling class.
-  $vars['classes_array'][] = 'image-styling-16-9';
+  if ($vars['element']['#view_mode'] != 'search_result') {
+    // Set image styling class.
+    $vars['classes_array'][] = 'image-styling-16-9';
+  }
 }
 
 /**

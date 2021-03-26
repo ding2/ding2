@@ -8,6 +8,14 @@
 module_load_include('inc', 'ding_periodical', 'ding_periodical.field');
 
 /**
+ * Implements hook_init().
+ */
+function ding_periodical_init() {
+  drupal_add_library('system', 'ui.dialog');
+  drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js');
+}
+
+/**
  * Implements hook_menu().
  */
 function ding_periodical_menu() {

@@ -31,6 +31,7 @@ dependencies[] = views
 dependencies[] = views_content
 dependencies[] = workbench
 dependencies[] = wysiwyg
+dependencies[] = ckeditor_link
 features[ctools][] = file_entity:file_default_displays:1
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = pm_existing_pages:pm_existing_pages:1

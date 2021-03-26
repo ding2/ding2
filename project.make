@@ -24,6 +24,7 @@ projects[autologout][version] = "4.5"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
+projects[autosave][patch][] = "http://storage.easyting.dk/autosave_undefined_formid.patch"
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.4"
@@ -41,15 +42,7 @@ projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.9"
-; Fix regression. See https://www.drupal.org/node/2209775
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_access_callback_params-2209775-24.patch"
-; Fix PHP7 errors - PHP 4 style constructors - https://www.drupal.org/node/2528736
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/deprecating_php4_style-2528736-23.patch"
-; PHP7 - Uniform Variable Syntax updates are causing exported pages to not have names.
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-uniform-variable-syntax-2635876-6.patch"
-; Check for jQuery differences regarding prop() vs attr().
-projects[ctools][patch][] = "https://git.drupalcode.org/project/ctools/commit/18385421a277097d8a92672808f656cc7470b69d.patch"
+projects[ctools][version] = "1.12"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -88,6 +81,8 @@ projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.8"
+; https://www.drupal.org/node/2829437
+projects[entity][patch][0] = "https://www.drupal.org/files/issues/entity-rebuild-2829437-4.patch"
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.2"
@@ -118,7 +113,7 @@ projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-alpha8"
+projects[feeds][version] = "2.0-beta4"
 
 projects[fences][type] = "module"
 projects[fences][subdir] = "contrib"
@@ -215,19 +210,19 @@ projects[l10n_client][version] = "1.3"
 projects[l10n_client][patch][] = "https://www.drupal.org/files/issues/l10n_client-browser_is_undefined_jquery_gt_19-2191771-3.patch"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.11"
+projects[i18n][version] = "1.15"
 
 projects[manualcrop][subdir] = "contrib"
-projects[manualcrop][version] = "1.6"
-; Fix loading of updated JavaScript library.
-; https://www.drupal.org/node/2836970
-projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-imgareaselect_library_version_arguments-2836970-14-d7.patch"
+projects[manualcrop][version] = "1.7"
 ; Fix crop display when the same file is used in multiple fields
 ; https://www.drupal.org/node/2503175
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-duplicatepreview-2503175-41.patch"
 ; Fix horizontal alignment of preview and buttons.
 ; https://www.drupal.org/node/2874825
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop_media-widget-alignment-2874825-2.patch"
+; Fix undefined index in manualcrop_media_element_after_build().
+; https://www.drupal.org/node/3038112
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/2019-03-20/undefined-index-3038112.patch"
 
 projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
@@ -244,7 +239,7 @@ projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "3.0"
+projects[media_youtube][version] = "3.10"
 
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.6"
@@ -286,7 +281,7 @@ projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.2"
 
 projects[node_clone][subdir] = "contrib"
-projects[node_clone][version] = "1.0-rc2"
+projects[node_clone][version] = "1.0"
 
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
@@ -305,9 +300,12 @@ projects[oembed][patch][] = "patches/split-up-regex-2739023-1.patch"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
+; https://www.drupal.org/node/1502916, membership data loss.
+projects[og][patch][] = "https://www.drupal.org/files/membership-data-loss-user-save-1502916.patch"
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0"
+projects[og_menu][patch][] = "http://storage.easyting.dk/og_menu-make_links_persistent.patch"
 
 projects[opening_hours][subdir] = "contrib"
 projects[opening_hours][version] = "1.6"
@@ -334,7 +332,6 @@ projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"
 ; Fix PHP7 errors - PHP 4 style constructors - (https://www.drupal.org/node/2557061)
 projects[panels][patch][] = "https://www.drupal.org/files/issues/deprecated-constructor-in-php-7-2557061-3.patch"
-
 
 projects[panels_breadcrumbs][subdir] = "contrib"
 projects[panels_breadcrumbs][version] = "2.1"
@@ -363,6 +360,8 @@ projects[realname][version] = "1.2"
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc3"
+; Add Redirect form breaks URLs containing spaces or %20
+projects[redirect][patch][] = "https://www.drupal.org/files/issues/redirect-space-fix-1451868-22.patch"
 
 projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0"
@@ -376,14 +375,12 @@ projects[rules][version] = "2.7"
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
 
-; Patched with "Secure Permissions fails with features and multilingual"
 projects[secure_permissions][type] = "module"
 projects[secure_permissions][subdir] = "contrib"
 projects[secure_permissions][download][type] = "git"
 projects[secure_permissions][download][url] = "http://git.drupal.org/project/secure_permissions.git"
-projects[secure_permissions][download][revision] = "ef5eec5"
-projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-features-multilingual-2.patch"
-projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
+projects[secure_permissions][download][revision] = "df21b5c"
+projects[secure_permissions][patch][] = "https://www.drupal.org/files/issues/2021-02-18/secure_permissions-dont_disable_all_permissions-2499607-5.patch"
 
 projects[services][subdir] = "contrib"
 projects[services][version] = "3.24"
@@ -674,3 +671,129 @@ libraries[fabric][download][type] = "get"
 libraries[fabric][download][url] = https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js
 libraries[fabric][directory_name] = "fabric"
 libraries[fabric][destination] = "libraries"
+
+; easyOPAC contribution modules
+projects[add_to_head][subdir]               = "contrib"
+projects[add_to_head][version]              = "1.2"
+
+projects[ckeditor_link][subdir]             = "contrib"
+projects[ckeditor_link][version]            = "2.4"
+
+projects[css_editor][subdir]                = "contrib"
+projects[css_editor][version]               = "1.0"
+
+projects[ding_mkws][type]                   = "module"
+projects[ding_mkws][download][type]         = "git"
+projects[ding_mkws][download][url]          = "https://github.com/easySuite/ding_mkws.git"
+projects[ding_mkws][download][branch]       = "development"
+
+projects[ding_spt_statistics][type]             = "module"
+projects[ding_spt_statistics][download][type]   = "git"
+projects[ding_spt_statistics][download][url]    = "https://github.com/easySuite/ding_spt_statistics.git"
+projects[ding_spt_statistics][download][branch] = "development"
+
+projects[domain][subdir]                    = "contrib"
+projects[domain][version]                   = "3.12"
+
+projects[domain_ctools][subdir]             = "contrib"
+projects[domain_ctools][version]            = "1.3"
+
+projects[domain_menu_access][subdir]        = "contrib"
+projects[domain_menu_access][version]       = "1.2"
+
+projects[domain_taxonomy][subdir]           = "contrib"
+projects[domain_taxonomy][version]          = "3.x-dev"
+
+projects[domain_variable][subdir]           = "contrib"
+projects[domain_variable][version]          = "1.1"
+
+projects[domain_views][subdir]              = "contrib"
+projects[domain_views][version]             = "1.5"
+
+projects[extlink][subdir]                   = "contrib"
+projects[extlink][version]                  = "1.18"
+
+projects[features_override][subdir]         = "contrib"
+projects[features_override][version]        = "2.0-rc1"
+
+projects[feeds_ex][subdir]                  = "contrib"
+projects[feeds_ex][version]                 = "1.0-beta2"
+
+projects[feeds_xpathparser][subdir]         = "contrib"
+projects[feeds_xpathparser][version]        = "1.1"
+
+projects[field_reference_delete][subdir]    = "contrib"
+projects[field_reference_delete][version]   = "1.0-beta1"
+
+projects[httprl][subdir]                    = "contrib"
+projects[httprl][version]                   = "1.14"
+
+projects[imagemagick][subdir]               = "contrib"
+projects[imagemagick][version]              = "1.0"
+
+projects[linkchecker][subdir]               = "contrib"
+projects[linkchecker][version]              = "1.2"
+
+projects[media_unsplash][subdir]            = "contrib"
+projects[media_unsplash][version]           = "1.6"
+projects[media_unsplash][patch][]           = "http://storage.easyting.dk/unsplash_alt_title_fetch.patch"
+
+projects[memcache_storage][subdir]          = "contrib"
+projects[memcache_storage][version]         = "1.4"
+
+projects[mimemail][subdir]                  = "contrib"
+projects[mimemail][version]                 = "1.1"
+
+projects[mkdru][subdir]                     = "contrib"
+projects[mkdru][version]                    = "1.9"
+
+projects[mkdru_ding][type]                  = "module"
+projects[mkdru_ding][download][type]        = "git"
+projects[mkdru_ding][download][url]         = "https://github.com/easySuite/mkdru_ding.git"
+projects[mkdru_ding][download][branch]      = "develop"
+
+projects[opengraph_meta][subdir]            = "contrib"
+projects[opengraph_meta][version]           = "1.3"
+
+libraries[notify][download][type]           = "git"
+libraries[notify][download][url]            = "git@github.com:notifyjs/notifyjs.git"
+libraries[notify][download][branch]         = "master"
+libraries[notify][directory_name]           = "notify"
+libraries[notify][destination]              = "libraries"
+
+projects[quiz][subdir]                      = "contrib"
+projects[quiz][version]                     = "5.0-rc4"
+projects[quiz][patch][]                     = "https://www.drupal.org/files/issues/2018-06-20/quiz-question_pdo_exception_v50-2980495-3-D7.patch"
+
+projects[references][subdir]                = "contrib"
+projects[references][version]               = "2.1"
+
+projects[search404][subdir]                 = "contrib"
+projects[search404][version]                = "1.3"
+
+projects[search_api_autocomplete][subdir]   = "contrib"
+projects[search_api_autocomplete][version]  = "1.5"
+
+projects[taxonomy_menu][subdir]             = "contrib"
+projects[taxonomy_menu][version]            = "1.4"
+projects[taxonomy_menu][patch][]            = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
+
+; Required to run FeedsEx test. Those are failing CircleCI build.
+projects[tunit][subdir]                     = "contrib"
+projects[tunit][version]                    = "1.x-dev"
+
+projects[views_data_export][subdir]         = "contrib"
+projects[views_data_export][version]        = "3.1"
+
+projects[xmlsitemap][subdir]                = "contrib"
+projects[xmlsitemap][version]               = "2.0"
+
+libraries[pz2][download][type]              = "get"
+libraries[pz2][download][url]               = http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz
+libraries[pz2][directory_name]              = "pz2"
+libraries[pz2][destination]                 = "libraries"
+
+libraries[jsrender][download][type]         = "get"
+libraries[jsrender][download][url]          = https://github.com/BorisMoore/jsrender/archive/master.zip
+libraries[jsrender][directory_name]         = "jsrender"
+libraries[jsrender][destination]            = "libraries"

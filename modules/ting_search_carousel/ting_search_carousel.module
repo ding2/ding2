@@ -320,6 +320,14 @@ function ting_search_carousel_image_default_styles() {
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ */
+function ting_search_carousel_preprocess_ding_carousel_item(&$variables) {
+  // Hide ting_abstract field.
+  $variables['content']['ting_abstract']['#access'] = FALSE;
+}
+
+/**
  * Represents a search for the carousel.
  *
  * Encapsulates query and sort.

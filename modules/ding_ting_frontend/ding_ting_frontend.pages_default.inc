@@ -143,7 +143,10 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'pane-fulltext',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -350,38 +353,6 @@ search/ting
     $display->content['new-97add5d5-2b7f-4520-8ffb-12e238153621'] = $pane;
     $display->panels['main_content'][0] = 'new-97add5d5-2b7f-4520-8ffb-12e238153621';
     $pane = new stdClass();
-    $pane->pid = 'new-e073b3fd-5958-404c-b629-ba0f4428eb22';
-    $pane->panel = 'main_content';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
-      'ding_campaign_style' => 'ding_campaign_medium_width',
-      'context' => array(
-        0 => 'empty',
-        1 => 'empty',
-        2 => 'argument_string_1',
-        3 => 'empty',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = 'e073b3fd-5958-404c-b629-ba0f4428eb22';
-    $display->content['new-e073b3fd-5958-404c-b629-ba0f4428eb22'] = $pane;
-    $display->panels['main_content'][1] = 'new-e073b3fd-5958-404c-b629-ba0f4428eb22';
-    $pane = new stdClass();
     $pane->pid = 'new-dd50ebf9-a0f1-499b-b389-49f178f5e242';
     $pane->panel = 'main_content';
     $pane->type = 'block';
@@ -509,7 +480,7 @@ search/ting
       'css_class' => 'search-help',
     );
     $pane->extras = array();
-    $pane->position = 6;
+    $pane->position = 7;
     $pane->locks = array();
     $pane->uuid = '793c5d13-8d76-4299-aed9-fad18bf7d920';
     $display->content['new-793c5d13-8d76-4299-aed9-fad18bf7d920'] = $pane;
@@ -648,7 +619,7 @@ search/ting
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'style' => 'box',
+      'style' => 'ribbon',
       'context' => array(
         0 => 'empty',
         1 => 'empty',
@@ -756,6 +727,8 @@ search/ting
   $display->cache = array();
   $display->title = '';
   $display->uuid = '7da7c33f-8425-44e8-a02d-0f497e4945e0';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'ting_object_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -847,7 +820,14 @@ search/ting
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'lazy',
+      'settings' => array(
+        'load_strategy' => 'pane-visible',
+        'show_spinner' => 1,
+        'load_text' => '',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
