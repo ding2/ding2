@@ -53,7 +53,7 @@
       $('.node-ding-news.nb-item', context).mouseenter(function() {
         var title_and_lead_height;
         // Set height for title and lead text.
-        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-news-lead').outerHeight(true) + 50;
+        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-news-lead').outerHeight(true) + 75;
 
         $(this).find('.title-and-lead').css('min-height', title_and_lead_height);
       });
