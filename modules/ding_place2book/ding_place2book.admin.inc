@@ -121,6 +121,14 @@ function ding_place2book_service_admin_form($form, &$form_state) {
     '#size' => 100,
   );
 
+  $form['ding_place2book_date_repeat_limit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Date repeat limit'),
+    '#default_value' => variable_get('ding_place2book_date_repeat_limit', DING_PLACE2BOOK_DEFAULT_DATE_REPEAT_LIMIT),
+    '#description' => t('Use this setting to limit the number of place2book events that can be created at once, when using the date repeat feature on ding_event nodes.'),
+    '#element_validate' => ['element_validate_integer_positive'],
+  );
+
   return system_settings_form($form);
 }
 

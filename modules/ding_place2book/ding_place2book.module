@@ -4,6 +4,8 @@
  * Represents hooks implementations and definitions.
  */
 
+define('DING_PLACE2BOOK_DEFAULT_DATE_REPEAT_LIMIT', 100);
+
 use P2b\P2b;
 
 include_once 'ding_place2book.features.inc';
@@ -323,6 +325,35 @@ function ding_place2book_node_presave($node) {
 }
 
 /**
+ * Implements hook_node_validate().
+ */
+function ding_place2book_node_validate($node, $form, &$form_state) {
+  // We can't use ding_place2book_is_ding_event_node_synchronized() here, since
+  // it will also check event_id and event_maker_id both of wich are not
+  // available at this point.
+  if (!$field_place2book = field_get_items('node', $node, 'field_place2book')) {
+    return FALSE;
+  }
+  $field_place2book = reset($field_place2book);
+  if (empty($field_place2book['synchronize'])) {
+    return FALSE;
+  }
+
+  // Limit the number of p2b-synced ding_event nodes that can be replicated. In
+  // extreme cases it could cause timeout since each p2b event will be created
+  // in separate requests.
+  $repeat_dates = field_get_items('node', $node, 'field_ding_event_date');
+  $count = !empty($repeat_dates) ? count($repeat_dates) : 0;
+  $limit = variable_get('ding_place2book_date_repeat_limit', DING_PLACE2BOOK_DEFAULT_DATE_REPEAT_LIMIT);
+  if ($count > $limit) {
+    form_set_error('field_ding_event_date', t('The date repeat rule will create @count events which is over the date repeat limit of @limit for place2book synchronized events. Please modify the rule to create fewer events or raise the limit.', [
+      '@count' => $count,
+      '@limit' => $limit,
+    ]));
+  }
+}
+
+/**
  * Implements hook_field_widget_form_alter().
  */
 function ding_place2book_field_widget_form_alter(&$element, &$form_state, $context) {
@@ -539,7 +570,7 @@ function ding_place2book_is_ding_event_node_synchronized($node) {
     return FALSE;
   }
 
-  $field_place2book = $field_place2book[0];
+  $field_place2book = reset($field_place2book);
   if (empty($field_place2book['synchronize'])) {
     return FALSE;
   }
