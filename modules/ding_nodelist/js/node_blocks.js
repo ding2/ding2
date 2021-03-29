@@ -50,10 +50,10 @@
         $(this).find('.field-type-text-long').toggleClass('element-hidden', true);
       });
 
-      $('.node-ding-news.nb-item', context).mouseenter(function() {
+      // Added function to set height for title and lead text for CTs.
+      $('.node-ding-news.nb-item, .node-ding-page.nb-item, .node-ding-eresource.nb-item', context).mouseenter(function() {
         var title_and_lead_height;
-        // Set height for title and lead text.
-        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-news-lead').outerHeight(true) + 50;
+        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-news-lead, .field-name-field-ding-page-lead, .field-name-field-ding-eresource-lead').outerHeight(true) + 50;
 
         $(this).find('.title-and-lead').css('min-height', title_and_lead_height);
       });
