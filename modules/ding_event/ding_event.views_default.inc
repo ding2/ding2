@@ -449,6 +449,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date_1']['settings'] = array(
     'format_type' => 'month_and_year_separator',
     'fromto' => 'value',
+    'show_repeat_rule' => 'hide',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
@@ -1019,6 +1020,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date_1']['settings'] = array(
     'format_type' => 'month_and_year_separator',
     'fromto' => 'value',
+    'show_repeat_rule' => 'hide',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
@@ -1281,6 +1283,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date_1']['settings'] = array(
     'format_type' => 'month_and_year_separator',
     'fromto' => 'value',
+    'show_repeat_rule' => 'hide',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
