@@ -645,7 +645,7 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
     }
 
     foreach ($prices as $price) {
-      if (empty($price['name']) || (empty($price['value']) && $price['value'] !== '0')) {
+      if (empty($price['name']) || !isset($price['value'])) {
         continue;
       }
 
