@@ -22,8 +22,7 @@
         </div>
         <div class="title-and-lead">
           <h3 class="title" id="<?php print 'link-id-' . $item->nid; ?>"><?php print $item->title; ?></h3>
-          <div
-            class="field field-name-field-ding-eresource-lead field-type-text-long field-label-hidden">
+          <div class="field field-name-field-ding-eresource-lead field-type-text-long field-label-hidden element-hidden">
             <div class="field-items">
               <div class="field-item">
                 <?php print $item->teaser_lead; ?>
