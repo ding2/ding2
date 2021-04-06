@@ -233,5 +233,5 @@ function ding_base_update_7010() {
   $formats = system_get_date_formats();
   variable_set('date_format_ding_date_only_version2', array_shift(array_keys($formats['ding_date_only_version2'])));
   variable_set('date_format_ding_date_and_time', array_shift(array_keys($formats['ding_date_and_time'])));
-  variable_set('date_format_date_format_month_and_year_separator', array_shift(array_keys($formats['month_and_year_separator'])));
+  variable_set('date_format_month_and_year_separator', array_shift(array_keys($formats['month_and_year_separator'])));
 }
