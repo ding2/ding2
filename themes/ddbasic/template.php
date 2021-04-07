@@ -141,6 +141,13 @@ function ddbasic_preprocess_panels_pane(&$vars) {
   if ($vars['pane']->subtype == 'menu_block-main_menu_second_level') {
     ddbasic_body_class('has-second-level-menu');
   }
+
+  // Check if we're displaying a taxonomy terms, i.e. a section.
+  // @todo can we make a better check for this?
+  if ($vars['pane']->panel == 'primary' && $vars['pane']->type == 'term_description') {
+    // Tell the template to render a top-level heading.
+    $vars['pane']->configuration['override_title_heading'] = 'h1';
+  }
 }
 
 /**
