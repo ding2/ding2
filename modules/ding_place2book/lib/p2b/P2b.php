@@ -615,7 +615,7 @@ class P2b {
         $this->p2bCheckRequired($required[$key], $given[$key]);
       }
       else {
-        $value = empty($given[$key]) && $given[$key] !== '0';
+        $value = !isset($given[$key]);
       }
     }
   }

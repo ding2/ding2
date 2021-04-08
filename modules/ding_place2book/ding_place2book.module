@@ -310,7 +310,7 @@ function ding_place2book_node_presave($node) {
   try {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);
-    if (!$event->passive) {
+    if (empty($event->passive)) {
       $node_wrapper
         ->field_ding_event_ticket_link
         ->url
@@ -586,12 +586,6 @@ function _ding_p2b_get_address_data($node) {
       0,
       'thoroughfare',
     ),
-    "address2" => array(
-      'field_ding_event_location',
-      LANGUAGE_NONE,
-      0,
-      'premise',
-    ),
     "postal_code" => array(
       'field_ding_event_location',
       LANGUAGE_NONE,
@@ -623,18 +617,26 @@ function _ding_p2b_get_address_data($node) {
   foreach ($options as $name => $option) {
     $result = NULL;
     $data[$name] = drupal_array_get_nested_value($node, $option, $result);
+
+    // If we couldn't find the required data on the event node, we'll have a
+    // look at the library node.
     if (($result === FALSE || empty($data[$name])) && $lib) {
       if ($name == 'name') {
         $option = array('title');
       }
-      else {
+      // The field for location data is named differently on ding_library nodes.
+      elseif ($option[0] == 'field_ding_event_location') {
         $option[0] = 'field_ding_library_addresse';
       }
       $data[$name] = drupal_array_get_nested_value($lib, $option);
+
+      // If we still couldn't find the value or it is for some other reason
+      // empty, ensure that we send an empty string as expected by the API.
+      if (empty($data[$name])) {
+        $data[$name] = '';
+      }
     }
   }
-  $data['phone'] = empty($data['phone']) ? t('None') : $data['phone'];
-  $data['address2'] = '';
 
   return $data;
 }
