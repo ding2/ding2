@@ -1069,3 +1069,10 @@ function ding2_update_7093() {
 function ding2_update_7094() {
   ding2_update_cookie_page();
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7095() {
+  ding2_translation_update();
+}
