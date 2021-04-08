@@ -7,7 +7,6 @@ dependencies[] = cache_actions
 dependencies[] = ctools
 dependencies[] = ding_event
 dependencies[] = ding_groups
-dependencies[] = ding_ipe_filter
 dependencies[] = ding_news
 dependencies[] = ding_tabroll
 dependencies[] = lazy_pane
