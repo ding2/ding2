@@ -40931,7 +40931,7 @@ msgstr "Se hele beskrivelsen"
 
 #: /user/36/status/debts
 msgid "My debts"
-msgstr "Betal gebyrer"
+msgstr "Gebyrer og erstatninger"
 
 #: /user/36/status/debts
 msgid "No debts"

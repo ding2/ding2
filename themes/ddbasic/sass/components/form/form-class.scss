@@ -95,12 +95,6 @@
   }
 }
 
-// Fix for TOS accept checkbox in ding_debts form. The materials above the
-// checkbox is floated so we need to clear for it to appear correctly.
-.pane-debts .form-item-accept-terms label {
-  clear: both;
-}
-
 .node-ding-event {
   .webform-client-form {
     margin-bottom: 30px;

@@ -494,8 +494,8 @@ function ddbasic_preprocess_menu_link(&$variables) {
         break;
 
       case 'status-debts':
-        $debts = ddbasic_account_count_debts();
-        if (!empty($debts)) {
+        $debts = ding_debt_count();
+        if ($debts) {
           $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $debts . '</span>';
         }
         break;
@@ -606,8 +606,8 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
           // Fill the notification icon, in following priority.
           // Debts, overdue, ready reservations, notifications.
           $notification = array();
-          $debts = ddbasic_account_count_debts();
-          if (!empty($debts)) {
+          $debts = ding_debt_count();
+          if ($debts) {
             $notification = array(
               'count' => $debts,
               'type' => 'warning',

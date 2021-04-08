@@ -866,6 +866,8 @@ function ding_user_frontend_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'tab',
@@ -1104,6 +1106,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'attachment_2_1' => NULL,
       'attachment_2_2' => NULL,
       'attachment_1_1' => NULL,
+      'top_banner' => NULL,
     ),
   );
   $display->cache = array();
@@ -1160,50 +1163,6 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->uuid = 'e2022ee9-76c6-459f-a099-31e801455557';
     $display->content['new-e2022ee9-76c6-459f-a099-31e801455557'] = $pane;
     $display->panels['main_content'][0] = 'new-e2022ee9-76c6-459f-a099-31e801455557';
-    $pane = new stdClass();
-    $pane->pid = 'new-a02ec119-af14-4c5c-bdf3-f742b32486a7';
-    $pane->panel = 'main_content';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_dibs-dibs-terms-of-sale';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = '';
-    $pane->uuid = 'a02ec119-af14-4c5c-bdf3-f742b32486a7';
-    $display->content['new-a02ec119-af14-4c5c-bdf3-f742b32486a7'] = $pane;
-    $display->panels['main_content'][1] = 'new-a02ec119-af14-4c5c-bdf3-f742b32486a7';
-    $pane = new stdClass();
-    $pane->pid = 'new-6de0581e-da74-4598-8800-395eee76efdd';
-    $pane->panel = 'main_content';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_dibs-dibs-cards-supported';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = '';
-    $pane->uuid = '6de0581e-da74-4598-8800-395eee76efdd';
-    $display->content['new-6de0581e-da74-4598-8800-395eee76efdd'] = $pane;
-    $display->panels['main_content'][2] = 'new-6de0581e-da74-4598-8800-395eee76efdd';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-e2022ee9-76c6-459f-a099-31e801455557';
   $handler->conf['display'] = $display;
@@ -1233,6 +1192,8 @@ function ding_user_frontend_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'tab',

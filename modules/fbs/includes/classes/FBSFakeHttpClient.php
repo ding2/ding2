@@ -170,7 +170,7 @@ class FBSFakeHttpClient implements HttpClient {
   private function getFees($request, $vars) {
     // No fees.
     $response = new Response(new Stream('php://memory', 'w'));
-    $response->getBody()->write(json_encode(array()));
+    $response->getBody()->write(file_get_contents(__DIR__ . '/FeesResponse.json'));
     return $response;
   }
 

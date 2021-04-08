@@ -32,9 +32,87 @@ function ding_debt_ding_provider_user() {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function ding_debt_permission() {
+  return [
+    'administer debts settings' => [
+      'title' => t('administer debts settings'),
+    ],
+  ];
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_debt_menu() {
+  $items['admin/config/ding/payment'] = [
+    'title' => 'Payment',
+    'description' => 'Configure the payment options.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ding_debt_settings_form'],
+    'access arguments' => ['administer debts settings'],
+    'file' => 'ding_debt.admin.inc',
+  ];
+
+  return $items;
+}
+
+/**
+ * Get the total amount of debts the user has.
+ */
+function ding_debt_count($account = NULL) {
+  $debts = ding_provider_invoke('debt', 'list', $account);
+
+  if (variable_get('ding_debt_enable_internal', TRUE) && variable_get('ding_debt_enable_external', TRUE)) {
+    return count($debts);
+  }
+
+  if (variable_get('ding_debt_enable_internal', TRUE)) {
+    return count(array_filter($debts, '_ding_debt_filter_payable'));
+  }
+
+  return count(array_filter($debts, '_ding_debt_filter_nonpayable'));
+}
+
+/**
  * Callback for successful payment transaction.
  */
 function ding_debt_payment_callback($transaction) {
   return ding_provider_invoke('debt', 'payment_received', $transaction['payment_price'], $transaction['params']['debt_ids'], $transaction['payment_order_id']);
 }
 
+/**
+ * Default value for payment introtext.
+ */
+function _ding_debt_introtext_default() {
+  return [
+    'value' => '<p>Gebyrer og erstatninger overgår til et nyt system, hvor betalingen sker gennem løsningen Mit betalingsoverblik.</p>',
+    'format' => 'ding_wysiwyg',
+  ];
+}
+
+/**
+ * Default value for external payment extra_information.
+ */
+function _ding_debt_external_extra_information_default() {
+  return [
+    'value' => '<p><strong>Bemærk</strong>: Betalte gebyrer registreres først op til 24 timer efter din indbetaling.</p>
+    <p>På Mit Betalingsoverblik kan du altid se en opdateret status på dine betalinger.</p>',
+    'format' => 'ding_wysiwyg',
+  ];
+}
+
+/**
+ * Filter callback function.
+ */
+function _ding_debt_filter_payable($debt) {
+  return $debt->payable;
+}
+
+/**
+ * Filter callback function.
+ */
+function _ding_debt_filter_nonpayable($debt) {
+  return !$debt->payable;
+}
