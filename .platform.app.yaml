@@ -113,6 +113,7 @@ hooks:
     drush -y updatedb
     drush secure-permissions-rebuild
     drush css-generate
+    drush pm-enable ding_config_import
     drush cc all
 
   # The configuration of scheduled execution.
