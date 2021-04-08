@@ -19,6 +19,13 @@ function ting_smart_search_menu() {
     'access arguments' => array('configure smart search'),
     'file' => 'includes/ting_smart_search.admin.inc',
   );
+
+  $items['ding/smartsearch'] = array(
+    'title' => 'Ting smart search records',
+    'page callback' => 'ting_smart_search_records',
+    'access arguments' => array('access content'),
+  );
+
   return $items;
 }
 
@@ -548,4 +555,52 @@ function ting_smart_search_search_stats_importer($search_data) {
   catch (Exception $e) {
     watchdog_exception('ting_smart_search', $e, 'Importing search feed data to database failed');
   }
+}
+
+/**
+ * Exposes smart search records as a json array.
+ */
+function ting_smart_search_records() {
+  $data = ting_smart_search_get_records();
+  if (isset($data)) {
+    drupal_json_output($data);
+  }
+}
+
+/**
+ * Gets the active smart search records
+ */
+function ting_smart_search_get_records() {
+  $data = null;
+  $ssquery = new EntityFieldQuery();
+
+  // export only active smart search records
+  $ssquery->entityCondition('entity_type', 'ting_type')
+    ->entityCondition('bundle', 'smart_search_string')
+    ->fieldCondition('field_status', 'value', 'active', '=');
+
+  $result = $ssquery->execute();
+
+  if (isset($result['ting_type'])) {
+    $string_items_nids = array_keys($result['ting_type']);
+
+    $data = entity_load('ting_type', $string_items_nids);
+
+    foreach ($string_items_nids as $string_item_nid) {
+      $item_boostvalues = $data[$string_item_nid]->field_custom_boost_values_p;
+      if (!empty($item_boostvalues)) {
+        foreach ($item_boostvalues[LANGUAGE_NONE] as $key => $field_collection_id) {
+          $fce_fields = array();
+          $field_collection_entity = entity_load('paragraphs_item', $field_collection_id);
+          $fce_fields = array(
+            'field_field_boost_value' => $field_collection_entity[$field_collection_id['value']]->field_field_boost_value,
+            'field_field_boost_weight' => $field_collection_entity[$field_collection_id['value']]->field_field_boost_weight,
+            'field_field_name' => $field_collection_entity[$field_collection_id['value']]->field_field_name,
+          );
+          $data[$string_item_nid]->field_custom_boost_values_p[LANGUAGE_NONE][$key] = $fce_fields;
+        }
+      }
+    }
+  }
+  return $data;
 }
