@@ -244,7 +244,7 @@ projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "3.0"
+projects[media_youtube][version] = "3.10"
 
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.6"
