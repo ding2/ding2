@@ -79,12 +79,16 @@ function ding_sections_views_default_views() {
       'fallback_style' => 'ding_list_large',
     ),
   );
-  /* Field: Taxonomy term: Term description */
-  $handler->display->display_options['fields']['description']['id'] = 'description';
-  $handler->display->display_options['fields']['description']['table'] = 'taxonomy_term_data';
-  $handler->display->display_options['fields']['description']['field'] = 'description';
-  $handler->display->display_options['fields']['description']['label'] = '';
-  $handler->display->display_options['fields']['description']['element_label_colon'] = FALSE;
+  /* Field: Taxonomy term: Teaser */
+  $handler->display->display_options['fields']['field_ding_sections_teaser']['id'] = 'field_ding_sections_teaser';
+  $handler->display->display_options['fields']['field_ding_sections_teaser']['table'] = 'field_data_field_ding_sections_teaser';
+  $handler->display->display_options['fields']['field_ding_sections_teaser']['field'] = 'field_ding_sections_teaser';
+  $handler->display->display_options['fields']['field_ding_sections_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_sections_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_sections_teaser']['type'] = 'text_trimmed';
+  $handler->display->display_options['fields']['field_ding_sections_teaser']['settings'] = array(
+    'trim_length' => '600',
+  );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Taxonomy term: Term ID */
