@@ -25,7 +25,7 @@
     </div>
     <div class="next-prev">
       <a class="prev" href="#" aria-label="<?php print t('Previous page'); ?>"><span><?php print t('prev'); ?></span></a>
-      <a class="next" href="#" aria-label="<?php print t('Previous page'); ?>"><span><?php print t('next'); ?></span></a>
+      <a class="next" href="#" aria-label="<?php print t('Next page'); ?>"><span><?php print t('next'); ?></span></a>
     </div>
     <div class="pagination"></div>
     <?php if (!empty($links)): ?>
