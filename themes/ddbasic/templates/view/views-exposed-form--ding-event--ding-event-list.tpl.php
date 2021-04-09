@@ -35,9 +35,20 @@
     <?php foreach ($widgets as $id => $widget): ?>
       <div id="<?php print $widget->id; ?>-wrapper" class="views-exposed-widget views-widget-<?php print $id; ?>">
         <?php if (!empty($widget->label)): ?>
-          <label for="<?php print $widget->id; ?>" id="<?php print $widget->id; ?>">
-            <?php print $widget->label; ?>
-          </label>
+          <?php if($widget->id == 'edit-date') : ?>
+            <?php // Date fields use sub input fields for "from" and "to" so they can't use $widget->id as target. ?>
+            <label for="edit-date-value-datepicker-popup-0" id="<?php print $widget->id; ?>">
+              <?php print $widget->label; ?>
+            </label>
+          <?php elseif ($widget->id == 'edit-field-ding-event-date-value-1'): ?>
+            <label for="edit-field-ding-event-date-value-1-value-datepicker-popup-0" id="<?php print $widget->id; ?>">
+              <?php print $widget->label; ?>
+            </label>
+          <?php else : ?>
+            <label for="<?php print $widget->id; ?>" id="<?php print $widget->id; ?>">
+              <?php print $widget->label; ?>
+            </label>
+          <?php endif; ?>
         <?php endif; ?>
         <?php if (!empty($widget->operator)): ?>
           <div class="views-operator">
