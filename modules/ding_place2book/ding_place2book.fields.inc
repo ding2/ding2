@@ -59,9 +59,12 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
     // Otherwise this an existing p2b-synced entity; try to fetch the event.
     else {
       list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
-      if ($event = ding_place2book_get_event($event_maker_id, $event_id)) {
+      try {
+        list($event, $prices) = ding_place2book_get_event($event_maker_id, $event_id);
         $meta_data = isset($event->meta_data) ? $event->meta_data : NULL;
-        $prices = $event->prices;
+      }
+      catch (Exception $ex) {
+        drupal_set_message(t('Error appeared on getting data from p2b.'), 'error');
       }
     }
   }

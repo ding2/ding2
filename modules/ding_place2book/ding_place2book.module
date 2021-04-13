@@ -401,15 +401,15 @@ function ding_place2book_clone_node_alter(&$node, $context) {
   // Need this when setting field later on.
   $field_language = field_language('node', $node, 'field_place2book');
 
-  // Fetch the p2b-event and prices associated with the original node. We need
-  // the data to replicate p2b-event on the cloned node.
-  if (!$event = ding_place2book_get_event($field_place2book['event_maker_id'], $original_event_id)) {
+  try {
+    list($event, $prices) = ding_place2book_get_event($field_place2book['event_maker_id'], $original_event_id);
+  }
+  catch (Exception $ex) {
     // If can't get the data from p2b API we can't setup the clone perfectly. At
     // least we removed the event_id, so just return now.
     $node->field_place2book[$field_language][0] = $field_place2book;
     return;
   }
-  $prices = $event->prices;
 
   // In prepopulate the node form is populated without saving cloned node first,
   // so we need to clone the p2b event and prices and pass them along to the
@@ -457,13 +457,15 @@ function ding_place2book_replicate_field_ding_p2b(&$replica, $entity_type, $fiel
   // Need this when setting field later on.
   $field_language = field_language($entity_type, $replica, $field_name);
 
-  if (!$event = ding_place2book_get_event($field_place2book['event_maker_id'], $original_event_id)) {
+  try {
+    list($event, $prices) = ding_place2book_get_event($field_place2book['event_maker_id'], $original_event_id);
+  }
+  catch (Exception $ex) {
     // If can't get the data from p2b API we can't setup the clone perfectly. At
     // least we removed the event_id, so just return now.
     $node->{$field_name}[$field_language][0] = $field_place2book;
     return;
   }
-  $prices = $event->prices;
 
   // Emulate widget form submission. Reset the prices sale begin/end dates
   // first to enfore "the begin now - end at event start"-default. This is the
@@ -531,8 +533,9 @@ function ding_place2book_instance() {
 /**
  * Helper function to fetch event with prices from the p2b API.
  *
- * Handles exceptions and API errors, and uses a static cache to avoid fetching
- * the same event and prices more than once in the same the request.
+ * Uses a static cache to avoid fetching the same event and prices more than
+ * once in the same the request. If API-code throws exception a generic watchdog
+ * exception will be logged, but exception will be re-thrown.
  *
  * @param int $event_maker_id
  *   The ID of the event maker for the event.
@@ -542,37 +545,39 @@ function ding_place2book_instance() {
  *   Whether to bypass static cache and update it with fresh data from the API.
  *   Default to FALSE.
  *
- * @return stdClass
- *   An object representing the event from p2b API. An array of prices for the
- *   event (empty if no prices) can be accessed with "prices" property. FALSE if
- *   event wasn't found in p2b or there was errors communicating with the API.
+ * @return array
+ *   An array with an object representing the p2b event as first entry and an
+ *   array of the event's prices as second entry. If the event doesn't have any
+ *   prices the second entry will be an empty array.
+ *
+ * @throws \Exception
+ *   If API returned unexpected response code or something went wrong with
+ *   the request.
  */
 function ding_place2book_get_event($event_maker_id, $event_id, $reset = FALSE) {
-  $events = &drupal_static(__FUNCTION__, []);
+  $cache = &drupal_static(__FUNCTION__, []);
 
   $cid = "$event_maker_id:$event_id";
-  if (isset($events[$cid]) && !$reset) {
-    return $events[$cid];
+  if (isset($cache[$cid]) && !$reset) {
+    return $cache[$cid];
   }
 
   try {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);
-
-    $event->prices = [];
-    // Avoid fetching prices for non-passive events.
+    $prices = [];
+    // Avoid fetching prices for passive events.
     if (empty($event->passive)) {
-      $event->prices = $p2b->getPrices($event_maker_id, $event_id);
+      $prices = $p2b->getPrices($event_maker_id, $event_id);
     }
-
-    $events[$cid] = $event;
-
-    return $event;
+    $cache[$cid] = [ $event, $prices ];
   }
   catch (Exception $ex) {
     watchdog_exception('ding_place2book', $ex);
-    return FALSE;
+    throw $ex;
   }
+
+  return $cache[$cid];
 }
 
 /**
