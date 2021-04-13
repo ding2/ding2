@@ -468,3 +468,24 @@ function ding_event_form_ding_event_node_form_alter(&$form, &$form_state) {
     'data' => drupal_get_path('module', 'ding_event') . '/js/ding_event_date_repeat_form.js',
   );
 }
+
+/**
+ * Implements hook_repeating_date_update().
+ */
+function ding_event_repeating_date_update($date_entity, $updated_entity, $entity_type = 'node') {
+  if ($entity_type != 'node' || $date_entity->type != 'ding_event') {
+    return;
+  }
+
+  $date_entity_wrapper = entity_metadata_wrapper($entity_type, $date_entity);
+  $updated_entity_wrapper = entity_metadata_wrapper($entity_type, $updated_entity);
+
+  // Date repeat entity module takes care of updating title. We also update
+  // ding_event lead and body, but administrators can always use VBO for mass
+  // updates of nodes, so this is just a convenience.
+  // See: date_repeat_entity_repeating_date_update().
+  $updated_lead = $updated_entity_wrapper->field_ding_event_lead->value();
+  $updated_body = $updated_entity_wrapper->field_ding_event_body->value();
+  $date_entity_wrapper->field_ding_event_lead->set($updated_lead);
+  $date_entity_wrapper->field_ding_event_body->set($updated_body);
+}
