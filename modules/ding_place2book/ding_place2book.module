@@ -481,6 +481,33 @@ function ding_place2book_replicate_field_ding_p2b(&$replica, $entity_type, $fiel
 }
 
 /**
+ * Implements hook_repeating_date_update().
+ */
+function ding_place2book_repeating_date_update($date_entity, $updated_entity, $entity_type = 'node') {
+  if ($entity_type != 'node') {
+    return;
+  }
+
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($date_entity)) {
+    return;
+  }
+
+  list($event_id, $event_maker_id) = array_values($field_place2book);
+  try {
+    list($event, $prices) = ding_place2book_get_event($event_maker_id, $event_id);
+  }
+  catch (Exception $ex) {
+    // We can't emulate sumission without event, so just return here. No updates
+    // of $date_entity's p2b event will be performed.
+    return;
+  }
+
+  $field_place2book = _ding_place2book_emulate_widget_form_submission($event, $prices, $field_place2book);
+  $field_language = field_language('node', $date_entity, 'field_place2book');
+  $date_entity->field_place2book[$field_language][0] = $field_place2book;
+}
+
+/**
  * Helper function to emulate ding_p2b field widget form submission.
  *
  * @param stdClass $event
@@ -505,6 +532,7 @@ function _ding_place2book_emulate_widget_form_submission(stdClass $event, array 
       'value' => (string) $price->value,
       'sale_begin_at' => !empty($price->sale_begin_at) ? date('Y-m-d H:i:s', strtotime($price->sale_begin_at)) : '',
       'sale_end_at' => !empty($price->sale_end_at) ? date('Y-m-d H:i:s', strtotime($price->sale_end_at)) : '',
+      'original_price' => isset($price->id) ? $price : NULL,
     ];
   }, $prices);
   // Need to set this otherwise event will not be sync'ed by our presave
