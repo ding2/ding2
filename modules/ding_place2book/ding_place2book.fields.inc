@@ -608,7 +608,9 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
     $p2b = ding_place2book_instance();
     // Collect data for synchronizing event.
     $prices = $settings['prices_wrapper']['prices'];
-    $original_event = $settings['original_event'];
+    if (!$is_new) {
+      $original_event = $settings['original_event'];
+    }
     unset($settings['prices_wrapper']);
     unset($settings['original_event']);
     unset($settings['synchronize']);
