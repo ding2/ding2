@@ -415,6 +415,8 @@ projects[tipsy][version] = "1.0-rc1"
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
+; Fixes Field UI field's description translation, https://www.drupal.org/node/2474403
+projects[token][patch][] = "https://www.drupal.org/files/issues/token-field_description_overwritten-2474403-12-D7.patch"
 
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
