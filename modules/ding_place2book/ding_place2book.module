@@ -590,7 +590,7 @@ function ding_place2book_instance() {
  *   If API returned unexpected response code or something went wrong with
  *   the request.
  */
-function ding_place2book_get_event(int $event_maker_id, int $event_id, bool $reset = FALSE) {
+function ding_place2book_get_event(int $event_maker_id, int $event_id, $reset = FALSE) {
   $cache = &drupal_static(__FUNCTION__, []);
 
   $cid = "$event_maker_id:$event_id";
