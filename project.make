@@ -63,7 +63,7 @@ projects[date][patch][] = "https://www.drupal.org/files/issues/2019-01-16/284336
 projects[date_repeat_entity][subdir] = "contrib"
 projects[date_repeat_entity][version] = "2.0"
 ; Fix fatal error on date repeat update: https://www.drupal.org/project/date_repeat_entity/issues/2651300
-projects[date_repeat_entity][patch][] = "patches/date_repeat_entity_fix_update_error-707484.patch"
+projects[date_repeat_entity][patch][] = "https://www.drupal.org/files/issues/2021-04-15/date_repeat_entity_fix_update_error-707484.patch"
 
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
