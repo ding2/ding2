@@ -104,9 +104,9 @@
       text-align: center;
       margin-top: 15px;
       padding: 12px 25px 7px 25px;
-      background-color: #000;
       border-radius: 5px;
       color: $color-text-on-secondary;
+      background-color: $color-secondary;
 
       &:hover {
         color: $color-text-on-secondary;
