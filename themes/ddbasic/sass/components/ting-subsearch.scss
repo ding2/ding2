@@ -107,9 +107,11 @@
       border-radius: 5px;
       color: $color-text-on-secondary;
       background-color: $color-secondary;
+      transition: background-color .3s cubic-bezier(.165,.84,.44,1),color .3s cubic-bezier(.165,.84,.44,1);
 
       &:hover {
-        color: $color-text-on-secondary;
+        background-color: $grey-dark;
+        color: $white;
       }
     }
   }
