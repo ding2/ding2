@@ -35,7 +35,7 @@
     <?php foreach ($widgets as $id => $widget): ?>
       <div id="<?php print $widget->id; ?>-wrapper" class="views-exposed-widget views-widget-<?php print $id; ?>">
         <?php if (!empty($widget->label)): ?>
-          <?php if($widget->id == 'edit-date') : ?>
+          <?php if ($widget->id == 'edit-date') : ?>
             <?php
             // Date fields use sub input fields for "from" and "to" so they can't use $widget->id as target.
             ?>
