@@ -279,7 +279,7 @@ function ding_event_update_7010() {
   $data['settings']['repeat'] = TRUE;
   $data = serialize($data);
 
-  $result = db_update('field_config')
+  db_update('field_config')
     ->fields(array('data' => $data))
     ->condition('field_name', 'field_ding_event_date')
     ->execute();
