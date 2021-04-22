@@ -46,11 +46,17 @@ function ding_mobilesearch_uninstall() {
     variable_del($key);
     variable_del($key . '__trigger');
     variable_del($key . '__plugin');
+
+    variable_del('flag_push_to_mongo_default_' . $type);
   }
   variable_del('mobilesearch_rest_url');
   variable_del('mobilesearch_rest_debug');
   variable_del('mobilesearch_rest_agency_id');
   variable_del('mobilesearch_rest_key');
+
+  db_delete('flags')
+    ->condition('name', 'push_to_mongo')
+    ->execute();
 }
 
 /**
