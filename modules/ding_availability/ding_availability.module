@@ -415,22 +415,15 @@ function theme_ding_holdings_periodical($variables) {
   // Remember if this periodical was reservable in any of the issues.
   $reservable = FALSE;
 
-  // The provider is expected to return issues as arrays of volumes, where each
-  // volume can contain several issues. We can't know how the provider choose to
-  // key and order these arrays, but we would like them to appear with latest
-  // volumes and issues first.
-  // So we reverse key sort both the volumes array and the nested issues arrays,
-  // and since we can't know wether we're dealing with strings, numbers or a
-  // hybrid of both, we use PHP's natural sort to ensure that the periodical
-  // issues is presented in a correct order.
-  krsort($variables['issues'], SORT_NATURAL);
+  // Sort the top level volume of issues by key.
+  ding_availability_sort_periodical_issues($variables['issues']);
 
   foreach ($variables['issues'] as $volume => $issues) {
     $iss = array();
     $i = 0;
 
-    // Sort these volume issues in natural order. See comment above.
-    krsort($issues, SORT_NATURAL);
+    // Sort the issues in this volume by key.
+    ding_availability_sort_periodical_issues($issues);
 
     foreach ($issues as $key => $availability) {
       $issue = $key;
@@ -520,6 +513,54 @@ function theme_ding_holdings_periodical($variables) {
   }
 
   return $prefix . theme('item_list', array('items' => $items, 'attributes' => array('class' => 'ding-periodical-issues')));
+}
+
+/**
+ * Sort an array of issues (or volume of issues) by their key.
+ *
+ * The provider is expected to return issues as arrays of volumes, where each
+ * volume can contain several issues. We can't know how the provider choose to
+ * key and order these arrays, but we would like them to appear with latest
+ * volumes and issues first.
+ *
+ * @param array $issues
+ *   Array of issues/volumes of issues that needs to be sorted by key.
+ */
+function ding_availability_sort_periodical_issues(&$issues) {
+  $month_names = array_map('drupal_strtolower', [
+    t('January'), t('Jan'), 'January', 'Jan',
+    t('February'), t('Feb'), 'February', 'Feb',
+    t('March'), t('Mar'), 'March', 'Mar',
+    t('April'), t('Apr'), 'April', 'Apr',
+    t('May'), 'May',
+    t('June'), t('Jun'), 'June', 'Jun',
+    t('July'), t('Jul'), 'July', 'Jul',
+    t('August'), t('Aug'), 'August', 'Aug',
+    t('September'), t('Sep'), 'September', 'Sep',
+    t('October'), t('Oct'), 'October', 'Oct',
+    t('November'), t('November'), 'November', 'Nov',
+    t('December'), t('Dec'), 'December', 'Dec',
+  ]);
+  $issues_keyed_by_month_name = array_filter($issues, function ($issue_key) use ($month_names) {
+    return in_array(drupal_strtolower($issue_key), $month_names);
+  }, ARRAY_FILTER_USE_KEY);
+
+  // Only if every issue/volume is keyed by month name do we sort by it.
+  if (count($issues_keyed_by_month_name) === count($issues)) {
+    // Flip it now to get easier access to month names' ordinal values.
+    $month_names = array_flip($month_names);
+    uksort($issues, function($a, $b) use ($month_names) {
+      // Notice we reverse comparison since we want later months to come first.
+      return $month_names[drupal_strtolower($b)] - $month_names[drupal_strtolower($a)];
+    });
+  }
+  else {
+    // Otherwise just use reverse key sort. Since we can't know wether we're
+    // dealing with strings, numbers or a hybrid of both, we use PHP's natural
+    // sort to ensure that the periodical issues is presented in a meaningful
+    // order regardless of key type.
+    krsort($issues, SORT_NATURAL);
+  }
 }
 
 /**
