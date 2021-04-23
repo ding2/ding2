@@ -54,9 +54,8 @@ function ding_mobilesearch_uninstall() {
   variable_del('mobilesearch_rest_agency_id');
   variable_del('mobilesearch_rest_key');
 
-  db_delete('flags')
-    ->condition('name', 'push_to_mongo')
-    ->execute();
+  $flag = flag_load('push_to_mongo');
+  $flag->delete();
 }
 
 /**
