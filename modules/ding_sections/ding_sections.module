@@ -116,6 +116,7 @@ function ding_sections_form_taxonomy_form_term_alter(&$form, &$form_state) {
 
   $form['section_tabs'] = array(
     '#type' => 'vertical_tabs',
+    '#weight' => 100,
   );
   $form['relations']['#access'] = FALSE;
 
@@ -124,7 +125,6 @@ function ding_sections_form_taxonomy_form_term_alter(&$form, &$form_state) {
   if (is_array($tabs)) {
     $form += $tabs;
   }
-
 }
 
 /**

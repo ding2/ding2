@@ -1,9 +1,9 @@
 name = Ding Sections
 description = Provides integration of content in the sections system.
+core = 7.x
 package = Ding!
-core = "7.x"
-configure = admin/config/section/content
 dependencies[] = views
+configure = admin/config/section/content
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[views_view][] = ding_sections

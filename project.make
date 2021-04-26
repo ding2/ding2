@@ -247,7 +247,7 @@ projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "3.0"
+projects[media_youtube][version] = "3.10"
 
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.6"
@@ -486,6 +486,9 @@ projects[watchdog_filtering][version] = "1.3"
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.10"
 
+projects[webform_purge][subdir] = "contrib"
+projects[webform_purge][version] = "1.3"
+
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
@@ -683,3 +686,9 @@ libraries[fabric][download][type] = "get"
 libraries[fabric][download][url] = https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js
 libraries[fabric][directory_name] = "fabric"
 libraries[fabric][destination] = "libraries"
+
+; Library used by Configuration import (older version to be able to run on PHP 5.6).
+libraries[yaml][download][type] = "get"
+libraries[yaml][download][url] = https://github.com/symfony/yaml/archive/v3.4.47.tar.gz
+libraries[yaml][directory_name] = "yaml"
+libraries[yaml][destination] = "libraries"

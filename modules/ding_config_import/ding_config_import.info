@@ -1,0 +1,6 @@
+name = Ding Config Import
+description = Import configuration from YAML file
+core = 7.x
+package = Ding!
+hidden = TRUE
+dependencies[] = ding_libs

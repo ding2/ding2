@@ -47,4 +47,40 @@
     margin: 10px 0;
     white-space: normal;
   }
+
+  h2 {
+    margin-top: 2em;
+  }
+
+  h3 {
+    margin: 20px auto;
+  }
+
+  .pay-buttons a {
+    // Apparently there's no class or mixin for creating a button that
+    // looks like a submit button, so we'll have to do it ourselves.
+    @include appearance(none);
+    @include font('base');
+    @include transition(background-color $speed $ease);
+
+    display: block;
+    height: $element-height;
+    padding: 20px 15px 14px;
+    border: none;
+    border-radius: $round-corner;
+    color: $white;
+    background-color: $charcoal;
+    line-height: 1em;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $grey-dark;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 10px $grey-medium;
+    }
+  }
 }

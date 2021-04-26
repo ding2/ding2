@@ -1506,5 +1506,33 @@ temaer/*';
   $strongarm->value = '3';
   $export['varnish_version'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'webform_purge_all_submissions';
+  $strongarm->value = 1;
+  $export['webform_purge_all_submissions'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'webform_purge_days_to_retain';
+  $strongarm->value = '180';
+  $export['webform_purge_days_to_retain'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'webform_purge_enabled';
+  $strongarm->value = 1;
+  $export['webform_purge_enabled'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'webform_purge_run_once';
+  $strongarm->value = 1;
+  $export['webform_purge_run_once'] = $strongarm;
+
   return $export;
 }
