@@ -262,7 +262,7 @@ function ding_staff_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'ting_cover_small',
+          'image_style' => 'ding_list_small',
         ),
         'type' => 'image',
         'weight' => 2,

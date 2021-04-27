@@ -58,7 +58,6 @@
             });
 
             $(document).trigger('ding_availability_update_holdings');
-            Drupal.attachBehaviors(context);
           },
           error: function () {
             $('div.loader').remove();

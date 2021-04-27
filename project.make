@@ -385,14 +385,12 @@ projects[rules][patch][] = "https://www.drupal.org/files/issues/2018-03-13/rules
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
 
-; Patched with "Secure Permissions fails with features and multilingual"
 projects[secure_permissions][type] = "module"
 projects[secure_permissions][subdir] = "contrib"
 projects[secure_permissions][download][type] = "git"
 projects[secure_permissions][download][url] = "http://git.drupal.org/project/secure_permissions.git"
-projects[secure_permissions][download][revision] = "ef5eec5"
-projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-features-multilingual-2.patch"
-projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
+projects[secure_permissions][download][revision] = "df21b5c"
+projects[secure_permissions][patch][] = "https://www.drupal.org/files/issues/2021-02-18/secure_permissions-dont_disable_all_permissions-2499607-5.patch"
 
 projects[services][subdir] = "contrib"
 projects[services][version] = "3.24"
@@ -428,6 +426,8 @@ projects[tipsy][version] = "1.0-rc1"
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
+; Fixes Field UI field's description translation, https://www.drupal.org/node/2474403
+projects[token][patch][] = "https://www.drupal.org/files/issues/token-field_description_overwritten-2474403-12-D7.patch"
 
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
