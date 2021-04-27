@@ -6,17 +6,26 @@
  */
 
 /**
- * Implements hook_install().
- */
-function ding_webtrekk_install() {
-  ding_webtrekk_whitelist_opt_out_cookie();
-}
-
-/**
  * Whitelist webtrekk opt-out cookie in EU cookie compliance settings.
  */
 function ding_webtrekk_update_7001() {
   ding_webtrekk_whitelist_opt_out_cookie();
+}
+
+/**
+ * Remove webtrekk opt-out cookie from EU cookie compliance whitelist.
+ */
+function ding_webtrekk_update_7002() {
+  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da', []);
+  if (!empty($ecc_settings['whitelisted_cookies'])) {
+    $whitelisted_cookies = explode("\r\n", $ecc_settings['whitelisted_cookies']);
+    if (($key = array_search('webtrekkOptOut', $whitelisted_cookies)) !== false) {
+      unset($whitelisted_cookies[$key]);
+      $whitelisted_cookies = implode("\r\n", $whitelisted_cookies);
+      $ecc_settings['whitelisted_cookies'] = $whitelisted_cookies;
+      i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
+    }
+  }
 }
 
 /**
