@@ -9,6 +9,8 @@ use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
 use DingSEO\TingObjectSchemaWrapperInterface;
 use Ting\TingObjectInterface;
 
+include_once 'ding_seo.features.inc';
+
 /**
  * Implements hook_menu().
  */

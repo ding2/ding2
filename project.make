@@ -512,6 +512,9 @@ projects[ask_vopros][download][tag] = "1.5"
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
+projects[xmlsitemap][subdir] = "contrib"
+projects[xmlsitemap][version] = "2.6"
+
 ; Libraries
 ; For ding_libs.
 libraries[bpi-client][destination] = "modules/bpi/lib"
