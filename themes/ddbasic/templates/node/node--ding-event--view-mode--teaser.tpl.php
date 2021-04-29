@@ -96,7 +96,7 @@
         </div>
         <div class="date"><?php print $event_date; ?></div>
         <div class="title-and-lead">
-          <h3  id="<?php print 'link-id-' . $node->nid; ?>" class="title"><?php print $title; ?></h3>
+          <h3 id="<?php print 'link-id-' . $node->nid; ?>" class="title"><?php print $title; ?></h3>
           <?php print render($content['field_ding_event_lead']); ?>
         </div>
         <div class="info-bottom">
