@@ -6,6 +6,7 @@ project = ding_content
 dependencies[] = clone
 dependencies[] = ctools
 dependencies[] = ctools_custom_content
+dependencies[] = ding_ipe_filter
 dependencies[] = ding_page
 dependencies[] = entity
 dependencies[] = features

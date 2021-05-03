@@ -1,0 +1,179 @@
+<?php
+
+/**
+ * @file
+ * Implementation of simple form to upload YAML file.
+ */
+
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
+
+/**
+ * Implements hook_menu().
+ */
+function ding_config_import_menu() {
+  $item = [];
+
+  $item['admin/config/ding/config_import'] = [
+    'title' => 'Upload configuration',
+    'description' => 'Upload and import configuration from YAML.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_config_import_admin_form'),
+    'access arguments' => array('administer site configuration'),
+  ];
+
+  return $item;
+}
+
+/**
+ * Administration form for yaml file upload.
+ */
+function ding_config_import_admin_form() {
+  $url = drupal_get_path('module', 'ding_config_import') . '/example.config.yml';
+
+  $form = [
+    'wrapper' => [
+      '#type' => 'fieldset',
+      '#title' => t('Configuration upload'),
+      '#description' => t('This module comes with an <a href="/@url">example file</a> that can be used as an template for the upload. Note that enabled/disable modules may timeout, if it takes longer than the web-servers configuration allows.', ['@url' => $url]),
+    ],
+  ];
+
+  $form['wrapper']['upload'] = [
+    '#title' => t('Upload configurations file (yml)'),
+    '#type'  => 'file',
+  ];
+
+  $form['submit_upload'] = array(
+    '#type' => 'submit',
+    '#value' => t('Upload'),
+  );
+
+  return $form;
+}
+
+/**
+ * Form submit handler.
+ */
+function ding_config_import_admin_form_submit($form, &$form_state) {
+  $type = 'status';
+  $msg = t('The configuration options have been saved. You may need to clear cache to rebuild things if you have enabled/disabled modules etc.');
+  $file = $_FILES['files']['tmp_name']['upload'];
+
+  if (libraries_load('yaml')) {
+    try {
+      $values = Yaml::parseFile($file);
+      if (is_array($values)) {
+        foreach ($values as $key => $data) {
+          switch (mb_strtolower($key)) {
+            case "settings":
+              _ding_config_import_set_values($data);
+              break;
+
+            case "modules":
+              _ding_config_import_modules($data);
+              break;
+
+            default:
+              $type = 'error';
+              $msg = t('Failed to use the root element: %key', ['%key' => $key]);
+              break;
+          }
+        }
+      }
+    }
+    catch (ParseException $e) {
+      $type = 'error';
+      $msg = t('Error parsing YAML file: %msg', ['%msg' => $e->getMessage()]);
+    }
+  }
+  else {
+    $type = 'error';
+    $msg = t('Fail to load YAML parsing library. Please contact the system administrator.');
+  }
+
+  drupal_set_message($msg, $type);
+
+  // Ensure tmp file is removed. It may contain secrets.
+  @unlink($file);
+}
+
+/**
+ * Helper function to dis-/en-able modules.
+ *
+ * @param array $modules
+ *   Arrays of modules to disable or enable keyed by "disable" or "enable".
+ */
+function _ding_config_import_modules(array $modules) {
+  if (!empty($modules['disable'])) {
+    // Disable modules.
+    module_disable($modules['disable']);
+  }
+
+  if (!empty($modules['enable'])) {
+    // Enabled modules.
+    if (!module_enable($modules['enable'])) {
+      // Can not throw an exception here as that would stop the other
+      // changes from being applied. So use set message directly here to
+      // notify the use that module enable failed.
+      drupal_set_message(t('Not all modules were enabled check the name and the drupal logs for errors.'), 'error');
+    }
+  }
+}
+
+/**
+ * Recursive walk the array using the key as prefix.
+ *
+ * @param array $values
+ *   The values.
+ * @param string $prefix
+ *   The prefix, array key form previous recursion.
+ */
+function _ding_config_import_set_values(array $values, $prefix = '') {
+  foreach ($values as $key => $value) {
+    if (is_array($value) && _ding_config_import_is_associative($value)) {
+      if (!isset($value['_array']) || $value['_array'] != 1) {
+        _ding_config_import_set_values($value, _ding_config_import_prefix($prefix, $key));
+      }
+      else {
+        unset($value['_array']);
+        $key = _ding_config_import_prefix($prefix, $key);
+        variable_set($key, $value);
+      }
+    }
+    else {
+      $key = _ding_config_import_prefix($prefix, $key);
+      variable_set($key, $value);
+    }
+  }
+}
+
+/**
+ * Help function to prefix key.
+ *
+ * @param string $prefix
+ *   The prefix.
+ * @param string $key
+ *   The key to suffix the prefix.
+ *
+ * @return string
+ *   The key prefixed with prefix if prefix was not empty.
+ */
+function _ding_config_import_prefix($prefix, $key) {
+  return empty($prefix) ? $key : $prefix . '_' . $key;
+}
+
+/**
+ * Helper function to detect if array is associative.
+ *
+ * This is done by detecting if the array has any keys that is a string.
+ *
+ * @param array $array
+ *   The array to test.
+ *
+ * @return bool
+ *   TRUE if associative else FALSE.
+ */
+function _ding_config_import_is_associative(array $array) {
+  return count(array_filter(array_keys($array), 'is_string')) > 0;
+}

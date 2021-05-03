@@ -33,6 +33,8 @@ $plugin = array(
 function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
   $block = new stdClass();
 
+  $block->title = t('Latest');
+
   // Prepare classes for widget container.
   $classes = array();
   $classes[] = 'ding_nodelist';

@@ -101,13 +101,16 @@ function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', 
     $data = [
       'material-list-url' => ding_react_material_list_url(),
       'id' => $entity->ding_entity_id,
-      'text' => t('Add to checklist'),
-      'error-text' => t('An error occurred'),
-      'success-text' => t('Added to checklist'),
+      'add-text' => t('Add to checklist'),
+      'add-error-text' => t('An error occurred'),
+      'add-success-text' => t('Added to checklist'),
+      'remove-text' => t('Remove from checklist'),
+      'remove-error-text' => t('An error occurred'),
+      'remove-success-text' => t('Removed from checklist'),
       'login-url' => ding_react_login_url(),
     ];
 
-    $return[] = ding_react_app('add-to-checklist', $data);
+    $return[] = ding_react_app('checklist-material-button', $data);
 
     return $return;
   }

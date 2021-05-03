@@ -41,3 +41,11 @@ function ting_smart_search_schema() {
   );
   return $schema;
 }
+
+/**
+ * Update feeds to as new server.
+ */
+function ting_smart_search_update_7001() {
+  variable_set('ting_smart_search_master_server', 'https://smartsearch.dandigbib.org/data/autodata.txt');
+  variable_set('ting_smart_search_webtrekk_server_feed', 'https://smartsearch.dandigbib.org/data/searchdata.csv');
+}

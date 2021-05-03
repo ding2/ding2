@@ -117,244 +117,45 @@ function _ding_mobilesearch_types() {
   return $types;
 }
 
-
-
 /**
  * Implements hook_mobilesearch_node_export_mapping().
  */
 function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
-  $username = db_select('users', 'u')
-    ->fields('u', array('name'))
-    ->condition('u.uid', $node->uid)
-    ->execute()
-    ->fetchField();
+  // Map common fields on the node.
+  $mapping = _ding_mobilesearch_map_entity_fields('node', $node->type, $node);
 
+  $author = user_load($node->uid);
+  $author_name = format_username($author);
   $tz = date_default_timezone(FALSE);
 
-  $mapping = array(
-    'fields' => array(
-      'title' => array(
-        'name' => t('Title'),
-        'value' => $node->title,
-        'attr' => array(),
-      ),
-      'author' => array(
-        'name' => t('Author'),
-        'value' => $username,
-        'attr' => array(),
-      ),
-      'created' => array(
-        'name' => t('Created'),
-        'value' => ding_mobilesearch_format_date($node->created, $tz),
-        'attr' => array(),
-      ),
-      'changed' => array(
-        'name' => t('Updated'),
-        'value' => ding_mobilesearch_format_date($node->changed, $tz),
-        'attr' => array(),
-      ),
-      'status' => array(
-        'name' => t('Status'),
-        'value' => $node->status,
-        'attr' => array(),
-      ),
+  // Add additional fields from props on the node and author name.
+  $mapping['fields'] += array(
+    'title' => array(
+      'name' => t('Title'),
+      'value' => $node->title,
+      'attr' => array(),
     ),
-    'taxonomy' => array(),
+    'author' => array(
+      'name' => t('Author'),
+      'value' => $author_name,
+      'attr' => array(),
+    ),
+    'created' => array(
+      'name' => t('Created'),
+      'value' => ding_mobilesearch_format_date($node->created, $tz),
+      'attr' => array(),
+    ),
+    'changed' => array(
+      'name' => t('Updated'),
+      'value' => ding_mobilesearch_format_date($node->changed, $tz),
+      'attr' => array(),
+    ),
+    'status' => array(
+      'name' => t('Status'),
+      'value' => $node->status,
+      'attr' => array(),
+    ),
   );
-  $instances = field_info_instances('node', $node->type);
-  foreach ($instances as $machine_name => $field) {
-    switch ($field['widget']['type']) {
-      case 'text':
-      case 'text_long':
-      case 'text_textfield':
-      case 'text_textarea':
-      case 'text_with_summary':
-      case 'number':
-        $items = field_get_items('node', $node, $machine_name);
-        $mapping['fields'][$machine_name] = array(
-          'name' => $field['label'],
-          'value' => array(),
-          'attr' => array(),
-        );
-        if (!empty($items)) {
-          foreach ($items as $item) {
-            if (preg_match_all('/(\[\[\{.*\}\]\])/', $item['value'], $matches, PREG_SET_ORDER)) {
-              if (!empty($matches[0])) {
-                foreach ($matches[0] as $key => $value) {
-                  $json = drupal_json_decode($value);
-                  if (is_array($json) && !empty($json[0][0]['fid'])) {
-                    $fid = $json[0][0]['fid'];
-                    $file = file_load($fid);
-                    if (is_object($file) && $file->type == 'image') {
-                      $base64 = base64_encode(file_get_contents($file->uri));
-                      $render = "<img src=\"data:{$file->filemime};base64,{$base64}\" alt=\"\" />";
-                      $item['value'] = str_replace($value, $render, $item['value']);
-                    }
-                    else {
-                      $item['value'] = str_replace($value, '', $item['value']);
-                    }
-                  }
-                }
-              }
-            }
-            $mapping['fields'][$machine_name]['value'][] = $item['value'];
-          }
-        }
-        if (count($mapping['fields'][$machine_name]['value']) == 1) {
-          $mapping['fields'][$machine_name]['value'] = reset($mapping['fields'][$machine_name]['value']);
-        }
-        break;
-
-      case 'email_textfield':
-        $items = field_get_items('node', $node, $machine_name);
-        if (is_array($items) && !empty($items)) {
-          $item = reset($items);
-          $mapping['fields'][$machine_name] = array(
-            'name' => $field['label'],
-            'value' => array($item['email']),
-            'attr' => array(),
-          );
-        }
-        break;
-
-      case 'image':
-      case 'media_generic':
-      case 'file_generic':
-        $items = field_get_items('node', $node, $machine_name);
-        if ($items) {
-          $mapping['fields'][$machine_name] = array(
-            'name' => $field['label'],
-            'value' => array(),
-          );
-          foreach ($items as $delta => $row) {
-            $file = file_load($row['fid']);
-            $mapping['fields'][$machine_name]['value'][$delta] = base64_encode(file_get_contents($file->uri));
-            $mapping['fields'][$machine_name]['attr'][$delta] = $file->filemime;
-          }
-        }
-        break;
-
-      case 'options_select':
-      case 'options_buttons':
-      case 'options_autocomplete':
-      case 'taxonomy_term_reference':
-        $vocabulary_machine_name = NULL;
-        $info = field_info_field($machine_name);
-        if (!empty($info['settings']['allowed_values']) && is_array($info['settings']['allowed_values'])) {
-          $settings = reset($info['settings']['allowed_values']);
-          if (!empty($settings['vocabulary'])) {
-            $vocabulary_machine_name = $settings['vocabulary'];
-          }
-        }
-        if ($vocabulary_machine_name) {
-          $vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_machine_name);
-          $vocabulary = $vocabulary->name;
-        }
-        else {
-          $vocabulary = $field['label'];
-        }
-        $items = field_get_items('node', $node, $machine_name);
-        $mapping['taxonomy'][$machine_name] = array(
-          'name' => $vocabulary,
-          'terms' => array(),
-        );
-        if (is_array($items)) {
-          foreach ($items as $row) {
-            if (!empty($row['tid'])) {
-              $terms = taxonomy_get_parents_all($row['tid']);
-
-              $mapping['taxonomy'][$machine_name]['terms'] = array();
-              if (!empty($terms)) {
-                $parents = array();
-                $parents[$terms[0]->name] = array();
-                for ($i = 1; $i < count($terms); $i++) {
-                  $parents[$terms[$i]->name] = $parents;
-                  unset($parents[$terms[$i - 1]->name]);
-                }
-                $mapping['taxonomy'][$machine_name]['terms'] = $parents;
-              }
-            }
-          }
-        }
-        if (empty($mapping['taxonomy'][$machine_name]['terms'])) {
-          unset($mapping['taxonomy'][$machine_name]);
-        }
-
-        if ($info['type'] == 'entityreference') {
-          $target = $info['settings']['target_type'];
-
-          $mapping['fields'][$machine_name] = array(
-            'name' => $field['label'],
-            'value' => array(),
-            'attr' => array(),
-          );
-
-          if (!empty($items)) {
-            foreach ($items as $item) {
-              $entity = entity_load_single($target, $item['target_id']);
-              if ($entity) {
-                if ($target == 'node') {
-                  $value = $entity->title;
-                }
-
-                if (!empty($value)) {
-                  $mapping['fields'][$machine_name]['value'][] = $value;
-                }
-              }
-            }
-          }
-        }
-        break;
-
-      case 'ting_reference_advanced':
-        $items = field_get_items('node', $node, $machine_name);
-        $mapping['fields'][$machine_name] = array(
-          'name' => $field['label'],
-          'value' => array(),
-          'attr' => array(),
-        );
-
-        if (!empty($items)) {
-          foreach ($items as $item) {
-            $mapping['fields'][$machine_name]['value']['materials'] = $item;
-          }
-        }
-
-        $relations = ting_reference_get_relations($field['entity_type'], $node);
-        if (!empty($mapping['fields'][$machine_name]['value']['materials'])) {
-          if (!empty($relations)) {
-            $eids = array();
-
-            foreach ($relations as $relation) {
-              $eids[] = $relation->endpoints['und'][1]['entity_id'];
-            }
-            $ting_objects = entity_load('ting_object', $eids);
-            foreach ($ting_objects as $ting_object) {
-              $materials[] = $ting_object->ding_entity_id;
-            }
-            $mapping['fields'][$machine_name]['value']['materials'] = $materials;
-          }
-        }
-        break;
-
-      case 'addressfield_standard':
-        $items = field_get_items('node', $node, $machine_name);
-        foreach ($items as $ikey => $row) {
-          foreach ($row as $key => $value) {
-            if ($key == 'element_key') {
-              continue;
-            }
-            $mapping['fields'][$machine_name . '__' . $key] = array(
-              'name' => $field['label'] . ' (' . str_replace('_', ' ', $key) . ')',
-              'value' => array(),
-              'attr' => array(),
-            );
-            $mapping['fields'][$machine_name . '__' . $key]['value'][$ikey] = $value;
-          }
-        }
-        break;
-    }
-  }
 
   if (module_exists('opening_hours')) {
     $result = db_select('opening_hours', 'oh')
@@ -378,6 +179,7 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
   }
 
   $tag_field = NULL;
+  $paragraphs_field = NULL;
   // Content type specific fields.
   switch ($node->type) {
     case 'ding_event':
@@ -411,26 +213,266 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
 
     case 'ding_news':
       $tag_field = 'field_ding_news_tags';
+      $paragraphs_field = 'field_ding_news_paragraphs';
       break;
 
     case 'ding_page':
       $tag_field = 'field_ding_page_tags';
+      $paragraphs_field = 'field_ding_page_paragraphs';
       break;
   }
 
   if ($tag_field) {
+    $mapping['fields'][$tag_field] = array(
+      'name' => 'Tags',
+      'value' => array(),
+      'attr' => array(),
+    );
+
     $items = field_get_items('node', $node, $tag_field);
     if (is_array($items) && !empty($items)) {
-      $mapping['fields'][$tag_field] = array(
-        'name' => 'Tags',
-        'value' => array(),
-        'attr' => array(),
-      );
       foreach ($items as $item) {
         if ($term = taxonomy_term_load($item['tid'])) {
           $mapping['fields'][$tag_field]['value'][] = $term->name;
         }
       }
+    }
+  }
+
+  // Paragraphs.
+  if ($paragraphs_field) {
+    $mapping['fields'][$paragraphs_field] = [
+      'name' => 'Paragraphs',
+      'value' => [],
+      'attr' => [],
+    ];
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $paragraphs_item_entities = $node_wrapper->{$paragraphs_field}->value();
+
+    $mapping['fields'][$paragraphs_field]['value'] = array_map(function ($paragraphs_item_entity) {
+      $bundle = $paragraphs_item_entity->bundle();
+      $mapping = _ding_mobilesearch_map_entity_fields('paragraphs_item', $bundle, $paragraphs_item_entity);
+      return [
+        'type' => $bundle,
+        'fields' => $mapping['fields'],
+      ];
+    }, $paragraphs_item_entities);
+  }
+
+  return $mapping;
+}
+
+/**
+ * Helper function to map common fields from an entity.
+ *
+ * @param string $entity_type
+ *   The entity type of passed $entity.
+ * @param string $bundle
+ *   The bundle of passed $entity.
+ * @param object $entity
+ *   The entity to extract data from.
+ *
+ * @return array $mapping
+ *   A mapping array with data from the entity.
+ */
+function _ding_mobilesearch_map_entity_fields($entity_type, $bundle, $entity) {
+  $mapping = [
+    'fields' => [],
+    'taxonomy' => [],
+  ];
+
+  $instances = field_info_instances($entity_type, $bundle);
+  foreach ($instances as $field_name => $field) {
+    switch ($field['widget']['type']) {
+      case 'text':
+      case 'text_long':
+      case 'text_textfield':
+      case 'text_textarea':
+      case 'text_with_summary':
+      case 'number':
+        $items = field_get_items($entity_type, $entity, $field_name);
+        $mapping['fields'][$field_name] = array(
+          'name' => $field['label'],
+          'value' => array(),
+          'attr' => array(),
+        );
+        if (!empty($items)) {
+          foreach ($items as $item) {
+            if (preg_match_all('/(\[\[\{.*\}\]\])/', $item['value'], $matches, PREG_SET_ORDER)) {
+              if (!empty($matches[0])) {
+                foreach ($matches[0] as $key => $value) {
+                  $json = drupal_json_decode($value);
+                  if (is_array($json) && !empty($json[0][0]['fid'])) {
+                    $fid = $json[0][0]['fid'];
+                    $file = file_load($fid);
+                    if (is_object($file) && $file->type == 'image') {
+                      $base64 = base64_encode(file_get_contents($file->uri));
+                      $render = "<img src=\"data:{$file->filemime};base64,{$base64}\" alt=\"\" />";
+                      $item['value'] = str_replace($value, $render, $item['value']);
+                    }
+                    else {
+                      $item['value'] = str_replace($value, '', $item['value']);
+                    }
+                  }
+                }
+              }
+            }
+            $mapping['fields'][$field_name]['value'][] = $item['value'];
+          }
+        }
+        if (count($mapping['fields'][$field_name]['value']) == 1) {
+          $mapping['fields'][$field_name]['value'] = reset($mapping['fields'][$field_name]['value']);
+        }
+        break;
+
+      case 'email_textfield':
+        $items = field_get_items($entity_type, $entity, $field_name);
+        if (is_array($items) && !empty($items)) {
+          $item = reset($items);
+          $mapping['fields'][$field_name] = array(
+            'name' => $field['label'],
+            'value' => array($item['email']),
+            'attr' => array(),
+          );
+        }
+        break;
+
+      case 'image':
+      case 'media_generic':
+      case 'file_generic':
+        $items = field_get_items($entity_type, $entity, $field_name);
+        if ($items) {
+          $mapping['fields'][$field_name] = array(
+            'name' => $field['label'],
+            'value' => array(),
+          );
+          foreach ($items as $delta => $row) {
+            $file = file_load($row['fid']);
+            $mapping['fields'][$field_name]['value'][$delta] = base64_encode(file_get_contents($file->uri));
+            $mapping['fields'][$field_name]['attr'][$delta] = $file->filemime;
+          }
+        }
+        break;
+
+      case 'options_select':
+      case 'options_buttons':
+      case 'options_autocomplete':
+      case 'taxonomy_term_reference':
+        $vocabulary_machine_name = NULL;
+        $info = field_info_field($field_name);
+        $items = field_get_items($entity_type, $entity, $field_name);
+        if (!empty($info['settings']['allowed_values']) && is_array($info['settings']['allowed_values'])) {
+          $settings = reset($info['settings']['allowed_values']);
+          if (!empty($settings['vocabulary'])) {
+            $vocabulary_machine_name = $settings['vocabulary'];
+          }
+        }
+
+        // Taxonomy based list.
+        if ($vocabulary_machine_name) {
+          $vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_machine_name);
+          $vocabulary = $vocabulary->name;
+          $mapping['taxonomy'][$field_name] = array(
+            'name' => $vocabulary,
+            'terms' => array(),
+          );
+          if (is_array($items)) {
+            foreach ($items as $row) {
+              if (!empty($row['tid'])) {
+                $terms = taxonomy_get_parents_all($row['tid']);
+
+                $mapping['taxonomy'][$field_name]['terms'] = array();
+                if (!empty($terms)) {
+                  $parents = array();
+                  $parents[$terms[0]->name] = array();
+                  for ($i = 1; $i < count($terms); $i++) {
+                    $parents[$terms[$i]->name] = $parents;
+                    unset($parents[$terms[$i - 1]->name]);
+                  }
+                  $mapping['taxonomy'][$field_name]['terms'] = $parents;
+                }
+              }
+            }
+          }
+          if (empty($mapping['taxonomy'][$field_name]['terms'])) {
+            unset($mapping['taxonomy'][$field_name]);
+          }
+        }
+        elseif ($info['type'] == 'list_text') {
+          $mapping['fields'][$field_name] = [
+            'name' => $field['label'],
+            'value' => [],
+            'attr' => [],
+          ];
+
+          foreach ($items as $item) {
+            $mapping['fields'][$field_name]['value'][] = $item['value'];
+          }
+        }
+        elseif ($info['type'] == 'entityreference') {
+          $target = $info['settings']['target_type'];
+
+          $mapping['fields'][$field_name] = array(
+            'name' => $field['label'],
+            'value' => array(),
+            'attr' => array(),
+          );
+
+          if (!empty($items)) {
+            foreach ($items as $item) {
+              $referenced_entity = entity_load_single($target, $item['target_id']);
+              if ($referenced_entity) {
+                if ($target == 'node') {
+                  $value = $referenced_entity->title;
+                }
+
+                if (!empty($value)) {
+                  $mapping['fields'][$field_name]['value'][] = $value;
+                }
+              }
+            }
+          }
+        }
+        break;
+
+      case 'ting_reference_advanced':
+        $mapping['fields'][$field_name] = array(
+          'name' => $field['label'],
+          'value' => array(),
+          'attr' => array(),
+        );
+
+        $relations = ting_reference_get_relations($entity_type, $entity);
+        if (!empty($relations)) {
+          $eids = array();
+
+          foreach ($relations as $relation) {
+            $eids[] = $relation->endpoints['und'][1]['entity_id'];
+          }
+          $ting_objects = entity_load('ting_object', $eids);
+          foreach ($ting_objects as $ting_object) {
+            $materials[] = $ting_object->ding_entity_id;
+          }
+          $mapping['fields'][$field_name]['value']['materials'] = $materials;
+        }
+        break;
+
+      case 'addressfield_standard':
+        $items = field_get_items($entity_type, $entity, $field_name);
+        foreach ($items as $ikey => $row) {
+          foreach ($row as $key => $value) {
+            if ($key == 'element_key') {
+              continue;
+            }
+            $mapping['fields'][$field_name . '__' . $key] = array(
+              'name' => $field['label'] . ' (' . str_replace('_', ' ', $key) . ')',
+              'value' => array(),
+              'attr' => array(),
+            );
+            $mapping['fields'][$field_name . '__' . $key]['value'][$ikey] = $value;
+          }
+        }
+        break;
     }
   }
 

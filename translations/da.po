@@ -40931,7 +40931,7 @@ msgstr "Se hele beskrivelsen"
 
 #: /user/36/status/debts
 msgid "My debts"
-msgstr "Betal gebyrer"
+msgstr "Gebyrer og erstatninger"
 
 #: /user/36/status/debts
 msgid "No debts"
@@ -66643,7 +66643,7 @@ msgstr "Andre materialetyper"
 
 #: /search/ting/findus
 msgid "Add to list"
-msgstr "Tilføj til liste"
+msgstr "Tilføj til huskeliste"
 
 #: /
 msgid "Login with"
@@ -67591,14 +67591,14 @@ msgstr "I fokus"
 
 #: /ting/object/870970-basis%3A53704638
 msgid "Add to checklist"
-msgstr "Tilføj til liste"
+msgstr "Tilføj til huskeliste"
 
 msgid "An error occurred"
 msgstr "Der opstod en fejl"
 
 #: /ting/object/870970-basis%3A53704638
 msgid "Added to checklist"
-msgstr "Tilføjet til liste"
+msgstr "Tilføjet til huskeliste"
 
 #: /search/ting/harry%20potter?
 msgid "Add to followed searches"
@@ -67607,9 +67607,6 @@ msgstr "Tilføjet til gemte søgninger"
 #: /search/ting/harry%20potter?
 msgid "Title for followed search"
 msgstr "Titel på gemt søgning"
-
-msgid "Add"
-msgstr "Gem"
 
 #: /search/ting/harry%20potter?
 msgid "See your followed searches."
@@ -67645,7 +67642,7 @@ msgstr "DDB React komponenter"
 
 #: /lazy-pane/ajax
 msgid "My checklist"
-msgstr "Min liste"
+msgstr "Huskeliste"
 
 #: /user/me/checklist
 msgid "List is empty."

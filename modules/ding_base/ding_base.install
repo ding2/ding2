@@ -215,3 +215,10 @@ function ding_base_update_7007() {
 function ding_base_update_7008() {
   module_disable(['autologout']);
 }
+
+/**
+ * Enable Webform purge module.
+ */
+function ding_base_update_7009() {
+  module_enable(['webform_purge']);
+}

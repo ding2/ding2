@@ -56,6 +56,11 @@ class DingProviderDebt extends DingEntityBase {
   protected $material_type = DingEntityBase::NULL;
 
   /**
+   * Whether this debt is payable using Ding payment provider.
+   */
+  protected $payable = DingEntityBase::NULL;
+
+  /**
    * Default constructor for this class.
    *
    * @param string $id
@@ -69,7 +74,6 @@ class DingProviderDebt extends DingEntityBase {
     // Default display name.
     $this->properties['display_name'] = t('Title not available');
     $this->properties['amount_paid'] = 0;
-    $this->properties['invoice_number'] = FALSE;
     $properties = array(
       'material_number',
       'display_name',
@@ -77,7 +81,7 @@ class DingProviderDebt extends DingEntityBase {
       'date',
       'amount',
       'amount_paid',
-      'invoice_number',
+      'payable',
       'type',
       'note',
       'material_type',

@@ -128,6 +128,7 @@ function ding_sections_content_type_render($subtype, $conf, $args, $context) {
   $result = $view->preview();
 
   $block = new stdClass();
+  $block->title = t('Themes');
   $block->content = $result;
   return $block;
 }

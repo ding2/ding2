@@ -28,7 +28,7 @@ function ting_smart_search_admin_form($form, &$form_state) {
   $form['import_automatic_data']['ting_smart_search_master_server'] = array(
     '#title' => t('Master server for automatic smart search'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('ting_smart_search_master_server', 'https://staging.randersbib.dk/data/autodata.txt'),
+    '#default_value' => variable_get('ting_smart_search_master_server', 'https://smartsearch.dandigbib.org/data/autodata.txt'),
     '#required' => FALSE,
     '#states' => array(
       'visible' => array(
@@ -48,7 +48,7 @@ function ting_smart_search_admin_form($form, &$form_state) {
   $form['import_webtrekk_stats']['ting_smart_search_webtrekk_server_feed'] = array(
     '#title' => t('Webtrekk statistics feed'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('ting_smart_search_webtrekk_server_feed', 'https://staging.randersbib.dk/data/searchdata.csv'),
+    '#default_value' => variable_get('ting_smart_search_webtrekk_server_feed', 'https://smartsearch.dandigbib.org/data/searchdata.csv'),
     '#required' => FALSE,
     '#description' => t('The path to search data files, fetches stats on popular search terms'),
   );
@@ -99,39 +99,11 @@ function ting_smart_search_admin_form($form, &$form_state) {
 function ting_smart_search_export_form_submit($form, &$form_state) {
   $destination = 'public://' . variable_get('site_name', 'ddb-cms') . '-' . date('d-m-Y-H-i') . '.json';
 
-  $ssquery = new EntityFieldQuery();
-
-  // export only active smart search records
-  $ssquery->entityCondition('entity_type', 'ting_type')
-          ->entityCondition('bundle', 'smart_search_string')
-          ->fieldCondition('field_status', 'value', 'active', '=');
-
-  $result = $ssquery->execute();
-
-  if (isset($result['ting_type'])) {
-    $string_items_nids = array_keys($result['ting_type']);
-
-    $data = entity_load('ting_type', $string_items_nids);
-
-    foreach ($string_items_nids as $string_item_nid) {
-      $item_boostvalues = $data[$string_item_nid]->field_custom_boost_values_p;
-      if (!empty($item_boostvalues)) {
-        foreach ($item_boostvalues['und'] as $key => $field_collection_id) {
-          $fce_fields = array();
-          $field_collection_entity = entity_load('paragraphs_item', $field_collection_id);
-          $fce_fields = array(
-              'field_field_boost_value' => $field_collection_entity[$field_collection_id['value']]->field_field_boost_value,
-              'field_field_boost_weight' => $field_collection_entity[$field_collection_id['value']]->field_field_boost_weight,
-              'field_field_name' => $field_collection_entity[$field_collection_id['value']]->field_field_name,
-          );
-          $data[$string_item_nid]->field_custom_boost_values_p['und'][$key] = $fce_fields;
-        }
-      }
-    }
-
+  $data = ting_smart_search_get_records();
+  if (isset($data)) {
     $data = json_encode($data);
     $exportfile = file_unmanaged_save_data($data, $destination);
-    
+
     $headers = array('Content-Disposition' => 'attachment; filename="' . $exportfile . '"');
     file_transfer($exportfile, $headers);
   }

@@ -42,6 +42,10 @@ function ding_frontpage_default_page_manager_pages() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(),
+    ),
   );
   $display = new panels_display();
   $display->layout = 'ding_layout_1';

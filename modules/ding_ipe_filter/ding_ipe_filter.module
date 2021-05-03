@@ -227,11 +227,7 @@ function _ding_ipe_filter_selected_panes() {
     'ding-:ding_campaign_plus' => 'ding-:ding_campaign_plus',
     'ding-:ding_sections' => 'ding-:ding_sections',
     'ding-:all_opening_hours' => 'ding-:all_opening_hours',
-    'ding-:popular' => 'ding-:popular',
-    'ding-:interaction_pane' => 'ding-:interaction_pane',
-    'ding-:serendipity_ting_object' => 'ding-:serendipity_ting_object',
     'ding-:ding_tabroll-ding_frontpage_tabroll' => 'ding-:ding_tabroll-ding_frontpage_tabroll',
-    'ding-:campaign' => 'ding-:campaign',
     'ting:carousel' => 'ting:carousel',
   );
 
