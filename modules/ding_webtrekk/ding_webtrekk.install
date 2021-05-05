@@ -9,7 +9,14 @@
  * Whitelist webtrekk opt-out cookie in EU cookie compliance settings.
  */
 function ding_webtrekk_update_7001() {
-  ding_webtrekk_whitelist_opt_out_cookie();
+  // This function previously whitelisted a webtrekk opt-out cookie.
+  //
+  // The contents of this function has been removed after switching to
+  // cookieless tracking. Read more about this issue in
+  // https://platform.dandigbib.org/issues/5151.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites have not.
 }
 
 /**
@@ -28,22 +35,3 @@ function ding_webtrekk_update_7002() {
   }
 }
 
-/**
- * Whitelist webtrekk opt-out cookie in EU cookie compliance settings.
- */
-function ding_webtrekk_whitelist_opt_out_cookie() {
-  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da', []);
-  $cookie_name = 'webtrekkOptOut';
-  // Depending on whether this is run from an update, a normal install of the
-  // module after ding2 install OR installed DURING ding2 installation via
-  // module selection form, we might run before or after ding2 calls
-  // ding2_set_eu_cookie_compliance_settings(), so we need to be able to handle
-  // both cases here. Hence this check and no hook_update_dependencies().
-  if (!empty($ecc_settings['whitelisted_cookies'])) {
-    $ecc_settings['whitelisted_cookies'] .= "\r\n" . $cookie_name;
-  }
-  else {
-    $ecc_settings['whitelisted_cookies'] = $cookie_name;
-  }
-  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
-}
