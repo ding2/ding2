@@ -18,7 +18,7 @@
  */
 ?>
 <li class="<?php print $zebra; ?>">
-  <a href="<?php print $link['uri']; ?>" title="<?php print $link['title']; ?>">
+  <a href="<?php print $link['uri']; ?>" title="<?php print $link['title']; ?>" aria-label="<?php print $link['title']; ?>">
     <span class="title"><?php print $item->title; ?></span>
     <?php if ($creators) : ?>
       <span class="creators"><?php print $creators; ?></span>

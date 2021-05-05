@@ -77,12 +77,11 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
-
 ?>
-<article class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <a href="<?php print $node_url; ?>"<?php print drupal_attributes($link_attributes); ?>>
+<article class="<?php print $classes; ?>" aria-labelledby="<?php print 'link-id-' . $node->nid; ?>"<?php print $attributes; ?>>
+  <a href="<?php print $node_url; ?>" aria-label="<?php print t('Go to') . ' ' . $title; ?>"<?php print drupal_attributes($link_attributes); ?>>
     <div class="group-text">
-      <h3 class="title"><?php print $title; ?></h3>
+      <h3 id="<?php print 'link-id-' . $node->nid; ?>" class="title"><?php print $title; ?></h3>
       <?php print render($content['field_ding_group_lead']); ?>
     </div>
   </a>
