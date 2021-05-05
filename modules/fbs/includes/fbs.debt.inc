@@ -57,6 +57,7 @@ function fbs_debt_list($account, $reset = FALSE) {
       }
 
       foreach ($res as $fee) {
+        /* @var \FBS\Model\Fee $fee */
         $id = $fee->feeId;
 
         $data = array(
@@ -68,7 +69,7 @@ function fbs_debt_list($account, $reset = FALSE) {
           // And the only thing we can do here is set it to zero, as the original
           // amount isn't available.
           'amount_paid' => 0,
-          'type' => $fee->reasonMessage,
+          'type' => fbs_debt_translate_debt_type($fee->type),
           'payable' => $fee->payableByClient,
         );
 
@@ -121,6 +122,32 @@ function fbs_debt_list($account, $reset = FALSE) {
   }
 
   return $results;
+}
+
+/**
+ * Translate FBS debt types into a human readable string in english.
+ *
+ * @param string $debt_type
+ *   The FBS debt type.
+ *
+ * @return string
+ *   English translation of the debt type if found.
+ */
+function fbs_debt_translate_debt_type($debt_type) {
+  switch ($debt_type) {
+    case 'compensation':
+      $str = t('Compensation', [], ['context' => 'fbs']);
+      break;
+
+    case 'fee':
+      $str = t('Fee', [], ['context' => 'fbs']);
+      break;
+
+    default:
+      $str = t('Other', [], ['context' => 'fbs']);
+  }
+
+  return $str;
 }
 
 /**
