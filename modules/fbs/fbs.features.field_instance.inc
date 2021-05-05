@@ -174,7 +174,7 @@ function fbs_field_default_field_instances() {
     'bundle' => 'provider_fbs',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'If you pick a start date earlier than 5 days from now some of your current reservations might still go through.',
     'display' => array(
       'default' => array(
         'label' => 'above',
