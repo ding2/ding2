@@ -1,0 +1,10 @@
+name = Ting digital article service
+description = Use Digital Article Service from the Royal Danish Library to order copies of articles.
+core = 7.x
+package = Ding!
+project = ting_das
+files[] = includes/ting_das.client.inc
+dependencies[] = ding_libs
+dependencies[] = ding_webtrekk
+dependencies[] = fbs
+dependencies[] = ting
