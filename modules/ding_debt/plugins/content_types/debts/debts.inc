@@ -216,6 +216,7 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
 
       $options = [
         'attributes' => [
+          'role' => 'button',
           'class' => 'external-payment',
           'target' => '_blank',
         ],
