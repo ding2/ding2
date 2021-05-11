@@ -15,8 +15,6 @@ function ding_contact_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'antibot_form_ids';
   $strongarm->value = 'comment_node_*
-user_login
-user_pass
 user_register_form
 contact_site_form
 webform_client_form_*';
