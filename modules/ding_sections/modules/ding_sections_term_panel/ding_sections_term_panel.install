@@ -29,6 +29,10 @@ function ding_sections_term_panel_uninstall() {
  * Create term panel checkbox field and instance.
  */
 function ding_sections_term_panel_create_fields() {
+  if (field_info_field('field_term_page') !== FALSE) {
+    return;
+  }
+
   $field = array(
     'active' => 1,
     'cardinality' => 1,
