@@ -42,6 +42,10 @@ function ding_sections_uninstall() {
  * Create editorial base (Section) vocabulary.
  */
 function _ding_sections_create_base() {
+  if (taxonomy_vocabulary_machine_name_load('section')) {
+    return;
+  }
+
   $voc = new stdClass();
   $voc->name = st('Section');
   $voc->machine_name = 'section';
@@ -56,6 +60,10 @@ function _ding_sections_create_base() {
  * to link content to section vocabulary.
  */
 function _ding_sections_create_fields() {
+  if(field_info_field('field_ding_section') != FALSE) {
+    return;
+  }
+
   $field_definition = array(
     'field_name' => 'field_ding_section',
     'type' => 'taxonomy_term_reference',
