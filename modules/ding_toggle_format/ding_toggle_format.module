@@ -225,7 +225,7 @@ function ding_toggle_format_check_page($toggle_pages, $complex_uri = '', $comple
     }
 
     foreach ($toggle_pages as $toggle_page) {
-      if (strstr($_GET['q'], $complex_uri) && arg($complex_page_arg) == $toggle_page) {
+      if (strpos($_GET['q'], (string) $complex_uri) !== FALSE && arg($complex_page_arg) == $toggle_page) {
         return TRUE;
       }
     }
@@ -235,7 +235,7 @@ function ding_toggle_format_check_page($toggle_pages, $complex_uri = '', $comple
 
   // Check for non complex uri's
   foreach ($toggle_pages as $toggle_page) {
-    if (strstr($_GET['q'], $toggle_page)) {
+    if (strpos($_GET['q'], (string) $toggle_page) !== FALSE) {
       return TRUE;
     }
   }

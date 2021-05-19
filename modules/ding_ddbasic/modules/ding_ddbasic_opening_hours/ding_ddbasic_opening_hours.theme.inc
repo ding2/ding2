@@ -79,6 +79,10 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
 
   usort($instances, 'ding_ddbasic_opening_hours_sort');
 
+  if (is_null($variables['categories'])) {
+    $variables['categories'] = [];
+  }
+
   // Add NULL to the categories, if the the NO_CATEGORY category is selected.
   // So an empty category_tid of the instance matches the selected categories.
   if (in_array(DING_DDBASIC_OPENING_HOURS_NO_CATEGORY, $variables['categories'])) {

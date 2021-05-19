@@ -9,6 +9,7 @@ projects[addressfield][version] = "1.0-beta5"
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
+projects[admin_menu][patch][] = "https://www.drupal.org/files/issues/admin-menu-2929025-each-function-deprecated-php-7.2.patch"
 
 projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.7"
@@ -52,6 +53,7 @@ projects[customerror][patch][] = "patches/customerror-disable_auto_redirect.ding
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 projects[date][patch][] = "https://www.drupal.org/files/issues/2019-01-16/2843367-php71-string-offset-47.patch"
+projects[date][patch][] = "https://www.drupal.org/files/issues/2018-10-27/3009740-1-php-7.3-compatibility.patch"
 
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
@@ -83,6 +85,7 @@ projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.8"
 ; https://www.drupal.org/node/2829437
 projects[entity][patch][0] = "https://www.drupal.org/files/issues/entity-rebuild-2829437-4.patch"
+projects[entity][patch][] = "https://www.drupal.org/files/issues/op_update_should_be_create-2807275-2.patch"
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.2"
@@ -108,6 +111,7 @@ projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.10"
+projects[features][patch][] = "https://www.drupal.org/files/issues/2018-03-12/features-support_php_72-2931464-10.patch"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
@@ -264,6 +268,7 @@ projects[message][version] = "1.12"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
+projects[metatag][patch][] = "https://www.drupal.org/files/issues/metatag-n2946145-5.patch"
 
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
@@ -332,13 +337,16 @@ projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"
 ; Fix PHP7 errors - PHP 4 style constructors - (https://www.drupal.org/node/2557061)
 projects[panels][patch][] = "https://www.drupal.org/files/issues/deprecated-constructor-in-php-7-2557061-3.patch"
+projects[panels][patch][] = "https://www.drupal.org/files/issues/illegal_string_offset-2833861-1.patch"
 
 projects[panels_breadcrumbs][subdir] = "contrib"
 projects[panels_breadcrumbs][version] = "2.1"
+projects[panels_breadcrumbs][patch][] = "https://www.drupal.org/files/issues/panels_breadcrumbs-php7-compat-2946169.patch"
 
 projects[panels_everywhere][subdir] = "contrib"
 projects[panels_everywhere][version] = "1.0-rc1"
 projects[panels_everywhere][type] = "module"
+projects[panels_everywhere][patch][] = "https://www.drupal.org/files/issues/panels_everywhere-n2948040-2.patch"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
@@ -371,6 +379,8 @@ projects[role_delegation][version] = "1.1"
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.7"
+projects[rules][patch][] = "https://www.drupal.org/files/issues/php7_2_compatibility-2923477-5.patch"
+projects[rules][patch][] = "https://www.drupal.org/files/issues/2018-03-13/rules-2952654-php-72.patch"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
@@ -390,6 +400,7 @@ projects[services_views][version] = "1.1"
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.18"
+projects[search_api][patch][] = "https://www.drupal.org/files/issues/2018-10-27/3009744-2-php-7.3-compatibility.patch"
 
 projects[search_api_multi][subdir] = "contrib"
 projects[search_api_multi][version] = "1.3"
@@ -443,6 +454,8 @@ projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.23"
+projects[views][patch][] = "https://www.drupal.org/files/issues/2021-01-04/views-php74-3153312-23.patch"
+projects[views][patch][] = "https://www.drupal.org/files/issues/2020-03-04/views-curly-braces.patch"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
@@ -475,6 +488,7 @@ projects[watchdog_filtering][version] = "1.3"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.10"
+projects[webform][patch][] = "https://www.drupal.org/files/issues/webform-2811063-43.patch"
 
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
@@ -497,7 +511,7 @@ projects[ask_vopros][download][url] = "https://github.com/vopros-dk/ask_vopros.g
 projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
-projects[xautoload][version] = "5.7"
+projects[xautoload][version] = "5.8"
 
 ; Libraries
 ; For ding_libs.
@@ -756,6 +770,7 @@ projects[mkdru_ding][download][branch]      = "develop"
 
 projects[opengraph_meta][subdir]            = "contrib"
 projects[opengraph_meta][version]           = "1.3"
+projects[opengraph_meta][patch][]           = "https://www.drupal.org/files/issues/2019-01-10/deprecated-function-in-php72-3021738-1.patch"
 
 libraries[notify][download][type]           = "git"
 libraries[notify][download][url]            = "git@github.com:notifyjs/notifyjs.git"
@@ -764,8 +779,7 @@ libraries[notify][directory_name]           = "notify"
 libraries[notify][destination]              = "libraries"
 
 projects[quiz][subdir]                      = "contrib"
-projects[quiz][version]                     = "5.0-rc4"
-projects[quiz][patch][]                     = "https://www.drupal.org/files/issues/2018-06-20/quiz-question_pdo_exception_v50-2980495-3-D7.patch"
+projects[quiz][version]                     = "5.3"
 
 projects[references][subdir]                = "contrib"
 projects[references][version]               = "2.1"
