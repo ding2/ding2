@@ -78,13 +78,13 @@
  * @see template_process()
  */
 ?>
-<article class="<?php print $classes; ?> node-full"<?php print $attributes; ?>>
+<article class="<?php print $classes; ?> node-full" aria-labelledby="<?php print 'link-id-' . $node->nid; ?>"<?php print $attributes; ?>>
   <div class="inner">
       <div class="left">
           <?php print render($content['group_left']); ?>
       </div>
       <div class="right">
-          <h1><?php print $title; ?></h1>
+          <h1 id="<?php print 'link-id-' . $node->nid; ?>"><?php print $title; ?></h1>
           <?php print render($content['group_right']['field_ding_eresource_category']); ?>
           <div class="section meta">
               <?php print render($content['group_right']['field_ding_eresource_access']); ?>
@@ -92,7 +92,12 @@
           <?php print render($content['group_right']); ?>
       </div>
       <div class="buttons">
-        <?php print l(t('E-resources'), 'e-materialer', array('attributes' => array('class' => array('buttons-button-back')))); ?>
+        <?php print l(t('E-resources'), 'e-materialer',
+          array(
+            'attributes' => array('class' => array('buttons-button-back')),
+            array('aria-label' => array(t('Go to') . ' ' . $title)),
+          ));
+        ?>
         <?php if (!empty($link_url)) { ?>
           <a href="<?php print $link_url; ?>" target="_blank"><?php print t('Log on'); ?></a>
         <?php } ?>

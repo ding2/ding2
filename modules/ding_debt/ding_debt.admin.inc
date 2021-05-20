@@ -208,4 +208,9 @@ function ding_debt_settings_form_validate($form, $form_state) {
       form_error($form['external']['button']['ding_debt_external_button_url'], t('Button link is required.'));
     }
   }
+
+  if (empty($form_state['values']['ding_debt_enable_internal_button'])
+    && empty($form_state['values']['ding_debt_enable_external_button'])) {
+    form_error($form, t('Please enable either internal or external payment'));
+  }
 }

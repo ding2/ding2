@@ -23,7 +23,7 @@
         <section class="navigation-wrapper js-topbar-menu">
           <div class="navigation-inner">
             <?php print render($content['navigation']); ?>
-            <a href="#" class="search-extended-button"></a>
+            <a href="#" class="search-extended-button" aria-label="<?php print t('Show extended search'); ?>"></a>
           </div>
         </section>
       <?php endif; ?>

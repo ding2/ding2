@@ -282,9 +282,26 @@
   margin-bottom: 25px;
 
   @include clearfix();
+
   .total-amount {
-    width: 100%;
-    margin: 10px 0;
+    // This combination of margin and padding corresponds to the size of covers
+    // for material items in the debt list. This makes the total align with
+    // other infos.
+    margin: 10px 0 10px 19%;
+    padding-left: 50px;
+
+    @include media($mobile) {
+      margin: 0;
+      padding: 20px 10px;
+    }
+
+    // Make the total appear as other infos with a label in bold and value
+    // on the next line.
+    font-weight: bold;
+    .amount {
+      display: block;
+      font-weight: normal;
+    }
   }
 
   .pay-buttons {

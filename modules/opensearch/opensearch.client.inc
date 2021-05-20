@@ -653,6 +653,27 @@ function _opensearch_predict_cache(array $collections, TingClientRequest $reques
         $object_response[$object->id] = clone $object;
         _opensearch_cache($object_request, $object_response);
       }, [$object_id_request, $local_id_request]);
+
+      // Relations are well object themselves and can also be accessed as ting
+      // object entities. So use the data we have at hand now to pre-heat the
+      // cache with this object's relations. This way we can avoid an extra
+      // request to the well, if they are loaded as ting entities in the current
+      // or subsequent requests.
+      if (!empty($object->relations)) {
+        /** @var \TingClientObject[] */
+        $relations = $object->relations;
+        array_map(function (TingClientObject $relation) use ($object_request) {
+          $relation_request = clone $object_request;
+          $relation_request->setObjectId($relation->id);
+          $params = module_invoke_all('opensearch_pre_execute', $relation_request);
+          if (!empty($params)) {
+            $relation_request->setParameters($params);
+          }
+          $relation_response = array();
+          $relation_response[$relation->id] = $relation;
+          _opensearch_cache($relation_request, $relation_response);
+        }, $relations);
+      }
     }
   }
 }

@@ -20,7 +20,7 @@
   <div class="layout-wrapper">
     <div class="pane-content">
       <div class="primary-content ding-auth">
-        <h2 class="pane-title"><?php print render($title); ?></h2>
+        <h1 class="pane-title"><?php print render($title); ?></h1>
         <div class="ding-auth--registration-information">
           <?php print render($content); ?>
         </div>

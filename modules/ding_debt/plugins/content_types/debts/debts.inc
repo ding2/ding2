@@ -67,6 +67,8 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     $ding_debt_introtext = variable_get('ding_debt_introtext', _ding_debt_introtext_default());
 
     $form['introtext'] = [
+      '#prefix' => '<div class="debt-body">',
+      '#suffix' => '</div>',
       '#markup' => check_markup($ding_debt_introtext['value'], $ding_debt_introtext['format']),
     ];
   }
@@ -198,6 +200,8 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
       $ding_debt_external_extra_information = variable_get('ding_debt_external_extra_information', _ding_debt_external_extra_information_default());
 
       $form['external_extra_information'] = [
+        '#prefix' => '<div class="debt-body">',
+        '#suffix' => '</div>',
         '#markup' => check_markup($ding_debt_external_extra_information['value'], $ding_debt_external_extra_information['format']),
       ];
     }
@@ -216,6 +220,7 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
 
       $options = [
         'attributes' => [
+          'role' => 'button',
           'class' => 'external-payment',
           'target' => '_blank',
         ],

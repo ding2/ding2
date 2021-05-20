@@ -81,14 +81,14 @@
  * @see template_process()
  */
 ?>
-<article class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <a href="<?php print $node_url; ?>">
+<article class="<?php print $classes; ?>" aria-labelledby="<?php print 'link-id-' . $node->nid; ?>"<?php print $attributes; ?>>
+  <a href="<?php print $node_url; ?>" aria-label="<?php print t('Go to') . ' ' . $title; ?>">
     <div class="ding-group-image">
       <?php if(!empty($background_image)) : ?>
         <img src="<?php print $background_image; ?>">
-      <?php endif; ?> 
-    </div>  
-    <h3 class="title"><?php print $title; ?></h3>
+      <?php endif; ?>
+    </div>
+    <h3 class="title" id="<?php print 'link-id-' . $node->nid; ?>"><?php print $title; ?></h3>
     <?php print render($content['field_ding_group_lead']); ?>
   </a>
 </article>
