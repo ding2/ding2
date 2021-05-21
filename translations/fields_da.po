@@ -1612,3 +1612,8 @@ msgstr "Status"
 msgctxt "field_status:smart_search_string:description"
 msgid "Set date if planned"
 msgstr "Sæt dato hvis planlagt"
+
+#: field:field_fbs_on_hold:provider_fbs:description
+msgctxt "field_fbs_on_hold:provider_fbs:description"
+msgid "If you pick a start date earlier than 5 days from now some of your current reservations might still go through."
+msgstr "Hvis du vælger en startdato der er tidligere end 5 dage fra nu, risikerer du at reserveringer når at blive opfyldt alligevel. Læs mere <a href="/ferieservice">her</a>"
