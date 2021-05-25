@@ -294,9 +294,6 @@ function ding_react_app($name, array $data = []) {
     'js' => [
       // Weight needs to be > 0 to make the app code run after the libraries.
       libraries_get_path('ddb-react') . '/' . $name . '.js' => ['scope' => 'footer', 'group' => JS_LIBRARY, 'weight' => 1],
-      // Use our menu callback to mimic an external file which allows us to set
-      // per-user data which bypasses Varnish caching.
-      url('ding_react/user.js', ['absolute' => TRUE]) => ['scope' => 'footer', 'type' => 'external'],
       drupal_get_path('module', 'ding_react') . '/js/ding-react.js' => ['scope' => 'footer'],
     ],
   ];
