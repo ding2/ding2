@@ -276,6 +276,32 @@ function ding_react_ding_adgangsplatformen_login(array $user_info) {
 }
 
 /**
+ * Implements hook_user_build().
+ */
+function ding_react_page_build(&$page) {
+  $query = drupal_get_query_parameters();
+  // Reset state when logging out. This ensures that things are reset and data
+  // does not carry over between authenticated and anonymous users.
+  // Logging out will cause a redirect and we do not have a good way to queue JS
+  // from hook_user_logout() to run on a subsequent page load. Consequently we
+  // have to rely on other factors. Logging out currently always sends the user
+  // to the frontpage with a certain query parameter.
+  if (drupal_is_front_page()
+    && !empty($query['message'])
+    && $query['message'] == 'logout') {
+    $attachments = !empty($page['page_bottom']['#attached']) ? $page['page_bottom']['#attached'] : [];
+    $page['page_bottom']['#attached'] = drupal_array_merge_deep($attachments, [
+      'libraries_load' => [
+        ['ddb-react'],
+      ],
+      'js' => [
+        drupal_get_path('module', 'ding_react') . '/js/ding-react.reset.js' => ['scope' => 'footer'],
+      ]
+    ]);
+  }
+}
+
+/**
  * Return render array for an app.
  *
  * @param string $name
