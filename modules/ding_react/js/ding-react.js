@@ -22,7 +22,14 @@
       // Ensure that we have a DOM element.
       var element = getElement(context);
       if (element) {
-        window.ddbReact.mount(element);
+        jQuery.ajax({
+          url: '/ding_react/user.js',
+          dataType: 'script',
+          cache: true,
+          success: function () {
+            window.ddbReact.mount(element);
+          }
+        });
       }
     },
     detach: function(context) {
