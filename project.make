@@ -466,7 +466,7 @@ projects[watchdog_filtering][subdir] = "contrib"
 projects[watchdog_filtering][version] = "1.3"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.10"
+projects[webform][version] = "4.24"
 
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
