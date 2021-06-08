@@ -24,18 +24,24 @@
         }
       }
 
-      $('a.js-topbar-link-user,a.open-login', context).on('click', function(evt) {
-        evt.preventDefault();
+      function openHandler(event) {
+        event.preventDefault();
         openLogin();
-      });
+      }
 
-      $('.close-user-login', context).on('click', function(evt) {
+      function closeHandler(event) {
         var body = $('body');
 
-        evt.preventDefault();
+        event.preventDefault();
         body.removeClass('pane-login-is-open');
         body.removeClass('overlay-is-active');
-      });
+      }
+
+      $('a.js-topbar-link-user,a.open-login', context).unbind('click', openHandler);
+      $('a.js-topbar-link-user,a.open-login', context).on('click', openHandler);
+
+      $('.close-user-login', context).unbind('click', closeHandler);
+      $('.close-user-login', context).on('click', closeHandler);
     }
   };
 }(jQuery));
