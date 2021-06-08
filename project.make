@@ -476,6 +476,7 @@ projects[watchdog_filtering][version] = "1.3"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.10"
+projects[webform][patch][] = "patches/webform-not-saving-ip.patch"
 
 projects[webform_purge][subdir] = "contrib"
 projects[webform_purge][version] = "1.3"
