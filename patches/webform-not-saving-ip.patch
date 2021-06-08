@@ -1,0 +1,371 @@
+diff -ruN webformold/includes/webform.admin.inc webform/includes/webform.admin.inc
+--- webformold/includes/webform.admin.inc	2015-07-15 20:22:40.000000000 +0000
++++ webform/includes/webform.admin.inc	2021-06-07 15:12:12.867870600 +0000
+@@ -158,6 +158,16 @@
+     '#description' => t('<a href="http://www.wikipedia.org/wiki/HTTP_cookie">Cookies</a> can be used to help prevent the same user from repeatedly submitting a webform. Limiting by IP address is more effective against repeated submissions, but may result in unintentional blocking of users sharing the same address. Confidential submissions are tracked by cookie only. Logged-in users are always tracked by their user ID and are not affected by this option.'),
+   );
+ 
++  $form['advanced']['webform_store_ip_address'] = array(
++    '#type' => 'radios',
++    '#title' => t("When submitting a form the user's IP-address is stored:"),
++    '#options' => array(
++      'as-needed' => t('as long as needed to enforce the submission limits. Dont show it in the results.'),
++      'always' => t('always and make it visible in the submission results.'),
++    ),
++    '#default_value' => webform_variable_get('webform_store_ip_address'),
++  );
++
+   $form['advanced']['webform_email_address_format'] = array(
+     '#type' => 'radios',
+     '#title' => t('E-mail address format'),
+diff -ruN webformold/includes/webform.submissions.inc webform/includes/webform.submissions.inc
+--- webformold/includes/webform.submissions.inc	2015-07-15 20:22:40.000000000 +0000
++++ webform/includes/webform.submissions.inc	2021-06-07 15:12:12.871779900 +0000
+@@ -966,27 +966,12 @@
+     return FALSE; // No check enabled.
+   }
+ 
+-  // Fetch all the entries from the database within the submit interval with
+-  // this username and IP.
+-  $num_submissions_database = 0;
++  // Check flood event based submit limit.
+   if (!$node->webform['confidential'] &&
+       ($account->uid !== 0 || $tracking_mode === 'ip_address' || $tracking_mode === 'strict')) {
+-    $query = db_select('webform_submissions')
+-      ->addTag('webform_submission_user_limit_check')
+-      ->condition('nid', $node->nid)
+-      ->condition('is_draft', 0);
+-
+-    if ($node->webform['submit_interval'] != -1) {
+-      $query->condition('submitted', REQUEST_TIME - $node->webform['submit_interval'], '>');
+-    }
+-
+-    if ($account->uid) {
+-      $query->condition('uid', $account->uid);
+-    }
+-    else {
+-      $query->condition('remote_addr', ip_address());
++    if (!WebformFloodEvent::fromNode($node)->isAllowed($account)) {
++      return TRUE;
+     }
+-    $num_submissions_database = $query->countQuery()->execute()->fetchField();
+   }
+ 
+   // Double check the submission history from the users machine using cookies.
+@@ -1007,7 +992,7 @@
+     }
+   }
+ 
+-  if ($num_submissions_database >= $node->webform['submit_limit'] || $num_submissions_cookie >= $node->webform['submit_limit']) {
++  if ($num_submissions_cookie >= $node->webform['submit_limit']) {
+     // Limit exceeded.
+     return TRUE;
+   }
+diff -ruN webformold/includes/webform.userlimit.inc webform/includes/webform.userlimit.inc
+--- webformold/includes/webform.userlimit.inc	1970-01-01 00:00:00.000000000 +0000
++++ webform/includes/webform.userlimit.inc	2021-06-07 15:12:12.875687000 +0000
+@@ -0,0 +1,82 @@
++<?php
++
++/**
++ * @file
++ * Classes for flood protection.
++ */
++
++/**
++ * Register and check flood events for webform submissions.
++ */
++class WebformFloodEvent {
++
++  const PREFIX = 'webform_submission:';
++
++  protected $event;
++  protected $threshold;
++  protected $window;
++
++  /**
++   * Create new instance based on a webform node.
++   *
++   * Extracts all necessary config variables form the node object.
++   *
++   * @param object $node
++   *   The webform node.
++   */
++  public static function fromNode($node) {
++    $event = static::PREFIX . $node->nid;
++    $window = $node->webform['submit_interval'];
++    if ($window == -1) {
++      // 10 years should be close enough to infinity.
++      $window = 10 * 365 * 24 * 3600;
++    }
++    return new static($event, $node->webform['submit_limit'], $window);
++  }
++
++  /**
++   * Create a new instance.
++   */
++  public function __construct($event, $threshold, $window) {
++    $this->event = $event;
++    $this->threshold = $threshold;
++    $this->window = $window;
++  }
++
++  /**
++   * Get the user identifier used for flood protection.
++   *
++   * @param object $user
++   *   The currently active Drupal user.
++   *
++   * @return string
++   *   The user identifier used for flood protection.
++   */
++  protected function identifier($user) {
++    return $user->uid ? 'uid:' . $user->uid : NULL;
++  }
++
++  /**
++   * Register a flood event.
++   *
++   * @param object $user
++   *   The currently active Drupal user.
++   */
++  public function register($user) {
++    flood_register_event($this->event, $this->window, $this->identifier($user));
++  }
++
++  /**
++   * Check whether submitting a new submission should be allowed.
++   *
++   * @param object $user
++   *   The currently active Drupal user.
++   *
++   * @return bool
++   *   FALSE when this operation exceeds the threshold.
++   */
++  public function isAllowed($user) {
++    return flood_is_allowed($this->event, $this->threshold, $this->window, $this->identifier($user));
++  }
++
++}
+diff -ruN webformold/tests/submission.test webform/tests/submission.test
+--- webformold/tests/submission.test	2015-07-15 20:22:40.000000000 +0000
++++ webform/tests/submission.test	2021-06-07 15:12:12.887678300 +0000
+@@ -96,6 +96,57 @@
+   }
+ 
+   /**
++   * Test not storing IP with submission data when webform_store_ip_address is
++   * 'as-needed'.
++   */
++  public function testWebformStoreIPAsNeeded() {
++    variable_set('webform_store_ip_address', 'as-needed');
++
++    $this->drupalLogin($this->webform_users['admin']);
++    $this->webformReset();
++
++    // Create the Webform test node.
++    $node = $this->webformForm();
++    $node = node_load($node->nid);
++
++    $this->drupalGet('node/' . $node->nid, array('query' => array('foo' => 'bar')));
++    $this->drupalPost(NULL, array(), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
++
++    // Confirm the IP hasn't been stored.
++    $result = db_select('webform_submissions', 'ws')->
++      fields('ws', array('remote_addr'))
++      ->execute()
++      ->fetchObject();
++    $this->assertEqual(filter_var($result->remote_addr, FILTER_VALIDATE_IP), FALSE, 'IP address is not recorded with submissions when webform_store_ip_address is "as-needed".');
++    variable_del('webform_store_ip_address');
++  }
++
++  /**
++   * Test always storing IP address when webform_store_ip_address is 'always'.
++   */
++  public function testWebformStoreIPAlways() {
++    variable_set('webform_store_ip_address', 'always');
++
++    $this->drupalLogin($this->webform_users['admin']);
++    $this->webformReset();
++
++    // Create the Webform test node.
++    $node = $this->webformForm();
++    $node = node_load($node->nid);
++
++    $this->drupalGet('node/' . $node->nid, array('query' => array('foo' => 'bar')));
++    $this->drupalPost(NULL, array(), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
++
++    // Confirm the IP has been stored.
++    $result = db_select('webform_submissions', 'ws')->
++      fields('ws', array('remote_addr'))
++      ->execute()
++      ->fetchObject();
++    $this->assertNotEqual(filter_var($result->remote_addr, FILTER_VALIDATE_IP), FALSE, 'IP address is recorded when webform_store_ip_address is "always".');
++    variable_del('webform_store_ip_address');
++  }
++
++  /**
+    * Execute the submission test.
+    *
+    * @param $value_type
+diff -ruN webformold/tests/webformflood.test webform/tests/webformflood.test
+--- webformold/tests/webformflood.test	1970-01-01 00:00:00.000000000 +0000
++++ webform/tests/webformflood.test	2021-06-07 15:12:12.880566000 +0000
+@@ -0,0 +1,80 @@
++<?php
++
++/**
++ * Webform module flood tests.
++ */
++class WebformFloodTestCase extends WebformTestCase {
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function getInfo() {
++    return array(
++      'name' => t('Webform flood detection'),
++      'description' => t('Submits a sample webform multiple times and tests flood detection.'),
++      'group' => t('Webform'),
++    );
++  }
++
++  /**
++   * Test flood event registration for authenticated user.
++   */
++  public function testWebformSubmissionFloodEventAuth() {
++    $this->drupalLogin($this->webform_users['admin']);
++    $this->webformReset();
++    variable_set('webform_tracking_mode', 'ip_address');
++
++    $node = $this->webformForm(array(
++      'submit_interval' => 36000,
++      'submit_limit' => 3,
++    ));
++    $node = node_load($node->nid);
++
++    $this->webformFlood($node->nid, 3);
++
++    // Attempt to submit once more.
++    $this->drupalGet('node/' . $node->nid, array('query' => array('foo' => 'bar')));
++    $this->assertText(t('You may not submit another entry at this time.'));
++
++    $this->drupalLogout();
++    variable_del('webform_tracking_mode');
++  }
++
++  /**
++   * Test flood event registration for anonymous user.
++   */
++  public function testWebformSubmissionFloodEventAnon() {
++    $this->drupalLogin($this->webform_users['admin']);
++    $this->webformReset();
++    variable_set('webform_tracking_mode', 'ip_address');
++
++    $node = $this->webformForm(array(
++      'submit_interval' => 36000,
++      'submit_limit' => 3,
++    ));
++    $node = node_load($node->nid);
++
++    $this->drupalLogout();
++
++    $this->webformFlood($node->nid, 4);
++    $this->assertText(t('You may not submit another entry at this time.'));
++    variable_del('webform_tracking_mode');
++  }
++
++  /**
++   * Helper function to flood a webform with a specific number of default entries.
++   *
++   * @param int $nid
++   *   The nid of the form.
++   *
++   * @param int $iterations
++   *   The number of times to submit.
++   */
++  public function webformFlood($nid, $iterations) {
++    for ($i = 0; $i < $iterations; $i++) {
++      $this->drupalGet('node/' . $nid, array('query' => array('foo' => 'bar')));
++      $this->drupalPost(NULL, array(), 'Submit', array(), array(), 'webform-client-form-' . $nid);
++    }
++  }
++
++}
+diff -ruN webformold/tests/webform.test webform/tests/webform.test
+--- webformold/tests/webform.test	2015-07-15 20:22:40.000000000 +0000
++++ webform/tests/webform.test	2021-06-07 15:12:12.893538900 +0000
+@@ -1010,7 +1010,7 @@
+      'format' => '1',
+      'webform' => array(
+         'confirmation' => 'Thanks!',
+-      ) + webform_node_defaults(),
++      ) + $webform_settings + webform_node_defaults(),
+     );
+ 
+     $cid = 0;
+diff -ruN webformold/webform.info webform/webform.info
+--- webformold/webform.info	2015-07-16 19:54:06.000000000 +0000
++++ webform/webform.info	2021-06-07 15:12:12.897441200 +0000
+@@ -16,6 +16,7 @@
+ files[] = includes/exporters/webform_exporter_excel_delimited.inc
+ files[] = includes/exporters/webform_exporter_excel_xlsx.inc
+ files[] = includes/exporters/webform_exporter.inc
++files[] = includes/webform.userlimit.inc
+ 
+ files[] = views/webform_handler_area_result_pager.inc
+ files[] = views/webform_handler_field_form_body.inc
+@@ -39,6 +40,7 @@
+ files[] = tests/permissions.test
+ files[] = tests/submission.test
+ files[] = tests/webform.test
++files[] = webformflood.test
+ 
+ ; Information added by Drupal.org packaging script on 2015-07-16
+ version = "7.x-4.10"
+diff -ruN webformold/webform.install webform/webform.install
+--- webformold/webform.install	2015-07-15 20:22:40.000000000 +0000
++++ webform/webform.install	2021-06-07 15:12:12.908184300 +0000
+@@ -772,6 +772,7 @@
+   // Unset webform variables.
+   variable_del('webform_blocks');
+   variable_del('webform_tracking_mode');
++  variable_del('webform_store_ip_address');
+   variable_del('webform_allowed_tags');
+   variable_del('webform_email_address_format');
+   variable_del('webform_email_address_individual');
+diff -ruN webformold/webform.module webform/webform.module
+--- webformold/webform.module	2015-07-15 20:22:40.000000000 +0000
++++ webform/webform.module	2021-06-07 15:16:23.662608200 +0000
+@@ -3288,6 +3288,11 @@
+       $params = session_get_cookie_params();
+       setcookie($cookie_name . '[' . $time . ']', $time, $time + $node->webform['submit_interval'] + 86400, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+     }
++    // Register a flood event.
++    if (!$node->webform['confidential'] &&
++        ($user->uid !== 0 || $tracking_mode === 'ip_address' || $tracking_mode === 'strict')) {
++      WebformFloodEvent::fromNode($node)->register($user);
++    }
+ 
+     // Save session information about this submission for anonymous users,
+     // allowing them to access or edit their submissions.
+@@ -4188,6 +4193,9 @@
+     case 'webform_submission_access_control':
+       $result = variable_get('webform_submission_access_control', 1);
+       break;
++    case 'webform_store_ip_address':
++      $result = variable_get('webform_store_ip_address', 'as-needed');
++      break;  
+     case 'webform_update_batch_size':
+       $result = variable_get('webform_update_batch_size', 100);
+       break;
+@@ -5004,7 +5012,8 @@
+  * Returns an IP Address or anonymized IP Address for confidential webforms.
+  */
+ function webform_ip_address($node) {
+-  return $node->webform['confidential'] ? t('(unknown)') : ip_address();
++  $s = webform_variable_get('webform_store_ip_address') != 'always';
++  return $s || $node->webform['confidential'] ? t('(unknown)') : ip_address();
+ }
+ 
+ /**
