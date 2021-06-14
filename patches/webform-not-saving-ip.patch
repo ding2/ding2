@@ -1,6 +1,6 @@
-diff -ruN webformold/includes/webform.admin.inc webform/includes/webform.admin.inc
---- webformold/includes/webform.admin.inc	2015-07-15 20:22:40.000000000 +0000
-+++ webform/includes/webform.admin.inc	2021-06-07 15:12:12.867870600 +0000
+diff -Naur webformold/includes/webform.admin.inc webform/includes/webform.admin.inc
+--- webformold/includes/webform.admin.inc	2021-06-08 13:52:46.481923400 +0000
++++ webform/includes/webform.admin.inc	2021-06-14 11:02:59.295622700 +0000
 @@ -158,6 +158,16 @@
      '#description' => t('<a href="http://www.wikipedia.org/wiki/HTTP_cookie">Cookies</a> can be used to help prevent the same user from repeatedly submitting a webform. Limiting by IP address is more effective against repeated submissions, but may result in unintentional blocking of users sharing the same address. Confidential submissions are tracked by cookie only. Logged-in users are always tracked by their user ID and are not affected by this option.'),
    );
@@ -18,11 +18,11 @@ diff -ruN webformold/includes/webform.admin.inc webform/includes/webform.admin.i
    $form['advanced']['webform_email_address_format'] = array(
      '#type' => 'radios',
      '#title' => t('E-mail address format'),
-diff -ruN webformold/includes/webform.submissions.inc webform/includes/webform.submissions.inc
---- webformold/includes/webform.submissions.inc	2015-07-15 20:22:40.000000000 +0000
-+++ webform/includes/webform.submissions.inc	2021-06-07 15:12:12.871779900 +0000
-@@ -966,27 +966,12 @@
-     return FALSE; // No check enabled.
+diff -Naur webformold/includes/webform.submissions.inc webform/includes/webform.submissions.inc
+--- webformold/includes/webform.submissions.inc	2021-06-08 13:52:46.667397200 +0000
++++ webform/includes/webform.submissions.inc	2021-06-14 11:02:59.356917900 +0000
+@@ -1049,27 +1049,12 @@
+     return FALSE;
    }
  
 -  // Fetch all the entries from the database within the submit interval with
@@ -52,7 +52,7 @@ diff -ruN webformold/includes/webform.submissions.inc webform/includes/webform.s
    }
  
    // Double check the submission history from the users machine using cookies.
-@@ -1007,7 +992,7 @@
+@@ -1090,7 +1075,7 @@
      }
    }
  
@@ -61,9 +61,9 @@ diff -ruN webformold/includes/webform.submissions.inc webform/includes/webform.s
      // Limit exceeded.
      return TRUE;
    }
-diff -ruN webformold/includes/webform.userlimit.inc webform/includes/webform.userlimit.inc
+diff -Naur webformold/includes/webform.userlimit.inc webform/includes/webform.userlimit.inc
 --- webformold/includes/webform.userlimit.inc	1970-01-01 00:00:00.000000000 +0000
-+++ webform/includes/webform.userlimit.inc	2021-06-07 15:12:12.875687000 +0000
++++ webform/includes/webform.userlimit.inc	2021-06-14 11:02:59.363753300 +0000
 @@ -0,0 +1,82 @@
 +<?php
 +
@@ -147,70 +147,9 @@ diff -ruN webformold/includes/webform.userlimit.inc webform/includes/webform.use
 +  }
 +
 +}
-diff -ruN webformold/tests/submission.test webform/tests/submission.test
---- webformold/tests/submission.test	2015-07-15 20:22:40.000000000 +0000
-+++ webform/tests/submission.test	2021-06-07 15:12:12.887678300 +0000
-@@ -96,6 +96,57 @@
-   }
- 
-   /**
-+   * Test not storing IP with submission data when webform_store_ip_address is
-+   * 'as-needed'.
-+   */
-+  public function testWebformStoreIPAsNeeded() {
-+    variable_set('webform_store_ip_address', 'as-needed');
-+
-+    $this->drupalLogin($this->webform_users['admin']);
-+    $this->webformReset();
-+
-+    // Create the Webform test node.
-+    $node = $this->webformForm();
-+    $node = node_load($node->nid);
-+
-+    $this->drupalGet('node/' . $node->nid, array('query' => array('foo' => 'bar')));
-+    $this->drupalPost(NULL, array(), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
-+
-+    // Confirm the IP hasn't been stored.
-+    $result = db_select('webform_submissions', 'ws')->
-+      fields('ws', array('remote_addr'))
-+      ->execute()
-+      ->fetchObject();
-+    $this->assertEqual(filter_var($result->remote_addr, FILTER_VALIDATE_IP), FALSE, 'IP address is not recorded with submissions when webform_store_ip_address is "as-needed".');
-+    variable_del('webform_store_ip_address');
-+  }
-+
-+  /**
-+   * Test always storing IP address when webform_store_ip_address is 'always'.
-+   */
-+  public function testWebformStoreIPAlways() {
-+    variable_set('webform_store_ip_address', 'always');
-+
-+    $this->drupalLogin($this->webform_users['admin']);
-+    $this->webformReset();
-+
-+    // Create the Webform test node.
-+    $node = $this->webformForm();
-+    $node = node_load($node->nid);
-+
-+    $this->drupalGet('node/' . $node->nid, array('query' => array('foo' => 'bar')));
-+    $this->drupalPost(NULL, array(), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
-+
-+    // Confirm the IP has been stored.
-+    $result = db_select('webform_submissions', 'ws')->
-+      fields('ws', array('remote_addr'))
-+      ->execute()
-+      ->fetchObject();
-+    $this->assertNotEqual(filter_var($result->remote_addr, FILTER_VALIDATE_IP), FALSE, 'IP address is recorded when webform_store_ip_address is "always".');
-+    variable_del('webform_store_ip_address');
-+  }
-+
-+  /**
-    * Execute the submission test.
-    *
-    * @param $value_type
-diff -ruN webformold/tests/webformflood.test webform/tests/webformflood.test
---- webformold/tests/webformflood.test	1970-01-01 00:00:00.000000000 +0000
-+++ webform/tests/webformflood.test	2021-06-07 15:12:12.880566000 +0000
+diff -Naur webformold/tests/WebformFloodTestCase.test webform/tests/WebformFloodTestCase.test
+--- webformold/tests/WebformFloodTestCase.test	1970-01-01 00:00:00.000000000 +0000
++++ webform/tests/WebformFloodTestCase.test	2021-06-14 11:02:59.381331400 +0000
 @@ -0,0 +1,80 @@
 +<?php
 +
@@ -292,22 +231,83 @@ diff -ruN webformold/tests/webformflood.test webform/tests/webformflood.test
 +  }
 +
 +}
-diff -ruN webformold/tests/webform.test webform/tests/webform.test
---- webformold/tests/webform.test	2015-07-15 20:22:40.000000000 +0000
-+++ webform/tests/webform.test	2021-06-07 15:12:12.893538900 +0000
-@@ -1010,7 +1010,7 @@
-      'format' => '1',
-      'webform' => array(
+diff -Naur webformold/tests/WebformSubmissionTestCase.test webform/tests/WebformSubmissionTestCase.test
+--- webformold/tests/WebformSubmissionTestCase.test	2021-06-08 13:52:47.286811300 +0000
++++ webform/tests/WebformSubmissionTestCase.test	2021-06-14 11:02:59.370591000 +0000
+@@ -300,6 +300,57 @@
+   }
+ 
+   /**
++   * Test not storing IP with submission data when webform_store_ip_address is
++   * 'as-needed'.
++   */
++  public function testWebformStoreIPAsNeeded() {
++    variable_set('webform_store_ip_address', 'as-needed');
++
++    $this->drupalLogin($this->webform_users['admin']);
++    $this->webformReset();
++
++    // Create the Webform test node.
++    $node = $this->webformForm();
++    $node = node_load($node->nid);
++
++    $this->drupalGet('node/' . $node->nid, array('query' => array('foo' => 'bar')));
++    $this->drupalPost(NULL, array(), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
++
++    // Confirm the IP hasn't been stored.
++    $result = db_select('webform_submissions', 'ws')->
++      fields('ws', array('remote_addr'))
++      ->execute()
++      ->fetchObject();
++    $this->assertEqual(filter_var($result->remote_addr, FILTER_VALIDATE_IP), FALSE, 'IP address is not recorded with submissions when webform_store_ip_address is "as-needed".');
++    variable_del('webform_store_ip_address');
++  }
++
++  /**
++   * Test always storing IP address when webform_store_ip_address is 'always'.
++   */
++  public function testWebformStoreIPAlways() {
++    variable_set('webform_store_ip_address', 'always');
++
++    $this->drupalLogin($this->webform_users['admin']);
++    $this->webformReset();
++
++    // Create the Webform test node.
++    $node = $this->webformForm();
++    $node = node_load($node->nid);
++
++    $this->drupalGet('node/' . $node->nid, array('query' => array('foo' => 'bar')));
++    $this->drupalPost(NULL, array(), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
++
++    // Confirm the IP has been stored.
++    $result = db_select('webform_submissions', 'ws')->
++      fields('ws', array('remote_addr'))
++      ->execute()
++      ->fetchObject();
++    $this->assertNotEqual(filter_var($result->remote_addr, FILTER_VALIDATE_IP), FALSE, 'IP address is recorded when webform_store_ip_address is "always".');
++    variable_del('webform_store_ip_address');
++  }
++
++  /**
+    * Execute the submission test.
+    *
+    * @param string $value_type
+diff -Naur webformold/tests/WebformTestCase.test webform/tests/WebformTestCase.test
+--- webformold/tests/WebformTestCase.test	2021-06-08 13:52:47.307253100 +0000
++++ webform/tests/WebformTestCase.test	2021-06-14 11:02:59.388166600 +0000
+@@ -1012,7 +1012,7 @@
+       'format' => '1',
+       'webform' => $webform_settings + array(
          'confirmation' => 'Thanks!',
 -      ) + webform_node_defaults(),
 +      ) + $webform_settings + webform_node_defaults(),
      );
  
      $cid = 0;
-diff -ruN webformold/webform.info webform/webform.info
---- webformold/webform.info	2015-07-16 19:54:06.000000000 +0000
-+++ webform/webform.info	2021-06-07 15:12:12.897441200 +0000
-@@ -16,6 +16,7 @@
+diff -Naur webformold/webform.info webform/webform.info
+--- webformold/webform.info	2021-06-08 13:52:45.925654400 +0000
++++ webform/webform.info	2021-06-14 11:02:59.396955000 +0000
+@@ -15,6 +15,7 @@
  files[] = includes/exporters/webform_exporter_excel_delimited.inc
  files[] = includes/exporters/webform_exporter_excel_xlsx.inc
  files[] = includes/exporters/webform_exporter.inc
@@ -316,17 +316,17 @@ diff -ruN webformold/webform.info webform/webform.info
  files[] = views/webform_handler_area_result_pager.inc
  files[] = views/webform_handler_field_form_body.inc
 @@ -39,6 +40,7 @@
- files[] = tests/permissions.test
- files[] = tests/submission.test
- files[] = tests/webform.test
-+files[] = webformflood.test
+ files[] = tests/WebformSubmissionTestCase.test
+ files[] = tests/WebformTestCase.test
+ files[] = tests/WebformUnitTestCase.test
++files[] = tests/WebformFloodTestCase.test
  
- ; Information added by Drupal.org packaging script on 2015-07-16
- version = "7.x-4.10"
-diff -ruN webformold/webform.install webform/webform.install
---- webformold/webform.install	2015-07-15 20:22:40.000000000 +0000
-+++ webform/webform.install	2021-06-07 15:12:12.908184300 +0000
-@@ -772,6 +772,7 @@
+ ; Information added by Drupal.org packaging script on 2021-05-21
+ version = "7.x-4.24"
+diff -Naur webformold/webform.install webform/webform.install
+--- webformold/webform.install	2021-06-08 13:52:45.951043200 +0000
++++ webform/webform.install	2021-06-14 11:02:59.418437300 +0000
+@@ -786,6 +786,7 @@
    // Unset webform variables.
    variable_del('webform_blocks');
    variable_del('webform_tracking_mode');
@@ -334,10 +334,10 @@ diff -ruN webformold/webform.install webform/webform.install
    variable_del('webform_allowed_tags');
    variable_del('webform_email_address_format');
    variable_del('webform_email_address_individual');
-diff -ruN webformold/webform.module webform/webform.module
---- webformold/webform.module	2015-07-15 20:22:40.000000000 +0000
-+++ webform/webform.module	2021-06-07 15:16:23.662608200 +0000
-@@ -3288,6 +3288,11 @@
+diff -Naur webformold/webform.module webform/webform.module
+--- webformold/webform.module	2021-06-08 13:52:46.070176400 +0000
++++ webform/webform.module	2021-06-14 11:02:59.435038900 +0000
+@@ -3425,6 +3425,11 @@
        $params = session_get_cookie_params();
        setcookie($cookie_name . '[' . $time . ']', $time, $time + $node->webform['submit_interval'] + 86400, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
      }
@@ -349,17 +349,18 @@ diff -ruN webformold/webform.module webform/webform.module
  
      // Save session information about this submission for anonymous users,
      // allowing them to access or edit their submissions.
-@@ -4188,6 +4193,9 @@
-     case 'webform_submission_access_control':
+@@ -4460,6 +4465,10 @@
        $result = variable_get('webform_submission_access_control', 1);
        break;
+ 
 +    case 'webform_store_ip_address':
 +      $result = variable_get('webform_store_ip_address', 'as-needed');
 +      break;  
-     case 'webform_update_batch_size':
-       $result = variable_get('webform_update_batch_size', 100);
++
+     case 'webform_token_access':
+       $result = variable_get('webform_token_access', 1);
        break;
-@@ -5004,7 +5012,8 @@
+@@ -5314,7 +5323,8 @@
   * Returns an IP Address or anonymized IP Address for confidential webforms.
   */
  function webform_ip_address($node) {
