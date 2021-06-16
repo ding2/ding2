@@ -261,7 +261,7 @@
     }
   }
   &.odd {
-    background-color: $grey;
+    background-color: $grey-light;
 
     // Mobile
     @include media($mobile) {
