@@ -43,7 +43,7 @@
     top: 0;
     z-index: $z-above;
     padding: 10px;
-    background-color: $grey-dark;
+    background-color: $grey;
 
     &.is-bottom {
       top: auto;
@@ -120,7 +120,7 @@
             border: none;
             border-radius: $round-corner;
             color: $charcoal-opacity-dark;
-            background-color: lighten($grey-dark, 5%);
+            background-color: lighten($grey, 5%);
             line-height: 1em;
             text-align: left;
             cursor: pointer;
