@@ -195,6 +195,16 @@
       }
     }
   }
+  .material-item {
+    min-height: 100px;
+    .item-title {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+    .item-information-list {
+      margin: 0;
+    }
+  }
 }
 
 .pane-bookmarks {
