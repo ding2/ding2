@@ -27,6 +27,16 @@ function ding_sections_install() {
     'ding_sections_term_panel',
   );
   module_enable($submodules);
+
+  field_bundle_settings('taxonomy_term', 'section', [
+    'extra_fields' => [
+      'form' => [
+        'name' => ['weight' => -6],
+        'description' => ['weight' => -4],
+        'path' => ['weight' => -1],
+      ],
+    ],
+  ]);
 }
 
 /**
@@ -241,7 +251,7 @@ function _ding_sections_create_image_field() {
         'manualcrop_require_cropping' => [],
       ],
       'type' => 'media_generic',
-      'weight' => 3,
+      'weight' => -3,
     ],
   ];
 
@@ -318,7 +328,7 @@ function _ding_sections_create_teaser_field() {
       'default' => [
         'label' => 'above',
         'type' => 'text_default',
-        'weight' => -1,
+        'weight' => -5,
         'settings' => [],
         'module' => 'text',
       ],
@@ -364,4 +374,45 @@ function _ding_sections_purge_teaser_field() {
  */
 function ding_sections_update_7102() {
   _ding_sections_create_teaser_field();
+}
+
+/**
+ * Configure form field order for sections.
+ */
+function ding_sections_update_7103() {
+  $entity_type = 'taxonomy_term';
+  $bundle = 'section';
+
+  $extra_fields = ['name', 'description', 'path'];
+
+  $field_instance_order = [
+    'name',
+    'field_ding_sections_teaser',
+    'description',
+    'field_ding_sections_image',
+    'field_ding_sections_custom_css',
+    'path',
+  ];
+
+  // Bundle settings contain settings for extra fields and their weights.
+  // They are loaded and saved together.
+  $bundle_settings = field_bundle_settings($entity_type, $bundle);
+
+  // Update field weights.
+  $num_fields = count($field_instance_order);
+  foreach ($field_instance_order as $order => $field_name) {
+    $weight = $order - $num_fields;
+    if (in_array($field_name, $extra_fields)) {
+      $bundle_settings['extra_fields']['form'][$field_name]['weight'] = $weight;
+    }
+    else {
+      $instance = field_read_instance($entity_type, $field_name, $bundle);
+      if ($instance) {
+        $instance['widget']['weight'] = $weight;
+        field_update_instance($instance);
+      }
+    }
+  }
+
+  field_bundle_settings($entity_type, $bundle, $bundle_settings);
 }

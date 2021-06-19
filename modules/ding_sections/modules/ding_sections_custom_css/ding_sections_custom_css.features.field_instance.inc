@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_sections_custom_css.features.field_instance.inc
@@ -11,7 +10,8 @@
 function ding_sections_custom_css_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'taxonomy_term-section-field_ding_sections_custom_css'.
+  // Exported field_instance:
+  // 'taxonomy_term-section-field_ding_sections_custom_css'.
   $field_instances['taxonomy_term-section-field_ding_sections_custom_css'] = array(
     'bundle' => 'section',
     'default_value' => NULL,
@@ -41,7 +41,7 @@ function ding_sections_custom_css_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 3,
+      'weight' => -2,
     ),
   );
 
