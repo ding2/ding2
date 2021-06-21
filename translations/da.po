@@ -44171,9 +44171,6 @@ msgstr "K"
 msgid "No nodes in this queue."
 msgstr "Ingen indholdselementer i denne k"
 
-msgid "Post Date"
-msgstr "Oprettelsesdato"
-
 msgid "Administer the suite of Organic groups modules."
 msgstr "Administrér samlingen af Organic groups-moduler."
 
@@ -68049,3 +68046,17 @@ msgstr "Fjern fra listen"
 #: /ting_search_carousel/results/ajax/WyJ0ZXJtLnN1YmplY3Q9c2xcdTAwZTZndHNyb21hbmVyICBub3Qgc2U9Km1hZ25hKiBhbmQgaG9sZGluZ3NpdGVtLmFjY2Vzc2lvbkRhdGU%2BPVwiTk9XLTEyTU9OVEhTXCIgYW5kIHRlcm0udHlwZT1ib2cgYW5kIGZhY2V0LmNhdGVnb3J5PXZva3Nlbm1hdGVyaWFsZXIiLCIiLDBd/0
 msgid "Removed from checklist"
 msgstr "Fjernet fra listen"
+
+#: /lazy-pane/ajax
+msgctxt "fbs"
+msgid "Fee"
+msgstr "Gebyr"
+
+#: /lazy-pane/ajax
+msgctxt "fbs"
+msgid "Compensation"
+msgstr "Erstatning"
+
+#: /user/me/view
+msgid "Logged-in"
+msgstr "Logget ind"
