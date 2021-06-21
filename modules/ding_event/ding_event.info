@@ -99,6 +99,7 @@ features[field_instance][] = node-ding_event-og_group_ref
 features[field_instance][] = taxonomy_term-event_organizer-field_event_organizer_link
 features[node][] = ding_event
 features[page_manager_handlers][] = ding_event_node_view
+features[page_manager_handlers][] = term_view__ding-organizer
 features[page_manager_handlers][] = term_view_panel_context
 features[page_manager_pages][] = ding_events
 features[page_manager_pages][] = ding_events_library
