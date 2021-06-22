@@ -104,7 +104,7 @@ function ding_news_field_default_field_instances() {
       'weight' => 32,
     ),
   );
-  
+
   // Exported field_instance: 'node-ding_news-field_ding_news_body'.
   $field_instances['node-ding_news-field_ding_news_body'] = array(
     'bundle' => 'ding_news',
@@ -687,6 +687,7 @@ function ding_news_field_default_field_instances() {
     'settings' => array(
       'add_mode' => 'select',
       'allowed_bundles' => array(
+        'custom_boost_values' => -1,
         'ding_paragraphs_carousel' => 'ding_paragraphs_carousel',
         'ding_paragraphs_image' => 'ding_paragraphs_image',
         'ding_paragraphs_image_and_text' => 'ding_paragraphs_image_and_text',
@@ -696,13 +697,14 @@ function ding_news_field_default_field_instances() {
         'ding_paragraphs_text_box' => 'ding_paragraphs_text_box',
       ),
       'bundle_weights' => array(
-        'ding_paragraphs_carousel' => 11,
-        'ding_paragraphs_image' => -5,
-        'ding_paragraphs_image_and_text' => -4,
-        'ding_paragraphs_material_list' => -12,
-        'ding_paragraphs_single_material' => 9,
-        'ding_paragraphs_text' => -6,
-        'ding_paragraphs_text_box' => 5,
+        'custom_boost_values' => -9,
+        'ding_paragraphs_carousel' => -10,
+        'ding_paragraphs_image' => -14,
+        'ding_paragraphs_image_and_text' => -13,
+        'ding_paragraphs_material_list' => -15,
+        'ding_paragraphs_single_material' => -11,
+        'ding_paragraphs_text' => -16,
+        'ding_paragraphs_text_box' => -12,
       ),
       'default_edit_mode' => 'preview',
       'title' => 'Paragraph',
