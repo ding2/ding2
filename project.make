@@ -445,6 +445,9 @@ projects[virtual_field][version] = "1.2"
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.23"
 
+projects[views_ajax_history][subdir] = "contrib"
+projects[views_ajax_history][version] = "1.1"
+
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
@@ -683,3 +686,9 @@ libraries[yaml][download][type] = "get"
 libraries[yaml][download][url] = https://github.com/symfony/yaml/archive/v3.4.47.tar.gz
 libraries[yaml][directory_name] = "yaml"
 libraries[yaml][destination] = "libraries"
+
+; Library used for remembering browser history in ajax views.
+libraries[history.js][download][type] = "get"
+libraries[history.js][download][url] = https://codeload.github.com/browserstate/history.js/tar.gz/1.8.0
+libraries[history.js][directory_name] = "history.js"
+libraries[history.js][destination] = "libraries"
