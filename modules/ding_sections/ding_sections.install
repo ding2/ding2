@@ -326,7 +326,7 @@ function _ding_sections_create_teaser_field() {
     'description' => 'Tekst shown in teasers.',
     'display' => [
       'default' => [
-        'label' => 'above',
+        'label' => 'hidden',
         'type' => 'text_default',
         'weight' => -5,
         'settings' => [],
@@ -416,3 +416,15 @@ function ding_sections_update_7103() {
 
   field_bundle_settings($entity_type, $bundle, $bundle_settings);
 }
+
+/**
+ * Hide section teaser label
+ */
+function ding_sections_update_7105() {
+  $instance = field_read_instance('taxonomy_term', 'field_ding_sections_teaser', 'section');
+  if ($instance) {
+    $instance['display']['default']['label'] = 'hidden';
+    field_update_instance($instance);
+  }
+}
+

@@ -447,3 +447,38 @@ function ding_sections_preprocess_views_view_fields(&$vars) {
     }
   }
 }
+
+/**
+ * Implements hook_ctools_plugin_pre_alter().
+ */
+function ding_sections_ctools_plugin_pre_alter(&$plugin, &$info) {
+  if ($plugin['name'] !== 'term_description') {
+    return;
+  }
+
+  // Set a render callback to replace the default content of the term
+  // description pane.
+  $plugin['render callback'] = "ding_sections_render_term";
+}
+
+/**
+ * Custom render function for section terms
+ *
+ * This is an alternate implementation of
+ * ctools_term_description_content_type_render(). It replaces the
+ * content of the original with a default taxonomy term view. The
+ * original function will only output the description. This allows us
+ * to output other fields without replacing the pane already being
+ * used.
+ */
+function ding_sections_render_term($subtype, $conf, $panel_args, $context) {
+  $block = ctools_term_description_content_type_render($subtype, $conf, $panel_args, $context);
+
+  $term = $context->data;
+  $vocabulary = taxonomy_vocabulary_load($term->vid);
+  if ($vocabulary->machine_name == "section") {
+    $block->content =  taxonomy_term_view($context->data);
+  }
+
+  return $block;
+}
