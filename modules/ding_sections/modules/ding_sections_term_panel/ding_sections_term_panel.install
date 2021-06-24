@@ -132,3 +132,16 @@ function ding_sections_term_panel_update_7001(&$sandbox) {
   $handler = ding_sections_term_panel_get_handler();
   page_manager_save_task_handler($handler);
 }
+
+/**
+ * Restore base panel page to default settings.
+ */
+function ding_sections_term_panel_update_7002(&$sandbox) {
+  $handler = page_manager_load_task_handler('term_view', '', 'term_section_panel_context');
+  if ($handler) {
+    page_manager_delete_task_handler($handler);
+  }
+
+  $handler = ding_sections_term_panel_get_handler();
+  page_manager_save_task_handler($handler);
+}
