@@ -373,6 +373,9 @@ projects[role_delegation][version] = "1.1"
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.7"
 
+projects[samesite_cookie][subdir] = "contrib"
+projects[samesite_cookie][version] = "1.0-rc1"
+
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
 
