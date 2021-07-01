@@ -137,7 +137,6 @@ function fbs_availability_holdings($provider_ids) {
         // Look for the marc field to get DK5 classification from. We require
         // that either 'm' or 'o' subfield is present and prefer 652. If this is
         // not the case we'll try the outdated marc field 654 for DK5.
-        $field_dk5 = fbs_get_marc_field($entity, '652');
         if (empty($field_dk5['m']) && empty($field_dk5['o'])) {
           $field_dk5 = fbs_get_marc_field($entity, '654');
         }
