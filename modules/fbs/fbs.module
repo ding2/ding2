@@ -237,6 +237,13 @@ function fbs_settings_form() {
     '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
   );
 
+  $form['fbs']['fbs_display_dk5'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Display DK5 on holdings'),
+    '#description' => t('Allow to control visibility of DK5 value on holdings placement.'),
+    '#default_value' => variable_get('fbs_display_dk5', TRUE),
+  ];
+
   // Branches and blacklisted branches.
   $form['branches'] = array(
     '#type' => 'fieldset',
