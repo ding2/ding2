@@ -29,7 +29,7 @@
   <a href="<?php print url('taxonomy/term/' . $row->tid); ?>" aria-labelledby="<?php print 'link-id-' . $row->tid; ?>"<?php print drupal_attributes($link_attributes); ?>>
     <div class="group-text">
       <h3 id="<?php print 'link-id-' . $row->tid; ?>" class="title"><?php print $row->taxonomy_term_data_name; ?></h3>
-      <?php if (!empty($row->taxonomy_term_data_description)) : ?>
+      <?php if (!empty($row->field_field_ding_sections_teaser[0]['rendered'])) : ?>
       <div class="section-description">
         <?php print drupal_render($row->field_field_ding_sections_teaser[0]['rendered']); ?>
       </div>

@@ -1,5 +1,14 @@
 @import '../base.scss';
 
+.pane-term-description .vocabulary-section {
+
+  .field-name-field-ding-sections-teaser {
+    @include font('base-bold');
+    margin: 20px 0;
+  }
+
+}
+
 .pane-ding-sections {
   padding-bottom: 30px;
 

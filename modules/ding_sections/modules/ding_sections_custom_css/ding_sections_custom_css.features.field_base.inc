@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_sections_custom_css.features.field_base.inc
@@ -18,14 +17,6 @@ function ding_sections_custom_css_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_sections_custom_css',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',

@@ -149,6 +149,9 @@ function ding_sections_term_menu_form_taxonomy_form_term_alter(&$form, &$form_st
  */
 function ding_sections_term_validate($form, &$form_state) {
   if ($form_state['values']['section']['enabled'] == 1) {
+    // Automatically transfer title from name to menu.
+    $form_state['values']['menu']['link_title'] = $form_state['values']['name'];
+
     $menu_parameters = array(
       'parent' => 'Parent item',
     );
