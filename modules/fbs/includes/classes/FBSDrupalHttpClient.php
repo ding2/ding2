@@ -34,6 +34,7 @@ class FBSDrupalHttpClient implements HttpClient {
       'method' => $request->getMethod(),
       'headers' => $headers,
       'data' => $body->getContents(),
+      'timeout' => variable_get('fbs_timeout', 60.0),
     );
     $res = drupal_http_request($url, $options);
 
