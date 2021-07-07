@@ -223,6 +223,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           'settings' => array(
             'format_type' => 'ding_time_only',
             'fromto' => 'value',
+            'show_repeat_rule' => 'hide',
           ),
         );
 
@@ -272,6 +273,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           'settings' => array(
             'format_type' => 'ding_time_only',
             'fromto' => 'both',
+            'show_repeat_rule' => 'hide',
           ),
         ));
         $variables['event_time'] = $event_time_ra[0]['#markup'];

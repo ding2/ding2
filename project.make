@@ -60,6 +60,11 @@ projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 projects[date][patch][] = "https://www.drupal.org/files/issues/2019-01-16/2843367-php71-string-offset-47.patch"
 
+projects[date_repeat_entity][subdir] = "contrib"
+projects[date_repeat_entity][version] = "2.0"
+; Fix fatal error on date repeat update: https://www.drupal.org/project/date_repeat_entity/issues/2651300
+projects[date_repeat_entity][patch][] = "https://www.drupal.org/files/issues/2021-04-15/date_repeat_entity_fix_update_error-707484.patch"
+
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
 ; Patch to fix empty order_id. See https://drupal.org/node/2107389
@@ -366,6 +371,9 @@ projects[redirect][version] = "1.0-rc3"
 
 projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0"
+
+projects[replicate][subdir] = "contrib"
+projects[replicate][version] = "1.2"
 
 projects[role_delegation][subdir] = "contrib"
 projects[role_delegation][version] = "1.1"

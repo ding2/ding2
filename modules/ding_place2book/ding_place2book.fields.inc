@@ -46,27 +46,25 @@ function ding_place2book_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $event = $event_id = $event_maker_id = $synchronize = NULL;
+  $event = $event_id = $event_maker_id = $synchronize = $prices = $meta_data = NULL;
   if (!empty($items)) {
     // If items is non-empty we might be on a node clone form.
     // See: ding_place2book_clone_node_alter()
-    if ($items[$delta]['do_clone']) {
+    if (!empty($items[$delta]['do_clone'])) {
       $event = $items[$delta]['event_clone'];
       $meta_data = isset($event->meta_data) ? $event->meta_data : NULL;
       $prices = $items[$delta]['prices_clone'];
       $synchronize = $items[$delta]['synchronize'];
     }
-    // Otherwise this an existing p2b-synced entity.
+    // Otherwise this an existing p2b-synced entity; try to fetch the event.
     else {
       list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
       try {
-        $p2b = ding_place2book_instance();
-        $event = $p2b->getEvent($event_maker_id, $event_id);
+        list($event, $prices) = ding_place2book_get_event($event_maker_id, $event_id);
         $meta_data = isset($event->meta_data) ? $event->meta_data : NULL;
-        $prices = $p2b->getPrices($event_maker_id, $event_id);
       }
       catch (Exception $ex) {
-        watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+        drupal_set_message(t('Error appeared on getting data from p2b.'), 'error');
       }
     }
   }
@@ -610,7 +608,9 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
     $p2b = ding_place2book_instance();
     // Collect data for synchronizing event.
     $prices = $settings['prices_wrapper']['prices'];
-    $original_event = $settings['original_event'];
+    if (!$is_new) {
+      $original_event = $settings['original_event'];
+    }
     unset($settings['prices_wrapper']);
     unset($settings['original_event']);
     unset($settings['synchronize']);
@@ -645,7 +645,7 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
     }
 
     foreach ($prices as $price) {
-      if (empty($price['name']) || (empty($price['value']) && $price['value'] !== '0')) {
+      if (empty($price['name']) || !isset($price['value'])) {
         continue;
       }
 
