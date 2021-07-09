@@ -319,13 +319,14 @@ function ting_das_order_form_ajax_callback($form, &$form_state) {
 
       try {
         $client->send();
+        $html = theme('status_messages') . t('Your order have been placed.');
+        $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Success'), $html, array('refresh' => FALSE));
       }
       catch (Exception $exception) {
         watchdog_exception('ting_das', $exception);
+        $html = theme('status_messages') . t('Your order did not succeed. Please contact your library');
+        $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Failure'), $html, array('refresh' => FALSE));
       }
-
-      $html = theme('status_messages') . t('Your order have been placed.');
-      $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Success'), $html, array('refresh' => FALSE));
     }
   }
   else {
