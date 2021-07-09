@@ -230,6 +230,11 @@ function ting_das_order_form($form_id, &$form_state, TingEntity $entity) {
       '#required' => TRUE,
     );
 
+    // Add JS to handle spinner on the submit button.
+    $form['#attached']['js'] = array(
+      drupal_get_path('module', 'ting_das') . '/js/ting_das.js',
+    );
+
     $function = $provider['module'] . '_user_branches';
     $preferred_branch = $profile ? $profile->{'field_' . $provider['module'] . '_preferred_branch'}->value() : '';
     $form += ding_reservation_default_options_branch('fbs_preferred_branch', $preferred_branch, $function($user));
