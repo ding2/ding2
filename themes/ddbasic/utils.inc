@@ -20,26 +20,6 @@ function ddbasic_body_class($class = array()) {
 }
 
 /**
- * Get the total amount of debts the user has.
- */
-function ddbasic_account_count_debts($account = NULL) {
-  // Prepare the static cache.
-  $debts = &drupal_static(__FUNCTION__, array());
-
-  // Default the $account to the currently logged in user.
-  if (empty($account)) {
-    $account = $GLOBALS['user'];
-  }
-
-  // If the user have no hits in the static cache, count the debts.
-  if (!isset($debts[$account->uid])) {
-    $debts[$account->uid] = count(ding_provider_invoke('debt', 'list', $account));
-  }
-
-  return $debts[$account->uid];
-}
-
-/**
  * Get the total amount of loans the user has.
  */
 function ddbasic_account_count_loans($account = NULL) {

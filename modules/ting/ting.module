@@ -541,7 +541,14 @@ function ting_ding_entity_is($object, $class) {
   // more flexibilty to other modules.
   switch ($class) {
     case 'online':
-      if (!empty($object->getOnline_url())) {
+      $online_types = variable_get('ting_online_types', _ting_default_online_types());
+      // System settings form for online types does not use array_filter on
+      // checkboxes, so we filter out 0-values here.
+      $online_types = array_filter($online_types);
+
+      // If the object itself thinks it's online or it's explicitly marked as an
+      // online type we return TRUE.
+      if (in_array(drupal_strtolower($object->getType()), $online_types) || $object->isOnline()) {
         return TRUE;
       }
       return NULL;

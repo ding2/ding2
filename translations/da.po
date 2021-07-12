@@ -41330,10 +41330,6 @@ msgstr "Titel på overordnet element"
 msgid "Parent item menu"
 msgstr "Menu for overordnet element"
 
-#: /user/48/status/debts
-msgid "Fee date"
-msgstr "Oprettelsesdato"
-
 #: /search/ting/dc.title%3D%22%C3%98jne%20p%C3%A5%20stilke%22?facets[]=facet.acSource%3Apalles%20gavebod
 msgid "Search the library database and the website"
 msgstr "Søg i biblioteksdatabasen og på hjemmesiden"
@@ -44174,9 +44170,6 @@ msgstr "K"
 
 msgid "No nodes in this queue."
 msgstr "Ingen indholdselementer i denne k"
-
-msgid "Post Date"
-msgstr "Oprettelsesdato"
 
 msgid "Administer the suite of Organic groups modules."
 msgstr "Administrér samlingen af Organic groups-moduler."
@@ -70910,9 +70903,6 @@ msgstr "Tilføjet til gemte søgninger"
 msgid "Title for followed search"
 msgstr "Titel på gemt søgning"
 
-msgid "Add"
-msgstr "Gem"
-
 #: /search/ting/harry%20potter?
 msgid "See your followed searches."
 msgstr "Se mine gemte søgninger"
@@ -71346,3 +71336,29 @@ msgstr "<strong>BEMÆRK!</strong>: Indsæt aldrig CPR-nummer eller følsomme opl
 #: /node/5/edit?destination=admin/content%3Fstatus%3DAll%26type%3Dding_library%26sid%3DAll%26language%3DAll
 msgid "The image will automatically be resized. The maximum dimensions are %dimensions (Original: 800x600)."
 msgstr "Billedet vil automatisk blive tilpasset. Se vejledning om <a href=\"https://platform.dandigbib.org/projects/ddb-cms/wiki/Ddb-cms-manual_struktur-og-indhold#St%C3%B8rrelser-for-billeder-ift-de-forskellige-indholdstyper\">Størrelser for billeder ift. de forskellige indholdstyper</a>"
+
+#: /user/48/status/debts
+msgid "Fee date"
+msgstr "Gebyr oprettet"
+
+#: /ting_search_carousel/results/ajax/WyJ0ZXJtLnN1YmplY3Q9c2xcdTAwZTZndHNyb21hbmVyICBub3Qgc2U9Km1hZ25hKiBhbmQgaG9sZGluZ3NpdGVtLmFjY2Vzc2lvbkRhdGU%2BPVwiTk9XLTEyTU9OVEhTXCIgYW5kIHRlcm0udHlwZT1ib2cgYW5kIGZhY2V0LmNhdGVnb3J5PXZva3Nlbm1hdGVyaWFsZXIiLCIiLDBd/0
+msgid "Remove from checklist"
+msgstr "Fjern fra listen"
+
+#: /ting_search_carousel/results/ajax/WyJ0ZXJtLnN1YmplY3Q9c2xcdTAwZTZndHNyb21hbmVyICBub3Qgc2U9Km1hZ25hKiBhbmQgaG9sZGluZ3NpdGVtLmFjY2Vzc2lvbkRhdGU%2BPVwiTk9XLTEyTU9OVEhTXCIgYW5kIHRlcm0udHlwZT1ib2cgYW5kIGZhY2V0LmNhdGVnb3J5PXZva3Nlbm1hdGVyaWFsZXIiLCIiLDBd/0
+msgid "Removed from checklist"
+msgstr "Fjernet fra listen"
+
+#: /lazy-pane/ajax
+msgctxt "fbs"
+msgid "Fee"
+msgstr "Gebyr"
+
+#: /lazy-pane/ajax
+msgctxt "fbs"
+msgid "Compensation"
+msgstr "Erstatning"
+
+#: /user/me/view
+msgid "Logged-in"
+msgstr "Logget ind"

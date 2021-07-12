@@ -78,6 +78,7 @@
   stylesheets[all][] = sass_css/add-ons/frontpage-header.css
   stylesheets[all][] = sass_css/add-ons/genre-list.css
   stylesheets[all][] = sass_css/add-ons/material-list.css
+  stylesheets[all][] = sass_css/add-ons/nodelist.css
   stylesheets[all][] = sass_css/add-ons/panel-pane-ding-node.css
   stylesheets[all][] = sass_css/add-ons/related-content.css
   stylesheets[all][] = sass_css/add-ons/servicemeddelelse-list.css

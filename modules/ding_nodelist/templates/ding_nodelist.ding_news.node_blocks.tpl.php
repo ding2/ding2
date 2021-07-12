@@ -13,9 +13,9 @@ if (!empty($item->image)) {
   $image = '<div class="ding-news-list-image nb-image" style="background-image:url(' . $item->image . ');"></div>';
 }
 ?>
-<article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
-         class="node node-ding-news node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>"<?php print $attributes; ?>>
-  <a href="<?php print url('node/' . $item->nid); ?>">
+<article data-row="<?php print $row; ?>" data-column=" <?php print $column; ?>"
+         class="node node-ding-news node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>"<?php print $attributes; ?>>
+  <a href="<?php print '/node/' . $item->nid; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>">
     <div class="inner">
       <div class="background">
         <div class="button"><?php print t('Read more'); ?></div>
@@ -25,7 +25,7 @@ if (!empty($item->image)) {
           <?php print drupal_render($item->category); ?>
         </div>
         <div class="title-and-lead">
-          <h3 class="title"><?php print $item->title; ?></h3>
+          <h3 class="title" id="<?php print 'link-id-' . $item->nid; ?>"><?php print $item->title; ?></h3>
           <div class="date"><?php print $item->date; ?></div>
           <div
                   class="field field-name-field-ding-news-lead field-type-text-long field-label-hidden element-hidden">

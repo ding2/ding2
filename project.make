@@ -425,9 +425,7 @@ projects[tipsy][subdir] = "contrib"
 projects[tipsy][version] = "1.0-rc1"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.6"
-; Fixes Field UI field's description translation, https://www.drupal.org/node/2474403
-projects[token][patch][] = "https://www.drupal.org/files/issues/token-field_description_overwritten-2474403-12-D7.patch"
+projects[token][version] = "1.8"
 
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
@@ -490,6 +488,9 @@ projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.10"
 projects[webform][patch][] = "https://www.drupal.org/files/issues/webform-2811063-43.patch"
 
+projects[webform_purge][subdir] = "contrib"
+projects[webform_purge][version] = "1.3"
+
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
@@ -518,7 +519,7 @@ projects[xautoload][version] = "5.8"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-6.2.1"
+libraries[bpi-client][download][tag] = "7.x-6.3.2"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
@@ -595,7 +596,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-6.2.1"
+libraries[ting-client][download][tag] = "7.x-6.3.2"
 
 ; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"
@@ -649,7 +650,7 @@ libraries[smart-app-banner][destination] = "libraries"
 
 ; For ding_react.
 libraries[ddb-react][download][type] = "get"
-libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/2.1.0/dist.zip
+libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/2.4.0/dist.zip
 libraries[ddb-react][directory_name] = "ddb-react"
 libraries[ddb-react][destination] = "libraries"
 
@@ -687,6 +688,12 @@ libraries[fabric][download][type] = "get"
 libraries[fabric][download][url] = https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.3.2/fabric.js
 libraries[fabric][directory_name] = "fabric"
 libraries[fabric][destination] = "libraries"
+
+; Library used by Configuration import (older version to be able to run on PHP 5.6).
+libraries[yaml][download][type] = "get"
+libraries[yaml][download][url] = https://github.com/symfony/yaml/archive/v3.4.47.tar.gz
+libraries[yaml][directory_name] = "yaml"
+libraries[yaml][destination] = "libraries"
 
 ; easyOPAC contribution modules
 projects[add_to_head][subdir]               = "contrib"

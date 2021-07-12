@@ -11,6 +11,7 @@
 function ding_sections_install() {
   _ding_sections_create_base();
   _ding_sections_create_image_field();
+  _ding_sections_create_teaser_field();
   _ding_sections_create_fields();
   ding_sections_section_shortcut();
 
@@ -25,6 +26,16 @@ function ding_sections_install() {
     'ding_sections_term_panel',
   );
   module_enable($submodules);
+
+  field_bundle_settings('taxonomy_term', 'section', [
+    'extra_fields' => [
+      'form' => [
+        'name' => ['weight' => -6],
+        'description' => ['weight' => -4],
+        'path' => ['weight' => -1],
+      ],
+    ],
+  ]);
 }
 
 /**
@@ -33,6 +44,7 @@ function ding_sections_install() {
 function ding_sections_uninstall() {
   _ding_sections_purge_fields();
   _ding_sections_purge_image_field();
+  _ding_sections_purge_teaser_field();
   _ding_sections_purge_base();
 
   variable_del('ding_section_content_types');
@@ -232,9 +244,21 @@ function _ding_sections_create_image_field() {
           'upload' => 'upload',
           'youtube' => 0,
         ],
+        'manualcrop_enable' => 1,
+        'manualcrop_keyboard' => TRUE,
+        'manualcrop_thumblist' => FALSE,
+        'manualcrop_inline_crop' => FALSE,
+        'manualcrop_crop_info' => TRUE,
+        'manualcrop_instant_preview' => TRUE,
+        'manualcrop_instant_crop' => FALSE,
+        'manualcrop_default_crop_area' => TRUE,
+        'manualcrop_maximize_default_crop_area' => FALSE,
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_styles_list' => ['crop_16_9' => 'crop_16_9'],
+        'manualcrop_require_cropping' => [],
       ],
       'type' => 'media_generic',
-      'weight' => 3,
+      'weight' => -3,
     ],
   ];
 
@@ -269,3 +293,145 @@ function ding_sections_update_7101() {
   $instance['widget']['settings']['manualcrop_styles_list'] = ['crop_16_9' => 'crop_16_9'];
   field_update_instance($instance);
 }
+
+/**
+ * Create teaser field on sections.
+ */
+function _ding_sections_create_teaser_field() {
+  $field_definition = [
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => [],
+    'locked' => 0,
+    'field_name' => 'field_ding_sections_teaser',
+    'foreign keys' => [
+      'format' => [
+        'table' => 'filter_format',
+        'columns' => [
+          'format' => 'format',
+        ],
+      ],
+    ],
+    'indexes' => [
+      'format' => [
+        0 => 'format',
+      ],
+    ],
+    'settings' => [
+      'profile2_private' => false,
+    ],
+    'type' => 'text_long',
+    'module' => 'text',
+    'translatable' => '0',
+  ];
+
+  $field_instance_definition = [
+    'bundle' => 'section',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Tekst shown in teasers.',
+    'display' => [
+      'default' => [
+        'label' => 'hidden',
+        'type' => 'text_default',
+        'weight' => -5,
+        'settings' => [],
+        'module' => 'text',
+      ],
+    ],
+    'entity_type' => 'taxonomy_term',
+    'field_name' => 'field_ding_sections_teaser',
+    'label' => 'Teaser',
+    'required' => 0,
+    'settings' => [
+      'text_processing' => 0,
+      'user_register_form' => false,
+    ],
+    'widget' => [
+      'weight' => -1,
+      'type' => 'text_textarea',
+      'module' => 'text',
+      'active' => 1,
+      'settings' => [
+        'rows' => 5,
+      ],
+    ],
+  ];
+
+  field_create_field($field_definition);
+  field_create_instance($field_instance_definition);
+}
+
+/**
+ * Remove teaser field.
+ */
+function _ding_sections_purge_teaser_field() {
+  $field_instance = field_read_instance('taxonomy_term', 'field_ding_sections_teaser', 'section');
+
+  if (!empty($field_instance)) {
+    field_delete_instance($field_instance);
+    field_delete_field('field_ding_sections_teaser');
+  }
+
+}
+
+/**
+ * Create teaser field on sections.
+ */
+function ding_sections_update_7102() {
+  _ding_sections_create_teaser_field();
+}
+
+/**
+ * Configure form field order for sections.
+ */
+function ding_sections_update_7103() {
+  $entity_type = 'taxonomy_term';
+  $bundle = 'section';
+
+  $extra_fields = ['name', 'description', 'path'];
+
+  $field_instance_order = [
+    'name',
+    'field_ding_sections_teaser',
+    'description',
+    'field_ding_sections_image',
+    'field_ding_sections_custom_css',
+    'path',
+  ];
+
+  // Bundle settings contain settings for extra fields and their weights.
+  // They are loaded and saved together.
+  $bundle_settings = field_bundle_settings($entity_type, $bundle);
+
+  // Update field weights.
+  $num_fields = count($field_instance_order);
+  foreach ($field_instance_order as $order => $field_name) {
+    $weight = $order - $num_fields;
+    if (in_array($field_name, $extra_fields)) {
+      $bundle_settings['extra_fields']['form'][$field_name]['weight'] = $weight;
+    }
+    else {
+      $instance = field_read_instance($entity_type, $field_name, $bundle);
+      if ($instance) {
+        $instance['widget']['weight'] = $weight;
+        field_update_instance($instance);
+      }
+    }
+  }
+
+  field_bundle_settings($entity_type, $bundle, $bundle_settings);
+}
+
+/**
+ * Hide section teaser label
+ */
+function ding_sections_update_7105() {
+  $instance = field_read_instance('taxonomy_term', 'field_ding_sections_teaser', 'section');
+  if ($instance) {
+    $instance['display']['default']['label'] = 'hidden';
+    field_update_instance($instance);
+  }
+}
+

@@ -53,6 +53,16 @@ function ding_user_profile2_form_content_type_render($subtype, $conf, $panel_arg
       $form = entity_ui_get_form('profile2', $profile);
     }
 
+    // Attempt to prevent browser from auto filling the password update fields
+    // as this can cause unecesarry issues with form validation. This should be
+    // the standard way of doing it, but some browsers may still ignore it. We
+    // add it here since attributes are not passed along from password_confirm
+    // element to the password fields.
+    // See: https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
+    // See: https://stackoverflow.com/questions/2530/how-do-you-disable-browser-autocomplete-on-web-form-field-input-tag
+    $form['pass']['pincode']['pass1']['#attributes']['autocomplete'] = 'new-password';
+    $form['pass']['pincode']['pass2']['#attributes']['autocomplete'] = 'new-password';
+
     // Set block delta and title.
     $block->title = $profile_type->profile_type->label;
     $block->delta = $form['#form_id'];

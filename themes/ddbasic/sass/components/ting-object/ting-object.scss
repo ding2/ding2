@@ -156,8 +156,8 @@
           opacity: 1;
         }
       }
-      // Hide ding react add to list button in teaser views.
-      [data-ddb-app="add-to-checklist"] {
+      // Hide ding react checklist button in teaser views.
+      [data-ddb-app="checklist-material-button"] {
         display: none;
       }
 

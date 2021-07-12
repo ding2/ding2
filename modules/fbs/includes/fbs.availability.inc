@@ -231,8 +231,6 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $holdings_suffix;
       }
 
-      $placement_string = implode(' > ', $result_holding['placement']);
-
       // Count available materials.
       foreach ($item_holding->materials as $material) {
         $result[$item->recordId]['total_count']++;
@@ -243,6 +241,8 @@ function fbs_availability_holdings($provider_ids) {
         }
 
         if ($material->periodical) {
+          $placement_string = implode(' > ', $result_holding['placement']);
+
           // Add to issues.
           $key = (!empty($material->periodical->volumeYear) ?
                   $material->periodical->volumeYear : '') . ':' .
@@ -255,8 +255,15 @@ function fbs_availability_holdings($provider_ids) {
             $tmp_issues[$key]['total'] += 1;
           }
           else {
+            // Generate "vol key". Both volume and volumeNumber can be empty so
+            // if one is empty just use the other or if both are present we use
+            // "volume-volumeNumber".
+            $volume_string = implode('-', array_filter([
+              $material->periodical->volume,
+              $material->periodical->volumeNumber,
+            ]));
             $tmp_issues[$key] = array(
-              'vol' => $material->periodical->volume . (!empty($material->periodical->volumeNumber) ? '-' . $material->periodical->volumeNumber : ''),
+              'vol' => $volume_string,
               'year' => $material->periodical->volumeYear,
               'available' => $material->available ? 1 : 0,
               'total' => 1,
@@ -301,7 +308,28 @@ function fbs_availability_holdings($provider_ids) {
     }
   }
 
+  // Sort holdings alphabetically based on library name.
+  foreach ($result as &$item) {
+    usort($item['holdings'], 'fbs_holdings_sort_compare');
+  }
+
   return $result;
+}
+
+/**
+ * Sort holdings by library name (known as placement).
+ *
+ * @param array $a
+ *   Holdings array.
+ * @param array $b
+ *   Holdings array.
+ *
+ * @return int
+ *   Returns < 0 if str1 is less than str2; > 0 if str1 is greater than str2,
+ *   and 0 if they are equal.
+ */
+function fbs_holdings_sort_compare(array $a, array $b) {
+  return strcasecmp($a['placement'][0], $b['placement'][0]);
 }
 
 /**

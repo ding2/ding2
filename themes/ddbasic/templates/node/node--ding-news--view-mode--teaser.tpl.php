@@ -86,12 +86,12 @@
  * @see template_process()
  */
 ?>
-<article class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <a href="<?php print $node_url; ?>">
+<article class="<?php print $classes; ?>" aria-labelledby="news-article-<?php print $node->nid; ?>" <?php print $attributes; ?>>
+  <a href="<?php print $node_url; ?>" aria-label="<?php print t('Read more about') . ' ' . $title; ?>">
     <div class="inner">
       <?php print $news_teaser_image; ?>
       <div class="news-text">
-        <h3 class="title"><?php print $title; ?></h3>
+        <h3 class="title" id="news-article-<?php print $node->nid; ?>"><?php print $title; ?></h3>
         <div class="category-and-submitted">
           <?php print render($content['field_ding_news_category']); ?>
           <?php if (isset($content['field_ding_section'])) : ?>

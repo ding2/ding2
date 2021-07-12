@@ -9,7 +9,6 @@
 
 .material-item {
   position: relative;
-  float: left;
   min-height: 136px;
   width: 100%;
   padding: 10px 20px;
@@ -179,7 +178,16 @@
     }
     > li {
       float: left;
+      width: 33%;
+      box-sizing: border-box;
+      padding-right: 10px;
+      margin: 0 0;
       list-style: none;
+
+      &:nth-child(1+3n) {
+        clear: left;
+      }
+
       > div {
         margin-right: 30px;
         &:last-child {
@@ -189,13 +197,10 @@
       // Mobile
       @include media($mobile) {
         width: 50%;
-        box-sizing: border-box;
-        padding-right: 10px;
-        margin: 0 0 20px;
-      }
 
-      &.loan-date {
-        clear: left;
+        &:nth-child(odd) {
+          clear: left;
+        }
       }
 
       &.url {

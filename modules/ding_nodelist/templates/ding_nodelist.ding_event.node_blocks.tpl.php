@@ -7,8 +7,8 @@
 ?>
 
 <article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
-         class="node node-ding-event node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>"<?php print $attributes; ?>>
-  <a href="<?php print url('node/' . $item->nid); ?>">
+         class="node node-ding-event node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>"<?php print $attributes; ?>>
+  <a href="<?php print '/node/' . $item->nid; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>">
     <?php if (!empty($item->image)): ?>
       <div class="event-list-image nb-image" style="background-image:url(<?php print $item->image; ?>);"></div>
     <?php endif; ?>
@@ -22,7 +22,7 @@
         </div>
         <div class="date"><?php print $item->date; ?></div>
         <div class="title-and-lead">
-          <h3 class="title"><?php print $item->title; ?></h3>
+          <h3 class="title" id="<?php print 'link-id-' . $item->nid; ?>"><?php print $item->title; ?></h3>
           <div
                   class="field field-name-field-ding-event-lead field-type-text-long field-label-hidden element-hidden">
             <div class="field-items">

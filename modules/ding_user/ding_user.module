@@ -1168,10 +1168,22 @@ function ding_user_comment_load($comments) {
  * Implements hook_FROM_ID_alter().
  *
  * Alters the site wide contact form to allow all users to send a copy to them
- * self.
+ * self, but only if they are logged in to avoid it being used as a spam tool
+ * by anonymous users.
  */
 function ding_user_form_contact_site_form_alter(&$form, $form_state, $form_id) {
-  $form['copy']['#access'] = TRUE;
+  $form['copy']['#access'] = user_is_logged_in();
+}
+
+/**
+ * Implements hook_metatag_metatags_view_alter().
+ */
+function ding_user_metatag_metatags_view_alter(&$output, $instance, $options) {
+  if (!empty($output['title']) && user_is_logged_in()) {
+    // Overwrite 'head_title' value. Append logged-in status.
+    // See: DrupalTitleMetaTag::getElement() from metatag module.
+    $output['title']['#attached']['metatag_set_preprocess_variable'][0][2] .= ' | ' . t('Logged-in');
+  }
 }
 
 /**
