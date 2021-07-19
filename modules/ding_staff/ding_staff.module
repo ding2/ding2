@@ -176,3 +176,33 @@ function ding_staff_profile2_view($profile, $view_mode, $langcode) {
     $profile->content['field_ding_staff_surname'][0]['#markup'] = $output;
   }
 }
+
+/**
+ * Implements hook_preprocess().
+ */
+function ding_staff_preprocess(&$variables, $hook) {
+  // Localization of Staff Position field.
+  // @TODO: It's wrong to pass variable into "t()" function.
+  switch ($hook) {
+    case 'entity':
+      $elements = $variables['elements'];
+      if ($elements['#entity_type'] == 'profile2' && $elements['#bundle'] == 'ding_staff_profile') {
+        if (isset($variables['content']['field_ding_staff_position'])) {
+          $staff_position = $variables['content']['field_ding_staff_position'][0]['#markup'];
+          $variables['content']['field_ding_staff_position'][0]['#markup'] = t($staff_position);
+        }
+      }
+      break;
+
+    case 'views_view_fields':
+      $view = $variables['view'];
+
+      if ($view->name == 'ding_staff') {
+        if (isset($variables["fields"]["field_ding_staff_position"])) {
+          $staff_position = $variables["fields"]["field_ding_staff_position"]->content;
+          $variables["fields"]["field_ding_staff_position"]->content = t($staff_position);
+        }
+      }
+      break;
+  }
+}
