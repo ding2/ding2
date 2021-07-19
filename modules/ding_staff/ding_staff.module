@@ -182,7 +182,7 @@ function ding_staff_profile2_view($profile, $view_mode, $langcode) {
  */
 function ding_staff_preprocess(&$variables, $hook) {
   // Localization of Staff Position field.
-  // @TODO: It's wrong to pass variable into "t()" function.
+  // @todo: It's wrong to pass variable into "t()" function.
   switch ($hook) {
     case 'entity':
       $elements = $variables['elements'];
