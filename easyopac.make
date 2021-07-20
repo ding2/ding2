@@ -376,6 +376,13 @@ projects[easyopac_abstracts_override][download][url]    = "git@github.com:easySu
 ;projects[easyopac_abstracts_override][download][tag]    = ""
 projects[easyopac_abstracts_override][download][branch] = "development"
 
+projects[easyopac_marc_references][type]             = "module"
+projects[easyopac_marc_references][subdir]           = ""
+projects[easyopac_marc_references][download][type]   = "git"
+projects[easyopac_marc_references][download][url]    = "git@github.com:easySuite/easyopac_marc_references.git"
+;projects[easyopac_marc_references][download][tag]    = ""
+projects[easyopac_marc_references][download][branch] = "development"
+
 projects[easyddb_event_status][type]             = "module"
 projects[easyddb_event_status][subdir]           = ""
 projects[easyddb_event_status][download][type]   = "git"
