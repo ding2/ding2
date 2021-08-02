@@ -220,12 +220,6 @@
       color: $grey-dark;
     }
     #ding-loan-loans-form & {
-      width: 50%;
-
-      // Mobile
-      @include media($mobile) {
-        width: 100%;
-      }
       .item-information-label {
         @include font('base');
         color: $color-standard-text;
