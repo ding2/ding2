@@ -13,6 +13,11 @@ function ding_react_uninstall() {
   variable_del('ding_react_follow_searches_url');
   variable_del('ding_react_migrate_timeout');
   variable_del('ding_react_debug');
+}
 
+/**
+ * Delete the openlist_uid from ting_openlist.
+ */
+function ding_react_update_7101() {
   db_drop_field('users', 'openlist_uid');
 }
