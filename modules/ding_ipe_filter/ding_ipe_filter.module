@@ -295,7 +295,7 @@ function ding_ipe_filter_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * "New custom content" form submit callback.
+ * Submit callback for "New custom content".
  */
 function ding_ipe_filter_banner_mode_form_submit($form, &$form_state) {
   $pane = $form_state['pane'];
