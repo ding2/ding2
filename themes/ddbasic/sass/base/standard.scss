@@ -76,8 +76,7 @@ body {
 
       // If there are too many links, we need to add even more padding.
       &#{$_selector}.has-second-level-menu.secondary-menu-below-main,
-      &#{$_selector}.has-second-level-menu.has-multiline-main-menu,
-      &#{$_selector}.secondary-menu-below-main {
+      &#{$_selector}.has-second-level-menu.has-multiline-main-menu {
         padding-top: $_value + $second-level-menu-height + $search-form-extended-height;
       }
     }

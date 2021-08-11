@@ -42,7 +42,6 @@
     position: absolute;
     top: 0;
     z-index: $z-above;
-    padding: 10px;
     background-color: $grey-dark;
 
     &.is-bottom {
@@ -81,6 +80,7 @@
 
     .action-buttons {
       width: 100%;
+      margin-top: 10px;
       padding-left: 180px;
 
       // Tablet
@@ -91,32 +91,30 @@
       // Mobile
       @include media($mobile) {
         width: 100%;
-        padding-left: 0;
+        padding: 10px;
       }
       .action-button {
-        margin-right: getGutter(8);
+        margin-right: 10px;
+        margin-bottom: 10px;
         padding: 0;
         float: left;
+        input[type="submit"] {
+          margin-bottom: 0;
+        }
         &:nth-child(2) {
           margin-right: 0;
         }
-        &:nth-child(3) {
-          margin-top: 10px;
+
+        input[type="submit"], a {
+          padding: 10px;
+          height: auto;
         }
 
-        @include media($mobile) {
-          margin-bottom: 10px;
-          &:nth-child(3) {
-            margin-top: 0;
-          }
-        }
         &.action-all {
           a {
             @include font('base');
             @include transition(background-color $speed $ease, color $speed $ease);
             display: block;
-            height: $element-height;
-            padding: 23px 15px 18px;
             border: none;
             border-radius: $round-corner;
             color: $charcoal-opacity-dark;
@@ -143,6 +141,9 @@
           }
         }
         &.delete-all {
+          // Ensure delete button on new row or else the padding-top calculation
+          // from account.js will be wrong.
+          clear: both;
           a {
             color: white;
             background-color: $red;
@@ -152,6 +153,10 @@
               }
             }
           }
+        }
+
+        @include media($mobile) {
+          clear: both;
         }
       }
     }
