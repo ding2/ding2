@@ -31,6 +31,7 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
       return !empty($context->data);
     }
   );
+
   $ting_objects = array_map(function (ctools_context $context) {
     $data = $context->data;
     if ($data instanceof TingCollection) {
@@ -40,38 +41,24 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
       return $data->getTingObject();
     }
   }, $contexts_with_data);
+
   // Contexts are in prioritized order so get the first which yielded an object.
   $object = array_shift($ting_objects);
 
   // Only show related materials if the object has subjects. If not then there
   // is not enough data to display meaningful results.
-  if ($object instanceof TingObjectInterface && !empty($object->getSubjects())) {
-    // Support setting allowed sources through a variable in case our hard-coded
-    // list is not sufficient. NB: There is currently no admin UI for setting
-    // this.
-    $sources = variable_get('ding_react_related_materials_sources', implode(',', [
-      // These are sources containing well-known materials which are also
-      // likely to have cover images. This makes the list more appealing.
-      'bibliotekskatalog',
-      'ereolen',
-      'ereolen global',
-      'comics plus',
-      'ebook central',
-      'rbdigital magazines',
-    ]));
-    $sources = explode(',', $sources);
+  if ($object instanceof TingObjectInterface) {
+    // We need to dig into the ding_adgangsplatformen configuration to get the
+    // client id that Libry Recommendation Service requires.
+    $config = ding_adgangsplatformen_get_configuration();
 
     $data = [
-      'subjects' => ding_react_related_materials_format_data($object->getSubjects()),
-      'categories' => ding_react_related_materials_format_data($object->getAudience()),
-      'sources' => ding_react_related_materials_format_data($sources),
-      'exclude-title' => ding_react_related_materials_format_data($object->getTitle()),
-      // We cannot use url() here as it will encode the colon in the placeholder.
-      'search-url' => '/search/ting/:query?sort=:sort',
+      'pid' => ding_react_related_materials_format_data($object->getId()),
+      'client-id' => $config['clientId'],
       'material-url' => '/ting/object/:pid',
       'cover-service-url' => ding_react_cover_service_url(),
+      'related-materials-service-url' => ding_react_related_materials_service_url(),
       'title-text' => t('Related materials'),
-      'search-text' => t('Show search result for related materials'),
       'agency-id' => variable_get('ting_agency', ''),
     ];
     $block->content = ding_react_app('related-materials', $data);
