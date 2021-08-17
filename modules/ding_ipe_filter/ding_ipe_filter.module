@@ -72,6 +72,9 @@ function ding_ipe_filter_theme($existing, $type, $theme, $path) {
       ),
       'path' => $path . '/templates',
     ),
+    'colorfield' => [
+      'render element' => 'element',
+    ],
   );
 }
 
@@ -265,7 +268,7 @@ function ding_ipe_filter_form_alter(&$form, &$form_state, $form_id) {
     ];
 
     $form['banner_bg_color'] = [
-      '#type' => 'textfield',
+      '#type' => 'color',
       '#title' => t('Banner background'),
       '#description' => t('The background color of banner.'),
       '#default_value' => $form_state['conf']['banner_bg_color'] ?? '#FFFE5B',
@@ -278,7 +281,7 @@ function ding_ipe_filter_form_alter(&$form, &$form_state, $form_id) {
     ];
 
     $form['banner_text_color'] = [
-      '#type' => 'textfield',
+      '#type' => 'color',
       '#title' => t('Banner text color'),
       '#description' => t('Text color of the banner.'),
       '#default_value' => $form_state['conf']['banner_text_color'] ?? '#000000',
@@ -290,8 +293,53 @@ function ding_ipe_filter_form_alter(&$form, &$form_state, $form_id) {
       '#weight' => 0,
     ];
 
+    // Hide title and heading fields.
+    $hide_fields = ['title', 'title_heading'];
+
+    foreach ($hide_fields as $field) {
+      $form[$field]['#states'] = [
+        'visible' => [
+          ':input[name="banner_mode"]' => ['checked' => FALSE],
+        ],
+      ];
+    }
+
     $form['#submit'][] = 'ding_ipe_filter_banner_mode_form_submit';
   }
+}
+
+/**
+ * Implements hook_element_info().
+ */
+function ding_ipe_filter_element_info() {
+  return [
+    'color' => [
+      '#input' => TRUE,
+      '#process' => ['ajax_process_form'],
+      '#theme' => ['colorfield'],
+      '#theme_wrappers' => ['form_element'],
+      '#value_callback' => 'form_type_textfield_value',
+      '#autocomplete_path' => FALSE,
+    ],
+  ];
+}
+
+/**
+ * Returns HTML for a colorfield form element.
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - element: An associative array containing the properties of the element.
+ *     Properties used: #title, #value, #description, #size, #maxlength,
+ *     #required, #attributes, #autocomplete_path.
+ *
+ * @ingroup themeable
+ */
+function theme_colorfield($variables) {
+  $element = $variables['element'];
+  $element['#attributes']['type'] = 'color';
+  element_set_attributes($element, ['id', 'name', 'value', 'size', 'maxlength']);
+  return '<input' . drupal_attributes($element['#attributes']) . ' />';
 }
 
 /**
