@@ -361,6 +361,8 @@ function ding_ipe_filter_banner_mode_form_submit($form, &$form_state) {
 
     if (!empty($banner_mode)) {
       $pane->configuration[$field] = $form_state['values'][$field];
+      unset($pane->configuration['title']);
+      unset($pane->configuration['title_heading']);
     }
     else {
       unset($pane->configuration[$field]);
