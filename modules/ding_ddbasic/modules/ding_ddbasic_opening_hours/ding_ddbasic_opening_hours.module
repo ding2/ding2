@@ -143,7 +143,12 @@ function ding_ddbasic_opening_hours_get_category_name($category_tid) {
       $name[$category_tid] = t('Opening hours');
     }
     else {
-      $name[$category_tid] = taxonomy_term_load($category_tid)->name;
+      if (module_exists('i18n_taxonomy')) {
+        $name[$category_tid] = i18n_taxonomy_taxonomy_term_label(taxonomy_term_load($category_tid), 'taxonomy_term');
+      }
+      else {
+        $name[$category_tid] = taxonomy_term_load($category_tid)->name;
+      }
     }
   }
 
