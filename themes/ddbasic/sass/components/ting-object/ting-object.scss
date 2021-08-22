@@ -8,6 +8,10 @@
   // Teaser (and Teaser no overlay)
   // ==========================================================================
 
+  .ddb-btn {
+    border-radius: unset;
+  }
+
   &.view-mode-teaser,
   &.view-mode-teaser-no-overlay {
     > .inner {
