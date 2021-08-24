@@ -12,7 +12,7 @@
         if (mobileFooterTimer) {
           clearTimeout(mobileFooterTimer);
         }
-        mobileFooterTimer = setTimeout(() => {
+        mobileFooterTimer = setTimeout(function () {
           $(this).toggleClass('open');
           $(this).parent().find(".pane-content").slideToggle("fast");
           $('html, body').animate({
