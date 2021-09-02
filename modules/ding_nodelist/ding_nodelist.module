@@ -1191,7 +1191,19 @@ function _ding_nodelist_get_dynamic_list_nodes(array $conf) {
  *   Array of node IDs.
  */
 function _ding_nodelist_get_custom_list_nodes(array &$conf = array()) {
+  global $language;
   $nodes = $conf['selected_nodes'];
+
+  if (module_exists('ding_language')) {
+    foreach ($nodes as $key => $node) {
+      $load = node_load($node['nid']);
+      $translations = translation_node_get_translations($load->tnid);
+      if (!empty($translations)) {
+        $nodes[$key]['nid'] = $translations[$language->language]->nid;
+      }
+    }
+  }
+
   uasort($nodes, 'drupal_sort_weight');
   $nodes = array_map(function ($node) {
     return $node['nid'];
