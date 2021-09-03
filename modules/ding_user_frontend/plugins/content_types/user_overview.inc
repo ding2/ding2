@@ -39,7 +39,7 @@ function ding_user_frontend_user_overview_content_type_render($subtype, $conf, $
     $uri = entity_uri('user', $account);
 
     // Fines.
-    $count = count(ding_provider_invoke('debt', 'list', $account));
+    $count = ding_debt_count($account);
     if ($count > 0) {
       $class = 'fines';
     } else {
