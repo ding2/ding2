@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * User overview with links to user pages.
@@ -40,9 +41,11 @@ function ding_user_frontend_user_overview_content_type_render($subtype, $conf, $
 
     // Fines.
     $count = ding_debt_count($account);
+
     if ($count > 0) {
       $class = 'fines';
-    } else {
+    }
+    else {
       $class = 'default';
     }
     $list[DING_USER_FRONTEND_LIST_DEPTS] = array(
