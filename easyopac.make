@@ -404,6 +404,13 @@ projects[easyopac_facets_translate][download][url]    = "git@github.com:easySuit
 ;projects[easyopac_facets_translate][download][tag]    = ""
 projects[easyopac_facets_translate][download][branch] = "development"
 
+projects[easyopac_marc_references][type]             = "module"
+projects[easyopac_marc_references][subdir]           = ""
+projects[easyopac_marc_references][download][type]   = "git"
+projects[easyopac_marc_references][download][url]    = "git@github.com:easySuite/easyopac_marc_references.git"
+;projects[easyopac_marc_references][download][tag]    = ""
+projects[easyopac_marc_references][download][branch] = "development"
+
 projects[easyopac_recommender][type]             = "module"
 projects[easyopac_recommender][subdir]           = ""
 projects[easyopac_recommender][download][type]   = "git"
