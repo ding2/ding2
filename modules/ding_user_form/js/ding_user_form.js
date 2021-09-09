@@ -24,24 +24,18 @@
         }
       }
 
-      function openHandler(event) {
+      $('a.js-topbar-link-user,a.open-login', context).one('click', function (event) {
         event.preventDefault();
         openLogin();
-      }
+      });
 
-      function closeHandler(event) {
+      $('.close-user-login', context).one('click', function (event) {
         var body = $('body');
 
         event.preventDefault();
         body.removeClass('pane-login-is-open');
         body.removeClass('overlay-is-active');
-      }
-
-      $('a.js-topbar-link-user,a.open-login', context).unbind('click', openHandler);
-      $('a.js-topbar-link-user,a.open-login', context).on('click', openHandler);
-
-      $('.close-user-login', context).unbind('click', closeHandler);
-      $('.close-user-login', context).on('click', closeHandler);
+      });
     }
   };
 }(jQuery));
