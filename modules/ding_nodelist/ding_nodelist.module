@@ -1253,11 +1253,12 @@ function _ding_nodelist_sort_nodes(array $nodes, array $conf) {
         $sorted_nodes[][$date] = $node;
       }
       elseif ($conf['sort_field'] == DING_NODELIST_SORT_BY_CREATION_DATE) {
+        $node_created = $node->created;
         if (array_key_exists($node->created, $sorted_nodes)) {
           $index = $i++ ?? (int) 0;
-          $node->created = $node->created . '_' . $index;
+          $node_created = $node_created . '_' . $index;
         }
-        $sorted_nodes[$node->created] = $node;
+        $sorted_nodes[$node_created] = $node;
       }
       elseif ($conf['sort_field'] == DING_NODELIST_SORT_BY_TITLE) {
         $sorted_nodes[$node->title] = $node;
