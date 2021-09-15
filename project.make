@@ -639,7 +639,7 @@ libraries[html5shiv][destination] = "libraries"
 
 ; For ding_libs.
 libraries[masonry][download][type] = "get"
-libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.1.1.zip
+libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.2.2.zip
 libraries[masonry][directory_name] = "masonry"
 libraries[masonry][destination] = "libraries"
 
