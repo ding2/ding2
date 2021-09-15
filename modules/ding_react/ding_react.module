@@ -3,6 +3,7 @@
 define('DING_REACT_FOLLOW_SEARCHES_URL', 'https://prod.followsearches.dandigbib.org');
 define('DING_REACT_MATERIAL_LIST_URL', 'https://prod.materiallist.dandigbib.org');
 define('DING_REACT_COVER_SERVICE_URL', 'https://cover.dandigbib.org/api/v2');
+define('DING_REACT_RELATED_MATERIALS_SERVICE_URL', 'https://recommendation.libry.dk/api/v1');
 define('DING_REACT_MIGRATED_UID_PREFIX', 'migrated-');
 
 /**
@@ -417,6 +418,16 @@ function ding_react_follow_searches_url() {
  */
 function ding_react_cover_service_url() {
   return variable_get('ding_react_cover_service_url', DING_REACT_COVER_SERVICE_URL);
+}
+
+/**
+ * Returns the url to the instance of the related materials service to use.
+ *
+ * @return string
+ *   Url to related materials service instance.
+ */
+function ding_react_related_materials_service_url() {
+  return variable_get('ding_react_related_materials_service_url', DING_REACT_RELATED_MATERIALS_SERVICE_URL);
 }
 
 /**
