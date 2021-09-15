@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * test.features.metatag.inc
+ * ding_page.features.metatag.inc
  */
 
 /**
