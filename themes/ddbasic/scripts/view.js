@@ -57,6 +57,7 @@
             itemSelector: '.views-row',
             columnWidth: '.grid-sizer',
             gutter: '.grid-gutter',
+            horizontalOrder: true,
             percentPosition: true
           })
             .on('layoutComplete', function () {
@@ -255,6 +256,7 @@
           itemSelector: '.views-row',
           columnWidth: '.grid-sizer',
           gutter: '.grid-gutter',
+          horizontalOrder: true,
           percentPosition: true
         });
          $msnry.on('layoutComplete', function (items) {
