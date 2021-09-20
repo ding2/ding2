@@ -476,7 +476,7 @@ projects[watchdog_filtering][version] = "1.3"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.24"
-projects[webform][patch][] = "patches/webform-not-saving-ip.patch"
+projects[webform][patch][] = "https://www.drupal.org/files/issues/2021-09-20/2972651-webform-no-ip-addresses-34.patch"
 
 projects[webform_purge][subdir] = "contrib"
 projects[webform_purge][version] = "1.3"
