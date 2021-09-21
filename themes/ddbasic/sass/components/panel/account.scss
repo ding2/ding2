@@ -43,7 +43,11 @@
     top: 0;
     z-index: $z-above;
     padding: 10px;
-    background-color: $grey-dark;
+    background-color: $white;
+    border-top: 1px solid #e5e5e5;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    border-radius: 4px 4px 0 0;
 
     &.is-bottom {
       top: auto;
@@ -72,10 +76,6 @@
         position: static;
 
         @include transform(translateY(0%));
-      }
-
-      label {
-        color: $white;
       }
     }
 
@@ -120,7 +120,7 @@
             border: none;
             border-radius: $round-corner;
             color: $charcoal-opacity-dark;
-            background-color: lighten($grey-dark, 5%);
+            background-color: lighten($grey, 5%);
             line-height: 1em;
             text-align: left;
             cursor: pointer;
@@ -194,6 +194,11 @@
         }
       }
     }
+  }
+
+
+  .form-checkbox {
+    border-color: $grey-dark;
   }
 }
 
