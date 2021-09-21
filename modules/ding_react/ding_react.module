@@ -3,7 +3,6 @@
 define('DING_REACT_FOLLOW_SEARCHES_URL', 'https://prod.followsearches.dandigbib.org');
 define('DING_REACT_MATERIAL_LIST_URL', 'https://prod.materiallist.dandigbib.org');
 define('DING_REACT_COVER_SERVICE_URL', 'https://cover.dandigbib.org/api/v2');
-define('DING_REACT_MIGRATED_UID_PREFIX', 'migrated-');
 
 /**
  * @file
@@ -241,41 +240,6 @@ function ding_react_form_search_block_form_alter(&$form, $form_state) {
 }
 
 /**
- * Implements hook_ding_adgangsplatformen_login().
- */
-function ding_react_ding_adgangsplatformen_login(array $user_info) {
-  // Once the user is logged in then try to migrate all variations of
-  // the user which might exist on the current site.
-  $user_agencies = [];
-  if (isset($user_info['attributes']['agencies'])) {
-    $user_agencies = $user_info['attributes']['agencies'];
-  }
-  // Only migrate users belonging to the current site to avoid any
-  // accidental cross-site authname collisions.
-  $local_user_agencies = array_filter($user_agencies, function (array $user_agency) {
-    return $user_agency['agencyId'] == variable_get('ting_agency');
-  });
-  $accounts = array_filter(array_map(function (array $user_agency) {
-    // User id can be all types of ids: CPR, borrower card number etc.
-    $authname = ding_user_default_authname($user_agency['userId']);
-    return user_external_load($authname);
-  }, $local_user_agencies));
-  $migrations = array_map(function (stdClass $account) {
-    return ding_react_user_migrate($account);
-  }, array_filter($accounts));
-  ding_react_log(
-    'Migration status: %migration_count completed. %user_count user accounts identified out of %local_agency_count local and %total_agency_count total agencies.',
-    [
-      '%migration_count' => count(array_filter($migrations)),
-      '%user_count' => count($accounts),
-      '%local_agency_count' => count($local_user_agencies),
-      '%total_agency_count' => count($user_agencies),
-    ],
-    WATCHDOG_INFO
-  );
-}
-
-/**
  * Implements hook_user_build().
  */
 function ding_react_page_build(&$page) {
@@ -420,97 +384,6 @@ function ding_react_cover_service_url() {
 }
 
 /**
- * Migrate a user account from using a legacy user id to new token-based one.
- *
- * @param \stdClass $account
- *   The user account to migrate.
- *
- * @return bool
- *   Whether the user was migrated or not.
- */
-function ding_react_user_migrate(stdClass $account) {
-  $legacy_uid = (!empty($account->openlist_uid)) ? $account->openlist_uid : '';
-
-  try {
-    $token = ding_provider_invoke('openplatform_token', 'for_user');
-  } catch (DingProviderNoProvider $e) {
-    $token = NULL;
-  } catch (DingProviderDoesntImplement $e) {
-    $token = NULL;
-  }
-
-  if (empty($legacy_uid)) {
-    ding_react_log('User not migrated. No registered OpenList uid for user.');
-    return FALSE;
-  }
-  if (empty($token)) {
-    ding_react_log('User not migrated. No token available');
-    return FALSE;
-  }
-  if (strpos($legacy_uid, DING_REACT_MIGRATED_UID_PREFIX) === 0) {
-    ding_react_log('User migration skipped. User has already been migrated previously.');
-    // We return true here because nothing failed even if the user was not
-    // actually migrated.
-    return TRUE;
-  }
-
-  $migrate_request_options = [
-    'method' => 'PUT',
-    // Use a relatively low timeout. We do not what login to stall if services
-    // are slow to respond. Then migration will have to wait.
-    'timeout' => variable_get('ding_react_migrate_timeout', 5),
-    'headers' => [
-      'Authorization' => "Bearer ${token}",
-    ]
-  ];
-
-  $material_list_url = ding_react_material_list_url();
-  $response = drupal_http_request($material_list_url . '/migrate/' . $legacy_uid,
-    $migrate_request_options);
-  if (!empty($response->error)) {
-    ding_react_log(
-      'Unable to migrate user data in material list: (%code) %message %data',
-      [
-        '%code' => $response->code,
-        '%message' => $response->error,
-        '%data' => $response->data
-      ],
-      WATCHDOG_ERROR
-    );
-    return FALSE;
-  }
-
-  $follow_searches_url = ding_react_follow_searches_url();
-  $response = drupal_http_request($follow_searches_url . '/migrate/' . $legacy_uid,
-    $migrate_request_options);
-  if (!empty($response->error)) {
-    ding_react_log(
-      'Unable to migrate user data in Follow Searches: (%code) %message %data',
-      [
-        '%code' => $response->code,
-        '%message' => $response->error,
-        '%data' => $response->data
-      ],
-      WATCHDOG_ERROR
-    );
-    return FALSE;
-  }
-
-  // Add a prefix to show the user has been migrated. This way we do not
-  // throw away data yet but avoid migrating users multiple times.
-  $account->openlist_uid = DING_REACT_MIGRATED_UID_PREFIX . $legacy_uid;
-  user_save($account);
-
-  ding_react_log(
-    'Migrated user data for material list og follow searches',
-    [],
-    WATCHDOG_NOTICE
-  );
-
-  return TRUE;
-}
-
-/**
  * Static storage/retrieval of the currently executed search query.
  *
  * @param string $query
@@ -521,39 +394,4 @@ function ding_react_user_migrate(stdClass $account) {
  */
 function ding_react_search_query($query = NULL) {
   return drupal_static(__FUNCTION__, $query);
-}
-
-/**
- * Implements hook_schema_alter().
- */
-function ding_react_schema_alter(&$schema) {
-  if (db_field_exists('users', 'openlist_uid')) {
-    // Migration on existing sites requires the openlist_uid user field
-    // originally defined by the now obsolete ting_openlist module.
-    $schema['users']['fields']['openlist_uid'] = array(
-      'type' => 'char',
-      'not null' => TRUE,
-      'default' => 0,
-      'length' => 255,
-      'description' => 'The openlist user id',
-    );
-  }
-}
-
-/**
- * Log events happening within the module.
- *
- * This allows for simple filtering using the modules debug mode.
- *
- * @param string $message
- *   The message to log.
- * @param array $variables
- *   Map of variable names and values.
- * @param int $severity
- *   Severity of the log message. Follows watchdog() standards.
- */
-function ding_react_log($message, array $variables = [], $severity = WATCHDOG_DEBUG) {
-  if (variable_get('ding_react_debug', FALSE) || $severity > WATCHDOG_DEBUG) {
-    watchdog('ding_react', $message, $variables, $severity);
-  }
 }
