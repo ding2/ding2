@@ -59,6 +59,26 @@ function ding_debt_menu() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function ding_debt_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_debt_external' => array(
+      'variables' => array(
+        'title' => NULL,
+        'debts' => [],
+        'total' => 0,
+        'extra_information' => '',
+        'button' => [],
+        'has_internal' => FALSE,
+      ),
+      'template' => 'ding_debt_external',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
  * Get the total amount of debts the user has.
  */
 function ding_debt_count($account = NULL) {
