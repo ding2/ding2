@@ -37,11 +37,11 @@ if (isset($item->video)) {
   $video_play_btn = "<div class='pn-media-play'><div class='pn-play pn-round'><i class='icon-play'></i></div></div>";
 }
 ?>
-<div class="<?php print $classes; ?>" <?php print $case_one; ?>>
+<div class="<?php print $classes; ?>" <?php print $case_one; ?> aria-labelledby="<?php print 'item-id-' . $item->nid; ?>">
   <?php print $video_player; ?>
   <?php print $case_two; ?>
   <div class="news-info">
-    <h3><?php print l($item->title, 'node/' . $item->nid); ?></h3>
+    <h3 id="<?php print 'item-id-' . $item->nid; ?>"><?php print l($item->title, 'node/' . $item->nid); ?></h3>
     <?php print drupal_render($item->category_link); ?>
     <div class="date"><?php print $item->date; ?></div>
     <div class="item-body"><?php print $item->teaser_lead; ?></div>
