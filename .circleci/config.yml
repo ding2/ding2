@@ -256,7 +256,7 @@ jobs:
           drush vset -y opensearch_recommendation_url 'http://openadhl.addi.dk/1.1/'
           drush vset -y ting_infomedia_url 'http://useraccessinfomedia.addi.dk/1.4/'
           drush vset -y opensearch_search_autocomplete_suggestion_url 'https://ortograf.dbc.dk/ortograf/suggest'
-          drush eval "variable_set('samesite_cookie_attribute_value', '');"
+          drush eval "variable_set('samesite_cookie_override_value', '');"
           sudo chown -R 33:33 /var/www/html/sites/default/files
     - run:
         name: Install Behat
