@@ -25,9 +25,25 @@
       position: relative;
     }
 
+    .find-more-button {
+      color: $white;
+      font-size: inherit;
+      text-decoration: underline;
+      transition: color .2s ease-in-out;
+      @media (prefers-reduced-motion) {
+        transition: color .0s ease-in-out;
+      }
+      &:hover {
+        color: $color-secondary !important;
+        transition: color .2s ease-in-out;
+        @media (prefers-reduced-motion) {
+          transition: color .0s ease-in-out;
+        }
+      }
+    }
+
     #popup-buttons {
       .agree-button,
-      .find-more-button,
       .hide-popup-button,
       .decline-button,
       .eu-cookie-withdraw-button {
@@ -81,7 +97,6 @@
       max-width: none;
       float: left;
       .agree-button,
-      .find-more-button,
       .hide-popup-button,
       .decline-button {
         float: left;
