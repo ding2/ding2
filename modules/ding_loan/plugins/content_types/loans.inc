@@ -330,7 +330,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   if ($any_renewable === TRUE) {
     $form['actions_container']['select_all'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Renew all'),
+      '#title' => t('Select all'),
       '#attached' => array(
         'js' => array(
           drupal_get_path('module', 'ding_loan') . '/js/ding_loan.js',
