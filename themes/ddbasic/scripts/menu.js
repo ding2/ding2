@@ -66,6 +66,9 @@
     } else {
       body.removeClass('overlay-is-active');
     }
+    if (body.hasClass('extended-search-is-not-open')) {
+      body.toggleClass('extended-search-is-not-open');
+    }
   }
 
   /**
