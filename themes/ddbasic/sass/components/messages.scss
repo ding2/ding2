@@ -60,15 +60,25 @@
     border: none;
     background-image: none;
     background-color: transparent;
-    color: $color-standard-text;
     > ul {
       list-style: none;
       margin: 0;
       > li {
         padding: 5px 0;
         margin: 5px 0;
-        color: $color-standard-text;
       }
     }
+  }
+  &.status {
+    color: $color-standard-text;
+  }
+  &.error {
+    color: $red-error;
+  }
+}
+
+.pane-user-login {
+  .form-required {
+    color: $red-error;
   }
 }
