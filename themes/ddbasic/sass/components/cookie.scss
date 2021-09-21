@@ -61,6 +61,10 @@
   &.sliding-popup-bottom:not(.eu-cookie-withdraw-wrapper) {
     .popup-content {
       height: 180px;
+        // Mobile
+        @include media($mobile) {
+          height: 280px;
+      }      
     }
     #popup-text {
       max-width: calc(100% - 40px);
