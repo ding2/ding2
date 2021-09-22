@@ -261,7 +261,7 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
 }
 
 /**
- *  Enable views_ajax_history module.
+ * Enable views_ajax_history module.
  */
 function ding_event_update_7010() {
   module_enable(array('views_ajax_history'), TRUE);
