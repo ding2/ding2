@@ -14,7 +14,7 @@
   </div>
   <div class="node">
     <div class="item-date">
-      <?php print drupal_render($item->formated_date); ?>
+      <?php print $item->formated_date; ?>
     </div>
     <div class="event-details">
       <span class="library"><?php print drupal_render($item->library_link); ?></span>

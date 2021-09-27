@@ -1842,6 +1842,12 @@ function ding_nodelist_preprocess(&$variables, $hook) {
   // Making currency available for all nodelist events.
   if (strpos($hook, 'ding_nodelist') !== FALSE) {
     $items = !empty($variables['items']) ? $variables['items'] : array();
+    // Loop through sorted by date items and extract objects.
+    foreach ($items as $key => $item) {
+      if (!is_object($item)) {
+        $items[$key] = reset($item);
+      }
+    }
     if (!empty($items)) {
       foreach ((array) $items as $key => $item) {
         $author = l($item->name, 'user/' . $item->uid);
