@@ -181,7 +181,7 @@ following to settings.php to avoid setting SameSite=None and enforcing secure
 cookies.
 
 ```php
-  $conf['samesite_cookie_attribute_value'] = '';
+  $conf['samesite_cookie_override_value'] = '';
 ```
 
 ## Theme development

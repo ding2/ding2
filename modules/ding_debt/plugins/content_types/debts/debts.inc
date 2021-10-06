@@ -23,14 +23,38 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
   $block->module = 'ding_debt';
   $block->delta  = 'debts';
   $block->title = t('My debts');
+  $block->content = '';
 
   $debts = ding_provider_invoke('debt', 'list', $account);
 
   if ($debts) {
     $internal_debts = array_filter($debts, '_ding_debt_filter_payable');
     $external_debts = array_filter($debts, '_ding_debt_filter_nonpayable');
-    $build = ding_provider_get_form('ding_debt_debts_form', $internal_debts, $external_debts);
-    $block->content = render($build);
+
+    $has_internal = !empty($internal_debts) && variable_get('ding_debt_enable_internal', TRUE);
+    if ($has_internal) {
+      $build = ding_provider_get_form('ding_debt_debts_form', $internal_debts, $external_debts);
+      $block->content .= render($build);
+    }
+
+    if (!empty($external_debts) && variable_get('ding_debt_enable_external', FALSE)) {
+      $externals = array(
+        '#theme' => 'ding_debt_external',
+        '#title' => check_plain(variable_get('ding_debt_external_title', '')),
+        '#debts' => ding_debt_list_items($external_debts),
+        '#total' => array_reduce($external_debts, function ($total, $debt) {
+          return $total + $debt->amount - $debt->amount_paid;
+        }, 0),
+        '#extra_information' => variable_get('ding_debt_external_extra_information', _ding_debt_external_extra_information_default()),
+        '#button' => array(
+          'enabled' => variable_get('ding_debt_enable_external_button', FALSE),
+          'text' => variable_get('ding_debt_external_button_text', ''),
+          'url' => variable_get('ding_debt_external_button_url', ''),
+        ),
+        '#has_internal' => $has_internal,
+    );
+      $block->content .= render($externals);
+    }
   }
   else {
     $block->content = t('No debts');
@@ -171,63 +195,6 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
           ),
         );
       }
-    }
-  }
-
-  if ($has_external) {
-    if ($has_internal && variable_get('ding_debt_external_title', '')) {
-      $form['external_title'] = [
-        '#prefix' => '<h2>',
-        '#suffix' => '</h2>',
-        '#markup' => check_plain(variable_get('ding_debt_external_title', '')),
-      ];
-    }
-
-    $form['external_debts'] = ding_debt_list_items($external_debts);
-
-    $total = array_reduce($external_debts, function ($total, $debt) {
-      return $total + $debt->amount - $debt->amount_paid;
-    }, 0);
-
-    $form['external_total'] = array(
-      '#type' => 'item',
-      '#prefix' => '<div class="total-amount">',
-      '#suffix' => '</div>',
-      '#markup' => t('Total') . ': <span class="amount">' . number_format($total, 2, ',', ' ') . ' ' . t('Kr') . '</span>',
-    );
-
-    if (variable_get('ding_debt_external_show_extra_information', TRUE)) {
-      $ding_debt_external_extra_information = variable_get('ding_debt_external_extra_information', _ding_debt_external_extra_information_default());
-
-      $form['external_extra_information'] = [
-        '#prefix' => '<div class="debt-body">',
-        '#suffix' => '</div>',
-        '#markup' => check_markup($ding_debt_external_extra_information['value'], $ding_debt_external_extra_information['format']),
-      ];
-    }
-
-    if (variable_get('ding_debt_enable_external_button', FALSE)) {
-      $text = variable_get('ding_debt_external_button_text', '');
-      $url = variable_get('ding_debt_external_button_url', '');
-
-      $form['external_buttons'] = [
-        '#type' => 'container',
-        '#attributes' => [
-          'class' => ['pay-buttons'],
-        ],
-        '#tree' => FALSE,
-      ];
-
-      $options = [
-        'attributes' => [
-          'role' => 'button',
-          'class' => 'external-payment',
-          'target' => '_blank',
-        ],
-      ];
-      $form['external_buttons']['external_link'] = [
-        '#markup' => l($text, $url, $options),
-      ];
     }
   }
 

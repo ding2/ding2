@@ -222,3 +222,10 @@ function ding_base_update_7008() {
 function ding_base_update_7009() {
   module_enable(['webform_purge']);
 }
+
+/**
+ * Set values on webform so the ipaddress does not get stored.
+ */
+function ding_base_update_7010() {
+  variable_set('webform_store_ip_address', 'as-needed');
+}

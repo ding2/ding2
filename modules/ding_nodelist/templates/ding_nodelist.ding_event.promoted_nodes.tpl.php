@@ -18,6 +18,7 @@ $classes = implode(" ", $classes);
     style="background-image: url(<?php print $item->image; ?>);"
   <?php endif; ?>
   <?php print $attributes; ?>
+  aria-labelledby="<?php print 'item-id-' . $item->nid; ?>"
 >
   <?php if (isset($item->video)): ?>
     <div class="media-container">
@@ -30,7 +31,7 @@ $classes = implode(" ", $classes);
     <div class="nb-image" style="background-image:url(<?php print $item->image; ?>);"></div>
   <?php endif; ?>
   <div class="event-info">
-    <h3><?php print l($item->title, 'node/' . $item->nid); ?></h3>
+    <h3 id="<?php print 'item-id-' . $item->nid; ?>"><?php print l($item->title, 'node/' . $item->nid); ?></h3>
     <div class="item-event-body"><?php print $item->teaser_lead; ?></div>
     <div class="item-date"><?php print $item->formated_date; ?></div>
     <div>

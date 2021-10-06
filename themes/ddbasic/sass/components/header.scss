@@ -433,6 +433,7 @@
       max-height: 100%;
       background-color: transparent;
       box-shadow: none;
+      height: 80vh;
       .mobile-menu-is-open & {
         @include transform(translateY(0%));
       }
