@@ -1,7 +1,7 @@
 //
 // Styling of provider status forms
 
-@import '../../base.scss';
+@import "../../base.scss";
 
 // ==========================================================================
 // User loans
@@ -43,6 +43,9 @@
 // ==========================================================================
 #ding-debt-debts-form {
   .material-item .item-title span {
+    display: block;
+    margin: 0;
+    margin-bottom: 5px;
     white-space: normal;
   }
 
@@ -54,7 +57,7 @@
     // Apparently there's no class or mixin for creating a button that
     // looks like a submit button, so we'll have to do it ourselves.
     @include appearance(none);
-    @include font('base');
+    @include font("base");
     @include transition(background-color $speed $ease);
 
     display: block;
