@@ -1120,6 +1120,9 @@ $label-bg: url('../images/p.png');
         .field-type-text-long {
           color: $color-text;
         }
+        .field-name-field-ding-news-lead {
+          margin: 15px 0;
+        }
         @include media($mobile) {
           min-height: 100%;
           transition: initial;
