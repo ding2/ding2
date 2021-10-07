@@ -51,10 +51,10 @@
       });
 
       // Added function to set height for title and lead text for CTs.
-      $('.node-ding-news.nb-item, .node-ding-page.nb-item, .node-ding-eresource.nb-item', context).mouseenter(function() {
+      $('.node-ding-event.nb-item, .node-ding-news.nb-item, .node-ding-page.nb-item, .node-ding-eresource.nb-item', context).mouseenter(function() {
         var title_and_lead_height;
         // Set height for title and lead text.
-        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-news-lead').outerHeight(true) + 75;
+        title_and_lead_height = $(this).find('.title-and-lead').outerHeight(true) + $(this).find('.field-type-text-long').outerHeight(true) + 20;
 
         $(this).find('.title-and-lead').css('min-height', title_and_lead_height);
       });

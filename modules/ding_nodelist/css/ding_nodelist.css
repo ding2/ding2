@@ -1354,6 +1354,9 @@
 .ding_nodelist-node_blocks .nb-item .text .title-and-lead .field-type-text-long {
   color: #262627;
 }
+.ding_nodelist-node_blocks .nb-item .text .title-and-lead .field-name-field-ding-news-lead {
+  margin: 15px 0;
+}
 @media screen and (max-width: 600px) {
   .ding_nodelist-node_blocks .nb-item .text .title-and-lead {
     min-height: 100%;
