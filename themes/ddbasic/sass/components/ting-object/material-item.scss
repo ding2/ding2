@@ -1,7 +1,7 @@
 //
 // Styling of Material item
 
-@import "../../base.scss";
+@import '../../base.scss';
 
 // ==========================================================================
 // User material item
@@ -184,7 +184,7 @@
       margin: 0 0;
       list-style: none;
 
-      &:nth-child(1 + 3n) {
+      &:nth-child(1+3n) {
         clear: left;
       }
 
@@ -216,7 +216,7 @@
       }
     }
     .item-information-label {
-      @include font("base-bold");
+      @include font('base-bold');
       color: $grey-darker;
     }
     #ding-loan-loans-form & {
@@ -227,14 +227,14 @@
         width: 100%;
       }
       .item-information-label {
-        @include font("base");
+        @include font('base');
         color: $color-standard-text;
       }
       &.loan-date,
       &.expire-date,
       &.material-number {
         .item-information-label {
-          @include font("base-bold");
+          @include font('base-bold');
           color: $grey-darker;
         }
       }
