@@ -389,9 +389,6 @@ workflows:
     - unit_tests:
         requires:
           - site_install
-    - behat_tests:
-        requires:
-        - site_install
     - package:
         requires:
           - drush_make
@@ -400,7 +397,6 @@ workflows:
         requires:
           - package
           - unit_tests
-          - behat_tests
         filters:
           branches:
             only:
