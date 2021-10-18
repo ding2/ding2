@@ -307,6 +307,8 @@ projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
 ; https://www.drupal.org/node/1502916, membership data loss.
 projects[og][patch][] = "https://www.drupal.org/files/membership-data-loss-user-save-1502916.patch"
+; https://www.drupal.org/node/2561507, OG permission issue.
+projects[og][patch][] = "https://www.drupal.org/files/issues/og_vbo_and_og_2561507-34.patch"
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0"
