@@ -163,3 +163,40 @@ function ding_user_update_7101() {
   variable_set('ding_user_pincode_max_length', $length);
   variable_del('ding_user_pincode_length');
 }
+
+/**
+ * Cleanup sensitive data (address) from user object.
+ */
+function ding_user_update_7102(&$sandbox) {
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['last_uid'] = 0;
+    $sandbox['limit'] = 100;
+    $sandbox['max'] = db_query('SELECT COUNT(uid) FROM {users} WHERE data LIKE :placeholder', [
+        ':placeholder' => '%' . db_like('address') . '%',
+      ])->fetchField() - 1;
+  }
+
+  $users = db_select('users', 'u')
+    ->fields('u', ['uid'])
+    ->condition('data', "%" . db_like('address') . "%", 'LIKE')
+    ->range(0, $sandbox['limit'])
+    ->execute()
+    ->fetchCol();
+
+  if ($users) {
+    foreach (user_load_multiple($users) as $uid => $account) {
+      unset($account->data['address']);
+      try {
+        user_save($account);
+        $sandbox['progress']++;
+        $sandbox['last_uid'] = $account->uid;
+      }
+      catch (Exception $e) {
+        throw $e;
+      }
+    }
+  }
+
+  $sandbox['#finished'] = $sandbox['progress'] >= $sandbox['max'] ? TRUE : $sandbox['progress'] / $sandbox['max'];
+}
