@@ -31,23 +31,25 @@
       width: 100%;
       a {
         display: block;
-        padding: 7px 0 1px 42px;
+        padding: 1px 0 1px 30px;
         position: relative;
         &::before {
           content: '';
           position: absolute;
           left: 0;
           top: 0;
-          width: 28px;
-          height: 28px;
+          width: 21px;
+          height: 21px;
           margin: 0 10px 5px 0;
           border-radius: $round-corner;
           background-color: $grey;
         }
         &.active {
-          @include place-icon(check, $color-text-on-primary, 28px);
+          @include place-icon(check, $color-text-on-primary, 31px);
           &::after {
-            left: 0;
+            left: -5px;
+            top: -4px;
+            font-weight: 600;
           }
           &::before {
             background-color: $color-primary;
@@ -578,7 +580,7 @@
   label:not(.option) {
     @include font('display-small');
     font-weight: normal;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 
     // Mobile
     @include media($mobile) {
@@ -750,8 +752,8 @@
     }
   }
   .form-type-bef-checkbox {
-    margin-top: 0.4em;
-    margin-bottom: 0.4em;
+    margin-bottom: 15px;
+    color: $color-text-link;
   }
   .form-item {
     display: block;
