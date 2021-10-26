@@ -41,20 +41,6 @@ function ding_react_admin_settings_form($form, &$form_state) {
     '#element_validate' => ['ding_react_element_validate_url'],
   ];
 
-  $form['migration'] = [
-    '#type' => 'fieldset',
-    '#title' => t('Migration'),
-  ];
-
-  $form['migration']['ding_react_migrate_timeout'] = [
-    '#type' => 'textfield',
-    '#title' => t('Migration timeout'),
-    '#description' => t('The number of seconds to wait for an external service to complete a migration during login. A high timeout reduces risk of the migration not completing. A low timeout prevents the login procedure from stalling. Incomplete migrations will be retried the next time the user logs in.'),
-    '#default_value' => variable_get('ding_react_migrate_timeout', 5),
-    '#required' => TRUE,
-    '#element_validate' => [ 'element_validate_integer_positive' ],
-  ];
-
   $form['debug'] = [
     '#type' => 'fieldset',
     '#title' => t('Debugging'),
