@@ -372,7 +372,7 @@ function _ting_das_get_client() {
  */
 function _ting_das_get_configured_well_types() {
   return variable_get('ting_das_data_well_types', array(
-    'tidsskriftsartikel',
+    'tidsskriftsartikel' => 'tidsskriftsartikel',
   ));
 }
 
