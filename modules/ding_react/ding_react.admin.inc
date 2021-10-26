@@ -68,7 +68,7 @@ function ding_react_admin_settings_form($form, &$form_state) {
  * Form element validator for urls.
  */
 function ding_react_element_validate_url($element, &$form_state, $form) {
-  if (!empty($element['#value']) && !valid_url($element['#value'], true)) {
+  if (!empty($element['#value']) && !valid_url($element['#value'], TRUE)) {
     form_error($element, t('Please enter a valid url.'));
   }
 }
