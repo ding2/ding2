@@ -55,12 +55,11 @@ body {
 
   $_selectors-padding-top-values--body: (
     '.search-form-extended': $header-height + $search-form-extended-height,
-    '.search-form-extended.extended-search-is-not-open': $header-height
+    '.search-form-extended.extended-search-is-not-open': $header-height,
   );
 
   @each $_selector, $_value in $_selectors-padding-top-values--body {
     @include media($tablet-min-width) {
-
       &#{$_selector} {
         padding-top: $_value;
 
@@ -78,7 +77,8 @@ body {
       &#{$_selector}.has-second-level-menu.secondary-menu-below-main,
       &#{$_selector}.has-second-level-menu.has-multiline-main-menu,
       &#{$_selector}.secondary-menu-below-main {
-        padding-top: $_value + $second-level-menu-height + $search-form-extended-height;
+        padding-top: $_value + $second-level-menu-height +
+          $search-form-extended-height;
       }
     }
   }
@@ -90,7 +90,7 @@ body {
 // See: https://stackoverflow.com/a/28824157
 :target::before {
   display: block;
-  content: " ";
+  content: ' ';
 
   // Note that we use the spacing between paragraphs in the base offset, to give
   // some air above the anchor.
@@ -106,10 +106,14 @@ body {
   $_selectors-offset-values--target: (
     '.search-form-extended': $search-form-extended-height,
     '.search-form-extended.extended-search-is-not-open': 0,
-    '.admin-menu.search-form-extended': $search-form-extended-height + $admin-menu-height,
-    '.admin-menu.search-form-extended.extended-search-is-not-open': $admin-menu-height,
-    '.admin-menu-with-shortcuts.search-form-extended': $search-form-extended-height + $toolbar-height,
-    '.admin-menu-with-shortcuts.search-form-extended.extended-search-is-not-open': $toolbar-height
+    '.admin-menu.search-form-extended': $search-form-extended-height +
+      $admin-menu-height,
+    '.admin-menu.search-form-extended.extended-search-is-not-open':
+      $admin-menu-height,
+    '.admin-menu-with-shortcuts.search-form-extended':
+      $search-form-extended-height + $toolbar-height,
+    '.admin-menu-with-shortcuts.search-form-extended.extended-search-is-not-open':
+      $toolbar-height,
   );
 
   @each $_selector, $_value in $_selectors-offset-values--target {
@@ -138,8 +142,10 @@ body {
       // Combination of the two cases above.
       #{$_selector}.has-second-level-menu.secondary-menu-below-main &,
       #{$_selector}.has-second-level-menu.has-multiline-main-menu & {
-        margin-top: -($_offset + $second-level-menu-height + $search-form-extended-height);
-        height: $_offset + $second-level-menu-height + $search-form-extended-height;
+        margin-top: -($_offset + $second-level-menu-height +
+              $search-form-extended-height);
+        height: $_offset + $second-level-menu-height +
+          $search-form-extended-height;
       }
     }
   }
@@ -211,6 +217,7 @@ img.file-icon {
 a {
   @include transition(color $speed $ease);
   color: $color-text-link;
+  text-decoration: none;
   &:hover {
     color: $charcoal;
   }
@@ -234,4 +241,12 @@ ol {
 // Label
 label {
   font-weight: normal;
+}
+
+// Links with underline
+p a,
+.page-content a,
+.content a,
+.library-contact a {
+  text-decoration: revert;
 }
