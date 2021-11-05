@@ -97,15 +97,15 @@
         margin-right: getGutter(8);
         padding: 0;
         float: left;
+        margin-bottom: 0;
+
         &:nth-child(2) {
           margin-right: 0;
-        }
-        &:nth-child(3) {
-          margin-top: 10px;
         }
 
         @include media($mobile) {
           margin-bottom: 10px;
+          width: auto;
           &:nth-child(3) {
             margin-top: 0;
           }
