@@ -68060,3 +68060,7 @@ msgstr "Erstatning"
 #: /user/me/view
 msgid "Logged-in"
 msgstr "Logget ind"
+
+#: /section/sektion
+msgid "Latest"
+msgstr "Seneste"
