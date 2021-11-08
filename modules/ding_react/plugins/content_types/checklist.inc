@@ -29,7 +29,7 @@ function ding_react_checklist_content_type_render($subtype, $conf, $panel_args, 
     'remove-button-text' => t('Remove from list'),
     'empty-list-text' => t('List is empty.'),
     'error-text' => t('An error occurred while trying to fetch list.'),
-    'of-text' => t('By')
+    'of-text' => t('By'),
   ];
   $block->content = ding_react_app('checklist', $data);
 

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Module for integrating DDB React apps.
+ */
+
 define('DING_REACT_FOLLOW_SEARCHES_URL', 'https://prod.followsearches.dandigbib.org');
 define('DING_REACT_MATERIAL_LIST_URL', 'https://prod.materiallist.dandigbib.org');
 define('DING_REACT_COVER_SERVICE_URL', 'https://cover.dandigbib.org/api/v2');
@@ -72,6 +77,7 @@ function ding_react_menu() {
   $items['ding_react/user.js'] = [
     'title' => 'Retrieve access token',
     'page callback' => 'ding_react_user_js',
+    // Everybody should get a user.js.
     'access callback' => TRUE,
     'type' => MENU_NORMAL_ITEM,
   ];
@@ -86,7 +92,7 @@ function ding_react_ding_provider_user() {
   return [
     'openplatform_token' => [
       'required' => TRUE,
-    ]
+    ],
   ];
 }
 
@@ -135,8 +141,8 @@ function ding_react_module_implements_alter(&$implementations, $hook) {
   // To store the right query we need this module to execute at just the right
   // time:
   //
-  //   1. After ting_field_search which modifies the search query based on an url
-  //      query argument.
+  //   1. After ting_field_search which modifies the search query based on an
+  //      url query argument.
   //   2. Before the fbs module which adds a filter for the local library which
   //      we do not want transferred to our national service.
   //
@@ -144,7 +150,7 @@ function ding_react_module_implements_alter(&$implementations, $hook) {
   $pos = array_search('ding_react', array_keys($implementations));
   $ding_react = array_splice($implementations, $pos, 1);
 
-  // Insert ding_react after ting_field_search
+  // Insert ding_react after ting_field_search.
   $before = array_search('ting_field_search', array_keys($implementations));
   if ($before !== FALSE) {
     $implementations = array_merge(
@@ -260,7 +266,7 @@ function ding_react_page_build(&$page) {
       ],
       'js' => [
         drupal_get_path('module', 'ding_react') . '/js/ding-react.reset.js' => ['scope' => 'footer'],
-      ]
+      ],
     ]);
   }
 }
@@ -283,14 +289,18 @@ function ding_react_app($name, array $data = []) {
     ],
     'js' => [
       // Weight needs to be > 0 to make the app code run after the libraries.
-      libraries_get_path('ddb-react') . '/' . $name . '.js' => ['scope' => 'footer', 'group' => JS_LIBRARY, 'weight' => 1],
+      libraries_get_path('ddb-react') . '/' . $name . '.js' => [
+        'scope' => 'footer',
+        'group' => JS_LIBRARY,
+        'weight' => 1,
+      ],
       drupal_get_path('module', 'ding_react') . '/js/ding-react.js' => ['scope' => 'footer'],
     ],
   ];
 
   if (file_exists(libraries_get_path('ddb-react') . '/' . $name . '.css')) {
     $attachments['css'] = [
-      libraries_get_path('ddb-react') . '/' . $name . '.css' => ['weight' => 1]
+      libraries_get_path('ddb-react') . '/' . $name . '.css' => ['weight' => 1],
     ];
   }
 
