@@ -153,15 +153,6 @@ function fbs_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
     // Re-throw other errors.
     throw $exception;
   }
-  catch (\Reload\Prancer\SwaggerApiError $exception) {
-    // When trying to register a user that exists, FBS returns status 409.
-    if ($exception->getCode() === 409) {
-      throw new DingProviderUserExistsError('User account already exists');
-    }
-
-    // Re-throw other errors.
-    throw $exception;
-  }
 }
 
 /**
