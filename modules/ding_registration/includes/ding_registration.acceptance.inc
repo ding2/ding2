@@ -115,13 +115,8 @@ function ding_registration_acceptance_form_submit($form, $form_state) {
 
   // Try to create the user at the provider.
   try {
-    try {
-      // Create user at the provider.
-      ding_provider_invoke('user', 'create', $user_info['attributes']['userId'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
-    }
-    catch (DingProviderUserExistsError $e) {
-      // If they exists, just carry on trying logging them in.
-    }
+    // Create user as the provider.
+    ding_provider_invoke('user', 'create', $user_info['attributes']['userId'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
 
     // Set redirect and try logging in the user.
     if (_ding_adgangsplatformen_provider_login($user_info)) {
