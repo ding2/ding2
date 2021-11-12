@@ -68064,3 +68064,23 @@ msgstr "Logget ind"
 #: /section/sektion
 msgid "Latest"
 msgstr "Seneste"
+
+#: /ting/object/870971-tsart%3A36617659
+msgid "Order digital copy"
+msgstr "Bestil digital kopi"
+
+#: /das/870971-tsart:36617659/order?
+msgid "Fill out the form to order at digital copy"
+msgstr "Udfyld for at bestille en digital kopi"
+
+#: /das/870971-tsart:36617659/order?
+msgid "Mail address"
+msgstr "E-mailadresse"
+
+#: profiles/ding2/modules/ting_das/js/ting_das.js
+msgid "Ordering article, please wait. May take up to 10 seconds..."
+msgstr "Bestiller artikel, vent venligst. Det kan tage nogle sekunder."
+
+#: /system/ajax
+msgid "Your order have been placed."
+msgstr "Artiklen er bestilt"
