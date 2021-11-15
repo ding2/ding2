@@ -962,6 +962,7 @@ search/node',
     $pane->uuid = '07dec5bc-64c2-4632-ac67-72598e98d159';
     $display->content['new-07dec5bc-64c2-4632-ac67-72598e98d159'] = $pane;
     $display->panels['footer'][5] = 'new-07dec5bc-64c2-4632-ac67-72598e98d159';
+
     $pane = new stdClass();
     $pane->pid = 'new-d9c1432b-77cc-432c-987a-eb64569a0b88';
     $pane->panel = 'header';
@@ -978,7 +979,7 @@ search/node',
     $pane->cache = array(
       'method' => 'lazy',
       'settings' => array(
-        'load_strategy' => 'pane-visible',
+        'load_strategy' => 'page-loaded',
         'show_spinner' => 1,
         'load_text' => '',
       ),
@@ -996,6 +997,7 @@ search/node',
     $pane->uuid = 'd9c1432b-77cc-432c-987a-eb64569a0b88';
     $display->content['new-d9c1432b-77cc-432c-987a-eb64569a0b88'] = $pane;
     $display->panels['header'][0] = 'new-d9c1432b-77cc-432c-987a-eb64569a0b88';
+
     $pane = new stdClass();
     $pane->pid = 'new-f06a4c37-1ed2-4a64-8502-7b8d4d0619b0';
     $pane->panel = 'header';

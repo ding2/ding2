@@ -143,9 +143,8 @@ function ding_user_frontend_block_view($delta) {
 function ding_user_frontend_build_menu($path = NULL) {
   // User static cache as this menu is inserted more than once in ddbasic
   // (mobile menu thing).
-  $menu = &drupal_static(__FUNCTION__);
-  if (!isset($menu)) {
-
+  static $menu = array();
+  if (empty($menu)) {
     // Default menu item render array.
     $menu_item_defaults = array(
       '#theme' => 'menu_link__user_menu',
@@ -230,10 +229,10 @@ function ding_user_frontend_build_menu($path = NULL) {
 
               // Build sub-menu items.
               $items = $children[$item['path']];
-              foreach ($items as $item) {
+              foreach ($items as $innerItem) {
                 $below = array() + $menu_item_defaults;
-                $below['#title'] = $item['title'];
-                $below['#href'] = $item['href'];
+                $below['#title'] = $innerItem['title'];
+                $below['#href'] = $innerItem['href'];
                 $current['#below'][] = $below;
               }
             }

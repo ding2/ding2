@@ -384,6 +384,9 @@ projects[rules][version] = "2.7"
 projects[rules][patch][] = "https://www.drupal.org/files/issues/php7_2_compatibility-2923477-5.patch"
 projects[rules][patch][] = "https://www.drupal.org/files/issues/2018-03-13/rules-2952654-php-72.patch"
 
+projects[samesite_cookie][subdir] = "contrib"
+projects[samesite_cookie][version] = "1.0-rc1"
+
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
 
@@ -457,6 +460,9 @@ projects[views][version] = "3.23"
 projects[views][patch][] = "https://www.drupal.org/files/issues/2021-01-04/views-php74-3153312-23.patch"
 projects[views][patch][] = "https://www.drupal.org/files/issues/2020-03-04/views-curly-braces.patch"
 
+projects[views_ajax_history][subdir] = "contrib"
+projects[views_ajax_history][version] = "1.1"
+
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
@@ -487,8 +493,8 @@ projects[watchdog_filtering][subdir] = "contrib"
 projects[watchdog_filtering][version] = "1.3"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.10"
-projects[webform][patch][] = "https://www.drupal.org/files/issues/webform-2811063-43.patch"
+projects[webform][version] = "4.24"
+projects[webform][patch][] = "https://www.drupal.org/files/issues/2021-09-20/2972651-webform-no-ip-addresses-34.patch"
 
 projects[webform_purge][subdir] = "contrib"
 projects[webform_purge][version] = "1.3"
@@ -521,11 +527,11 @@ projects[xautoload][version] = "5.8"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-6.3.2"
+libraries[bpi-client][download][tag] = "7.x-6.4.0"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.14.0/ckeditor_4.14.0_standard.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.16.2/ckeditor_4.16.2_standard.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
@@ -598,7 +604,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-6.3.2"
+libraries[ting-client][download][tag] = "7.x-6.4.0"
 
 ; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"
@@ -652,7 +658,7 @@ libraries[smart-app-banner][destination] = "libraries"
 
 ; For ding_react.
 libraries[ddb-react][download][type] = "get"
-libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/2.4.0/dist.zip
+libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/2.4.1/dist.zip
 libraries[ddb-react][directory_name] = "ddb-react"
 libraries[ddb-react][destination] = "libraries"
 
@@ -696,6 +702,12 @@ libraries[yaml][download][type] = "get"
 libraries[yaml][download][url] = https://github.com/symfony/yaml/archive/v3.4.47.tar.gz
 libraries[yaml][directory_name] = "yaml"
 libraries[yaml][destination] = "libraries"
+
+; Library used for remembering browser history in ajax views.
+libraries[history.js][download][type] = "get"
+libraries[history.js][download][url] = https://codeload.github.com/browserstate/history.js/tar.gz/1.8.0
+libraries[history.js][directory_name] = "history.js"
+libraries[history.js][destination] = "libraries"
 
 ; easyOPAC contribution modules
 projects[add_to_head][subdir]               = "contrib"
@@ -822,3 +834,4 @@ libraries[jsrender][download][type]         = "get"
 libraries[jsrender][download][url]          = https://github.com/BorisMoore/jsrender/archive/master.zip
 libraries[jsrender][directory_name]         = "jsrender"
 libraries[jsrender][destination]            = "libraries"
+

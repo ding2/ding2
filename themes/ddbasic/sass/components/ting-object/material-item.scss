@@ -217,15 +217,9 @@
     }
     .item-information-label {
       @include font('base-bold');
-      color: $grey-dark;
+      color: $grey-darker;
     }
     #ding-loan-loans-form & {
-      width: 50%;
-
-      // Mobile
-      @include media($mobile) {
-        width: 100%;
-      }
       .item-information-label {
         @include font('base');
         color: $color-standard-text;
@@ -235,7 +229,7 @@
       &.material-number {
         .item-information-label {
           @include font('base-bold');
-          color: $grey-dark;
+          color: $grey-darker;
         }
       }
     }
@@ -261,7 +255,7 @@
     }
   }
   &.odd {
-    background-color: $grey-medium;
+    background-color: $grey-light;
 
     // Mobile
     @include media($mobile) {

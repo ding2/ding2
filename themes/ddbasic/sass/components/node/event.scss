@@ -317,29 +317,11 @@
       margin-bottom: 30px;
     }
     .field-label-inline {
-      position: relative;
+      display: flex;
       width: 100%;
-      float: left;
       .field-label {
-        position: absolute;
-        top: 0;
-        left: 0;
+        overflow-wrap: break-word;
         width: 100px;
-
-        // Tablet
-        @include media($tablet) {
-          @include span-columns(2 of 5);
-        }
-      }
-
-      .field-item {
-        width: 100%;
-        padding-left: 100px;
-
-        // Tablet
-        @include media($tablet) {
-          padding-left: getColumn(2 of 5);
-        }
       }
     }
     .field-name-field-ding-event-files {

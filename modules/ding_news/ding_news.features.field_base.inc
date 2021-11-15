@@ -170,7 +170,7 @@ function ding_news_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'ting_reference',
   );
-  
+
   // Exported field_base: 'field_ding_news_paragraphs'
   $field_bases['field_ding_news_paragraphs'] = array(
     'active' => 1,
@@ -178,7 +178,6 @@ function ding_news_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_paragraphs',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'paragraphs',

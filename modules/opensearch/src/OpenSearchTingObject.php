@@ -244,31 +244,27 @@ class OpenSearchTingObject implements TingObjectInterface {
    */
   public function getOnlineUrl() {
     $url = '';
-
-    // First check dcterms:URI to try to get online URL without having to fetch
-    // relations.
-    if (!empty($this->getRecordEntry('dc:identifier', 'dcterms:URI'))) {
-      $url = $this->firstEntry($this->getRecordEntry('dc:identifier', 'dcterms:URI'));
-      // Give ting_proxy a change to rewrite the url.
-      drupal_alter('ting_online_url', $url, $this);
-    }
-
     // Try to find the online url from relation data, which requires us to get
     // relations. First check if relations are set; if not do another request
     // to get relations.
-    if (empty($url)) {
-      $relations = $this->getRelations();
+    $relations = $this->getRelations();
 
-      foreach ($relations as $relation) {
-        if ($relation->getType() === 'dbcaddi:hasOnlineAccess') {
-          $url = preg_replace('/^\[URL\]/', '', $relation->getURI());
-          // Check for correct url or leading token - some uri is only an id.
-          if (stripos($url, 'http') === 0 || strpos($url, '[') === 0) {
-            // Give other modules a chance to rewrite the url.
-            drupal_alter('ting_online_url', $url, $this);
-          }
+    foreach ($relations as $relation) {
+      if ($relation->getType() === 'dbcaddi:hasOnlineAccess') {
+        $url = preg_replace('/^\[URL\]/', '', $relation->getURI());
+        // Check for correct url or leading token - some uri is only an id.
+        if (stripos($url, 'http') === 0 || strpos($url, '[') === 0) {
+          // Give other modules a chance to rewrite the url.
+          drupal_alter('ting_online_url', $url, $this);
         }
       }
+    }
+
+    // No hasOnlineAccess found so fallback to dc:identifier.
+    if (empty($url) && !empty($this->getRecordEntry('dc:identifier', 'dcterms:URI'))) {
+      $url = $this->firstEntry($this->getRecordEntry('dc:identifier', 'dcterms:URI'));
+      // Give ting_proxy a change to rewrite the url.
+      drupal_alter('ting_online_url', $url, $this);
     }
 
     return $url;

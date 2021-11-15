@@ -73,3 +73,11 @@
     overflow-y: auto !important;
   }
 }
+
+.das-overlay.search-overlay--wrapper {
+  z-index: 1000;
+}
+
+.das-overlay.search-overlay--wrapper .search-overlay--inner {
+  left: 41%;
+}
