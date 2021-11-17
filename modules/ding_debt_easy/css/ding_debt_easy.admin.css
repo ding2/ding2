@@ -1,0 +1,15 @@
+.form-item-ding-debt-easy-config-cards .card-logo {
+  vertical-align: middle;
+  margin-right: 0.5em;
+  display: inline;
+}
+
+.form-item-ding-debt-easy-config-cards .card-logo img {
+  max-height: 32px;
+}
+
+.form-item-ding-debt-easy-config-cards .card-logo .name {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.5em;
+}

@@ -12,6 +12,9 @@
  */
 function ding_debt_easy_admin_settings_form($form, &$form_state) {
   $form['ding_debt_easy'] = [];
+  $form['#attached']['css'] = array(
+    drupal_get_path('module', 'ding_debt_easy') . '/css/ding_debt_easy.admin.css',
+  );
 
   $default_keys = variable_get('ding_debt_easy_keys', ['secret' => '', 'checkout' => '']);
   $form['ding_debt_easy']['ding_debt_easy_keys'] = [
@@ -83,25 +86,29 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
 
 
 
-
+  $default_endpoints = variable_get('ding_debt_easy_endpoints', [
+    'callback' => DING_DEBT_EASY_CALLBACK_URL,
+    'cancel' => DING_DEBT_EASY_CANCEL_URL,
+  ]);
   $form['ding_debt_easy']['endpoints']['ding_debt_easy_endpoints'] = [
     '#type' => 'fieldset',
-    '#title' => t('Return URL\'s'),
+    '#title' => t('Return/callback URL'),
+    '#description' => t('You should not change these URLs as it will/may break payment (mostly here for debug and you real need to  known what you are doing to change them.)'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#tree' => TRUE,
   ];
 
-  $form['ding_debt_easy']['endpoints']['ding_debt_easy_endpoints']['return'] = [
+  $form['ding_debt_easy']['endpoints']['ding_debt_easy_endpoints']['callback'] = [
     '#type' => 'textfield',
     '#title' => t('Return for completed payment'),
-    '#default_value' => '',
+    '#default_value' => $default_endpoints['callback'],
   ];
 
   $form['ding_debt_easy']['endpoints']['ding_debt_easy_endpoints']['cancel'] = [
     '#type' => 'textfield',
     '#title' => t('Cancel payment callback'),
-    '#default_value' => '',
+    '#default_value' => $default_endpoints['cancel'],
   ];
 
   $form['ding_debt_easy']['ding_debt_easy_config'] = [
@@ -128,7 +135,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
 
   $cards_options = _ding_debt_easy_get_payment_types_options();;
   array_walk($cards_options, function(&$value, $key) {
-    $value = '<img src="' . $value . '" width="53px" alt="'. $key . '" class="card-logo"/>';
+    $value = '<div class="card-logo"><img src="' . $value . '" alt="'. $key . '" /><div class="name">' . $key . '</div></div>';
   });
   $form['ding_debt_easy']['ding_debt_easy_config']['cards'] = [
     '#type' => 'checkboxes',

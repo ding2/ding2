@@ -7,6 +7,8 @@
 
 define('DING_DEBT_EASY_DEFAULT_TERMS_URL', 'payment/easy/terms');
 define('DING_DEBT_EASY_DEFAULT_PRIVACY_URL','payment/easy/privacy');
+define('DING_DEBT_EASY_CALLBACK_URL', 'payment/easy/callback');
+define('DING_DEBT_EASY_CANCEL_URL','payment/easy/cancel');
 
 /**
  * Implements hook_menu().
@@ -58,10 +60,14 @@ function ding_debt_easy_menu() {
   ];
 
   // Payment completed (callback).
-//  $items[] = [];
+  $items[DING_DEBT_EASY_CALLBACK_URL] = [
+
+  ];
 
   // Payment canceled
-//  $items[] = [];
+  $items[DING_DEBT_EASY_CANCEL_URL] = [
+
+  ];
 
   return $items;
 }
