@@ -5,6 +5,9 @@
  * Integration with nets easy payment.
  */
 
+define('DING_DEBT_EASY_DEFAULT_TERMS_URL', 'payment/easy/terms');
+define('DING_DEBT_EASY_DEFAULT_PRIVACY_URL','payment/easy/privacy');
+
 /**
  * Implements hook_menu().
  */
@@ -35,7 +38,7 @@ function ding_debt_easy_menu() {
   );
 
   // Terms page.
-  $items['payment/easy/terms'] = [
+  $items[DING_DEBT_EASY_DEFAULT_TERMS_URL] = [
     'title' => 'Terms and usage',
     'type' => MENU_CALLBACK,
     'page callback' => 'ding_debt_easy_terms_page',
@@ -45,7 +48,7 @@ function ding_debt_easy_menu() {
   ];
 
   // Privacy and cookie page.
-  $items['payment/easy/privacy'] = [
+  $items[DING_DEBT_EASY_DEFAULT_PRIVACY_URL] = [
     'title' => 'Privacy and cookies',
     'type' => MENU_CALLBACK,
     'page callback' => 'ding_debt_easy_privacy_page',
@@ -99,23 +102,137 @@ function _ding_debt_easy_pages_access_callback(string $type) {
   return TRUE;
 }
 
-function ding_debt_easy_get_terms_page_url() {
-  // Load config.
-
-  return '/payment/easy/terms';
-}
-function ding_debt_easy_get_privacy_page_url() {
-  // Load config.
-
-  return '/payment/easy/privacy';
-}
-
-function ding_debt_easy_get_currencies() {
+/**
+ * The currencies available at the payment gateway.
+ *
+ * Sadly there is not end-point to fetches these. So it's created based on
+ * https://nets-devs.isotop.se/nets-easy/en-EU/api/#currency-and-amount
+ *
+ * @return string[]
+ *   Array indexed by short name for currencies.
+ */
+function _ding_debt_easy_get_currency_options() {
   return [
-
+    'DKK' => 'Danish krone',
+    'EUR' => 'Euro',
+    'GBP' => 'Pound sterling',
+    'NOK' => 'Norwegian krone',
+    'SEK' => 'Swedish krona',
+    'USD' => 'United States dollar',
   ];
 }
 
+/**
+ * Get current configured currency (default: DKK).
+ *
+ * @return string
+ *   The short name for the currently configured currency.
+ */
 function ding_debt_easy_get_currency() {
+  $config = variable_get('ding_debt_easy_config', []);
+  return empty($config['currency']) ? 'DKK' : $config['currency'];
+}
 
+/**
+ * The list of language select at the gateway.
+ *
+ * See https://nets-devs.isotop.se/nets-easy/en-EU/api/#localization
+ *
+ * @return string[]
+ *   List of languages keys by localization id/code.
+ */
+function _ding_debt_easy_get_localization_options() {
+  return [
+    'da-DK' => 'Danish',
+    'en-GB' => 'English',
+    'nl-NL' => 'Dutch',
+    'fi-FI' => 'Finnish',
+    'fr-FR' => 'French',
+    'de-DE' => 'German',
+    'nb-NO' => 'Norwegian',
+    'pl-PL' => 'Polish',
+    'es-ES' => 'Spanish',
+    'sk-SK' => 'Slovak',
+    'sv-SE' => 'Swedish',
+  ];
+}
+
+/**
+ * Get current localization id/code.
+ *
+ * @return string
+ *   Current selected localization land id/code.
+ */
+function ding_debt_easy_get_localization() {
+  $config = variable_get('ding_debt_easy_config', []);
+  return empty($config['lang']) ? 'da-DK' : $config['lang'];
+}
+
+/**
+ * Get list of integration types.
+ *
+ * Currently, the embedded type is not implemented, but it's very possible to do so.
+ *
+ * @return string[]
+ *   List of integration types.
+ */
+function _ding_debt_easy_get_integration_type_options() {
+  return [
+    'HostedPaymentPage' => 'Hosted Payment Page',
+    'EmbeddedCheckout' => 'Embedded Checkout (not implemented)',
+  ];
+}
+
+/**
+ * Get list of the configured payments types.
+ *
+ * @param bool $with_logos
+ *   If TRUE the array is enriched with paths to logos.
+ *
+ * @return array
+ *   Keyed by payment method.
+ */
+function ding_debt_easy_get_payment_types($with_logos = TRUE) {
+  $cards = [];
+  $config = variable_get('ding_debt_easy_config', []);
+  if (!empty($config['cards'])) {
+    $cards = array_filter($config['cards']);
+
+    if ($with_logos) {
+      // Update options with links to the logos.
+      $supported_cards = _ding_debt_easy_get_payment_types_options();
+      foreach ($cards as $card) {
+        $cards[$card] = $supported_cards[$card];
+      }
+    }
+  }
+
+  return $cards;
+}
+
+/**
+ * Get list of card supports by Net easy.
+ *
+ * Note the invoice methods have be removed.
+ *
+ * @return string[]
+ *   List of supported cards as keys linked to logos.
+ */
+function _ding_debt_easy_get_payment_types_options() {
+  $cards = [
+    'Dankort' => 'dankort.png',
+    'MasterCard' => 'mastercard.png',
+    'MobilePay'=> 'mobilpay.png',
+    'PayPal' => 'paypal.png',
+    'Swish' => 'swish.png' ,
+    'Vipps' => 'vipps.png',
+    'Visa' => 'visa.png',
+  ];
+
+  $path = '/' . drupal_get_path('module', 'ding_debt_easy') . '/img/';
+  array_walk($cards, function(&$value, $key) use ($path) {
+    $value = $path . $value;
+  });
+
+  return $cards;
 }

@@ -11,7 +11,6 @@
  * Administrative form used to configure the module.
  */
 function ding_debt_easy_admin_settings_form($form, &$form_state) {
-
   $form['ding_debt_easy'] = [];
 
   $default_keys = variable_get('ding_debt_easy_keys', ['secret' => '', 'checkout' => '']);
@@ -55,6 +54,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
   $form['ding_debt_easy']['endpoints']['ding_debt_easy_api_endpoints'] = [
     '#type' => 'fieldset',
     '#title' => t('Nets payments API'),
+    '#descriptions' => t('These end-point should not change, but if required they can be overridden in settings.php.'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#tree' => TRUE,
@@ -104,10 +104,6 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#default_value' => '',
   ];
 
-
-
-
-
   $form['ding_debt_easy']['ding_debt_easy_config'] = [
     '#type' => 'fieldset',
     '#title' => t('Basic configuration'),
@@ -119,27 +115,33 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
   $form['ding_debt_easy']['ding_debt_easy_config']['currency'] = [
     '#type' => 'select',
     '#title' => t('Currency'),
-    '#options' => ['- none -'],
+    '#options' => _ding_debt_easy_get_currency_options(),
+    '#default_value' => ding_debt_easy_get_currency(),
   ];
 
   $form['ding_debt_easy']['ding_debt_easy_config']['lang'] = [
     '#type' => 'select',
     '#title' => t('Language'),
-    '#options' => ['- none -'],
+    '#options' => _ding_debt_easy_get_localization_options(),
+    '#default_value' => ding_debt_easy_get_localization(),
   ];
 
+  $cards_options = _ding_debt_easy_get_payment_types_options();;
+  array_walk($cards_options, function(&$value, $key) {
+    $value = '<img src="' . $value . '" width="53px" alt="'. $key . '" class="card-logo"/>';
+  });
   $form['ding_debt_easy']['ding_debt_easy_config']['cards'] = [
     '#type' => 'checkboxes',
     '#title' => t('Payment types (Cards etc.)'),
-    '#options' => ['- none -'],
+    '#options' => $cards_options,
+    '#default_value' => ding_debt_easy_get_payment_types(FALSE),
   ];
 
   $form['ding_debt_easy']['ding_debt_easy_config']['integrationType'] = [
     '#type' => 'select',
     '#title' => t('Integration Type'),
-    '#options' => ['- none -'],
+    '#options' => _ding_debt_easy_get_integration_type_options(),
   ];
-
 
   $default_terms = variable_get('ding_debt_easy_terms', [
     'text' => [
@@ -169,7 +171,9 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
 
   $form['ding_debt_easy']['ding_debt_easy_terms']['text'] = [
     '#type' => 'text_format',
-    '#title' => t('Terms declaration (<a href="@url" target="_blank">link to page</a>)', ['@url' => ding_debt_easy_get_terms_page_url()]),
+    '#title' => t('Terms declaration (<a href="@url" target="_blank">link to page</a>)', [
+      '@url' => DING_DEBT_EASY_DEFAULT_TERMS_URL,
+    ]),
     '#default_value' => $default_terms['text']['value'],
     '#format' => $default_terms['text']['format'],
     '#rows' => 15,
@@ -203,7 +207,9 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
 
   $form['ding_debt_easy']['ding_debt_easy_privacy']['text'] = [
     '#type' => 'text_format',
-    '#title' => t('Privacy and cookies declaration (<a href="@url" target="_blank">link to page</a>)', ['@url' => ding_debt_easy_get_privacy_page_url()]),
+    '#title' => t('Privacy and cookies declaration (<a href="@url" target="_blank">link to page</a>)', [
+      '@url' => DING_DEBT_EASY_DEFAULT_PRIVACY_URL,
+    ]),
     '#default_value' => $default_privacy['text']['value'],
     '#format' => $default_privacy['text']['format'],
     '#rows' => 15,
