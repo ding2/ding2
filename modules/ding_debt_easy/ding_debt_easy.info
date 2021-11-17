@@ -1,0 +1,9 @@
+name = Ding debt easy
+description = Integration with Nets easy payment gateway
+package = Ding!
+core = 7.x
+files[] = includes/ding_debt_easy.admin.inc
+dependencies[] = ding_base
+dependencies[] = ding_provider
+dependencies[] = htmlmail
+configure = admin/config/payment/ding_debt_easy

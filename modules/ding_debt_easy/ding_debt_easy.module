@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function ding_debt_easy_menu() {
+  $items = [];
+
+  $items['admin/config/payment/ding_debt_easy'] = array(
+    'title' => 'Nets easy payment settings',
+    'description' => 'Configure Nets easy payment gateway.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ding_debt_easy_admin_settings'],
+    'access arguments' => ['administer easy settings'],
+    'file' => 'includes/ding_debt_easy.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['admin/config/payment/ding_debt_easy/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
+  $items['admin/config/payment/ding_debt_easy/reports'] = array(
+    'title' => 'Reports',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'ding_debt_easy_admin_reports',
+    'access arguments' => array('administer easy reports'),
+    'file' => 'includes/ding_debt_easy.reports.inc',
+  );
+
+  return $items;
+}
+
+function ding_debt_easy_permission() {
+  return array(
+    'administer easy settings' => array(
+      'title' => t('Administer ding dept easy module'),
+      'description' => t('Change Nets easy integration settings.'),
+    ),
+    'administer easy reports' => array(
+      'title' => t('Administer payment reports'),
+      'description' => t('Access easy payment reports'),
+    ),
+  );
+}
+
+
