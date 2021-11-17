@@ -731,6 +731,9 @@ projects[ding_spt_statistics][download][branch] = "development"
 
 projects[domain][subdir]                    = "contrib"
 projects[domain][version]                   = "3.12"
+; Mysql 8 reserved words fix.
+; https://www.drupal.org/project/domain/issues/3084622
+projects[domain][patch][]                   = "https://www.drupal.org/files/issues/2019-09-30/mysql8-domain-access.patch"
 
 projects[domain_ctools][subdir]             = "contrib"
 projects[domain_ctools][version]            = "1.3"
