@@ -39,6 +39,15 @@ function ding_debt_easy_menu() {
     'file' => 'includes/ding_debt_easy.reports.inc',
   );
 
+  $items['admin/config/payment/ding_debt_easy/mail'] = array(
+    'title' => 'Mail',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ding_debt_easy_admin_mails_settings_form'],
+    'access arguments' => array('administer easy reports'),
+    'file' => 'includes/ding_debt_easy.admin.inc',
+  );
+
   // Terms page.
   $items[DING_DEBT_EASY_DEFAULT_TERMS_URL] = [
     'title' => 'Terms and usage',

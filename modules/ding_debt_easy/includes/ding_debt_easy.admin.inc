@@ -224,3 +224,75 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
 
   return system_settings_form($form);
 }
+
+/**
+ * Implements hook_form().
+ *
+ * The reports mail settings.
+ */
+function ding_debt_easy_admin_mails_settings_form($form, &$form_state) {
+
+  $default = variable_get('ding_debt_easy_mail', [
+    'to' => '',
+    'cc' => '',
+    'title' => 'EASY betaling: %count afventende',
+    'header' => [
+      'value' => '',
+      'format' => 'ding_wysiwyg',
+    ],
+    'footer' => [
+      'value' => '',
+      'format' => 'ding_wysiwyg',
+    ],
+  ]);
+
+  $form['ding_debt_easy_mail'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Mail report settings'),
+    '#description' => t(''),
+    '#tree' => TRUE,
+  ];
+
+  $form['ding_debt_easy_mail']['to'] = [
+    '#type' => 'textfield',
+    '#title' => t('To'),
+    '#description' => t('Comma separated list of mail addresses'),
+    '#default_value' => $default['to'],
+  ];
+
+  $form['ding_debt_easy_mail']['cc'] = [
+    '#type' => 'textfield',
+    '#title' => t('Cc'),
+    '#description' => t('Comma separated list of mail addresses'),
+    '#default_value' => $default['cc'],
+  ];
+
+  $form['ding_debt_easy_mail']['title'] = [
+    '#type' => 'textfield',
+    '#title' => t('Mail title'),
+    '#description' => t('Note: the "%count" in the title is substituted with the number payments awaiting action'),
+    '#default_value' => $default['title'],
+  ];
+
+  $form['ding_debt_easy_mail']['header'] = [
+    '#type' => 'text_format',
+    '#title' => t('Mail header', [
+      '@url' => DING_DEBT_EASY_DEFAULT_PRIVACY_URL,
+    ]),
+    '#default_value' => $default['header']['value'],
+    '#format' => $default['header']['format'],
+    '#rows' => 15,
+  ];
+
+  $form['ding_debt_easy_mail']['footer'] = [
+    '#type' => 'text_format',
+    '#title' => t('Mail footer', [
+      '@url' => DING_DEBT_EASY_DEFAULT_PRIVACY_URL,
+    ]),
+    '#default_value' => $default['footer']['value'],
+    '#format' => $default['footer']['format'],
+    '#rows' => 15,
+  ];
+
+  return system_settings_form($form);
+}
