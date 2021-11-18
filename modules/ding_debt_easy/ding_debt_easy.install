@@ -2,14 +2,52 @@
 
 /**
  * @file
- * Handle default configuration during install.
+ * Handle database tables and default configuration during install.
  */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_debt_easy_schema() {
+  $schema = [];
+
+  $schema['ding_debt_easy'] = [
+    'description' => 'Tracking payments made with the payment gateway.',
+    'fields' => [
+      'id' => [
+        'description' => 'The primary local identifier for the table.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'payment_id' => [
+        'description' => 'Id of the payment at the gateway.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'provider_id' => [
+        'description' => 'Id of the payment at the provider.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+    'indexes' => [
+      'id_index' => ['payment_id', 'provider_id'],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['cache_ding_debt_easy'] = drupal_get_schema_unprocessed('system', 'cache');
+
+  return $schema;
+}
 
 /**
  * Implements hook_install().
  */
 function ding_debt_easy_install() {
-
   // Setting default values for mail (requested by the customer of the module).
   variable_set('ding_debt_easy_mail', [
     'to' => '',
