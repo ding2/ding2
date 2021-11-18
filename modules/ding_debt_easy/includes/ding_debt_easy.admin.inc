@@ -30,12 +30,14 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Secret key'),
     '#default_value' => $default_keys['secret'],
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy']['ding_debt_easy_keys']['checkout'] = [
     '#type' => 'textfield',
     '#title' => t('Checkout key'),
     '#default_value' => $default_keys['checkout'],
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy']['endpoints'] = [
@@ -45,8 +47,6 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#collapsed' => FALSE,
     '#tree' => FALSE,
   ];
-
-
 
   $default_api = variable_get('ding_debt_easy_api_endpoints', [
     'type' => FALSE,
@@ -75,6 +75,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#description' => '',
     '#default_value' => $default_api['prod'],
     '#disabled' => TRUE,
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy']['endpoints']['ding_debt_easy_api_endpoints']['test'] = [
@@ -82,9 +83,8 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#title' => t('Test payments end-point'),
     '#default_value' => $default_api['test'],
     '#disabled' => TRUE,
+    '#required' => TRUE,
   ];
-
-
 
   $default_endpoints = variable_get('ding_debt_easy_endpoints', [
     'callback' => DING_DEBT_EASY_CALLBACK_URL,
@@ -103,12 +103,14 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Return for completed payment'),
     '#default_value' => $default_endpoints['callback'],
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy']['endpoints']['ding_debt_easy_endpoints']['cancel'] = [
     '#type' => 'textfield',
     '#title' => t('Cancel payment callback'),
     '#default_value' => $default_endpoints['cancel'],
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy']['ding_debt_easy_config'] = [
@@ -142,6 +144,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#title' => t('Payment types (Cards etc.)'),
     '#options' => $cards_options,
     '#default_value' => ding_debt_easy_get_payment_types(FALSE),
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy']['ding_debt_easy_config']['integrationType'] = [
@@ -258,6 +261,7 @@ function ding_debt_easy_admin_mails_settings_form($form, &$form_state) {
     '#title' => t('To'),
     '#description' => t('Comma separated list of mail addresses'),
     '#default_value' => $default['to'],
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy_mail']['cc'] = [
@@ -265,6 +269,7 @@ function ding_debt_easy_admin_mails_settings_form($form, &$form_state) {
     '#title' => t('Cc'),
     '#description' => t('Comma separated list of mail addresses'),
     '#default_value' => $default['cc'],
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy_mail']['title'] = [
@@ -272,6 +277,7 @@ function ding_debt_easy_admin_mails_settings_form($form, &$form_state) {
     '#title' => t('Mail title'),
     '#description' => t('Note: the "%count" in the title is substituted with the number payments awaiting action'),
     '#default_value' => $default['title'],
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy_mail']['header'] = [
@@ -282,6 +288,7 @@ function ding_debt_easy_admin_mails_settings_form($form, &$form_state) {
     '#default_value' => $default['header']['value'],
     '#format' => $default['header']['format'],
     '#rows' => 15,
+    '#required' => TRUE,
   ];
 
   $form['ding_debt_easy_mail']['footer'] = [
@@ -292,7 +299,12 @@ function ding_debt_easy_admin_mails_settings_form($form, &$form_state) {
     '#default_value' => $default['footer']['value'],
     '#format' => $default['footer']['format'],
     '#rows' => 15,
+    '#required' => TRUE,
   ];
 
   return system_settings_form($form);
+}
+
+function ding_debt_easy_admin_mails_settings_form_validate(&$form, &$form_state) {
+  $t=1;
 }
