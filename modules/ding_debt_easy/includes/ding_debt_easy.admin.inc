@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_form();
+ * Implements hook_form().
  *
  * Administrative form used to configure the module.
  */
@@ -16,7 +16,10 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     drupal_get_path('module', 'ding_debt_easy') . '/css/ding_debt_easy.admin.css',
   );
 
-  $default_keys = variable_get('ding_debt_easy_keys', ['secret' => '', 'checkout' => '']);
+  $default_keys = variable_get('ding_debt_easy_keys', [
+    'secret' => '',
+    'checkout' => '',
+  ]);
   $form['ding_debt_easy']['ding_debt_easy_keys'] = [
     '#type' => 'fieldset',
     '#title' => t('Nets payment keys'),
@@ -135,9 +138,9 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#default_value' => ding_debt_easy_get_localization(),
   ];
 
-  $cards_options = _ding_debt_easy_get_payment_types_options();;
-  array_walk($cards_options, function(&$value, $key) {
-    $value = '<div class="card-logo"><img src="' . $value . '" alt="'. $key . '" /><div class="name">' . $key . '</div></div>';
+  $cards_options = _ding_debt_easy_get_payment_types_options();
+  array_walk($cards_options, function (&$value, $key) {
+    $value = '<div class="card-logo"><img src="' . $value . '" alt="' . $key . '" /><div class="name">' . $key . '</div></div>';
   });
   $form['ding_debt_easy']['ding_debt_easy_config']['cards'] = [
     '#type' => 'checkboxes',
@@ -165,7 +168,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('Terms and privacy'),
     '#description' => t('If these are <strong>not</strong> filled in the defaults text/url used by Nets easy payments will be used. See <a href=@url>Legal & Compliance</a> at Nets.', [
-      '@url' => 'https://www.nets.eu/dk/payments/customerservice/legal-compliance/easy/'
+      '@url' => 'https://www.nets.eu/dk/payments/customerservice/legal-compliance/easy/',
     ]),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
@@ -201,7 +204,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('Privacy and cookies'),
     '#description' => t('If these are <strong>not</strong> filled in the defaults text/url used by Nets easy payments will be used. See <a href=@url>Legal & Compliance</a> at Nets.', [
-      '@url' => 'https://www.nets.eu/dk/payments/customerservice/legal-compliance/easy/'
+      '@url' => 'https://www.nets.eu/dk/payments/customerservice/legal-compliance/easy/',
     ]),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
@@ -252,7 +255,6 @@ function ding_debt_easy_admin_mails_settings_form($form, &$form_state) {
   $form['ding_debt_easy_mail'] = [
     '#type' => 'fieldset',
     '#title' => t('Mail report settings'),
-    '#description' => t(''),
     '#tree' => TRUE,
   ];
 

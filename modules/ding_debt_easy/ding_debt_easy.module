@@ -6,9 +6,9 @@
  */
 
 define('DING_DEBT_EASY_DEFAULT_TERMS_URL', 'payment/easy/terms');
-define('DING_DEBT_EASY_DEFAULT_PRIVACY_URL','payment/easy/privacy');
+define('DING_DEBT_EASY_DEFAULT_PRIVACY_URL', 'payment/easy/privacy');
 define('DING_DEBT_EASY_CALLBACK_URL', 'payment/easy/callback');
-define('DING_DEBT_EASY_CANCEL_URL','payment/easy/cancel');
+define('DING_DEBT_EASY_CANCEL_URL', 'payment/easy/cancel');
 
 /**
  * Implements hook_menu().
@@ -107,7 +107,7 @@ function ding_debt_easy_permission() {
  *   True if the page should be accessed.
  */
 function _ding_debt_easy_pages_access_callback(string $type) {
-  $config = variable_get('ding_debt_easy_'.$type, []);
+  $config = variable_get('ding_debt_easy_' . $type, []);
 
   // Redirect to page outside this module if given in configuration.
   if (!empty($config['url'])) {
@@ -121,7 +121,7 @@ function _ding_debt_easy_pages_access_callback(string $type) {
  * The currencies available at the payment gateway.
  *
  * Sadly there is not end-point to fetches these. So it's created based on
- * https://nets-devs.isotop.se/nets-easy/en-EU/api/#currency-and-amount
+ * https://nets-devs.isotop.se/nets-easy/en-EU/api/#currency-and-amount.
  *
  * @return string[]
  *   Array indexed by short name for currencies.
@@ -151,7 +151,7 @@ function ding_debt_easy_get_currency() {
 /**
  * The list of language select at the gateway.
  *
- * See https://nets-devs.isotop.se/nets-easy/en-EU/api/#localization
+ * See https://nets-devs.isotop.se/nets-easy/en-EU/api/#localization.
  *
  * @return string[]
  *   List of languages keys by localization id/code.
@@ -237,7 +237,7 @@ function _ding_debt_easy_get_payment_types_options() {
   $cards = [
     'Dankort' => 'dankort.png',
     'MasterCard' => 'mastercard.png',
-    'MobilePay'=> 'mobilpay.png',
+    'MobilePay' => 'mobilpay.png',
     'PayPal' => 'paypal.png',
     'Swish' => 'swish.png' ,
     'Vipps' => 'vipps.png',
