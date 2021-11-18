@@ -307,6 +307,20 @@ function ding_debt_easy_admin_mails_settings_form($form, &$form_state) {
   return system_settings_form($form);
 }
 
+/**
+ * Implements hook_form_validate().
+ *
+ * Validate that the mail-addresses enter is mail addresses.
+ */
 function ding_debt_easy_admin_mails_settings_form_validate(&$form, &$form_state) {
-  $t=1;
+  $values = $form_state['values'];
+  $fields = ['to', 'cc'];
+  foreach ($fields as $field) {
+    $mails = explode(',', $values['ding_debt_easy_mail'][$field]);
+    foreach ($mails as $mail) {
+      if (!filter_var(trim($mail), FILTER_VALIDATE_EMAIL)) {
+        form_error($form['ding_debt_easy_mail'][$field], t('Invalid email format: %mail', ['%mail' => $mail]));
+      }
+    }
+  }
 }
