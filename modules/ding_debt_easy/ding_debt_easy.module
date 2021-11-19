@@ -34,7 +34,7 @@ function ding_debt_easy_menu() {
   $items['admin/config/payment/ding_debt_easy/reports'] = array(
     'title' => 'Reports',
     'type' => MENU_LOCAL_TASK,
-    'page callback' => 'ding_debt_easy_admin_reports',
+    'page callback' => 'ding_debt_easy_admin_reports_form',
     'access arguments' => array('administer easy reports'),
     'file' => 'includes/ding_debt_easy.reports.inc',
   );
