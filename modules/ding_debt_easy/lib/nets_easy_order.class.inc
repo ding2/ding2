@@ -3,7 +3,7 @@
 namespace Nets\Easy;
 
 /**
- * @class NetsEasyOrder
+ * @class Order
  *
  * Representation of nets easy order.
  */

@@ -332,6 +332,21 @@ function ding_debt_easy_get_payment_types($with_logos = TRUE) {
 }
 
 /**
+ * Get basic API configuration.
+ *
+ * @return array
+ *   The API end-point to use and the keys needed to communication with the
+ *   end-point.
+ */
+function ding_debt_easy_get_api_config() {
+  $endpoints = variable_get('ding_debt_easy_api_endpoints', []);
+
+  return [
+    'endpoint' => empty($endpoints['type']) || $endpoints['type'] ? $endpoints['test'] : $endpoints['prod'],
+  ] + variable_get('ding_debt_easy_keys', []);
+}
+
+/**
  * Get list of card supports by Net easy.
  *
  * Note the invoice methods have be removed.
@@ -369,4 +384,5 @@ function _ding_debt_easy_load_client() {
   require_once $path . 'nets_easy_client.class.inc';
   require_once $path . 'nets_easy_order.class.inc';
   require_once $path . 'nets_easy_order_item.class.inc';
+  require_once $path . 'nets_easy_checkout.class.inc';
 }

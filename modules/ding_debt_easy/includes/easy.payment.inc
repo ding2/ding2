@@ -5,7 +5,8 @@
  * Payment provider implementation for Ding!
  */
 
-use Nets\Easy\Order;
+use Nets\Easy\Checkout;
+use Nets\Easy\Client;
 use Nets\Easy\OrderItem;
 
 /**
@@ -19,8 +20,8 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
   // would be the order id).
   $ref = substr(sha1(implode($params['debt_ids'], ',')), 9);
 
-  $order = new Order();
-  $order->setCurrency(ding_debt_easy_get_currency())
+  $checkout = new Checkout();
+  $checkout->getOrder()->setCurrency(ding_debt_easy_get_currency())
     ->setReference($ref);
 
   /** @var \DingProviderDebt $debt */
@@ -29,57 +30,31 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     $item->setReference($id)
       ->setProductName($debt->type)
       ->setQuantity(1)
-      ->setUnit('')
+      ->setUnit('stk')
       ->setUnitPrice($debt->amount*100);
-    $order->addOrderItem($item);
+    $checkout->getOrder()->addOrderItem($item);
   }
 
-  // @TODO: Move this logic into the client Checkout.
-  // Create checkout payload
-  $payload = [
-    'checkout' => [
-      'integrationType' => ding_debt_easy_get_integration_type(),
-      'termsUrl' => url(ding_debt_easy_get_term_url(), ['absolute' => TRUE]),
-      'merchantTermsUrl'  => url(ding_debt_easy_get_privacy_url(), ['absolute' => TRUE]),
-      // We need to only reserve the payment. The charging will be done after
-      // provider has accepted API call.
-      'charge' => FALSE,
-      // Limit data stored in the browser at nets: the checkout will not remember
-      // the current consumer on this device.
-      'publicDevice' => TRUE,
-      //'url' => 'ONLY WITH Embedded checkout to load order from'
-      'appearance' => [
-        'displayOptions' => [
-          'showMerchantName' => TRUE,
-          'showOrderSummary' => TRUE,
-        ],
-      ],
-      // FBS handles information about the consumer, so Nets should not ask for
-      // address etc.
-      'merchantHandlesConsumerData' => TRUE,
-      'consumer' => [
-        // @TODO: get real data.
-        'reference' => "user-id-2034",
-        'email' => "john.doe@example.com",
-      ],
-      'returnUrl' => url(ding_debt_easy_get_return_url(), ['absolute' => TRUE]),
-      'cancelUrl' => url(ding_debt_easy_get_cancel_url(), ['absolute' => TRUE]),
-    ],
-    'order' => $order->toArray(),
-  ];
+  // Set configuration for the checkout.
+  $checkout->setIntegrationType(ding_debt_easy_get_integration_type())
+    ->setTermsUrl(url(ding_debt_easy_get_term_url(), ['absolute' => TRUE]))
+    ->setMerchantTermsUrl(url(ding_debt_easy_get_privacy_url(), ['absolute' => TRUE]))
+    ->setReturnUrl(url(ding_debt_easy_get_return_url(), ['absolute' => TRUE]))
+    ->setCancelUrl(url(ding_debt_easy_get_cancel_url(), ['absolute' => TRUE]));
 
+  // Set user information
+  global $user;
+  $checkout->setConsumeReference($user->uid)
+    ->setConsumeMail($user->mail);
 
+  // Create payment with the checkout and order as payload.
+  $config = ding_debt_easy_get_api_config();
+  $client = new Client($config['secret'], $config['checkout'], $config['endpoint']);
+  $res = $client->createPayment($checkout);
 
-  $t = json_encode($payload, JSON_PRETTY_PRINT);
-  $t1=0;
+  // @TODO: What to do with embedded checkout.
 
-  // Create payment
-
-
-  // Redirect based on payment URL.
-
-
-  return 'payment/dibs/redirect/';
+  return $res['hostedPaymentPageUrl'];
 }
 
 /**

@@ -2,6 +2,10 @@
 
 namespace Nets\Easy;
 
+/**
+ * @class Client
+ *
+ */
 class Client {
   private $secretKey;
   private $checkoutKey;
@@ -13,22 +17,44 @@ class Client {
     $this->apiUrl = $apiUrl;
   }
 
-  public function createPayment(array $order, $integrationType = 'HostedPaymentPage') {
+  /**
+   * Create payment at the gateway.
+   *
+   * @param \Nets\Easy\Checkout $checkout
+   *   The
+   *
+   * @return array
+   *   Will return the paymentId and if hosted payment type the
+   *   hostedPaymentPageUrl to redirect to.
+   */
+  public function createPayment($checkout) {
+    $ch = curl_init($this->apiUrl);
+    curl_setopt_array($ch, [
+      CURLOPT_URL => "https://test.api.dibspayment.eu/v1/payments",
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 30,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "POST",
+      CURLOPT_POSTFIELDS => $checkout->toJson(),
+      CURLOPT_HTTPHEADER => [
+        'Authorization: ' . $this->secretKey,
+        'CommercePlatformTag: SOME_STRING_VALUE',
+        'content-type: application/*+json'
+      ],
+    ]);
 
-//    $payload = file_get_contents('payload.json');
-//    assert(json_decode($payload) && json_last_error() == JSON_ERROR_NONE);
-//
-//    $ch = curl_init($this->apiUrl);
-//    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-//    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//      'Content-Type: application/json',
-//      'Accept: application/json',
-//      'Authorization: ' . $this->secretKey));
-//    $result = curl_exec($ch);
+    $result = curl_exec($ch);
 
-    // Error handling, parsing
+    // @TODO: Error handling, parsing
+    $err = curl_error($ch);
+    curl_close($ch);
+
+    // Decode result from json payload.
+    $data = json_decode($result, TRUE);
+
+    // @TODO: Error handling, parsing the $data object.
     // 500
 //    {
 //      "message": "string",
@@ -53,9 +79,11 @@ class Client {
 //    }
     // Else
 //    {
-//      "paymentId": "0260000060003b7b47f0833960dc60d6",
-//      "hostedPaymentPageUrl": "https://test.checkout.dibspayment.eu/hostedpaymentpage/?checkoutKey=090284ec577876"
+//      "paymentId": "xxxxx",
+//      "hostedPaymentPageUrl": "https://test.checkout.dibspayment.eu/hostedpaymentpage/?checkoutKey=xxxxx"
 //    }
+
+    return $data;
   }
 
   public function fetchPayment($paymentId) {
