@@ -128,32 +128,8 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     if (variable_get('ding_debt_enable_internal_button', TRUE)) {
       $provider = ding_provider_get_provider_module_name('payment');
       if (!empty($provider)) {
-        // Yeah, this is extremely hacky, but DIBS payments are being phased out,
-        // so refactoring ding_dibs so we can include the contents of these blocks
-        // isn't worth the efford.
-        if ($provider === 'ding_dibs') {
-          $block = ding_dibs_block_view('dibs-cards-supported');
-          $form['cards_header'] = [
-            '#prefix' => '<h3>',
-            '#suffix' => '</h3>',
-            '#markup' => check_plain($block['subject']),
-          ];
-
-          $form['cards_body'] = [
-            '#markup' => $block['content'],
-          ];
-
-          $block = ding_dibs_block_view('dibs-terms-of-sale');
-          $form['terms_header'] = [
-            '#prefix' => '<h3>',
-            '#suffix' => '</h3>',
-            '#markup' => check_plain($block['subject']),
-          ];
-
-          $form['terms_body'] = [
-            '#markup' => $block['content'],
-          ];
-        }
+        $form += ding_provider_invoke('payment', 'cards_supported');
+        $form += ding_provider_invoke('payment', 'terms');
 
         $form['accept_terms'] = array(
           '#type' => 'checkbox',
