@@ -1489,6 +1489,38 @@ function _ding_nodelist_format_event_time(array $date) {
 }
 
 /**
+ * Gets the location off a event if defined else the library.
+ *
+ * @param  $item
+ *   The event item.
+ *
+ * @param bool $islink
+ *   Return formatted as link.
+ *
+ * @return string
+ *   Location off a event.
+ */
+function _ding_nodelist_get_event_location($item, bool $islink = false) {
+  $event_location = field_get_items('node', $item, 'field_ding_event_location');
+
+  if ($event_location && isset($event_location[0])) {
+  // Dont display location if neither name_line or thoroughfare is set.
+  // Prevents that country is printes out, without any other values.
+    if (!empty($event_location[0]['name_line'])) {
+      return array('#markup' => $event_location[0]['name_line']);
+    } elseif (!empty($event_location[0]['thoroughfare'])) {
+      return array('#markup' => $event_location[0]['thoroughfare']);
+    }
+  }
+
+  return field_view_field('node', $item, 'og_group_ref', array(
+    'label' => 'hidden',
+    'type' => 'entityreference_label',
+    'settings' => array('link' => $islink),
+  ));
+}
+
+/**
  * Format event dates as period of time.
  *
  * @param array $date
@@ -1773,19 +1805,8 @@ function ding_nodelist_preprocess(&$variables, $hook) {
           array('html' => TRUE)
         );
 
-        $library = field_view_field('node', $item, 'og_group_ref', array(
-          'label' => 'hidden',
-          'type' => 'entityreference_label',
-          'settings' => array('link' => FALSE),
-        ));
-        $items[$key]->library = $library;
-
-        $library_link = field_view_field('node', $item, 'og_group_ref', array(
-          'label' => 'hidden',
-          'type' => 'entityreference_label',
-          'settings' => array('link' => TRUE),
-        ));
-        $items[$key]->library_link = $library_link;
+        $items[$key]->library = _ding_nodelist_get_event_location($item, false);
+        $items[$key]->library_link = _ding_nodelist_get_event_location($item, true);
 
         $category = field_view_field('node', $item, 'field_' . $item->type . '_category', array(
           'label' => 'hidden',
