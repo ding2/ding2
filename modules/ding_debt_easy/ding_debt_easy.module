@@ -22,13 +22,14 @@ function ding_debt_easy_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => ['ding_debt_easy_admin_settings_form'],
     'access arguments' => ['administer easy settings'],
-    'file' => 'includes/ding_debt_easy.admin.inc',
     'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/ding_debt_easy.admin.inc',
   );
 
   $items['admin/config/payment/ding_debt_easy/settings'] = array(
     'title' => 'Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'includes/ding_debt_easy.admin.inc',
   );
 
   $items['admin/config/payment/ding_debt_easy/reports'] = array(

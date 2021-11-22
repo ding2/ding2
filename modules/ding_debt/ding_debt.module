@@ -46,8 +46,21 @@ function ding_debt_permission() {
  * Implements hook_menu().
  */
 function ding_debt_menu() {
-  $items['admin/config/ding/payment'] = [
+  $items = [];
+
+  $items['admin/config/payment'] = array(
     'title' => 'Payment',
+    'description' => 'Payment integration modules.',
+    'position' => 'right',
+    'weight' => -10,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/payment/ding'] = [
+    'title' => 'Ding payment',
     'description' => 'Configure the payment options.',
     'page callback' => 'drupal_get_form',
     'page arguments' => ['ding_debt_settings_form'],
