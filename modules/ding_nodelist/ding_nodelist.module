@@ -1491,16 +1491,15 @@ function _ding_nodelist_format_event_time(array $date) {
 /**
  * Gets the location off a event if defined else the library.
  *
- * @param  $item
+ * @param mixed $item
  *   The event item.
- *
  * @param bool $islink
  *   Return formatted as link.
  *
  * @return string
  *   Location off a event.
  */
-function _ding_nodelist_get_event_location($item, bool $islink = false) {
+function _ding_nodelist_get_event_location($item, $islink = false) {
   $event_location = field_get_items('node', $item, 'field_ding_event_location');
 
   if ($event_location && isset($event_location[0])) {
