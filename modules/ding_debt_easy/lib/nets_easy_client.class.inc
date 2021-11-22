@@ -1,6 +1,8 @@
 <?php
 
-class NetsEasyClient {
+namespace Nets\Easy;
+
+class Client {
   private $secretKey;
   private $checkoutKey;
   private $apiUrl;

@@ -245,6 +245,66 @@ function _ding_debt_easy_get_integration_type_options() {
 }
 
 /**
+ * Get payment gateway integration type.
+ *
+ * @return string
+ *   The type of integration to use.
+ */
+function ding_debt_easy_get_integration_type() {
+  $config = variable_get('ding_debt_easy_config', []);
+
+  return empty($config['integrationType']) ? 'HostedPaymentPage' : $config['integrationType'] ;
+}
+
+/**
+ * Get terms page url.
+ *
+ * @return string
+ *  URL to terms page.
+ */
+function ding_debt_easy_get_term_url() {
+  $config = variable_get('ding_debt_easy_terms', []);
+
+  return empty($config['url']) ? '/'.DING_DEBT_EASY_DEFAULT_TERMS_URL : $config['url'];
+}
+
+/**
+ * Get privacy URL.
+ *
+ * @return string
+ *   URL to privacy page.
+ */
+function ding_debt_easy_get_privacy_url() {
+  $config = variable_get('ding_debt_easy_privacy', []);
+
+  return empty($config['url']) ? '/'.DING_DEBT_EASY_DEFAULT_PRIVACY_URL : $config['url'];
+}
+
+/**
+ * Get return URL after payment at the gateway.
+ *
+ * @return string
+ *   The URL.
+ */
+function ding_debt_easy_get_return_url() {
+  $config = variable_get('ding_debt_easy_endpoints', []);
+
+  return empty($config['callback']) ? DING_DEBT_EASY_CALLBACK_URL : $config['callback'];
+}
+
+/**
+ * Get cancel URL after cancellation of payment at the gateway.
+ *
+ * @return string
+ *   The URL.
+ */
+function ding_debt_easy_get_cancel_url() {
+  $config = variable_get('ding_debt_easy_endpoints', []);
+
+  return empty($config['cancel']) ? DING_DEBT_EASY_CANCEL_URL : $config['cancel'];
+}
+
+/**
  * Get list of the configured payments types.
  *
  * @param bool $with_logos
@@ -296,4 +356,17 @@ function _ding_debt_easy_get_payment_types_options() {
   });
 
   return $cards;
+}
+
+/**
+ * Helper to load client.
+ *
+ * @TODO: Why do files[] not work, there must be a better way then x-auto-load
+ *        module.
+ */
+function _ding_debt_easy_load_client() {
+  $path = drupal_get_path('module', 'ding_debt_easy') . '/lib/';
+  require_once $path . 'nets_easy_client.class.inc';
+  require_once $path . 'nets_easy_order.class.inc';
+  require_once $path . 'nets_easy_order_item.class.inc';
 }

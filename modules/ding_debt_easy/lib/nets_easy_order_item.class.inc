@@ -1,16 +1,13 @@
 <?php
 
-/**
- * @file
- * Representation of Nets order item.
- */
+namespace Nets\Easy;
 
 /**
  * @class NetsEasyOrderItem
  *
  * Representation of Nets order item.
  */
-class NetsEasyOrderItem {
+class OrderItem {
   private $reference = '';
   private $productName = '';
   private $quantity = 0;
@@ -118,7 +115,13 @@ class NetsEasyOrderItem {
    * @return array
    */
   public function toArray() {
-    $item = (array) $this;
+    $item = [
+      'reference' => $this->getReference(),
+      'name' => $this->getProductName(),
+      'quantity' => $this->getQuantity(),
+      'unit' => $this->getUnit(),
+      'unitPrice' => $this->getUnitPrice(),
+    ];
     $item['grossTotalAmount'] = $this->getTotalAmount();
     $item['netTotalAmount'] = $this->getTotalAmount();
 

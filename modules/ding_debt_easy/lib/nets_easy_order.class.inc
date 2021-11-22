@@ -1,16 +1,13 @@
 <?php
 
-/**
- * @file
- * Representation of nets easy order.
- */
+namespace Nets\Easy;
 
 /**
  * @class NetsEasyOrder
  *
  * Representation of nets easy order.
  */
-class NetsEasyOrder {
+class Order {
 
   private $currency = 'DKK';
   private $reference = '';
@@ -67,7 +64,7 @@ class NetsEasyOrder {
   /**
    * Add order item to this order.
    *
-   * @param \NetsEasyOrderItem $orderItem
+   * @param OrderItem $orderItem
    *   Order item.
    *
    * @return $this
@@ -95,7 +92,7 @@ class NetsEasyOrder {
    *   Order item reference.
    */
   public function removeOrderItem($reference) {
-    /** @var NetsEasyOrderItem $item */
+    /** @var OrderItem $item */
     foreach ($this->orderItems as $index => $item) {
       if ($reference === $item->getReference()) {
         unset($this->orderItems[$index]);
@@ -117,7 +114,7 @@ class NetsEasyOrder {
       'reference' => $this->getReference(),
    ];
 
-    /** @var \NetsEasyOrderItem $item */
+    /** @var OrderItem $item */
     foreach ($this->orderItems as $item) {
       $order['items'][] = $item->toArray();
       $order['amount'] += $item->getTotalAmount();
