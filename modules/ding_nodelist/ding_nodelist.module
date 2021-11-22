@@ -1507,7 +1507,8 @@ function _ding_nodelist_get_event_location($item, $islink = false) {
   // Prevents that country is printes out, without any other values.
     if (!empty($event_location[0]['name_line'])) {
       return array('#markup' => $event_location[0]['name_line']);
-    } elseif (!empty($event_location[0]['thoroughfare'])) {
+    } 
+    elseif (!empty($event_location[0]['thoroughfare'])) {
       return array('#markup' => $event_location[0]['thoroughfare']);
     }
   }
