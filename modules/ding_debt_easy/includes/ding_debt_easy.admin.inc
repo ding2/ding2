@@ -53,8 +53,8 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
 
   $default_api = variable_get('ding_debt_easy_api_endpoints', [
     'type' => FALSE,
-    'prod' => 'https://api.dibspayment.eu/v1/payments',
-    'test' => 'https://test.api.dibspayment.eu/v1/payments',
+    'prod' => 'https://api.dibspayment.eu/',
+    'test' => 'https://test.api.dibspayment.eu/',
   ]);
 
   $form['ding_debt_easy']['endpoints']['ding_debt_easy_api_endpoints'] = [

@@ -13,12 +13,13 @@ use Nets\Easy\OrderItem;
  * Generate the payment URL to redirect the user to.
  */
 function ding_debt_easy_payment_get_url($amount, $params, $callback) {
-  _ding_debt_easy_load_client();
+  _ding_debt_easy_library();
   $params = $params['params'];
 
   // Create order ref, this is just an internal id (if this was a web-shop this
   // would be the order id).
-  $ref = substr(sha1(implode($params['debt_ids'], ',')), 9);
+  $item_ids = $params['debt_ids'];
+  $ref = sha1(implode($item_ids, ','));
 
   $checkout = new Checkout();
   $checkout->getOrder()->setCurrency(ding_debt_easy_get_currency())
@@ -48,11 +49,15 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     ->setConsumeMail($user->mail);
 
   // Create payment with the checkout and order as payload.
-  $config = ding_debt_easy_get_api_config();
-  $client = new Client($config['secret'], $config['checkout'], $config['endpoint']);
+  $client = _ding_debt_easy_get_client();
   $res = $client->createPayment($checkout);
 
   // @TODO: What to do with embedded checkout.
+  // @TODO: Error handling - exceptions from client.
+
+  // Store information about the payment state.
+  $payment_id = $res['paymentId'];
+  _ding_debt_easy_insert_local_payment($user->uid, $item_ids, $payment_id, DING_DEBT_EASY_STATUS_CREATED);
 
   return $res['hostedPaymentPageUrl'];
 }

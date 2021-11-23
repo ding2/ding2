@@ -172,9 +172,12 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
     $payment_order->feeIds[] = $debt_id;
   }
 
+  $patron_id = fbs_patron_id($account);
+
   $res = array();
   try {
-    $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, fbs_patron_id($account), $payment_order);
+    // @TODO: Re-enabled call to FBS
+    // $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, $patron_id, $payment_order);
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
@@ -184,7 +187,7 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
   foreach ($res as $confirmation) {
     if ($confirmation->paymentStatus !== 'paymentRegistered') {
       $variables = array(
-        '@patron_id' => fbs_patron_id($account),
+        '@patron_id' => $patron_id,
         '@order_id' => $order_id,
         '@fee_id' => implode(', ', $debt_ids),
       );

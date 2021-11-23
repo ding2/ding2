@@ -20,11 +20,23 @@ function ding_debt_easy_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ],
+      'uid' => array(
+        'description' => 'The {users}.uid for the payment.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
       'payment_id' => [
         'description' => 'Id of the payment at the gateway.',
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
+      ],
+      'charge_id' => [
+        'description' => 'Charged id of the payment at the gateway.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
       ],
       'provider_id' => [
         'description' => 'Id of the payment at the provider.',
@@ -32,6 +44,18 @@ function ding_debt_easy_schema() {
         'length' => 255,
         'not null' => TRUE,
       ],
+      'status' => [
+        'description' => 'The current status of the payment.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'changed' => array(
+        'description' => 'The Unix timestamp when the status was most recently updated.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      )
     ],
     'indexes' => [
       'id_index' => ['payment_id', 'provider_id'],
@@ -68,10 +92,10 @@ function ding_debt_easy_install() {
  * Implements hook_uninstall().
  */
 function ding_debt_easy_uninstall() {
-  variable_del('ding_debt_easy_api_endpoints');
-  variable_del('ding_debt_easy_config');
-  variable_del('ding_debt_easy_endpoints');
-  variable_del('ding_debt_easy_keys');
-  variable_del('ding_debt_easy_privacy');
-  variable_del('ding_debt_easy_terms');
+//  variable_del('ding_debt_easy_api_endpoints');
+//  variable_del('ding_debt_easy_config');
+//  variable_del('ding_debt_easy_endpoints');
+//  variable_del('ding_debt_easy_keys');
+//  variable_del('ding_debt_easy_privacy');
+//  variable_del('ding_debt_easy_terms');
 }

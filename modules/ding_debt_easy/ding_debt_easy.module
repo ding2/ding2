@@ -5,10 +5,19 @@
  * Integration with nets easy payment.
  */
 
+use Nets\Easy\Client;
+
 define('DING_DEBT_EASY_DEFAULT_TERMS_URL', 'payment/easy/terms');
 define('DING_DEBT_EASY_DEFAULT_PRIVACY_URL', 'payment/easy/privacy');
 define('DING_DEBT_EASY_CALLBACK_URL', 'payment/easy/callback');
 define('DING_DEBT_EASY_CANCEL_URL', 'payment/easy/cancel');
+
+// Looking forward to PHP 8.1's enums.
+define('DING_DEBT_EASY_STATUS_CREATED', 'created');
+define('DING_DEBT_EASY_STATUS_RESERVED', 'reserved');
+define('DING_DEBT_EASY_STATUS_PENDING', 'pending');
+define('DING_DEBT_EASY_STATUS_COMPLETED', 'completed');
+define('DING_DEBT_EASY_STATUS_FAILED', 'failed');
 
 /**
  * Implements hook_menu().
@@ -71,7 +80,11 @@ function ding_debt_easy_menu() {
 
   // Payment completed (callback).
   $items[DING_DEBT_EASY_CALLBACK_URL] = [
-
+    'title' => 'Payment reserved callback',
+    'type' => MENU_CALLBACK,
+    'page callback' => '_ding_debt_easy_callback',
+    'access callback' => TRUE, //'_ding_debt_easy_pages_access_callback',
+    //    'access arguments' => array('privacy'),
   ];
 
   // Payment canceled
@@ -339,7 +352,12 @@ function ding_debt_easy_get_payment_types($with_logos = TRUE) {
  *   end-point.
  */
 function ding_debt_easy_get_api_config() {
-  $endpoints = variable_get('ding_debt_easy_api_endpoints', []);
+  $endpoints = variable_get('ding_debt_easy_api_endpoints', [
+    // Default to testing end-point.
+    'type' => TRUE,
+    'prod' => 'https://api.dibspayment.eu/',
+    'test' => 'https://test.api.dibspayment.eu/',
+  ]);
 
   return [
     'endpoint' => empty($endpoints['type']) || $endpoints['type'] ? $endpoints['test'] : $endpoints['prod'],
@@ -374,12 +392,160 @@ function _ding_debt_easy_get_payment_types_options() {
 }
 
 /**
- * Helper to load client.
+ * Callback/return point for payments reserved at the payment gateway.
+ *
+ * Will redirect back to the user's debt page.
+ *
+ * @throws \DingProviderDoesntImplement
+ * @throws \DingProviderNoProvider
+ */
+function _ding_debt_easy_callback() {
+  global $user;
+  $params = drupal_get_query_parameters();
+
+  if (empty($params['paymentid'])) {
+    // @TODO: Handle errors.
+  }
+  $payment_id = $params['paymentid'];
+
+  $client = _ding_debt_easy_get_client();
+  $data = $client->fetchPayment($payment_id);
+
+  // Validate data.
+  // @TODO: Check data -> summery -> reservedAmount === chargedAmount (already handled)
+
+  // Fetch order details form the database
+  $local_record = _ding_debt_easy_get_local_payment($payment_id);
+
+  // Make calls to provider about payment.
+  $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_id'], $data['orderDetails']['reference']);
+
+  if ($status) {
+    _ding_debt_easy_update_local_payment_status($payment_id, DING_DEBT_EASY_STATUS_RESERVED);
+
+    // Charged the payment gateway
+    $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
+    _ding_debt_easy_set_local_payment_charge_id($payment_id, $charge_id);
+
+    // Inform user.
+    drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.',
+      array(
+        '@amount' => $data['orderDetails']['amount'] / 100,
+        '@transaction' => $payment_id,
+        '@order' =>  implode(',', $local_record['provider_id']),
+      )));
+  }
+  else {
+    // @TODO: Handle failed payment.
+  }
+
+  // Clear cache and redirect to user page.
+  ding_provider_invoke('user', 'clear_cache', $user);
+  drupal_goto('user/me/status-debts');
+}
+
+/**
+ * Insert payment status record into the local database.
+ *
+ * @param $uid
+ *   The current users ID.
+ * @param $provider_id
+ *   The debt id at the provider.
+ * @param $payment_id
+ *   The payment id at the gateway
+ * @param $status
+ *   The current status of the payment.
+ *
+ * @throws \Exception
+ */
+function _ding_debt_easy_insert_local_payment($uid, $provider_id, $payment_id, $status) {
+  $id = db_insert('ding_debt_easy')
+    ->fields([
+      'uid' => $uid,
+      'provider_id' => implode(';', $provider_id),
+      'payment_id' => $payment_id,
+      'status' => $status,
+      'changed' => time(),
+    ])
+    ->execute();
+}
+
+/**
+ * Get local database payment record.
+ *
+ * @param $payment_id
+ *   The payment id at the gateway
+ *
+ * @return array|bool
+ */
+function _ding_debt_easy_get_local_payment($payment_id) {
+  $data = db_select('ding_debt_easy', 'e')
+    ->fields('e')
+    ->condition('payment_id', $payment_id, '=')
+    ->execute()
+    ->fetchAssoc();
+
+  if (is_array($data)) {
+    // Decode provider id(s).
+    // @TODO: Rename to provider_ids
+    $data['provider_id'] = explode(';', $data['provider_id']);
+  }
+
+  return $data;
+}
+
+/**
+ * Update local database payment status.
+ *
+ * @param $payment_id
+ *   The payment id at the gateway
+ * @param $status
+ *   The current status of the payment.
+ *
+ * @return \DatabaseStatementInterface|null
+ */
+function _ding_debt_easy_update_local_payment_status($payment_id, $status) {
+  return db_update('ding_debt_easy')
+    ->fields([
+      'status' => $status,
+      'changed' => time(),
+    ])
+    ->condition('payment_id', $payment_id, '=')
+    ->execute();
+
+  // @TODO: Make this return the record for easy updates.
+}
+
+function _ding_debt_easy_set_local_payment_charge_id($payment_id, $charge_id) {
+  return db_update('ding_debt_easy')
+    ->fields([
+      'charge_id' => $charge_id,
+      'changed' => time(),
+    ])
+    ->condition('payment_id', $payment_id, '=')
+    ->execute();
+}
+
+/**
+ * Get client to communicate with Nets easy gateway.
+ *
+ * @return \Nets\Easy\Client
+ *   The client.
+ */
+function _ding_debt_easy_get_client() {
+  _ding_debt_easy_library();
+  $config = ding_debt_easy_get_api_config();
+
+  return new Client($config['secret'], $config['checkout'], $config['endpoint']);
+}
+
+/**
+ * Helper to load the client library.
  *
  * @TODO: Why do files[] not work, there must be a better way then x-auto-load
  *        module.
  */
-function _ding_debt_easy_load_client() {
+function _ding_debt_easy_library() {
   $path = drupal_get_path('module', 'ding_debt_easy') . '/lib/';
   require_once $path . 'nets_easy_client.class.inc';
   require_once $path . 'nets_easy_order.class.inc';
