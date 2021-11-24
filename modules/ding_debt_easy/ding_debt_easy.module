@@ -89,7 +89,11 @@ function ding_debt_easy_menu() {
 
   // Payment canceled
   $items[DING_DEBT_EASY_CANCEL_URL] = [
-
+    'title' => 'Payment canceled callback',
+    'type' => MENU_CALLBACK,
+    'page callback' => '_ding_debt_easy_canceled',
+    'access callback' => TRUE, //'_ding_debt_easy_pages_access_callback',
+    //    'access arguments' => array('privacy'),
   ];
 
   return $items;
@@ -415,28 +419,34 @@ function _ding_debt_easy_callback() {
   // @TODO: Check data -> summery -> reservedAmount === chargedAmount (already handled)
 
   // Fetch order details form the database
-  $local_record = _ding_debt_easy_get_local_payment($payment_id);
+  $local_record = _ding_debt_easy_get_payment_local($payment_id);
 
   // Make calls to provider about payment.
-  $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_id'], $data['orderDetails']['reference']);
+  $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $data['orderDetails']['reference']);
 
   if ($status) {
-    _ding_debt_easy_update_local_payment_status($payment_id, DING_DEBT_EASY_STATUS_RESERVED);
+    _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_RESERVED);
 
     // Charged the payment gateway
     $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
-    _ding_debt_easy_set_local_payment_charge_id($payment_id, $charge_id);
+    // @TODO: Handle errors from the gateway.
+
+    _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_COMPLETED);
+    _ding_debt_easy_set_charge_id_local($payment_id, $charge_id);
+
+    // @TODO: Handle errors from the gateway.
 
     // Inform user.
     drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.',
       array(
         '@amount' => $data['orderDetails']['amount'] / 100,
         '@transaction' => $payment_id,
-        '@order' =>  implode(',', $local_record['provider_id']),
+        '@order' =>  $local_record['order_id'],
       )));
   }
   else {
-    // @TODO: Handle failed payment.
+    _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_PENDING);
+    // @TODO: Handle failed payment at the provider.
   }
 
   // Clear cache and redirect to user page.
@@ -445,40 +455,24 @@ function _ding_debt_easy_callback() {
 }
 
 /**
- * Insert payment status record into the local database.
+ * Canceled payment at the gateway.
  *
- * @param $uid
- *   The current users ID.
- * @param $provider_id
- *   The debt id at the provider.
- * @param $payment_id
- *   The payment id at the gateway
- * @param $status
- *   The current status of the payment.
- *
- * @throws \Exception
+ * @TODO: What should we do here. There are no information in the redirect back
+ *        from the gateway.
  */
-function _ding_debt_easy_insert_local_payment($uid, $provider_id, $payment_id, $status) {
-  $id = db_insert('ding_debt_easy')
-    ->fields([
-      'uid' => $uid,
-      'provider_id' => implode(';', $provider_id),
-      'payment_id' => $payment_id,
-      'status' => $status,
-      'changed' => time(),
-    ])
-    ->execute();
+function _ding_debt_easy_canceled() {
+  drupal_goto('user/me/status-debts');
 }
 
 /**
  * Get local database payment record.
  *
- * @param $payment_id
+ * @param string $payment_id
  *   The payment id at the gateway
  *
  * @return array|bool
  */
-function _ding_debt_easy_get_local_payment($payment_id) {
+function _ding_debt_easy_get_payment_local($payment_id) {
   $data = db_select('ding_debt_easy', 'e')
     ->fields('e')
     ->condition('payment_id', $payment_id, '=')
@@ -487,24 +481,106 @@ function _ding_debt_easy_get_local_payment($payment_id) {
 
   if (is_array($data)) {
     // Decode provider id(s).
-    // @TODO: Rename to provider_ids
-    $data['provider_id'] = explode(';', $data['provider_id']);
+    $data['provider_ids'] = explode(';', $data['provider_ids']);
   }
 
   return $data;
 }
 
 /**
- * Update local database payment status.
+ * Get internal order id.
  *
- * @param $payment_id
- *   The payment id at the gateway
- * @param $status
- *   The current status of the payment.
+ * Creates internal database record and base on that the unique order id.
+ *
+ * @param int $uid
+ *   The user id.
+ * @param string $provider_ids
+ *   The order id's from the provider.
+ *
+ * @return false|string
+ *   The order id or false on database error.
+ *
+ * @throws \Exception
+ */
+function _ding_debt_easy_get_order_id_local($uid, $provider_ids) {
+  $id = db_insert('ding_debt_easy')
+    ->fields([
+      'uid' => $uid,
+      'provider_ids' => implode(';', $provider_ids),
+      'status' => DING_DEBT_EASY_STATUS_CREATED,
+      'changed' => time(),
+    ])
+    ->execute();
+
+  // Update record with order id.
+  $order_id = _ding_debt_easy_generate_order_id($id);
+  db_update('ding_debt_easy')
+    ->fields([
+      'order_id' => $order_id,
+    ])
+    ->condition('id', $id, '=')
+    ->execute();
+
+  return $order_id;
+}
+
+/**
+ * Update local payment record with payment id.
+ *
+ * @param string $order_id
+ *   The internal CMS order id (the order to add payment id to).
+ * @param string $payment_id
+ *   The gateway payment id.
  *
  * @return \DatabaseStatementInterface|null
  */
-function _ding_debt_easy_update_local_payment_status($payment_id, $status) {
+function _ding_debt_easy_add_payment_id_local($order_id, $payment_id) {
+  return db_update('ding_debt_easy')
+    ->fields([
+      'payment_id' => $payment_id,
+      'changed' => time(),
+    ])
+    ->condition('order_id', $order_id, '=')
+    ->execute();
+
+  // @TODO: Make this return the record for easy updates.
+}
+
+/**
+ * Generate order id with the format NEXX-XXXX-XXX.
+ *
+ * We need a local order id to send to Nets and used in reports and display to
+ * end user. It should be human-readable and easy to use.
+ *
+ * It's build base on the local record id prefixed with NE (Nets Easy) and the
+ * current year. Dash is add to the every 4 char in the number to make it more
+ * readable and memorable. Also, the NE prefix it to make it standout from the
+ * FBS order ids that exists for every order item.
+ *
+ * @param $row_id
+ *   The database record id to ensure uniqueness for the id.
+ */
+function _ding_debt_easy_generate_order_id($row_id) {
+  // Generate order ID based on record id (NEXX-XXXX-XXX).
+  $prefix = 'NE' . date('y');
+  $offset = 1000000;
+  $order_id = $prefix . '-' . chunk_split($offset + $row_id, 4, '-');
+
+  return substr($order_id, 0, -1);
+}
+
+/**
+ * Update local database payment status.
+ *
+ * @param string $payment_id
+ *   The payment id at the gateway.
+ * @param string $status
+ *   The current status of the payment. Not constants exists, which should be
+ *   used as status variable.
+ *
+ * @return \DatabaseStatementInterface|null
+ */
+function _ding_debt_easy_update_status_local($payment_id, $status) {
   return db_update('ding_debt_easy')
     ->fields([
       'status' => $status,
@@ -516,7 +592,17 @@ function _ding_debt_easy_update_local_payment_status($payment_id, $status) {
   // @TODO: Make this return the record for easy updates.
 }
 
-function _ding_debt_easy_set_local_payment_charge_id($payment_id, $charge_id) {
+/**
+ * Add charge id to local status record.
+ *
+ * @param string $payment_id
+ *   The payment id at the gateway.
+ * @param string $charge_id
+ *   The charge id at the gateway.
+ *
+ * @return \DatabaseStatementInterface|null
+ */
+function _ding_debt_easy_set_charge_id_local($payment_id, $charge_id) {
   return db_update('ding_debt_easy')
     ->fields([
       'charge_id' => $charge_id,
@@ -524,6 +610,8 @@ function _ding_debt_easy_set_local_payment_charge_id($payment_id, $charge_id) {
     ])
     ->condition('payment_id', $payment_id, '=')
     ->execute();
+
+  // @TODO: Make this return the record for easy updates.
 }
 
 /**

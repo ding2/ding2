@@ -6,24 +6,23 @@
  */
 
 use Nets\Easy\Checkout;
-use Nets\Easy\Client;
 use Nets\Easy\OrderItem;
 
 /**
  * Generate the payment URL to redirect the user to.
  */
 function ding_debt_easy_payment_get_url($amount, $params, $callback) {
+  global $user;
+
   _ding_debt_easy_library();
   $params = $params['params'];
-
-  // Create order ref, this is just an internal id (if this was a web-shop this
-  // would be the order id).
   $item_ids = $params['debt_ids'];
-  $ref = sha1(implode($item_ids, ','));
+
+  $order_id = _ding_debt_easy_get_order_id_local($user->uid, $item_ids);
 
   $checkout = new Checkout();
   $checkout->getOrder()->setCurrency(ding_debt_easy_get_currency())
-    ->setReference($ref);
+    ->setReference($order_id);
 
   /** @var \DingProviderDebt $debt */
   foreach ($params['debts'] as $id => $debt) {
@@ -44,7 +43,6 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     ->setCancelUrl(url(ding_debt_easy_get_cancel_url(), ['absolute' => TRUE]));
 
   // Set user information
-  global $user;
   $checkout->setConsumeReference($user->uid)
     ->setConsumeMail($user->mail);
 
@@ -55,9 +53,11 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
   // @TODO: What to do with embedded checkout.
   // @TODO: Error handling - exceptions from client.
 
+  // @TODO: Create internal order id.
+
   // Store information about the payment state.
   $payment_id = $res['paymentId'];
-  _ding_debt_easy_insert_local_payment($user->uid, $item_ids, $payment_id, DING_DEBT_EASY_STATUS_CREATED);
+  _ding_debt_easy_add_payment_id_local($order_id, $payment_id);
 
   return $res['hostedPaymentPageUrl'];
 }
