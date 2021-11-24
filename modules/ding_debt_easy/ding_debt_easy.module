@@ -634,9 +634,9 @@ function _ding_debt_easy_get_client() {
  *        module.
  */
 function _ding_debt_easy_library() {
-  $path = drupal_get_path('module', 'ding_debt_easy') . '/lib/';
-  require_once $path . 'nets_easy_client.class.inc';
-  require_once $path . 'nets_easy_order.class.inc';
-  require_once $path . 'nets_easy_order_item.class.inc';
-  require_once $path . 'nets_easy_checkout.class.inc';
+  $path = drupal_get_path('module', 'ding_debt_easy') . '/lib/Nets/Easy/';
+  require_once $path . 'Checkout.inc';
+  require_once $path . 'Client.inc';
+  require_once $path . 'Order.inc';
+  require_once $path . 'OrderItem.inc';
 }
