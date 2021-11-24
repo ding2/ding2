@@ -621,7 +621,7 @@ function _ding_debt_easy_set_charge_id_local($payment_id, $charge_id) {
  *   The client.
  */
 function _ding_debt_easy_get_client() {
-  _ding_debt_easy_library();
+  _ding_debt_easy_load_library();
   $config = ding_debt_easy_get_api_config();
 
   return new Client($config['secret'], $config['checkout'], $config['endpoint']);
@@ -633,10 +633,13 @@ function _ding_debt_easy_get_client() {
  * @TODO: Why do files[] not work, there must be a better way then x-auto-load
  *        module.
  */
-function _ding_debt_easy_library() {
+function _ding_debt_easy_load_library() {
   $path = drupal_get_path('module', 'ding_debt_easy') . '/lib/Nets/Easy/';
   require_once $path . 'Checkout.inc';
   require_once $path . 'Client.inc';
   require_once $path . 'Order.inc';
   require_once $path . 'OrderItem.inc';
+  require_once $path . 'Exceptions/PaymentCommunicationException.inc';
+  require_once $path . 'Exceptions/PaymentException.inc';
+
 }

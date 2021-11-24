@@ -14,7 +14,9 @@ use Nets\Easy\OrderItem;
 function ding_debt_easy_payment_get_url($amount, $params, $callback) {
   global $user;
 
-  _ding_debt_easy_library();
+  // Load the library to get classes used to build the checkout.
+  _ding_debt_easy_load_library();
+
   $params = $params['params'];
   $item_ids = $params['debt_ids'];
 
