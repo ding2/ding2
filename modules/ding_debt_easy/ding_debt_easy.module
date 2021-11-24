@@ -6,6 +6,8 @@
  */
 
 use Nets\Easy\Client;
+use Nets\Easy\Exception\PaymentCommunicationException;
+use Nets\Easy\Exception\PaymentException;
 
 define('DING_DEBT_EASY_DEFAULT_TERMS_URL', 'payment/easy/terms');
 define('DING_DEBT_EASY_DEFAULT_PRIVACY_URL', 'payment/easy/privacy');
@@ -408,50 +410,85 @@ function _ding_debt_easy_callback() {
   $params = drupal_get_query_parameters();
 
   if (empty($params['paymentid'])) {
-    // @TODO: Handle errors.
+    watchdog('ding_debt_easy', 'The payment callback have been called without an payment id.');
+    drupal_set_message(t('Something unexpected happen. Please try again or contact the library.'));
+    drupal_goto(DING_DEBT_USER_DEBT_PAGE);
   }
   $payment_id = $params['paymentid'];
-
-  $client = _ding_debt_easy_get_client();
-  $data = $client->fetchPayment($payment_id);
-
-  // Validate data.
-  // @TODO: Check data -> summery -> reservedAmount === chargedAmount (already handled)
 
   // Fetch order details form the database
   $local_record = _ding_debt_easy_get_payment_local($payment_id);
 
+  $client = _ding_debt_easy_get_client();
+  try {
+    $data = $client->fetchPayment($payment_id);
+  } catch (Exception $exception) {
+    watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
+      '%order_id' => $local_record['order_id'],
+    ]);
+    drupal_set_message(t('Unable to find reservation for order (%order_id)', [
+      '%order_id' => $local_record['order_id'],
+    ]));
+    _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_FAILED);
+    drupal_goto(DING_DEBT_USER_DEBT_PAGE);
+  }
+
+  // Validate data.
+  // @TODO: Check data -> summery -> reservedAmount === chargedAmount (already handled at the gateway, so check FBS - prevent 2x payment for same FBS order).
+  // @TODO: Check local record for order status -> should be reserved.
+
   // Make calls to provider about payment.
-  $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $data['orderDetails']['reference']);
+  // @TODO: Add way better error handling in the FBS provider function.
+  $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $local_record['order_id']);
 
   if ($status) {
     _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_RESERVED);
 
     // Charged the payment gateway
-    $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
-    // @TODO: Handle errors from the gateway.
+    try {
+      $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
+      _ding_debt_easy_set_charge_id_local($payment_id, $charge_id);
+      _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_COMPLETED);
+    } catch (PaymentCommunicationException $exception) {
+      watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
+        '%order_id' => $local_record['order_id'],
+      ]);
+      drupal_set_message(t('There is a communication problem with the gateway. The amount have been reserved but not charged at the gateway yet.'));
 
-    _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_COMPLETED);
-    _ding_debt_easy_set_charge_id_local($payment_id, $charge_id);
+      // As the amount have not been charged. The local order will be set to pending for retry via cron.
+      _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
+    } catch (PaymentException $exception) {
+      watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
+        '%order_id' => $local_record['order_id'],
+      ]);
+      drupal_set_message(t('The amount have been reserved but not charged at the gateway yet. It will automatically be charged later if possible.'));
 
-    // @TODO: Handle errors from the gateway.
+      // As the amount have not been charged. The local order will be set to
+      // pending for retry via cron.
+      _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
+    }
 
     // Inform user.
-    drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.',
-      array(
-        '@amount' => $data['orderDetails']['amount'] / 100,
-        '@transaction' => $payment_id,
-        '@order' =>  $local_record['order_id'],
-      )));
+    drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', [
+      '@amount' => $data['orderDetails']['amount'] / 100,
+      '@transaction' => $payment_id,
+      '@order' =>  $local_record['order_id'],
+    ]));
   }
   else {
-    _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_PENDING);
-    // @TODO: Handle failed payment at the provider.
+    watchdog('ding_debt_easy', 'There is a communication problem with the provider (Order ID: %order_id)', [
+      '%order_id' => $local_record['order_id'],
+    ]);
+    drupal_set_message(t('The amount have been reserved but not charged at the gateway yet. It will automatically be charged later if possible.'));
+
+    // As the amount have not been marked as paid at the provider. The local
+    // order will be set to pending for retry via cron.
+    _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
   }
 
   // Clear cache and redirect to user page.
   ding_provider_invoke('user', 'clear_cache', $user);
-  drupal_goto('user/me/status-debts');
+  drupal_goto(DING_DEBT_USER_DEBT_PAGE);
 }
 
 /**
@@ -461,7 +498,7 @@ function _ding_debt_easy_callback() {
  *        from the gateway.
  */
 function _ding_debt_easy_canceled() {
-  drupal_goto('user/me/status-debts');
+  drupal_goto(DING_DEBT_USER_DEBT_PAGE);
 }
 
 /**
@@ -572,22 +609,28 @@ function _ding_debt_easy_generate_order_id($row_id) {
 /**
  * Update local database payment status.
  *
- * @param string $payment_id
- *   The payment id at the gateway.
+ * @param string $id
+ *   The payment id at the gateway or the local order id.
  * @param string $status
  *   The current status of the payment. Not constants exists, which should be
  *   used as status variable.
- *
- * @return \DatabaseStatementInterface|null
  */
-function _ding_debt_easy_update_status_local($payment_id, $status) {
-  return db_update('ding_debt_easy')
+function _ding_debt_easy_update_status_local($id, $status) {
+  $query = db_update('ding_debt_easy')
     ->fields([
       'status' => $status,
       'changed' => time(),
-    ])
-    ->condition('payment_id', $payment_id, '=')
-    ->execute();
+    ]);
+
+    // We know that all internal order ids are prefixed with NE.
+    if (substr($id, 0, 2 ) === 'NE') {
+      $query->condition('order_id', $id, '=');
+    }
+    else {
+      $query->condition('payment_id', $id, '=');
+    }
+
+    $query->execute();
 
   // @TODO: Make this return the record for easy updates.
 }

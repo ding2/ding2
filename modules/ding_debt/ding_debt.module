@@ -4,6 +4,8 @@
  * Handles display and creation/deletion of debts for users.
  */
 
+define('DING_DEBT_USER_DEBT_PAGE', 'user/me/status-debts');
+
 /**
  * Implements hook_ctools_plugin_directory().
  *

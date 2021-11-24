@@ -7,6 +7,8 @@
 
 use Nets\Easy\Checkout;
 use Nets\Easy\OrderItem;
+use Nets\Easy\Exception\PaymentCommunicationException;
+use Nets\Easy\Exception\PaymentException;
 
 /**
  * Generate the payment URL to redirect the user to.
@@ -50,12 +52,28 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
 
   // Create payment with the checkout and order as payload.
   $client = _ding_debt_easy_get_client();
-  $res = $client->createPayment($checkout);
 
-  // @TODO: What to do with embedded checkout.
-  // @TODO: Error handling - exceptions from client.
+  try {
+    $res = $client->createPayment($checkout);
+  } catch (PaymentCommunicationException $exception) {
+    watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
+      '%order_id' => $order_id,
+    ]);
+    drupal_set_message(t('There is a communication problem with the gateway. Please try again later.'));
+    _ding_debt_easy_update_status_local($order_id, DING_DEBT_EASY_STATUS_FAILED);
 
-  // @TODO: Create internal order id.
+    return 'DING_DEBT_USER_DEBT_PAGE';
+  } catch (PaymentException $exception) {
+    watchdog_exception('ding_debt_easy', $exception, 'There is an problem with creating the payment for order %order_id', [
+      '%order_id' => $order_id,
+    ]);
+    drupal_set_message(t('There is an error with the payment gateway. Please try again later or contact the library with order ID: %order_id', [
+      '%order_id' => $order_id
+    ]));
+    _ding_debt_easy_update_status_local($order_id, DING_DEBT_EASY_STATUS_FAILED);
+
+    return 'DING_DEBT_USER_DEBT_PAGE';
+  }
 
   // Store information about the payment state.
   $payment_id = $res['paymentId'];
