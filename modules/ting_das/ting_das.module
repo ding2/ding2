@@ -208,18 +208,6 @@ function ting_das_order_form($form_id, &$form_state, TingEntity $entity) {
       '#value' => $entity->getTitle(),
     );
 
-    $form['loaner_id'] = array(
-      '#type' => 'value',
-      '#value' => $creds['library_card_number'],
-    );
-
-    $form['name'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Name'),
-      '#default_value' => $profile ? $profile->{'field_' . $provider['module'] . '_name'}->value() : '',
-      '#required' => TRUE,
-    );
-
     $form['mail'] = array(
       '#type' => 'textfield',
       '#title' => t('Mail address'),
@@ -234,13 +222,6 @@ function ting_das_order_form($form_id, &$form_state, TingEntity $entity) {
     $form['#attached']['js'] = array(
       drupal_get_path('module', 'ting_das') . '/js/ting_das.js',
     );
-
-    $function = $provider['module'] . '_user_branches';
-    $preferred_branch = $profile ? $profile->{'field_' . $provider['module'] . '_preferred_branch'}->value() : '';
-    $form += ding_reservation_default_options_branch('fbs_preferred_branch', $preferred_branch, $function($user));
-
-    $default_interest_period = ding_provider_invoke('reservation', 'default_interest_period');
-    $form += ding_reservation_interest_period_selector('interest_period', $default_interest_period, _ting_das_get_interest_periods());
 
     if (isset($texts['gdpr'])) {
       $form['gdpr'] = array(
@@ -308,11 +289,7 @@ function ting_das_order_form_ajax_callback($form, &$form_state) {
       $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Error'), $html, array('refresh' => FALSE));
     }
     else {
-      $client->setUserName($values['name']);
       $client->setUserMail($values['mail']);
-      $client->setUserLoanerId($values['loaner_id']);
-      $client->setUserInterestDate($values['interest_period']);
-      $client->setPickupAgencyId($values['fbs_preferred_branch']);
       $client->setAgencyId(variable_get('ting_agency', ''));
 
       $client->setPid($values['entity']['pid']);
@@ -376,27 +353,6 @@ function _ting_das_get_configured_well_types() {
   ));
 }
 
-/**
- * Get interest periods options for orders placed in DAS.
- *
- * @return array
- *   The interest periods index by days and formatted as months.
- */
-function _ting_das_get_interest_periods() {
-  $periods = array(
-    1 => 30,
-    2 => 60,
-    3 => 90,
-    6 => 180,
-    12 => 360,
-  );
-  $options = array();
-  foreach ($periods as $months => $days) {
-    $options[$days] = format_plural($months, '1 month', '@count months');
-  }
-
-  return $options;
-}
 
 /**
  * Default usage text.
