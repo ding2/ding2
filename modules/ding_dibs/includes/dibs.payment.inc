@@ -27,7 +27,7 @@ function ding_dibs_payment_cards_supported() {
   $form = [];
 
   $block = ding_dibs_block_view('dibs-cards-supported');
-    $form['cards_header'] = [
+  $form['cards_header'] = [
     '#prefix' => '<h3>',
     '#suffix' => '</h3>',
     '#markup' => check_plain($block['subject']),

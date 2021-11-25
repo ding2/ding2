@@ -206,6 +206,9 @@ class Client {
           throw new PaymentException($property . ' - ' . $message, $code);
         }
       }
+      if (!empty($response['message'])) {
+        throw new PaymentException($response['message'], $code);
+      }
     }
 
     // Ensure all other throws unknown error exception. This is safe as this is

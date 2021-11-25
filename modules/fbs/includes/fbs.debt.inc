@@ -159,11 +159,13 @@ function fbs_debt_translate_debt_type($debt_type) {
  *   Depts paid for.
  * @param string $order_id
  *   Transaction id.
+ * @param int $patron_id
+ *   Id of the patron at the provider.
  *
  * @return bool
  *   Success or not.
  */
-function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NULL) {
+function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NULL, $patron_id = NULL) {
   $payment_order = new FBS\Model\PaymentOrder();
   $payment_order->orderId = $order_id;
   $payment_order->feeIds = array();
@@ -172,12 +174,11 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
     $payment_order->feeIds[] = $debt_id;
   }
 
-  $patron_id = fbs_patron_id($account);
+  $patron_id = is_null($patron_id) ? fbs_patron_id($account) : $patron_id;
 
   $res = array();
   try {
-    // @TODO: Re-enabled call to FBS
-    // $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, $patron_id, $payment_order);
+    //$res = fbs_service()->Payment->payFees(fbs_service()->agencyId, $patron_id, $payment_order);
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);

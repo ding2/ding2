@@ -1,7 +1,11 @@
 <?php
 /**
  * @file
+ * Terms and usage template.
  *
+ * Available variables:
+ *  - $terms: The terms as written.
+ *  - $url: No terms this URL my link to a terms page.
  */
 ?>
 <div id="terms-of-sale">
