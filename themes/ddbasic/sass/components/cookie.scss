@@ -29,15 +29,16 @@
       color: $white;
       font-size: inherit;
       text-decoration: underline;
-      transition: color .2s ease-in-out;
+      transition: opacity .2s ease-in-out;
       @media (prefers-reduced-motion) {
-        transition: color .0s ease-in-out;
+        transition: opacity .0s ease-in-out;
       }
       &:hover {
-        color: $color-secondary !important;
-        transition: color .2s ease-in-out;
+        color: inherit;
+        opacity: 0.85;
+        transition: opacity .2s ease-in-out;
         @media (prefers-reduced-motion) {
-          transition: color .0s ease-in-out;
+          transition: opacity .0s ease-in-out;
         }
       }
     }
@@ -80,7 +81,7 @@
         // Mobile
         @include media($mobile) {
           height: 280px;
-      }      
+      }
     }
     #popup-text {
       max-width: calc(100% - 40px);
