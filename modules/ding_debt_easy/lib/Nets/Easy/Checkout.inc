@@ -3,7 +3,6 @@
 namespace Nets\Easy;
 
 /**
- * @class Checkout
  * Representation of nets easy order.
  */
 class Checkout {
@@ -26,14 +25,20 @@ class Checkout {
   }
 
   /**
+   * Get integration type.
+   *
    * @return string
+   *   The integration type (HostedPaymentPage or EmbeddedCheckout).
    */
   public function getIntegrationType() {
     return $this->integrationType;
   }
 
   /**
+   * Set integration type.
+   *
    * @param string $integrationType
+   *   The integration type (HostedPaymentPage or EmbeddedCheckout).
    *
    * @return $this
    */
@@ -44,14 +49,20 @@ class Checkout {
   }
 
   /**
+   * Get terms declaration URL.
+   *
    * @return string
+   *   The URL to terms declaration.
    */
   public function getTermsUrl() {
     return $this->termsUrl;
   }
 
   /**
+   * Set terms declaration URL.
+   *
    * @param string $termsUrl
+   *   The URL to use for terms declaration.
    *
    * @return $this
    */
@@ -62,14 +73,20 @@ class Checkout {
   }
 
   /**
+   * Get privacy declaration URL.
+   *
    * @return string
+   *   The URL to privacy declaration.
    */
   public function getMerchantTermsUrl() {
     return $this->merchantTermsUrl;
   }
 
   /**
+   * Get privacy declaration URL.
+   *
    * @param string $merchantTermsUrl
+   *   The URL to privacy declaration.
    *
    * @return $this
    */
@@ -80,14 +97,20 @@ class Checkout {
   }
 
   /**
+   * Get reference for the order (order ID).
+   *
    * @return string
+   *   The reference string.
    */
   public function getConsumerReference() {
     return $this->consumer['reference'];
   }
 
   /**
+   * Set reference for the order (order ID).
+   *
    * @param string $reference
+   *   The reference string to set.
    *
    * @return $this
    */
@@ -98,14 +121,20 @@ class Checkout {
   }
 
   /**
+   * Get consumer mail (the users mail-address).
+   *
    * @return string
+   *   The mail-address set.
    */
   public function getConsumerMail() {
     return $this->consumer['email'];
   }
 
   /**
+   * Set consumer mail (the users mail-address).
+   *
    * @param string $mail
+   *   The mail-address to set.
    *
    * @return $this
    */
@@ -116,14 +145,20 @@ class Checkout {
   }
 
   /**
+   * Get return URL.
+   *
    * @return string
+   *   The return URL to use.
    */
   public function getReturnUrl() {
     return $this->returnUrl;
   }
 
   /**
+   * Set return URL.
+   *
    * @param string $returnUrl
+   *   The URL to set as return URL.
    *
    * @return $this
    */
@@ -134,14 +169,20 @@ class Checkout {
   }
 
   /**
+   * Get cancel URL.
+   *
    * @return string
+   *   The cancel URL to use.
    */
   public function getCancelUrl() {
     return $this->cancelUrl;
   }
 
   /**
+   * Set cancel URL.
+   *
    * @param string $cancelUrl
+   *   The URL to set as cancel URL.
    *
    * @return $this
    */
@@ -152,14 +193,20 @@ class Checkout {
   }
 
   /**
+   * Get order.
+   *
    * @return \Nets\Easy\Order
+   *   The order for this checkout.
    */
   public function getOrder() {
     return $this->order;
   }
 
   /**
+   * Set order.
+   *
    * @param string $order
+   *   Set order to the checkout.
    *
    * @return $this
    */

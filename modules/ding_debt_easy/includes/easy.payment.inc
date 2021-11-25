@@ -60,7 +60,7 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     ->setReturnUrl(url(ding_debt_easy_get_return_url(), ['absolute' => TRUE]))
     ->setCancelUrl(url(ding_debt_easy_get_cancel_url(), ['absolute' => TRUE]));
 
-  // Set user information
+  // Set user information.
   $checkout->setConsumeReference($user->uid)
     ->setConsumeMail($user->mail);
 
@@ -125,7 +125,7 @@ function ding_debt_easy_payment_cards_supported() {
  * Generate terms form element for the payment page.
  */
 function ding_debt_easy_payment_terms() {
-  $terms =  variable_get('ding_debt_easy_terms', []);
+  $terms = variable_get('ding_debt_easy_terms', []);
 
   $form = [];
   $form['ding_debt_easy_terms'] = [

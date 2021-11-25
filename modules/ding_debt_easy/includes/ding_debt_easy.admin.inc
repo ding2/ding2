@@ -166,7 +166,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
 
   $form['ding_debt_easy']['ding_debt_easy_terms'] = [
     '#type' => 'fieldset',
-    '#title' => t('Terms and privacy'),
+    '#title' => t('Terms declaration'),
     '#description' => t('If these are <strong>not</strong> filled in the defaults text/url used by Nets easy payments will be used. See <a href=@url>Legal & Compliance</a> at Nets.', [
       '@url' => 'https://www.nets.eu/dk/payments/customerservice/legal-compliance/easy/',
     ]),
@@ -179,13 +179,13 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Link to existing "Terms and usage" page'),
     '#description' => t('Alternative to using the text field below, you can link to existing page.'),
-    '#default_value' => '',
+    '#default_value' => $default_terms['url'],
   ];
 
   $form['ding_debt_easy']['ding_debt_easy_terms']['text'] = [
     '#type' => 'text_format',
     '#title' => t('Terms declaration (<a href="@url" target="_blank">link to page</a>)', [
-      '@url' => DING_DEBT_EASY_DEFAULT_TERMS_URL,
+      '@url' => '/' . DING_DEBT_EASY_DEFAULT_TERMS_URL,
     ]),
     '#default_value' => $default_terms['text']['value'],
     '#format' => $default_terms['text']['format'],
@@ -202,7 +202,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
 
   $form['ding_debt_easy']['ding_debt_easy_privacy'] = [
     '#type' => 'fieldset',
-    '#title' => t('Privacy and cookies'),
+    '#title' => t('Privacy declaration'),
     '#description' => t('If these are <strong>not</strong> filled in the defaults text/url used by Nets easy payments will be used. See <a href=@url>Legal & Compliance</a> at Nets.', [
       '@url' => 'https://www.nets.eu/dk/payments/customerservice/legal-compliance/easy/',
     ]),
@@ -221,7 +221,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
   $form['ding_debt_easy']['ding_debt_easy_privacy']['text'] = [
     '#type' => 'text_format',
     '#title' => t('Privacy and cookies declaration (<a href="@url" target="_blank">link to page</a>)', [
-      '@url' => DING_DEBT_EASY_DEFAULT_PRIVACY_URL,
+      '@url' => '/' . DING_DEBT_EASY_DEFAULT_PRIVACY_URL,
     ]),
     '#default_value' => $default_privacy['text']['value'],
     '#format' => $default_privacy['text']['format'],

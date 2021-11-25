@@ -6,7 +6,6 @@ use Nets\Easy\Exception\PaymentCommunicationException;
 use Nets\Easy\Exception\PaymentException;
 
 /**
- * @class Client
  * Client to send request to the payment gateway Nets easy.
  */
 class Client {
@@ -27,7 +26,7 @@ class Client {
   /**
    * Create payment at the gateway.
    *
-   * @param \Nets\Easy\Checkout $checkout
+   * @param Checkout $checkout
    *   Checkout order representation (the request to send to the gateway).
    *
    * @return array
@@ -37,7 +36,7 @@ class Client {
    * @throws \Nets\Easy\Exception\PaymentCommunicationException
    * @throws \Nets\Easy\Exception\PaymentException
    */
-  public function createPayment($checkout) {
+  public function createPayment(Checkout $checkout) {
     $ch = curl_init();
     curl_setopt_array($ch, [
       CURLOPT_URL => $this->apiUrl . $this->apiPaymentsPath,
@@ -133,7 +132,7 @@ class Client {
     // The gateway supports partial payments, but we will always pay the whole
     // amount.
     $payload = [
-      'amount' =>  $amount
+      'amount' => $amount,
     ];
 
     curl_setopt_array($ch, [
@@ -177,8 +176,8 @@ class Client {
    * @param string|array $response
    *   The response from the http client.
    *
-   * @throws PaymentCommunicationException
-   * @throws PaymentException
+   * @throws \Nets\Easy\Exception\PaymentCommunicationException
+   * @throws \Nets\Easy\Exception\PaymentException
    */
   private function genericErrorHandling($err, $code, $response) {
     if (!empty($err)) {

@@ -12,7 +12,7 @@
  *   The page content.
  */
 function ding_debt_easy_terms_page() {
-  $output = '<h1>' . t(menu_get_active_title(), [], ['context' => 'ding_debt_easy']) . '</h1>';
+  $output = '<h1>' . t('Terms declaration', [], ['context' => 'ding_debt_easy']) . '</h1>';
 
   $config = variable_get('ding_debt_easy_terms', []);
   if (empty($config['text']['value'])) {
@@ -32,7 +32,7 @@ function ding_debt_easy_terms_page() {
  *   The page content.
  */
 function ding_debt_easy_privacy_page() {
-  $output = '<h1>' . t(menu_get_active_title(), [], ['context' => 'ding_debt_easy']) . '</h1>';
+  $output = '<h1>' . t('Privacy declaration', [], ['context' => 'ding_debt_easy']) . '</h1>';
 
   $config = variable_get('ding_debt_easy_privacy', []);
   if (empty($config['text']['value'])) {

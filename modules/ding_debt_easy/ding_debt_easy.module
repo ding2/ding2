@@ -61,7 +61,7 @@ function ding_debt_easy_menu() {
   );
 
   $items[DING_DEBT_EASY_DEFAULT_TERMS_URL] = [
-    'title' => 'Terms and usage',
+    'title' => 'Terms declaration',
     'type' => MENU_CALLBACK,
     'page callback' => 'ding_debt_easy_terms_page',
     'access callback' => '_ding_debt_easy_pages_access_callback',
@@ -70,7 +70,7 @@ function ding_debt_easy_menu() {
   ];
 
   $items[DING_DEBT_EASY_DEFAULT_PRIVACY_URL] = [
-    'title' => 'Privacy and cookies',
+    'title' => 'Privacy declaration',
     'type' => MENU_CALLBACK,
     'page callback' => 'ding_debt_easy_privacy_page',
     'access callback' => '_ding_debt_easy_pages_access_callback',
@@ -420,7 +420,12 @@ function _ding_debt_easy_callback() {
   $local_record = _ding_debt_easy_get_payment_local($payment_id);
 
   // Validate the current status for the local record to prevent payment errors.
-  if (!in_array($local_record['status'], [DING_DEBT_EASY_STATUS_RESERVED, DING_DEBT_EASY_STATUS_PENDING, DING_DEBT_EASY_STATUS_CREATED])) {
+  $valid_status = [
+    DING_DEBT_EASY_STATUS_RESERVED,
+    DING_DEBT_EASY_STATUS_PENDING,
+    DING_DEBT_EASY_STATUS_CREATED,
+  ];
+  if (!in_array($local_record['status'], $valid_status)) {
     drupal_set_message(t('Unable process payment for the order (%order_id). Please contact the library with the order id.', [
       '%order_id' => $local_record['order_id'],
     ]));
@@ -458,9 +463,9 @@ function _ding_debt_easy_callback() {
 
   // Mark the order as paid at the provider, which only return true/false. So
   // not most we can do in regrades to what when wrong.
-  $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $local_record['order_id']);
+  $valid_status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $local_record['order_id']);
 
-  if ($status) {
+  if ($valid_status) {
     // Charged the payment gateway.
     try {
       $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
@@ -513,8 +518,8 @@ function _ding_debt_easy_callback() {
 /**
  * Canceled payment at the gateway.
  *
- * @todo: What should we do here. There are no information in the redirect back
- *        from the gateway.
+ * @todo What should we do here. There are no information in the redirect back
+ *       from the gateway.
  */
 function _ding_debt_easy_canceled() {
   drupal_goto(DING_DEBT_USER_DEBT_PAGE);
@@ -704,8 +709,8 @@ function _ding_debt_easy_get_client() {
 /**
  * Helper to load the client library.
  *
- * @todo: Why do files[] not work, there must be a better way then x-auto-load
- *        module.
+ * @todo Why do files[] not work, there must be a better way then x-auto-load
+ *       module.
  */
 function _ding_debt_easy_load_library() {
   $path = drupal_get_path('module', 'ding_debt_easy') . '/lib/Nets/Easy/';

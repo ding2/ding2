@@ -3,7 +3,6 @@
 namespace Nets\Easy;
 
 /**
- * @class Order
  * Representation of nets easy order.
  */
 class Order {
@@ -100,7 +99,7 @@ class Order {
   }
 
   /**
-   * Change the order to an array that can be converted to json.
+   * Covert the order to an array matching the format required by the API .
    *
    * @return array
    *   The order with items as an array.
@@ -111,7 +110,7 @@ class Order {
       'amount' => 0,
       'currency' => $this->getCurrency(),
       'reference' => $this->getReference(),
-   ];
+    ];
 
     /** @var OrderItem $item */
     foreach ($this->orderItems as $item) {
@@ -121,4 +120,5 @@ class Order {
 
     return $order;
   }
+
 }
