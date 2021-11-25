@@ -4,7 +4,6 @@ namespace Nets\Easy;
 
 /**
  * @class Checkout
- *
  * Representation of nets easy order.
  */
 class Checkout {
@@ -188,7 +187,7 @@ class Checkout {
         // Limit data stored in the browser at nets: the checkout will not remember
         // the current consumer on this device.
         'publicDevice' => TRUE,
-        //'url' => 'ONLY WITH Embedded checkout to load order from'
+        // 'url' => 'ONLY WITH Embedded checkout to load order from'
         'appearance' => [
           'displayOptions' => [
             'showMerchantName' => TRUE,
@@ -196,7 +195,7 @@ class Checkout {
           ],
         ],
         'consumerType' => [
-          'supportedTypes' => [ 'B2C' ],
+          'supportedTypes' => ['B2C'],
           'default' => 'B2C',
         ],
         // FBS handles information about the consumer, so Nets should not ask for
@@ -211,4 +210,5 @@ class Checkout {
 
     return json_encode($payload);
   }
+
 }

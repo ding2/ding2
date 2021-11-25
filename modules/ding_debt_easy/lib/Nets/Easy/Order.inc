@@ -4,7 +4,6 @@ namespace Nets\Easy;
 
 /**
  * @class Order
- *
  * Representation of nets easy order.
  */
 class Order {
@@ -69,10 +68,10 @@ class Order {
    *
    * @return $this
    */
-  public function addOrderItem($orderItem) {
+  public function addOrderItem(OrderItem $orderItem) {
 
     $exists = FALSE;
-    foreach ($this->orderItems as $index => $item) {
+    foreach ($this->orderItems as $item) {
       if ($orderItem->getReference() === $item->getReference()) {
         $exists = TRUE;
       }

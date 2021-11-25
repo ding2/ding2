@@ -31,7 +31,8 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
   try {
     $credentials = ding_user_get_creds();
     $patron_id = empty($credentials['patronId']) ? 0 : $credentials['patronId'];
-  } catch (DingProviderAuthException $exception) {
+  }
+  catch (DingProviderAuthException $exception) {
     watchdog_exception('ding_debt_easy', $exception, 'Unable to get patron id, payment retries is not available');
   }
 
@@ -48,7 +49,7 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
       ->setProductName($debt->type)
       ->setQuantity(1)
       ->setUnit('stk')
-      ->setUnitPrice($debt->amount*100);
+      ->setUnitPrice($debt->amount * 100);
     $checkout->getOrder()->addOrderItem($item);
   }
 
@@ -68,7 +69,8 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
 
   try {
     $res = $client->createPayment($checkout);
-  } catch (PaymentCommunicationException $exception) {
+  }
+  catch (PaymentCommunicationException $exception) {
     watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
       '%order_id' => $order_id,
     ]);
@@ -76,12 +78,13 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     _ding_debt_easy_update_status_local($order_id, DING_DEBT_EASY_STATUS_FAILED);
 
     return 'DING_DEBT_USER_DEBT_PAGE';
-  } catch (PaymentException $exception) {
+  }
+  catch (PaymentException $exception) {
     watchdog_exception('ding_debt_easy', $exception, 'There is an problem with creating the payment for order %order_id', [
       '%order_id' => $order_id,
     ]);
     drupal_set_message(t('There is an error with the payment gateway. Please try again later or contact the library with order ID: %order_id', [
-      '%order_id' => $order_id
+      '%order_id' => $order_id,
     ]));
     _ding_debt_easy_update_status_local($order_id, DING_DEBT_EASY_STATUS_FAILED);
 

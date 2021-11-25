@@ -60,7 +60,6 @@ function ding_debt_easy_menu() {
     'file' => 'includes/ding_debt_easy.admin.inc',
   );
 
-  // Terms page.
   $items[DING_DEBT_EASY_DEFAULT_TERMS_URL] = [
     'title' => 'Terms and usage',
     'type' => MENU_CALLBACK,
@@ -70,7 +69,6 @@ function ding_debt_easy_menu() {
     'file' => 'includes/ding_debt_easy.pages.inc',
   ];
 
-  // Privacy and cookie page.
   $items[DING_DEBT_EASY_DEFAULT_PRIVACY_URL] = [
     'title' => 'Privacy and cookies',
     'type' => MENU_CALLBACK,
@@ -85,8 +83,7 @@ function ding_debt_easy_menu() {
     'title' => 'Payment reserved callback',
     'type' => MENU_CALLBACK,
     'page callback' => '_ding_debt_easy_callback',
-    'access callback' => TRUE, //'_ding_debt_easy_pages_access_callback',
-    //    'access arguments' => array('privacy'),
+    'access callback' => TRUE,
   ];
 
   // Payment canceled
@@ -94,8 +91,7 @@ function ding_debt_easy_menu() {
     'title' => 'Payment canceled callback',
     'type' => MENU_CALLBACK,
     'page callback' => '_ding_debt_easy_canceled',
-    'access callback' => TRUE, //'_ding_debt_easy_pages_access_callback',
-    //    'access arguments' => array('privacy'),
+    'access callback' => TRUE,
   ];
 
   return $items;
@@ -272,19 +268,19 @@ function _ding_debt_easy_get_integration_type_options() {
 function ding_debt_easy_get_integration_type() {
   $config = variable_get('ding_debt_easy_config', []);
 
-  return empty($config['integrationType']) ? 'HostedPaymentPage' : $config['integrationType'] ;
+  return empty($config['integrationType']) ? 'HostedPaymentPage' : $config['integrationType'];
 }
 
 /**
  * Get terms page url.
  *
  * @return string
- *  URL to terms page.
+ *   URL to terms page.
  */
 function ding_debt_easy_get_term_url() {
   $config = variable_get('ding_debt_easy_terms', []);
 
-  return empty($config['url']) ? '/'.DING_DEBT_EASY_DEFAULT_TERMS_URL : $config['url'];
+  return empty($config['url']) ? '/' . DING_DEBT_EASY_DEFAULT_TERMS_URL : $config['url'];
 }
 
 /**
@@ -296,7 +292,7 @@ function ding_debt_easy_get_term_url() {
 function ding_debt_easy_get_privacy_url() {
   $config = variable_get('ding_debt_easy_privacy', []);
 
-  return empty($config['url']) ? '/'.DING_DEBT_EASY_DEFAULT_PRIVACY_URL : $config['url'];
+  return empty($config['url']) ? '/' . DING_DEBT_EASY_DEFAULT_PRIVACY_URL : $config['url'];
 }
 
 /**
@@ -416,7 +412,7 @@ function _ding_debt_easy_callback() {
   }
   $payment_id = $params['paymentid'];
 
-  // Fetch order details form the database
+  // Fetch order details form the database.
   $local_record = _ding_debt_easy_get_payment_local($payment_id);
 
   $client = _ding_debt_easy_get_client();
@@ -434,7 +430,10 @@ function _ding_debt_easy_callback() {
   }
 
   // Validate data.
-  // @TODO: Check data -> summery -> reservedAmount === chargedAmount (already handled at the gateway, so check FBS - prevent 2x payment for same FBS order).
+  // @TODO: Check data -> summery -> reservedAmount === chargedAmount (already
+  //        handled at the gateway, so check FBS - prevent 2x payment for same
+  //        FBS order).
+
   // @TODO: Check local record for order status -> should be reserved.
 
   // Make calls to provider about payment.
@@ -444,12 +443,13 @@ function _ding_debt_easy_callback() {
   if ($status) {
     _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_RESERVED);
 
-    // Charged the payment gateway
+    // Charged the payment gateway.
     try {
       $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
       _ding_debt_easy_set_charge_id_local($payment_id, $charge_id);
       _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_COMPLETED);
-    } catch (PaymentCommunicationException $exception) {
+    }
+    catch (PaymentCommunicationException $exception) {
       watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
         '%order_id' => $local_record['order_id'],
       ]);
@@ -457,7 +457,8 @@ function _ding_debt_easy_callback() {
 
       // As the amount have not been charged. The local order will be set to pending for retry via cron.
       _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
-    } catch (PaymentException $exception) {
+    }
+    catch (PaymentException $exception) {
       watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
         '%order_id' => $local_record['order_id'],
       ]);
@@ -494,7 +495,7 @@ function _ding_debt_easy_callback() {
 /**
  * Canceled payment at the gateway.
  *
- * @TODO: What should we do here. There are no information in the redirect back
+ * @todo: What should we do here. There are no information in the redirect back
  *        from the gateway.
  */
 function _ding_debt_easy_canceled() {
@@ -505,9 +506,10 @@ function _ding_debt_easy_canceled() {
  * Get local database payment record.
  *
  * @param string $payment_id
- *   The payment id at the gateway
+ *   The payment id at the gateway.
  *
  * @return array|bool
+ *   The local payment database record.
  */
 function _ding_debt_easy_get_payment_local($payment_id) {
   $data = db_select('ding_debt_easy', 'e')
@@ -571,11 +573,9 @@ function _ding_debt_easy_get_order_id_local($uid, $patron_id, $provider_ids) {
  *   The internal CMS order id (the order to add payment id to).
  * @param string $payment_id
  *   The gateway payment id.
- *
- * @return \DatabaseStatementInterface|null
  */
 function _ding_debt_easy_add_payment_id_local($order_id, $payment_id) {
-  return db_update('ding_debt_easy')
+  db_update('ding_debt_easy')
     ->fields([
       'payment_id' => $payment_id,
       'changed' => time(),
@@ -583,7 +583,7 @@ function _ding_debt_easy_add_payment_id_local($order_id, $payment_id) {
     ->condition('order_id', $order_id, '=')
     ->execute();
 
-  // @TODO: Make this return the record for easy updates.
+  // @todo: Make this return the record for easy updates.
 }
 
 /**
@@ -597,7 +597,7 @@ function _ding_debt_easy_add_payment_id_local($order_id, $payment_id) {
  * readable and memorable. Also, the NE prefix it to make it standout from the
  * FBS order ids that exists for every order item.
  *
- * @param $row_id
+ * @param int $row_id
  *   The database record id to ensure uniqueness for the id.
  */
 function _ding_debt_easy_generate_order_id($row_id) {
@@ -626,7 +626,7 @@ function _ding_debt_easy_update_status_local($id, $status) {
     ]);
 
     // We know that all internal order ids are prefixed with NE.
-    if (substr($id, 0, 2 ) === 'NE') {
+    if (substr($id, 0, 2) === 'NE') {
       $query->condition('order_id', $id, '=');
     }
     else {
@@ -635,7 +635,7 @@ function _ding_debt_easy_update_status_local($id, $status) {
 
     $query->execute();
 
-  // @TODO: Make this return the record for easy updates.
+  // @todo: Make this return the record for easy updates.
 }
 
 /**
@@ -645,11 +645,9 @@ function _ding_debt_easy_update_status_local($id, $status) {
  *   The payment id at the gateway.
  * @param string $charge_id
  *   The charge id at the gateway.
- *
- * @return \DatabaseStatementInterface|null
  */
 function _ding_debt_easy_set_charge_id_local($payment_id, $charge_id) {
-  return db_update('ding_debt_easy')
+  db_update('ding_debt_easy')
     ->fields([
       'charge_id' => $charge_id,
       'changed' => time(),
@@ -657,7 +655,7 @@ function _ding_debt_easy_set_charge_id_local($payment_id, $charge_id) {
     ->condition('payment_id', $payment_id, '=')
     ->execute();
 
-  // @TODO: Make this return the record for easy updates.
+  // @todo: Make this return the record for easy updates.
 }
 
 /**
@@ -676,7 +674,7 @@ function _ding_debt_easy_get_client() {
 /**
  * Helper to load the client library.
  *
- * @TODO: Why do files[] not work, there must be a better way then x-auto-load
+ * @todo: Why do files[] not work, there must be a better way then x-auto-load
  *        module.
  */
 function _ding_debt_easy_load_library() {

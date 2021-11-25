@@ -7,7 +7,7 @@ use Nets\Easy\Exception\PaymentException;
 
 /**
  * @class Client
- *
+ * Client to send request to the payment gateway Nets easy.
  */
 class Client {
   private $secretKey;
@@ -50,8 +50,8 @@ class Client {
       CURLOPT_POSTFIELDS => $checkout->toJson(),
       CURLOPT_HTTPHEADER => [
         'Authorization: ' . $this->secretKey,
-        'CommercePlatformTag: SOME_STRING_VALUE',
-        'content-type: application/*+json'
+        'CommercePlatformTag: DDB CMS',
+        'content-type: application/*+json',
       ],
     ]);
 
@@ -72,7 +72,7 @@ class Client {
   /**
    * Fetch information about at payment at the gateway.
    *
-   * @param $paymentId
+   * @param string $paymentId
    *   ID of the payment to fetch.
    *
    * @return array
@@ -93,7 +93,8 @@ class Client {
       CURLOPT_CUSTOMREQUEST => "GET",
       CURLOPT_HTTPHEADER => [
         'Authorization: ' . $this->secretKey,
-        'CommercePlatformTag: DDB CMS'
+        'CommercePlatformTag: DDB CMS',
+        'content-type: application/*+json',
       ],
     ]);
 
@@ -115,9 +116,9 @@ class Client {
   /**
    * Charge payment (capture) at the gateway.
    *
-   * @param $paymentId
+   * @param string $paymentId
    *   The payment id to charge.
-   * @param $amount
+   * @param int $amount
    *   The amount to charge of the payment.
    *
    * @return string
@@ -147,7 +148,7 @@ class Client {
       CURLOPT_HTTPHEADER => [
         'Authorization: ' . $this->secretKey,
         'CommercePlatformTag: DDB CMS',
-        "content-type: application/*+json"
+        "content-type: application/*+json",
       ],
     ]);
 
@@ -213,4 +214,5 @@ class Client {
     $msg = 'Unknown error in connection to the payment gateway';
     throw new PaymentCommunicationException(empty($response['message']) ? $msg : $response['message'], $code);
   }
+
 }
