@@ -83,15 +83,15 @@ function ding_debt_easy_menu() {
     'title' => 'Payment reserved callback',
     'type' => MENU_CALLBACK,
     'page callback' => '_ding_debt_easy_callback',
-    'access callback' => TRUE,
+    'access arguments' => array('perform payment'),
   ];
 
-  // Payment canceled
+  // Payment canceled.
   $items[DING_DEBT_EASY_CANCEL_URL] = [
     'title' => 'Payment canceled callback',
     'type' => MENU_CALLBACK,
     'page callback' => '_ding_debt_easy_canceled',
-    'access callback' => TRUE,
+    'access arguments' => array('perform payment'),
   ];
 
   return $items;
@@ -108,7 +108,11 @@ function ding_debt_easy_permission() {
     ),
     'administer easy reports' => array(
       'title' => t('Administer payment reports'),
-      'description' => t('Access easy payment reports'),
+      'description' => t('Administer easy payment reports'),
+    ),
+    'perform payment' => array(
+      'title' => t('Perform payment'),
+      'description' => t('Perform payment of debts'),
     ),
   );
 }
