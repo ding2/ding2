@@ -22,7 +22,20 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
   $params = $params['params'];
   $item_ids = $params['debt_ids'];
 
-  $order_id = _ding_debt_easy_get_order_id_local($user->uid, $item_ids);
+  // We assume here that we can get the user's provider id (patron_id) from the
+  // session stored information. If not we fall back to 0. The effect of not
+  // having this id will be that we can't retry payment if FBS is down or slow.
+  // So pending payments that fail at first will hang in pending state. This was
+  // the best solution without assuming too much about the provider.
+  $patron_id = 0;
+  try {
+    $credentials = ding_user_get_creds();
+    $patron_id = empty($credentials['patronId']) ? 0 : $credentials['patronId'];
+  } catch (DingProviderAuthException $exception) {
+    watchdog_exception('ding_debt_easy', $exception, 'Unable to get patron id, payment retries is not available');
+  }
+
+  $order_id = _ding_debt_easy_get_order_id_local($user->uid, $patron_id, $item_ids);
 
   $checkout = new Checkout();
   $checkout->getOrder()->setCurrency(ding_debt_easy_get_currency())

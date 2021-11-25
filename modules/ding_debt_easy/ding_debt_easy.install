@@ -20,11 +20,16 @@ function ding_debt_easy_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ],
-      'uid' => array(
+      'uid' => [
         'description' => 'The {users}.uid for the payment.',
         'type' => 'int',
         'not null' => TRUE,
-      ),
+      ],
+      'patron_id' => [
+        'description' => 'The providers id for the patron for this payment.',
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
       'order_id' => [
         'description' => 'Internal CMS order id.',
         'type' => 'varchar',
@@ -55,12 +60,12 @@ function ding_debt_easy_schema() {
         'length' => 255,
         'not null' => FALSE,
       ],
-      'changed' => array(
+      'changed' => [
         'description' => 'The Unix timestamp when the status was most recently updated.',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
-      )
+      ]
     ],
     'indexes' => [
       'id_index' => ['payment_id', 'provider_id'],

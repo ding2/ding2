@@ -531,6 +531,8 @@ function _ding_debt_easy_get_payment_local($payment_id) {
  *
  * @param int $uid
  *   The user id.
+ * @param int $patron_id
+ *   The user id at the provider. Use later for pending payment retries.
  * @param string $provider_ids
  *   The order id's from the provider.
  *
@@ -539,10 +541,11 @@ function _ding_debt_easy_get_payment_local($payment_id) {
  *
  * @throws \Exception
  */
-function _ding_debt_easy_get_order_id_local($uid, $provider_ids) {
+function _ding_debt_easy_get_order_id_local($uid, $patron_id, $provider_ids) {
   $id = db_insert('ding_debt_easy')
     ->fields([
       'uid' => $uid,
+      'patron_id' => $patron_id,
       'provider_ids' => implode(';', $provider_ids),
       'status' => DING_DEBT_EASY_STATUS_CREATED,
       'changed' => time(),
