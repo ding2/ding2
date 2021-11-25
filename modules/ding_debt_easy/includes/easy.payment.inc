@@ -79,7 +79,14 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
   $payment_id = $res['paymentId'];
   _ding_debt_easy_add_payment_id_local($order_id, $payment_id);
 
-  return $res['hostedPaymentPageUrl'];
+  // Append language code to the URL to change language at the portal.
+  $url = $res['hostedPaymentPageUrl'];
+  $lang = ding_debt_easy_get_localization();
+  if (!empty($lang)) {
+    $url .= '&language=' . $lang;
+  }
+
+  return $url;
 }
 
 /**
