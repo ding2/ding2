@@ -1,0 +1,10 @@
+name = Ding debt easy reports
+description = Payment reports for easy payments
+core = 7.x
+package = Ding!
+dependencies[] = ding_debt_easy
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = ding_debt_easy_reports
+features_exclude[dependencies][ctools] = ctools

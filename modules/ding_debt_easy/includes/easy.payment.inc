@@ -36,11 +36,8 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     watchdog_exception('ding_debt_easy', $exception, 'Unable to get patron id, payment retries is not available');
   }
 
-  $order_id = _ding_debt_easy_get_order_id_local($user->uid, $patron_id, $item_ids);
-
   $checkout = new Checkout();
-  $checkout->getOrder()->setCurrency(ding_debt_easy_get_currency())
-    ->setReference($order_id);
+  $checkout->getOrder()->setCurrency(ding_debt_easy_get_currency());
 
   /** @var \DingProviderDebt $debt */
   foreach ($params['debts'] as $id => $debt) {
@@ -63,6 +60,10 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
   // Set user information.
   $checkout->setConsumeReference($user->uid)
     ->setConsumeMail($user->mail);
+
+
+  $order_id = _ding_debt_easy_get_order_id_local($user->uid, $patron_id, $item_ids, $checkout->getOrder()->getTotalAmount());
+  $checkout->setReference($order_id);
 
   // Create payment with the checkout and order as payload.
   $client = _ding_debt_easy_get_client();

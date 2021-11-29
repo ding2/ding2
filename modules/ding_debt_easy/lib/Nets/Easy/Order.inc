@@ -99,6 +99,21 @@ class Order {
   }
 
   /**
+   * Get the orders total amount.
+   *
+   * @return int
+   *   The order items amount summed up.
+   */
+  public function getTotalAmount() {
+    $amount = 0;
+    foreach ($this->orderItems as $item) {
+      $amount += $item->getTotalAmount();
+    }
+
+    return $amount;
+  }
+
+  /**
    * Covert the order to an array matching the format required by the API .
    *
    * @return array

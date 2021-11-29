@@ -54,6 +54,12 @@ function ding_debt_easy_schema() {
         'length' => 255,
         'not null' => FALSE,
       ],
+      'amount' => [
+        'description' => 'The amount reserved at the payment gateway.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
       'status' => [
         'description' => 'The current status of the payment.',
         'type' => 'varchar',

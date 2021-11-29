@@ -43,14 +43,6 @@ function ding_debt_easy_menu() {
     'file' => 'includes/ding_debt_easy.admin.inc',
   );
 
-  $items['admin/config/payment/ding_debt_easy/reports'] = array(
-    'title' => 'Reports',
-    'type' => MENU_LOCAL_TASK,
-    'page callback' => 'ding_debt_easy_admin_reports_form',
-    'access arguments' => array('administer easy reports'),
-    'file' => 'includes/ding_debt_easy.reports.inc',
-  );
-
   $items['admin/config/payment/ding_debt_easy/mail'] = array(
     'title' => 'Mail',
     'type' => MENU_LOCAL_TASK,
@@ -567,13 +559,14 @@ function _ding_debt_easy_get_payment_local($id) {
  *   The user id at the provider. Use later for pending payment retries.
  * @param string $provider_ids
  *   The order id's from the provider.
- *
+ * @param int|float $amount
+ *   The order amount.
  * @return false|string
  *   The order id or false on database error.
  *
  * @throws \Exception
  */
-function _ding_debt_easy_get_order_id_local($uid, $patron_id, $provider_ids) {
+function _ding_debt_easy_get_order_id_local($uid, $patron_id, $provider_ids, $amount) {
   // Create database record to get row id and reserve the ID in the database.
   $id = db_insert('ding_debt_easy')
     ->fields([
@@ -581,6 +574,7 @@ function _ding_debt_easy_get_order_id_local($uid, $patron_id, $provider_ids) {
       'patron_id' => $patron_id,
       'provider_ids' => implode(';', $provider_ids),
       'status' => DING_DEBT_EASY_STATUS_CREATED,
+      'amount' => $amount,
       'changed' => time(),
     ])
     ->execute();
