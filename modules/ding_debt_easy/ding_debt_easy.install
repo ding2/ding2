@@ -94,7 +94,7 @@ function ding_debt_easy_install() {
     'cc' => '',
     'title' => 'EASY betaling: %count afventende',
     'header' => [
-      'value' => '<p>DELVIST GENNEMFØRTE BETALINGER DER AFVENTER BEHANDLING I EASY</p><p>Kræver manuel behandling i EASY administration (https://portal.dibspayment.eu), hvor de enten skal afvises eller gennemføres. Se vejledning nederst i denne mail.</p>',
+      'value' => '<p>DELVIST GENNEMFØRTE BETALINGER DER AFVENTER BEHANDLING I EASY</p><p>Hvis der sker fejl, så en betaling kun gennemføres delvist, skal betalingen behandles manuelt af biblioteket i EASY administrationsmodulet. Det er vigtigt, da beløbet står som reserveret på lånerens bankkonto i 30 dage. Pengene er dermed indisponible for låneren og i nogle tilfælde figurerer betalingen som hævet på lånerens kontoudtog. Manuel behandling skal foretages i EASY administrationsmodulet (https://portal.dibspayment.eu). Her skal betalingerne enten afvises eller gennemføres. Se vejledning nederst i denne mail.</p>',
       'format' => 'ding_wysiwyg',
     ],
     'footer' => [
