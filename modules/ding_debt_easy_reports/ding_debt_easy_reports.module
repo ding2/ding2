@@ -7,6 +7,24 @@
 include_once 'ding_debt_easy_reports.features.inc';
 
 /**
+ * Implements hook_menu().
+ */
+function ding_debt_easy_reports_menu() {
+  $items = [];
+
+  $items['admin/config/payment/ding_debt_easy/mail'] = array(
+    'title' => 'Mail',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ding_debt_easy_reports_admin_mails_settings_form'],
+    'access arguments' => array('administer easy reports'),
+    'file' => 'includes/ding_debt_easy_reports.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_preprocess_views_view().
  *
  * Add CSS to reports table.
@@ -15,4 +33,10 @@ function ding_debt_easy_reports_preprocess_views_view(&$vars) {
   if ($vars['view']->name == 'ding_debt_easy_reports') {
     drupal_add_css(drupal_get_path('module', 'ding_debt_easy_reports') .'/css/ding_debt_easy_reports.admin.css');
   }
+}
+
+
+
+function ding_debt_easy_reports_mail_content() {
+
 }
