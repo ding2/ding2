@@ -353,7 +353,6 @@ function _ting_das_get_configured_well_types() {
   ));
 }
 
-
 /**
  * Default usage text.
  *
