@@ -24,17 +24,11 @@ function ding_debt_easy_reports_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Ding debt easy reports';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'mere';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'administer easy reports';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Udfør';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Stigende';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Faldende';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -92,7 +86,22 @@ function ding_debt_easy_reports_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Felt: Amount (raw) */
+  /* Footer: Global: Text area */
+  $handler->display->display_options['footer']['area']['id'] = 'area';
+  $handler->display->display_options['footer']['area']['table'] = 'views';
+  $handler->display->display_options['footer']['area']['field'] = 'area';
+  $handler->display->display_options['footer']['area']['content'] = '<h3>Status forklaring</h3>
+
+<ul>
+<li><strong>Created</strong>: betaling opret ved Nets for at kan viderestille brugeren. Brugeren har <strong>ikke</strong> oplyst kort information endnu</li>
+<li><strong>Reserved</strong>: betaling reserveret på brugerens kort.</li>
+<li><strong>Pending</strong>: betaling reserveret på brugerens kort men ikke lykkes endnu at gennemføre mod FBS</li>
+<li><strong>Completed</strong>: betaling gennemført og afsluttet.</li>
+<li><strong>Failed</strong>: betaling er fejlet (men store sikkerhed ved FBS). Betaling reserveret endnu.</li>
+</ul>
+';
+  $handler->display->display_options['footer']['area']['format'] = 'ding_wysiwyg';
+  /* Field: Amount (raw) */
   $handler->display->display_options['fields']['amount']['id'] = 'amount';
   $handler->display->display_options['fields']['amount']['table'] = 'ding_debt_easy';
   $handler->display->display_options['fields']['amount']['field'] = 'amount';
@@ -100,15 +109,15 @@ function ding_debt_easy_reports_views_default_views() {
   $handler->display->display_options['fields']['amount']['label'] = '';
   $handler->display->display_options['fields']['amount']['exclude'] = TRUE;
   $handler->display->display_options['fields']['amount']['element_label_colon'] = FALSE;
-  /* Felt: Ding Debt Easy: Order ID */
+  /* Field: Ding Debt Easy: Order ID */
   $handler->display->display_options['fields']['order_id']['id'] = 'order_id';
   $handler->display->display_options['fields']['order_id']['table'] = 'ding_debt_easy';
   $handler->display->display_options['fields']['order_id']['field'] = 'order_id';
-  /* Felt: Ding Debt Easy: Provider IDs */
+  /* Field: Ding Debt Easy: Provider IDs */
   $handler->display->display_options['fields']['provider_ids']['id'] = 'provider_ids';
   $handler->display->display_options['fields']['provider_ids']['table'] = 'ding_debt_easy';
   $handler->display->display_options['fields']['provider_ids']['field'] = 'provider_ids';
-  /* Felt: Amount (/100) */
+  /* Field: Amount (/100) */
   $handler->display->display_options['fields']['expression']['id'] = 'expression';
   $handler->display->display_options['fields']['expression']['table'] = 'views';
   $handler->display->display_options['fields']['expression']['field'] = 'expression';
@@ -116,32 +125,32 @@ function ding_debt_easy_reports_views_default_views() {
   $handler->display->display_options['fields']['expression']['label'] = 'Beløb';
   $handler->display->display_options['fields']['expression']['precision'] = '0';
   $handler->display->display_options['fields']['expression']['expression'] = '[amount] / 100';
-  /* Felt: Ding Debt Easy: Changed date */
+  /* Field: Ding Debt Easy: Changed date */
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'ding_debt_easy';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
-  $handler->display->display_options['fields']['changed']['label'] = 'Dato';
+  $handler->display->display_options['fields']['changed']['label'] = 'Date';
   $handler->display->display_options['fields']['changed']['date_format'] = 'short';
   $handler->display->display_options['fields']['changed']['second_date_format'] = 'ding_date_only';
-  /* Felt: Ding Debt Easy: Status */
+  /* Field: Ding Debt Easy: Status */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'ding_debt_easy';
   $handler->display->display_options['fields']['status']['field'] = 'status';
-  /* Sorteringskriterie: Ding Debt Easy: Changed date */
+  /* Sort criterion: Ding Debt Easy: Changed date */
   $handler->display->display_options['sorts']['changed']['id'] = 'changed';
   $handler->display->display_options['sorts']['changed']['table'] = 'ding_debt_easy';
   $handler->display->display_options['sorts']['changed']['field'] = 'changed';
   $handler->display->display_options['sorts']['changed']['order'] = 'DESC';
   $handler->display->display_options['sorts']['changed']['exposed'] = TRUE;
-  $handler->display->display_options['sorts']['changed']['expose']['label'] = 'Dato';
+  $handler->display->display_options['sorts']['changed']['expose']['label'] = 'Date';
   $handler->display->display_options['sorts']['changed']['granularity'] = 'minute';
-  /* Sorteringskriterie: Ding Debt Easy: Status */
+  /* Sort criterion: Ding Debt Easy: Status */
   $handler->display->display_options['sorts']['status']['id'] = 'status';
   $handler->display->display_options['sorts']['status']['table'] = 'ding_debt_easy';
   $handler->display->display_options['sorts']['status']['field'] = 'status';
   $handler->display->display_options['sorts']['status']['exposed'] = TRUE;
   $handler->display->display_options['sorts']['status']['expose']['label'] = 'Status';
-  /* Filterkriterie: Ding Debt Easy: Status */
+  /* Filter criterion: Ding Debt Easy: Status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'ding_debt_easy';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -198,12 +207,12 @@ function ding_debt_easy_reports_views_default_views() {
   $translatables['ding_debt_easy_reports'] = array(
     t('Master'),
     t('Ding debt easy reports'),
-    t('mere'),
-    t('Udfør'),
-    t('Gendan'),
-    t('Sortér efter'),
-    t('Stigende'),
-    t('Faldende'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
     t('Antal elementer'),
     t('- Alle -'),
     t('Forskydning'),
@@ -211,12 +220,22 @@ function ding_debt_easy_reports_views_default_views() {
     t('‹ forrige'),
     t('næste ›'),
     t('sidste »'),
+    t('<h3>Status forklaring</h3>
+
+<ul>
+<li><strong>Created</strong>: betaling opret ved Nets for at kan viderestille brugeren. Brugeren har <strong>ikke</strong> oplyst kort information endnu</li>
+<li><strong>Reserved</strong>: betaling reserveret på brugerens kort.</li>
+<li><strong>Pending</strong>: betaling reserveret på brugerens kort men ikke lykkes endnu at gennemføre mod FBS</li>
+<li><strong>Completed</strong>: betaling gennemført og afsluttet.</li>
+<li><strong>Failed</strong>: betaling er fejlet (men store sikkerhed ved FBS). Betaling reserveret endnu.</li>
+</ul>
+'),
     t('.'),
     t(','),
     t('Order ID'),
     t('Provider IDs'),
     t('Beløb'),
-    t('Dato'),
+    t('Date'),
     t('Status'),
     t('Reports'),
     t('Administrative payment reports'),

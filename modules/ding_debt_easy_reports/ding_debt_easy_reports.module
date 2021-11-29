@@ -6,6 +6,11 @@
 
 include_once 'ding_debt_easy_reports.features.inc';
 
+/**
+ * Implements hook_preprocess_views_view().
+ *
+ * Add CSS to reports table.
+ */
 function ding_debt_easy_reports_preprocess_views_view(&$vars) {
   if ($vars['view']->name == 'ding_debt_easy_reports') {
     drupal_add_css(drupal_get_path('module', 'ding_debt_easy_reports') .'/css/ding_debt_easy_reports.admin.css');
