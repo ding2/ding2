@@ -21,13 +21,6 @@ function ding_debt_easy_reports_menu() {
     'file' => 'includes/ding_debt_easy_reports.admin.inc',
   );
 
-  $items['admin/config/payment/ding_debt_easy/reports/test'] = [
-    'title' => 'TEST',
-    'type' => MENU_CALLBACK,
-    'page callback' => '_ding_debt_easy_reports_send_mail',
-    'access callback' => TRUE,
-  ];
-
   return $items;
 }
 
@@ -38,7 +31,7 @@ function ding_debt_easy_reports_menu() {
  */
 function ding_debt_easy_reports_preprocess_views_view(&$vars) {
   if ($vars['view']->name == 'ding_debt_easy_reports') {
-    drupal_add_css(drupal_get_path('module', 'ding_debt_easy_reports') .'/css/ding_debt_easy_reports.admin.css');
+    drupal_add_css(drupal_get_path('module', 'ding_debt_easy_reports') . '/css/ding_debt_easy_reports.admin.css');
   }
 }
 
@@ -93,7 +86,7 @@ function ding_debt_easy_reports_theme_registry_alter(&$theme_registry) {
  */
 function _ding_debt_easy_reports_mail_html_content() {
   // Fetch data.
-  $data = _ding_debt_easy_reports_fetch();
+  $orders = _ding_debt_easy_reports_fetch();
 
   $header = [
     t('Order id'),
@@ -104,7 +97,7 @@ function _ding_debt_easy_reports_mail_html_content() {
   ];
 
   $rows = [];
-  foreach ($data as $order_id => $order) {
+  foreach ($orders as $order) {
     $rows[] = [
       $order->order_id,
       $order->provider_ids,
@@ -140,7 +133,7 @@ function _ding_debt_easy_reports_fetch($count = FALSE) {
     ->condition('status', [
       DING_DEBT_EASY_STATUS_PENDING,
       DING_DEBT_EASY_STATUS_RESERVED,
-      DING_DEBT_EASY_STATUS_FAILED
+      DING_DEBT_EASY_STATUS_FAILED,
     ], 'IN')
     ->orderBy('changed', 'DESC')
     ->execute();
@@ -156,6 +149,7 @@ function _ding_debt_easy_reports_fetch($count = FALSE) {
  * Get configuration for mail reports.
  *
  * @return array
+ *   Configuration from the database, with fallback.
  */
 function _ding_debt_easy_reports_mail_config() {
   return variable_get('ding_debt_easy_reports_mail', [

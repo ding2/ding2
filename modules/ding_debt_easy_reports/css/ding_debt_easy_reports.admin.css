@@ -1,13 +1,13 @@
 .ding-debt-easy-report .status-failed {
-  background-color: #F08080;
+  background-color: #f08080;
 }
 
 .ding-debt-easy-report .status-pending {
-  background-color: #FFDAB9;
+  background-color: #ffdab9;
 }
 
 .ding-debt-easy-report .status-reserved {
-  background-color: #B0E0E6;
+  background-color: #b0e0e6;
 }
 
 .test-mail-send-btn {
