@@ -5,6 +5,4 @@ core = 7.x
 dependencies[] = ding_base
 dependencies[] = ding_debt
 dependencies[] = ding_provider
-dependencies[] = htmlmail
-dependencies[] = views
 configure = admin/config/payment/ding_debt_easy

@@ -21,6 +21,13 @@ function ding_debt_easy_reports_menu() {
     'file' => 'includes/ding_debt_easy_reports.admin.inc',
   );
 
+  $items['admin/config/payment/ding_debt_easy/reports/test'] = [
+    'title' => 'TEST',
+    'type' => MENU_CALLBACK,
+    'page callback' => '_ding_debt_easy_reports_send_mail',
+    'access callback' => TRUE,
+  ];
+
   return $items;
 }
 
@@ -35,8 +42,132 @@ function ding_debt_easy_reports_preprocess_views_view(&$vars) {
   }
 }
 
+/**
+ * Helper function to send mail (also used to send test mail).
+ */
+function _ding_debt_easy_reports_send_mail() {
+  $config = _ding_debt_easy_reports_mail_config();
+  $count = _ding_debt_easy_reports_fetch(TRUE);
+  if (!empty($config['to']) && $count > 0) {
+    drupal_mail('ding_debt_easy_reports', 'ding_debt_easy_report_mail', $config['to'], language_default(), [
+      'subject' => str_replace('%count', $count, $config['title']),
+    ]);
+  }
+}
 
+/**
+ * Implements hook_mail().
+ *
+ * @throws \Exception
+ */
+function ding_debt_easy_reports_mail($key, &$message, $params) {
+  if ('ding_debt_easy_report_mail' === $key) {
+    $message['subject'] = $params['subject'];
+    $message['body'][] = _ding_debt_easy_reports_mail_html_content();
+  }
+}
 
-function ding_debt_easy_reports_mail_content() {
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * Ensures that the html mail template is loaded into registry. Alternative it
+ * should be part of the theme (DDBasic).
+ */
+function ding_debt_easy_reports_theme_registry_alter(&$theme_registry) {
+  $module_path = drupal_get_path('module', 'ding_debt_easy_reports');
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  foreach ($template_file_objects as $key => $template_file_object) {
+    $theme_registry[$key]['theme path'] = $module_path;
+    $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+    $theme_registry[$key]['type'] = 'module';
+  }
+}
 
+/**
+ * Generate mail content.
+ *
+ * @return string
+ *   The mail content as HTML.
+ *
+ * @throws \Exception
+ */
+function _ding_debt_easy_reports_mail_html_content() {
+  // Fetch data.
+  $data = _ding_debt_easy_reports_fetch();
+
+  $header = [
+    t('Order id'),
+    t('Provider ids'),
+    t('Amount'),
+    t('Date'),
+    t('Status'),
+  ];
+
+  $rows = [];
+  foreach ($data as $order_id => $order) {
+    $rows[] = [
+      $order->order_id,
+      $order->provider_ids,
+      $order->amount,
+      $order->changed,
+      $order->status,
+    ];
+  }
+
+  $config = _ding_debt_easy_reports_mail_config();
+  $output = check_markup($config['header']['value'], $config['header']['format']);
+  $output .= theme('table', [
+    'header' => $header,
+    'rows' => $rows,
+  ]);
+  $output .= check_markup($config['footer']['value'], $config['footer']['format']);
+
+  return $output;
+}
+
+/**
+ * Fetch data about the possible failed payments.
+ *
+ * @param bool $count
+ *   Default FALSE. If TURE number of rows returned.
+ *
+ * @return array|int
+ *   If count is TRUE the number of rows else the data.
+ */
+function _ding_debt_easy_reports_fetch($count = FALSE) {
+  $result = db_select('ding_debt_easy', 'dbe')
+    ->fields('dbe')
+    ->condition('status', [
+      DING_DEBT_EASY_STATUS_PENDING,
+      DING_DEBT_EASY_STATUS_RESERVED,
+      DING_DEBT_EASY_STATUS_FAILED
+    ], 'IN')
+    ->orderBy('changed', 'DESC')
+    ->execute();
+
+  if ($count) {
+    return $result->rowCount();
+  }
+
+  return $result->fetchAllAssoc('order_id');
+}
+
+/**
+ * Get configuration for mail reports.
+ *
+ * @return array
+ */
+function _ding_debt_easy_reports_mail_config() {
+  return variable_get('ding_debt_easy_reports_mail', [
+    'to' => '',
+    'title' => 'EASY betaling: %count afventende',
+    'header' => [
+      'value' => '',
+      'format' => 'ding_wysiwyg',
+    ],
+    'footer' => [
+      'value' => '',
+      'format' => 'ding_wysiwyg',
+    ],
+  ]);
 }

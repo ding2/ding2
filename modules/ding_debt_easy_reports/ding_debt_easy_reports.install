@@ -23,6 +23,12 @@ function ding_debt_easy_reports_install() {
       'format' => 'ding_wysiwyg',
     ],
   ]);
+
+  // Adding reports mail to be processed in HTMLMailSystem format by mail
+  // system. It's identified by module name and mail key.
+  $mail_settings = variable_get('mail_system', array());
+  $mail_settings['ding_debt_easy_reports_ding_debt_easy_report_mail'] = "HTMLMailSystem";
+  variable_set('mail_system', $mail_settings);
 }
 
 /**
@@ -30,4 +36,18 @@ function ding_debt_easy_reports_install() {
  */
 function ding_debt_easy_reports_uninstall() {
   variable_del('ding_debt_easy_reports_mail');
+
+  $mail_settings = variable_get('mail_system', array());
+  unset($mail_settings['ding_debt_easy_reports_ding_debt_easy_report_mail']);
+  variable_set('mail_system', $mail_settings);
+}
+
+/**
+ * Implements hook_update().
+ */
+function ding_debt_easy_reports_update_7003() {
+  // Adding reports mail to be processed in HTMLMailSystem format by mail system.
+  $mail_settings = variable_get('mail_system', array());
+  $mail_settings['ding_debt_easy_reports_ding_debt_easy_report_mail'] = "HTMLMailSystem";
+  variable_set('mail_system', $mail_settings);
 }

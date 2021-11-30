@@ -11,20 +11,11 @@
  * The reports mail settings.
  */
 function ding_debt_easy_reports_admin_mails_settings_form($form, &$form_state) {
+  $default = _ding_debt_easy_reports_mail_config();
 
-  $default = variable_get('ding_debt_easy_reports_mail', [
-    'to' => '',
-    'cc' => '',
-    'title' => 'EASY betaling: %count afventende',
-    'header' => [
-      'value' => '',
-      'format' => 'ding_wysiwyg',
-    ],
-    'footer' => [
-      'value' => '',
-      'format' => 'ding_wysiwyg',
-    ],
-  ]);
+  $form['#attached']['css'] = array(
+    drupal_get_path('module', 'ding_debt_easy_reports') . '/css/ding_debt_easy_reports.admin.css',
+  );
 
   $form['ding_debt_easy_reports_mail'] = [
     '#type' => 'fieldset',
@@ -35,17 +26,9 @@ function ding_debt_easy_reports_admin_mails_settings_form($form, &$form_state) {
   $form['ding_debt_easy_reports_mail']['to'] = [
     '#type' => 'textfield',
     '#title' => t('To'),
-    '#description' => t('Comma separated list of mail addresses'),
+    '#description' => t('Comma separated list of e-mail-addresses'),
     '#default_value' => $default['to'],
     '#required' => TRUE,
-  ];
-
-  $form['ding_debt_easy_reports_mail']['cc'] = [
-    '#type' => 'textfield',
-    '#title' => t('Cc'),
-    '#description' => t('Comma separated list of mail addresses'),
-    '#default_value' => $default['cc'],
-    '#required' => FALSE,
   ];
 
   $form['ding_debt_easy_reports_mail']['title'] = [
@@ -77,6 +60,27 @@ function ding_debt_easy_reports_admin_mails_settings_form($form, &$form_state) {
     '#rows' => 15,
     '#required' => TRUE,
   ];
+
+  $form['ding_debt_easy_reports_mail_test'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Test mail'),
+    '#description' => t('Try sending test mail. If you have change anything in the above form, submit the form first or the changes will not be used in the mail.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  ];
+
+  $form['ding_debt_easy_reports_mail_test']['send'] = array(
+    '#type' => 'submit',
+    '#value' => t('Send test'),
+    '#ajax' => array(
+      'callback' => '_ding_debt_easy_reports_send_mail',
+    ),
+    '#attributes' => [
+      'class' => [
+        'test-mail-send-btn',
+      ],
+    ],
+  );
 
   return system_settings_form($form);
 }
