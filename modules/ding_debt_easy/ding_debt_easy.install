@@ -79,8 +79,6 @@ function ding_debt_easy_schema() {
     'primary key' => ['id'],
   ];
 
-  $schema['cache_ding_debt_easy'] = drupal_get_schema_unprocessed('system', 'cache');
-
   return $schema;
 }
 

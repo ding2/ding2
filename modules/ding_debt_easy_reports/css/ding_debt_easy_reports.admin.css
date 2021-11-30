@@ -13,3 +13,8 @@
 .test-mail-send-btn {
   margin-top: 1em;
 }
+
+.mail-cron .form-item {
+  float: left;
+  padding-right: 0.2em;
+}

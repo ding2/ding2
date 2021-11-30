@@ -61,6 +61,38 @@ function ding_debt_easy_reports_admin_mails_settings_form($form, &$form_state) {
     '#required' => TRUE,
   ];
 
+  $hours = array_map(function ($num) {
+    return str_pad($num, 2, "0", STR_PAD_LEFT);
+  }, range(0, 23));
+  $minutes = array_map(function ($num) {
+    return str_pad($num, 2, "0", STR_PAD_LEFT);
+  }, range(0, 59, 10));
+
+  $form['ding_debt_easy_reports_mail']['cron'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Mail report sent time'),
+    '#description' => t('Set the daily time to sent mail reports.'),
+    '#attributes' => [
+      'class' => [
+        'mail-cron',
+      ],
+    ],
+  );
+
+  $form['ding_debt_easy_reports_mail']['cron']['hour'] = array(
+    '#type' => 'select',
+    '#options' => array_combine($hours, $hours),
+    '#default_value' => $default['cron']['hour'],
+    '#required' => TRUE,
+  );
+
+  $form['ding_debt_easy_reports_mail']['cron']['minute'] = array(
+    '#type' => 'select',
+    '#options' => array_combine($minutes, $minutes),
+    '#default_value' => $default['cron']['minute'],
+    '#required' => TRUE,
+  );
+
   $form['ding_debt_easy_reports_mail_test'] = [
     '#type' => 'fieldset',
     '#title' => t('Test mail'),

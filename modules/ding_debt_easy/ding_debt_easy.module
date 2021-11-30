@@ -561,6 +561,7 @@ function _ding_debt_easy_get_payment_local($id) {
  *   The order id's from the provider.
  * @param int|float $amount
  *   The order amount.
+ *
  * @return false|string
  *   The order id or false on database error.
  *

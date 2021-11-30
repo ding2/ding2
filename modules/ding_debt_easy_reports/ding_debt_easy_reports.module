@@ -36,19 +36,6 @@ function ding_debt_easy_reports_preprocess_views_view(&$vars) {
 }
 
 /**
- * Helper function to send mail (also used to send test mail).
- */
-function _ding_debt_easy_reports_send_mail() {
-  $config = _ding_debt_easy_reports_mail_config();
-  $count = _ding_debt_easy_reports_fetch(TRUE);
-  if (!empty($config['to']) && $count > 0) {
-    drupal_mail('ding_debt_easy_reports', 'ding_debt_easy_report_mail', $config['to'], language_default(), [
-      'subject' => str_replace('%count', $count, $config['title']),
-    ]);
-  }
-}
-
-/**
  * Implements hook_mail().
  *
  * @throws \Exception
@@ -73,6 +60,58 @@ function ding_debt_easy_reports_theme_registry_alter(&$theme_registry) {
     $theme_registry[$key]['theme path'] = $module_path;
     $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
     $theme_registry[$key]['type'] = 'module';
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_debt_easy_reports_cron() {
+  // Clean up.
+
+  // Send daily mail report.
+  _ding_debt_easy_reports_cron_mail();
+}
+
+/**
+ * Send mail report based on configuration and last sent mail-
+ */
+function _ding_debt_easy_reports_cron_mail() {
+  $config = _ding_debt_easy_reports_mail_config();
+
+  // As the input is a unix timestamp the timezone will be UTC. So set timezone
+  // after create from format to have effect.
+  $last_run = DateTimeImmutable::createFromFormat('U', variable_get('ding_debt_easy_reports_last_cron', 0));
+  $last_run = $last_run->setTimezone(new DateTimeZone('Europe/Copenhagen'));
+
+  // Check if hour/min is correct in relation to config for last run.
+  if ($last_run->format('H') !== $config['cron']['hour'] || $last_run->format('i') !== $config['cron']['minute']) {
+    // Either this is the first run or the configured time have been changed.
+    $last_run = $last_run->setTime($config['cron']['hour'], $config['cron']['minute']);
+  }
+
+  // Add 24 hours (one day) to last run as this is the next mail sent time.
+  $next_run = $last_run->add(new DateInterval('P1D'));
+  if ($next_run->getTimestamp() <= time()) {
+    _ding_debt_easy_reports_send_mail();
+
+    // Update last mail sent time to current date with time set to configured
+    // time.
+    $time = DateTimeImmutable::createFromFormat('Hi', $config['cron']['hour'] . $config['cron']['minute']);
+    variable_set('ding_debt_easy_reports_last_cron', $time->getTimestamp());
+  }
+}
+
+/**
+ * Helper function to send mail (also used to send test mail).
+ */
+function _ding_debt_easy_reports_send_mail() {
+  $config = _ding_debt_easy_reports_mail_config();
+  $count = _ding_debt_easy_reports_fetch(TRUE);
+  if (!empty($config['to']) && $count > 0) {
+    drupal_mail('ding_debt_easy_reports', 'ding_debt_easy_report_mail', $config['to'], language_default(), [
+      'subject' => str_replace('%count', $count, $config['title']),
+    ]);
   }
 }
 
@@ -152,16 +191,6 @@ function _ding_debt_easy_reports_fetch($count = FALSE) {
  *   Configuration from the database, with fallback.
  */
 function _ding_debt_easy_reports_mail_config() {
-  return variable_get('ding_debt_easy_reports_mail', [
-    'to' => '',
-    'title' => 'EASY betaling: %count afventende',
-    'header' => [
-      'value' => '',
-      'format' => 'ding_wysiwyg',
-    ],
-    'footer' => [
-      'value' => '',
-      'format' => 'ding_wysiwyg',
-    ],
-  ]);
+  // Default value (fallback) is set during module install.
+  return variable_get('ding_debt_easy_reports_mail');
 }
