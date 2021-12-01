@@ -150,10 +150,20 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#required' => TRUE,
   ];
 
+  // Only HostedPaymentPage is implemented, so it's enforced here.
   $form['ding_debt_easy']['ding_debt_easy_config']['integrationType'] = [
     '#type' => 'select',
     '#title' => t('Integration Type'),
     '#options' => _ding_debt_easy_get_integration_type_options(),
+    '#default_value' => 'HostedPaymentPage',
+  ];
+
+  $period = drupal_map_assoc(array(86400*30, 86400*90, 86400*180, 86400*360), 'format_interval');
+  $form['ding_debt_easy']['ding_debt_easy_config']['wipe_interval'] = [
+    '#type' => 'select',
+    '#title' => t('Wipe out transactions older than'),
+    '#options' => ['0' => t('None')] + $period,
+    '#default_value' => _ding_debt_easy_get_wipe_interval(),
   ];
 
   $default_terms = variable_get('ding_debt_easy_terms', [

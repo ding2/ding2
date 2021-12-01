@@ -67,9 +67,6 @@ function ding_debt_easy_reports_theme_registry_alter(&$theme_registry) {
  * Implements hook_cron().
  */
 function ding_debt_easy_reports_cron() {
-  // Clean up.
-
-  // Send daily mail report.
   _ding_debt_easy_reports_cron_mail();
 }
 
@@ -82,7 +79,7 @@ function _ding_debt_easy_reports_cron_mail() {
   // As the input is a unix timestamp the timezone will be UTC. So set timezone
   // after create from format to have effect.
   $last_run = DateTimeImmutable::createFromFormat('U', variable_get('ding_debt_easy_reports_last_cron', 0));
-  $last_run = $last_run->setTimezone(new DateTimeZone('Europe/Copenhagen'));
+  $last_run = $last_run->setTimezone(new DateTimeZone(drupal_get_user_timezone()));
 
   // Check if hour/min is correct in relation to config for last run.
   if ($last_run->format('H') !== $config['cron']['hour'] || $last_run->format('i') !== $config['cron']['minute']) {
