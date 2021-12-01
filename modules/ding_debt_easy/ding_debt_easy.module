@@ -422,6 +422,7 @@ function _ding_debt_easy_callback() {
       '%order_id' => $local_record['order_id'],
     ]));
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_FAILED);
+    _ding_debt_easy_remove_personal_info($payment_id);
     drupal_goto(DING_DEBT_USER_DEBT_PAGE);
   }
 
@@ -440,6 +441,7 @@ function _ding_debt_easy_callback() {
       '%order_id' => $local_record['order_id'],
     ]));
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_FAILED);
+    _ding_debt_easy_remove_personal_info($payment_id);
     drupal_goto(DING_DEBT_USER_DEBT_PAGE);
   }
   catch (PaymentCommunicationException $exception) {
@@ -463,6 +465,7 @@ function _ding_debt_easy_callback() {
       $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
       _ding_debt_easy_set_charge_id_local($payment_id, $charge_id);
       _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_COMPLETED);
+      _ding_debt_easy_remove_personal_info($payment_id);
     }
     catch (PaymentCommunicationException $exception) {
       watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
@@ -686,6 +689,23 @@ function _ding_debt_easy_set_charge_id_local($payment_id, $charge_id) {
     ->execute();
 
   return $res > 0 ? _ding_debt_easy_get_payment_local($payment_id) : FALSE;
+}
+
+/**
+ * Remove personal information from the local database.
+ *
+ * @param $payment_id
+ *   The payment id of the order.
+ */
+function _ding_debt_easy_remove_personal_info($payment_id) {
+  $res = db_update('ding_debt_easy')
+    ->fields([
+      'patron_id' => 0,
+      'uid' => 0,
+      'changed' => time(),
+    ])
+    ->condition('payment_id', $payment_id, '=')
+    ->execute();
 }
 
 /**
