@@ -285,7 +285,7 @@ function ding_debt_easy_get_localization() {
 function _ding_debt_easy_get_integration_type_options() {
   return [
     'HostedPaymentPage' => 'Hosted Payment Page',
-    'EmbeddedCheckout' => 'Embedded Checkout (not implemented)',
+    //'EmbeddedCheckout' => 'Embedded Checkout (not implemented)',
   ];
 }
 

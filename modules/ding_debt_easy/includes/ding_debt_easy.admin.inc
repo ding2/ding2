@@ -150,12 +150,11 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#required' => TRUE,
   ];
 
-  // Only HostedPaymentPage is implemented, so it's enforced here.
   $form['ding_debt_easy']['ding_debt_easy_config']['integrationType'] = [
     '#type' => 'select',
     '#title' => t('Integration Type'),
     '#options' => _ding_debt_easy_get_integration_type_options(),
-    '#default_value' => 'HostedPaymentPage',
+    '#default_value' => ding_debt_easy_get_integration_type(),
   ];
 
   $period = drupal_map_assoc(array(86400*30, 86400*90, 86400*180, 86400*360), 'format_interval');
