@@ -21,6 +21,8 @@ define('DING_DEBT_EASY_STATUS_PENDING', 'pending');
 define('DING_DEBT_EASY_STATUS_COMPLETED', 'completed');
 define('DING_DEBT_EASY_STATUS_FAILED', 'failed');
 
+define('DING_DEBT_EASY_MAX_RETRIES', 6);
+
 /**
  * Implements hook_menu().
  */
@@ -158,20 +160,106 @@ function ding_debt_easy_ding_provider() {
  * Implements hook_cron().
  */
 function ding_debt_easy_cron() {
+  _ding_debt_easy_wipe();
+  _ding_debt_easy_retry_payments();
+}
+
+/**
+ * Wipe old local payments records base on configuration.
+ */
+function _ding_debt_easy_wipe() {
   $interval = _ding_debt_easy_get_wipe_interval();
 
   // Zero here is wipe out is disabled in configuration.
   if (0 < $interval) {
-    $limit = DateTimeImmutable::createFromFormat('U', time()-$interval);
+    $limit = DateTimeImmutable::createFromFormat('U', time() - $interval);
     $limit = $limit->setTimezone(new DateTimeZone(drupal_get_user_timezone()));
 
     $res = db_delete('ding_debt_easy')
       ->condition('changed', $limit->getTimestamp(), '<')
       ->execute();
 
-    watchdog('ding_debt_easy', t('%x payments was removed from the local database.', [
+    watchdog('ding_debt_easy', '%x payments was removed from the local database.', [
       '%x' => $res,
-    ]), [], WATCHDOG_INFO);
+    ], WATCHDOG_INFO);
+  }
+}
+
+/**
+ * Retry pending payments.
+ */
+function _ding_debt_easy_retry_payments() {
+  $orders = db_select('ding_debt_easy', 'dbe')
+    ->fields('dbe', ['payment_id'])
+    ->condition('status', DING_DEBT_EASY_STATUS_PENDING)
+    ->orderBy('changed', 'DESC')
+    ->condition('retries', DING_DEBT_EASY_MAX_RETRIES, '<=')
+    ->execute()
+    ->fetchAll();
+
+  foreach ($orders as $order) {
+    // Load local order from database this way to ensure thing are decoded
+    // correctly.
+    $order = _ding_debt_easy_get_payment_local($order->payment_id);
+
+    // Check interval retry (back-off strategy with 6 retries ending 24 hours
+    // from first try, starting at 10 min - 300, 900, 2700 ... 86400 sec.).
+    $limit = $order['changed'] + (int) (300 * pow(3, $order['retries']));
+
+    if (time() > $limit) {
+      // Check order status at the provider.
+      /** @var \DingProviderDebt[] $fees */
+      $fees = ding_provider_invoke('debt', 'list', NULL, TRUE, $order['patron_id'], TRUE);
+      $chargeable = TRUE;
+      foreach ($order['provider_ids'] as $id) {
+        if (!isset($fees[$id])) {
+          // The fee is not found at the provider.
+          _ding_debt_easy_update_status_local($order['payment_id'], DING_DEBT_EASY_STATUS_FAILED);
+          $chargeable = FALSE;
+          break;
+        }
+
+        if (empty($fees[$id]->paid_date)) {
+          // The fee has not been marked as paid at the provider. So we simply
+          // try to pay them all once more.
+          $status = ding_provider_invoke('debt', 'payment_received', NULL, $order['provider_ids'], $order['order_id'], $order['patron_id']);
+          if (!$status) {
+            _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
+            $chargeable = FALSE;
+          }
+
+          // Jump out of the foreach loop for this order fees.
+          break;
+        }
+      }
+
+      if ($chargeable) {
+        // All have been marked as paid, try charge the gateway if not already
+        // charged.
+        $client = _ding_debt_easy_get_client();
+        $data = $client->fetchPayment($order['payment_id']);
+        if (!isset($data['summary']['chargedAmount'])) {
+          // Not charged at the gateway, so lets try that.
+          $client = _ding_debt_easy_get_client();
+          try {
+            $charge_id = $client->chargePayment($order['payment_id'], $data['orderDetails']['amount']);
+            _ding_debt_easy_set_charge_id_local($order['payment_id'], $charge_id);
+            _ding_debt_easy_update_status_local($order['payment_id'], DING_DEBT_EASY_STATUS_COMPLETED);
+            _ding_debt_easy_remove_personal_info($order['payment_id']);
+          }
+          catch (Exception $exception) {
+            // Something when wrong, make order for later retry.
+            _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
+          }
+        }
+        else {
+          // Already charged (should not happen, but if someone may have done it
+          // in the easy portal) maker the order as completed.
+          _ding_debt_easy_update_status_local($order['payment_id'], DING_DEBT_EASY_STATUS_COMPLETED);
+          _ding_debt_easy_remove_personal_info($order['payment_id']);
+        }
+      }
+    }
   }
 }
 
@@ -260,7 +348,7 @@ function _ding_debt_easy_get_localization_options() {
  */
 function _ding_debt_easy_get_wipe_interval() {
   $config = variable_get('ding_debt_easy_config', []);
-  return empty($config['wipe_interval']) ? 86400*30 : $config['wipe_interval'];
+  return empty($config['wipe_interval']) ? 86400 * 30 : $config['wipe_interval'];
 }
 
 /**
@@ -285,7 +373,7 @@ function ding_debt_easy_get_localization() {
 function _ding_debt_easy_get_integration_type_options() {
   return [
     'HostedPaymentPage' => 'Hosted Payment Page',
-    //'EmbeddedCheckout' => 'Embedded Checkout (not implemented)',
+    // 'EmbeddedCheckout' => 'Embedded Checkout (not implemented)',
   ];
 }
 
@@ -491,9 +579,9 @@ function _ding_debt_easy_callback() {
 
   // Mark the order as paid at the provider, which only return true/false. So
   // not most we can do in regrades to what when wrong.
-  $valid_status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $local_record['order_id']);
+  $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $local_record['order_id']);
 
-  if ($valid_status) {
+  if ($status) {
     // Charged the payment gateway.
     try {
       $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
@@ -654,6 +742,29 @@ function _ding_debt_easy_add_payment_id_local($order_id, $payment_id) {
 }
 
 /**
+ * Update local order record based on retries.
+ *
+ * @param string $payment_id
+ *   The payment id of the order.
+ * @param int $current
+ *   The current number of retires.
+ */
+function _ding_debt_easy_update_retries_local($payment_id, $current) {
+  if ($current === DING_DEBT_EASY_MAX_RETRIES) {
+    _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_FAILED);
+  }
+  else {
+    // Update retires count.
+    db_update('ding_debt_easy')
+      ->fields([
+        'retries' => $current++,
+      ])
+      ->condition('payment_id', $payment_id, '=')
+      ->execute();
+  }
+}
+
+/**
  * Generate order id with the format NEXX-XXXX-XXX.
  *
  * We need a local order id to send to Nets and used in reports and display to
@@ -728,11 +839,11 @@ function _ding_debt_easy_set_charge_id_local($payment_id, $charge_id) {
 /**
  * Remove personal information from the local database.
  *
- * @param $payment_id
+ * @param string $payment_id
  *   The payment id of the order.
  */
 function _ding_debt_easy_remove_personal_info($payment_id) {
-  $res = db_update('ding_debt_easy')
+  db_update('ding_debt_easy')
     ->fields([
       'patron_id' => 0,
       'uid' => 0,

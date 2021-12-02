@@ -12,11 +12,15 @@
  *   User to get debt listing for.
  * @param bool $reset
  *   If TRUE cache is reset (default: FALSE).
+ * @param int $patron_id
+ *   Id of the patron at the provider.
+ * @param bool $include_paid
+ *   Default to FALSE, if TRUE already paid are also returned.
  *
  * @return array
  *   Debt information.
  */
-function fbs_debt_list($account, $reset = FALSE) {
+function fbs_debt_list($account, $reset = FALSE, $patron_id = NULL, $include_paid = FALSE) {
   $results = &drupal_static(__FUNCTION__, NULL);
 
   if (is_null($results) || $reset) {
@@ -32,7 +36,9 @@ function fbs_debt_list($account, $reset = FALSE) {
       $res = array();
 
       try {
-        $res = fbs_service()->Payment->getFees(fbs_service()->agencyId, fbs_patron_id($account), 'false', 'true');
+        $patron_id = is_null($patron_id) ? fbs_patron_id($account) : $patron_id;
+        $include_paid = FALSE === $include_paid ? 'false' : 'true';
+        $res = fbs_service()->Payment->getFees(fbs_service()->agencyId, $patron_id, $include_paid, 'true');
       }
       catch (Exception $e) {
         watchdog_exception('fbs', $e);
@@ -69,6 +75,7 @@ function fbs_debt_list($account, $reset = FALSE) {
           // And the only thing we can do here is set it to zero, as the original
           // amount isn't available.
           'amount_paid' => 0,
+          'paid_date' => $fee->paidDate,
           'type' => fbs_debt_translate_debt_type($fee->type),
           'payable' => $fee->payableByClient,
         );

@@ -46,6 +46,11 @@ class DingProviderDebt extends DingEntityBase {
   protected $amount = DingEntityBase::NULL;
 
   /**
+   * The date of payment, string.
+   */
+  protected $paid_date = DingEntityBase::NULL;
+
+  /**
    * Material number for which the debt is about also known as faust number.
    */
   protected $material_number = DingEntityBase::NULL;
@@ -81,6 +86,7 @@ class DingProviderDebt extends DingEntityBase {
       'date',
       'amount',
       'amount_paid',
+      'paid_date',
       'payable',
       'type',
       'note',

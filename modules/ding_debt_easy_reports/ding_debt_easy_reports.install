@@ -25,7 +25,7 @@ function ding_debt_easy_reports_install() {
     'cron' => [
       'hour' => '02',
       'minute' => '00',
-    ]
+    ],
   ]);
 
   // Adding reports mail to be processed in HTMLMailSystem format by mail

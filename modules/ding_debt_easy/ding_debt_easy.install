@@ -66,6 +66,12 @@ function ding_debt_easy_schema() {
         'length' => 255,
         'not null' => FALSE,
       ],
+      'retries' => [
+        'description' => 'Number of times this payment have been retried.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
       'changed' => [
         'description' => 'The Unix timestamp when the status was most recently updated.',
         'type' => 'int',

@@ -157,7 +157,12 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#default_value' => ding_debt_easy_get_integration_type(),
   ];
 
-  $period = drupal_map_assoc(array(86400*30, 86400*90, 86400*180, 86400*360), 'format_interval');
+  $period = drupal_map_assoc([
+    86400 * 30,
+    86400 * 90,
+    86400 * 180,
+    86400 * 360,
+  ], 'format_interval');
   $form['ding_debt_easy']['ding_debt_easy_config']['wipe_interval'] = [
     '#type' => 'select',
     '#title' => t('Wipe out transactions older than'),
