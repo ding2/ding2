@@ -1,0 +1,3 @@
+name = Ding No Guid
+description = "Removes functionallity depending on user GUIDs, for libraries that doesn't have one."
+core = 7.x
