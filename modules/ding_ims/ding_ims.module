@@ -1,0 +1,77 @@
+<?php
+/**
+ * @file
+ * Provide placement information from the IMS service.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_ims_menu() {
+  $items = array();
+
+  $items['admin/config/ting/ims'] = array(
+    'title' => 'IMS service settings',
+    'description' => 'Settings for the IMS service.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_ims_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ding_ims.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Fetch placement information from IMS service.
+ * 
+ * @param array $provider_ids
+ *   Array of ting object ids (faust).
+ *
+ * @return array
+ *   Placements info.
+ */
+function ding_ims_placements($provider_ids) {
+  
+  // @todo Call the IMS Webservice. 
+  /*
+  try {
+    $service = new ImsService(variable_get('ding_ims_wsdl_url'), variable_get('ding_ims_username'), variable_get('ding_ims_password'));
+
+    // Retrieve covers by PID.
+    $retrieved = $service->getByFaustNumber($provider_ids);
+  }
+  catch (Exception $e) {
+    watchdog('ting_covers_ims', 'Unable to retrieve placements from IMS: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+
+    // Error in fetching, return no covers.
+    return array();
+  }
+  */
+
+  // @todo Remove example 
+  // This is an example of what could be returned by the webservice.
+  // Faust 52673542 - Kvinderne fra Thy. 
+  // We pretend that two of 30 matrials are on display
+
+  $retrieved = array(
+    "52673542" => array(
+      "5133663391" => array(
+          0 => "Biblioteket Sønderborg",
+          1 => "Niveau 2",
+          2 => "Voksenbibliotek",
+          3 => "Gallerivæggen ved fiktion"
+      ),
+      "5131171783" => array(
+        0 => "Biblioteket Sønderborg",
+        1 => "Niveau 2",
+        2 => "Voksenbibliotek",
+        3 => "Gallerivæggen ved fiktion"
+    ),
+    )
+  );
+ 
+  return $retrieved;
+}
+

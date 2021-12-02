@@ -1,0 +1,97 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Generated from files:
+#  ding_ims.admin.inc: n/a
+#  ding_ims.module: n/a
+#  ding_ims.info: n/a
+#  lib/ims-client/ImsService.php: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2021-10-05 10:59+0200\n"
+"PO-Revision-Date: 2021-10-05 10:59+0200\n"
+"Last-Translator: Agnete Moos <agms@sonderborg.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ding_ims.admin.inc:19
+msgid "IMS settings"
+msgstr "IMS indstillinger"
+
+#: ding_ims.admin.inc:20
+msgid "When settings are configured the IMS service will start fetching IMS placement information about materials. The IMS placement will replace the FBS placement when holdings are displayed. Be aware that the default setting of IMS is to expose no placements at all. Use the IMS Webclient to configure which application types should expose placements.. <a href=\"https://lyngsoe-imms.com/docs/webservices\">IMS Web Service Reference</a>"
+msgstr ""
+
+#: ding_ims.admin.inc:26
+msgid "Service URL"
+msgstr ""
+
+#: ding_ims.admin.inc:27
+msgid "URL to the IMS webservice. The url template looks like this: https://<library-short-name>.lyngsoe-imms.com/ImsWs/soap/Ims4Ils?wsdl"
+msgstr ""
+
+#: ding_ims.admin.inc:34
+msgid "Username"
+msgstr ""
+
+#: ding_ims.admin.inc:35
+msgid "Username of a user created in IMS webclient. No privileges needs to be granted to the user in IMS"
+msgstr ""
+
+#: ding_ims.admin.inc:42
+msgid "Password"
+msgstr ""
+
+#: ding_ims.admin.inc:43
+msgid "Password of a user created in IMS webclient"
+msgstr ""
+
+#: ding_ims.admin.inc:50
+msgid "Enable logging"
+msgstr ""
+
+#: ding_ims.admin.inc:56
+msgid "Save"
+msgstr ""
+
+#: ding_ims.module:45
+msgid "ting_covers_ims"
+msgstr ""
+
+#: ding_ims.module:45
+msgid "Unable to retrieve placements from IMS: %message"
+msgstr ""
+
+#: ding_ims.module:14
+msgid "IMS service settings"
+msgstr ""
+
+#: ding_ims.module:15
+msgid "Settings for the IMS service."
+msgstr ""
+
+#: ding_ims.info:0
+msgid "Ting Ims Placement Information"
+msgstr ""
+
+#: ding_ims.info:0
+msgid "Module implementing getting material placements from Ims"
+msgstr ""
+
+#: ding_ims.info:0
+msgid "Ding!"
+msgstr ""
+
+#: lib/ims-client/ImsService.php:88
+msgid "ims"
+msgstr ""
+
+#: lib/ims-client/ImsService.php:88
+msgid "Completed request"
+msgstr ""
+

@@ -1,0 +1,12 @@
+name = Ting Ims Placement Information
+description = Module implementing getting material placements from Ims
+package = Ding!
+version = "7.x-1.0"
+core = "7.x"
+dependencies[] = ting
+dependencies[] = fbs
+configure = admin/config/ting/ims
+files[] = lib/ims-client/ImsPlacement.php
+files[] = lib/ims-client/ImsException.php
+files[] = lib/ims-client/ImsService.php
+
