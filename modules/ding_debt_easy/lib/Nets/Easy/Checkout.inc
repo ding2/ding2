@@ -9,10 +9,6 @@ class Checkout {
   private $integrationType;
   private $termsUrl;
   private $merchantTermsUrl;
-  private $consumer = [
-    'reference' => '',
-    'email' => '',
-  ];
   private $returnUrl;
   private $cancelUrl;
   private $order;
@@ -92,54 +88,6 @@ class Checkout {
    */
   public function setMerchantTermsUrl($merchantTermsUrl) {
     $this->merchantTermsUrl = $merchantTermsUrl;
-
-    return $this;
-  }
-
-  /**
-   * Get reference for the order (order ID).
-   *
-   * @return string
-   *   The reference string.
-   */
-  public function getConsumerReference() {
-    return $this->consumer['reference'];
-  }
-
-  /**
-   * Set reference for the order (order ID).
-   *
-   * @param string $reference
-   *   The reference string to set.
-   *
-   * @return $this
-   */
-  public function setConsumeReference($reference) {
-    $this->consumer['reference'] = $reference;
-
-    return $this;
-  }
-
-  /**
-   * Get consumer mail (the users mail-address).
-   *
-   * @return string
-   *   The mail-address set.
-   */
-  public function getConsumerMail() {
-    return $this->consumer['email'];
-  }
-
-  /**
-   * Set consumer mail (the users mail-address).
-   *
-   * @param string $mail
-   *   The mail-address to set.
-   *
-   * @return $this
-   */
-  public function setConsumeMail($mail) {
-    $this->consumer['email'] = $mail;
 
     return $this;
   }
@@ -231,8 +179,8 @@ class Checkout {
         // We need to only reserve the payment. The charging will be done after
         // provider has accepted API call.
         'charge' => FALSE,
-        // Limit data stored in the browser at nets: the checkout will not remember
-        // the current consumer on this device.
+        // Limit data stored in the browser at nets: the checkout will not
+        // remember the current consumer on this device.
         'publicDevice' => TRUE,
         // 'url' => 'ONLY WITH Embedded checkout to load order from'
         'appearance' => [
@@ -245,10 +193,9 @@ class Checkout {
           'supportedTypes' => ['B2C'],
           'default' => 'B2C',
         ],
-        // FBS handles information about the consumer, so Nets should not ask for
-        // address etc.
+        // FBS handles information about the consumer, so Nets should not ask
+        // for address etc.
         'merchantHandlesConsumerData' => TRUE,
-        'consumer' => $this->consumer,
         'returnUrl' => $this->returnUrl,
         'cancelUrl' => $this->cancelUrl,
       ],

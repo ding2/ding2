@@ -17,27 +17,6 @@ function ding_debt_easy_views_data() {
     'help' => t('Nets Easy payment information.'),
   );
 
-  // Join with users table.
-  $data['ding_debt_easy']['table']['join'] = array(
-    'users' => array(
-      'left_field' => 'uid',
-      'field' => 'uid',
-    ),
-  );
-
-  $data['ding_debt_easy']['uid'] = array(
-    'title' => t('User id'),
-    'help' => t('Information about the user.'),
-    'relationship' => array(
-      'base' => 'users',
-      'base field' => 'uid',
-      'handler' => 'views_handler_relationship',
-      'label' => t('Ding debt easy relationship'),
-      'title' => t('Ding debt easy information'),
-      'help' => t('Ding debt easy user information .'),
-    ),
-  );
-
   $data['ding_debt_easy']['id'] = array(
     'title' => t('Row id'),
     'help' => t('The consent record id.'),

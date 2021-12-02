@@ -57,11 +57,7 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     ->setReturnUrl(url(ding_debt_easy_get_return_url(), ['absolute' => TRUE]))
     ->setCancelUrl(url(ding_debt_easy_get_cancel_url(), ['absolute' => TRUE]));
 
-  // Set user information.
-  $checkout->setConsumeReference($user->uid)
-    ->setConsumeMail($user->mail);
-
-  $order_id = _ding_debt_easy_get_order_id_local($user->uid, $patron_id, $item_ids, $checkout->getOrder()->getTotalAmount());
+  $order_id = _ding_debt_easy_get_order_id_local($patron_id, $item_ids, $checkout->getOrder()->getTotalAmount());
   $checkout->getOrder()->setReference($order_id);
 
   // Create payment with the checkout and order as payload.

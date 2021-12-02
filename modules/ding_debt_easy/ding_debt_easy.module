@@ -678,8 +678,6 @@ function _ding_debt_easy_get_payment_local($id) {
  *
  * Creates internal database record and base on that the unique order id.
  *
- * @param int $uid
- *   The user id.
  * @param int $patron_id
  *   The user id at the provider. Use later for pending payment retries.
  * @param string $provider_ids
@@ -692,11 +690,10 @@ function _ding_debt_easy_get_payment_local($id) {
  *
  * @throws \Exception
  */
-function _ding_debt_easy_get_order_id_local($uid, $patron_id, $provider_ids, $amount) {
+function _ding_debt_easy_get_order_id_local($patron_id, $provider_ids, $amount) {
   // Create database record to get row id and reserve the ID in the database.
   $id = db_insert('ding_debt_easy')
     ->fields([
-      'uid' => $uid,
       'patron_id' => $patron_id,
       'provider_ids' => implode(';', $provider_ids),
       'status' => DING_DEBT_EASY_STATUS_CREATED,
@@ -846,7 +843,6 @@ function _ding_debt_easy_remove_personal_info($payment_id) {
   db_update('ding_debt_easy')
     ->fields([
       'patron_id' => 0,
-      'uid' => 0,
       'changed' => time(),
     ])
     ->condition('payment_id', $payment_id, '=')

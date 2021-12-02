@@ -20,11 +20,6 @@ function ding_debt_easy_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ],
-      'uid' => [
-        'description' => 'The {users}.uid for the payment.',
-        'type' => 'int',
-        'not null' => TRUE,
-      ],
       'patron_id' => [
         'description' => 'The providers id for the patron for this payment.',
         'type' => 'int',
