@@ -18,11 +18,7 @@ class TingDasCopyRequest {
   private $wsPassword;
 
   private $pid = NULL;
-  private $userLoanerId = NULL;
-  private $userName = NULL;
   private $mail = NULL;
-  private $userInterestDays = NULL;
-  private $pickupAgencyId = NULL;
   private $agencyId = NULL;
   private $publicationTitle = NULL;
   private $publicationDateOfComponent = NULL;
@@ -65,34 +61,6 @@ class TingDasCopyRequest {
   }
 
   /**
-   * Set the users loaner id.
-   *
-   * @param string $userLoanerId
-   *   The users loaner id (borrow id/CPR).
-   *
-   * @return TingDasCopyRequest
-   *   The current request object.
-   */
-  public function setUserLoanerId(string $userLoanerId) {
-    $this->userLoanerId = $userLoanerId;
-    return $this;
-  }
-
-  /**
-   * Set the username (full name of the user).
-   *
-   * @param string $userName
-   *   The users full name.
-   *
-   * @return TingDasCopyRequest
-   *   The current request object.
-   */
-  public function setUserName(string $userName) {
-    $this->userName = $userName;
-    return $this;
-  }
-
-  /**
    * Set the users e-mail-address.
    *
    * @param string $mail
@@ -103,36 +71,6 @@ class TingDasCopyRequest {
    */
   public function setUserMail(string $mail) {
     $this->mail = $mail;
-    return $this;
-  }
-
-  /**
-   * The interest date for the user.
-   *
-   * The date until the user is not longer interested in getting the material.
-   *
-   * @param int $userInterestDays
-   *   The users interest date in number of days.
-   *
-   * @return TingDasCopyRequest
-   *   The current request object.
-   */
-  public function setUserInterestDate(int $userInterestDays) {
-    $this->userInterestDays = $userInterestDays;
-    return $this;
-  }
-
-  /**
-   * Set the agency id for pickup.
-   *
-   * @param string $pickupAgencyId
-   *   The pickup agency id.
-   *
-   * @return TingDasCopyRequest
-   *   The current request object.
-   */
-  public function setPickupAgencyId(string $pickupAgencyId) {
-    $this->pickupAgencyId = $pickupAgencyId;
     return $this;
   }
 
@@ -266,19 +204,11 @@ class TingDasCopyRequest {
   private function buildMessage() {
     $xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><placeCopyRequest xmlns="http://statsbiblioteket.dk/xws/elba-placecopyrequest-schema"/>');
 
-    // Format date to match the one required by the service.
-    $user_interest_date = strtotime('+' . $this->userInterestDays . ' day');
-    $user_interest_date = date('Y-m-d', $user_interest_date);
-
     // Set required fields.
     $xml->addChild('ws_user', $this->wsUsername);
     $xml->addChild('ws_password', $this->wsPassword);
     $xml->addChild('pid', $this->pid);
-    $xml->addChild('user_loaner_id', $this->userLoanerId);
-    $xml->addChild('userName', $this->userName);
     $xml->addChild('userMail', $this->mail);
-    $xml->addChild('user_interest_date', $user_interest_date);
-    $xml->addChild('pickupAgencyId', $this->pickupAgencyId);
     $xml->addChild('agencyId', $this->agencyId);
     $xml->addChild('publicationTitle', $this->publicationTitle);
     $xml->addChild('publicationDateOfComponent', $this->publicationDateOfComponent);
