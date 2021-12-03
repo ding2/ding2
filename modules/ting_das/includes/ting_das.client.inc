@@ -204,10 +204,6 @@ class TingDasCopyRequest {
   private function buildMessage() {
     $xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><placeCopyRequest xmlns="http://statsbiblioteket.dk/xws/elba-placecopyrequest-schema"/>');
 
-    // Format date to match the one required by the service.
-    $user_interest_date = strtotime('+' . $this->userInterestDays . ' day');
-    $user_interest_date = date('Y-m-d', $user_interest_date);
-
     // Set required fields.
     $xml->addChild('ws_user', $this->wsUsername);
     $xml->addChild('ws_password', $this->wsPassword);
