@@ -217,6 +217,7 @@ function _ding_debt_easy_retry_payments() {
           // The fee is not found at the provider.
           _ding_debt_easy_update_status_local($order['payment_id'], DING_DEBT_EASY_STATUS_FAILED);
           _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
+          _ding_debt_easy_remove_personal_info($order['payment_id']);
           $chargeable = FALSE;
           break;
         }
@@ -751,6 +752,7 @@ function _ding_debt_easy_add_payment_id_local($order_id, $payment_id) {
 function _ding_debt_easy_update_retries_local($payment_id, $current) {
   if ($current === DING_DEBT_EASY_MAX_RETRIES) {
     _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_FAILED);
+    _ding_debt_easy_remove_personal_info($payment_id);
   }
   else {
     // Update retires count.
@@ -838,17 +840,25 @@ function _ding_debt_easy_set_charge_id_local($payment_id, $charge_id) {
 /**
  * Remove personal information from the local database.
  *
- * @param string $payment_id
- *   The payment id of the order.
+ * @param string $id
+ *   The payment id or order id.
  */
-function _ding_debt_easy_remove_personal_info($payment_id) {
-  db_update('ding_debt_easy')
+function _ding_debt_easy_remove_personal_info($id) {
+  $query = db_update('ding_debt_easy')
     ->fields([
       'patron_id' => 0,
       'changed' => time(),
-    ])
-    ->condition('payment_id', $payment_id, '=')
-    ->execute();
+    ]);
+
+  // We know that all internal order ids are prefixed with NE.
+  if (substr($id, 0, 2) === 'NE') {
+    $query->condition('order_id', $id, '=');
+  }
+  else {
+    $query->condition('payment_id', $id, '=');
+  }
+
+  $query->execute();
 }
 
 /**

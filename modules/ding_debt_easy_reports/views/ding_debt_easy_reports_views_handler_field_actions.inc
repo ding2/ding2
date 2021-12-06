@@ -5,6 +5,10 @@
  * Handler class for the new field 'actions'
  */
 
+/**
+ * @class
+ * Actions link handler for changing order status.
+ */
 class ding_debt_easy_reports_views_handler_field_actions extends views_handler_field {
 
   /**

@@ -70,6 +70,7 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     ]);
     drupal_set_message(t('There is a communication problem with the gateway. Please try again later.'));
     _ding_debt_easy_update_status_local($order_id, DING_DEBT_EASY_STATUS_FAILED);
+    _ding_debt_easy_remove_personal_info($order_id);
 
     return 'DING_DEBT_USER_DEBT_PAGE';
   }
@@ -81,6 +82,7 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
       '%order_id' => $order_id,
     ]));
     _ding_debt_easy_update_status_local($order_id, DING_DEBT_EASY_STATUS_FAILED);
+    _ding_debt_easy_remove_personal_info($order_id);
 
     return 'DING_DEBT_USER_DEBT_PAGE';
   }
