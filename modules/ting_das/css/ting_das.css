@@ -22,7 +22,7 @@
   }
 
   .popupbar .digital-order-form .form-item.form-item-mail {
-    margin-right: 0;
+    margin-right: 5%;
   }
 
   .popupbar .digital-order-form .form-type-markup {
@@ -38,6 +38,7 @@
     float: left;
     margin-right: 3%;
     margin-bottom: 14px;
+    margin-top: 20px;
   }
 
   .popupbar #popupbar-ting_das .messages {
