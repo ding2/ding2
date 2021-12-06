@@ -140,6 +140,11 @@ function ding_debt_easy_reports_views_default_views() {
   $handler->display->display_options['fields']['retries']['id'] = 'retries';
   $handler->display->display_options['fields']['retries']['table'] = 'ding_debt_easy';
   $handler->display->display_options['fields']['retries']['field'] = 'retries';
+  /* Field: Ding Debt Easy: Actions */
+  $handler->display->display_options['fields']['actions']['id'] = 'actions';
+  $handler->display->display_options['fields']['actions']['table'] = 'ding_debt_easy';
+  $handler->display->display_options['fields']['actions']['field'] = 'actions';
+  $handler->display->display_options['fields']['actions']['label'] = 'Action';
   /* Sort criterion: Ding Debt Easy: Changed date */
   $handler->display->display_options['sorts']['changed']['id'] = 'changed';
   $handler->display->display_options['sorts']['changed']['table'] = 'ding_debt_easy';
@@ -242,6 +247,7 @@ function ding_debt_easy_reports_views_default_views() {
     t('Date'),
     t('Status'),
     t('Retries'),
+    t('Action'),
     t('Reports'),
     t('Administrative payment reports'),
   );

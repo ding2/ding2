@@ -9,3 +9,4 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[views_view][] = ding_debt_easy_reports
 features_exclude[dependencies][ctools] = ctools
+files[] = views/ding_debt_easy_reports_views_handler_field_actions.inc

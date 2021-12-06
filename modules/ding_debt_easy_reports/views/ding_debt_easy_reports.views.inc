@@ -8,143 +8,159 @@
  * Implements hook_views_data().
  */
 function ding_debt_easy_views_data() {
-  $data = array();
+  $data = [];
 
   $data['ding_debt_easy']['table']['group'] = 'Ding Debt Easy';
-  $data['ding_debt_easy']['table']['base'] = array(
+  $data['ding_debt_easy']['table']['base'] = [
     'field' => 'id',
     'title' => 'Ding Debt Easy',
     'help' => t('Nets Easy payment information.'),
-  );
+  ];
 
-  $data['ding_debt_easy']['id'] = array(
+  $data['ding_debt_easy']['id'] = [
     'title' => t('Row id'),
     'help' => t('The consent record id.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field_numeric',
-    ),
-    'sort' => array(
+    ],
+    'sort' => [
       'handler' => 'views_handler_sort',
-    ),
-    'filter' => array(
+    ],
+    'filter' => [
       'handler' => 'views_handler_filter_numeric',
-    ),
-  );
+    ],
+  ];
 
-  $data['ding_debt_easy']['order_id'] = array(
+  $data['ding_debt_easy']['order_id'] = [
     'title' => t('Order ID'),
     'help' => t('Local order id.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field',
-    ),
-    'sort' => array(
+      'click sortable' => TRUE,
+    ],
+    'sort' => [
       'handler' => 'views_handler_sort',
-    ),
-    'filter' => array(
+    ],
+    'filter' => [
       'handler' => 'views_handler_filter',
-    ),
-  );
+    ],
+  ];
 
-  $data['ding_debt_easy']['payment_id'] = array(
+  $data['ding_debt_easy']['payment_id'] = [
     'title' => t('Payment ID'),
     'help' => t('Payment ID at the gateway.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field',
-    ),
-    'sort' => array(
+    ],
+    'sort' => [
       'handler' => 'views_handler_sort',
-    ),
-    'filter' => array(
+    ],
+    'filter' => [
       'handler' => 'views_handler_filter',
-    ),
-  );
+    ],
+  ];
 
-  $data['ding_debt_easy']['charge_id'] = array(
+  $data['ding_debt_easy']['charge_id'] = [
     'title' => t('Charge ID'),
     'help' => t('Charge ID at the gateway.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field',
-    ),
-    'sort' => array(
+      'click sortable' => TRUE,
+    ],
+    'sort' => [
       'handler' => 'views_handler_sort',
-    ),
-    'filter' => array(
+    ],
+    'filter' => [
       'handler' => 'views_handler_filter',
-    ),
-  );
+    ],
+  ];
 
-  $data['ding_debt_easy']['provider_ids'] = array(
+  $data['ding_debt_easy']['provider_ids'] = [
     'title' => t('Provider IDs'),
     'help' => t('Provider IDs at the provider.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field',
-    ),
-    'sort' => array(
+      'click sortable' => TRUE,
+    ],
+    'sort' => [
       'handler' => 'views_handler_sort',
-    ),
-    'filter' => array(
+    ],
+    'filter' => [
       'handler' => 'views_handler_filter',
-    ),
-  );
+    ],
+  ];
 
-  $data['ding_debt_easy']['amount'] = array(
+  $data['ding_debt_easy']['amount'] = [
     'title' => t('Amount'),
     'help' => t('The payment amount.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field_numeric',
-    ),
-    'sort' => array(
+      'click sortable' => TRUE,
+    ],
+    'sort' => [
       'handler' => 'views_handler_sort',
-    ),
-    'filter' => array(
+    ],
+    'filter' => [
       'handler' => 'views_handler_filter_numeric',
-    ),
-  );
+    ],
+  ];
 
-  $data['ding_debt_easy']['status'] = array(
+  $data['ding_debt_easy']['status'] = [
     'title' => t('Status'),
     'help' => t('The payment status.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field',
-    ),
-    'sort' => array(
+      'click sortable' => TRUE,
+    ],
+    'sort' => [
       'handler' => 'views_handler_sort',
-    ),
-    'filter' => array(
+    ],
+    'filter' => [
       'handler' => 'views_handler_filter_equality',
-    ),
-  );
+    ],
+  ];
 
-  $data['ding_debt_easy']['retries'] = array(
+  $data['ding_debt_easy']['retries'] = [
     'title' => t('Retries'),
     'help' => t('Number of payment retries.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field_numeric',
-    ),
-    'sort' => array(
+      'click sortable' => TRUE,
+    ],
+    'sort' => [
       'handler' => 'views_handler_sort',
-    ),
-    'filter' => array(
+    ],
+    'filter' => [
       'handler' => 'views_handler_filter_numeric',
-    ),
-  );
+    ],
+  ];
 
-  $data['ding_debt_easy']['changed'] = array(
+  $data['ding_debt_easy']['changed'] = [
     'title' => t('Changed date'),
     'help' => t('Last time the record was updated.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field_date',
-    ),
-    'sort' => array(
+      'click sortable' => TRUE,
+    ],
+    'sort' => [
       'handler' => 'views_handler_sort_date',
-    ),
-    'filter' => array(
+    ],
+    'filter' => [
       'handler' => 'views_handler_filter_date',
-    ),
-    'argument' => array(
+    ],
+    'argument' => [
       'handler' => 'views_handler_argument_date',
-    ),
-  );
+    ],
+  ];
+
+  $data['ding_debt_easy']['actions'] = [
+    'title' => t('Actions'),
+    'help' => t('Mark as completed.'),
+    'field' => [
+      'handler' => 'ding_debt_easy_reports_views_handler_field_actions',
+      'click sortable' => FALSE,
+    ],
+  ];
 
   return $data;
 }

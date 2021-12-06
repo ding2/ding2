@@ -210,6 +210,7 @@ function _ding_debt_easy_retry_payments() {
       // Check order status at the provider.
       /** @var \DingProviderDebt[] $fees */
       $fees = ding_provider_invoke('debt', 'list', NULL, TRUE, $order['patron_id'], TRUE);
+      $fees = ding_provider_invoke('debt', 'list', NULL, TRUE, $order['patron_id'], TRUE);
       $chargeable = TRUE;
       foreach ($order['provider_ids'] as $id) {
         if (!isset($fees[$id])) {

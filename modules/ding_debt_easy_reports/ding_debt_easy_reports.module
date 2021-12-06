@@ -21,6 +21,15 @@ function ding_debt_easy_reports_menu() {
     'file' => 'includes/ding_debt_easy_reports.admin.inc',
   );
 
+  $items['admin/config/payment/ding_debt_easy/reports/%/' . DING_DEBT_EASY_STATUS_COMPLETED] = array(
+    'title' => 'Update record status',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'ding_debt_easy_reports_ajax_update_status',
+    'page arguments' => [5, 6],
+    'access arguments' => array('administer easy reports'),
+    'delivery callback' => 'ajax_deliver',
+  );
+
   return $items;
 }
 
@@ -68,6 +77,30 @@ function ding_debt_easy_reports_theme_registry_alter(&$theme_registry) {
  */
 function ding_debt_easy_reports_cron() {
   _ding_debt_easy_reports_cron_mail();
+}
+
+/**
+ * Ajax menu callback use to change status on local order.
+ *
+ * @param string $id
+ *   Order id.
+ * @param string $status
+ *   Status to set.
+ *
+ * @return array
+ *   Ajax command array.
+ */
+function ding_debt_easy_reports_ajax_update_status($id, $status) {
+  _ding_debt_easy_update_status_local($id, $status);
+
+  ctools_include('ajax');
+  $commands = [];
+  $commands[] = ctools_ajax_command_redirect('/admin/config/payment/ding_debt_easy/reports');
+
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  );
 }
 
 /**

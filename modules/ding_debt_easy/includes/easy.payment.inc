@@ -140,7 +140,7 @@ function ding_debt_easy_payment_terms() {
  * @return DingProviderDebt[]
  *   The debts object enriched with pending and failed status.
  */
-function ding_debt_easy_payment_status($debts) {
+function ding_debt_easy_payment_status(array $debts) {
  $patron_id = 0;
   try {
     $credentials = ding_user_get_creds();
@@ -155,7 +155,10 @@ function ding_debt_easy_payment_status($debts) {
       ->fields('e')
       ->condition('provider_ids', '%' . $debt->id . '%', 'LIKE')
       ->condition('patron_id', $patron_id)
-      ->condition('status', [DING_DEBT_EASY_STATUS_PENDING, DING_DEBT_EASY_STATUS_FAILED], 'IN')
+      ->condition('status', [
+        DING_DEBT_EASY_STATUS_PENDING,
+        DING_DEBT_EASY_STATUS_FAILED,
+      ], 'IN')
       ->orderBy('changed', 'DESC')
       ->execute()
       ->fetchAssoc();
