@@ -215,6 +215,7 @@ function _ding_debt_easy_retry_payments() {
         if (!isset($fees[$id])) {
           // The fee is not found at the provider.
           _ding_debt_easy_update_status_local($order['payment_id'], DING_DEBT_EASY_STATUS_FAILED);
+          _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
           $chargeable = FALSE;
           break;
         }

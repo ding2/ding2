@@ -14,8 +14,6 @@ use Nets\Easy\Exception\PaymentException;
  * Generate the payment URL to redirect the user to.
  */
 function ding_debt_easy_payment_get_url($amount, $params, $callback) {
-  global $user;
-
   // Load the library to get classes used to build the checkout.
   _ding_debt_easy_load_library();
 
@@ -131,4 +129,44 @@ function ding_debt_easy_payment_terms() {
   ];
 
   return $form;
+}
+
+/**
+ * Added payment status to provider debts.
+ *
+ * @param \DingProviderDebt[] $debts
+ *   Array of provider debt objects.
+ *
+ * @return DingProviderDebt[]
+ *   The debts object enriched with pending and failed status.
+ */
+function ding_debt_easy_payment_status($debts) {
+ $patron_id = 0;
+  try {
+    $credentials = ding_user_get_creds();
+    $patron_id = empty($credentials['patronId']) ? 0 : $credentials['patronId'];
+  }
+  catch (DingProviderAuthException $exception) {
+    watchdog_exception('ding_debt_easy', $exception, 'Unable to get patron id, payment status is not available');
+  }
+
+  foreach ($debts as &$debt) {
+    $record = db_select('ding_debt_easy', 'e')
+      ->fields('e')
+      ->condition('provider_ids', '%' . $debt->id . '%', 'LIKE')
+      ->condition('patron_id', $patron_id)
+      ->condition('status', [DING_DEBT_EASY_STATUS_PENDING, DING_DEBT_EASY_STATUS_FAILED], 'IN')
+      ->orderBy('changed', 'DESC')
+      ->execute()
+      ->fetchAssoc();
+
+    // To be sure that the "like" statement did not find a sub-string in with
+    // the number, this is an extra check.
+    $ids = explode(';', $record['provider_ids']);
+    if (in_array($debt->id, $ids)) {
+      $debt->setStatus($record['status']);
+    }
+  }
+
+  return $debts;
 }

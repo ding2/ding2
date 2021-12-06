@@ -27,6 +27,11 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
 
   $debts = ding_provider_invoke('debt', 'list', $account);
 
+  // Try to enrich debts with payment processing status information.
+  if (ding_provider_implements('payment', 'status')) {
+    $debts = ding_provider_invoke('payment', 'status', $debts);
+  }
+
   if ($debts) {
     $internal_debts = array_filter($debts, '_ding_debt_filter_payable');
     $external_debts = array_filter($debts, '_ding_debt_filter_nonpayable');
@@ -128,8 +133,12 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     if (variable_get('ding_debt_enable_internal_button', TRUE)) {
       $provider = ding_provider_get_provider_module_name('payment');
       if (!empty($provider)) {
-        $form += ding_provider_invoke('payment', 'cards_supported');
-        $form += ding_provider_invoke('payment', 'terms');
+        if (ding_provider_implements('payment', 'cards_supported')) {
+          $form += ding_provider_invoke('payment', 'cards_supported');
+        }
+        if (ding_provider_implements('payment', 'terms')) {
+          $form += ding_provider_invoke('payment', 'terms');
+        }
 
         $form['accept_terms'] = array(
           '#type' => 'checkbox',
@@ -212,6 +221,19 @@ function ding_debt_list_items($debts) {
       '#disabled' => !$debt->payable,
     );
 
+    if (!is_null($debt->status)) {
+      $s = $debt->status;
+      $item['#information']['status'] = array(
+        'label' => t('Payment status', array(), array('context' => 'ding_debt')),
+        'data' => t($debt->status, array(), array('context' => 'ding_debt')),
+        'class' => 'fee_status',
+        '#weight' => 12,
+      );
+
+      // Disable payment checkbox as this debt is under payment.
+      $item['#disabled'] = 'TRUE';
+    }
+
     // Add material number if available.
     if (isset($debt->material_number)) {
       $item['#information']['material-number'] = array(
@@ -236,6 +258,12 @@ function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
   $amount = 0;
   $debts = $form_state['values']['debt_data'];
   foreach ($debts as $debt_id => $debt_data) {
+    // Remove payments that are not payable, do to having a gateway payment
+    // status.
+    if (!is_null($debt_data->status)) {
+      unset($debts[$debt_id]);
+    }
+
     $amount += $form_state['values']['debt_data'][$debt_id]->amount;
     $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
   }

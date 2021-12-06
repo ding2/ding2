@@ -66,6 +66,11 @@ class DingProviderDebt extends DingEntityBase {
   protected $payable = DingEntityBase::NULL;
 
   /**
+   * The current payment status from the payment gateway.
+   */
+  protected $status = DingEntityBase::NULL;
+
+  /**
    * Default constructor for this class.
    *
    * @param string $id
@@ -91,8 +96,22 @@ class DingProviderDebt extends DingEntityBase {
       'type',
       'note',
       'material_type',
+      'status',
     );
     $this->_populate($properties, $data);
+  }
+
+  /**
+   * Set status payment status from the gateway.
+   *
+   * Status have it own function here as it's an enrichment of the object not
+   * available when crating the object.
+   *
+   * @param string $status
+   *   Status string.
+   */
+  public function setStatus($status) {
+    $this->properties['status'] = $status;
   }
 
   /**

@@ -115,6 +115,20 @@ function ding_debt_easy_views_data() {
     ),
   );
 
+  $data['ding_debt_easy']['retries'] = array(
+    'title' => t('Retries'),
+    'help' => t('Number of payment retries.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric',
+    ),
+  );
+
   $data['ding_debt_easy']['changed'] = array(
     'title' => t('Changed date'),
     'help' => t('Last time the record was updated.'),

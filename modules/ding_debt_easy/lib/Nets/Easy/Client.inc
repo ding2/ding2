@@ -202,7 +202,7 @@ class Client {
     if (400 === $code) {
       if (!empty($response['errors'])) {
         foreach ($response['errors'] as $property => $message) {
-          throw new PaymentException($property . ' - ' . $message, $code);
+          throw new PaymentException($property . ' - ' . reset($message), $code);
         }
       }
       if (!empty($response['message'])) {
