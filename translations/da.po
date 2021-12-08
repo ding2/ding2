@@ -68084,3 +68084,11 @@ msgstr "Bestiller artikel, vent venligst. Det kan tage nogle sekunder."
 #: /system/ajax
 msgid "Your order have been placed."
 msgstr "Artiklen er bestilt"
+
+#: /das/870971-tsart:80640722/order?
+msgid "Not resident in the municipality"
+msgstr "Ikke bosat i kommunen"
+
+#: /das/870971-tsart:80640722/order?
+msgid "Only residents in the municipality are allowed to order digital copies."
+msgstr "Du skal have adresse i kommunen for at bestille digitale kopier"
