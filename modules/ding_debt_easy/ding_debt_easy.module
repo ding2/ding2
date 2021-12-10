@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Integration with nets easy payment.
+ * Integration with Nets Easy payment.
  */
 
 use Nets\Easy\Client;
@@ -30,8 +30,8 @@ function ding_debt_easy_menu() {
   $items = [];
 
   $items['admin/config/payment/ding_debt_easy'] = array(
-    'title' => 'Nets easy payment settings',
-    'description' => 'Configure Nets easy payment gateway.',
+    'title' => 'Nets Easy payment settings',
+    'description' => 'Configure Nets Easy payment gateway.',
     'page callback' => 'drupal_get_form',
     'page arguments' => ['ding_debt_easy_admin_settings_form'],
     'access arguments' => ['administer easy settings'],
@@ -98,7 +98,7 @@ function ding_debt_easy_permission() {
   return array(
     'administer easy settings' => array(
       'title' => t('Administer ding dept easy module'),
-      'description' => t('Change Nets easy integration settings.'),
+      'description' => t('Change Nets Easy integration settings.'),
     ),
     'administer easy reports' => array(
       'title' => t('Administer payment reports'),
@@ -165,7 +165,7 @@ function ding_debt_easy_cron() {
 }
 
 /**
- * Wipe old local payments records base on configuration.
+ * Wipe old local payment records base on configuration.
  */
 function _ding_debt_easy_wipe() {
   $interval = _ding_debt_easy_get_wipe_interval();
@@ -237,7 +237,7 @@ function _ding_debt_easy_retry_payments() {
       }
 
       if ($chargeable) {
-        // All have been marked as paid, try charge the gateway if not already
+        // All has been marked as paid, try charge the gateway if not already
         // charged.
         $client = _ding_debt_easy_get_client();
         $data = $client->fetchPayment($order['payment_id']);
@@ -251,7 +251,7 @@ function _ding_debt_easy_retry_payments() {
             _ding_debt_easy_remove_personal_info($order['payment_id']);
           }
           catch (Exception $exception) {
-            // Something when wrong, make order for later retry.
+            // Something went wrong, make order for later retry.
             _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
           }
         }
@@ -289,7 +289,7 @@ function _ding_debt_easy_pages_access_callback($type) {
 /**
  * The currencies available at the payment gateway.
  *
- * Sadly there is not end-point to fetches these. So it's created based on
+ * Sadly there is no endpoint to fetches these. So it's created based on
  * https://nets-devs.isotop.se/nets-easy/en-EU/api/#currency-and-amount.
  *
  * @return string[]
@@ -471,12 +471,12 @@ function ding_debt_easy_get_payment_types($with_logos = TRUE) {
  * Get basic API configuration.
  *
  * @return array
- *   The API end-point to use and the keys needed to communication with the
- *   end-point.
+ *   The API endpoint to use and the keys needed to communication with the
+ *   endpoint.
  */
 function ding_debt_easy_get_api_config() {
   $endpoints = variable_get('ding_debt_easy_api_endpoints', [
-    // Default to testing end-point.
+    // Default to testing endpoint.
     'type' => TRUE,
     'prod' => 'https://api.dibspayment.eu/',
     'test' => 'https://test.api.dibspayment.eu/',
@@ -490,7 +490,8 @@ function ding_debt_easy_get_api_config() {
 /**
  * Get list of card supports by Net easy.
  *
- * Note the invoice methods have be removed.
+ * Note: the invoice methods has been removed as the libraries don't support
+ *       these payments methods.
  *
  * @return string[]
  *   List of supported cards as keys linked to logos.
@@ -527,8 +528,8 @@ function _ding_debt_easy_callback() {
   $params = drupal_get_query_parameters();
 
   if (empty($params['paymentid'])) {
-    watchdog('ding_debt_easy', 'The payment callback have been called without an payment id.');
-    drupal_set_message(t('Something unexpected happen. Please try again or contact the library.'));
+    watchdog('ding_debt_easy', 'The payment callback has been called without a payment id.');
+    drupal_set_message(t('Something unexpected happened. Please try again or contact the library.'));
     drupal_goto(DING_DEBT_USER_DEBT_PAGE);
   }
   $payment_id = $params['paymentid'];
@@ -559,7 +560,7 @@ function _ding_debt_easy_callback() {
     $data = $client->fetchPayment($payment_id);
   }
   catch (PaymentException $exception) {
-    watchdog_exception('ding_debt_easy', $exception, 'Unable process payment as the order it was not found at Nets (Order ID: %order_id)', [
+    watchdog_exception('ding_debt_easy', $exception, 'Unable to process payment as the order was not found at Nets (Order ID: %order_id)', [
       '%order_id' => $local_record['order_id'],
     ]);
     drupal_set_message(t('Unable process payment as the order (%order_id) was not found at the gateway. Please contact the library with the order id.', [
@@ -573,15 +574,15 @@ function _ding_debt_easy_callback() {
     watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
       '%order_id' => $local_record['order_id'],
     ]);
-    drupal_set_message(t('Unable process payment as there was a communication error. We will try automatically later with order id: %order_id.', [
+    drupal_set_message(t('Unable to process payment as there was a communication error. We will try automatically later with order id: %order_id.', [
       '%order_id' => $local_record['order_id'],
     ]));
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
     drupal_goto(DING_DEBT_USER_DEBT_PAGE);
   }
 
-  // Mark the order as paid at the provider, which only return true/false. So
-  // not most we can do in regrades to what when wrong.
+  // Mark the order as paid at the provider, which only return true/false. It's
+  // the most we can do in regard to what went wrong.
   $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $local_record['order_id']);
 
   if ($status) {
@@ -596,18 +597,18 @@ function _ding_debt_easy_callback() {
       watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
         '%order_id' => $local_record['order_id'],
       ]);
-      drupal_set_message(t('There is a communication problem with the gateway. The amount have been reserved but not charged at the gateway yet.'));
+      drupal_set_message(t('There is a communication problem with the gateway. The amount has been reserved but not charged at the gateway yet.'));
 
-      // As the amount have not been charged. The local order will be set to pending for retry via cron.
+      // As the amount has not been charged. The local order will be set to pending for retry via cron.
       _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
     }
     catch (PaymentException $exception) {
       watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
         '%order_id' => $local_record['order_id'],
       ]);
-      drupal_set_message(t('The amount have been reserved but not charged at the gateway yet. It will automatically be charged later if possible.'));
+      drupal_set_message(t('The amount has been reserved but not charged at the gateway yet. It will automatically be charged later if possible.'));
 
-      // As the amount have not been charged. The local order will be set to
+      // As the amount has not been charged. The local order will be set to
       // pending for retry via cron.
       _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
     }
@@ -623,9 +624,9 @@ function _ding_debt_easy_callback() {
     watchdog('ding_debt_easy', 'There is a communication problem with the provider (Order ID: %order_id)', [
       '%order_id' => $local_record['order_id'],
     ]);
-    drupal_set_message(t('The amount have been reserved but not charged at the gateway yet. It will automatically be charged later if possible.'));
+    drupal_set_message(t('The amount has been reserved but not charged at the gateway yet. It will automatically be charged later if possible.'));
 
-    // As the amount have not been marked as paid at the provider. The local
+    // As the amount has not been marked as paid at the provider. The local
     // order will be set to pending for retry via cron.
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
   }
@@ -679,7 +680,7 @@ function _ding_debt_easy_get_payment_local($id) {
 /**
  * Get internal order id.
  *
- * Creates internal database record and base on that the unique order id.
+ * Creates internal database record and based on that the unique order id.
  *
  * @param int $patron_id
  *   The user id at the provider. Use later for pending payment retries.
@@ -705,7 +706,7 @@ function _ding_debt_easy_get_order_id_local($patron_id, $provider_ids, $amount) 
     ])
     ->execute();
 
-  // Generate the order id (base on the row id) and update record with the new
+  // Generate the order id (based on the row id) and update record with the new
   // order id.
   $order_id = _ding_debt_easy_generate_order_id($id);
   db_update('ding_debt_easy')
@@ -768,12 +769,12 @@ function _ding_debt_easy_update_retries_local($payment_id, $current) {
 /**
  * Generate order id with the format NEXX-XXXX-XXX.
  *
- * We need a local order id to send to Nets and used in reports and display to
+ * We need a local order id to send to Nets and to use in reports and display to
  * end user. It should be human-readable and easy to use.
  *
- * It's build base on the local record id prefixed with NE (Nets Easy) and the
- * current year. Dash is add to the every 4 char in the number to make it more
- * readable and memorable. Also, the NE prefix it to make it standout from the
+ * It's built based on the local record id prefixed with NE (Nets Easy) and the
+ * current year. Dash is added to every 4 char in the number to make it more
+ * readable and memorable. The NE prefix is also added to make it stand out from
  * FBS order ids that exists for every order item.
  *
  * @param int $row_id
@@ -862,7 +863,7 @@ function _ding_debt_easy_remove_personal_info($id) {
 }
 
 /**
- * Get client to communicate with Nets easy gateway.
+ * Get client to communicate with Nets Easy gateway.
  *
  * @return \Nets\Easy\Client
  *   The client.

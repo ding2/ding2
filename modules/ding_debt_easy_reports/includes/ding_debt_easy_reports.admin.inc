@@ -96,7 +96,7 @@ function ding_debt_easy_reports_admin_mails_settings_form($form, &$form_state) {
   $form['ding_debt_easy_reports_mail_test'] = [
     '#type' => 'fieldset',
     '#title' => t('Test mail'),
-    '#description' => t('Try sending test mail. If you have change anything in the above form, submit the form first or the changes will not be used in the mail.'),
+    '#description' => t('Try sending test mail. If you have changed anything in the above form, submit the form first or the changes will not be used in the mail.'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   ];
@@ -120,7 +120,7 @@ function ding_debt_easy_reports_admin_mails_settings_form($form, &$form_state) {
 /**
  * Implements hook_form_validate().
  *
- * Validate that the mail-addresses enter is mail addresses.
+ * Validate that the mail-addresses entered is mail addresses.
  */
 function ding_debt_easy_reports_admin_mails_settings_form_validate(&$form, &$form_state) {
   $values = $form_state['values'];

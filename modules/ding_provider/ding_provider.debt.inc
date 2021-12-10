@@ -104,8 +104,9 @@ class DingProviderDebt extends DingEntityBase {
   /**
    * Set status payment status from the gateway.
    *
-   * Status have it own function here as it's an enrichment of the object not
-   * available when crating the object.
+   * Status has it own setter function here as it's an enrichment of the object.
+   * And this object is prevented from be altered after creation. So this is a
+   * workaround.
    *
    * @param string $status
    *   Status string.

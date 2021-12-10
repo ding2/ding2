@@ -62,7 +62,7 @@ function ding_debt_easy_schema() {
         'not null' => FALSE,
       ],
       'retries' => [
-        'description' => 'Number of times this payment have been retried.',
+        'description' => 'Number of times this payment has been retried.',
         'type' => 'int',
         'not null' => FALSE,
         'default' => 0,

@@ -16,7 +16,7 @@ function ding_debt_easy_terms_page() {
 
   $config = variable_get('ding_debt_easy_terms', []);
   if (empty($config['text']['value'])) {
-    $output .= 'Please configure the Nets easy integration module. If you excepted content on this page.';
+    $output .= 'Please configure the Nets Easy integration module. If you excepted content on this page.';
   }
   else {
     $output .= check_markup($config['text']['value'], $config['text']['format']);
@@ -36,7 +36,7 @@ function ding_debt_easy_privacy_page() {
 
   $config = variable_get('ding_debt_easy_privacy', []);
   if (empty($config['text']['value'])) {
-    $output .= 'Please configure the Nets easy integration module. If you excepted content on this page.';
+    $output .= 'Please configure the Nets Easy integration module. If you excepted content on this page.';
   }
   else {
     $output .= check_markup($config['text']['value'], $config['text']['format']);

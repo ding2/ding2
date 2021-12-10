@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code for the Ding debt easy reports feature.
+ * Code for the Ding debt Nets Easy reports feature.
  */
 
 include_once 'ding_debt_easy_reports.features.inc';
@@ -80,7 +80,7 @@ function ding_debt_easy_reports_cron() {
 }
 
 /**
- * Ajax menu callback use to change status on local order.
+ * Ajax menu callback used to change status on local order.
  *
  * @param string $id
  *   Order id.
@@ -116,7 +116,7 @@ function _ding_debt_easy_reports_cron_mail() {
 
   // Check if hour/min is correct in relation to config for last run.
   if ($last_run->format('H') !== $config['cron']['hour'] || $last_run->format('i') !== $config['cron']['minute']) {
-    // Either this is the first run or the configured time have been changed.
+    // Either this is the first run or the configured time has been changed.
     $last_run = $last_run->setTime($config['cron']['hour'], $config['cron']['minute']);
   }
 

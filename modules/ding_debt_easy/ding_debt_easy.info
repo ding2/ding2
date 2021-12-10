@@ -1,5 +1,5 @@
 name = Ding debt easy
-description = Integration with Nets easy payment gateway
+description = Integration with Nets Easy payment gateway
 package = Ding!
 core = 7.x
 dependencies[] = ding_base

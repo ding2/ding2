@@ -6,7 +6,7 @@ use Nets\Easy\Exception\PaymentCommunicationException;
 use Nets\Easy\Exception\PaymentException;
 
 /**
- * Client to send request to the payment gateway Nets easy.
+ * Client to send request to the payment gateway at Nets Easy.
  */
 class Client {
   private $secretKey;
@@ -69,7 +69,7 @@ class Client {
   }
 
   /**
-   * Fetch information about at payment at the gateway.
+   * Fetch information about a payment at the gateway.
    *
    * @param string $paymentId
    *   ID of the payment to fetch.

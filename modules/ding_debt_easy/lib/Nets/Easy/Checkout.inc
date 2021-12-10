@@ -3,7 +3,7 @@
 namespace Nets\Easy;
 
 /**
- * Representation of nets easy order.
+ * Representation of Nets Easy order.
  */
 class Checkout {
   private $integrationType;
@@ -179,7 +179,7 @@ class Checkout {
         // We need to only reserve the payment. The charging will be done after
         // provider has accepted API call.
         'charge' => FALSE,
-        // Limit data stored in the browser at nets: the checkout will not
+        // Limit data stored in the browser at Nets: the checkout will not
         // remember the current consumer on this device.
         'publicDevice' => TRUE,
         // 'url' => 'ONLY WITH Embedded checkout to load order from'

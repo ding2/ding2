@@ -1,5 +1,5 @@
-name = Ding debt easy reports
-description = Payment reports for easy payments
+name = Ding debt Easy reports
+description = Payment reports for Nets Easy payments
 core = 7.x
 package = Ding!
 dependencies[] = ding_debt_easy

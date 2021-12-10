@@ -134,7 +134,7 @@ class OrderItem {
   }
 
   /**
-   * Get the total amount base on unit and unit price.
+   * Get the total amount based on unit and unit price.
    *
    * @return float|int
    *   The total amount for this item.

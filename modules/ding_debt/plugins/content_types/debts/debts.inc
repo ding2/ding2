@@ -259,7 +259,8 @@ function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
   $debts = $form_state['values']['debt_data'];
   foreach ($debts as $debt_id => $debt_data) {
     // Remove payments that are not payable, do to having a gateway payment
-    // status.
+    // status. If they have a status they are already being processed and should
+    // not be part of a new payment.
     if (!is_null($debt_data->status)) {
       unset($debts[$debt_id]);
     }

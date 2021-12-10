@@ -75,7 +75,7 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     return 'DING_DEBT_USER_DEBT_PAGE';
   }
   catch (PaymentException $exception) {
-    watchdog_exception('ding_debt_easy', $exception, 'There is an problem with creating the payment for order %order_id', [
+    watchdog_exception('ding_debt_easy', $exception, 'There is a problem with creating the payment for order %order_id', [
       '%order_id' => $order_id,
     ]);
     drupal_set_message(t('There is an error with the payment gateway. Please try again later or contact the library with order ID: %order_id', [
