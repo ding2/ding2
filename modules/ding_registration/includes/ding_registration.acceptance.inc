@@ -115,12 +115,22 @@ function ding_registration_acceptance_form_submit($form, $form_state) {
 
   // Try to create the user at the provider.
   try {
-    // Create user as the provider.
-    ding_provider_invoke('user', 'create', $user_info['attributes']['userId'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
+    $redirect_to = NULL;
+    try {
+      // Create user at the provider.
+      ding_provider_invoke('user', 'create', $user_info['attributes']['userId'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
+      $redirect_to = DING_REGISTRATION_SUCCESS_URL;
+    }
+    catch (DingProviderUserExistsError $e) {
+      // If they exists, just carry on trying logging them in, but redirect to
+      // user edit.
+      drupal_set_message(t('You already have an account, so you have been logged in. Please check your profile information, and update your pincode.'));
+      $redirect_to = 'user/me/edit';
+    }
 
     // Set redirect and try logging in the user.
     if (_ding_adgangsplatformen_provider_login($user_info)) {
-      _ding_adgangsplatformen_redirect_user(DING_REGISTRATION_SUCCESS_URL);
+      _ding_adgangsplatformen_redirect_user($redirect_to);
     }
     else {
       ding_adgangsplatformen_logout();
