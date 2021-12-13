@@ -11,9 +11,11 @@
  * Administrative form used to configure the module.
  */
 function ding_debt_easy_admin_settings_form($form, &$form_state) {
+  $path = drupal_get_path('module', 'ding_debt_easy');
+
   $form['ding_debt_easy'] = [];
   $form['#attached']['css'] = array(
-    drupal_get_path('module', 'ding_debt_easy') . '/css/ding_debt_easy.admin.css',
+    $path . '/css/ding_debt_easy.admin.css',
   );
 
   $default_keys = variable_get('ding_debt_easy_keys', [
@@ -170,9 +172,10 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#default_value' => _ding_debt_easy_get_wipe_interval(),
   ];
 
+  $terms_text = file_get_contents($path . '/defaults/betalingsbetingelser.html');
   $default_terms = variable_get('ding_debt_easy_terms', [
     'text' => [
-      'value' => '',
+      'value' => $terms_text,
       'format' => 'ding_wysiwyg',
     ],
     'url' => '',
@@ -206,9 +209,10 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#rows' => 15,
   ];
 
+  $privacy_text = file_get_contents($path . '/defaults/privatlivsvilkaar.html');
   $default_privacy = variable_get('ding_debt_easy_privacy', [
     'text' => [
-      'value' => '',
+      'value' => $privacy_text,
       'format' => 'ding_wysiwyg',
     ],
     'url' => '',

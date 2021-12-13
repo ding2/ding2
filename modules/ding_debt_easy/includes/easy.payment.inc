@@ -134,6 +134,44 @@ function ding_debt_easy_payment_terms() {
 }
 
 /**
+ * Generate buttons to submit debts form.
+ */
+function ding_debt_easy_payment_buttons() {
+  $form = [];
+
+  $form['internal_buttons'] = [
+    '#type' => 'container',
+    '#attributes' => [
+      'class' => ['pay-buttons'],
+    ],
+    '#tree' => FALSE,
+  ];
+
+  $form['internal_buttons']['pay_selected'] = [
+    '#type' => 'submit',
+    '#prefix' => '<div class="pay-button">',
+    '#value' => t('Pay selected debts'),
+    '#suffix' => '</div>',
+    '#submit' => ['ding_debt_debts_form_submit_pay_selected'],
+    '#states' => [
+      'disabled' => [
+        '#ding-debt-debts-form .form-type-checkbox input' => ['checked' => FALSE],
+      ],
+    ],
+  ];
+
+  $form['internal_buttons']['pay_all'] = [
+    '#type' => 'submit',
+    '#prefix' => '<div class="pay-button">',
+    '#value' => t('Pay all debts'),
+    '#suffix' => '</div>',
+    '#submit' => ['ding_debt_debts_form_submit_pay_all'],
+  ];
+
+  return $form;
+}
+
+/**
  * Added payment status to provider debts.
  *
  * @param \DingProviderDebt[] $debts

@@ -139,46 +139,9 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
         if (ding_provider_implements('payment', 'terms')) {
           $form += ding_provider_invoke('payment', 'terms');
         }
-
-        $form['accept_terms'] = array(
-          '#type' => 'checkbox',
-          '#title' => t('I accept the terms of service'),
-          '#required' => TRUE,
-        );
-
-        $form['internal_buttons'] = [
-          '#type' => 'container',
-          '#attributes' => [
-            'class' => ['pay-buttons'],
-          ],
-          '#tree' => FALSE,
-        ];
-
-        $form['internal_buttons']['pay_selected'] = array(
-          '#type' => 'submit',
-          '#prefix' => '<div class="pay-button">',
-          '#value' => t('Pay selected debts'),
-          '#suffix' => '</div>',
-          '#submit' => array('ding_debt_debts_form_submit_pay_selected'),
-          '#states' => array(
-            'disabled' => array(
-              ':input[name="accept_terms"]' => array('checked' => FALSE),
-            ),
-          ),
-        );
-
-        $form['internal_buttons']['pay_all'] = array(
-          '#type' => 'submit',
-          '#prefix' => '<div class="pay-button">',
-          '#value' => t('Pay all debts'),
-          '#suffix' => '</div>',
-          '#submit' => array('ding_debt_debts_form_submit_pay_all'),
-          '#states' => array(
-            'disabled' => array(
-              ':input[name="accept_terms"]' => array('checked' => FALSE),
-            ),
-          ),
-        );
+        if (ding_provider_implements('payment', 'buttons')) {
+          $form += ding_provider_invoke('payment', 'buttons');
+        }
       }
     }
   }
@@ -222,7 +185,6 @@ function ding_debt_list_items($debts) {
     );
 
     if (!is_null($debt->status)) {
-      $s = $debt->status;
       $item['#information']['status'] = array(
         'label' => t('Payment status', array(), array('context' => 'ding_debt')),
         'data' => t($debt->status, array(), array('context' => 'ding_debt')),

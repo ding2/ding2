@@ -59,3 +59,52 @@ function ding_dibs_payment_terms() {
 
   return $form;
 }
+
+/**
+ * Generate buttons to submit debts form.
+ */
+function ding_dibs_payment_buttons() {
+  $form = [];
+
+  $form['accept_terms'] = [
+    '#type' => 'checkbox',
+    '#title' => t('I accept the terms of service'),
+    '#required' => TRUE,
+  ];
+
+  $form['internal_buttons'] = [
+    '#type' => 'container',
+    '#attributes' => [
+      'class' => ['pay-buttons'],
+    ],
+    '#tree' => FALSE,
+  ];
+
+  $form['internal_buttons']['pay_selected'] = [
+    '#type' => 'submit',
+    '#prefix' => '<div class="pay-button">',
+    '#value' => t('Pay selected debts'),
+    '#suffix' => '</div>',
+    '#submit' => ['ding_debt_debts_form_submit_pay_selected'],
+    '#states' => [
+      'disabled' => [
+        ':input[name="accept_terms"]' => ['checked' => FALSE],
+      ],
+    ],
+  ];
+
+  $form['internal_buttons']['pay_all'] = [
+    '#type' => 'submit',
+    '#prefix' => '<div class="pay-button">',
+    '#value' => t('Pay all debts'),
+    '#suffix' => '</div>',
+    '#submit' => ['ding_debt_debts_form_submit_pay_all'],
+    '#states' => [
+      'disabled' => [
+        ':input[name="accept_terms"]' => ['checked' => FALSE],
+      ],
+    ],
+  ];
+
+  return $form;
+}
