@@ -75,7 +75,7 @@ function ding_debt_easy_schema() {
       ],
     ],
     'indexes' => [
-      'id_index' => ['payment_id', 'provider_id'],
+      'id_index' => ['payment_id', 'provider_ids', 'order_id'],
     ],
     'primary key' => ['id'],
   ];
