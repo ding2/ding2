@@ -29,7 +29,7 @@ function ding_debt_easy_schema() {
         'description' => 'Internal CMS order id.',
         'type' => 'varchar',
         'length' => 255,
-        'not null' => TRUE,
+        'not null' => FALSE,
       ],
       'payment_id' => [
         'description' => 'Id of the payment at the gateway.',
