@@ -9,7 +9,8 @@ commands:
       - run:
           name: Add global Composer binaries to path
           command: |
-            echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
+            composer global config bin-dir ~/.composer/vendor/bin
+            echo 'export PATH=~/.composer/vendor/bin:$PATH' >> $BASH_ENV
             source $BASH_ENV
 
   install_drush:
