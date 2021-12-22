@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 jobs:
   drush_make:
@@ -330,7 +330,7 @@ jobs:
     - run:
         name: Build Docker database image
         command: |
-          docker build -t mysql . -f-<<EOF
+          docker build -t mysql . -f-\<<EOF
           FROM mysql:5.7.23
           COPY db.sql /docker-entrypoint-initdb.d/db.sql
           EOF
