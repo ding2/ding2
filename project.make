@@ -371,7 +371,7 @@ projects[role_delegation][subdir] = "contrib"
 projects[role_delegation][version] = "1.1"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.7"
+projects[rules][version] = "2.11"
 
 projects[samesite_cookie][subdir] = "contrib"
 projects[samesite_cookie][version] = "1.0-rc1"
@@ -446,7 +446,7 @@ projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.23"
+projects[views][version] = "3.25"
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.1"
