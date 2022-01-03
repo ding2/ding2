@@ -1,0 +1,44 @@
+From 9cb93730bb7ee69f0de0579bff07e01b7834002e Mon Sep 17 00:00:00 2001
+From: Kasper Garnaes <kasper.garnaes@gmail.com>
+Date: Mon, 3 Jan 2022 13:14:22 +0100
+Subject: [PATCH] Issue #1862710 by alexweber: Fixed PHP notice for entities
+ without a base table.
+
+---
+ flag.inc                | 5 +++++
+ includes/flag.views.inc | 4 ++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/flag.inc b/flag.inc
+index e63124a..7255317 100644
+--- a/flag.inc
++++ b/flag.inc
+@@ -1462,6 +1462,11 @@ class flag_entity extends flag_flag {
+    */
+   function get_views_info() {
+     $entity_info = entity_get_info($this->content_type);
++
++    if (!isset($entity_info['base table'])) {
++      return NULL;
++    }
++
+     return array(
+       'views table' => $entity_info['base table'],
+       'join field' => $entity_info['entity keys']['id'],
+diff --git a/includes/flag.views.inc b/includes/flag.views.inc
+index b149764..b7094c4 100644
+--- a/includes/flag.views.inc
++++ b/includes/flag.views.inc
+@@ -159,6 +159,10 @@ function flag_views_data_alter(&$data) {
+     $flag = flag_flag::factory_by_content_type($flag_type);
+     $info = $flag->get_views_info();
+
++    if (!isset($info)) {
++      continue;
++    }
++
+     if (!empty($info['join field'])) {
+       // Add the flag relationship.
+       $data[$info['views table']]['flag_content_rel'] = array(
+--
+2.33.0+GitX

@@ -135,6 +135,9 @@ projects[file_entity][version] = "2.0-beta3"
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "2.2"
+; Prevent PHP notices when using 7.4. It can be removed when upgrade to Flag 3.x
+; or newer.
+projects[flag][patch][] = "patches/flag-fix-entities-no-base-table-notice-1862710-2.x.patch"
 
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
