@@ -50,6 +50,8 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/deprecating_php
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-uniform-variable-syntax-2635876-6.patch"
 ; Check for jQuery differences regarding prop() vs attr().
 projects[ctools][patch][] = "https://git.drupalcode.org/project/ctools/commit/18385421a277097d8a92672808f656cc7470b69d.patch"
+; Avoid PHP 7.4 warnings
+projects[ctools][patch][] = "https://git.drupalcode.org/project/ctools/-/commit/5d711f5.patch"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
