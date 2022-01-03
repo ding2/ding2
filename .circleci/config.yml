@@ -109,7 +109,7 @@ jobs:
         name: Configure PHP for Drupal
         command: |
           sudo apt-get update
-          sudo apt install -y libpng-dev mysql-client
+          sudo apt install -y libpng-dev mariadb-client
           sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 $PHP_INI_DIR/conf.d
           echo "memory_limit = 512M" >> $PHP_INI_DIR/conf.d/docker-php-drupal.ini
@@ -153,7 +153,7 @@ jobs:
         name: Configure PHP for Drupal
         command: |
           sudo apt-get update
-          sudo apt install -y libpng-dev mysql-client
+          sudo apt install -y libpng-dev mariadb-client
           sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 $PHP_INI_DIR/conf.d
           echo "memory_limit = 512M" >> $PHP_INI_DIR/conf.d/docker-php-drupal.ini
@@ -197,7 +197,7 @@ jobs:
         name: Configure PHP for Drupal
         command: |
           sudo apt-get update
-          sudo apt install -y libpng-dev mysql-client
+          sudo apt install -y libpng-dev mariadb-client
           sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 $PHP_INI_DIR/conf.d
           echo "memory_limit = 512M" >> $PHP_INI_DIR/conf.d/docker-php-drupal.ini
