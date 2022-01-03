@@ -11,7 +11,7 @@ projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc6"
 
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.7"
+projects[admin_views][version] = "1.8"
 
 projects[antibot][subdir] = "contrib"
 projects[antibot][version] = "1.2"
@@ -111,7 +111,7 @@ projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.10"
+projects[features][version] = "2.11"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
