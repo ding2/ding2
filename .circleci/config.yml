@@ -24,7 +24,7 @@ commands:
 jobs:
   drush_make:
     docker:
-      - image: circleci/php:7.0-cli
+      - image: circleci/php:7.4-cli
     steps:
     - checkout
     - install_drush
@@ -99,7 +99,7 @@ jobs:
 
   site_install:
     docker:
-    - image: circleci/php:7.0-cli
+    - image: circleci/php:7.4-cli
     - image: circleci/mysql:5.7.20-ram
     working_directory: ~/drupal
     steps:
@@ -142,7 +142,7 @@ jobs:
 
   unit_tests:
     docker:
-    - image: circleci/php:7.0-cli
+    - image: circleci/php:7.4-cli
     - image: circleci/mysql:5.7.20-ram
     working_directory: ~/drupal
     steps:
@@ -184,7 +184,7 @@ jobs:
 
   behat_tests:
     docker:
-    - image: circleci/php:7.0-apache
+    - image: circleci/php:7.4-apache
     - image: circleci/mysql:5.7.20-ram
     - image: justinribeiro/chrome-headless:stable
     working_directory: ~/drupal
