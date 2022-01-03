@@ -511,7 +511,7 @@ projects[ask_vopros][download][url] = "https://github.com/vopros-dk/ask_vopros.g
 projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
-projects[xautoload][version] = "5.7"
+projects[xautoload][version] = "5.8"
 
 ; Libraries
 ; For ding_libs.
