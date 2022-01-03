@@ -19,7 +19,7 @@ commands:
         - run:
             name: Install Drush
             command: |
-              composer global require drush/drush:6.* --prefer-source --no-interaction
+              composer global require drush/drush:8.* --prefer-source --no-interaction
 
 jobs:
   drush_make:
