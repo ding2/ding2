@@ -545,7 +545,7 @@ libraries[oauth2-client][destination] = "libraries"
 ; For ding_libs.
 libraries[guzzle][download][type] = "git"
 libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
-libraries[guzzle][download][tag] = "6.2.2"
+libraries[guzzle][download][tag] = "6.3.3"
 libraries[guzzle][destination] = "libraries"
 
 ; For ding_libs.
