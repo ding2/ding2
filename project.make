@@ -91,9 +91,13 @@ projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.9"
 
 projects[entitycache][subdir] = "contrib"
-projects[entitycache][version] = "1.2"
+projects[entitycache][version] = "1.5"
 ; https://drupal.org/node/2146543, profile 2 blank fields.
-projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
+projects[entitycache][patch][] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
+; Avoid notice "array_flip(): Can only flip STRING and INTEGER values"
+projects[entitycache][patch][] = "https://www.drupal.org/files/issues/2020-03-12/2516094-1-entitycache_fix_arry_flip.patch"
+; Fix upgrade path from version 1.2
+projects[entitycache][patch][] = "https://git.drupalcode.org/project/entitycache/-/commit/b9b9865.patch"
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
