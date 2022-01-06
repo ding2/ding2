@@ -1024,9 +1024,9 @@ class SearchPage extends PageBase
             return "Go to page error. Could not find the requested page " . $toPage . " in pagination.";
         }
         // Now let's go to that page.
-        $this->scrollTo($paginations[$link]);
-        $paginations[$link]->click();
-        $this->waitForPage();
+        $this->getDriver()->visit(
+          $this->makePathAbsolute($paginations[$link]->getAttribute('href'), $this->getSession()->getCurrentUrl())
+        );
         return "";
     }
 
