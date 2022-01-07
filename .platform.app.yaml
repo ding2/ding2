@@ -7,7 +7,7 @@
 name: 'app'
 
 # The runtime the application uses.
-type: 'php:7.0'
+type: 'php:7.4'
 
 runtime:
   extensions:
@@ -24,7 +24,7 @@ build:
 # The build-time dependencies of the app.
 dependencies:
   php:
-    "drush/drush": "^6.1"
+    "drush/drush": "^8.4.8"
 
 # The relationships of the application with services or other applications.
 #
