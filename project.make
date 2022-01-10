@@ -375,8 +375,6 @@ projects[rules][version] = "2.7"
 
 projects[samesite_cookie][subdir] = "contrib"
 projects[samesite_cookie][version] = "1.0-rc1"
-; Fix hook_boot invocation order for compatability with variable_realm
-projects[samesite_cookie][patch][] = "https://www.drupal.org/files/issues/2022-01-06/samesite_cookie-fix-hook-boot-order-3257266-2.patch"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
