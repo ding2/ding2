@@ -90,11 +90,15 @@ function ding_debt_easy_views_data() {
     ],
   ];
 
+  // The amount should not be numeric as features has an issue with the
+  // separator value when set to "none". So it fald back to "," as separator
+  // which make ever value over 1000 to 1,000 with then aging is divide with 100
+  // to make into kr. which the endes up being 0.01 and not 10.00 as expected.
   $data['ding_debt_easy']['amount'] = [
     'title' => t('Amount'),
     'help' => t('The payment amount.'),
     'field' => [
-      'handler' => 'views_handler_field_numeric',
+      'handler' => 'views_handler_field',
       'click sortable' => TRUE,
     ],
     'sort' => [
