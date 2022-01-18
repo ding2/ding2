@@ -210,7 +210,6 @@ function _ding_debt_easy_retry_payments() {
       // Check order status at the provider.
       /** @var \DingProviderDebt[] $fees */
       $fees = ding_provider_invoke('debt', 'list', NULL, TRUE, $order['patron_id'], TRUE);
-      $fees = ding_provider_invoke('debt', 'list', NULL, TRUE, $order['patron_id'], TRUE);
       $chargeable = TRUE;
       foreach ($order['provider_ids'] as $id) {
         if (!isset($fees[$id])) {
@@ -261,6 +260,10 @@ function _ding_debt_easy_retry_payments() {
           _ding_debt_easy_update_status_local($order['payment_id'], DING_DEBT_EASY_STATUS_COMPLETED);
           _ding_debt_easy_remove_personal_info($order['payment_id']);
         }
+      }
+      else {
+        // Something went wrong at the provider and order is not chargeable yet.
+        _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
       }
     }
   }
