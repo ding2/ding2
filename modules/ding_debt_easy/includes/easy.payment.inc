@@ -112,6 +112,7 @@ function ding_debt_easy_payment_cards_supported() {
   $form['ding_debt_easy_cards'] = [
     '#theme' => 'ding_debt_easy_cards_supported',
     '#cards' => $cards,
+    '#weight' => 10,
   ];
 
   return $form;
@@ -128,6 +129,7 @@ function ding_debt_easy_payment_terms() {
     '#theme' => 'ding_debt_easy_terms',
     '#terms' => $terms['text']['value'],
     '#url' => $terms['url'],
+    '#weight' => 20,
   ];
 
   return $form;
@@ -153,6 +155,7 @@ function ding_debt_easy_payment_buttons() {
     '#value' => t('Pay selected debts'),
     '#suffix' => '</div>',
     '#submit' => ['ding_debt_debts_form_submit_pay_selected'],
+    '#weight' => 1,
     '#states' => [
       'disabled' => [
         '#ding-debt-debts-form .form-type-checkbox input' => ['checked' => FALSE],
@@ -164,6 +167,7 @@ function ding_debt_easy_payment_buttons() {
     '#type' => 'submit',
     '#prefix' => '<div class="pay-button">',
     '#value' => t('Pay all debts'),
+    '#weight' => 5,
     '#suffix' => '</div>',
     '#submit' => ['ding_debt_debts_form_submit_pay_all'],
   ];
