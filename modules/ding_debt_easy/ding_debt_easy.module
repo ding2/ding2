@@ -586,12 +586,15 @@ function _ding_debt_easy_callback() {
   $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $local_record['order_id']);
 
   if ($status) {
+    $success = false;
+
     // Charged the payment gateway.
     try {
       $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
       _ding_debt_easy_set_charge_id_local($payment_id, $charge_id);
       _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_COMPLETED);
       _ding_debt_easy_remove_personal_info($payment_id);
+      $success = true;
     }
     catch (PaymentCommunicationException $exception) {
       watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
@@ -614,11 +617,20 @@ function _ding_debt_easy_callback() {
     }
 
     // Inform user.
-    drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', [
-      '@amount' => $data['orderDetails']['amount'] / 100,
-      '@transaction' => $payment_id,
-      '@order' => $local_record['order_id'],
-    ]));
+    if ($success) {
+      $msg = t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', [
+        '@amount' => $data['orderDetails']['amount'] / 100,
+        '@transaction' => $payment_id,
+        '@order' => $local_record['order_id'],
+      ]);
+    }
+    else {
+      $msg = t('Transaction ID: @transaction, order no.: @order.', [
+        '@transaction' => $payment_id,
+        '@order' => $local_record['order_id'],
+      ]);
+    }
+    drupal_set_message($msg);
   }
   else {
     watchdog('ding_debt_easy', 'There is a communication problem with the provider (Order ID: %order_id)', [
