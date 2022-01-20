@@ -1097,3 +1097,16 @@ function ding2_update_7097() {
 function ding2_update_7098() {
   ding2_translation_update();
 }
+
+/**
+* Use old cover module for netarchive PDFs.
+* Used for DBC GymnasieSøg applications.
+*/
+function ding2_update_7099() {
+  module_enable(['ting_covers_ddb']);
+  module_enable(['ting_netarchive']);
+  variable_set('ting_covers_addi_wsdl_url', 'https://moreinfo.addi.dk/2.11');
+  variable_set('ting_covers_addi_username', 'netpunkt');
+  variable_set('ting_covers_addi_group', '');
+  variable_set('ting_covers_addi_password', '');
+}

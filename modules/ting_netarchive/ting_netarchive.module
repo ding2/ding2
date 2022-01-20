@@ -1,0 +1,232 @@
+<?php
+/**
+ * @file
+ * Get moreinfo netarchive PDFs for ting objects.
+ *
+ * This module provide functionality and page callbacks for retrieving
+ * netarchive PDFs for Ting objects
+ */
+
+// Default cache lifetime for netarchive (24 timer).
+define('TING_NETARCHIVE_DEFAULT_CACHE_LIFETIME', 86400);
+
+/**
+ * Implements hook_menu().
+ */
+function ting_netarchive_menu() {
+  $items = array();
+
+  $items['admin/config/ting/netarchive'] = array(
+    'title' => 'netarchive',
+    'description' => 'Configure how ting_netarchive PDFs are handled.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_netarchive_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_netarchive.admin.inc',
+  );
+
+  $items['admin/config/ting/netarchive/setttings'] = array(
+    'title' => 'Settings',
+    'description' => 'Configure how netarchive are handled.',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  return $items;
+}
+
+
+/**
+ * Implements hook_ting_online_addi_url_alter().
+ */
+function ting_netarchive_ting_online_netarchive_url_alter(&$url, $entity) {
+  if (!isset($entity->id)) {
+    return;
+  }
+  $netarchive_urls = ting_netarchive_get(array($entity->id));
+  if (!empty($netarchive_urls[$entity->id])) {
+    $url = file_create_url($netarchive_urls[$entity->id]);
+  }
+}
+
+
+/**
+ * Implements hook_cron().
+ */
+function ting_netarchive_cron() {
+  _ting_netarchive_delete_old_files(
+    $_SERVER['REQUEST_TIME'] - variable_get('ting_netarchive_cache_lifetime', TING_NETARCHIVE_DEFAULT_CACHE_LIFETIME)
+  );
+}
+
+/**
+ * Delete ting_netarchive files.
+ *
+ * @param int $time
+ *   Unix timestamp where older files will be deleted. Omit or set to NULL to delete
+ *   all files.
+ */
+function _ting_netarchive_delete_old_files($time = NULL) {
+  // Collect pdf files.
+  $pdf_files = array();
+  $ting_netarchive_dir = file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'netarchive';
+  if (is_dir($ting_netarchive_dir)) {
+    $pdf_files = array_merge($pdf_files, file_scan_directory($ting_netarchive_dir, "/./"));
+  }
+
+  // Delete obsolete files.
+  foreach ($pdf_files as $file) {
+    if (!$time || (filemtime($file->uri) < $time)) {
+      file_unmanaged_delete($file->uri);
+    }
+  }
+}
+
+/**
+ * Return the path to the cover of the object.
+ *
+ * @param string $object_id
+ *   Object pid.
+ *
+ * @return string
+ *   File path.
+ *
+ * The filename is the ID base64 encoded, so we can reverse it later.
+ */
+function ting_netarchive_object_path($object_id) {
+  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'netarchive' . DIRECTORY_SEPARATOR . base64_encode($object_id) . '.pdf';
+}
+
+/**
+ * Get netarchive PDFs for an array of ids.
+ *
+ * @param array $requested_netarchive
+ *   Ids of entities to return netarchive PDFs for.
+ *
+ * @return array
+ *   Array of id => file path for found netarchive.
+ */
+function ting_netarchive_get(array $requested_netarchive) {
+  $entities = array();
+  $netarchive = array();
+
+  // Create array of loaded entities for passing to hooks.
+  foreach ($requested_netarchive as $id) {
+    // Ensure that the id at least seems valid.
+    if (!mb_check_encoding($id, "UTF-8")) {
+      continue;
+    }
+
+    // Determine if the local id is a known negative.
+    if (cache_get('ting_netarchive:' . $id)) {
+      continue;
+    }
+
+    // If we we already have a valid pdf file, use it.
+    $path = ting_netarchive_object_path($id);
+    if (file_exists($path)) {
+      $netarchive[$id] = $path;
+      continue;
+    }
+
+    // Queue for fetching by hook.
+    $entities[$id] = ding_entity_load($id);
+  }
+
+  // Fetch netarchive by calling hook.
+  foreach (module_implements('ting_netarchive') as $module) {
+    foreach (module_invoke($module, 'ting_netarchive', $entities) as $id => $uri) {
+      if ($uri && $path = _ting_netarchive_get_file($id, $uri)) {
+        $netarchive[$id] = $path;
+      }
+      // Remove elements where a cover has been found, or suppressed.
+      unset($entities[$id]);
+    }
+  }
+
+  // Mark all remaining as not found in cache.
+  foreach ($entities as $id => $entity) {
+    cache_set('ting_netarchive:' . $id, 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_NETARCHIVE_DEFAULT_CACHE_LIFETIME);
+  }
+
+  return $netarchive;
+}
+
+/**
+ * Moves/downloads an URI into the netarchive cache.
+ *
+ * @param string $id
+ *   Ting entity id.
+ * @param string $uri
+ *   URI of file or local path.
+ *
+ * @return mixed
+ *   Return boolean or file path.
+ */
+function _ting_netarchive_get_file($id, $uri) {
+  if (!($url = parse_url($uri))) {
+    // Seriously malformed, ignore it.
+    return FALSE;
+  }
+
+
+  // Flat paths don't get a scheme.
+  if (!isset($url['scheme']) && file_exists($uri)) {
+    $url['scheme'] = 'file';
+  }
+
+  $path = ting_netarchive_object_path($id);
+
+  switch ($url['scheme']) {
+    case 'http':
+    case 'https':
+      if (ting_netarchive_fetch_image($path, $uri)) {
+        return $path;
+      }
+      break;
+
+    case 'public':
+    case 'private':
+    case 'file':
+      if (file_unmanaged_copy($uri, $path)) {
+        return $path;
+      }
+  }
+
+  return FALSE;
+}
+
+
+/**
+ * Helper function to fetch and save a cover image file.
+ *
+ * Cover fetching modules should use this if fetching the cover is a simple GET
+ * request.
+ *
+ * @param string $filename
+ *   File name, including its path within Drupal's file folder.
+ * @param string $image_url
+ *   URL for the source image file.
+ *
+ * @return mixed
+ *   A string with the path of the image or FALSE on error.
+ */
+function ting_netarchive_fetch_image($filename, $image_url) {
+  $result = drupal_http_request($image_url);
+
+  // Bail if the HTTP request failed.
+  if ($result->code != 200) {
+    return FALSE;
+  }
+
+  // Get the folder for the final location of this preset.
+  $directory = dirname($filename);
+
+  // Build the destination folder tree if it doesn't already exist.
+  if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+    watchdog('ting_netarchive', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  return file_unmanaged_save_data($result->data, $filename, FILE_EXISTS_REPLACE);
+}

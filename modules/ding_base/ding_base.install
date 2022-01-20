@@ -229,3 +229,20 @@ function ding_base_update_7009() {
 function ding_base_update_7010() {
   variable_set('webform_store_ip_address', 'as-needed');
 }
+
+/**
+ * Make samesite_cookie run before variable_realm
+ */
+function ding_base_update_7011() {
+  // This is the same database update as suggested in
+  // https://www.drupal.org/project/samesite_cookie/issues/3257266#comment-14358928
+  // We choose to duplicate it here to avoid potential conflicts in the future
+  // where update hook numbering may vary between patch and merged code.
+  // If the patch is accepted then running this update multiple times should
+  // not cause problems.
+  db_update('system')
+    // variable_realm uses weight -1000.
+    ->fields(array('weight' => -1001))
+    ->condition('name', 'samesite_cookie', '=')
+    ->execute();
+}

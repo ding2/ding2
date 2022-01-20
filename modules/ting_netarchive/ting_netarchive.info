@@ -1,0 +1,6 @@
+name = Ting netarchive
+description = Displays netarchive PDFs for Ting objects
+package = Ding!
+core = 7.x
+version = "7.x-0.1"
+dependencies[] = ting

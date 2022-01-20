@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Module installation and updates routine.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ting_netarchive_install() {
+  // Ensure that a netarchive provider is active on a fresh install.
+  module_enable(array('ting_covers_addi'));
+}

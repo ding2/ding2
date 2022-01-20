@@ -241,6 +241,10 @@ class OpenSearchTingObject implements TingObjectInterface {
       drupal_alter('ting_online_url', $url, $this);
     }
 
+    // Always replace with netArchive url, if present.
+    // Requires ting_covers_addi module.
+    drupal_alter('ting_online_netarchive_url', $url, $this);
+
     return $url;
   }
 
