@@ -112,13 +112,6 @@ function ding_debt_easy_permission() {
 }
 
 /**
- * Implements hook_flush_caches().
- */
-function ding_debt_easy_flush_caches() {
-  return ['cache_ding_debt_easy'];
-}
-
-/**
  * Implements hook_theme().
  */
 function ding_debt_easy_theme($existing, $type, $theme, $path) {
