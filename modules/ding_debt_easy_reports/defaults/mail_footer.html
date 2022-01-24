@@ -1,19 +1,30 @@
-<h2>Annuller/godkend betalingstransaktioner i EASY</h2>
-<ol>
-  <li>Åbn EASY administration - https://portal.dibspayment.eu/</li>
-  <li>Klik på Payments i venstremenuen</li>
-  <li>De delvist gennemførte betalinger ligger under fanen Nye. Identificer den rigtige på OrdreId eller
-    transaktionsnummer. Skal de gennemføres vælg Charge. Skal de annulleres vælg Cancel.
-  </li>
-</ol><h2>FAQ</h2><p><strong>Spørgsmål 1</strong>: Hvordan kan en regning stå som betalt fra DDB CMS inde i FBS når
-  betalingstransaktionen er fejlet og står som ikke-gennemført i FBS?</p><p><strong>Svar 1</strong>: Når borgere oplever
-  fejl i forbindelse med betaling prøver de ofte igen. Dvs. at regningen tit bliver betalt i en ny transaktion enten fra
-  DDB CMS, Biblioteket app’en eller via kontant betaling.</p>
-<hr><p><strong>Spørgsmål 2</strong>: Kan jeg i EASY undersøge hvad den enkelte betaling dækker?</p><p><strong>Svar
-  2</strong>: Inde i detaljevisningen for en betaling står der hvilke FBS regningsnumre betalingen dækker.</p>
-<hr><p><strong>Spørgsmål 3</strong>: Kan jeg i FBS undersøge på hvilken måde en regning er blevet betalt?</p><p><strong>Svar
-  3</strong>: Åbn FBS og gå til F5 – Lister og klik på fanen Mellemværende. Fremsøg regning på regningsnummer.
-  Dobbeltklik på fremsøgt regning og scroll ned i bunden for at se bevægelsesdetaljer. Her kan man se hvilken FBS bruger
-  der står bag betalingen og man kan skelne mellem CMS, App og personlig betjening.</p>
-<hr><p>Denne mail er automatisk genereret fra DDB CMS. Ønsker du ikke at modtage denne mail længere skal du kontakte
-  bibliotekets lokale DDB CMS administrator.</p>
+<p style="margin-bottom:10px"><strong>Procedure for behandling af fejlede betalinger</strong><br>Når en betaling fejler
+  er beløbet låst på brugeres konto i 30 dage. I den periode har vi mulighed for enten at hæve pengene eller at ophæve
+  låsen. Efter 30 dage ophæves låsen automatisk. Mens pengene er låst kan det på kontoudtog mv. se ud som om pengene er
+  blevet hævet.<br>Biblioteket bør hurtigst muligt tage stilling til en fejlet betaling. Skal pengene hæves eller skal
+  låsen ophæves? Det er i EASY administrationssystemet man udfører handlingen. Charge = hæve pengene. Cancel = Ophæve
+  låsen.</p><p style="margin-bottom:10px">1.&nbsp;&nbsp; &nbsp;Log ind i EASY administration -
+  https://portal.dibspayment.eu/&nbsp;<br>2.&nbsp;&nbsp; &nbsp;Klik på Payments i venstremenuen. Betalinger der er
+  problemer med ligger under fanen Nye.<br>3.&nbsp;&nbsp; &nbsp;Genfind den fejlede betaling fra betalingsrapporten ved
+  at verificere at Order ID er det samme.<br>4.&nbsp;&nbsp; &nbsp;Nu har du to muligheder – Charge eller Cancel.&nbsp;
+</p><p style="margin-bottom:10px"><strong>EASY: Charge eller Cancel – hvad skal jeg vælge?</strong><br>1)&nbsp;&nbsp;
+  &nbsp;Du har en betaling med status Failed i betalingsrapporten i DDB CMS. (Sti:
+  admin/config/payment/ding_debt_easy/reports). Notér hvilke FBS regningsnumre betalingen handler om. Dem finder du i
+  den kolonne der hedder PROVIDER IDS.</p><p style="margin-bottom:10px">2)&nbsp;&nbsp; &nbsp;Åbn FBS og gå til "F5 –
+  Lister" og klik på fanen "Mellemværende". Fremsøg regning på regningsnummer. Dobbeltklik på fremsøgt regning og scroll
+  ned i bunden. Undersøg om den er betalt og af hvilken FBS bruger? Her kan man skelne mellem CMS, App og personlig
+  betjening.<br>•&nbsp;&nbsp; &nbsp;Hvis regningen ikke er betalt – gå til 3A.<br>•&nbsp;&nbsp; &nbsp;Hvis regningen er
+  betalt via CMS – gå til 3B<br>•&nbsp;&nbsp; &nbsp;Hvis regning er betalt via app eller personlig betjening – gå til 3C
+</p><p style="margin-bottom:10px">3A) Regningen er ikke betalt<br>Log ind i EASY og annuller betalingen (Cancel).
+  Regningen i FBS er ikke betalt og derfor skal vi ikke hæve penge på brugerens kort.&nbsp;</p><p
+  style="margin-bottom:10px">3B) Regningen er betalt via CMS<br>Når betaling fejler er det meget almindeligt at brugeren
+  forsøger betaling igen kort tid efter. Vi skal derfor undersøge om der ligger flere betalingstransaktioner på samme
+  regningsnummer i betalingsrapporten i DDB CMS (den fra punkt 1). Kig listen igennem. Er der en vellykket betaling der
+  dækker samme regningsnummer? Hvis ja, skal den fejlede betaling annulleres i EASY. Vi har modtaget pengene i en anden
+  transaktion. Kan du ikke genfinde regningsnummeret i DDB CMS betalingsoversigten må det være den fejlede
+  betalingstransaktion der har betalt regningen i FBS. Vi skal derfor hæve pengene hos brugeren. Gennemfør den fejlede
+  betaling i EASY (Charge).</p><p style="margin-bottom:10px">3C) Regningen er betalt via app eller personlig
+  betjening<br>Log ind i EASY og annuller betalingen (Cancel). Vi har modtaget betaling på anden vis og derfor skal vi
+  ikke hæve pengene på brugerens kort.&nbsp;</p><p style="margin-bottom:10px">4) Nu skal fejlen registreres løst i DDB
+  CMS. Hvis man glemmer det, bliver fejlen ved med at komme ud i mail rapporten. Find den fejlede betaling i
+  betalingsrapporten i DDB CMS. (Sti: admin/config/payment/ding_debt_easy/reports). Klik på linket ”Resolved”.</p>
