@@ -692,7 +692,7 @@ function _ding_debt_easy_get_payment_local($id) {
  *
  * Creates internal database record and based on that the unique order id.
  *
- * @param int $patron_id
+ * @param mixed $patron_id
  *   The user id at the provider. Use later for pending payment retries.
  * @param string[] $provider_ids
  *   The order id's from the provider.

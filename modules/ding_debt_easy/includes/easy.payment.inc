@@ -25,13 +25,10 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
   // having this id will be that we can't retry payment if FBS is down or slow.
   // So pending payments that fail at first will hang in pending state. This was
   // the best solution without assuming too much about the provider.
-  $patron_id = 0;
-  try {
-    $credentials = ding_user_get_creds();
-    $patron_id = empty($credentials['patronId']) ? 0 : $credentials['patronId'];
-  }
-  catch (DingProviderAuthException $exception) {
-    watchdog_exception('ding_debt_easy', $exception, 'Unable to get patron id, payment retries is not available');
+  $patron_id = ding_user_provider_id();
+  if (is_null($patron_id)) {
+    $patron_id = 0;
+    watchdog('ding_debt_easy', 'Unable to get patron id, payment retries is not available', [], WATCHDOG_CRITICAL);
   }
 
   $checkout = new Checkout();
@@ -185,13 +182,10 @@ function ding_debt_easy_payment_buttons() {
  *   The debts object enriched with pending and failed status.
  */
 function ding_debt_easy_payment_status(array $debts) {
- $patron_id = 0;
-  try {
-    $credentials = ding_user_get_creds();
-    $patron_id = empty($credentials['patronId']) ? 0 : $credentials['patronId'];
-  }
-  catch (DingProviderAuthException $exception) {
-    watchdog_exception('ding_debt_easy', $exception, 'Unable to get patron id, payment status is not available');
+  $patron_id = ding_user_provider_id();
+  if (is_null($patron_id)) {
+    $patron_id = 0;
+    watchdog('ding_debt_easy', 'Unable to get patron id, payment status is not available', [], WATCHDOG_CRITICAL);
   }
 
   foreach ($debts as &$debt) {

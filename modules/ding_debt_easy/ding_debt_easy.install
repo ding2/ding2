@@ -22,7 +22,8 @@ function ding_debt_easy_schema() {
       ],
       'patron_id' => [
         'description' => 'The providers id for the patron for this payment.',
-        'type' => 'int',
+        'type' => 'varchar',
+        'length' => 255,
         'not null' => TRUE,
       ],
       'order_id' => [
