@@ -701,20 +701,22 @@ function _ding_debt_easy_get_payment_local($id) {
  *
  * @return false|string
  *   The order id or false on database error.
- *
- * @throws \Exception
  */
 function _ding_debt_easy_create_order_local($patron_id, $provider_ids, $amount) {
   // Create database record to get row id and reserve the ID in the database.
-  $id = db_insert('ding_debt_easy')
-    ->fields([
-      'patron_id' => $patron_id,
-      'provider_ids' => implode(';', $provider_ids),
-      'status' => DING_DEBT_EASY_STATUS_CREATED,
-      'amount' => $amount,
-      'changed' => time(),
-    ])
-    ->execute();
+  try {
+    $id = db_insert('ding_debt_easy')
+      ->fields([
+        'patron_id' => $patron_id,
+        'provider_ids' => implode(';', $provider_ids),
+        'status' => DING_DEBT_EASY_STATUS_CREATED,
+        'amount' => $amount,
+        'changed' => time(),
+      ])
+      ->execute();
+  } catch (Exception $e) {
+    return FALSE;
+  }
 
   // Generate the order id (based on the row id) and update record with the new
   // order id.
