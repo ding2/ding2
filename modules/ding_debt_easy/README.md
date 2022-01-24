@@ -1,5 +1,5 @@
 # Ding debt easy
-Integration with Nets Easy payment gateway.  Enabled payments of debts handled by ding_debt at the Nets Easy payment
+Integration with Nets Easy payment gateway.  Enables payments of debts handled by ding_debt at the Nets Easy payment
 gateway.
 
 ## Nets Easy portal
