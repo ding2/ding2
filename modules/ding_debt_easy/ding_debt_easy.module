@@ -692,9 +692,9 @@ function _ding_debt_easy_get_payment_local($id) {
  *
  * @param int $patron_id
  *   The user id at the provider. Use later for pending payment retries.
- * @param string $provider_ids
+ * @param string[] $provider_ids
  *   The order id's from the provider.
- * @param int|float $amount
+ * @param int $amount
  *   The order amount.
  *
  * @return false|string
@@ -702,7 +702,7 @@ function _ding_debt_easy_get_payment_local($id) {
  *
  * @throws \Exception
  */
-function _ding_debt_easy_get_order_id_local($patron_id, $provider_ids, $amount) {
+function _ding_debt_easy_create_order_local($patron_id, $provider_ids, $amount) {
   // Create database record to get row id and reserve the ID in the database.
   $id = db_insert('ding_debt_easy')
     ->fields([
