@@ -643,7 +643,8 @@ function _ding_debt_easy_callback() {
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
   }
 
-  // Clear cache and redirect to user page.
+  // Clear the users cache before redirecting to ensure the payment overview is
+  // updated with data from the provider and not the cache.
   ding_provider_invoke('user', 'clear_cache', $user);
   drupal_goto(DING_DEBT_USER_DEBT_PAGE);
 }
