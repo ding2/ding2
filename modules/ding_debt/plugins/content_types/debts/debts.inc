@@ -225,6 +225,7 @@ function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
     // not be part of a new payment.
     if (!is_null($debt_data->status)) {
       unset($debts[$debt_id]);
+      continue;
     }
 
     $amount += $form_state['values']['debt_data'][$debt_id]->amount;
