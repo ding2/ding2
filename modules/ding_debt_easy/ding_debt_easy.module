@@ -168,12 +168,12 @@ function _ding_debt_easy_wipe() {
     $limit = DateTimeImmutable::createFromFormat('U', time() - $interval);
     $limit = $limit->setTimezone(new DateTimeZone(drupal_get_user_timezone()));
 
-    $res = db_delete('ding_debt_easy')
+    $num_deleted = db_delete('ding_debt_easy')
       ->condition('changed', $limit->getTimestamp(), '<')
       ->execute();
 
     watchdog('ding_debt_easy', '%x payments was removed from the local database.', [
-      '%x' => $res,
+      '%num_deleted' => $num_deleted,
     ], WATCHDOG_INFO);
   }
 }
@@ -289,16 +289,16 @@ function _ding_debt_easy_pages_access_callback($type) {
  * https://nets-devs.isotop.se/nets-easy/en-EU/api/#currency-and-amount.
  *
  * @return string[]
- *   Array indexed by short name for currencies.
+ *   Array indexed by short name for currencies (as defined in ISO-4217).
  */
 function _ding_debt_easy_get_currency_options() {
   return [
-    'DKK' => 'Danish krone',
-    'EUR' => 'Euro',
-    'GBP' => 'Pound sterling',
-    'NOK' => 'Norwegian krone',
-    'SEK' => 'Swedish krona',
-    'USD' => 'United States dollar',
+    'DKK' => t('Danish krone'),
+    'EUR' => t('Euro'),
+    'GBP' => t('Pound sterling'),
+    'NOK' => t('Norwegian krone'),
+    'SEK' => t('Swedish krona'),
+    'USD' => t('United States dollar'),
   ];
 }
 
@@ -323,17 +323,17 @@ function ding_debt_easy_get_currency() {
  */
 function _ding_debt_easy_get_localization_options() {
   return [
-    'da-DK' => 'Danish',
-    'en-GB' => 'English',
-    'nl-NL' => 'Dutch',
-    'fi-FI' => 'Finnish',
-    'fr-FR' => 'French',
-    'de-DE' => 'German',
-    'nb-NO' => 'Norwegian',
-    'pl-PL' => 'Polish',
-    'es-ES' => 'Spanish',
-    'sk-SK' => 'Slovak',
-    'sv-SE' => 'Swedish',
+    'da-DK' => t('Danish'),
+    'en-GB' => t('English'),
+    'nl-NL' => t('Dutch'),
+    'fi-FI' => t('Finnish'),
+    'fr-FR' => t('French'),
+    'de-DE' => t('German'),
+    'nb-NO' => t('Norwegian'),
+    'pl-PL' => t('Polish'),
+    'es-ES' => t('Spanish'),
+    'sk-SK' => t('Slovak'),
+    'sv-SE' => t('Swedish'),
   ];
 }
 
