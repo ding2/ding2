@@ -41,6 +41,8 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
       ->setProductName($debt->type)
       ->setQuantity(1)
       ->setUnit('stk')
+      // The amount used by the payment gateway is in "øre" hence the
+      // conversion as the amount from the provider is in kr.
       ->setUnitPrice($debt->amount * 100);
     $checkout->getOrder()->addOrderItem($item);
   }
@@ -69,7 +71,7 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     _ding_debt_easy_update_status_local($order_id, DING_DEBT_EASY_STATUS_FAILED);
     _ding_debt_easy_remove_personal_info($order_id);
 
-    return 'DING_DEBT_USER_DEBT_PAGE';
+    return DING_DEBT_USER_DEBT_PAGE;
   }
   catch (PaymentException $exception) {
     watchdog_exception('ding_debt_easy', $exception, 'There is a problem with creating the payment for order %order_id', [
@@ -81,7 +83,7 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
     _ding_debt_easy_update_status_local($order_id, DING_DEBT_EASY_STATUS_FAILED);
     _ding_debt_easy_remove_personal_info($order_id);
 
-    return 'DING_DEBT_USER_DEBT_PAGE';
+    return DING_DEBT_USER_DEBT_PAGE;
   }
 
   // Store information about the payment state.

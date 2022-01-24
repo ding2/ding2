@@ -385,7 +385,7 @@ function _ding_debt_easy_get_integration_type_options() {
 function ding_debt_easy_get_integration_type() {
   $config = variable_get('ding_debt_easy_config', []);
 
-  return empty($config['integrationType']) ? 'HostedPaymentPage' : $config['integrationType'];
+  return empty($config['integration_type']) ? 'HostedPaymentPage' : $config['integration_type'];
 }
 
 /**
@@ -793,6 +793,9 @@ function _ding_debt_easy_update_retries_local($payment_id, $current) {
  *
  * @param int $row_id
  *   The database record id to ensure uniqueness for the id.
+ *
+ * @return string
+ *   The generated order id.
  */
 function _ding_debt_easy_generate_order_id($row_id) {
   // Generate order ID based on record id (NEXX-XXXX-XXX).
@@ -809,8 +812,11 @@ function _ding_debt_easy_generate_order_id($row_id) {
  * @param string $id
  *   The payment id at the gateway or the local order id.
  * @param string $status
- *   The current status of the payment. Not constants exists, which should be
+ *   The current status of the payment. Note constants exists, which should be
  *   used as status variable.
+ *
+ * @return array|bool
+ *   The updated local order record or FALSE on failure.
  */
 function _ding_debt_easy_update_status_local($id, $status) {
   $query = db_update('ding_debt_easy')
@@ -839,6 +845,9 @@ function _ding_debt_easy_update_status_local($id, $status) {
  *   The payment id at the gateway.
  * @param string $charge_id
  *   The charge id at the gateway.
+ *
+ * @return array|bool
+ *   The updated local order record or FALSE on failure.
  */
 function _ding_debt_easy_set_charge_id_local($payment_id, $charge_id) {
   $res = db_update('ding_debt_easy')

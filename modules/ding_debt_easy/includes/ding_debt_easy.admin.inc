@@ -108,6 +108,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Return for completed payment'),
     '#default_value' => $default_endpoints['callback'],
+    '#disabled' => TRUE,
     '#required' => TRUE,
   ];
 
@@ -115,6 +116,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Cancel payment callback'),
     '#default_value' => $default_endpoints['cancel'],
+    '#disabled' => TRUE,
     '#required' => TRUE,
   ];
 
@@ -141,8 +143,8 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
   ];
 
   $cards_options = _ding_debt_easy_get_payment_types_options();
-  array_walk($cards_options, function (&$value, $key) {
-    $value = '<div class="card-logo"><img src="' . $value . '" alt="' . $key . '" /><div class="name">' . $key . '</div></div>';
+  array_walk($cards_options, function (&$card_logo_url, $card_name) {
+    $card_logo_url = '<div class="card-logo"><img src="' . $card_logo_url . '" alt="' . $card_name . '" /><div class="name">' . $card_name . '</div></div>';
   });
   $form['ding_debt_easy']['ding_debt_easy_config']['cards'] = [
     '#type' => 'checkboxes',
@@ -152,7 +154,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#required' => TRUE,
   ];
 
-  $form['ding_debt_easy']['ding_debt_easy_config']['integrationType'] = [
+  $form['ding_debt_easy']['ding_debt_easy_config']['integration_type'] = [
     '#type' => 'select',
     '#title' => t('Integration Type'),
     '#options' => _ding_debt_easy_get_integration_type_options(),
@@ -168,7 +170,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
   $form['ding_debt_easy']['ding_debt_easy_config']['wipe_interval'] = [
     '#type' => 'select',
     '#title' => t('Wipe out transactions older than'),
-    '#options' => ['0' => t('None')] + $period,
+    '#options' => ['0' => t('Do not wipe transactions')] + $period,
     '#default_value' => _ding_debt_easy_get_wipe_interval(),
   ];
 
