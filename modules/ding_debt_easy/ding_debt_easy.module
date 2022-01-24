@@ -487,7 +487,8 @@ function ding_debt_easy_get_api_config() {
  * Get list of card supports by Net easy.
  *
  * Note: the invoice methods has been removed as the libraries don't support
- *       these payments methods.
+ *       these payments methods. For the full list see
+ *       https://nets-devs.isotop.se/nets-easy/en-EU/api/#payment-methods
  *
  * @return string[]
  *   List of supported cards as keys linked to logos.
@@ -524,8 +525,8 @@ function _ding_debt_easy_callback() {
   $params = drupal_get_query_parameters();
 
   if (empty($params['paymentid'])) {
-    watchdog('ding_debt_easy', 'The payment callback has been called without a payment id.');
-    drupal_set_message(t('Something unexpected happened. Please try again or contact the library.'));
+    watchdog('ding_debt_easy', 'The payment callback has been called without a payment id.', [], WATCHDOG_ERROR);
+    drupal_set_message(t('Something unexpected happened with processing the payment. Please try again or contact the library.'));
     drupal_goto(DING_DEBT_USER_DEBT_PAGE);
   }
   $payment_id = $params['paymentid'];
@@ -540,9 +541,12 @@ function _ding_debt_easy_callback() {
     DING_DEBT_EASY_STATUS_CREATED,
   ];
   if (!in_array($local_record['status'], $valid_status)) {
+    watchdog('ding_debt_easy', 'Unable process payment for the order (%order_id).', [
+      '%order_id' => $local_record['order_id'],
+    ], WATCHDOG_INFO);
     drupal_set_message(t('Unable process payment for the order (%order_id). Please contact the library with the order id.', [
       '%order_id' => $local_record['order_id'],
-    ]));
+    ]), 'error');
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_FAILED);
     _ding_debt_easy_remove_personal_info($payment_id);
     drupal_goto(DING_DEBT_USER_DEBT_PAGE);
@@ -561,7 +565,7 @@ function _ding_debt_easy_callback() {
     ]);
     drupal_set_message(t('Unable process payment as the order (%order_id) was not found at the gateway. Please contact the library with the order id.', [
       '%order_id' => $local_record['order_id'],
-    ]));
+    ]), 'error');
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_FAILED);
     _ding_debt_easy_remove_personal_info($payment_id);
     drupal_goto(DING_DEBT_USER_DEBT_PAGE);
@@ -572,7 +576,7 @@ function _ding_debt_easy_callback() {
     ]);
     drupal_set_message(t('Unable to process payment as there was a communication error. We will try automatically later with order id: %order_id.', [
       '%order_id' => $local_record['order_id'],
-    ]));
+    ]), 'warning');
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
     drupal_goto(DING_DEBT_USER_DEBT_PAGE);
   }
@@ -646,11 +650,9 @@ function _ding_debt_easy_callback() {
 
 /**
  * Canceled payment at the gateway.
- *
- * @todo What should we do here. There are no information in the redirect back
- *       from the gateway.
  */
 function _ding_debt_easy_canceled() {
+  drupal_set_message(t('The payment have been canceled'), 'status');
   drupal_goto(DING_DEBT_USER_DEBT_PAGE);
 }
 
