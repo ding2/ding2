@@ -54,7 +54,7 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
   ];
 
   $default_api = variable_get('ding_debt_easy_api_endpoints', [
-    'type' => FALSE,
+    'testing' => FALSE,
     'prod' => 'https://api.dibspayment.eu/',
     'test' => 'https://test.api.dibspayment.eu/',
   ]);
@@ -68,10 +68,10 @@ function ding_debt_easy_admin_settings_form($form, &$form_state) {
     '#tree' => TRUE,
   ];
 
-  $form['ding_debt_easy']['endpoints']['ding_debt_easy_api_endpoints']['type'] = [
+  $form['ding_debt_easy']['endpoints']['ding_debt_easy_api_endpoints']['testing'] = [
     '#type' => 'checkbox',
     '#title' => t('Use testing endpoint'),
-    '#default_value' => $default_api['type'],
+    '#default_value' => $default_api['testing'],
   ];
 
   $form['ding_debt_easy']['endpoints']['ding_debt_easy_api_endpoints']['prod'] = [

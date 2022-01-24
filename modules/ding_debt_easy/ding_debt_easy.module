@@ -473,13 +473,13 @@ function ding_debt_easy_get_payment_types($with_logos = TRUE) {
 function ding_debt_easy_get_api_config() {
   $endpoints = variable_get('ding_debt_easy_api_endpoints', [
     // Default to testing endpoint.
-    'type' => TRUE,
+    'testing' => TRUE,
     'prod' => 'https://api.dibspayment.eu/',
     'test' => 'https://test.api.dibspayment.eu/',
   ]);
 
   return [
-    'endpoint' => empty($endpoints['type']) || $endpoints['type'] ? $endpoints['test'] : $endpoints['prod'],
+    'endpoint' => empty($endpoints['testing']) || $endpoints['testing'] ? $endpoints['test'] : $endpoints['prod'],
   ] + variable_get('ding_debt_easy_keys', []);
 }
 
