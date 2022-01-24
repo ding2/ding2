@@ -122,7 +122,7 @@ function _ding_debt_easy_reports_cron_mail() {
 
   // Add 24 hours (one day) to last run as this is the next mail sent time.
   $next_run = $last_run->add(new DateInterval('P1D'));
-  if ($next_run->getTimestamp() <= time()) {
+  if ($next_run->getTimestamp() <= REQUEST_TIME) {
     _ding_debt_easy_reports_send_mail();
 
     // Update last mail sent time to current date with time set to configured

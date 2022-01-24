@@ -165,7 +165,7 @@ function _ding_debt_easy_wipe() {
 
   // Zero here is wipe out is disabled in configuration.
   if (0 < $interval) {
-    $limit = DateTimeImmutable::createFromFormat('U', time() - $interval);
+    $limit = DateTimeImmutable::createFromFormat('U', REQUEST_TIME - $interval);
     $limit = $limit->setTimezone(new DateTimeZone(drupal_get_user_timezone()));
 
     $num_deleted = db_delete('ding_debt_easy')
@@ -199,7 +199,7 @@ function _ding_debt_easy_retry_payments() {
     // from first try, starting at 10 min - 300, 900, 2700 ... 86400 sec.).
     $limit = $order['changed'] + (int) (300 * pow(3, $order['retries']));
 
-    if (time() > $limit) {
+    if (REQUEST_TIME > $limit) {
       // Check order status at the provider.
       /** @var \DingProviderDebt[] $fees */
       $fees = ding_provider_invoke('debt', 'list', NULL, TRUE, $order['patron_id'], TRUE);
@@ -664,7 +664,8 @@ function _ding_debt_easy_canceled() {
  *   The payment id at the gateway or the local order id.
  *
  * @return array|bool
- *   The local payment database record.
+ *   The local payment database record. If record in not found FALSE will be
+ *   returned.
  */
 function _ding_debt_easy_get_payment_local($id) {
   $query = db_select('ding_debt_easy', 'e')
@@ -712,7 +713,7 @@ function _ding_debt_easy_create_order_local($patron_id, $provider_ids, $amount) 
         'provider_ids' => implode(';', $provider_ids),
         'status' => DING_DEBT_EASY_STATUS_CREATED,
         'amount' => $amount,
-        'changed' => time(),
+        'changed' => REQUEST_TIME,
       ])
       ->execute();
   } catch (Exception $e) {
@@ -747,7 +748,7 @@ function _ding_debt_easy_add_payment_id_local($order_id, $payment_id) {
   $res = db_update('ding_debt_easy')
     ->fields([
       'payment_id' => $payment_id,
-      'changed' => time(),
+      'changed' => REQUEST_TIME,
     ])
     ->condition('order_id', $order_id, '=')
     ->execute();
@@ -815,7 +816,7 @@ function _ding_debt_easy_update_status_local($id, $status) {
   $query = db_update('ding_debt_easy')
     ->fields([
       'status' => $status,
-      'changed' => time(),
+      'changed' => REQUEST_TIME,
     ]);
 
   // We know that all internal order ids are prefixed with NE.
@@ -843,7 +844,7 @@ function _ding_debt_easy_set_charge_id_local($payment_id, $charge_id) {
   $res = db_update('ding_debt_easy')
     ->fields([
       'charge_id' => $charge_id,
-      'changed' => time(),
+      'changed' => REQUEST_TIME,
     ])
     ->condition('payment_id', $payment_id, '=')
     ->execute();
@@ -861,7 +862,7 @@ function _ding_debt_easy_remove_personal_info($id) {
   $query = db_update('ding_debt_easy')
     ->fields([
       'patron_id' => 0,
-      'changed' => time(),
+      'changed' => REQUEST_TIME,
     ]);
 
   // We know that all internal order ids are prefixed with NE.
