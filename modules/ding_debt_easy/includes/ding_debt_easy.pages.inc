@@ -12,6 +12,9 @@
  *   The page content.
  */
 function ding_debt_easy_terms_page() {
+  // Check if page should be rendered of redirect to other static page.
+  _ding_debt_easy_pages_redirect('terms');
+
   $output = '<h1>' . t('Terms declaration', [], ['context' => 'ding_debt_easy']) . '</h1>';
 
   $config = variable_get('ding_debt_easy_terms', []);
@@ -32,6 +35,9 @@ function ding_debt_easy_terms_page() {
  *   The page content.
  */
 function ding_debt_easy_privacy_page() {
+  // Check if page should be rendered of redirect to other static page.
+  _ding_debt_easy_pages_redirect('privacy');
+
   $output = '<h1>' . t('Privacy declaration', [], ['context' => 'ding_debt_easy']) . '</h1>';
 
   $config = variable_get('ding_debt_easy_privacy', []);
@@ -43,4 +49,19 @@ function ding_debt_easy_privacy_page() {
   }
 
   return $output;
+}
+
+/**
+ * Redirect page if configuration is set to another static page.
+ *
+ * @param string $type
+ *   The configuration type to check (privacy, terms).
+ */
+function _ding_debt_easy_pages_redirect($type) {
+  $config = variable_get('ding_debt_easy_' . $type, []);
+
+  // Redirect to page outside this module if given in configuration.
+  if (!empty($config['url'])) {
+    drupal_goto($config['url']);
+  }
 }
