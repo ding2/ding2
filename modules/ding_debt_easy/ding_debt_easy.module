@@ -206,7 +206,6 @@ function _ding_debt_easy_retry_payments() {
         if (!isset($fees[$id])) {
           // The fee is not found at the provider.
           _ding_debt_easy_update_status_local($order['payment_id'], DING_DEBT_EASY_STATUS_FAILED);
-          _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
           _ding_debt_easy_remove_personal_info($order['payment_id']);
           $chargeable = FALSE;
           break;
@@ -217,7 +216,6 @@ function _ding_debt_easy_retry_payments() {
           // try to pay them all once more.
           $status = ding_provider_invoke('debt', 'payment_received', NULL, $order['provider_ids'], $order['order_id'], $order['patron_id']);
           if (!$status) {
-            _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
             $chargeable = FALSE;
           }
 
@@ -241,8 +239,7 @@ function _ding_debt_easy_retry_payments() {
             _ding_debt_easy_remove_personal_info($order['payment_id']);
           }
           catch (Exception $exception) {
-            // Something went wrong, make order for later retry.
-            _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
+            // Something went wrong, the order will be retried later.
           }
         }
         else {
@@ -252,11 +249,11 @@ function _ding_debt_easy_retry_payments() {
           _ding_debt_easy_remove_personal_info($order['payment_id']);
         }
       }
-      else {
-        // Something went wrong at the provider and order is not chargeable yet.
-        _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
-      }
     }
+
+    // Update the number of retires, no matter what happened above... this was
+    // a retry.
+    _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
   }
 }
 
@@ -748,10 +745,12 @@ function _ding_debt_easy_update_retries_local($payment_id, $current) {
     _ding_debt_easy_remove_personal_info($payment_id);
   }
   else {
+    $current++;
+
     // Update retires count.
     db_update('ding_debt_easy')
       ->fields([
-        'retries' => $current++,
+        'retries' => $current,
       ])
       ->condition('payment_id', $payment_id, '=')
       ->execute();
