@@ -193,7 +193,7 @@ class Checkout {
           'supportedTypes' => ['B2C'],
           'default' => 'B2C',
         ],
-        // FBS handles information about the consumer, so Nets should not ask
+        // Ding2 handles information about the consumer, so Nets should not ask
         // for address etc.
         'merchantHandlesConsumerData' => TRUE,
         'returnUrl' => $this->returnUrl,
