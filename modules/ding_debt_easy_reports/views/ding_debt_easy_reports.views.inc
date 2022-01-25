@@ -19,7 +19,7 @@ function ding_debt_easy_views_data() {
 
   $data['ding_debt_easy']['id'] = [
     'title' => t('Row id'),
-    'help' => t('The consent record id.'),
+    'help' => t('The database row id.'),
     'field' => [
       'handler' => 'views_handler_field_numeric',
     ],
