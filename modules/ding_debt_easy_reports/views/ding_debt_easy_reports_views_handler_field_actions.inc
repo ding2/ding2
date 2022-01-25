@@ -18,7 +18,7 @@ class ding_debt_easy_reports_views_handler_field_actions extends views_handler_f
     $output = '';
 
     if (DING_DEBT_EASY_STATUS_FAILED === $values->ding_debt_easy_status) {
-      $name = t('Resolved', [], ['context' => 'ding_debt_easy_reports']);
+      $name = t('Resolve', [], ['context' => 'ding_debt_easy_reports']);
       $url = '/admin/config/payment/ding_debt_easy/reports/' . $values->ding_debt_easy_order_id . '/' . DING_DEBT_EASY_STATUS_COMPLETED;
       $output .= l($name, $url, [
         'attributes' => [
