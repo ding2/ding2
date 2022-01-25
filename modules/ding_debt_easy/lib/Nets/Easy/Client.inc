@@ -46,7 +46,7 @@ class Client {
       CURLOPT_TIMEOUT => 30,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => "POST",
-      CURLOPT_POSTFIELDS => $checkout->toJson(),
+      CURLOPT_POSTFIELDS => json_encode($checkout->toArray()),
       CURLOPT_HTTPHEADER => [
         'Authorization: ' . $this->secretKey,
         'CommercePlatformTag: DDB CMS',
@@ -201,9 +201,9 @@ class Client {
 
     if (400 === $code) {
       if (!empty($response['errors'])) {
-        foreach ($response['errors'] as $property => $message) {
-          throw new PaymentException($property . ' - ' . reset($message), $code);
-        }
+        $properties = array_keys($response['errors']);
+        $property = reset($properties);
+        throw new PaymentException($property . ' - ' . reset($response['errors'][$property]), $code);
       }
       if (!empty($response['message'])) {
         throw new PaymentException($response['message'], $code);

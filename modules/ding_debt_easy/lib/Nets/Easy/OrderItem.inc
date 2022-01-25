@@ -157,6 +157,8 @@ class OrderItem {
       'unit' => $this->getUnit(),
       'unitPrice' => $this->getUnitPrice(),
     ];
+
+    // Net and gross are the same as the libraries do not use VAT.
     $item['grossTotalAmount'] = $this->getTotalAmount();
     $item['netTotalAmount'] = $this->getTotalAmount();
 

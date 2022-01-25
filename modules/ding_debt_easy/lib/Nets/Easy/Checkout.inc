@@ -167,11 +167,11 @@ class Checkout {
   /**
    * Build and encoded the checkout as json string.
    *
-   * @return false|string
-   *   JSON string or FALSE on error.
+   * @return array
+   *   The complete order that matches the payment gateways format.
    */
-  public function toJson() {
-    $payload = [
+  public function toArray() {
+    return [
       'checkout' => [
         'integrationType' => $this->getIntegrationType(),
         'termsUrl' => $this->getTermsUrl(),
@@ -201,8 +201,6 @@ class Checkout {
       ],
       'order' => $this->getOrder()->toArray(),
     ];
-
-    return json_encode($payload);
   }
 
 }

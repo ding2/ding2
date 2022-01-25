@@ -130,8 +130,8 @@ class Order {
     /** @var OrderItem $item */
     foreach ($this->orderItems as $item) {
       $order['items'][] = $item->toArray();
-      $order['amount'] += $item->getTotalAmount();
     }
+    $order['amount'] = $this->getTotalAmount();
 
     return $order;
   }
