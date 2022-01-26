@@ -308,6 +308,9 @@ function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_lang
         $path .= '/' . $matches[1];
       }
     } else {
+      // Don't cache this page so we don't get any weird caching problems.
+      drupal_page_is_cacheable(FALSE);
+
       // If the user is not logged in we send them to login page.
       $options = ['query' => ['destination' => $path]];
       $login_url = ding_provider_invoke( 'openplatform_token', 'login_url');
