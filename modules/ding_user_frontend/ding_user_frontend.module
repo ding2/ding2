@@ -307,6 +307,11 @@ function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_lang
       if (isset($matches[1])) {
         $path .= '/' . $matches[1];
       }
+    } else {
+      // If the user is not logged in we send them to login page.
+      $options = ['query' => ['destination' => $path]];
+      $login_url = ding_provider_invoke( 'openplatform_token', 'login_url');
+      drupal_goto($login_url, $options);
     }
   }
 }
