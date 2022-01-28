@@ -58,7 +58,11 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
     }
     // Otherwise this an existing p2b-synced entity.
     else {
-      list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
+      $settings = reset($items);
+      $event_id = $settings['event_id'];
+      $event_maker_id = $settings['event_maker_id'];
+      $synchronize = $settings['synchronize'];
+
       try {
         $p2b = ding_place2book_instance();
         $event = $p2b->getEvent($event_maker_id, $event_id);
