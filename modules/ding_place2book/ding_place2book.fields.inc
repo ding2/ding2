@@ -507,6 +507,22 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
             ),
           );
         }
+
+        if (is_array($items) && isset($items[0]['event_id']) && isset($items[0]['event_maker_id'])) {
+          if ($items[0]['event_id'] == 1 && $items[0]['event_maker_id'] == 1) {
+            // This should not happen so we abort the saving off the node and alert the editor.
+
+            watchdog('ding_place2book', 'Original items: @original_items', array('@original_items' => print_r($settings , TRUE)), WATCHDOG_ERROR);
+            watchdog('ding_place2book', 'Synchronized items: @synchronized_items', array('@synchronized_items' => print_r($synchronized_items, TRUE)), WATCHDOG_ERROR);
+            watchdog('ding_place2book', 'Items to be saved: @items', array('@items' => print_r($items , TRUE)), WATCHDOG_ERROR);
+
+            drupal_set_message(t('Det lykkedes ikke at gemme din begivenhed. Du kan prøve igen senere, men hvis det stadig ikke lykkes,
+                er der desværre ingen anden mulighed end at oprette begivenheden på ny forfra.'), 'error');
+
+            // We send the user to the front page to alert them that something has gone wrong.
+            drupal_goto();
+          }
+        }
       }
       break;
   }
@@ -700,10 +716,10 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
     }
 
     if ($is_new) {
-      drupal_set_message(t('Event was successfully created.'));
+      drupal_set_message(t('Event was successfully created in place2book service.'));
     }
     else {
-      drupal_set_message(t('Event was successfully updated.'));
+      drupal_set_message(t('Event was successfully updated in place2book service.'));
     }
   }
   return $items;
