@@ -2,6 +2,8 @@
 
 namespace Nets\Easy;
 
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\ClientException;
 use Nets\Easy\Exception\PaymentCommunicationException;
 use Nets\Easy\Exception\PaymentException;
 
@@ -9,12 +11,14 @@ use Nets\Easy\Exception\PaymentException;
  * Client to send request to the payment gateway at Nets Easy.
  */
 class Client {
+  private $httpClient;
   private $secretKey;
   private $checkoutKey;
   private $apiUrl;
   private $apiPaymentsPath = '/v1/payments/';
 
-  public function __construct($secretKey, $checkoutKey, $apiUrl = 'https://api.dibspayment.eu/') {
+  public function __construct(HttpClient $httpClient, $secretKey, $checkoutKey, $apiUrl = 'https://api.dibspayment.eu/') {
+    $this->httpClient = $httpClient;
     $this->secretKey = $secretKey;
     $this->apiUrl = $apiUrl;
 
@@ -33,39 +37,29 @@ class Client {
    *   Will return the paymentId and if hosted payment type the
    *   hostedPaymentPageUrl to redirect to.
    *
+   * @throws \GuzzleHttp\Exception\GuzzleException
    * @throws \Nets\Easy\Exception\PaymentCommunicationException
    * @throws \Nets\Easy\Exception\PaymentException
    */
   public function createPayment(Checkout $checkout) {
-    $ch = curl_init();
-    curl_setopt_array($ch, [
-      CURLOPT_URL => $this->apiUrl . $this->apiPaymentsPath,
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => "",
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 30,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => "POST",
-      CURLOPT_POSTFIELDS => json_encode($checkout->toArray()),
-      CURLOPT_HTTPHEADER => [
-        'Authorization: ' . $this->secretKey,
-        'CommercePlatformTag: DDB CMS',
-        'content-type: application/*+json',
-      ],
-    ]);
+    $options = [
+      'headers' => $this->defaultHeaders(),
+      'body' => json_encode($checkout->toArray()),
+    ];
 
-    $response = curl_exec($ch);
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $err = curl_error($ch);
-    curl_close($ch);
+    try {
+      $response = $this->httpClient->request('POST', $this->apiUrl . $this->apiPaymentsPath, $options);
+    } catch (ClientException $exception) {
+      throw new PaymentCommunicationException($exception->getMessage(), $exception->getCode());
+    }
 
     // Decode result from json payload.
-    if (201 === $code) {
-      return json_decode($response, TRUE);
+    if (201 === $response->getStatusCode()) {
+      return json_decode($response->getBody()->getContents(), TRUE);
     }
 
     // Handle errors.
-    $this->genericErrorHandling($err, $code, $response);
+    $this->genericErrorHandling($response->getStatusCode(), $response->getBody()->getContents());
   }
 
   /**
@@ -77,39 +71,29 @@ class Client {
    * @return array
    *   Data about the payment as defined at the gateway.
    *
+   * @throws \GuzzleHttp\Exception\GuzzleException
    * @throws \Nets\Easy\Exception\PaymentCommunicationException
    * @throws \Nets\Easy\Exception\PaymentException
    */
   public function fetchPayment($paymentId) {
-    $ch = curl_init();
-    curl_setopt_array($ch, [
-      CURLOPT_URL => $this->apiUrl . $this->apiPaymentsPath . $paymentId,
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => "",
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 30,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => "GET",
-      CURLOPT_HTTPHEADER => [
-        'Authorization: ' . $this->secretKey,
-        'CommercePlatformTag: DDB CMS',
-        'content-type: application/*+json',
-      ],
-    ]);
+    $options = [
+      'headers' => $this->defaultHeaders(),
+    ];
 
-    $response = curl_exec($ch);
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $err = curl_error($ch);
-    curl_close($ch);
+    try {
+      $response = $this->httpClient->request('GET', $this->apiUrl . $this->apiPaymentsPath . $paymentId, $options);
+    } catch (ClientException $exception) {
+      throw new PaymentCommunicationException($exception->getMessage(), $exception->getCode());
+    }
 
     // Decode result from json payload.
-    if (200 === $code) {
-      $data = json_decode($response, TRUE);
+    if (200 === $response->getStatusCode()) {
+      $data = json_decode($response->getBody()->getContents(), TRUE);
       return reset($data);
     }
 
     // Handle errors.
-    $this->genericErrorHandling($err, $code, $response);
+    $this->genericErrorHandling($response->getStatusCode(), $response->getBody()->getContents());
   }
 
   /**
@@ -123,90 +107,69 @@ class Client {
    * @return string
    *   The ID of the charge made.
    *
+   * @throws \GuzzleHttp\Exception\GuzzleException
    * @throws \Nets\Easy\Exception\PaymentCommunicationException
    * @throws \Nets\Easy\Exception\PaymentException
    */
   public function chargePayment($paymentId, $amount) {
-    $ch = curl_init();
-
-    // The gateway supports partial payments, but we will always pay the whole
-    // amount.
-    $payload = [
-      'amount' => $amount,
+    $options = [
+      'headers' => $this->defaultHeaders(),
+      'body' => json_encode([
+        'amount' => $amount,
+      ]),
     ];
 
-    curl_setopt_array($ch, [
-      CURLOPT_URL => $this->apiUrl . $this->apiPaymentsPath . $paymentId . '/charges',
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => "",
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 30,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => "POST",
-      CURLOPT_POSTFIELDS => json_encode($payload),
-      CURLOPT_HTTPHEADER => [
-        'Authorization: ' . $this->secretKey,
-        'CommercePlatformTag: DDB CMS',
-        "content-type: application/*+json",
-      ],
-    ]);
-
-    $response = curl_exec($ch);
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $err = curl_error($ch);
-    curl_close($ch);
+    try {
+      $response = $this->httpClient->request('POST', $this->apiUrl . $this->apiPaymentsPath . $paymentId . '/charges', $options);
+    } catch (ClientException $exception) {
+      throw new PaymentCommunicationException($exception->getMessage(), $exception->getCode());
+    }
 
     // Decode result from json payload.
-    if (201 === $code) {
-      $data = json_decode($response, TRUE);
+    if (201 === $response->getStatusCode()) {
+      $data = json_decode($response->getBody()->getContents(), TRUE);
       return $data['chargeId'];
     }
 
     // Handle errors.
-    $this->genericErrorHandling($err, $code, $response);
+    $this->genericErrorHandling($response->getStatusCode(), $response->getBody()->getContents());
   }
 
   /**
    * Helper to handle errors.
    *
-   * @param string $err
-   *   Error message form the http client.
    * @param int $code
    *   Http status code from the http client.
-   * @param string|array $response
-   *   The response from the http client.
+   * @param string|array $body
+   *   The body from the http request.
    *
    * @throws \Nets\Easy\Exception\PaymentCommunicationException
    * @throws \Nets\Easy\Exception\PaymentException
    */
-  private function genericErrorHandling($err, $code, $response) {
-    if (!empty($err)) {
-      throw new PaymentCommunicationException($err, $code);
-    }
-
-    if (empty($response) && !in_array($code, ['400', '500'])) {
+  private function genericErrorHandling($code, $body) {
+    if (empty($body) && !in_array($code, ['400', '500'])) {
       throw new PaymentCommunicationException('Unknown error in connection to the payment gateway (' . $code . ')', $code);
     }
 
     // Decode response.
-    $response = json_decode($response, TRUE);
+    $body = json_decode($body, TRUE);
 
     // See https://nets-devs.isotop.se/nets-easy/en-EU/api/payment-v1/ for
     // information about the data returned from Nets on 500 and 400.
     if (500 === $code) {
-      if (!empty($response['message'])) {
-        throw new PaymentException($response['message'], $response['code']);
+      if (!empty($body['message'])) {
+        throw new PaymentException($body['message'], $body['code']);
       }
     }
 
     if (400 === $code) {
-      if (!empty($response['errors'])) {
-        $properties = array_keys($response['errors']);
+      if (!empty($body['errors'])) {
+        $properties = array_keys($body['errors']);
         $property = reset($properties);
-        throw new PaymentException($property . ' - ' . reset($response['errors'][$property]), $code);
+        throw new PaymentException($property . ' - ' . reset($body['errors'][$property]), $code);
       }
-      if (!empty($response['message'])) {
-        throw new PaymentException($response['message'], $code);
+      if (!empty($body['message'])) {
+        throw new PaymentException($body['message'], $code);
       }
     }
 
@@ -214,7 +177,21 @@ class Client {
     // the last check in the functions above, so this should always throw an
     // exception.
     $msg = 'Unknown error in connection to the payment gateway';
-    throw new PaymentCommunicationException(empty($response['message']) ? $msg : $response['message'], $code);
+    throw new PaymentCommunicationException(empty($body['message']) ? $msg : $body['message'], $code);
+  }
+
+  /**
+   * Default http headers needed to communicate with the gateway.
+   *
+   * @return array
+   *   Headers array indexed by header name.
+   */
+  private function defaultHeaders() {
+    return [
+      'Authorization' => $this->secretKey,
+      'Content-Type' => 'application/*+json',
+      'CommercePlatformTag' => 'DDB CMS',
+    ];
   }
 
 }

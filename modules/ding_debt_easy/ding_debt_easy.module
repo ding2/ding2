@@ -872,7 +872,9 @@ function _ding_debt_easy_get_client() {
   _ding_debt_easy_load_library();
   $config = ding_debt_easy_get_api_config();
 
-  return new Client($config['secret'], $config['checkout'], $config['endpoint']);
+  $http_client = new \GuzzleHttp\Client();
+
+  return new Client($http_client, $config['secret'], $config['checkout'], $config['endpoint']);
 }
 
 /**
