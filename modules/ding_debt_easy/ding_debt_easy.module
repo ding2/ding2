@@ -213,13 +213,19 @@ function _ding_debt_easy_retry_payments() {
 
         if (empty($fees[$id]->paid_date)) {
           // The fee has not been marked as paid at the provider. So we simply
-          // try to pay them all once more.
+          // try to mark them all once more, as paid. This logic may seam
+          // strange, but the premise is that it's better to mark a fee as paid
+          // even if it can not be charged at the gateway. It's less important
+          // that the library has false marked fees than the citizen have been
+          // charged for a fee that is not marked.
           $status = ding_provider_invoke('debt', 'payment_received', NULL, $order['provider_ids'], $order['order_id'], $order['patron_id']);
           if (!$status) {
             $chargeable = FALSE;
           }
 
-          // Jump out of the foreach loop for this order fees.
+          // Jump out of the foreach loop for this order fees. If marking of the
+          // fee as paid have failed the $chargeable variable will be false and
+          // the charge will not be completed.
           break;
         }
       }
@@ -243,7 +249,7 @@ function _ding_debt_easy_retry_payments() {
           }
         }
         else {
-          // Already charged (should not happen, but if someone may have done it
+          // Already charged (should not happen, but someone may have charged it
           // in the easy portal) maker the order as completed.
           _ding_debt_easy_update_status_local($order['payment_id'], DING_DEBT_EASY_STATUS_COMPLETED);
           _ding_debt_easy_remove_personal_info($order['payment_id']);
@@ -251,8 +257,8 @@ function _ding_debt_easy_retry_payments() {
       }
     }
 
-    // Update the number of retires, no matter what happened above... this was
-    // a retry.
+    // Update the number of retires, no matter what happened above this was a
+    // retry.
     _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
   }
 }
