@@ -170,7 +170,7 @@ function _ding_debt_easy_wipe() {
       ->condition('changed', $limit->getTimestamp(), '<')
       ->execute();
 
-    watchdog('ding_debt_easy', '%x payments was removed from the local database.', [
+    watchdog('ding_debt_easy', '%num_deleted payments was removed from the local database.', [
       '%num_deleted' => $num_deleted,
     ], WATCHDOG_INFO);
   }
