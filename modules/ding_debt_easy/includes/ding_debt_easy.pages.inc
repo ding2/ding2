@@ -15,6 +15,8 @@ function ding_debt_easy_terms_page() {
   // Check if page should be rendered of redirect to other static page.
   _ding_debt_easy_pages_redirect('terms');
 
+  drupal_add_css(drupal_get_path('module', 'ding_debt_easy') . '/css/ding_debt_easy.css');
+
   $output = '<h1>' . t('Terms declaration', [], ['context' => 'ding_debt_easy']) . '</h1>';
 
   $config = variable_get('ding_debt_easy_terms', []);
@@ -37,6 +39,8 @@ function ding_debt_easy_terms_page() {
 function ding_debt_easy_privacy_page() {
   // Check if page should be rendered of redirect to other static page.
   _ding_debt_easy_pages_redirect('privacy');
+
+  drupal_add_css(drupal_get_path('module', 'ding_debt_easy') . '/css/ding_debt_easy.css');
 
   $output = '<h1>' . t('Privacy declaration', [], ['context' => 'ding_debt_easy']) . '</h1>';
 
