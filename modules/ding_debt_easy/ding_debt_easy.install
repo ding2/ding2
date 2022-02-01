@@ -52,6 +52,7 @@ function ding_debt_easy_schema() {
       ],
       'amount' => [
         'description' => 'The amount reserved at the payment gateway.',
+        // This type is an int as the payment gateway uses "øre" as unit.
         'type' => 'int',
         'not null' => FALSE,
         'default' => 0,
@@ -76,7 +77,8 @@ function ding_debt_easy_schema() {
       ],
     ],
     'indexes' => [
-      'id_index' => ['payment_id', 'provider_ids', 'order_id'],
+      'id_order_index' => ['order_id'],
+      'id_payment_index' => ['payment_id'],
     ],
     'primary key' => ['id'],
   ];

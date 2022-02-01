@@ -194,7 +194,7 @@ function _ding_debt_easy_retry_payments() {
     $order = _ding_debt_easy_get_payment_local($order->payment_id);
 
     // Check interval retry (back-off strategy with 6 retries ending 24 hours
-    // from first try, starting at 10 min - 300, 900, 2700 ... 86400 sec.).
+    // from first try, starting at 5 min - 300, 900, 2700 ... 86400 sec.).
     $limit = $order['changed'] + (int) (300 * pow(3, $order['retries']));
 
     if (REQUEST_TIME > $limit) {
