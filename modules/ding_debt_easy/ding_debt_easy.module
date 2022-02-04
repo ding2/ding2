@@ -500,6 +500,7 @@ function _ding_debt_easy_get_payment_types_options() {
  *
  * @throws \DingProviderDoesntImplement
  * @throws \DingProviderNoProvider
+ * @throws \GuzzleHttp\Exception\GuzzleException
  */
 function _ding_debt_easy_callback() {
   global $user;
@@ -515,6 +516,15 @@ function _ding_debt_easy_callback() {
   // Fetch order details form the database.
   $local_record = _ding_debt_easy_get_payment_local($payment_id);
 
+  // The payment gateway calls the callback two time with the same payload,
+  // sometimes, so to protect against this we have this extra check. In chrome
+  // the first callback will be marked as canceled, but the request have been
+  // sent to the backend. If in incognito mode this does not seam to happen. It
+  // has been testet on different system and the result is the same.
+  if ($local_record['status'] === DING_DEBT_EASY_STATUS_COMPLETED) {
+    drupal_goto(DING_DEBT_USER_DEBT_PAGE);
+  }
+
   // Validate the current status for the local record to prevent payment errors.
   $valid_status = [
     DING_DEBT_EASY_STATUS_RESERVED,
@@ -522,8 +532,9 @@ function _ding_debt_easy_callback() {
     DING_DEBT_EASY_STATUS_CREATED,
   ];
   if (!in_array($local_record['status'], $valid_status)) {
-    watchdog('ding_debt_easy', 'Unable process payment for the order (%order_id).', [
+    watchdog('ding_debt_easy', 'Unable process payment for the order (%order_id). The order have state: %state', [
       '%order_id' => $local_record['order_id'],
+      '%state' => $local_record['status'],
     ], WATCHDOG_INFO);
     drupal_set_message(t('Unable process payment for the order (%order_id). Please contact the library with the order id.', [
       '%order_id' => $local_record['order_id'],
