@@ -27,6 +27,11 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
 
   $debts = ding_provider_invoke('debt', 'list', $account);
 
+  // Try to enrich debts with payment processing status information.
+  if (ding_provider_implements('payment', 'status')) {
+    $debts = ding_provider_invoke('payment', 'status', $debts);
+  }
+
   if ($debts) {
     $internal_debts = array_filter($debts, '_ding_debt_filter_payable');
     $external_debts = array_filter($debts, '_ding_debt_filter_nonpayable');
@@ -128,72 +133,15 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     if (variable_get('ding_debt_enable_internal_button', TRUE)) {
       $provider = ding_provider_get_provider_module_name('payment');
       if (!empty($provider)) {
-        // Yeah, this is extremely hacky, but DIBS payments are being phased out,
-        // so refactoring ding_dibs so we can include the contents of these blocks
-        // isn't worth the efford.
-        if ($provider === 'ding_dibs') {
-          $block = ding_dibs_block_view('dibs-cards-supported');
-          $form['cards_header'] = [
-            '#prefix' => '<h3>',
-            '#suffix' => '</h3>',
-            '#markup' => check_plain($block['subject']),
-          ];
-
-          $form['cards_body'] = [
-            '#markup' => $block['content'],
-          ];
-
-          $block = ding_dibs_block_view('dibs-terms-of-sale');
-          $form['terms_header'] = [
-            '#prefix' => '<h3>',
-            '#suffix' => '</h3>',
-            '#markup' => check_plain($block['subject']),
-          ];
-
-          $form['terms_body'] = [
-            '#markup' => $block['content'],
-          ];
+        if (ding_provider_implements('payment', 'cards_supported')) {
+          $form += ding_provider_invoke('payment', 'cards_supported');
         }
-
-        $form['accept_terms'] = array(
-          '#type' => 'checkbox',
-          '#title' => t('I accept the terms of service'),
-          '#required' => TRUE,
-        );
-
-        $form['internal_buttons'] = [
-          '#type' => 'container',
-          '#attributes' => [
-            'class' => ['pay-buttons'],
-          ],
-          '#tree' => FALSE,
-        ];
-
-        $form['internal_buttons']['pay_selected'] = array(
-          '#type' => 'submit',
-          '#prefix' => '<div class="pay-button">',
-          '#value' => t('Pay selected debts'),
-          '#suffix' => '</div>',
-          '#submit' => array('ding_debt_debts_form_submit_pay_selected'),
-          '#states' => array(
-            'disabled' => array(
-              ':input[name="accept_terms"]' => array('checked' => FALSE),
-            ),
-          ),
-        );
-
-        $form['internal_buttons']['pay_all'] = array(
-          '#type' => 'submit',
-          '#prefix' => '<div class="pay-button">',
-          '#value' => t('Pay all debts'),
-          '#suffix' => '</div>',
-          '#submit' => array('ding_debt_debts_form_submit_pay_all'),
-          '#states' => array(
-            'disabled' => array(
-              ':input[name="accept_terms"]' => array('checked' => FALSE),
-            ),
-          ),
-        );
+        if (ding_provider_implements('payment', 'terms')) {
+          $form += ding_provider_invoke('payment', 'terms');
+        }
+        if (ding_provider_implements('payment', 'buttons')) {
+          $form += ding_provider_invoke('payment', 'buttons');
+        }
       }
     }
   }
@@ -236,6 +184,18 @@ function ding_debt_list_items($debts) {
       '#disabled' => !$debt->payable,
     );
 
+    if (!is_null($debt->status)) {
+      $item['#information']['status'] = array(
+        'label' => t('Payment status', array(), array('context' => 'ding_debt')),
+        'data' => t($debt->status, array(), array('context' => 'ding_debt')),
+        'class' => 'fee_status',
+        '#weight' => 12,
+      );
+
+      // Disable payment checkbox as this debt is under payment.
+      $item['#disabled'] = 'TRUE';
+    }
+
     // Add material number if available.
     if (isset($debt->material_number)) {
       $item['#information']['material-number'] = array(
@@ -260,6 +220,14 @@ function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
   $amount = 0;
   $debts = $form_state['values']['debt_data'];
   foreach ($debts as $debt_id => $debt_data) {
+    // Remove payments that are not payable, do to having a gateway payment
+    // status. If they have a status they are already being processed and should
+    // not be part of a new payment.
+    if (!is_null($debt_data->status)) {
+      unset($debts[$debt_id]);
+      continue;
+    }
+
     $amount += $form_state['values']['debt_data'][$debt_id]->amount;
     $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
   }

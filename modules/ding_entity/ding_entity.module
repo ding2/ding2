@@ -319,8 +319,8 @@ class DingEntityBase {
    *
    * Handles NULL values.
    *
-   * @param $properties array of properties to copy from $values.
-   * @param $values associative array of values to copy.
+   * @param array $properties array of properties to copy from $values.
+   * @param array $values associative array of values to copy.
    */
   protected function _populate($properties, $values) {
     foreach ($properties as $prop) {

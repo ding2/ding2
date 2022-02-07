@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Handle database tables and default configuration during install.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_debt_easy_reports_install() {
+  $path = drupal_get_path('module', 'ding_debt_easy_reports');
+
+  // Setting default values for mail (requested by the customer of the module).
+  variable_set('ding_debt_easy_reports_mail', [
+    'to' => '',
+    'cc' => '',
+    'title' => 'EASY betaling: %count afventende',
+    'header' => [
+      'value' => file_get_contents($path . '/defaults/mail_header.html'),
+      'format' => 'ding_wysiwyg',
+    ],
+    'footer' => [
+      'value' => file_get_contents($path . '/defaults/mail_footer.html'),
+      'format' => 'ding_wysiwyg',
+    ],
+    'cron' => [
+      'hour' => '02',
+      'minute' => '00',
+    ],
+  ]);
+
+  // Adding reports mails to be processed in HTMLMailSystem format by mail
+  // system. It's identified by module name and mail key.
+  $mail_settings = variable_get('mail_system', array());
+  $mail_settings['ding_debt_easy_reports_ding_debt_easy_report_mail'] = "HTMLMailSystem";
+  variable_set('mail_system', $mail_settings);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_debt_easy_reports_uninstall() {
+  variable_del('ding_debt_easy_reports_mail');
+  variable_del('ding_debt_easy_reports_last_cron');
+
+  $mail_settings = variable_get('mail_system', array());
+  unset($mail_settings['ding_debt_easy_reports_ding_debt_easy_report_mail']);
+  variable_set('mail_system', $mail_settings);
+}
