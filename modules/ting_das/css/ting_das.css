@@ -15,24 +15,14 @@
 }
 
 @media screen and (min-width: 600px) {
-  .popupbar .digital-order-form .form-item.form-item-name,.popupbar .digital-order-form .form-item.form-item-mail {
+  .popupbar .digital-order-form .form-item.form-item-mail {
     width:48.5%;
     float: left;
     margin-right: 3%;
   }
 
   .popupbar .digital-order-form .form-item.form-item-mail {
-    margin-right: 0;
-  }
-
-  .popupbar .digital-order-form .form-item-fbs-preferred-branch,.popupbar .digital-order-form .form-item-interest-period {
-    width: 48.5%;
-    float: left;
-    margin-right: 3%;
-  }
-
-  .popupbar .digital-order-form .form-item-interest-period {
-    margin-right: 0;
+    margin-right: 5%;
   }
 
   .popupbar .digital-order-form .form-type-markup {
@@ -48,6 +38,7 @@
     float: left;
     margin-right: 3%;
     margin-bottom: 14px;
+    margin-top: 20px;
   }
 
   .popupbar #popupbar-ting_das .messages {

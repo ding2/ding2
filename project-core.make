@@ -14,4 +14,4 @@ projects[drupal][patch][] = "https://www.drupal.org/files/issues/programatically
 projects[ding2][type] = "profile"
 projects[ding2][download][type] = "git"
 projects[ding2][download][url] = "https://github.com/easySuite/ding2.git"
-projects[ding2][download][tag] = "7.x-6.4.0+easy"
+projects[ding2][download][tag] = "7.x-6.4.1+easy"
