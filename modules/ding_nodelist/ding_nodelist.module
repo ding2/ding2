@@ -1496,7 +1496,7 @@ function _ding_nodelist_format_event_time(array $date) {
  * @param bool $islink
  *   Return formatted as link.
  *
- * @return string
+ * @return array
  *   Location off a event.
  */
 function _ding_nodelist_get_event_location($item, $islink = false) {
