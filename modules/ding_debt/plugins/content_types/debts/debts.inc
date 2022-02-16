@@ -36,6 +36,12 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
     $internal_debts = array_filter($debts, '_ding_debt_filter_payable');
     $external_debts = array_filter($debts, '_ding_debt_filter_nonpayable');
 
+    if (variable_get('ding_debt_show_introtext', TRUE)) {
+      $ding_debt_introtext = variable_get('ding_debt_introtext', _ding_debt_introtext_default());
+
+      $block->content .= '<div class="debt-body">'.check_markup($ding_debt_introtext['value'], $ding_debt_introtext['format']).'</div>';
+    }
+
     $has_internal = !empty($internal_debts) && variable_get('ding_debt_enable_internal', TRUE);
     if ($has_internal) {
       $build = ding_provider_get_form('ding_debt_debts_form', $internal_debts, $external_debts);
@@ -90,16 +96,6 @@ function ding_debt_debts_form($form, &$form_state, $internal_debts, $external_de
     ];
 
     return $form;
-  }
-
-  if (variable_get('ding_debt_show_introtext', TRUE)) {
-    $ding_debt_introtext = variable_get('ding_debt_introtext', _ding_debt_introtext_default());
-
-    $form['introtext'] = [
-      '#prefix' => '<div class="debt-body">',
-      '#suffix' => '</div>',
-      '#markup' => check_markup($ding_debt_introtext['value'], $ding_debt_introtext['format']),
-    ];
   }
 
   if ($has_internal) {
