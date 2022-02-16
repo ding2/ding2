@@ -32,10 +32,17 @@ jobs:
         command: |
           mkdir -p ~/drupal/profiles/ding2
           cp -R ./* ~/drupal/profiles/ding2
+    - run:
+        name: Save lets-encrypt root certificates
+        command: |
+          mkdir -p ~/certs/extra
+          cp .circleci/certs/* ~/certs/extra/
+          cp .circleci/ca-certificates.conf ~/certs/
     - persist_to_workspace:
         root: ~/
         paths:
           - drupal
+          - certs
 
   gulp:
     docker:
@@ -219,6 +226,13 @@ jobs:
         name: Update composer
         command: |
           sudo composer self-update
+    - run:
+        name: Update root certificates
+        command: |
+          sudo cp /home/circleci/certs/ca-certificates.conf /etc/ca-certificates.conf
+          sudo mkdir /usr/share/ca-certificates/extra
+          sudo cp /home/circleci/certs/extra/* /usr/share/ca-certificates/extra/
+          sudo update-ca-certificates
     - run:
         name: Configure PHP for Drupal
         command: |

@@ -8,6 +8,10 @@
         "bin-dir": "bin/",
         "platform": {
             "php": "7.0.33"
+        },
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "cweagans/composer-patches": true
         }
     },
     "require": {
