@@ -180,6 +180,7 @@ jobs:
           sudo cp /home/circleci/certs/ca-certificates.conf /etc/ca-certificates.conf
           sudo mkdir /usr/share/ca-certificates/extra
           sudo cp /home/circleci/certs/extra/* /usr/share/ca-certificates/extra/
+          sudo rm /etc/ssl/certs/*
           sudo update-ca-certificates
     - run:
         name: Configure PHP for Drupal
@@ -239,6 +240,7 @@ jobs:
           sudo cp /home/circleci/certs/ca-certificates.conf /etc/ca-certificates.conf
           sudo mkdir /usr/share/ca-certificates/extra
           sudo cp /home/circleci/certs/extra/* /usr/share/ca-certificates/extra/
+          sudo rm /etc/ssl/certs/*
           sudo update-ca-certificates
     - run:
         name: Configure PHP for Drupal
