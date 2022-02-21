@@ -53,7 +53,7 @@ function ting_covers_addi_ting_covers($entities) {
     // Retrieve covers by PID.
     $retrieved = $service->getByPid(array_keys($entities));
 
-    foreach ($retrieved as $pid=> $cover) {
+    foreach ($retrieved as $pid => $cover) {
       // Try to extract the image url from the result.
       $source_url = FALSE;
       if ($cover->detailUrl) {
@@ -87,6 +87,58 @@ function ting_covers_addi_ting_covers($entities) {
 
   // Return all image information.
   return $covers;
+}
+
+/**
+ * Implements hook_ting_netarchive().
+ *
+ * @param array $entities
+ *   Object pid.
+ *
+ * @return array
+ *   Netarchive PDF URLs.
+ *
+ * Fetch netarchive urls from AdditionalInformation service.
+ */
+function ting_covers_addi_ting_netarchive($entities) {
+  $netarchive_pdfs = array();
+
+  // Exceptions should only be thrown if something is so wrong,
+  // that no netarchive_pdfs can be fetched whatsoever.
+  try {
+    $service = new AdditionalInformationService(
+      variable_get('ting_covers_addi_wsdl_url'),
+      variable_get('ting_covers_addi_username'),
+      variable_get('ting_covers_addi_group'),
+      variable_get('ting_covers_addi_password'),
+      variable_get('ting_covers_addi_enforce_url', FALSE)
+    );
+
+    // Retrieve covers by PID.
+    $retrieved = $service->getByPid(array_keys($entities));
+
+    foreach ($retrieved as $pid => $netarchive_pdf) {
+      // Try to extract the netarchive_pdf url from the result.
+      $source_url = FALSE;
+      if ($netarchive_pdf->netarchiveUrl) {
+        $source_url = $netarchive_pdf->netarchiveUrl;
+      }
+
+      if ($source_url) {
+        // Return the path to the netarchive url.
+        $netarchive_pdfs[$pid] = $source_url;
+      }
+    }
+  }
+  catch (Exception $e) {
+    watchdog('ting_covers_addi', 'Unable to retrieve netarchive pdf url from ADDI: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+
+    // Error in fetching, return no netarchive pdf url.
+    return array();
+  }
+
+  // Return all netarchive pdf url information.
+  return $netarchive_pdfs;
 }
 
 /**

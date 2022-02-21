@@ -90,6 +90,11 @@ class AdditionalInformationService {
 
   /**
    * Expand the provided IDs into the array structure used in sendRequest.
+   * @param string $id_type
+   * @param mixed $image_default_style_revert(style)
+   *
+   * @return array
+   *   Array of the identifiers that were found.
    */
   protected function collectIdentifiers($id_type, $ids) {
     if (!is_array($ids)) {
@@ -230,6 +235,17 @@ class AdditionalInformationService {
         }
       }
 
+      // Check for a netarchive pdf url.
+      $netarchive_list  = isset($info->netArchive) ? $info->netArchive : FALSE;
+      if ($netarchive_list) {
+        if (!is_array($netarchive_list)) {
+          $netarchive_list = array($netarchive_list);
+        }
+        foreach ($netarchive_list as $pdf) {
+          $netarchive_url = $pdf->_;
+        }
+      }
+
       // In some cases moreinfo will return external URLs to a covers supplied
       // by the owner of the record.
       $extern_url = NULL;
@@ -248,7 +264,8 @@ class AdditionalInformationService {
       $additional_info = new AdditionalInformation(
         $thumbnail_url,
         $detail_url,
-        $extern_url
+        $extern_url,
+        $netarchive_url
       );
       $additional_informations[$info->identifier->$id_name] = $additional_info;
     }
