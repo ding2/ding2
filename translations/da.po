@@ -68092,3 +68092,81 @@ msgstr "Ikke bosat i kommunen"
 #: /das/870971-tsart:80640722/order?
 msgid "Only residents in the municipality are allowed to order digital copies."
 msgstr "Du skal have adresse i kommunen for at bestille digitale kopier"
+
+#: /
+msgid ""
+"<h3>Status explanation</h3>\n"
+"<ul>\n"
+"<li><strong>Created</strong>: payment order created at Nets. The user has <strong> not </strong> provided card information yet</li>\n"
+"<li><strong>Reserved</strong>: payment reserved on the user's card.</li>\n"
+"<li><strong>Pending</strong>: payment reserved on the user's card, but has not yet successful against the provider.</li>\n"
+"<li><strong>Completed</strong>: payment completed.</li>\n"
+"<li><strong>Failed</strong>: payment has failed (properly at FBS). Payment is still reserved.</li>\n"
+"</ul>\n"
+msgstr ""
+"<h3>Status oversigt</h3> <ul> <li><strong>Created</strong>: Betalingsordre er oprettet hos Nets. Brugeren har endnu<strong> ikke </strong> indtastet "
+"kortoplysninger</li> <li><strong>Reserved</strong>: Beløbet er reserveret på brugerens kort.</li> <li><strong>Pending</strong>: Beløbet er reserveret på "
+"brugerens kort, men betaling har ikke kunnet genneføres pga. kommunikationsproblemer med enten FBS eller Nets EASY. DDB CMS vil automatisk genforsøge 6 "
+"gang med 4 timers mellemrum. Hvis det ikke hjælper havner ordren i status Failed.</li> <li><strong>Completed</strong>: Betaling er gennemført med "
+"success</li> <li><strong>Failed</strong>: Betaling kunne ikke gennemføres i enten FBS eller Easy Nets. Beløbet er stadig reserveret på brugerens kort. "
+"Biblioteket skal logge ind i EASY og enten hæve pengene eller hæve låsen på beløbet. Følg vejledningen i mail rapporten / DDB CMS manualen.</li> </ul>\n"
+
+#: /payment/easy/privacy
+msgid "Privacy declaration"
+msgstr "Brugervilkår"
+
+#: /payment/easy/privacy
+msgctxt "ding_debt_easy"
+msgid "Privacy declaration"
+msgstr "Brugervilkår"
+
+#: /payment/easy/terms
+msgid "Terms declaration"
+msgstr "Betalingsbetingelser"
+
+#: /payment/easy/terms
+msgctxt "ding_debt_easy"
+msgid "Terms declaration"
+msgstr "Betalingsbetingelser"
+
+#: /payment/easy/callback?paymentid=026300006203aef73d2d761053179fd5
+msgid "There is a communication problem with the gateway. The amount has been reserved but not charged at the gateway yet."
+msgstr ""
+"Der er ikke længere forbindelse til bibliotekssytem/betalingssite. Beløbet er reserveret, men ikke hævet på dit kort. Transaktionen vil blive forsøgt "
+"gennemført inden for de næste 24 timer."
+
+#: /payment/easy/callback?paymentid=026300006203aef73d2d761053179fd5
+msgid "Transaction ID: @transaction, order no.: @order."
+msgstr "Transaktions ID: \"@transaction, ordrenummer.: @order."
+
+#: /user/me/status-debts
+msgid "Read the Terms and conditions of sale at this page"
+msgstr "Klik for at læse betalingsbetingelser"
+
+#: profiles/ding2/modules/ding_debt_easy/ding_debt_easy.module:511
+msgid "Something unexpected happened with processing the payment. Please try again or contact the library."
+msgstr "Det er opstået en uventet fejl. Prøv igen eller kontakt biblioteket."
+
+#: profiles/ding2/modules/ding_debt_easy/ding_debt_easy.module:539
+msgid "Unable process payment for the order (%order_id). Please contact the library with the order id."
+msgstr "Betaling for ordrenummer (%order_id) kan ikke gennemføres. Kontakt biblioteket og oplys ordrenummer."
+
+#: profiles/ding2/modules/ding_debt_easy/ding_debt_easy.module:558
+msgid "Unable process payment as the order (%order_id) was not found at the gateway. Please contact the library with the order id."
+msgstr "Betaling for ordrenummer (%order_id) kan ikke gennemføres. Kontakt biblioteket og oplys ordrenummer."
+
+#: profiles/ding2/modules/ding_debt_easy/ding_debt_easy.module:569
+msgid "Unable to process payment as there was a communication error. We will try automatically later with order id: %order_id."
+msgstr "Der er ikke længere forbindelse til bibliotekssytem/betalingssite. Din ordre (%order_id) vil blive forsøgt gennemført inden for de næste 24 timer."
+
+#: profiles/ding2/modules/ding_debt_easy/ding_debt_easy.module:648
+msgid "The payment have been canceled"
+msgstr "Din betaling er blevet annulleret"
+
+#: profiles/ding2/modules/ding_debt_easy/includes/easy.payment.inc:70 yy
+msgid "There is a communication problem with the gateway. Please try again later."
+msgstr "Der er ikke forbindelse til betalingssite. Prøv igen senere."
+
+#: profiles/ding2/modules/ding_debt_easy/includes/easy.payment.inc:80 yy
+msgid "There is an error with the payment gateway. Please try again later or contact the library with order ID: %order_id"
+msgstr "Der opstod en fejl på betalingssitet. Prøv igen eller kontakt biblioteket med dette ordrenummer: %order_id"
