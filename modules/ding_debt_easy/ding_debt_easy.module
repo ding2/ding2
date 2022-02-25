@@ -460,7 +460,7 @@ function ding_debt_easy_get_api_config() {
   ]);
 
   return [
-    'endpoint' => empty($endpoints['testing']) || $endpoints['testing'] ? $endpoints['test'] : $endpoints['prod'],
+    'endpoint' => $endpoints['testing'] ? $endpoints['test'] : $endpoints['prod'],
   ] + variable_get('ding_debt_easy_keys', []);
 }
 
