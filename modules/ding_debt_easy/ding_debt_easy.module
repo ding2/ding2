@@ -258,8 +258,9 @@ function _ding_debt_easy_retry_payments() {
     }
 
     // Update the number of retires, no matter what happened above this was a
-    // retry.
-    _ding_debt_easy_update_retries_local($order['payment_id'], $order['retries']);
+    // retry. For some reason the retries counter from the database is a string
+    // when loaded from the database, so we cast it here.
+    _ding_debt_easy_update_retries_local($order['payment_id'], (int) $order['retries']);
   }
 }
 
