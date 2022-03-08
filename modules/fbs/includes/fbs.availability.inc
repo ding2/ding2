@@ -257,7 +257,10 @@ function fbs_availability_holdings($provider_ids) {
           if (isset($tmp_issues[$key])) {
             $tmp_issues[$key]['available'] += $material->available ? 1 : 0;
             $tmp_issues[$key]['total'] += 1;
-            $tmp_issues[$key]['materials'][] = array('material_id' => $material->itemNumber, 'available' => $material->available);
+            $tmp_issues[$key]['materials'][] = array(
+              'material_id' => $material->itemNumber, 
+              'available' => $material->available
+            );
           }
           else {
             // Generate "vol key". Both volume and volumeNumber can be empty so
@@ -273,9 +276,15 @@ function fbs_availability_holdings($provider_ids) {
               'available' => $material->available ? 1 : 0,
               'total' => 1,
               'placement' => $placement_string,
-              'local_id' => _fbs_periodical_get_local_id($item->recordId, $material->periodical),
+              'local_id' => _fbs_periodical_get_local_id(
+                $item->recordId, 
+                $material->periodical
+              ),
               'placement_array' => $result_holding['placement'],
-              'materials' => [array('material_id' => $material->itemNumber, 'available' => $material->available)],
+              'materials' => [array(
+                'material_id' => $material->itemNumber, 
+                'available' => $material->available
+              )],
             );
           }
         }
