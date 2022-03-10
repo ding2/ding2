@@ -246,3 +246,16 @@ function ding_base_update_7011() {
     ->condition('name', 'samesite_cookie', '=')
     ->execute();
 }
+
+/**
+ * Set values on webform so progressbar is disabled by default.
+ */
+function ding_base_update_7012() {
+  if (module_exists('webform')) {
+    $webform_progressbar = webform_variable_get('webform_progressbar_style');
+    if (is_array($webform_progressbar) && in_array('progressbar_bar', $webform_progressbar)) {
+      unset($webform_progressbar[array_search('progressbar_bar', $webform_progressbar)]);
+    }
+    variable_set('webform_progressbar_style', $webform_progressbar);
+  }
+}
