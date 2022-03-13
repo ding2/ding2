@@ -101,6 +101,7 @@ function fbs_availability_holdings($provider_ids) {
         // We have no idea about this either.
         'reference_count' => 0,
         'placement' => array(),
+        'materials' => array(),
       );
 
       // Add in placement.
@@ -110,6 +111,11 @@ function fbs_availability_holdings($provider_ids) {
         }
       }
 
+      // Add material numbers and availability
+      foreach ($item_holding->materials as $material) {
+        $result_holding['materials'][] = array('material_id' => $material->itemNumber, 'available' => $material->available);
+      }
+      
       // Add material description.
       $material_description = $item_holding->materials;
       if (variable_get('fbs_show_material_group', 0) && $material_description[0]) {

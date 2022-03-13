@@ -1,0 +1,15 @@
+.card-logo {
+  vertical-align: middle;
+  margin-right: 0.5em;
+  display: inline;
+}
+
+.card-logo img {
+  max-height: 32px;
+}
+
+.card-logo .name {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.5em;
+}

@@ -1,0 +1,35 @@
+#cards-supported {
+  margin-bottom: 1em;
+}
+#cards-supported p {
+  float: left;
+  padding-bottom: 0em;
+  margin: 0 1em 0 0;
+}
+
+#cards-supported .card-name {
+  font-weight: bold;
+  margin-top: 0.2em;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
+#cards-supported .card-logo {
+  max-height: 33px;
+  max-width: 53px;
+  vertical-align: middle;
+  margin: auto;
+}
+
+#terms-of-sale {
+  font-size: 0.8em;
+}
+
+#terms-of-sale p {
+  margin: 0 0 1em;
+}
+
+.ding-debt-easy--temporary-text {
+  color: #8c2e0b;
+}

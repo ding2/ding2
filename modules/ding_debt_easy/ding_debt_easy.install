@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * @file
+ * Handle database tables and default configuration during install.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_debt_easy_schema() {
+  $schema = [];
+
+  $schema['ding_debt_easy'] = [
+    'description' => 'Tracking payments made with the payment gateway.',
+    'fields' => [
+      'id' => [
+        'description' => 'The primary local identifier for the table.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'patron_id' => [
+        'description' => 'The providers id for the patron for this payment.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'order_id' => [
+        'description' => 'Internal CMS order id.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'payment_id' => [
+        'description' => 'Id of the payment at the gateway.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'charge_id' => [
+        'description' => 'Charged id of the payment at the gateway.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'provider_ids' => [
+        'description' => 'Ids of the payment at the provider.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'amount' => [
+        'description' => 'The amount reserved at the payment gateway.',
+        // This type is an int as the payment gateway uses "øre" as unit.
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+      'status' => [
+        'description' => 'The current status of the payment.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'retries' => [
+        'description' => 'Number of times this payment has been retried.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+      'changed' => [
+        'description' => 'The Unix timestamp when the status was most recently updated.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'indexes' => [
+      'id_order_index' => ['order_id'],
+      'id_payment_index' => ['payment_id'],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_debt_easy_uninstall() {
+  variable_del('ding_debt_easy_api_endpoints');
+  variable_del('ding_debt_easy_config');
+  variable_del('ding_debt_easy_endpoints');
+  variable_del('ding_debt_easy_keys');
+  variable_del('ding_debt_easy_privacy');
+  variable_del('ding_debt_easy_terms');
+}
