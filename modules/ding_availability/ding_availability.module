@@ -605,7 +605,7 @@ function ding_availability_periodical_holdings_build_table(array $availability) 
     $i++;
   }
 
-  // Write a message if availablility contains no placements
+  // Write a message if availablility contains no placements.
   if (!$availability['placement']) {
     $rows = array(
       'data' => array(
