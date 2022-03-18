@@ -1018,7 +1018,7 @@ function bpi_validate_material($ting_object_id) {
  * @return array
  *   Key is object id. Value is FALSE in case when id not exist or ting_object_id when it exist
  */
-function bpi_validate_materials($ting_object_ids) {
+function bpi_validate_materials(array $ting_object_ids) {
   $result_ids = array();
   $search_query = '';
 
@@ -1038,7 +1038,8 @@ function bpi_validate_materials($ting_object_ids) {
   foreach ($ting_object_ids as $id) {
     if (in_array($id, $found_ids)) {
       $result_ids[$id] = $id;
-    } else {
+    }
+    else {
       $result_ids[$id] = FALSE;
     }
   }
@@ -1072,9 +1073,10 @@ function bpi_validate_do_search($search_query) {
         $found_ids[] = $entity->getId();
       }
     }
-  } catch (Exception $e) {
+  }
+  catch (Exception $e) {
     watchdog_exception('bpi', $e, 'Failed to get materials from Opensearch');
-    drupal_set_message('Validation af materials failed', 'error');
+    drupal_set_message(t('Validation af materials failed'), 'error');
   }
   return $found_ids;
 }
