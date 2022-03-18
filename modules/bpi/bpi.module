@@ -998,16 +998,12 @@ function bpi_workflow_by_machine_names($machine_names) {
  *   The Ting object id.
  *
  * @return mixed
- *   FALSE in case when id not exist
- *   int in case when material with same id was found.
+ *   FALSE in case when id not exist.
+ *   Id in case when material with same id was found.
  */
 function bpi_validate_material($ting_object_id) {
-  // If the colon was URL-encoded, decode it - and trim whitespace from
-  // both ends of the input string.
-  $ting_object_id = trim(str_replace('%3A', ':', $ting_object_id));
-
+  // Paragraphs module expects this function to exist.
   // Load the object to validate it exists.
-  // Loading it should make it available for use with ting_get_object().
   $response = bpi_validate_materials(array($ting_object_id));
 
   return $response[$ting_object_id];
@@ -1038,6 +1034,7 @@ function bpi_validate_materials($ting_object_ids) {
 
   }
   $found_ids = bpi_validate_do_search($search_query);
+
   foreach ($ting_object_ids as $id) {
     if (in_array($id, $found_ids)) {
       $result_ids[$id] = $id;
@@ -1062,11 +1059,11 @@ function bpi_validate_do_search($search_query) {
   $found_ids = array();
   try {
     $query = ting_start_query()
-    ->withRawQuery($search_query)
-    ->withCollectionType(TingSearchRequest::COLLECTION_TYPE_SINGLE_OBJECT)
-    // We handle max 50 materials in one article. Should be enough.
-    ->withCount(50)
-    ->withPopulateCollections(FALSE);
+      ->withRawQuery($search_query)
+      ->withCollectionType(TingSearchRequest::COLLECTION_TYPE_SINGLE_OBJECT)
+      // We handle max 50 materials in one article. Should be enough.
+      ->withCount(50)
+      ->withPopulateCollections(FALSE);
 
     $results = $query->execute();
     $collections = $results->getTingEntityCollections();
@@ -1075,8 +1072,9 @@ function bpi_validate_do_search($search_query) {
         $found_ids[] = $entity->getId();
       }
     }
-  } catch (\Exception $e) {
-    //TOdo handle exception
+  } catch (Exception $e) {
+    watchdog_exception('bpi', $e, 'Failed to get materials from Opensearch');
+    drupal_set_message('Validation af materials failed', 'error');
   }
   return $found_ids;
 }
