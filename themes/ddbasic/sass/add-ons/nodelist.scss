@@ -8,3 +8,12 @@
 .ding_nodelist-carousel .library{
   color: $white;
 }
+
+.ding_nodelist-node_blocks .nb-item .info-bottom .library .field-item {
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.ding_nodelist-node_blocks .nb-item .text .info-bottom {
+  margin-top: 10px;
+}
