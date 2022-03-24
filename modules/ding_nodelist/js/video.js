@@ -21,7 +21,7 @@
       this.showPlayBtn(wrapper.parent().parent());
     },
     buildIframe: function (data) {
-      return `<iframe class="media-${data.service}-player" width="100%" height="${data.height}" src="${data.mediaurl}" frameborder="0" allowfullscreen="" id="target" autohide="1" allow="autoplay"></iframe>`;
+      return '<iframe class="media-"' + data.service + '"-player" width="100%" height="' + data.height + '" src="' + data.mediaurl + '" frameborder="0" allowfullscreen="" id="target" autohide="1" allow="autoplay"></iframe>';
     },
     getService: function (top) {
       return top.children('.media-container').children('.media-content').data('service');
