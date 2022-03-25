@@ -512,9 +512,9 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
           if ($items[0]['event_id'] == 1 && $items[0]['event_maker_id'] == 1) {
             // This should not happen so we abort the saving off the node and alert the editor.
             $variables = array(
-              '@original_items' => print_r($settings , TRUE),
+              '@original_items' => print_r($settings, TRUE),
               '@synchronized_items' => print_r($synchronized_items, TRUE),
-              '@items' => print_r($items , TRUE)
+              '@items' => print_r($items, TRUE),
             );
             watchdog('ding_place2book', 'Original items: @original_items. Synchronized items: @synchronized_items. Items to be saved: @items', $variables, WATCHDOG_ERROR);
 
