@@ -1049,7 +1049,7 @@ function bpi_validate_materials(array $ting_object_ids) {
  * @return array
  *   Ids of found objects.
  */
-function bpi_validate_do_search($ids) {
+function bpi_validate_do_search(array $ids) {
   $found_ids = array();
   try {
     $query = ting_start_query()
