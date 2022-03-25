@@ -511,8 +511,12 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
         if (is_array($items) && isset($items[0]['event_id']) && isset($items[0]['event_maker_id'])) {
           if ($items[0]['event_id'] == 1 && $items[0]['event_maker_id'] == 1) {
             // This should not happen so we abort the saving off the node and alert the editor.
-            watchdog('ding_place2book', 'Original items: @original_items. Synchronized items: @synchronized_items. Items to be saved: @items',
-             array('@original_items' => print_r($settings , TRUE), '@synchronized_items' => print_r($synchronized_items, TRUE), '@items' => print_r($items , TRUE)), WATCHDOG_ERROR);
+            $variables = array(
+              '@original_items' => print_r($settings , TRUE),
+              '@synchronized_items' => print_r($synchronized_items, TRUE),
+              '@items' => print_r($items , TRUE)
+            );
+            watchdog('ding_place2book', 'Original items: @original_items. Synchronized items: @synchronized_items. Items to be saved: @items', $variables, WATCHDOG_ERROR);
 
             drupal_set_message(t('We couldnt save your event. Please try again later. If the problem persist you need to create the event again'), 'error');
 
