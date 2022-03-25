@@ -1020,20 +1020,13 @@ function bpi_validate_material($ting_object_id) {
  */
 function bpi_validate_materials(array $ting_object_ids) {
   $result_ids = array();
-  $search_query = '';
+  $ids = array();
 
-  if (isset($ting_object_ids) && is_array($ting_object_ids)) {
-    $prefix = '';
-    foreach ($ting_object_ids as $id) {
-      // If the colon was URL-encoded, decode it - and trim whitespace from
-      // both ends of the input string.
-      $id = trim(str_replace('%3A', ':', $id));
-      $search_query .= $prefix . 'rec.id="' . $id . '"';
-      $prefix = ' OR ';
-    }
-
+  foreach ($ting_object_ids as $id) {
+    $ids[] = trim(urldecode($id));
   }
-  $found_ids = bpi_validate_do_search($search_query);
+
+  $found_ids = bpi_validate_do_search($ids);
 
   foreach ($ting_object_ids as $id) {
     if (in_array($id, $found_ids)) {
@@ -1050,17 +1043,17 @@ function bpi_validate_materials(array $ting_object_ids) {
 /**
  * Exuecutes the search query against the well.
  *
- * @param string $search_query
- *   The search query.
+ * @param array $ids
+ *   Array off ids to check.
  *
  * @return array
  *   Ids of found objects.
  */
-function bpi_validate_do_search($search_query) {
+function bpi_validate_do_search($ids) {
   $found_ids = array();
   try {
     $query = ting_start_query()
-      ->withRawQuery($search_query)
+      ->withMaterialFilter($ids)
       ->withCollectionType(TingSearchRequest::COLLECTION_TYPE_SINGLE_OBJECT)
       // We handle max 50 materials in one article. Should be enough.
       ->withCount(50)
