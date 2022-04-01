@@ -368,7 +368,7 @@ projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0"
 
 projects[role_delegation][subdir] = "contrib"
-projects[role_delegation][version] = "1.1"
+projects[role_delegation][version] = "1.3"
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.7"
