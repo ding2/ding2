@@ -10,6 +10,7 @@ define('DING_WEBTREKK_PARAMETER_SEE_ONLINE', 51);
 define('DING_WEBTREKK_PARAMETER_RENEW_ALL', 56);
 define('DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TITLE', 62);
 define('DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_ID', 63);
+define('DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_ALL', 68);
 
 /**
  * Implements hook_menu().
@@ -366,6 +367,46 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Attached Webtrekk events to the delete reservations buttons on the notready form.
+ */
+function ding_webtrekk_form_ding_reservation_reservations_notready_form_alter(&$form, &$form_state) {
+  _ding_webtrekk_delete_alle_reservations_event($form, $form_state);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Attached Webtrekk events to the delete reservations buttons on the ready form.
+ */
+function ding_webtrekk_form_ding_reservation_reservations_ready_form_form_alter(&$form, &$form_state) {
+  _ding_webtrekk_delete_alle_reservations_event($form, $form_state);
+}
+
+/**
+ * Helper method to attach Webtrekk events to the delete all reservations button.
+ *
+ */
+function _ding_webtrekk_delete_alle_reservations_event(&$form, &$form_state) {
+  $count_reservations = 0;
+  if (isset($form['reservations'])) {
+    $count_reservations = count($form['reservations']);
+  }
+
+  // The delete all button is straight forward. We can attach the event in backend.
+  ding_webtrekk_attach_event(
+    $form['actions_container']['actions_top']['delete_all']['#attributes'],
+    'Slet alle reserveringer',
+    [DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_ALL => $count_reservations]
+  );
+
+  // The delete selected is handled in js.
+  $delete_selected = &$form['actions_container']['actions_top']['delete'];
+  $delete_selected ['#attributes']['class'][] = 'js-ding-webtrekk-event-delete-selected';
 }
 
 /**
