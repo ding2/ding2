@@ -492,6 +492,8 @@ projects[watchdog_filtering][version] = "1.3"
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.24"
 projects[webform][patch][] = "https://www.drupal.org/files/issues/2021-09-20/2972651-webform-no-ip-addresses-34.patch"
+; Patch to ensure PHP 7.4 compatability for existing webforms
+projects[webform][patch][] = "https://www.drupal.org/files/issues/2022-04-22/3256149-php74-attributes-array.patch"
 
 projects[webform_purge][subdir] = "contrib"
 projects[webform_purge][version] = "1.3"
