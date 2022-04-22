@@ -62,7 +62,7 @@ function ding_reservation_menu() {
   $items['ting/reservations/%/delete'] = array(
     'title' => 'Delete reservations',
     'page callback' => array('ding_reservation_delete_reservations_form_ajax_submit'),
-    'page arguments' => array(2),
+    'page arguments' => array(2, array()),
     'delivery callback' => 'ajax_deliver',
     'access arguments' => array('perform reservation'),
   );
