@@ -418,6 +418,13 @@ projects[easyopac_recommender][download][url]    = "git@github.com:easySuite/eas
 ;projects[easyopac_recommender][download][tag]    = ""
 projects[easyopac_recommender][download][branch] = "development"
 
+projects[easyopac_reset_password][type]             = "module"
+projects[easyopac_reset_password][subdir]           = ""
+projects[easyopac_reset_password][download][type]   = "git"
+projects[easyopac_reset_password][download][url]    = "git@github.com:easySuite/easyopac_reset_password.git"
+;projects[easyopac_reset_password][download][tag]    = ""
+projects[easyopac_reset_password][download][branch] = "development"
+
 projects[easyopac_status][type]             = "module"
 projects[easyopac_status][subdir]           = ""
 projects[easyopac_status][download][type]   = "git"
