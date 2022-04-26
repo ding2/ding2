@@ -389,7 +389,6 @@ function ding_webtrekk_form_ding_reservation_reservations_ready_form_alter(&$for
 
 /**
  * Helper method to attach Webtrekk events to the delete all reservations button.
- *
  */
 function _ding_webtrekk_delete_alle_reservations_event(&$form, &$form_state) {
   $count_reservations = 0;
@@ -406,7 +405,7 @@ function _ding_webtrekk_delete_alle_reservations_event(&$form, &$form_state) {
 
   // The delete selected is handled in js.
   $delete_selected = &$form['actions_container']['actions_top']['delete'];
-  $delete_selected ['#attributes']['class'][] = 'js-ding-webtrekk-event-delete-selected';
+  $delete_selected['#attributes']['class'][] = 'js-ding-webtrekk-event-delete-selected';
 }
 
 /**
