@@ -383,7 +383,7 @@ function ding_webtrekk_form_ding_reservation_reservations_notready_form_alter(&$
  *
  * Attached Webtrekk events to the delete reservations buttons on the ready form.
  */
-function ding_webtrekk_form_ding_reservation_reservations_ready_form_form_alter(&$form, &$form_state) {
+function ding_webtrekk_form_ding_reservation_reservations_ready_form_alter(&$form, &$form_state) {
   _ding_webtrekk_delete_alle_reservations_event($form, $form_state);
 }
 
