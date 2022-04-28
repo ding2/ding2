@@ -463,7 +463,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         $is_title_suffix_type = (!empty($title_suffix_types[strtolower($entity->getType())]));
         $language = $entity->getLanguage();
         $has_language = !empty($language);
-        $is_default_language = $language == $default_language;
+        $is_default_language = strtolower($language) == strtolower($default_language);
 
         if ($is_title_suffix_type && $has_language && !$is_default_language) {
           $title .= " ($language)";
