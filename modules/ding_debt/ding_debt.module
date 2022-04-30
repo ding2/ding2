@@ -4,6 +4,8 @@
  * Handles display and creation/deletion of debts for users.
  */
 
+define('DING_DEBT_USER_DEBT_PAGE', 'user/me/status-debts');
+
 /**
  * Implements hook_ctools_plugin_directory().
  *
@@ -46,8 +48,21 @@ function ding_debt_permission() {
  * Implements hook_menu().
  */
 function ding_debt_menu() {
-  $items['admin/config/ding/payment'] = [
+  $items = [];
+
+  $items['admin/config/payment'] = array(
     'title' => 'Payment',
+    'description' => 'Payment integration modules.',
+    'position' => 'right',
+    'weight' => -10,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/payment/ding'] = [
+    'title' => 'Ding payment',
     'description' => 'Configure the payment options.',
     'page callback' => 'drupal_get_form',
     'page arguments' => ['ding_debt_settings_form'],
@@ -56,6 +71,26 @@ function ding_debt_menu() {
   ];
 
   return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_debt_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_debt_external' => array(
+      'variables' => array(
+        'title' => NULL,
+        'debts' => [],
+        'total' => 0,
+        'extra_information' => '',
+        'button' => [],
+        'has_internal' => FALSE,
+      ),
+      'template' => 'ding_debt_external',
+      'path' => $path . '/templates',
+    ),
+  );
 }
 
 /**
@@ -79,7 +114,8 @@ function ding_debt_count($account = NULL) {
  * Callback for successful payment transaction.
  */
 function ding_debt_payment_callback($transaction) {
-  return ding_provider_invoke('debt', 'payment_received', $transaction['payment_price'], $transaction['params']['debt_ids'], $transaction['payment_order_id']);
+  global $user;
+  return ding_provider_invoke('debt', 'payment_received', $user, $transaction['params']['debt_ids'], $transaction['payment_order_id']);
 }
 
 /**

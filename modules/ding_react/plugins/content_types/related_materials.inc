@@ -66,7 +66,8 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
       'categories' => ding_react_related_materials_format_data($object->getAudience()),
       'sources' => ding_react_related_materials_format_data($sources),
       'exclude-title' => ding_react_related_materials_format_data($object->getTitle()),
-      // We cannot use url() here as it will encode the colon in the placeholder.
+      // We cannot use url() here as it will encode the colon in the
+      // placeholder.
       'search-url' => '/search/ting/:query?sort=:sort',
       'material-url' => '/ting/object/:pid',
       'cover-service-url' => ding_react_cover_service_url(),
@@ -83,7 +84,7 @@ function ding_react_related_materials_content_type_render($subtype, $conf, $pane
 /**
  * Format a set of string values to a format suitable for React app data.
  *
- * @param string|string[]|FALSE $data
+ * @param string|string[]|false $data
  *   The data to format. Either string or array.
  *
  * @return string

@@ -617,7 +617,7 @@ function ding_base_field_widget_form_alter(&$elements, &$form_state, $context) {
       $display = !empty($displays) ? reset($displays) : NULL;
     }
 
-    if (!empty($display)) {
+    if (!empty($display) && isset($display['settings']['styles']['max_style'])) {
       // We will use functionality of image module.
       $style = image_style_load($display['settings']['styles']['max_style']);
       // Let's use sample file from image module, for applying all effects.

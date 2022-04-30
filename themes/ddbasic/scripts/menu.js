@@ -1,5 +1,5 @@
 /*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
-(function (scope, $) {
+(function ($) {
   'use strict';
 
   // Hide and show header on mobile
@@ -7,7 +7,7 @@
       scroll_delta = 100,
       topbar_height = 148;
   $(window).on('scroll.header', function() {
-    // If mobile
+    // If mobile.
     if (ddbasic.breakpoint.is('mobile')) {
       var st = $(window).scrollTop();
 
@@ -36,6 +36,80 @@
   });
 
   /**
+   *
+   * @param event
+   */
+  function mobileMenuHandler(event) {
+    var body = $('body');
+    event.preventDefault();
+    body.toggleClass('mobile-menu-is-open');
+    body.removeClass('mobile-search-is-open pane-login-is-open mobile-usermenu-is-open');
+    body.toggleClass('overlay-is-active');
+    if(body.hasClass('mobile-menu-is-open')) {
+      body.addClass('overlay-is-active');
+    } else {
+      body.removeClass('overlay-is-active');
+    }
+  }
+
+  /**
+   *
+   * @param event
+   */
+  function searchHandler(event) {
+    var body = $('body');
+    event.preventDefault();
+    body.toggleClass('mobile-search-is-open');
+    body.removeClass('mobile-menu-is-open pane-login-is-open mobile-usermenu-is-open');
+    if(body.hasClass('mobile-search-is-open')) {
+      body.addClass('overlay-is-active');
+    } else {
+      body.removeClass('overlay-is-active');
+    }
+    if (body.hasClass('extended-search-is-not-open')) {
+      body.toggleClass('extended-search-is-not-open');
+    }
+  }
+
+  /**
+   *
+   * @param event
+   */
+  function firstLevelExpandedHandler (event) {
+    var first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a .main-menu-expanded-icon');
+    if ($('.is-tablet').is(':visible')) {
+      event.preventDefault();
+      first_level_expanded.not($(event)).parent().parent().children('.main-menu').slideUp(200);
+      $(event).toggleClass('open');
+      $(event).parent().parent().children('.main-menu').slideToggle(200);
+    }
+  }
+
+  /**
+   *
+   * @param event
+   */
+  function secondLevelExpandedHandler (event) {
+    var second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a .main-menu-expanded-icon');
+    if ($('.is-tablet').is(':visible')) {
+      event.preventDefault();
+      second_level_expanded.not($(event)).removeClass('open');
+      second_level_expanded.not($(event)).parent().parent().children('.main-menu').slideUp(200);
+      $(event).toggleClass('open');
+      $(event).parent().parent().children('.main-menu').slideToggle(200);
+    }
+  }
+
+  /**
+   *
+   * @param event
+   */
+  function searchExtendedHandler(event) {
+    event.preventDefault();
+    $('body').toggleClass('extended-search-is-not-open');
+  }
+
+  /**
    * Menu functionality.
    */
   Drupal.behaviors.menu = {
@@ -45,11 +119,9 @@
           search_extended_btn = $('a.search-extended-button', context),
           first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a .main-menu-expanded-icon', context),
           second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a .main-menu-expanded-icon', context),
-          body = $('body'),
           userPaneForm = $('.js-topbar-user.pane-user-login #user-login-form'),
           // Selectors below basically means to get any items that are focusable.
-          userPaneFocusElements = userPaneForm.find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]'),
-          userPaneFirstInput = userPaneForm.find('input').first();
+          userPaneFocusElements = userPaneForm.find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]');
 
       // By default, the user login pane is hidden, so focusable elements should
       // not be allowed to have tab-focus.
@@ -76,58 +148,28 @@
         thisScope.checkMainLinksOffset(context);
       });
 
-      mobile_menu_btn.on('click', function(evt){
-        evt.preventDefault();
-        body.toggleClass('mobile-menu-is-open');
-        body.removeClass('mobile-search-is-open pane-login-is-open mobile-usermenu-is-open');
-        body.toggleClass('overlay-is-active');
-        if(body.hasClass('mobile-menu-is-open')) {
-          body.addClass('overlay-is-active');
-        } else {
-          body.removeClass('overlay-is-active');
-        }
-      });
+      mobile_menu_btn.unbind('click', mobileMenuHandler);
+      mobile_menu_btn.on('click', mobileMenuHandler);
 
-      search_btn.on('click', function(evt){
-        evt.preventDefault();
-        body.toggleClass('mobile-search-is-open');
-        body.removeClass('mobile-menu-is-open pane-login-is-open mobile-usermenu-is-open');
-        if(body.hasClass('mobile-search-is-open')) {
-          body.addClass('overlay-is-active');
-        } else {
-          body.removeClass('overlay-is-active');
-        }
-      });
+      search_btn.unbind('click', searchHandler);
+      search_btn.on('click', searchHandler);
 
-      first_level_expanded.on('click', function(evt) {
-        if($('.is-tablet').is(':visible')) {
-          evt.preventDefault();
-          first_level_expanded.not($(this)).parent().parent().children('.main-menu').slideUp(200);
-          $(this).toggleClass('open');
-          $(this).parent().parent().children('.main-menu').slideToggle(200);
-        }
-      });
+      first_level_expanded.unbind('click', firstLevelExpandedHandler);
+      first_level_expanded.on('click', firstLevelExpandedHandler);
 
-      second_level_expanded.on('click', function(evt) {
-        if($('.is-tablet').is(':visible')) {
-          evt.preventDefault();
-          second_level_expanded.not($(this)).removeClass('open');
-          second_level_expanded.not($(this)).parent().parent().children('.main-menu').slideUp(200);
-          $(this).toggleClass('open');
-          $(this).parent().parent().children('.main-menu').slideToggle(200);
-        }
-      });
+      second_level_expanded.unbind('click', secondLevelExpandedHandler);
+      second_level_expanded.on('click', secondLevelExpandedHandler);
 
-      search_extended_btn.on('click', function(evt) {
-        evt.preventDefault();
-        body.toggleClass('extended-search-is-not-open');
-      });
+      search_extended_btn.unbind('click', searchExtendedHandler);
+      search_extended_btn.on('click', searchExtendedHandler);
 
       // Tablet/mobile menu logout
       // Logout-link is created with after-element.
       // We check if after-element is clicked by checking if clicked point has a
       // larger y position than the menu itself.
-      $('.header-wrapper .navigation-inner > ul.main-menu-third-level').click(function(evt) {
+      var logout = $('.header-wrapper .navigation-inner > ul.main-menu-third-level');
+      logout.unbind('click');
+      logout.click(function(evt) {
         if($('.is-tablet').is(':visible')) {
           var menu_offset = $('.header-wrapper .navigation-inner > ul.main-menu-third-level').offset(),
               menu_item = $('.header-wrapper .navigation-inner > ul.main-menu-third-level > li'),
@@ -136,6 +178,7 @@
           menu_item.each(function( index ) {
             menu_height = menu_height + $(this).outerHeight();
           });
+
           if (evt.offsetY > (menu_offset.top + menu_height)) {
             window.location.href = "/user/logout";
           }
@@ -154,7 +197,7 @@
         return;
       }
 
-      if (main_menu_wrapper[0].offsetTop != secondary_menu_wrapper[0].offsetTop) {
+      if (main_menu_wrapper[0].offsetTop !== secondary_menu_wrapper[0].offsetTop) {
         $('body').addClass('secondary-menu-below-main');
       } else {
         $('body').removeClass('secondary-menu-below-main');
@@ -172,7 +215,7 @@
       }
 
       // Checking if the first and last elements are on the same line.
-      if (main_menu_links.first().offset().top != main_menu_links.last().offset().top) {
+      if (main_menu_links.first().offset().top !== main_menu_links.last().offset().top) {
         $('body').addClass('has-multiline-main-menu');
       } else {
         $('body').removeClass('has-multiline-main-menu');
@@ -193,4 +236,4 @@
     }
   };
 
-})(this, jQuery);
+})(jQuery);

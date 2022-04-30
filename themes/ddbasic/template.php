@@ -141,6 +141,13 @@ function ddbasic_preprocess_panels_pane(&$vars) {
   if ($vars['pane']->subtype == 'menu_block-main_menu_second_level') {
     ddbasic_body_class('has-second-level-menu');
   }
+
+  // Check if we're displaying a taxonomy terms, i.e. a section.
+  // @todo can we make a better check for this?
+  if ($vars['pane']->panel == 'primary' && $vars['pane']->type == 'term_description') {
+    // Tell the template to render a top-level heading.
+    $vars['pane']->configuration['override_title_heading'] = 'h1';
+  }
 }
 
 /**
@@ -1330,4 +1337,34 @@ function ddbasic_select($variables) {
   else {
     return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
   }
+}
+
+/**
+ * Implements hook_form_FORMID_alter().
+ */
+function ddbasic_form_views_exposed_form_alter(&$form, &$form_state) {
+  // Only modify event list exposed form.
+  if ($form['#id'] == 'views-exposed-form-ding-event-ding-event-list') {
+    $form['date']['value']['#attributes']['aria-labelledby'] = 'edit-date';
+    $form['field_ding_event_date_value_1']['value']['#attributes']['aria-labelledby'] = 'edit-field-ding-event-date-value-1';
+    // Some elements are not yet added to the form so we setup a prerender function.
+    $form['#pre_render'] = array('_ddbasic_exposed_form_events_prerender');
+  }
+}
+
+/**
+ * Modify events exposed form immediately before rendering the form.
+ *
+ * @param array $element
+ *   The exposed form.
+ *
+ * @return mixed
+ *   The changed form.
+ */
+function _ddbasic_exposed_form_events_prerender(array $element) {
+  // Completely remove Date field title for accessibility reasons.
+  unset($element['date']['value']['date']['#title']);
+  unset($element['field_ding_event_date_value_1']['value']['date']['#title']);
+
+  return $element;
 }

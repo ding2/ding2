@@ -21,6 +21,7 @@ $classes = implode(" ", $classes);
   <?php
   endif;
   ?>
+  aria-labelledby="<?php print 'item-id-' . $item->nid; ?>"
 >
   <?php if (isset($item->video)): ?>
     <div class="media-container">
@@ -36,7 +37,7 @@ $classes = implode(" ", $classes);
   endif;
   ?>
   <div class="eresource-info">
-    <h3><?php print l($item->title, 'node/' . $item->nid); ?></h3>
+    <h3 id="<?php print 'item-id-' . $item->nid; ?>"><?php print l($item->title, 'node/' . $item->nid); ?></h3>
     <?php print drupal_render($item->category_link); ?>
     <div class="item-body"><?php print $item->teaser_lead; ?></div>
     <div class="read-more">

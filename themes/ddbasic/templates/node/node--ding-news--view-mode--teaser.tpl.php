@@ -87,7 +87,7 @@
  */
 ?>
 <article class="<?php print $classes; ?>" aria-labelledby="news-article-<?php print $node->nid; ?>" <?php print $attributes; ?>>
-  <a href="<?php print $node_url; ?>">
+  <a href="<?php print $node_url; ?>" aria-label="<?php print t('Read more about') . ' ' . $title; ?>">
     <div class="inner">
       <?php print $news_teaser_image; ?>
       <div class="news-text">

@@ -259,3 +259,10 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
   db_add_field('field_data_field_ding_event_price', 'field_ding_event_price_format', $field);
   db_add_field('field_revision_field_ding_event_price', 'field_ding_event_price_format', $field);
 }
+
+/**
+ * Enable views_ajax_history module.
+ */
+function ding_event_update_7010() {
+  module_enable(array('views_ajax_history'), TRUE);
+}

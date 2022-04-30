@@ -1481,6 +1481,20 @@ temaer/*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'samesite_cookie_enable_legacy_browser_workaround';
+  $strongarm->value = 1;
+  $export['samesite_cookie_enable_legacy_browser_workaround'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'samesite_cookie_override_value';
+  $strongarm->value = 'None';
+  $export['samesite_cookie_override_value'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'varnish_bantype';
   $strongarm->value = '0';
   $export['varnish_bantype'] = $strongarm;

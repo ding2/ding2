@@ -81,18 +81,23 @@
  * @see template_process()
  */
 ?>
-<article class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <a href="<?php print $node_url; ?>">
+<article class="<?php print $classes; ?>" aria-labelledby="<?php print 'link-id-' . $node->nid; ?>" <?php print $attributes; ?>>
+  <a href="<?php print $node_url; ?>" aria-label="<?php print t('Read more about') . ' ' . $title; ?>">
 
     <?php print render($content['field_ding_eresource_list_image']); ?>
 
     <div class="text">
-      <h3 class="title"><?php print $title; ?></h3>
+      <h3 class="title" id="<?php print 'link-id-' . $node->nid; ?>"><?php print $title; ?></h3>
       <?php print render($content['field_ding_eresource_lead']); ?>
     </div>
   </a>
   <div class="buttons">
-    <?php print l(t('Read more'), $node_url, array('attributes' => array('class' => array('read-more')))); ?>
+    <?php print l(t('Read more'), $node_url,
+      array(
+        'attributes' => array('class' => array('read-more')),
+        array('aria-label' => array(t('Go to') . ' ' . $title)),
+      ));
+    ?>
     <?php if (!empty($link_url)) { ?>
       <a href="<?php print $link_url; ?>" class="log-on" target="_blank"><?php print t('Log on'); ?></a>
     <?php } ?>

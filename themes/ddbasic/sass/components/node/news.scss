@@ -260,7 +260,6 @@
     }
     .field-name-field-ding-news-lead {
       @include span-columns(6 of 8);
-      @include font('display-small');
       @include transition(
         height $speed $ease,
         opacity $speed $ease
@@ -334,6 +333,14 @@
         .ding-news-list-image {
           &::after {
             background-color: $black-overlay;
+          }
+        }
+        .field-name-field-ding-news-lead {
+          height: auto;
+          padding: 25px 15px;
+           // Mobile
+           @include media($mobile) {
+             display: none;
           }
         }
       }

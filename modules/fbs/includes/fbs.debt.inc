@@ -12,11 +12,15 @@
  *   User to get debt listing for.
  * @param bool $reset
  *   If TRUE cache is reset (default: FALSE).
+ * @param int $patron_id
+ *   Id of the patron at the provider.
+ * @param bool $include_paid
+ *   Default to FALSE, if TRUE already paid are also returned.
  *
  * @return array
  *   Debt information.
  */
-function fbs_debt_list($account, $reset = FALSE) {
+function fbs_debt_list($account, $reset = FALSE, $patron_id = NULL, $include_paid = FALSE) {
   $results = &drupal_static(__FUNCTION__, NULL);
 
   if (is_null($results) || $reset) {
@@ -32,7 +36,9 @@ function fbs_debt_list($account, $reset = FALSE) {
       $res = array();
 
       try {
-        $res = fbs_service()->Payment->getFees(fbs_service()->agencyId, fbs_patron_id($account), 'false', 'true');
+        $patron_id = is_null($patron_id) ? fbs_patron_id($account) : $patron_id;
+        $include_paid = FALSE === $include_paid ? 'false' : 'true';
+        $res = fbs_service()->Payment->getFees(fbs_service()->agencyId, $patron_id, $include_paid, 'true');
       }
       catch (Exception $e) {
         watchdog_exception('fbs', $e);
@@ -57,6 +63,7 @@ function fbs_debt_list($account, $reset = FALSE) {
       }
 
       foreach ($res as $fee) {
+        /* @var \FBS\Model\Fee $fee */
         $id = $fee->feeId;
 
         $data = array(
@@ -68,7 +75,8 @@ function fbs_debt_list($account, $reset = FALSE) {
           // And the only thing we can do here is set it to zero, as the original
           // amount isn't available.
           'amount_paid' => 0,
-          'type' => $fee->reasonMessage,
+          'paid_date' => $fee->paidDate,
+          'type' => fbs_debt_translate_debt_type($fee->type),
           'payable' => $fee->payableByClient,
         );
 
@@ -124,6 +132,32 @@ function fbs_debt_list($account, $reset = FALSE) {
 }
 
 /**
+ * Translate FBS debt types into a human readable string in english.
+ *
+ * @param string $debt_type
+ *   The FBS debt type.
+ *
+ * @return string
+ *   English translation of the debt type if found.
+ */
+function fbs_debt_translate_debt_type($debt_type) {
+  switch ($debt_type) {
+    case 'compensation':
+      $str = t('Compensation', [], ['context' => 'fbs']);
+      break;
+
+    case 'fee':
+      $str = t('Fee', [], ['context' => 'fbs']);
+      break;
+
+    default:
+      $str = t('Other', [], ['context' => 'fbs']);
+  }
+
+  return $str;
+}
+
+/**
  * Implements provider debt, payment_received.
  *
  * @param object $account
@@ -132,11 +166,13 @@ function fbs_debt_list($account, $reset = FALSE) {
  *   Depts paid for.
  * @param string $order_id
  *   Transaction id.
+ * @param int $patron_id
+ *   Id of the patron at the provider.
  *
  * @return bool
  *   Success or not.
  */
-function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NULL) {
+function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NULL, $patron_id = NULL) {
   $payment_order = new FBS\Model\PaymentOrder();
   $payment_order->orderId = $order_id;
   $payment_order->feeIds = array();
@@ -145,9 +181,10 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
     $payment_order->feeIds[] = $debt_id;
   }
 
-  $res = array();
+  $patron_id = is_null($patron_id) ? fbs_patron_id($account) : $patron_id;
+
   try {
-    $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, fbs_patron_id($account), $payment_order);
+    $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, $patron_id, $payment_order);
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
@@ -157,7 +194,7 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
   foreach ($res as $confirmation) {
     if ($confirmation->paymentStatus !== 'paymentRegistered') {
       $variables = array(
-        '@patron_id' => fbs_patron_id($account),
+        '@patron_id' => $patron_id,
         '@order_id' => $order_id,
         '@fee_id' => implode(', ', $debt_ids),
       );

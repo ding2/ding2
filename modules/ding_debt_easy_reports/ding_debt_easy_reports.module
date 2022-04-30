@@ -1,0 +1,226 @@
+<?php
+/**
+ * @file
+ * Code for the Ding debt Nets Easy reports feature.
+ */
+
+include_once 'ding_debt_easy_reports.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function ding_debt_easy_reports_menu() {
+  $items = [];
+
+  $items['admin/config/payment/ding_debt_easy/mail'] = array(
+    'title' => 'Mail',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ding_debt_easy_reports_admin_mails_settings_form'],
+    'access arguments' => array('administer easy reports'),
+    'file' => 'includes/ding_debt_easy_reports.admin.inc',
+  );
+
+  $items['admin/config/payment/ding_debt_easy/reports/%/' . DING_DEBT_EASY_STATUS_COMPLETED] = array(
+    'title' => 'Update record status',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'ding_debt_easy_reports_ajax_update_status',
+    'page arguments' => [5, 6],
+    'access arguments' => array('administer easy reports'),
+    'delivery callback' => 'ajax_deliver',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ *
+ * Add CSS to reports table.
+ */
+function ding_debt_easy_reports_preprocess_views_view(&$vars) {
+  if ($vars['view']->name == 'ding_debt_easy_reports') {
+    drupal_add_css(drupal_get_path('module', 'ding_debt_easy_reports') . '/css/ding_debt_easy_reports.admin.css');
+  }
+}
+
+/**
+ * Implements hook_mail().
+ *
+ * @throws \Exception
+ */
+function ding_debt_easy_reports_mail($key, &$message, $params) {
+  if ('ding_debt_easy_report_mail' === $key) {
+    $message['subject'] = $params['subject'];
+    $message['body'][] = _ding_debt_easy_reports_mail_html_content();
+  }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * Ensures that the html mail template is loaded into registry. Alternative it
+ * should be part of the theme (DDBasic).
+ */
+function ding_debt_easy_reports_theme_registry_alter(&$theme_registry) {
+  $module_path = drupal_get_path('module', 'ding_debt_easy_reports');
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  foreach ($template_file_objects as $key => $template_file_object) {
+    $theme_registry[$key]['theme path'] = $module_path;
+    $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+    $theme_registry[$key]['type'] = 'module';
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_debt_easy_reports_cron() {
+  _ding_debt_easy_reports_cron_mail();
+}
+
+/**
+ * Ajax menu callback used to change status on local order.
+ *
+ * @param string $id
+ *   Order id.
+ * @param string $status
+ *   Status to set.
+ *
+ * @return array
+ *   Ajax command array.
+ */
+function ding_debt_easy_reports_ajax_update_status($id, $status) {
+  _ding_debt_easy_update_status_local($id, $status);
+
+  ctools_include('ajax');
+  $commands = [];
+  $commands[] = ctools_ajax_command_redirect('/admin/config/payment/ding_debt_easy/reports');
+
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  );
+}
+
+/**
+ * Send mail report based on configuration and last sent mail-
+ */
+function _ding_debt_easy_reports_cron_mail() {
+  $config = _ding_debt_easy_reports_mail_config();
+
+  // As the input is a unix timestamp the timezone will be UTC. So set timezone
+  // after create from format to have effect.
+  $last_run = DateTimeImmutable::createFromFormat('U', variable_get('ding_debt_easy_reports_last_cron', 0));
+  $last_run = $last_run->setTimezone(new DateTimeZone(drupal_get_user_timezone()));
+
+  // Check if hour/min is correct in relation to config for last run.
+  if ($last_run->format('H') !== $config['cron']['hour'] || $last_run->format('i') !== $config['cron']['minute']) {
+    // Either this is the first run or the configured time has been changed.
+    $last_run = $last_run->setTime($config['cron']['hour'], $config['cron']['minute']);
+  }
+
+  // Add 24 hours (one day) to last run as this is the next mail sent time.
+  $next_run = $last_run->add(new DateInterval('P1D'));
+  if ($next_run->getTimestamp() <= REQUEST_TIME) {
+    _ding_debt_easy_reports_send_mail();
+
+    // Update last mail sent time to current date with time set to configured
+    // time.
+    $time = DateTimeImmutable::createFromFormat('Hi', $config['cron']['hour'] . $config['cron']['minute']);
+    variable_set('ding_debt_easy_reports_last_cron', $time->getTimestamp());
+  }
+}
+
+/**
+ * Helper function to send mail (also used to send test mail).
+ */
+function _ding_debt_easy_reports_send_mail() {
+  $config = _ding_debt_easy_reports_mail_config();
+  $count = _ding_debt_easy_reports_fetch(TRUE);
+  if (!empty($config['to']) && $count > 0) {
+    drupal_mail('ding_debt_easy_reports', 'ding_debt_easy_report_mail', $config['to'], language_default(), [
+      'subject' => str_replace('%count', $count, $config['title']),
+    ]);
+  }
+}
+
+/**
+ * Generate mail content.
+ *
+ * @return string
+ *   The mail content as HTML.
+ *
+ * @throws \Exception
+ */
+function _ding_debt_easy_reports_mail_html_content() {
+  // Fetch data.
+  $orders = _ding_debt_easy_reports_fetch();
+
+  $header = [
+    t('Order id'),
+    t('Provider ids'),
+    t('Amount'),
+    t('Date'),
+    t('Status'),
+  ];
+
+  $rows = [];
+  foreach ($orders as $order) {
+    $rows[] = [
+      $order->order_id,
+      $order->provider_ids,
+      $order->amount,
+      $order->changed,
+      $order->status,
+    ];
+  }
+
+  $config = _ding_debt_easy_reports_mail_config();
+  $output = check_markup($config['header']['value'], $config['header']['format']);
+  $output .= theme('table', [
+    'header' => $header,
+    'rows' => $rows,
+  ]);
+  $output .= check_markup($config['footer']['value'], $config['footer']['format']);
+
+  return $output;
+}
+
+/**
+ * Fetch data about the possible failed payments.
+ *
+ * @param bool $count
+ *   Default FALSE. If TURE number of rows returned.
+ *
+ * @return array|int
+ *   If count is TRUE the number of rows else the data.
+ */
+function _ding_debt_easy_reports_fetch($count = FALSE) {
+  $result = db_select('ding_debt_easy', 'dbe')
+    ->fields('dbe')
+    ->condition('status', [
+      DING_DEBT_EASY_STATUS_PENDING,
+      DING_DEBT_EASY_STATUS_RESERVED,
+      DING_DEBT_EASY_STATUS_FAILED,
+    ], 'IN')
+    ->orderBy('changed', 'DESC')
+    ->execute();
+
+  if ($count) {
+    return $result->rowCount();
+  }
+
+  return $result->fetchAllAssoc('order_id');
+}
+
+/**
+ * Get configuration for mail reports.
+ *
+ * @return array
+ *   Configuration from the database, with fallback.
+ */
+function _ding_debt_easy_reports_mail_config() {
+  // Default value (fallback) is set during module install.
+  return variable_get('ding_debt_easy_reports_mail');
+}

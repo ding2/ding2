@@ -178,9 +178,17 @@
     }
     > li {
       float: left;
+      width: 33%;
+      box-sizing: border-box;
+      padding-right: 10px;
+      margin: 0 0;
       list-style: none;
+
+      &:nth-child(1+3n) {
+        clear: left;
+      }
+
       > div {
-        margin-right: 30px;
         &:last-child {
           margin-bottom: 10px;
         }
@@ -188,13 +196,10 @@
       // Mobile
       @include media($mobile) {
         width: 50%;
-        box-sizing: border-box;
-        padding-right: 10px;
-        margin: 0 0 20px;
-      }
 
-      &.loan-date {
-        clear: left;
+        &:nth-child(odd) {
+          clear: left;
+        }
       }
 
       &.url {
@@ -211,15 +216,9 @@
     }
     .item-information-label {
       @include font('base-bold');
-      color: $grey-dark;
+      color: $grey-darker;
     }
     #ding-loan-loans-form & {
-      width: 50%;
-
-      // Mobile
-      @include media($mobile) {
-        width: 100%;
-      }
       .item-information-label {
         @include font('base');
         color: $color-standard-text;
@@ -229,7 +228,7 @@
       &.material-number {
         .item-information-label {
           @include font('base-bold');
-          color: $grey-dark;
+          color: $grey-darker;
         }
       }
     }
@@ -255,7 +254,7 @@
     }
   }
   &.odd {
-    background-color: $grey-medium;
+    background-color: $grey-light;
 
     // Mobile
     @include media($mobile) {

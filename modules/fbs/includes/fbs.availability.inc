@@ -101,6 +101,7 @@ function fbs_availability_holdings($provider_ids) {
         // We have no idea about this either.
         'reference_count' => 0,
         'placement' => array(),
+        'materials' => array(),
       );
 
       // Add in placement.
@@ -110,6 +111,11 @@ function fbs_availability_holdings($provider_ids) {
         }
       }
 
+      // Add material numbers and availability
+      foreach ($item_holding->materials as $material) {
+        $result_holding['materials'][] = array('material_id' => $material->itemNumber, 'available' => $material->available);
+      }
+      
       // Add material description.
       $material_description = $item_holding->materials;
       if (variable_get('fbs_show_material_group', 0) && $material_description[0]) {
@@ -253,8 +259,15 @@ function fbs_availability_holdings($provider_ids) {
             $tmp_issues[$key]['total'] += 1;
           }
           else {
+            // Generate "vol key". Both volume and volumeNumber can be empty so
+            // if one is empty just use the other or if both are present we use
+            // "volume-volumeNumber".
+            $volume_string = implode('-', array_filter([
+              $material->periodical->volume,
+              $material->periodical->volumeNumber,
+            ]));
             $tmp_issues[$key] = array(
-              'vol' => $material->periodical->volume . (!empty($material->periodical->volumeNumber) ? '-' . $material->periodical->volumeNumber : ''),
+              'vol' => $volume_string,
               'year' => $material->periodical->volumeYear,
               'available' => $material->available ? 1 : 0,
               'total' => 1,

@@ -1,6 +1,9 @@
 build:
   nodes:
     analysis:
+      dependencies:
+        after:
+          - composer require --dev drupal/coder:8.3.13
       tests:
         override:
           - phpcs-run

@@ -209,8 +209,8 @@ class OpenSearchTingObject implements TingObjectInterface {
    * {@inheritdoc}
    */
   public function isOnline() {
-    // Check if the material has its own URI - if so we assume it is online.
-    return !empty($this->getRecordEntry('dc:identifier', 'dcterms:URI'));
+    // Check if the material has an online URL - if so we assume it is online.
+    return !empty($this->getOnlineUrl());
   }
 
   /**

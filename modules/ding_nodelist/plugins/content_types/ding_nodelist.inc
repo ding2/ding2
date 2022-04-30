@@ -403,7 +403,9 @@ function _ding_nodelist_content_type_form_save(&$form_state, $rebuild = FALSE) {
 
   $form_state['conf']['limit'] = $form_state['values']['limit'];
   $form_state['conf']['more_links'] = !empty($form_state['values']['more_links']) ? $form_state['values']['more_links'] : array();
+  $form_state['conf']['override_title'] = $form_state['values']['override_title'];
   $form_state['conf']['override_title_text'] = $form_state['values']['override_title_text'];
+  $form_state['conf']['override_title_heading'] = $form_state['values']['override_title_heading'];
   $form_state['conf']['selected_nodes'] = !empty($form_state['values']['selected_nodes']) && $form_state['conf']['nodes_switch'] ? $form_state['values']['selected_nodes'] : array();
   $form_state['conf']['sort_field'] = $form_state['values']['sort_field'];
   $form_state['conf']['sort_order'] = $form_state['values']['sort_order'];

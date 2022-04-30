@@ -379,6 +379,9 @@ projects[role_delegation][version] = "1.1"
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.7"
 
+projects[samesite_cookie][subdir] = "contrib"
+projects[samesite_cookie][version] = "1.0-rc1"
+
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
 
@@ -426,7 +429,7 @@ projects[tipsy][subdir] = "contrib"
 projects[tipsy][version] = "1.0-rc1"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.6"
+projects[token][version] = "1.8"
 
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
@@ -453,6 +456,9 @@ projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.23"
+
+projects[views_ajax_history][subdir] = "contrib"
+projects[views_ajax_history][version] = "1.1"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
@@ -484,7 +490,8 @@ projects[watchdog_filtering][subdir] = "contrib"
 projects[watchdog_filtering][version] = "1.3"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.10"
+projects[webform][version] = "4.24"
+projects[webform][patch][] = "https://www.drupal.org/files/issues/2021-09-20/2972651-webform-no-ip-addresses-34.patch"
 
 projects[webform_purge][subdir] = "contrib"
 projects[webform_purge][version] = "1.3"
@@ -524,7 +531,7 @@ libraries[bpi-client][download][branch] = "master"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.14.0/ckeditor_4.14.0_standard.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.16.2/ckeditor_4.16.2_standard.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
@@ -695,3 +702,9 @@ libraries[yaml][download][type] = "get"
 libraries[yaml][download][url] = https://github.com/symfony/yaml/archive/v3.4.47.tar.gz
 libraries[yaml][directory_name] = "yaml"
 libraries[yaml][destination] = "libraries"
+
+; Library used for remembering browser history in ajax views.
+libraries[history.js][download][type] = "get"
+libraries[history.js][download][url] = https://codeload.github.com/browserstate/history.js/tar.gz/1.8.0
+libraries[history.js][directory_name] = "history.js"
+libraries[history.js][destination] = "libraries"

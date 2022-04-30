@@ -46,6 +46,11 @@ class DingProviderDebt extends DingEntityBase {
   protected $amount = DingEntityBase::NULL;
 
   /**
+   * The date of payment, string.
+   */
+  protected $paid_date = DingEntityBase::NULL;
+
+  /**
    * Material number for which the debt is about also known as faust number.
    */
   protected $material_number = DingEntityBase::NULL;
@@ -59,6 +64,11 @@ class DingProviderDebt extends DingEntityBase {
    * Whether this debt is payable using Ding payment provider.
    */
   protected $payable = DingEntityBase::NULL;
+
+  /**
+   * The current payment status from the payment gateway.
+   */
+  protected $status = DingEntityBase::NULL;
 
   /**
    * Default constructor for this class.
@@ -81,12 +91,28 @@ class DingProviderDebt extends DingEntityBase {
       'date',
       'amount',
       'amount_paid',
+      'paid_date',
       'payable',
       'type',
       'note',
       'material_type',
+      'status',
     );
     $this->_populate($properties, $data);
+  }
+
+  /**
+   * Set status payment status from the gateway.
+   *
+   * Status has it own setter function here as it's an enrichment of the object.
+   * And this object is prevented from be altered after creation. So this is a
+   * workaround.
+   *
+   * @param string $status
+   *   Status string.
+   */
+  public function setStatus($status) {
+    $this->properties['status'] = $status;
   }
 
   /**

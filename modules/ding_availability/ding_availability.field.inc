@@ -86,7 +86,6 @@ function ding_availability_field_formatter_info() {
  */
 function ding_availability_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  $online_types = array_filter(variable_get('ting_online_types', _ting_default_online_types()));
 
   // Attach front-end style and JS to the element.
   foreach ($items as $delta => $item) {
@@ -150,7 +149,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $id = drupal_html_id('availability-' . $entity->id);
 
         // Mark as available if it is an online resource,
-        $available_online = (in_array(drupal_strtolower($entity->type), $online_types)) ? 'available' : 'not-available-online';
+        $available_online = $entity->is('online') ? 'available' : 'not-available-online';
 
         // Add javascript.
         $attached['js'] = array(
