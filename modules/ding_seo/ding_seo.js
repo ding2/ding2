@@ -10,9 +10,7 @@
   $(function() {
     var tingObjectId = Drupal.settings.dingSeo.tingObjectId;
     $.get(`/ding_seo/jsonld/ting_object/${tingObjectId}`, function(jsonld) {
-      if (jsonld !== '') {
-        $('head').append(jsonld);
-      }
+      $('head').append(jsonld);
     });
   });
 })(jQuery);

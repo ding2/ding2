@@ -124,7 +124,7 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
   // type could not be determined.
   $schema_type = NULL;
   if (!isset($schema_wrapper) || !$schema_type = $schema_wrapper->getSchemaType()) {
-    print '';
+    drupal_add_http_header('Status', '404 Not Found');
     drupal_exit();
   }
 
