@@ -1063,7 +1063,7 @@ function ding2_update_7093() {
   ding2_translation_update();
 }
 
-/*
+/**
  * Update default text on cookie page. A backup of existing will be created.
  */
 function ding2_update_7094() {
