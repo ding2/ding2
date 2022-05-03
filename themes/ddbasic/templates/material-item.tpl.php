@@ -18,6 +18,9 @@
     <?php print $cover; ?>
   </div>
   <div class="right-column">
+    <?php if (isset($material_message)) : ?>
+      <div class="<?php print $material_message['class']; ?>"><?php print $material_message['message']; ?></div>
+    <?php endif; ?>
     <?php if (!empty($material_type)) : ?>
       <div class="item-material-type"><?php print $material_type; ?></div>
     <?php endif; ?>
@@ -37,8 +40,5 @@
         </li>
       <?php endforeach; ?>
     </ul>
-    <?php if (isset($material_message)) : ?>
-    <div class="<?php print $material_message['class']; ?>"><?php print $material_message['message']; ?></div>
-    <?php endif; ?>
   </div>
 </div>
