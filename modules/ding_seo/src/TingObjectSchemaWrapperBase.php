@@ -11,7 +11,7 @@ namespace DingSEO;
 
 use Ting\TingObjectInterface;
 
-class TingObjectSchemaWrapperBase {
+abstract class TingObjectSchemaWrapperBase {
   /**
    * @var \Ting\TingObjectInterface.
    *   The wrapped ting object.
