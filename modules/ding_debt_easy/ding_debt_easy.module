@@ -12,6 +12,7 @@ use Nets\Easy\Exception\PaymentException;
 define('DING_DEBT_EASY_DEFAULT_TERMS_URL', 'payment/easy/terms');
 define('DING_DEBT_EASY_DEFAULT_PRIVACY_URL', 'payment/easy/privacy');
 define('DING_DEBT_EASY_CALLBACK_URL', 'payment/easy/callback');
+define('DING_DEBT_EASY_WEBHOOK', 'payment/easy/webhook');
 define('DING_DEBT_EASY_CANCEL_URL', 'payment/easy/cancel');
 
 // Looking forward to PHP 8.1's enums.
@@ -84,6 +85,14 @@ function ding_debt_easy_menu() {
     'type' => MENU_CALLBACK,
     'page callback' => '_ding_debt_easy_canceled',
     'access arguments' => array('perform payment'),
+  ];
+
+  // Payment webhook (callback).
+  $items[DING_DEBT_EASY_WEBHOOK] = [
+    'title' => 'Payment webhook callback',
+    'type' => MENU_CALLBACK,
+    'page callback' => '_ding_debt_easy_webhook',
+    'access arguments' => array('access content'),
   ];
 
   return $items;
@@ -640,6 +649,11 @@ function _ding_debt_easy_callback() {
   // updated with data from the provider and not the cache.
   ding_provider_invoke('user', 'clear_cache', $user);
   drupal_goto(DING_DEBT_USER_DEBT_PAGE);
+}
+
+function _ding_debt_easy_webhook() {
+  $data = $_POST;
+  $t = 1;
 }
 
 /**

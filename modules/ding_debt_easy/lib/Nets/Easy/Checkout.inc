@@ -200,6 +200,25 @@ class Checkout {
         'cancelUrl' => $this->cancelUrl,
       ],
       'order' => $this->getOrder()->toArray(),
+      'notifications' => [
+        'webHooks' => [
+          [
+            'eventName' => 'payment.checkout.completed',
+            'url' => 'https://6f3e-193-105-220-62.eu.ngrok.io/payment/easy/webhook',
+            'authorization' => '123456789'
+          ],
+          [
+            'eventName' => 'payment.cancel.created',
+            'url' => 'https://6f3e-193-105-220-62.eu.ngrok.io/payment/easy/webhook',
+            'authorization' => '123456789'
+          ],
+          [
+            'eventName' => 'payment.created',
+            'url' => 'https://6f3e-193-105-220-62.eu.ngrok.io/payment/easy/webhook',
+            'authorization' => '123456789'
+          ],
+        ],
+      ],
     ];
   }
 
