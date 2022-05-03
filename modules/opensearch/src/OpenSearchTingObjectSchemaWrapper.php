@@ -57,35 +57,40 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase impl
    * {@inheritdoc}
    */
   public function getAuthors() {
-    return $this->getCreatorsContributorsCombined()['dkdcplus:aut'] ?? [];
+    $contributers = $this->getCreatorsContributorsCombined();
+    return isset($contributers['dkdcplus:aut']) ? $contributers['dkdcplus:aut'] : [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDirectors() {
-    return $this->getCreatorsContributorsCombined()['dkdcplus:drt'] ?? [];
+    $contributers = $this->getCreatorsContributorsCombined();
+    return isset($contributers['dkdcplus:drt']) ? $contributers['dkdcplus:drt'] : [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getActors() {
-    return $this->getCreatorsContributorsCombined()['dkdcplus:act'] ?? [];
+    $contributers = $this->getCreatorsContributorsCombined();
+    return isset($contributers['dkdcplus:act']) ? $contributers['dkdcplus:act'] : [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getProducers() {
-    return $this->getCreatorsContributorsCombined()['dkdcplus:pro'] ?? [];
+    $contributers = $this->getCreatorsContributorsCombined();
+    return isset($contributers['dkdcplus:pro']) ? $contributers['dkdcplus:pro'] : [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getComposers() {
-    return $this->getCreatorsContributorsCombined()['dkdcplus:cmp'] ?? [];
+    $contributers = $this->getCreatorsContributorsCombined();
+    return isset($contributers['dkdcplus:cmp']) ? $contributers['dkdcplus:cmp'] : [];
   }
 
   /**
@@ -220,8 +225,8 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase impl
    */
   private function getCreatorsContributorsCombined() {
     $record = $this->ting_object->record;
-    $creators = $record['dc:creator'] ?? [];
-    $contributers = $record['dc:contributor'] ?? [];
+    $creators = isset($record['dc:creator']) ? $record['dc:creator'] : [];
+    $contributers = isset($record['dc:contributor']) ? $record['dc:contributor'] : [];
     // We don't know if a given function code can be on both so merge them
     // recursively to ensure we don't miss any.
     return array_merge_recursive($creators, $contributers);

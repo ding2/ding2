@@ -114,7 +114,7 @@ class TingObjectSchemaWrapperBase {
 
     $collection = ting_collection_load($this->ting_object->getId());
     foreach ($collection->getEntities() as $ting_entity) {
-      /** @var TingEntity $ting_entity */
+      /** @var \TingEntity $ting_entity */
       $work_examples[] = new static($ting_entity->getTingObject());
     }
 
