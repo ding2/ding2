@@ -688,8 +688,8 @@ function _fbs_form_profile_validate_convert_time($time) {
  * Submit handler for fbs_form_profile2
  */
 function fbs_form_profile2_rebuild_submit($form, &$form_state) {
-  // Rebuilds form and stay on same page.
-  $form_state['rebuild'] = TRUE;
+  // Stay on same page.
+  $form_state['redirect'] = current_path();
 }
 
 /**
