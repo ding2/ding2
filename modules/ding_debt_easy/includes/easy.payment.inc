@@ -6,6 +6,7 @@
  */
 
 use Nets\Easy\Checkout;
+use Nets\Easy\Notification;
 use Nets\Easy\OrderItem;
 use Nets\Easy\Exception\PaymentCommunicationException;
 use Nets\Easy\Exception\PaymentException;
@@ -56,6 +57,16 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
 
   $order_id = _ding_debt_easy_create_order_local($patron_id, $item_ids, $checkout->getOrder()->getTotalAmount());
   $checkout->getOrder()->setReference($order_id);
+
+  // Add notifications (payment.checkout.completed and payment.created).
+  $local_record = _ding_debt_easy_get_payment_local($order_id);
+  foreach (['payment.checkout.completed', 'payment.cancel.created', 'payment.reservation.created.v2', 'payment.created'] as $type) {
+    $notification = new Notification();
+    $notification->setName($type)
+      ->setAuthorization($local_record['auth'])
+      ->setUrl(url(DING_DEBT_EASY_WEBHOOK, ['absolute' => TRUE]));
+    $checkout->addNotification($notification);
+  }
 
   // Create payment with the checkout and order as payload.
   $client = _ding_debt_easy_get_client();
@@ -182,6 +193,9 @@ function ding_debt_easy_payment_buttons() {
  *
  * @return DingProviderDebt[]
  *   The debts object enriched with pending and failed status.
+ *
+ * @throws \DingProviderDoesntImplement
+ * @throws \DingProviderNoProvider
  */
 function ding_debt_easy_payment_status(array $debts) {
   $patron_id = ding_user_provider_id();
@@ -196,6 +210,8 @@ function ding_debt_easy_payment_status(array $debts) {
       ->condition('provider_ids', '%' . $debt->id . '%', 'LIKE')
       ->condition('patron_id', $patron_id)
       ->condition('status', [
+        DING_DEBT_EASY_STATUS_COMPLETED,
+        DING_DEBT_EASY_STATUS_RESERVED,
         DING_DEBT_EASY_STATUS_PENDING,
         DING_DEBT_EASY_STATUS_FAILED,
       ], 'IN')

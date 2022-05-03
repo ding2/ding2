@@ -12,6 +12,7 @@ class Checkout {
   private $returnUrl;
   private $cancelUrl;
   private $order;
+  private $notifications = [];
 
   /**
    * Default constructor.
@@ -153,7 +154,7 @@ class Checkout {
   /**
    * Set order.
    *
-   * @param string $order
+   * @param Order $order
    *   Set order to the checkout.
    *
    * @return $this
@@ -165,13 +166,50 @@ class Checkout {
   }
 
   /**
+   * Get notifications.
+   *
+   * @return \Nets\Easy\Notification[]
+   *   The notifications for this checkout.
+   */
+  public function getNotifications() {
+    return $this->notifications;
+  }
+
+  /**
+   * Set notifications.
+   *
+   * @param Notification[] $notifications
+   *   Set notifications to the checkout.
+   *
+   * @return $this
+   */
+  public function setNotifications($notifications) {
+    $this->notifications = $notifications;
+
+    return $this;
+  }
+
+  /**
+   * Add single notification.
+   *
+   * @param \Nets\Easy\Notification $notification
+   *
+   * @return $this
+   */
+  public function addNotification($notification) {
+    $this->notifications[] = $notification;
+
+    return $this;
+  }
+
+  /**
    * Build and encoded the checkout as json string.
    *
    * @return array
    *   The complete order that matches the payment gateways format.
    */
   public function toArray() {
-    return [
+    $checkout = [
       'checkout' => [
         'integrationType' => $this->getIntegrationType(),
         'termsUrl' => $this->getTermsUrl(),
@@ -200,26 +238,19 @@ class Checkout {
         'cancelUrl' => $this->cancelUrl,
       ],
       'order' => $this->getOrder()->toArray(),
-      'notifications' => [
-        'webHooks' => [
-          [
-            'eventName' => 'payment.checkout.completed',
-            'url' => 'https://6f3e-193-105-220-62.eu.ngrok.io/payment/easy/webhook',
-            'authorization' => '123456789'
-          ],
-          [
-            'eventName' => 'payment.cancel.created',
-            'url' => 'https://6f3e-193-105-220-62.eu.ngrok.io/payment/easy/webhook',
-            'authorization' => '123456789'
-          ],
-          [
-            'eventName' => 'payment.created',
-            'url' => 'https://6f3e-193-105-220-62.eu.ngrok.io/payment/easy/webhook',
-            'authorization' => '123456789'
-          ],
-        ],
-      ],
     ];
+
+    // Add notifications (web-hooks) to the array.
+    if (!empty($this->getNotifications())) {
+      $checkout['notifications'] = [
+        'webhooks' => [],
+      ];
+      foreach ($this->getNotifications() as $notification) {
+        $checkout['notifications']['webhooks'][] = $notification->toArray();
+      }
+    }
+
+    return $checkout;
   }
 
 }

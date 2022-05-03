@@ -184,7 +184,7 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
   $patron_id = is_null($patron_id) ? fbs_patron_id($account) : $patron_id;
 
   try {
-//    $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, $patron_id, $payment_order);
+    $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, $patron_id, $payment_order);
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
