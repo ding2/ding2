@@ -58,7 +58,11 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
     }
     // Otherwise this an existing p2b-synced entity.
     else {
-      list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
+      $settings = reset($items);
+      $event_id = $settings['event_id'];
+      $event_maker_id = $settings['event_maker_id'];
+      $synchronize = $settings['synchronize'];
+
       try {
         $p2b = ding_place2book_instance();
         $event = $p2b->getEvent($event_maker_id, $event_id);
@@ -503,6 +507,23 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
             ),
           );
         }
+
+        if (is_array($items) && isset($items[0]['event_id']) && isset($items[0]['event_maker_id'])) {
+          if ($items[0]['event_id'] == 1 && $items[0]['event_maker_id'] == 1) {
+            // This should not happen so we abort the saving off the node and alert the editor.
+            $variables = array(
+              '@original_items' => print_r($settings, TRUE),
+              '@synchronized_items' => print_r($synchronized_items, TRUE),
+              '@items' => print_r($items, TRUE),
+            );
+            watchdog('ding_place2book', 'Original items: @original_items. Synchronized items: @synchronized_items. Items to be saved: @items', $variables, WATCHDOG_ERROR);
+
+            drupal_set_message(t('We couldnt save your event. Please try again later. If the problem persist you need to create the event again'), 'error');
+
+            // We send the user to the front page to alert them that something has gone wrong.
+            drupal_goto();
+          }
+        }
       }
       break;
   }
@@ -696,10 +717,10 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
     }
 
     if ($is_new) {
-      drupal_set_message(t('Event was successfully created.'));
+      drupal_set_message(t('Event was successfully created in place2book service.'));
     }
     else {
-      drupal_set_message(t('Event was successfully updated.'));
+      drupal_set_message(t('Event was successfully updated in place2book service.'));
     }
   }
   return $items;
