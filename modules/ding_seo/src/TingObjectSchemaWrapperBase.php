@@ -120,4 +120,56 @@ class TingObjectSchemaWrapperBase {
 
     return $work_examples;
   }
+
+  /**
+   * Get the name of the wrapped ting object.
+   *
+   * @return string
+   *   The title of the material.
+   */
+  public function getName() {
+    return $this->ting_object->getTitle();
+  }
+
+  /**
+   * Get the description of the wrapped ting object.
+   *
+   * @return string|FALSE
+   *   The description of the material or FALSE if not present.
+   */
+  public function getDescription() {
+    return $this->ting_object->getAbstract();
+  }
+
+  /**
+   * Get the Book edition.
+   *
+   * @return string|FALSE
+   *   The edition of the material or FALSE if it was not present.
+   */
+  public function getBookEdition() {
+    return reset($this->ting_object->getVersion());
+  }
+
+  /**
+   * Get datePublished of the wrapped ting object.
+   *
+   * @return string|FALSE
+   *   The year of the published date or FALSE if it was not present.
+   */
+  public function getDatePublished() {
+    return $this->ting_object->getYear();
+  }
+
+  /**
+   * Get the ISBN of the wrapped ting object.
+   *
+   * @return string|FALSE
+   *   The ISBN of the Book or FALSE if none present.
+   */
+  public function getISBN() {
+    // TODO: Investigate if a certain format of ISBN is preffered if we have
+    // several values to choose from.
+    return reset($this->ting_object->getIsbn());
+  }
 }

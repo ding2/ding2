@@ -96,48 +96,6 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase impl
   /**
    * {@inheritdoc}
    */
-  public function getName() {
-    return $this->ting_object->getTitle();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDescription() {
-    return $this->ting_object->getAbstract();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getBookEdition() {
-    return reset($this->ting_object->getVersion());
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDatePublished() {
-    // The best we can do with DKABM format is to get the year of publication.
-    // We could get more accuracy by fetching marc record, which appearently
-    // has year-week publication in 990 *o.
-    // See: http://metadata.dk/DKABM_2011#dc:date
-    // See: http://www.kat-format.dk/danMARC2/Danmarc2.a3.htm#pgfId=1575596
-    return $this->ting_object->getYear();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getISBN() {
-    // TODO: Investigate if a certain format of ISBN is preffered if we have
-    // several values to choose from.
-    return reset($this->ting_object->getIsbn());
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getBookFormat() {
     $book_format_mapping = [
       TingObjectSchemaWrapperInterface::SCHEMA_BOOK_FORMAT_EBOOK => [
