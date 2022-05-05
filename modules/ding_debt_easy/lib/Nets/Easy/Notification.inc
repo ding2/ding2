@@ -17,7 +17,7 @@ class Notification {
    * @see https://developers.nets.eu/nets-easy/en-EU/api/webhooks/
    *
    * @return string
-   *   The event name.
+   *   Name of the event.
    */
   public function getName() {
     return $this->name;
@@ -103,8 +103,8 @@ class Notification {
       'headers' => [
         [
           'Bypass-Tunnel-Reminder' => TRUE,
-        ]
-      ]
+        ],
+      ],
     ];
   }
 

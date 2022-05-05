@@ -58,9 +58,14 @@ function ding_debt_easy_payment_get_url($amount, $params, $callback) {
   $order_id = _ding_debt_easy_create_order_local($patron_id, $item_ids, $checkout->getOrder()->getTotalAmount());
   $checkout->getOrder()->setReference($order_id);
 
-  // Add notifications (payment.checkout.completed and payment.created).
+  // Add notifications (web-hooks events)
   $local_record = _ding_debt_easy_get_payment_local($order_id);
-  foreach (['payment.checkout.completed', 'payment.cancel.created', 'payment.reservation.created.v2', 'payment.created'] as $type) {
+  $eventTypes = [
+    'payment.checkout.completed',
+    'payment.cancel.created',
+    'payment.reservation.created.v2',
+  ];
+  foreach ($eventTypes as $type) {
     $notification = new Notification();
     $notification->setName($type)
       ->setAuthorization($local_record['auth'])

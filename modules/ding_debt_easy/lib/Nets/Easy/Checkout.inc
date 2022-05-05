@@ -159,7 +159,7 @@ class Checkout {
    *
    * @return $this
    */
-  public function setOrder($order) {
+  public function setOrder(Order $order) {
     $this->order = $order;
 
     return $this;
@@ -183,7 +183,7 @@ class Checkout {
    *
    * @return $this
    */
-  public function setNotifications($notifications) {
+  public function setNotifications(array $notifications) {
     $this->notifications = $notifications;
 
     return $this;
@@ -193,10 +193,11 @@ class Checkout {
    * Add single notification.
    *
    * @param \Nets\Easy\Notification $notification
+   *   Notification to add.
    *
    * @return $this
    */
-  public function addNotification($notification) {
+  public function addNotification(Notification $notification) {
     $this->notifications[] = $notification;
 
     return $this;

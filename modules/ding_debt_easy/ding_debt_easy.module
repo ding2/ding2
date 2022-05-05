@@ -511,7 +511,6 @@ function _ding_debt_easy_get_payment_types_options() {
  *
  * @throws \DingProviderDoesntImplement
  * @throws \DingProviderNoProvider
- * @throws \GuzzleHttp\Exception\GuzzleException
  */
 function _ding_debt_easy_callback() {
   global $user;
@@ -618,15 +617,15 @@ function _ding_debt_easy_canceled() {
 /**
  * Validate payment status.
  *
- * @param $payment_id
+ * @param string $payment_id
  *   The payment id at the payment gateway.
- * @param $local_record
+ * @param array $local_record
  *   Local record for the payment.
  *
  * @return bool
  *   If the payment is ready for processing TRUE else FALSE.
  */
-function _ding_debt_easy_validate_payment($payment_id, $local_record) {
+function _ding_debt_easy_validate_payment($payment_id, array $local_record) {
   // Validate the current status for the local record to prevent payment errors.
   $valid_status = [
     DING_DEBT_EASY_STATUS_RESERVED,
@@ -650,16 +649,18 @@ function _ding_debt_easy_validate_payment($payment_id, $local_record) {
 /**
  * Process the payment at the provider and update the local record.
  *
- * @param $payment_id
- * @param $local_record
- * @param $amount
+ * @param string $payment_id
+ *   The payment id at the payment gateway.
+ * @param array $local_record
+ *   Local record for the payment.
+ * @param int $amount
+ *   The amount to process.
  *
- * @return void
  * @throws \DingProviderDoesntImplement
  * @throws \DingProviderNoProvider
  * @throws \GuzzleHttp\Exception\GuzzleException
  */
-function _ding_debt_easy_process_payment($payment_id, $local_record, $amount) {
+function _ding_debt_easy_process_payment($payment_id, array $local_record, $amount) {
   $client = _ding_debt_easy_get_client();
 
   // Mark the order as paid at the provider, which only return true/false. It's
