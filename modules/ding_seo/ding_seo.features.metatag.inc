@@ -71,7 +71,7 @@ function ding_seo_metatag_export_default() {
         'value' => 'Library',
       ),
       'schema_organization.@id' => array(
-        'value' => '[site:url]',
+        'value' => '[node:url]',
       ),
       'schema_organization.name' => array(
         'value' => '[node:title]',
@@ -86,7 +86,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[node:field_ding_library_phone_number]',
       ),
       'schema_organization.url' => array(
-        'value' => '[site:url]',
+        'value' => '[node:url]',
       ),
       'schema_organization.description' => array(
         'value' => '[node:field_ding_library_lead]',
