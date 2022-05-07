@@ -42,10 +42,6 @@ function ding_seo_token_info() {
     'name' => t("Address Locality"),
     'description' => t('Address Locality'),
   ];
-  $info['tokens']['ding_seo_node_tokens']['addressRegion'] = [
-    'name' => t("Address Region"),
-    'description' => t('Address Region'),
-  ];
   $info['tokens']['ding_seo_node_tokens']['addressCountry'] = [
     'name' => t("Address Country"),
     'description' => t('Address Country'),
@@ -142,15 +138,6 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           }
           else {
             $replacements[$original] = $data["node"]->field_ding_event_location["und"][0]["locality"];
-          }
-          break;
-
-        case 'ding_seo_node_tokens:addressRegion':
-          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-            $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["region"];
-          }
-          else {
-            $replacements[$original] = $data['node']->field_ding_event_location['und'][0]['region'];
           }
           break;
 
