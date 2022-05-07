@@ -28,7 +28,7 @@ function ding_seo_token_info() {
 
   $info['tokens']['ding_seo_node_tokens']['location_url'] = [
     'name' => t("Location Url"),
-    'description' => t('location_url'),
+    'description' => t('The URL of the location'),
   ];
   $info['tokens']['ding_seo_node_tokens']['postalCode'] = [
     'name' => t("Postal Code"),
@@ -103,17 +103,12 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
   $replacements = [];
 
   if ($type == 'node' && !empty($data['node'])) {
-    // Get library data entity referenced from events.
+    // Get ding_library entity referenced from events.
     $library_data = NULL;
-    if ($data["node"]->type == "ding_event") {
-      $og = og_get_entity_groups('node', $data['node']);
-      foreach ($og['node'] as $nid) {
-        $og_node = node_load($nid);
-        if ($og_node->type == 'ding_library') {
-          $library_data = $og_node;
-          break;
-        }
-      }
+    if ($data['node']->type == 'ding_event') {
+      $ding_library_nids = og_get_entity_groups('node', $data['node'], [OG_STATE_ACTIVE], 'og_group_ref');
+      $ding_library_nid = reset($ding_library_nids['node']);
+      $library_data = node_load($ding_library_nid);
     }
 
     // Get logo dimensions.
