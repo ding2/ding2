@@ -50,14 +50,6 @@ function ding_seo_token_info() {
     'name' => t("Address Country"),
     'description' => t('Address Country'),
   ];
-  $info['tokens']['ding_seo_node_tokens']['longitude'] = [
-    'name' => t("Longitude"),
-    'description' => t('longitude'),
-  ];
-  $info['tokens']['ding_seo_node_tokens']['latitude'] = [
-    'name' => t("´Latitude"),
-    'description' => t('latitude'),
-  ];
 
   // Logo dimensions and URL tokens
   $info['tokens']['ding_seo_node_tokens']['logo_width'] = [
@@ -168,30 +160,6 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           }
           else {
             $replacements[$original] = $data["node"]->field_ding_event_location["und"][0]["country"];
-          }
-          break;
-
-        case 'ding_seo_node_tokens:longitude':
-          if ($data["node"]->type == "ding_library") {
-            $replacements[$original] = $data["node"]->field_ding_library_geocode["und"][0]["lon"];
-          }
-          elseif (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-            $replacements[$original] = $library_data->field_ding_library_geocode["und"][0]["lon"];
-          }
-          else {
-            $replacements[$original] = "long";
-          }
-          break;
-
-        case 'ding_seo_node_tokens:latitude':
-          if ($data["node"]->type == "ding_library") {
-            $replacements[$original] = $data["node"]->field_ding_library_geocode["und"][0]["lat"];
-          }
-          elseif (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-            $replacements[$original] = $library_data->field_ding_library_geocode["und"][0]["lat"];
-          }
-          else {
-            $replacements[$original] = "lat";
           }
           break;
 
