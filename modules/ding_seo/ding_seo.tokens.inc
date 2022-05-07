@@ -127,10 +127,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
       switch ($name) {
         // Location tokens.
         case 'ding_seo_node_tokens:postalCode':
-          if ($data["node"]->type == "ding_library") {
-            $replacements[$original] = $data["node"]->field_ding_library_addresse["und"][0]["postal_code"];
-          }
-          elseif (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
+          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
             $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["postal_code"];
           }
           else {
@@ -139,10 +136,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           break;
 
         case 'ding_seo_node_tokens:streetAddress':
-          if ($data["node"]->type == "ding_library") {
-            $replacements[$original] = $data["node"]->field_ding_library_addresse["und"][0]["thoroughfare"];
-          }
-          elseif (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
+          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
             $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["thoroughfare"];
           }
           else {
@@ -151,10 +145,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           break;
 
         case 'ding_seo_node_tokens:addressLocality':
-          if ($data["node"]->type == "ding_library") {
-            $replacements[$original] = $data["node"]->field_ding_library_addresse["und"][0]["locality"];
-          }
-          elseif (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
+          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
             $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["locality"];
           }
           else {
@@ -163,10 +154,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           break;
 
         case 'ding_seo_node_tokens:addressRegion':
-          if ($data["node"]->type == "ding_library") {
-            $replacements[$original] = $data["node"]->field_ding_library_addresse["und"][0]["region"];
-          }
-          elseif (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
+          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
             $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["region"];
           }
           else {
@@ -175,10 +163,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           break;
 
         case 'ding_seo_node_tokens:addressCountry':
-          if ($data["node"]->type == "ding_library") {
-            $replacements[$original] = $data["node"]->field_ding_library_addresse["und"][0]["country"];
-          }
-          elseif (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
+          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
             $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["country"];
           }
           else {
