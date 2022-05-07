@@ -160,11 +160,10 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           break;
 
         case 'ding_seo_node_tokens:location_url':
-          if (!empty($library_data)) {
-            $replacements[$original] = $_SERVER['REQUEST_SCHEME'] . '://'.$_SERVER['HTTP_HOST'] . "/node/" . $library_data->nid;
-          }
-          else {
-            $replacements[$original] = "";
+          if ($data['node']->type == 'ding_event' && empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
+            $replacements[$original] = url('node/' . $library_data->nid, [
+              'absolute' => TRUE,
+            ]);
           }
           break;
 
