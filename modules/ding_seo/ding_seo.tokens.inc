@@ -23,7 +23,7 @@ function ding_seo_token_info() {
   // Define tokens supported on ding_seo_node_tokens.
   $info['tokens']['ding_seo_node_tokens']['location_name'] = array(
     'name' => t("Location Name"),
-    'description' => t('The location is the '),
+    'description' => t('The name of the location'),
   );
 
   $info['tokens']['ding_seo_node_tokens']['location_url'] = [
