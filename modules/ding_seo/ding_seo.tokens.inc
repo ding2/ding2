@@ -70,10 +70,6 @@ function ding_seo_token_info() {
     'name' => t("Event Enddate"),
     'description' => t('Event enddate in YYYY-MM-DD HH:MM::SS format'),
   ];
-  $info['tokens']['ding_seo_node_tokens']['event_free'] = [
-    'name' => t("Event Free Boolean"),
-    'description' => t('Boolean of whether the event is free or not '),
-  ];
 
   // Language
   $info['tokens']['ding_seo_node_tokens']['language'] = [
@@ -190,16 +186,6 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           break;
         case 'ding_seo_node_tokens:event_enddate':
           $replacements[$original] = $data["node"]->field_ding_event_date["und"][0]["value2"];
-          break;
-
-        // Event extras.
-        case 'ding_seo_node_tokens:event_free':
-          if (empty($data["node"]->field_ding_event_price) || $data["node"]->field_ding_event_price["und"][0]["value"] == 0) {
-            $replacements[$original] = true;
-          }
-          else {
-            $replacements[$original] = false;
-          }
           break;
 
         // Language.

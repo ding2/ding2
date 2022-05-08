@@ -44,9 +44,6 @@ function ding_seo_metatag_export_default() {
       'schema_event.description' => array(
         'value' => '[node:field_ding_event_lead]',
       ),
-      'schema_event.isAccessibleForFree' => array(
-        'value' => '[node:ding_seo_node_tokens:event_free]',
-      ),
       'schema_event.startDate' => array(
         'value' => '[node:ding_seo_node_tokens:event_startdate]',
       ),
