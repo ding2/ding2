@@ -20,12 +20,12 @@ function ding_seo_token_info() {
     'description' => t('Group of node tokens defined by Ding SEO for use in structured data'),
     'type' => 'ding_seo_node_tokens',
   );
+
   // Define tokens supported on ding_seo_node_tokens.
   $info['tokens']['ding_seo_node_tokens']['location_name'] = array(
     'name' => t("Location Name"),
     'description' => t('The name of the location'),
   );
-
   $info['tokens']['ding_seo_node_tokens']['location_url'] = [
     'name' => t("Location Url"),
     'description' => t('The URL of the location'),
@@ -64,11 +64,11 @@ function ding_seo_token_info() {
   // Event data formatting
   $info['tokens']['ding_seo_node_tokens']['event_startdate'] = [
     'name' => t("Event Startdate"),
-    'description' => t('Event enddate in YYYY-MM-DD HH:MM::SS format'),
+    'description' => t('Event enddate in ISO-8601 format'),
   ];
   $info['tokens']['ding_seo_node_tokens']['event_enddate'] = [
     'name' => t("Event Enddate"),
-    'description' => t('Event enddate in YYYY-MM-DD HH:MM::SS format'),
+    'description' => t('Event enddate in ISO-8601 format'),
   ];
 
   // Language
@@ -87,12 +87,20 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
   $replacements = [];
 
   if ($type == 'node' && !empty($data['node'])) {
-    // Get ding_library entity referenced from events.
-    $library_data = NULL;
-    if ($data['node']->type == 'ding_event') {
-      $ding_library_nids = og_get_entity_groups('node', $data['node'], [OG_STATE_ACTIVE], 'og_group_ref');
+    $node = $data['node'];
+    /** @var \EntityDrupalWrapper */
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+
+    // Determine if we should get location data from referenced ding_library
+    // node for ding_events.
+    $library_node_wrapper = NULL;
+    if ($node->type == 'ding_event' && empty($node_wrapper->field_ding_event_location->name_line->value())) {
+      // Get the referenced ding_library node.
+      $ding_library_nids = og_get_entity_groups('node', $node, [OG_STATE_ACTIVE], 'og_group_ref');
       $ding_library_nid = reset($ding_library_nids['node']);
-      $library_data = node_load($ding_library_nid);
+      $library_node = node_load($ding_library_nid);
+      /** @var \EntityDrupalWrapper */
+      $library_node_wrapper = entity_metadata_wrapper('node', $library_node);
     }
 
     // Get logo dimensions.
@@ -111,53 +119,53 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
       switch ($name) {
         // Location tokens.
         case 'ding_seo_node_tokens:postalCode':
-          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-            $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["postal_code"];
+          if (isset($library_node_wrapper)) {
+            $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->postal_code->value();
           }
           else {
-            $replacements[$original] = $data['node']->field_ding_event_location['und'][0]['postal_code'];
+            $replacements[$original] = $node_wrapper->field_ding_event_location->postal_code->value();
           }
           break;
 
         case 'ding_seo_node_tokens:streetAddress':
-          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-            $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["thoroughfare"];
+          if (isset($library_node_wrapper)) {
+            $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->thoroughfare->value();
           }
           else {
-            $replacements[$original] = $data['node']->field_ding_event_location['und'][0]['thoroughfare'];
+            $replacements[$original] = $node_wrapper->field_ding_event_location->thoroughfare->value();
           }
           break;
 
         case 'ding_seo_node_tokens:addressLocality':
-          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-            $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["locality"];
+          if (isset($library_node_wrapper)) {
+            $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->locality->value();
           }
           else {
-            $replacements[$original] = $data["node"]->field_ding_event_location["und"][0]["locality"];
+            $replacements[$original] = $node_wrapper->field_ding_event_location->locality->value();
           }
           break;
 
         case 'ding_seo_node_tokens:addressCountry':
-          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-            $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["country"];
+          if (isset($library_node_wrapper)) {
+            $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->country->value();
           }
           else {
-            $replacements[$original] = $data["node"]->field_ding_event_location["und"][0]["country"];
+            $replacements[$original] = $node_wrapper->field_ding_event_location->country->value();
           }
           break;
 
         case 'ding_seo_node_tokens:location_name':
-          if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-            $replacements[$original] = $library_data->title;
+          if (isset($library_node_wrapper)) {
+            $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->name_line->value();
           }
           else {
-            $replacements[$original] = $data["node"]->field_ding_event_location["und"][0]["name_line"];
+            $replacements[$original] = $node_wrapper->field_ding_event_location->name_line->value();
           }
           break;
 
         case 'ding_seo_node_tokens:location_url':
-          if ($data['node']->type == 'ding_event' && empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-            $replacements[$original] = url('node/' . $library_data->nid, [
+          if (isset($library_node_wrapper)) {
+            $replacements[$original] = url('node/' . $library_node_wrapper->getIdentifier(), [
               'absolute' => TRUE,
             ]);
           }
@@ -182,20 +190,15 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
 
         // Event date formatting.
         case 'ding_seo_node_tokens:event_startdate':
-          $replacements[$original] = $data["node"]->field_ding_event_date["und"][0]["value"];
+          $replacements[$original] = $node_wrapper->field_ding_event_date->value()['value'];
           break;
         case 'ding_seo_node_tokens:event_enddate':
-          $replacements[$original] = $data["node"]->field_ding_event_date["und"][0]["value2"];
+          $replacements[$original] = $node_wrapper->field_ding_event_date->value()['value2'];
           break;
 
         // Language.
         case 'ding_seo_node_tokens:language':
-          if ($data["node"]->language == "und") {
-            $replacements[$original] = "dk";
-          }
-          else {
-            $replacements[$original] = $data["node"]->language;
-          }
+          $replacements[$original] = $node->language == 'und' ? 'dk' : $node->language;
           break;
 
       }
