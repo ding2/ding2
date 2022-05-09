@@ -45,10 +45,10 @@ function ding_seo_metatag_export_default() {
         'value' => '[node:field_ding_event_lead]',
       ),
       'schema_event.startDate' => array(
-        'value' => '[node:ding_seo_node_tokens:event_startdate]',
+        'value' => '[node:field-ding-event-date:value:custom:c]',
       ),
       'schema_event.endDate' => array(
-        'value' => '[node:ding_seo_node_tokens:event_enddate]',
+        'value' => '[node:field-ding-event-date:value2:custom:c]',
       ),
       'schema_event.location' => array(
         'value' => 'a:5:{s:5:"@type";s:5:"Place";s:4:"name";s:41:"[node:ding_seo_node_tokens:location_name]";s:3:"url";s:40:"[node:ding_seo_node_tokens:location_url]";s:7:"address";a:5:{s:5:"@type";s:13:"PostalAddress";s:13:"streetAddress";s:41:"[node:ding_seo_node_tokens:streetAddress]";s:15:"addressLocality";s:43:"[node:ding_seo_node_tokens:addressLocality]";s:10:"postalCode";s:38:"[node:ding_seo_node_tokens:postalCode]";s:14:"addressCountry";s:42:"[node:ding_seo_node_tokens:addressCountry]";}s:3:"geo";a:3:{s:5:"@type";s:14:"GeoCoordinates";s:8:"latitude";s:52:"[node:og-group-ref:0:field-ding-library-geocode:lat]";s:9:"longitude";s:52:"[node:og-group-ref:0:field-ding-library-geocode:lon]";}}',

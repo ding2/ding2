@@ -61,16 +61,6 @@ function ding_seo_token_info() {
     'description' => t('URL of the logo'),
   ];
 
-  // Event data formatting
-  $info['tokens']['ding_seo_node_tokens']['event_startdate'] = [
-    'name' => t("Event Startdate"),
-    'description' => t('Event enddate in ISO-8601 format'),
-  ];
-  $info['tokens']['ding_seo_node_tokens']['event_enddate'] = [
-    'name' => t("Event Enddate"),
-    'description' => t('Event enddate in ISO-8601 format'),
-  ];
-
   // Language
   $info['tokens']['ding_seo_node_tokens']['language'] = [
     'name' => t("Language"),
@@ -188,19 +178,10 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           }
           break;
 
-        // Event date formatting.
-        case 'ding_seo_node_tokens:event_startdate':
-          $replacements[$original] = $node_wrapper->field_ding_event_date->value()['value'];
-          break;
-        case 'ding_seo_node_tokens:event_enddate':
-          $replacements[$original] = $node_wrapper->field_ding_event_date->value()['value2'];
-          break;
-
         // Language.
         case 'ding_seo_node_tokens:language':
           $replacements[$original] = $node->language == 'und' ? 'dk' : $node->language;
           break;
-
       }
     }
   }
