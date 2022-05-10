@@ -5,7 +5,7 @@
  * Token callbacks for Ding SEO module.
  */
 
- /**
+/**
  * Implements hook_token_info()
  */
 function ding_seo_token_info() {
@@ -30,19 +30,19 @@ function ding_seo_token_info() {
     'name' => t("Location Url"),
     'description' => t('The URL of the location'),
   ];
-  $info['tokens']['ding_seo_node_tokens']['postalCode'] = [
+  $info['tokens']['ding_seo_node_tokens']['postal_code'] = [
     'name' => t("Postal Code"),
     'description' => t('Postal Code of the location'),
   ];
-  $info['tokens']['ding_seo_node_tokens']['streetAddress'] = [
+  $info['tokens']['ding_seo_node_tokens']['street_address'] = [
     'name' => t("Street Address"),
     'description' => t('Street Address of the location'),
   ];
-  $info['tokens']['ding_seo_node_tokens']['addressLocality'] = [
+  $info['tokens']['ding_seo_node_tokens']['address_locality'] = [
     'name' => t("Address Locality"),
     'description' => t('City area of the location'),
   ];
-  $info['tokens']['ding_seo_node_tokens']['addressCountry'] = [
+  $info['tokens']['ding_seo_node_tokens']['address_country'] = [
     'name' => t("Address Country"),
     'description' => t('Country of the location'),
   ];
@@ -69,8 +69,13 @@ function ding_seo_token_info() {
  */
 function ding_seo_tokens($type, $tokens, array $data, array $options) {
   $replacements = [];
+  $ding_seo_node_tokens = [];
 
-  if ($type == 'node' && !empty($data['node'])) {
+  if ($type == 'node') {
+    $ding_seo_node_tokens = token_find_with_prefix($tokens, 'ding_seo_node_tokens');
+  }
+
+  if (!empty($ding_seo_node_tokens) && !empty($data['node'])) {
     $node = $data['node'];
     /** @var \EntityDrupalWrapper */
     $node_wrapper = entity_metadata_wrapper('node', $node);
@@ -99,10 +104,10 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
       $logo_height = $logo_info[1];
     }
 
-    foreach ($tokens as $name => $original) {
+    foreach ($ding_seo_node_tokens as $name => $original) {
       switch ($name) {
         // Location tokens.
-        case 'ding_seo_node_tokens:postalCode':
+        case 'postal_code':
           if (isset($library_node_wrapper)) {
             $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->postal_code->value();
           }
@@ -111,7 +116,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           }
           break;
 
-        case 'ding_seo_node_tokens:streetAddress':
+        case 'street_address':
           if (isset($library_node_wrapper)) {
             $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->thoroughfare->value();
           }
@@ -120,7 +125,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           }
           break;
 
-        case 'ding_seo_node_tokens:addressLocality':
+        case 'address_locality':
           if (isset($library_node_wrapper)) {
             $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->locality->value();
           }
@@ -129,7 +134,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           }
           break;
 
-        case 'ding_seo_node_tokens:addressCountry':
+        case 'address_country':
           if (isset($library_node_wrapper)) {
             $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->country->value();
           }
@@ -138,7 +143,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           }
           break;
 
-        case 'ding_seo_node_tokens:location_name':
+        case 'location_name':
           if (isset($library_node_wrapper)) {
             $replacements[$original] = $library_node_wrapper->field_ding_library_addresse->name_line->value();
           }
@@ -147,7 +152,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           }
           break;
 
-        case 'ding_seo_node_tokens:location_url':
+        case 'location_url':
           if (isset($library_node_wrapper)) {
             $replacements[$original] = url('node/' . $library_node_wrapper->getIdentifier(), [
               'absolute' => TRUE,
@@ -156,17 +161,17 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           break;
 
         // Logo.
-        case 'ding_seo_node_tokens:logo_height':
+        case 'logo_height':
           if (isset($logo_height))  {
             $replacements[$original] = $logo_height;
           }
           break;
-        case 'ding_seo_node_tokens:logo_width':
+        case 'logo_width':
           if (isset($logo_width)) {
             $replacements[$original] = $logo_width;
           }
           break;
-        case 'ding_seo_node_tokens:logo_url':
+        case 'logo_url':
           if (isset($logo_url)) {
             $replacements[$original] = $logo_url;
           }

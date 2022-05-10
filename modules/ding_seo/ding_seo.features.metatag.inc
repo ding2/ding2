@@ -29,6 +29,39 @@ function ding_seo_metatag_export_default() {
     'instance' => 'node:ding_event',
     'disabled' => FALSE,
     'config' => array(
+      'og:type' => array(
+        'value' => 'website',
+      ),
+      'og:description' => array(
+        'value' => '[node:field_ding_event_lead]',
+      ),
+      'og:updated_time' => array(
+        'value' => '[node:changed:custom:c]',
+      ),
+      'og:image' => array(
+        'value' => '[node:field_ding_event_title_image:ding_secondary_large:path]',
+      ),
+      'og:image:type' => array(
+        'value' => '[node:field_ding_event_title_image:ding_secondary_large:mimetype]',
+      ),
+      'og:image:width' => array(
+        'value' => '[node:field_ding_event_title_image:ding_secondary_large:width]',
+      ),
+      'og:image:height' => array(
+        'value' => '[node:field_ding_event_title_image:ding_secondary_large:height]',
+      ),
+      'og:street_address' => array(
+        'value' => '[node:ding_seo_node_tokens:street_address]',
+      ),
+      'og:locality' => array(
+        'value' => '[node:ding_seo_node_tokens:address_locality]',
+      ),
+      'og:postal_code' => array(
+        'value' => '[node:ding_seo_node_tokens:postal_code]',
+      ),
+      'og:country_name' => array(
+        'value' => '[node:ding_seo_node_tokens:address_country]',
+      ),
       'schema_event.@type' => array(
         'value' => 'Event',
       ),
@@ -51,7 +84,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[node:field-ding-event-date:value2:custom:c]',
       ),
       'schema_event.location' => array(
-        'value' => 'a:5:{s:5:"@type";s:5:"Place";s:4:"name";s:41:"[node:ding_seo_node_tokens:location_name]";s:3:"url";s:40:"[node:ding_seo_node_tokens:location_url]";s:7:"address";a:5:{s:5:"@type";s:13:"PostalAddress";s:13:"streetAddress";s:41:"[node:ding_seo_node_tokens:streetAddress]";s:15:"addressLocality";s:43:"[node:ding_seo_node_tokens:addressLocality]";s:10:"postalCode";s:38:"[node:ding_seo_node_tokens:postalCode]";s:14:"addressCountry";s:42:"[node:ding_seo_node_tokens:addressCountry]";}s:3:"geo";a:3:{s:5:"@type";s:14:"GeoCoordinates";s:8:"latitude";s:52:"[node:og-group-ref:0:field-ding-library-geocode:lat]";s:9:"longitude";s:52:"[node:og-group-ref:0:field-ding-library-geocode:lon]";}}',
+        'value' => 'a:5:{s:5:"@type";s:5:"Place";s:4:"name";s:41:"[node:ding_seo_node_tokens:location_name]";s:3:"url";s:40:"[node:ding_seo_node_tokens:location_url]";s:7:"address";a:5:{s:5:"@type";s:13:"PostalAddress";s:13:"streetAddress";s:42:"[node:ding_seo_node_tokens:street_address]";s:15:"addressLocality";s:44:"[node:ding_seo_node_tokens:address_locality]";s:10:"postalCode";s:39:"[node:ding_seo_node_tokens:postal_code]";s:14:"addressCountry";s:43:"[node:ding_seo_node_tokens:address_country]";}s:3:"geo";a:3:{s:5:"@type";s:14:"GeoCoordinates";s:8:"latitude";s:52:"[node:og-group-ref:0:field-ding-library-geocode:lat]";s:9:"longitude";s:52:"[node:og-group-ref:0:field-ding-library-geocode:lon]";}}',
       ),
       'schema_event.url' => array(
         'value' => '[node:url]',
