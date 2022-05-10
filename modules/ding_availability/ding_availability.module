@@ -288,6 +288,11 @@ function ding_availability_holdings(array $provider_ids) {
             'There are @count users in queue to loan the material.');
         }
 
+        // Send raw data on to allow others to add more information to the
+        // table in preprocess functions.
+        $variables['provider_id'] = $provider_id;
+        $variables['item'] = $item;
+
         // Theme the output.
         $item['html'] = theme('ding_holdings', $variables);
       }

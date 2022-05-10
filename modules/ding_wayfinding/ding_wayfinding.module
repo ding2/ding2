@@ -1,0 +1,268 @@
+<?php
+
+/**
+ * @file
+ * Integration with https://universal-wayfinding.libry.dk/ for way finding.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_wayfinding_menu() {
+  $items = [];
+
+  $items['admin/config/ding/wayfinding'] = [
+    'title' => 'Wayfinding',
+    'description' => 'Library wayfinding.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ding_wayfinding_settings_form'],
+    'access arguments' => ['administer wayfinding'],
+    'file' => 'includes/ding_wayfinding.admin.inc',
+  ];
+
+  $items['ding_wayfinding/%/%'] = [
+    'title' => 'Wayfinding',
+    'description' => 'Library wayfinding.',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'ding_wayfinding_show_map',
+    'page arguments' => [1, 2],
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => ['access content'],
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_init().
+ *
+ * The init hook is used as all the content is loaded via ajax callbacks and
+ * adding js/css in these don't seam to get things added to the page.
+ */
+function ding_wayfinding_init() {
+  $path = drupal_get_path('module', 'ding_wayfinding');
+
+  drupal_add_library('system', 'drupal.ajax');
+  drupal_add_js('https://universal-wayfinding.libry.dk/sdk-latest.js', 'external');
+  drupal_add_js($path . '/js/ding_wayfinding.js');
+
+  drupal_add_css($path . '/css/ding_wayfinding.css');
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_wayfinding_theme($existing, $type, $theme, $path) {
+  return [
+    'ding_wayfinding_map' => [
+      'variables' => [
+        'height' => '100%',
+        'width' => '600px',
+        'info' => NULL,
+      ],
+      'template' => 'templates/ding-wayfinding-map',
+    ],
+    'ding_wayfinding_popup' => [
+      'variables' => [
+        'cover_url' => NULL,
+        'title' => NULL,
+        'author' => NULL,
+        'placement' => NULL,
+        'route' => FALSE,
+      ],
+      'template' => 'templates/ding-wayfinding-popup',
+    ],
+  ];
+}
+
+/**
+ * Get agency id.
+ *
+ * Fallback to ting_agency_id.
+ *
+ * @param bool $prefix
+ *   If true the agency is prefixed with 'DK-'. Default false.
+ *
+ * @return string
+ *   Agency id, if found else the empty string.
+ */
+function ding_wayfinding_get_agency_id($prefix = false) {
+  $ret = variable_get('ding_wayfinding_agency_id', variable_get('ting_agency', ''));
+  if ($prefix && $ret != '') {
+    $ret = 'DK-' . $ret;
+  }
+  return $ret;
+}
+
+/**
+ * Implements hook_preprocess_ding_holdings().
+ *
+ * Add wayfinding map triggers to holdings table if point-of-interest (POI) if
+ * found for the material request holdings for.
+ */
+function ding_wayfinding_preprocess_ding_holdings(&$variables) {
+  $provider_id = $variables['provider_id'];
+  $item = $variables['item'];
+
+  // Load information about branch names base on branch id's in selected in the
+  // administrative interface.
+  $active_branches = array_filter(variable_get('ding_wayfinding_branches', []));
+
+  $found = FALSE;
+  $rows = [];
+  foreach ($variables['holdings']['#rows'] as $id => $row) {
+    // This adding to rows are done in this way, and not by reference, to enable
+    // us only add the "Map" row when point-of-interest is found.
+    $rows[$id] = $row;
+    $rows[$id]['wayfinding'] = '';
+
+    if (array_key_exists($item['holdings'][$id]['branch_id'], $active_branches)) {
+      $branch_id = $item['holdings'][$id]['branch_id'];
+      if (ding_wayfinding_has_location($provider_id, $branch_id)) {
+        $img = '/' . drupal_get_path('module', 'ding_wayfinding') . '/img/icon_map_thumbnail.png';
+        $rows[$id]['wayfinding'] = '<a href="/ding_wayfinding/' . $branch_id . '/' . $provider_id . '" class="wayfinding use-ajax"><img src="' . $img . '" /></a>';
+        $found = TRUE;
+      }
+    }
+  }
+
+  // If POI was found add new rows to the table.
+  if ($found) {
+    $variables['holdings']['#header']['wayfinding'] = t('Map', [], ['context' => 'ding_wayfinding']);
+    $variables['holdings']['#rows'] = $rows;
+  }
+}
+
+/**
+ * Get available branches from the current provider.
+ *
+ * @return array
+ *   The available branches name keyed by branch id.
+ */
+function ding_wayfinding_get_branches() {
+  // Find default branches based on the current provider.
+  $provider = _ding_provider_get_provider('user');
+  $function = $provider['module'] . '_user_branches';
+  $branches = [];
+  if (is_callable($function)) {
+    $branches = $function();
+  }
+
+  return $branches;
+}
+
+/**
+ * Check the wayfinding server location exists for faust.
+ *
+ * @param int $faust
+ *   The faust to check location for.
+ * @param string $branch
+ *   The branch to check for the faust on.
+ *
+ * @return bool
+ *   If location found TRUE else FALSE.
+ */
+function ding_wayfinding_has_location($faust, $branch) {
+  $slug = variable_get('ding_wayfinding_type', 'fbs');
+  $customer_id = variable_get('ding_wayfinding_customer_id', 'bob');
+
+  $url = 'https://wayfinding.libry.dk/api/v1/sdk/' . $customer_id . '/' . $slug . '-mapspeople';
+  $res = drupal_http_request($url, [
+    'method' => 'POST',
+    'headers' => [
+      'x-api-key' => variable_get('ding_wayfinding_api_key', ''),
+      'Content-Type' => 'application/json',
+    ],
+    'data' => json_encode([
+      'branch' => $branch,
+      'faust' => (string) $faust,
+    ]),
+  ]);
+
+  if ($res->code == 200) {
+    $data = json_decode($res->data);
+    if (!empty($data)) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Ajax callback function to display map.
+ *
+ * @param string $branch_id
+ *   The branch id to show POI on map (filter.
+ * @param int $faust
+ *   The PID of the POI to show on the map.
+ *
+ * @return array
+ *   Render array with ajax-commands.
+ */
+function ding_wayfinding_show_map($branch_id, $faust) {
+  $commands[] = ajax_command_settings([
+    'ding_wayfinding' => [
+      'id' => [
+        'branch' => $branch_id,
+        'faust' => $faust,
+      ],
+      'access' => [
+        'customerId' => variable_get('ding_wayfinding_customer_id', ''),
+        'agency' => ding_wayfinding_get_agency_id(TRUE),
+        'apiKey' => variable_get('ding_wayfinding_api_key', ''),
+      ],
+      'route' => (bool) variable_get('ding_wayfinding_enable_route', FALSE),
+      'openPopup' => (bool) variable_get('ding_wayfinding_popup_open', FALSE),
+      'zoomLevel' => (float) variable_get('ding_wayfinding_zoom_level', '19.0'),
+    ],
+  ], TRUE);
+
+  // Try to get object id from path on the page that was clicked. This is kind
+  // of an hack to get the id.
+  $tingEntity = FALSE;
+  $pid = FALSE;
+  $referer = $_SERVER["HTTP_REFERER"];
+  preg_match('/\d{6}-\w+(%3A|:)\d+$/', $referer, $matches);
+  if (isset($matches[0])) {
+    $pid = urldecode($matches[0]);
+    $tingEntity = ding_entity_load($pid);
+    $tingEntity->getLocalId();
+  }
+
+  // Try to find cover for the material.
+  if ($pid) {
+    $covers = ting_covers_get([$pid]);
+    $cover_url = image_style_url('ding_primary_large', reset($covers));
+  }
+
+  // Get holdings for the material and find placement base on branch id.
+  $placement = FALSE;
+  $holdings = ding_availability_holdings([$faust]);
+  $holdings = reset($holdings);
+  foreach ($holdings['holdings'] as $holding) {
+    if ($holding['branch_id'] === $branch_id) {
+      $placement = implode(' > ', $holding['placement']);
+    }
+  }
+
+  $information = [
+    '#theme' => 'ding_wayfinding_map',
+    '#height' => '600px',
+    '#width' => '100%',
+    '#info' => [
+      '#theme' => 'ding_wayfinding_popup',
+      '#cover_url' => $tingEntity ? $cover_url : NULL,
+      '#title' => $tingEntity ? $tingEntity->getTitle() : 'Unknown title',
+      '#author' => $tingEntity ? reset($tingEntity->getCreators()) : 'Unknown author',
+      '#placement' => $placement ? $placement : '>',
+      '#route' => (bool) variable_get('ding_wayfinding_enable_route', FALSE),
+    ],
+  ];
+  $commands[] = ajax_command_ding_popup('ding_wayfinding', t('Way finding map'), render($information));
+
+  return [
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  ];
+}
