@@ -12,3 +12,60 @@ function ding_seo_install() {
   // Ensure the ting_object global metatag config is enabled.
   variable_set('metatag_enable_ting_object', TRUE);
 }
+
+/**
+ * Implements hook_schema().
+ */
+function ding_seo_schema() {
+  $schema = [];
+
+  $schema['ting_object_sitemap'] = [
+    'description' => 'Local proxy table for ting objects.',
+    'fields' => [
+      'tid' => [
+        'description' => 'The primary local identifier for a ting object.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'ting_object_id' => [
+        'description' => 'The ting object id.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'created' => [
+        'description' => 'Timestamp for creation of record',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'changed' => [
+        'description' => 'Timestamp for changing of record',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'indexes' => [
+      'ding_seo_ting_object_id' => ['ting_object_id'],
+    ],
+    'primary key' => ['tid'],
+  ];
+
+  return $schema;
+}
+
+ /**
+ * Implements hook_uninstall().
+ */
+function ding_seo_uninstall() {
+  // Unset variables.
+  variable_del('ding_seo_last_run_sitemap');
+  variable_del('ding_seo_maximum_links_in_sitemap');
+  variable_del('ding_seo_number_of_links_to_delete');
+  variable_del('ding_seo_sitemap_last_check');
+}

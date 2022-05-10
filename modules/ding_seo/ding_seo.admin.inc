@@ -16,12 +16,27 @@ function ding_seo_admin_settings($form, &$form_state) {
     '#description' => t('A string provided in Google Search Console.'),
   );
 
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save'),
-  );
+  $form['sitemap_settings'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Sitemap settings'),
+    '#description' => t('Settings for processing Ting objects into sitemap links'),
+  ];
 
-  return $form;
+  $form['sitemap_settings']['ding_seo_maximum_links_in_sitemap'] = [
+    '#type' => 'textfield',
+    '#title' => t('Maximum Number of links in sitemap'),
+    '#description' => t('The maximum number of links we allow in sitemaps. To large a number leads to performance strain on the server'),
+    '#default_value' => variable_get('ding_seo_maximum_links_in_sitemap', 50000),
+  ];
+
+  $form['sitemap_settings']['ding_seo_number_of_links_to_delete'] = [
+    '#type' => 'textfield',
+    '#title' => t('Number of links to delete'),
+    '#description' => t('How many links we delete to make number for new links. The links which have not been visited the longest are deleted'),
+    '#default_value' => variable_get('ding_seo_number_of_links_to_delete', 1000),
+  ];
+
+  return system_settings_form($form);
 }
 
 /**
