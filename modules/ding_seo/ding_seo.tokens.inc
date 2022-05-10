@@ -61,12 +61,6 @@ function ding_seo_token_info() {
     'description' => t('URL of the logo'),
   ];
 
-  // Language
-  $info['tokens']['ding_seo_node_tokens']['language'] = [
-    'name' => t("Language"),
-    'description' => t('Language of the node'),
-  ];
-
   return $info;
 }
 
@@ -161,7 +155,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           }
           break;
 
-        // Logo image dimensions.
+        // Logo.
         case 'ding_seo_node_tokens:logo_height':
           if (isset($logo_height))  {
             $replacements[$original] = $logo_height;
@@ -176,11 +170,6 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
           if (isset($logo_url)) {
             $replacements[$original] = $logo_url;
           }
-          break;
-
-        // Language.
-        case 'ding_seo_node_tokens:language':
-          $replacements[$original] = $node->language == 'und' ? 'dk' : $node->language;
           break;
       }
     }
