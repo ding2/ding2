@@ -93,7 +93,9 @@ function ding_debt_easy_menu() {
     'title' => 'Payment webhook callback',
     'type' => MENU_CALLBACK,
     'page callback' => '_ding_debt_easy_webhook',
-    'access arguments' => array('access content'),
+    // Allow all to make the callback regardless of permissions. This ensures
+    // that nets always can call this callback.
+    'access arguments' => TRUE,
   ];
 
   return $items;
@@ -525,9 +527,6 @@ function _ding_debt_easy_callback() {
 
   // Clear the users cache before redirecting to ensure the payment overview is
   // updated with data from the provider and not the cache.
-  if (module_exists('ding_session_cache')) {
-    ding_session_cache_clear('fbs', 'debt', TRUE);
-  }
   ding_provider_invoke('user', 'clear_cache', $user);
 
   // Fetch order details form the database.
@@ -557,8 +556,17 @@ function _ding_debt_easy_callback() {
 
 /**
  * Web-hook callback handling.
+ *
+ * This function is a callback used by Nets-easy web-hooks and should always
+ * return http status code 200. If any other status is returned nets will keep
+ * re-calling the site with different intervals.
+ *
+ * @see https://developers.nets.eu/nets-easy/en-EU/api/webhooks/
  */
 function _ding_debt_easy_webhook() {
+  // This callback should never be cached.
+  drupal_page_is_cacheable(FALSE);
+
   // When content-type is JSON the data is not placed in _POST variable, so we
   // have to parse the payload by hand.
   $data = json_decode(file_get_contents("php://input"), true);
@@ -569,12 +577,14 @@ function _ding_debt_easy_webhook() {
   // Validate HTTP_AUTHORIZATION header to ensure call comes from nets.
   $token = $_SERVER['HTTP_AUTHORIZATION'];
   if ($local_record['auth'] !== $token) {
+    watchdog('ding_debt_easy', 'Web-hook callback with wrong authorization header. Payment id: %id', ['%id' => $payment_id], 'WATCHDOG_WARNING');
     return;
   }
 
   // The payment gateway web-hooks seen calling back two or more times with the
   // same order sometimes, so to protect against this we have this extra check.
   if (DING_DEBT_EASY_STATUS_COMPLETED === $local_record['status']) {
+    watchdog('ding_debt_easy', 'Web-hook callback all ready completed. Payment id: %id', ['%id' => $payment_id], 'WATCHDOG_WARNING');
     return;
   }
 
