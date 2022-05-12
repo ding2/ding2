@@ -20,6 +20,7 @@
   var DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT = 59;
   var DING_WEBTREKK_PARAMETER_CAROUSEL_PREV = 60;
   var DING_WEBTREKK_PARAMETER_COVER_PRESENT = 49;
+  var DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_SELECTED = 67;
 
   var appendQueryParameter = function appendQueryParameter(url, key, value) {
     var seperator = (url.indexOf('?') !== -1) ? '&' : '?';
@@ -112,6 +113,33 @@
           };
           eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_SELECTED] = selectedMaterials.join(';');
           pushEvent('click', eventData);
+      });
+
+      // Track ding reservation selected events.
+      //
+      // The delete all button is attached completely on the server, but for
+      // delete selected, we need information about selected reservations in the UI,
+      // before we send event.
+      //
+      // There is defined a click events which hinders ours from firing so we use mousedown in stead.
+      var deleteReservationHandler = function (e) {
+        var numberSelected = $('.material-item input[type=checkbox]:checked').length;
+        var eventData = {
+          linkId: 'Slet valgte reservering',
+          customClickParameter: {}
+        };
+        eventData.customClickParameter[DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_SELECTED] = numberSelected;
+        pushEvent('click', eventData);
+      }
+
+      $('.js-ding-webtrekk-event-delete-selected', context)
+        .once('js-ding-webtrekk')
+        .mousedown(deleteReservationHandler);
+
+      // We dont want send parameters twice. The delete all buttons selects all reserverations
+      // and fires off the delete select reservation handler. So we unbind it.
+      $('.delete-all', context).click(function(e) {
+        $('.js-ding-webtrekk-event-delete-selected').unbind('mousedown', deleteReservationHandler);
       });
 
       // Special handling for ding_carousel.

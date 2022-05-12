@@ -497,7 +497,6 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
  */
 function ding_reservation_reservations_form($form, &$form_state, $reservations, $type = DING_RESERVATION_NOT_READY, $conf = array()) {
   $int_per = variable_get('ding_reservation_disable_interest_date', '');
-
   $form = array(
     '#tree' => TRUE,
   );
@@ -736,11 +735,17 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
     );
 
     $form['actions_container']['actions_top']['delete_all'] = array(
-      '#type' => 'markup',
-      '#prefix' => '<div class="delete-all action-all action-button js-delete-all">',
-      '#markup' => '<a href="#">' . t('Delete all') . '</a>',
-      '#suffix' => '</div>',
-      '#weight' => 10,
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#value' => '<a href="#">' . t('Delete all') . '</a>',
+      '#attributes' => [
+        'class' => [
+          'delete-all',
+          'action-all',
+          'action-button',
+          'js-delete-all',
+        ],
+      ],
     );
   }
 
@@ -757,7 +762,6 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       ),
     );
   }
-
   return $form;
 }
 
