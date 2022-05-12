@@ -12,6 +12,7 @@ use Nets\Easy\Exception\PaymentException;
 define('DING_DEBT_EASY_DEFAULT_TERMS_URL', 'payment/easy/terms');
 define('DING_DEBT_EASY_DEFAULT_PRIVACY_URL', 'payment/easy/privacy');
 define('DING_DEBT_EASY_CALLBACK_URL', 'payment/easy/callback');
+define('DING_DEBT_EASY_WEBHOOK', 'payment/easy/webhook');
 define('DING_DEBT_EASY_CANCEL_URL', 'payment/easy/cancel');
 
 // Looking forward to PHP 8.1's enums.
@@ -20,6 +21,7 @@ define('DING_DEBT_EASY_STATUS_RESERVED', 'reserved');
 define('DING_DEBT_EASY_STATUS_PENDING', 'pending');
 define('DING_DEBT_EASY_STATUS_COMPLETED', 'completed');
 define('DING_DEBT_EASY_STATUS_FAILED', 'failed');
+define('DING_DEBT_EASY_STATUS_CANCELED', 'canceled');
 
 define('DING_DEBT_EASY_MAX_RETRIES', 6);
 
@@ -84,6 +86,16 @@ function ding_debt_easy_menu() {
     'type' => MENU_CALLBACK,
     'page callback' => '_ding_debt_easy_canceled',
     'access arguments' => array('perform payment'),
+  ];
+
+  // Payment webhook (callback).
+  $items[DING_DEBT_EASY_WEBHOOK] = [
+    'title' => 'Payment webhook callback',
+    'type' => MENU_CALLBACK,
+    'page callback' => '_ding_debt_easy_webhook',
+    // Allow all to make the callback regardless of permissions. This ensures
+    // that nets always can call this callback.
+    'access arguments' => TRUE,
   ];
 
   return $items;
@@ -501,7 +513,6 @@ function _ding_debt_easy_get_payment_types_options() {
  *
  * @throws \DingProviderDoesntImplement
  * @throws \DingProviderNoProvider
- * @throws \GuzzleHttp\Exception\GuzzleException
  */
 function _ding_debt_easy_callback() {
   global $user;
@@ -514,18 +525,117 @@ function _ding_debt_easy_callback() {
   }
   $payment_id = $params['paymentid'];
 
+  // Clear the users cache before redirecting to ensure the payment overview is
+  // updated with data from the provider and not the cache.
+  ding_provider_invoke('user', 'clear_cache', $user);
+
   // Fetch order details form the database.
   $local_record = _ding_debt_easy_get_payment_local($payment_id);
 
-  // The payment gateway calls the callback two time with the same payload,
-  // sometimes, so to protect against this we have this extra check. In chrome
-  // the first callback will be marked as canceled, but the request have been
-  // sent to the backend. If in incognito mode this does not seam to happen. It
-  // has been testet on different system and the result is the same.
-  if ($local_record['status'] === DING_DEBT_EASY_STATUS_COMPLETED) {
-    drupal_goto(DING_DEBT_USER_DEBT_PAGE);
+  // Inform user. As the payment status is handle in async web-hooks we may get
+  // here before the payment have been processed. So we only have to different
+  // message we can set.
+  if (DING_DEBT_EASY_STATUS_COMPLETED === $local_record['status']) {
+    $msg = t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', [
+      '@amount' => $local_record['amount'] / 100,
+      '@transaction' => $payment_id,
+      '@order' => $local_record['order_id'],
+    ]);
+  }
+  else {
+    $msg = t('Your payment of @amount is begin processed. Transaction ID: @transaction, order no.: @order.', [
+      '@amount' => $local_record['amount'] / 100,
+      '@transaction' => $payment_id,
+      '@order' => $local_record['order_id'],
+    ]);
+  }
+  drupal_set_message($msg);
+
+  drupal_goto(DING_DEBT_USER_DEBT_PAGE);
+}
+
+/**
+ * Web-hook callback handling.
+ *
+ * This function is a callback used by Nets-easy web-hooks and should always
+ * return http status code 200. If any other status is returned nets will keep
+ * re-calling the site with different intervals.
+ *
+ * @see https://developers.nets.eu/nets-easy/en-EU/api/webhooks/
+ */
+function _ding_debt_easy_webhook() {
+  // This callback should never be cached.
+  drupal_page_is_cacheable(FALSE);
+
+  // When content-type is JSON the data is not placed in _POST variable, so we
+  // have to parse the payload by hand.
+  $data = json_decode(file_get_contents("php://input"), true);
+
+  $payment_id = $data['data']['paymentId'];
+  $local_record = _ding_debt_easy_get_payment_local($payment_id);
+
+  // Validate HTTP_AUTHORIZATION header to ensure call comes from nets.
+  $token = $_SERVER['HTTP_AUTHORIZATION'];
+  if ($local_record['auth'] !== $token) {
+    watchdog('ding_debt_easy', 'Web-hook callback with wrong authorization header. Payment id: %id', ['%id' => $payment_id], 'WATCHDOG_WARNING');
+    return;
   }
 
+  // The payment gateway web-hooks seen calling back two or more times with the
+  // same order sometimes, so to protect against this we have this extra check.
+  if (DING_DEBT_EASY_STATUS_COMPLETED === $local_record['status']) {
+    watchdog('ding_debt_easy', 'Web-hook callback all ready completed. Payment id: %id', ['%id' => $payment_id], 'WATCHDOG_WARNING');
+    return;
+  }
+
+  switch ($data['event']) {
+    case 'payment.checkout.completed':
+      // Get data needed from the payload.
+      $amount = $data['data']['order']['amount']['amount'];
+
+      // Fetch order details form the database.
+      if (_ding_debt_easy_validate_payment($payment_id, $local_record)) {
+        _ding_debt_easy_process_payment($payment_id, $local_record, $amount);
+      }
+      break;
+
+    case 'payment.cancel.created':
+      _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_CANCELED);
+      break;
+
+    case 'payment.reservation.created.v2':
+      _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_RESERVED);
+      break;
+
+    default:
+      // Ignore all other callbacks.
+      break;
+  }
+}
+
+/**
+ * Canceled payment at the gateway.
+ *
+ * The payment status is updated in the web-hooks callback. So here simply
+ * inform the user about the cancellation.
+ */
+function _ding_debt_easy_canceled() {
+  drupal_set_message(t('The payment have been canceled'));
+  drupal_goto(DING_DEBT_USER_DEBT_PAGE);
+}
+
+/**
+ * Validate payment status.
+ *
+ * @param string $payment_id
+ *   The payment id at the payment gateway.
+ * @param array $local_record
+ *   Local record for the payment.
+ *
+ * @return bool
+ *   If the payment is ready for processing TRUE else FALSE.
+ */
+function _ding_debt_easy_validate_payment($payment_id, array $local_record) {
   // Validate the current status for the local record to prevent payment errors.
   $valid_status = [
     DING_DEBT_EASY_STATUS_RESERVED,
@@ -537,63 +647,49 @@ function _ding_debt_easy_callback() {
       '%order_id' => $local_record['order_id'],
       '%state' => $local_record['status'],
     ], WATCHDOG_INFO);
-    drupal_set_message(t('Unable process payment for the order (%order_id). Please contact the library with the order id.', [
-      '%order_id' => $local_record['order_id'],
-    ]), 'error');
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_FAILED);
     _ding_debt_easy_remove_personal_info($payment_id);
-    drupal_goto(DING_DEBT_USER_DEBT_PAGE);
+
+    return FALSE;
   }
 
-  // Mark the local order as reserved at the payment gateway.
-  _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_RESERVED);
+  return TRUE;
+}
 
+/**
+ * Process the payment at the provider and update the local record.
+ *
+ * @param string $payment_id
+ *   The payment id at the payment gateway.
+ * @param array $local_record
+ *   Local record for the payment.
+ * @param int $amount
+ *   The amount to process.
+ *
+ * @throws \DingProviderDoesntImplement
+ * @throws \DingProviderNoProvider
+ * @throws \GuzzleHttp\Exception\GuzzleException
+ */
+function _ding_debt_easy_process_payment($payment_id, array $local_record, $amount) {
   $client = _ding_debt_easy_get_client();
-  try {
-    $data = $client->fetchPayment($payment_id);
-  }
-  catch (PaymentException $exception) {
-    watchdog_exception('ding_debt_easy', $exception, 'Unable to process payment as the order was not found at Nets (Order ID: %order_id)', [
-      '%order_id' => $local_record['order_id'],
-    ]);
-    drupal_set_message(t('Unable process payment as the order (%order_id) was not found at the gateway. Please contact the library with the order id.', [
-      '%order_id' => $local_record['order_id'],
-    ]), 'error');
-    _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_FAILED);
-    _ding_debt_easy_remove_personal_info($payment_id);
-    drupal_goto(DING_DEBT_USER_DEBT_PAGE);
-  }
-  catch (PaymentCommunicationException $exception) {
-    watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
-      '%order_id' => $local_record['order_id'],
-    ]);
-    drupal_set_message(t('Unable to process payment as there was a communication error. We will try automatically later with order id: %order_id.', [
-      '%order_id' => $local_record['order_id'],
-    ]), 'warning');
-    _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
-    drupal_goto(DING_DEBT_USER_DEBT_PAGE);
-  }
 
   // Mark the order as paid at the provider, which only return true/false. It's
-  // the most we can do in regard to what went wrong.
-  $status = ding_provider_invoke('debt', 'payment_received', $user, $local_record['provider_ids'], $local_record['order_id']);
+  // the most we can do in regard to what went wrong. Also we don't send any
+  // user into this as this is handled in a web-hook.
+  $status = ding_provider_invoke('debt', 'payment_received', NULL, $local_record['provider_ids'], $local_record['order_id'], $local_record['patron_id']);
 
   if ($status) {
-    $success = false;
-
     // Charged the payment gateway.
     try {
-      $charge_id = $client->chargePayment($payment_id, $data['orderDetails']['amount']);
+      $charge_id = $client->chargePayment($payment_id, $amount);
       _ding_debt_easy_set_charge_id_local($payment_id, $charge_id);
       _ding_debt_easy_update_status_local($payment_id, DING_DEBT_EASY_STATUS_COMPLETED);
       _ding_debt_easy_remove_personal_info($payment_id);
-      $success = true;
     }
     catch (PaymentCommunicationException $exception) {
       watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
         '%order_id' => $local_record['order_id'],
       ]);
-      drupal_set_message(t('There is a communication problem with the gateway. The amount has been reserved but not charged at the gateway yet.'));
 
       // As the amount has not been charged. The local order will be set to pending for retry via cron.
       _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
@@ -602,52 +698,21 @@ function _ding_debt_easy_callback() {
       watchdog_exception('ding_debt_easy', $exception, 'There is a communication problem with the gateway (Order ID: %order_id)', [
         '%order_id' => $local_record['order_id'],
       ]);
-      drupal_set_message(t('The amount has been reserved but not charged at the gateway yet. It will automatically be charged later if possible.'));
 
       // As the amount has not been charged. The local order will be set to
       // pending for retry via cron.
       _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
     }
-
-    // Inform user.
-    if ($success) {
-      $msg = t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', [
-        '@amount' => $data['orderDetails']['amount'] / 100,
-        '@transaction' => $payment_id,
-        '@order' => $local_record['order_id'],
-      ]);
-    }
-    else {
-      $msg = t('Transaction ID: @transaction, order no.: @order.', [
-        '@transaction' => $payment_id,
-        '@order' => $local_record['order_id'],
-      ]);
-    }
-    drupal_set_message($msg);
   }
   else {
     watchdog('ding_debt_easy', 'There is a communication problem with the provider (Order ID: %order_id)', [
       '%order_id' => $local_record['order_id'],
     ]);
-    drupal_set_message(t('The amount has been reserved but not charged at the gateway yet. It will automatically be charged later if possible.'));
 
     // As the amount has not been marked as paid at the provider. The local
     // order will be set to pending for retry via cron.
     _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
   }
-
-  // Clear the users cache before redirecting to ensure the payment overview is
-  // updated with data from the provider and not the cache.
-  ding_provider_invoke('user', 'clear_cache', $user);
-  drupal_goto(DING_DEBT_USER_DEBT_PAGE);
-}
-
-/**
- * Canceled payment at the gateway.
- */
-function _ding_debt_easy_canceled() {
-  drupal_set_message(t('The payment have been canceled'), 'status');
-  drupal_goto(DING_DEBT_USER_DEBT_PAGE);
 }
 
 /**
@@ -707,6 +772,7 @@ function _ding_debt_easy_create_order_local($patron_id, $provider_ids, $amount) 
         'status' => DING_DEBT_EASY_STATUS_CREATED,
         'amount' => $amount,
         'changed' => REQUEST_TIME,
+        'auth' => md5(bin2hex(random_bytes(32))),
       ])
       ->execute();
   } catch (Exception $e) {
@@ -906,6 +972,7 @@ function _ding_debt_easy_load_library() {
   require_once $path . 'Checkout.inc';
   require_once $path . 'Client.inc';
   require_once $path . 'Order.inc';
+  require_once $path . 'Notification.inc';
   require_once $path . 'OrderItem.inc';
   require_once $path . 'Exceptions/PaymentCommunicationException.inc';
   require_once $path . 'Exceptions/PaymentException.inc';

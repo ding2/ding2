@@ -77,11 +77,12 @@
    */
   function firstLevelExpandedHandler (event) {
     var first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a .main-menu-expanded-icon');
+    var target = $(event.target);
     if ($('.is-tablet').is(':visible')) {
       event.preventDefault();
-      first_level_expanded.not($(event)).parent().parent().children('.main-menu').slideUp(200);
-      $(event).toggleClass('open');
-      $(event).parent().parent().children('.main-menu').slideToggle(200);
+      first_level_expanded.not(target).parent().parent().children('.main-menu').slideUp(200);
+      target.toggleClass('open');
+      target.parent().parent().children('.main-menu').slideToggle(200);
     }
   }
 
@@ -91,12 +92,13 @@
    */
   function secondLevelExpandedHandler (event) {
     var second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a .main-menu-expanded-icon');
+    var target = $(event.target);
     if ($('.is-tablet').is(':visible')) {
       event.preventDefault();
-      second_level_expanded.not($(event)).removeClass('open');
-      second_level_expanded.not($(event)).parent().parent().children('.main-menu').slideUp(200);
-      $(event).toggleClass('open');
-      $(event).parent().parent().children('.main-menu').slideToggle(200);
+      second_level_expanded.not(target).removeClass('open');
+      second_level_expanded.not(target).parent().parent().children('.main-menu').slideUp(200);
+      target.toggleClass('open');
+      target.parent().parent().children('.main-menu').slideToggle(200);
     }
   }
 

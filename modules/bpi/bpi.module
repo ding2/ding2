@@ -6,6 +6,8 @@
  * Defines BPI specific constants, menu, theme and node hooks.
  */
 
+use Ting\Search\TingSearchRequest;
+
 include_once drupal_get_path('module', 'bpi') . '/bpi.images.inc';
 include_once drupal_get_path('module', 'bpi') . '/bpi.push.inc';
 
@@ -353,18 +355,19 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     if (module_exists('ting_reference') && isset($bpi_content['material'])) {
       // Make a copy of the default field settings and values.
       $default_field = $form[$materials_field][$current_language][0];
+      $ting_object_ids = bpi_validate_materials(array_values($bpi_content['material']));
 
       // Loop over materials from BPI inserting new default field for each.
-      foreach ($bpi_content['material'] as $key => $material_number) {
-        $id = bpi_validate_material($material_number);
+      $key = 0;
+      foreach ($ting_object_ids as $id => $exists) {
         $form[$materials_field][$current_language][$key] = $default_field;
-        if (!$id) {
-          $id = $material_number;
+        if (!$exists) {
           $form[$materials_field][$current_language][$key]['ting_object_id']['#attributes'] = array('class' => array('error'));
           drupal_set_message(t('These materials doesn\'t exists.'), 'error', FALSE);
         }
         $form[$materials_field][$current_language][$key]['#weight'] = $key;
         $form[$materials_field][$current_language][$key]['ting_object_id']['#default_value'] = $id;
+        $key++;
       }
     }
 
@@ -995,19 +998,80 @@ function bpi_workflow_by_machine_names($machine_names) {
  *   The Ting object id.
  *
  * @return mixed
- *   FALSE in case when id not exist
- *   int in case when material with same id was found.
+ *   FALSE in case when id not exist.
+ *   Id in case when material with same id was found.
  */
 function bpi_validate_material($ting_object_id) {
-  // If the colon was URL-encoded, decode it - and trim whitespace from
-  // both ends of the input string.
-  $ting_object_id = trim(str_replace('%3A', ':', $ting_object_id));
-
+  // Paragraphs module expects this function to exist.
   // Load the object to validate it exists.
-  // Loading it should make it available for use with ting_get_object().
-  $ting_entity = ting_object_load($ting_object_id);
+  $response = bpi_validate_materials(array($ting_object_id));
 
-  return $ting_entity ? $ting_object_id : FALSE;
+  return $response[$ting_object_id];
+}
+
+/**
+ * Makes request to ting and checks exist multiple materials with such ids.
+ *
+ * @param array $ting_object_ids
+ *   The Ting object ids.
+ *
+ * @return array
+ *   Key is object id. Value is FALSE in case when id not exist or ting_object_id when it exist
+ */
+function bpi_validate_materials(array $ting_object_ids) {
+  $result_ids = array();
+  $ids = array();
+
+  foreach ($ting_object_ids as $id) {
+    $ids[] = trim(urldecode($id));
+  }
+
+  $found_ids = bpi_validate_do_search($ids);
+
+  foreach ($ting_object_ids as $id) {
+    if (in_array($id, $found_ids)) {
+      $result_ids[$id] = $id;
+    }
+    else {
+      $result_ids[$id] = FALSE;
+    }
+  }
+
+  return $result_ids;
+}
+
+/**
+ * Exuecutes the search query against the well.
+ *
+ * @param array $ids
+ *   Array off ids to check.
+ *
+ * @return array
+ *   Ids of found objects.
+ */
+function bpi_validate_do_search(array $ids) {
+  $found_ids = array();
+  try {
+    $query = ting_start_query()
+      ->withMaterialFilter($ids)
+      ->withCollectionType(TingSearchRequest::COLLECTION_TYPE_SINGLE_OBJECT)
+      // We handle max 50 materials in one article. Should be enough.
+      ->withCount(50)
+      ->withPopulateCollections(FALSE);
+
+    $results = $query->execute();
+    $collections = $results->getTingEntityCollections();
+    foreach ($collections as $collection) {
+      foreach ($collection->getEntities() as $entity) {
+        $found_ids[] = $entity->getId();
+      }
+    }
+  }
+  catch (Exception $e) {
+    watchdog_exception('bpi', $e, 'Failed to get materials from Opensearch');
+    drupal_set_message(t('Validation af materials failed'), 'error');
+  }
+  return $found_ids;
 }
 
 /**

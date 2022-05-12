@@ -368,7 +368,7 @@ projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0"
 
 projects[role_delegation][subdir] = "contrib"
-projects[role_delegation][version] = "1.1"
+projects[role_delegation][version] = "1.3"
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.7"
@@ -499,7 +499,7 @@ projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-php_
 projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-add_nid_index-2569801-3.patch"
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.5"
+projects[wysiwyg][version] = "2.9"
 
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
@@ -519,7 +519,7 @@ libraries[bpi-client][download][branch] = "master"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.16.2/ckeditor_4.16.2_standard.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.17.1/ckeditor_4.17.1_standard.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 

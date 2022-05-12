@@ -19,6 +19,7 @@
   var DING_WEBTREKK_PARAMETER_RENEW_RATING = 58;
   var DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT = 59;
   var DING_WEBTREKK_PARAMETER_CAROUSEL_PREV = 60;
+  var DING_WEBTREKK_PARAMETER_COVER_PRESENT = 49;
   var DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_SELECTED = 67;
 
   var appendQueryParameter = function appendQueryParameter(url, key, value) {
@@ -55,6 +56,8 @@
   Drupal.dingWebtrekkAppendQueryParameter = appendQueryParameter;
   Drupal.dingWebtrekkPushEvent = pushEvent;
   Drupal.dingWebtrekkNoCookieTracking= noCookieTracking;
+
+  Drupal.dingWebtrekkCoverFound = false;
 
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
@@ -204,6 +207,37 @@
         // data to Webtrekk.
         pushEvent('click', eventData);
       });
+
+      // Handling of covers on collection and object pages. Covers can come either on
+      // page load or on ajax calls so we need to handle both cases. In order not to
+      // send the same event multiple times we use global variable Drupal.dingWebtrekkCoverFound
+      // to keep track of previously sent events.
+
+      var sendCoverEvent = function (id) {
+        if (!Drupal.dingWebtrekkCoverFound) {
+          var eventData = {
+            linkId: 'Materiale billede event',
+            customClickParameter: {}
+          };
+          eventData.customClickParameter[DING_WEBTREKK_PARAMETER_COVER_PRESENT] = id;
+          pushEvent('click', eventData);
+          Drupal.dingWebtrekkCoverFound = true;
+        }
+      };
+
+      $('.view-mode-collection-list .ting-cover, .view-mode-full .ting-cover', context)
+        .has('img').once('js-ding-webtrekk', function () {
+          var id = $(this).data('ting-cover-object-id');
+          sendCoverEvent(id);
+        });
+      $('.view-mode-collection-list .ting-cover, .view-mode-full .ting-cover', context)
+        .once('js-ding-webtrekk').on('DOMSubtreeModified', function () {
+          if ($(this).has('img')) {
+            var id = $(this).data('ting-cover-object-id');
+            sendCoverEvent(id);
+          }
+          $(this).unbind('DOMSubtreeModified');
+        })
     }
   };
 

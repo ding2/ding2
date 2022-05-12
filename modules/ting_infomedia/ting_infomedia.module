@@ -149,6 +149,11 @@ function ting_infomedia_ding_entity_buttons($type, $entity) {
     $build[] = array(
       '#type' => 'markup',
       '#markup' => l(t('Read article'), $entity->online_url, $options),
+      '#attached' => array(
+        'library' => array(
+          ctools_attach_js('ajax-responder'),
+        ),
+      ),
     );
     return $build;
   }

@@ -180,6 +180,9 @@
         // Ensure that behaviors are attached to the new content.
         Drupal.attachBehaviors($('.ding-carousel-item'));
 
+        // Ensure focusable elements are not tagged with aria-hidden = true.
+        $('.ding-carousel-item').attr('aria-hidden', false);
+
         // Carry on processing the queue.
         running = false;
         check_for_update(item.tab, item.slick);
@@ -282,6 +285,8 @@
 
         tabs.insert($(this));
       });
+      // Ensure buttons are not a part off the tab sequence for screenreaders.
+      $('button.slick-arrow').attr('tabindex', -1);
     }
   };
 

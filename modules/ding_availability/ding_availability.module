@@ -605,6 +605,18 @@ function ding_availability_periodical_holdings_build_table(array $availability) 
     $i++;
   }
 
+  // Write a message if availablility contains no placements.
+  if (!$availability['placement']) {
+    $rows = array(
+      'data' => array(
+        array(
+          'data' => t('We have 0 copies available.'),
+          'colspan' => 3,
+        ),
+      ),
+    );
+  }
+
   // Note: If stikcy header is TRUE, it will keep adding the js in FF until the
   // browser goes down.
   return theme('table', array(
