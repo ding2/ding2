@@ -12,6 +12,7 @@ class Checkout {
   private $returnUrl;
   private $cancelUrl;
   private $order;
+  private $notifications = [];
 
   /**
    * Default constructor.
@@ -153,13 +154,51 @@ class Checkout {
   /**
    * Set order.
    *
-   * @param string $order
+   * @param Order $order
    *   Set order to the checkout.
    *
    * @return $this
    */
-  public function setOrder($order) {
+  public function setOrder(Order $order) {
     $this->order = $order;
+
+    return $this;
+  }
+
+  /**
+   * Get notifications.
+   *
+   * @return \Nets\Easy\Notification[]
+   *   The notifications for this checkout.
+   */
+  public function getNotifications() {
+    return $this->notifications;
+  }
+
+  /**
+   * Set notifications.
+   *
+   * @param Notification[] $notifications
+   *   Set notifications to the checkout.
+   *
+   * @return $this
+   */
+  public function setNotifications(array $notifications) {
+    $this->notifications = $notifications;
+
+    return $this;
+  }
+
+  /**
+   * Add single notification.
+   *
+   * @param \Nets\Easy\Notification $notification
+   *   Notification to add.
+   *
+   * @return $this
+   */
+  public function addNotification(Notification $notification) {
+    $this->notifications[] = $notification;
 
     return $this;
   }
@@ -171,7 +210,7 @@ class Checkout {
    *   The complete order that matches the payment gateways format.
    */
   public function toArray() {
-    return [
+    $checkout = [
       'checkout' => [
         'integrationType' => $this->getIntegrationType(),
         'termsUrl' => $this->getTermsUrl(),
@@ -201,6 +240,18 @@ class Checkout {
       ],
       'order' => $this->getOrder()->toArray(),
     ];
+
+    // Add notifications (web-hooks) to the array.
+    if (!empty($this->getNotifications())) {
+      $checkout['notifications'] = [
+        'webhooks' => [],
+      ];
+      foreach ($this->getNotifications() as $notification) {
+        $checkout['notifications']['webhooks'][] = $notification->toArray();
+      }
+    }
+
+    return $checkout;
   }
 
 }
