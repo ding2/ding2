@@ -66,6 +66,5 @@ function ding_seo_uninstall() {
   // Unset variables.
   variable_del('ding_seo_last_run_sitemap');
   variable_del('ding_seo_maximum_links_in_sitemap');
-  variable_del('ding_seo_number_of_links_to_delete');
   variable_del('ding_seo_sitemap_last_check');
 }

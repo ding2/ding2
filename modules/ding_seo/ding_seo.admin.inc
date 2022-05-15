@@ -26,17 +26,15 @@ function ding_seo_admin_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Maximum Number of links in sitemap'),
     '#description' => t('The maximum number of links we allow in sitemaps. To large a number leads to performance strain on the server'),
-    '#default_value' => variable_get('ding_seo_maximum_links_in_sitemap', 50000),
+    '#default_value' => variable_get('ding_seo_maximum_links_in_sitemap', DING_SEO_MAXIMUM_SITEMAP_LINKS),
   ];
 
-  $form['sitemap_settings']['ding_seo_number_of_links_to_delete'] = [
-    '#type' => 'textfield',
-    '#title' => t('Number of links to delete'),
-    '#description' => t('How many links we delete to make number for new links. The links which have not been visited the longest are deleted'),
-    '#default_value' => variable_get('ding_seo_number_of_links_to_delete', 1000),
-  ];
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
 
-  return system_settings_form($form);
+  return $form;
 }
 
 /**
@@ -47,5 +45,7 @@ function ding_seo_admin_settings_submit($form, &$form_state) {
   $config = metatag_config_load('global');
   $config->config['google-site-verification']['value'] = $form_state['input']['ding_seo_google_site_verification'];
   metatag_config_save($config);
-  drupal_set_message(t('Google Site Verification has been saved.'));
+  $maximum_links = $form_state['input']['ding_seo_maximum_links_in_sitemap'];
+  variable_set('ding_seo_maximum_links_in_sitemap', $maximum_links);
+  drupal_set_message(t('Ding seo configuration has been saved.'));
 }
