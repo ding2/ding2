@@ -241,7 +241,7 @@ function ding_seo_get_person_nodes(array $names) {
  */
 function ding_seo_cron() {
   $last_run = variable_get('ding_seo_last_run_sitemap', 0);
-
+  // Run once every day.
   if (REQUEST_TIME > $last_run + 86400) {
     ding_seo_update_sitemap();
     variable_set('ding_seo_last_run_sitemap', REQUEST_TIME);
