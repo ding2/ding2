@@ -11,7 +11,7 @@ use Ting\TingObjectInterface;
 
 include_once 'ding_seo.features.inc';
 
-define('DING_SEO_MAXIMUM_SITEMAP_LINKS', 50000);
+define('DING_SEO_DEFAULT_MAXIMUM_SITEMAP_LINKS', 50000);
 
 /**
  * Implements hook_menu().
@@ -83,7 +83,7 @@ function ding_seo_get_ting_object_schema_wrapper(TingObjectInterface $ting_objec
  */
 function ding_seo_ding_entity_view($ting_object, $view_mode) {
   if ($view_mode == 'full' || $view_mode == 'collection_list') {
-    ding_seo_check_object_for_sitemap($ting_object, $view_mode);
+    ding_seo_check_object_for_sitemap($ting_object);
   }
 
   // Only proceed if this is the main page of the ting object.
@@ -358,7 +358,7 @@ function ding_seo_check_object_for_sitemap($ting_object) {
  * We trim the links which haven't been visited for the longest time.
  */
 function ding_seo_check_sitemap_size() {
-  $max_size = variable_get('ding_seo_maximum_links_in_sitemap', DING_SEO_MAXIMUM_SITEMAP_LINKS);
+  $max_size = variable_get('ding_seo_maximum_links_in_sitemap', DING_SEO_DEFAULT_MAXIMUM_SITEMAP_LINKS);
   $size = (int) db_query("SELECT count(*) FROM {ting_object_sitemap}")->fetchField() ?: 0;
 
   if ($size > $max_size) {

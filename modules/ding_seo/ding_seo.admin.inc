@@ -26,7 +26,7 @@ function ding_seo_admin_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Maximum Number of links in sitemap'),
     '#description' => t('The maximum number of links we allow in sitemaps. To large a number leads to performance strain on the server'),
-    '#default_value' => variable_get('ding_seo_maximum_links_in_sitemap', DING_SEO_MAXIMUM_SITEMAP_LINKS),
+    '#default_value' => variable_get('ding_seo_maximum_links_in_sitemap', DING_SEO_DEFAULT_MAXIMUM_SITEMAP_LINKS),
   ];
 
   $form['submit'] = array(
