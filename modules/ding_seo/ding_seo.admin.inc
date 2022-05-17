@@ -9,11 +9,23 @@
  */
 function ding_seo_admin_settings($form, &$form_state) {
   $metatag_config = metatag_config_load('global')->config;
-  $form['ding_seo_google_site_verification'] = array(
+
+  $form['google_site_verification_settings'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Google Search Console settings'),
+    '#description' => t('Setting to add Google Site Verification key to current site'),
+  ];
+
+  $form['google_site_verification_settings']['ding_seo_google_site_verification'] = array(
     '#type' => 'textfield',
-    '#title' => t('Google Site Verification'),
+    '#title' => t('Google Site Verification Key'),
     '#default_value' => !empty($metatag_config['google-site-verification']) ? $metatag_config['google-site-verification']['value'] : '',
-    '#description' => t('A string provided in Google Search Console.'),
+    '#description' => t('Get a verification key from Google Search Console 
+      by clicking on the the alternate methods tab and selecting the HTML Tag option.<br>
+      It should look something like this: 
+      &lt;meta name=&quot;google-site-verification&quot; content=&quot;SOMESTRINGGOESHERE&quot; /&gt;<br>
+      Copy the value of the "content" attribute into the above field. 
+      Remove the rest of the string so it looks like the following: SOMESTRINGGOESHERE'),
   );
 
   $form['sitemap_settings'] = [
