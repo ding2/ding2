@@ -190,10 +190,10 @@ function ding_seo_metatag_export_default() {
         'value' => 'a:5:{s:5:"@type";s:12:"Organization";s:3:"@id";s:10:"[site:url]";s:4:"name";s:11:"[site:name]";s:3:"url";s:10:"[site:url]";s:4:"logo";a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:36:"[node:ding_seo_node_tokens:logo_url]";s:5:"width";s:38:"[node:ding_seo_node_tokens:logo_width]";s:6:"height";s:39:"[node:ding_seo_node_tokens:logo_height]";}}',
       ),
       'schema_article.datePublished' => array(
-        'value' => '[node:created:short]',
+        'value' => '[node:created:custom:c]',
       ),
       'schema_article.dateModified' => array(
-        'value' => '[node:changed:short]',
+        'value' => '[node:changed:custom:c]',
       ),
       'schema_article.image' => array(
         'value' => 'a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:60:"[node:field_ding_news_title_image:ding_secondary_large:path]";s:5:"width";s:61:"[node:field_ding_news_title_image:ding_secondary_large:width]";s:6:"height";s:62:"[node:field_ding_news_title_image:ding_secondary_large:height]";}',
