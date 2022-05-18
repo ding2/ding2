@@ -195,8 +195,7 @@ function ding_event_views_query_alter(&$view, &$query) {
   // also consider the end date. Under normal circumstances this could all be
   // set up in views, but we need this work with the exposed filters on the
   // ding_event_list also.
-  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list', 'ding_event_list_frontpage'))
-    && in_array(current_path(), array('ding_frontpage', 'arrangementer'))) {
+  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list', 'ding_event_list_frontpage'))) {
     $join = new views_join();
     $join->construct('field_data_field_ding_event_list_filter', 'node', 'nid', 'entity_id');
     $join->extra = [
