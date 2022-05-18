@@ -32,6 +32,12 @@ function ding_seo_metatag_export_default() {
       'og:type' => array(
         'value' => 'website',
       ),
+      'og:url' => array(
+        'value' => '[node:url:absolute]',
+      ),
+      'og:title' => array(
+        'value' => 'node:title]',
+      ),
       'og:description' => array(
         'value' => '[node:field_ding_event_lead]',
       ),
@@ -135,6 +141,36 @@ function ding_seo_metatag_export_default() {
     'instance' => 'node:ding_news',
     'disabled' => FALSE,
     'config' => array(
+      'og:url' => array(
+        'value' => '[node:url:absolute]',
+      ),
+      'og:title' => array(
+        'value' => 'node:title]',
+      ),
+      'og:description' => array(
+        'value' => '[node:field_ding_news_lead]',
+      ),
+      'og:updated_time' => array(
+        'value' => '[node:changed:custom:c]',
+      ),
+      'og:image' => array(
+        'value' => '[node:field_ding_news_title_image:ding_secondary_large:path]',
+      ),
+      'og:image:type' => array(
+        'value' => '[node:field_ding_news_title_image:ding_secondary_large:mimetype]',
+      ),
+      'og:image:width' => array(
+        'value' => '[node:field_ding_news_title_image:ding_secondary_large:width]',
+      ),
+      'og:image:height' => array(
+        'value' => '[node:field_ding_news_title_image:ding_secondary_large:height]',
+      ),
+      'article:published_time' => array(
+        'value' => '[node:created:custom:c]',
+      ),
+      'article:modified_time' => array(
+        'value' => '[node:changed:custom:c]',
+      ),
       'schema_article.@type' => array(
         'value' => 'NewsArticle',
       ),
@@ -167,6 +203,40 @@ function ding_seo_metatag_export_default() {
       ),
       'schema_article.about' => array(
         'value' => '[node:field_ding_news_tags]',
+      ),
+    ),
+  );
+
+  // Exported Metatag config instance: node:ding_page.
+  $config['node:ding_page'] = array(
+    'instance' => 'node:ding_page',
+    'config' => array(
+      'og:type' => array(
+        'value' => 'website',
+      ),
+      'og:url' => array(
+        'value' => '[node:url:absolute]',
+      ),
+      'og:title' => array(
+        'value' => '[node:title]',
+      ),
+      'og:description' => array(
+        'value' => '[node:field_ding_page_lead]',
+      ),
+      'og:updated_time' => array(
+        'value' => '[node:changed:custom:c]',
+      ),
+      'og:image' => array(
+        'value' => '[node:field_ding_page_title_image:ding_panorama_primary_large:path]',
+      ),
+      'og:image:type' => array(
+        'value' => '[node:field_ding_page_title_image:ding_panorama_primary_large:mimetype]',
+      ),
+      'og:image:width' => array(
+        'value' => '[node:field_ding_page_title_image:ding_panorama_primary_large:width]',
+      ),
+      'og:image:height' => array(
+        'value' => '[node:field_ding_page_title_image:ding_panorama_primary_large:height]',
       ),
     ),
   );
