@@ -168,8 +168,19 @@ abstract class TingObjectSchemaWrapperBase {
    *   The ISBN of the Book or FALSE if none present.
    */
   public function getISBN() {
-    // TODO: Investigate if a certain format of ISBN is preffered if we have
-    // several values to choose from.
-    return reset($this->ting_object->getIsbn());
+    $isbn_list = $this->ting_object->getIsbn();
+
+    // Prefer 13 digit ISBN-13 nunbers.
+    $isbn13_list = array_filter($isbn_list, function ($isbn) {
+      $isbn_cmp = str_replace([' ', '-'], '', $isbn);
+      if (strlen($isbn_cmp) === 13) {
+        return $isbn;
+      }
+    });
+
+    if (!empty($isbn13_list)) {
+      return reset($isbn13_list);
+    }
+    return reset($isbn_list);
   }
 }
