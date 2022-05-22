@@ -99,22 +99,25 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
    * {@inheritdoc}
    */
   public function getWorkExamples() {
-    $work_examples = [];
-
     $collection = ting_collection_load($this->ting_object->getId());
     /** @var \TingEntity[] $ting_entities */
     $ting_entities = $collection->getEntities();
 
     // Instead of deferring reservability check, use the opportunity now to
-    // check reservability for all work examples at once.
+    // check reservability for all 'library_material' work examples at once.
     $localIds = array_map(function ($ting_entity) {
-      return $ting_entity->localId;
+      if ($ting_entity->is('library_material')) {
+        return $ting_entity->localId;
+      }
     }, $ting_entities);
+    $localIds = array_filter($localIds);
     $reservability = ding_provider_invoke('reservation', 'is_reservable', $localIds);
 
-    foreach ($ting_entities as $ting_entity) {
-      $work_examples[] = new static($ting_entity->getTingObject(), $reservability[$ting_entity->localId]);
-    }
+    $work_examples = array_map(function ($ting_entity) use ($reservability) {
+      $localId = $ting_entity->localId;
+      $has_borrow_action = isset($reservability[$localId]) ? $reservability[$localId] : NULL;
+      return new static($ting_entity->getTingObject(), $has_borrow_action);
+    }, $ting_entities);
 
     return $work_examples;
   }
