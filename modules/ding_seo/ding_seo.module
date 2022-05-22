@@ -161,7 +161,7 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
       $authors = $schema_wrapper->getAuthors();
       $node += [
         '@id' => $schema_wrapper->getCollectionURL(),
-        'url' => $schema_wrapper->getCollectionURL(),
+        'url' => $schema_wrapper->getObjectUrl(),
         'author' => ding_seo_get_person_nodes($authors),
       ];
 
