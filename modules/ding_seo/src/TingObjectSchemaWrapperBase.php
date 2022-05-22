@@ -41,18 +41,23 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
   /**
    * {@inheritdoc}
    */
-  public function getCollectionURL() {
-    $ting_collection = ting_collection_load($this->ting_object->getId());
-    $collection_path = entity_uri('ting_collection', $ting_collection)['path'];
-    return url($collection_path, [
-      'absolute' => TRUE,
-    ]);
+  public function getId() {
+    return $this->getObjectURL();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getObjectURL() {
+  public function getUrl() {
+    return $this->getObjectURL();
+  }
+
+  /**
+   * Get the absolute URL of the ting object.
+   *
+   * @return string
+   */
+  protected function getObjectURL() {
     $object_path = entity_uri('ting_object', $this->ting_object)['path'];
     return url($object_path, [
       'absolute' => TRUE,

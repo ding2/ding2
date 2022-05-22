@@ -28,20 +28,18 @@ interface TingObjectSchemaWrapperInterface {
   const SCHEMA_BOOK_FORMAT_AUDIOBOOK = 'http://schema.org/AudiobookFormat';
 
   /**
-   * Get the collection URL for the wrapped ting object.
+   * Get the schema.org @id of the wrapped ting object.
    *
    * @return string
-   *   The URL for the collection with this wrapped object as primary.
    */
-  public function getCollectionURL();
+  public function getId();
 
   /**
-   * Get the object URL for the wrapped ting object.
+   * Get the URL of the wrapped ting object.
    *
    * @return string
-   *   The URL for the collection with this wrapped object as primary.
    */
-  public function getObjectURL();
+  public function getUrl();
 
   /**
    * Get work examples (editions) of the wrapped ting object.

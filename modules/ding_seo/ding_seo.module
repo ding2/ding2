@@ -116,9 +116,7 @@ function ding_seo_ding_entity_view($ting_object, $view_mode) {
  */
 function ding_seo_jsonld_ting_object_callback($ting_object_id) {
   $schema_wrapper = NULL;
-  // Load the ting object directly since we're wrapping the ting object and not
-  // the ting entity, so might as well safe some time by not going through
-  // entity API.
+
   /** @var \Ting\TingObjectInterface */
   $ting_object = ting_search_object_load($ting_object_id);
   if (isset($ting_object)) {
@@ -137,9 +135,17 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
   // Common properties.
   $node = [
     '@type' => $schema_type,
+    '@id' => $schema_wrapper->getId(),
     'name' => $schema_wrapper->getName(),
     'description' => $schema_wrapper->getDescription(),
+    'url' => $schema_wrapper->getUrl(),
+    'datePublished' => $schema_wrapper->getDatePublished(),
   ];
+
+  if ($same_as_url = $schema_wrapper->getSameAs()) {
+    $node['sameAs'] = $same_as_url;
+  }
+
   if ($image_url = $schema_wrapper->getImageURL()) {
     $node['image'] = [
       '@type' => 'ImageObject',
@@ -159,17 +165,13 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
   switch ($schema_type) {
     case TingObjectSchemaWrapperInterface::SCHEMA_BOOK:
       $authors = $schema_wrapper->getAuthors();
-      $node += [
-        '@id' => $schema_wrapper->getCollectionURL(),
-        'url' => $schema_wrapper->getObjectUrl(),
-        'author' => ding_seo_get_person_nodes($authors),
-      ];
+      $node['author'] = ding_seo_get_person_nodes($authors);
 
       foreach ($schema_wrapper->getWorkExamples() as $work_example_wrapper) {
         $work_example = [
           '@type' => $schema_type,
-          '@id' => $work_example_wrapper->getObjectURL(),
-          'url' => $work_example_wrapper->getObjectURL(),
+          '@id' => $work_example_wrapper->getId(),
+          'url' => $work_example_wrapper->getUrl(),
           'name' => $work_example_wrapper->getName(),
           'bookEdition' => $work_example_wrapper->getBookEdition(),
           'datePublished' => $work_example_wrapper->getDatePublished(),
@@ -177,19 +179,24 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
           'bookFormat' => $work_example_wrapper->getBookFormat(),
         ];
 
+        // Following Google's guidelines the following properties should only
+        // be included if they differ from the top-level work.
+        // https://developers.google.com/search/docs/advanced/structured-data/book#book-edition
+        $work_example_name = $work_example_wrapper->getName();
         $work_example_authors = $work_example_wrapper->getAuthors();
-        // Only include author information if it's different than the
-        // information on the top level Book entity.
-        if ($work_example_authors != $authors) {
+        $work_example_same_as_url = $work_example_wrapper->getSameAs();
+        if ($work_example_authors !== $authors) {
           $work_example['author'] = ding_seo_get_person_nodes($work_example_authors);
+        }
+        if ($work_example_name !== $schema_wrapper->getName()) {
+          $work_example['name'] = $work_example_name;
+        }
+        if ($work_example_same_as_url !== $same_as_url) {
+          $work_example['sameAs'] = $work_example_same_as_url;
         }
 
         if ($work_example_wrapper->hasBorrowAction()) {
           $work_example['potentialAction'] = ding_seo_generate_borrow_action($work_example_wrapper);
-        }
-
-        if ($same_as_url = $work_example_wrapper->getSameAs()) {
-          $work_example['sameAs'] = $same_as_url;
         }
 
         // Filter out any empty fields before adding to node.
@@ -199,10 +206,7 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
       break;
     case TingObjectSchemaWrapperInterface::SCHEMA_MOVIE:
       $node += [
-        '@id' => $schema_wrapper->getObjectURL(),
-        'url' => $schema_wrapper->getObjectURL(),
         'duration' => $schema_wrapper->getDuration(),
-        'datePublished' => $schema_wrapper->getDatePublished(),
         'actor' => ding_seo_get_person_nodes($schema_wrapper->getActors()),
         'director' => ding_seo_get_person_nodes($schema_wrapper->getDirectors()),
         'musicBy' => ding_seo_get_person_nodes($schema_wrapper->getComposers()),
@@ -211,10 +215,6 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
 
       if ($schema_wrapper->hasBorrowAction()) {
         $node['potentialAction'] = ding_seo_generate_borrow_action($schema_wrapper);
-      }
-
-      if ($same_as_url = $schema_wrapper->getSameAs()) {
-        $node['sameAs'] = $same_as_url;
       }
       break;
   }
