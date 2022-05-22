@@ -191,6 +191,15 @@ interface TingObjectSchemaWrapperInterface {
 
   /**
    * The @id of the Library to use as "lender" on borrow actions.
+   *
+   * @return string
    */
   public function getLenderLibraryId();
+
+  /**
+   * URL of a reference page that identifies the material.
+   *
+   * @return string|FALSE
+   */
+  public function getSameAs();
 }

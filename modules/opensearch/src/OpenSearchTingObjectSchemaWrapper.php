@@ -189,4 +189,13 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
     // recursively to ensure we don't miss any.
     return array_merge_recursive($creators, $contributers);
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSameAs() {
+    // Link to work on bibliotek.dk using basis namespace.
+    $id = '870970-basis' . ':' . $this->ting_object->getSourceId();
+    return url("https://bibliotek.dk/work/$id", ['external' => TRUE]);
+  }
 }

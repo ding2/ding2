@@ -190,6 +190,10 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
           $work_example['potentialAction'] = ding_seo_generate_borrow_action($work_example_wrapper);
         }
 
+        if ($same_as_url = $work_example_wrapper->getSameAs()) {
+          $work_example['sameAs'] = $same_as_url;
+        }
+
         // Filter out any empty fields before adding to node.
         $node['workExample'][] = array_filter($work_example);
       }
@@ -209,6 +213,10 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
 
       if ($schema_wrapper->hasBorrowAction()) {
         $node['potentialAction'] = ding_seo_generate_borrow_action($schema_wrapper);
+      }
+
+      if ($same_as_url = $schema_wrapper->getSameAs()) {
+        $node['sameAs'] = $same_as_url;
       }
       break;
   }
