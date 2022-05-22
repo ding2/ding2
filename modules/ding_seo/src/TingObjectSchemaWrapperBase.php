@@ -11,7 +11,7 @@ namespace DingSEO;
 
 use Ting\TingObjectInterface;
 
-abstract class TingObjectSchemaWrapperBase {
+abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInterface {
   /**
    * @var \Ting\TingObjectInterface.
    *   The wrapped ting object.
@@ -25,17 +25,21 @@ abstract class TingObjectSchemaWrapperBase {
   protected $image_url;
 
   /**
-   * \DingSEO\TingObjectSchemaWrapperBase constructor.
+   * @var bool|null
+   *   Whether the work example has borrow action.
    */
-  public function __construct(TingObjectInterface $ting_object) {
+  protected $has_borrow_action;
+
+  /**
+   * TingObjectSchemaWrapperBase constructor.
+   */
+  public function __construct(TingObjectInterface $ting_object, $has_borrow_action = NULL) {
     $this->ting_object = $ting_object;
+    $this->has_borrow_action = $has_borrow_action;
   }
 
   /**
-   * Get the collection URL for the wrapped ting object.
-   *
-   * @return string
-   *   The URL for the collection with this wrapped object as primary.
+   * {@inheritdoc}
    */
   public function getCollectionURL() {
     $ting_collection = ting_collection_load($this->ting_object->getId());
@@ -46,10 +50,7 @@ abstract class TingObjectSchemaWrapperBase {
   }
 
   /**
-   * Get the object URL for the wrapped ting object.
-   *
-   * @return string
-   *   The URL for the collection with this wrapped object as primary.
+   * {@inheritdoc}
    */
   public function getObjectURL() {
     $object_path = entity_uri('ting_object', $this->ting_object)['path'];
@@ -59,10 +60,7 @@ abstract class TingObjectSchemaWrapperBase {
   }
 
   /**
-   * Get image URL for the wrapped ting object.
-   *
-   * @return string|FALSE
-   *   URL to the cover image of the material. FALSE if no cover was found.
+   * {@inheritdoc}
    */
   public function getImageURL() {
     if (isset($this->image_url)) {
@@ -88,11 +86,7 @@ abstract class TingObjectSchemaWrapperBase {
   }
 
   /**
-   * Get dimensions for the image for the wrapped ting object.
-   *
-   * @return int[]|FALSE
-   *   And array with the dimensions of the image, with width at index 0 and
-   *   height at index 1. FALSE if no valid cover image exists.
+   * {@inheritdoc}
    */
   public function getImageDimensions() {
     $image_path = ting_covers_object_path($this->ting_object->getId());
@@ -103,69 +97,59 @@ abstract class TingObjectSchemaWrapperBase {
   }
 
   /**
-   * Get work examples (editions) of the wrapped ting object.
-   *
-   * @return static[]
-   *   An array of work examples/editions of this book, which are opensearch
-   *   ting object wrappers themselves.
+   * {@inheritdoc}
    */
   public function getWorkExamples() {
     $work_examples = [];
 
     $collection = ting_collection_load($this->ting_object->getId());
-    foreach ($collection->getEntities() as $ting_entity) {
-      /** @var \TingEntity $ting_entity */
-      $work_examples[] = new static($ting_entity->getTingObject());
+    /** @var \TingEntity[] $ting_entities */
+    $ting_entities = $collection->getEntities();
+
+    // Instead of deferring reservability check, use the opportunity now to
+    // check reservability for all work examples at once.
+    $localIds = array_map(function ($ting_entity) {
+      return $ting_entity->localId;
+    }, $ting_entities);
+    $reservability = ding_provider_invoke('reservation', 'is_reservable', $localIds);
+
+    foreach ($ting_entities as $ting_entity) {
+      $work_examples[] = new static($ting_entity->getTingObject(), $reservability[$ting_entity->localId]);
     }
 
     return $work_examples;
   }
 
   /**
-   * Get the name of the wrapped ting object.
-   *
-   * @return string
-   *   The title of the material.
+   * {@inheritdoc}
    */
   public function getName() {
     return $this->ting_object->getTitle();
   }
 
   /**
-   * Get the description of the wrapped ting object.
-   *
-   * @return string|FALSE
-   *   The description of the material or FALSE if not present.
+   * {@inheritdoc}
    */
   public function getDescription() {
     return $this->ting_object->getAbstract();
   }
 
   /**
-   * Get the Book edition.
-   *
-   * @return string|FALSE
-   *   The edition of the material or FALSE if it was not present.
+   * {@inheritdoc}
    */
   public function getBookEdition() {
     return reset($this->ting_object->getVersion());
   }
 
   /**
-   * Get datePublished of the wrapped ting object.
-   *
-   * @return string|FALSE
-   *   The year of the published date or FALSE if it was not present.
+   * {@inheritdoc}
    */
   public function getDatePublished() {
     return $this->ting_object->getYear();
   }
 
   /**
-   * Get the ISBN of the wrapped ting object.
-   *
-   * @return string|FALSE
-   *   The ISBN of the Book or FALSE if none present.
+   * {@inheritdoc}
    */
   public function getISBN() {
     $isbn_list = $this->ting_object->getIsbn();
@@ -182,5 +166,32 @@ abstract class TingObjectSchemaWrapperBase {
       return reset($isbn13_list);
     }
     return reset($isbn_list);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasBorrowAction() {
+    if (!isset($this->has_borrow_action)) {
+      $local_id = $this->ting_object->getSourceId();
+      $reservability = ding_provider_invoke('reservation', 'is_reservable', [$local_id]);
+      $this->has_borrow_action = $reservability[$local_id];
+    }
+    return $this->has_borrow_action;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLenderLibraryId() {
+    $lender_library_id = variable_get('ding_seo_lender_library', NULL);
+    if (!isset($lender_library_id)) {
+      // Fallback to picking first library. This should be the correct in most
+      // cases since it will be the first created.
+      $library_nodes = ding_seo_get_library_nodes();
+      $lender_library_id = reset(array_keys($library_nodes));
+    }
+
+    return url("node/$lender_library_id", ['absolute' => TRUE]);
   }
 }

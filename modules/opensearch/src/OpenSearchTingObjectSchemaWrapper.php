@@ -9,7 +9,7 @@ namespace OpenSearch;
 use DingSEO\TingObjectSchemaWrapperBase;
 use DingSEO\TingObjectSchemaWrapperInterface;
 
-class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInterface {
+class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
   /**
    * {@inheritdoc}
    */

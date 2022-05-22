@@ -181,4 +181,16 @@ interface TingObjectSchemaWrapperInterface {
    *   determined.
    */
   public function getDuration();
+
+  /**
+   * Whether the wrapped ting_object has borrow action.
+   *
+   * @return bool
+   */
+  public function hasBorrowAction();
+
+  /**
+   * The @id of the Library to use as "lender" on borrow actions.
+   */
+  public function getLenderLibraryId();
 }

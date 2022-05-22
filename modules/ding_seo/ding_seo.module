@@ -159,7 +159,7 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
   }
 
   switch ($schema_type) {
-    case 'Book':
+    case TingObjectSchemaWrapperInterface::SCHEMA_BOOK:
       $authors = $schema_wrapper->getAuthors();
       $node += [
         '@id' => $schema_wrapper->getCollectionURL(),
@@ -169,7 +169,7 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
 
       foreach ($schema_wrapper->getWorkExamples() as $work_example_wrapper) {
         $work_example = [
-          '@type' => 'Book',
+          '@type' => $schema_type,
           '@id' => $work_example_wrapper->getObjectURL(),
           'url' => $work_example_wrapper->getObjectURL(),
           'name' => $work_example_wrapper->getName(),
@@ -185,11 +185,17 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
         if ($work_example_authors != $authors) {
           $work_example['author'] = ding_seo_get_person_nodes($work_example_authors);
         }
+
+        if ($work_example_wrapper->hasBorrowAction()) {
+          $work_example['potentialAction'] = ding_seo_generate_borrow_action($work_example_wrapper);
+        }
+
         // Filter out any empty fields before adding to node.
         $node['workExample'][] = array_filter($work_example);
       }
+
       break;
-    case 'Movie':
+    case TingObjectSchemaWrapperInterface::SCHEMA_MOVIE:
       $node += [
         '@id' => $schema_wrapper->getObjectURL(),
         'url' => $schema_wrapper->getObjectURL(),
@@ -200,6 +206,10 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
         'musicBy' => ding_seo_get_person_nodes($schema_wrapper->getComposers()),
         'producer' => ding_seo_get_person_nodes($schema_wrapper->getProducers()),
       ];
+
+      if ($schema_wrapper->hasBorrowAction()) {
+        $node['potentialAction'] = ding_seo_generate_borrow_action($schema_wrapper);
+      }
       break;
   }
 
@@ -221,7 +231,7 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
  * @param string[] $names
  *   The array of names to use in person nodes.
  *
- * @return array[]
+ * @return array
  *   An array of person nodes (arrays).
  */
 function ding_seo_get_person_nodes(array $names) {
@@ -233,6 +243,51 @@ function ding_seo_get_person_nodes(array $names) {
   }, $names);
 }
 
+/**
+ * Generate borrow action.
+ *
+ * @param TingObjectSchemaWrapperInterface $schema_wrapper
+ *   The wrapped ting_object to generate borrow action for.
+ *
+ * @return array
+ *   Array describing borrow action.
+ */
+function ding_seo_generate_borrow_action(TingObjectSchemaWrapperInterface $schema_wrapper) {
+  return [
+    '@type' => 'BorrowAction',
+    'lender' => [
+      '@type' => 'Library',
+      '@id' => $schema_wrapper->getLenderLibraryId(),
+    ],
+    'target' => [
+      '@type' => 'EntryPoint',
+      'urlTemplate' => $schema_wrapper->getObjectURL(),
+      'actionPlaform' => [
+        'https://schema.org/DesktopWebPlatform',
+      ],
+    ],
+  ];
+}
+
+/**
+ * Get all library nodes.
+ *
+ * @return array
+ */
+function ding_seo_get_library_nodes() {
+  $query = new \EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ding_library')
+    ->execute();
+
+  $library_nodes = [];
+  if (isset($result['node'])) {
+    $library_nodes_nids = array_keys($result['node']);
+    $library_nodes = entity_load('node', $library_nodes_nids);
+  }
+
+  return $library_nodes;
+}
 
 /**
  * Implements hook_cron().

@@ -67,4 +67,5 @@ function ding_seo_uninstall() {
   variable_del('ding_seo_last_run_sitemap');
   variable_del('ding_seo_maximum_links_in_sitemap');
   variable_del('ding_seo_sitemap_last_check');
+  variable_del('ding_seo_lender_library');
 }
