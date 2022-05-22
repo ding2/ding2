@@ -69,17 +69,11 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
     $this->image_url = FALSE;
 
     $ting_object_id = $this->ting_object->getId();
+    $covers = ting_covers_get([$ting_object_id]);
 
-    // First check if this is a known negative.
-    if (cache_get('ting_covers:' . $ting_object_id)) {
-      return $this->image_url;
-    }
-
-    $image_path = ting_covers_object_path($ting_object_id);
-    // If the file already exists we can avoid asking cover providers. Note that
-    // we only ask providers if it exists, and don't initiate any downloads.
-    if (file_exists($image_path) || !empty(module_invoke_all('ting_covers', [$this->ting_object]))) {
-      $this->image_url = file_create_url($image_path);
+    if (isset($covers[$ting_object_id])) {
+      // The return value is a public:// URI.
+      $this->image_url = file_create_url($covers[$ting_object_id]);
     }
 
     return $this->image_url;
