@@ -147,9 +147,7 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
       'url' => $image_url,
     ];
 
-    // TODO: Find out if it's ok to omit dimensions or we should just ditch
-    // it all together if not found. We know there's a cover, but it might
-    // not be fecthed yet so we can check dimensions.
+    // Add optional image dimensions.
     if ($image_dimensions = $schema_wrapper->getImageDimensions()) {
       $node['image'] += [
         'width' => "$image_dimensions[0]",
