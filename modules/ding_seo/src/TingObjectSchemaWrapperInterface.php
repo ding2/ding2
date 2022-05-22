@@ -197,6 +197,20 @@ interface TingObjectSchemaWrapperInterface {
   public function getLenderLibraryId();
 
   /**
+   * Get target URL for the material's borrow action.
+   *
+   * @return string
+   */
+  public function getBorrowActionTargetUrl();
+
+  /**
+   * Get array of target action platforms for the material's borrow action.
+   *
+   * @return array
+   */
+  public function getBorrowActionTargetPlatform();
+
+  /**
    * URL of a reference page that identifies the material.
    *
    * @return string|FALSE

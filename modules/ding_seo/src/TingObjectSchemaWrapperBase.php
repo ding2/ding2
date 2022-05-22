@@ -194,4 +194,20 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
 
     return url("node/$lender_library_id", ['absolute' => TRUE]);
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBorrowActionTargetUrl() {
+    return $this->getObjectURL();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBorrowActionTargetPlatform() {
+    return [
+      'https://schema.org/DesktopWebPlatform',
+    ];
+  }
 }

@@ -269,10 +269,8 @@ function ding_seo_generate_borrow_action(TingObjectSchemaWrapperInterface $schem
     ],
     'target' => [
       '@type' => 'EntryPoint',
-      'urlTemplate' => $schema_wrapper->getObjectURL(),
-      'actionPlaform' => [
-        'https://schema.org/DesktopWebPlatform',
-      ],
+      'urlTemplate' => $schema_wrapper->getBorrowActionTargetUrl(),
+      'actionPlatform' => $schema_wrapper->getBorrowActionTargetPlatform(),
     ],
   ];
 }
