@@ -172,6 +172,13 @@ interface TingObjectSchemaWrapperInterface {
   public function getBookFormat();
 
   /**
+   * Get the ISO 639-1 two-letter language code of the material.
+   *
+   * @return string|FALSE
+   */
+  public function getInLanguage();
+
+  /**
    * Get duration of the wrapped ting object.
    *
    * @return string|FALSE

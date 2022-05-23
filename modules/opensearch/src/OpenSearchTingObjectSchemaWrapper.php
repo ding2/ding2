@@ -131,6 +131,33 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
   /**
    * {@inheritdoc}
    */
+  public function getInLanguage() {
+    // Returns language in full name in danish e.g. "Dansk", "Spansk".
+    $language = $this->ting_object->getLanguage();
+    $language = drupal_strtolower($language);
+
+    // Drupal maintains a list of languages keyed by ISO 639-1 language codes,
+    // which we need to return.
+    include_once DRUPAL_ROOT . '/includes/iso.inc';
+    $languages = _locale_get_predefined_list();
+
+    foreach ($languages as $code => $names) {
+      // The first entry in $names array is language full name in english.
+      // Attempt to translate it to danish and compare with the danish value
+      // returned from opensearch.
+      $translated_name = t($names[0]);
+
+      if (drupal_strtolower($translated_name) == $language) {
+        return $code;
+      }
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getDuration() {
     $extent = $this->ting_object->getExtent();
 
