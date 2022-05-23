@@ -15,6 +15,9 @@ function ding_seo_token_info() {
     'description' => t('Group of node tokens defined by Ding SEO for use in structured data'),
     'needs-data' => 'node',
   ];
+  $info['types']['ding_seo_logo_tokens'] = [
+    'name' => t('Ding SEO logo tokens'),
+  ];
   $info['tokens']['node']['ding_seo_node_tokens'] = array(
     'name' => t("Ding SEO node tokens"),
     'description' => t('Group of node tokens defined by Ding SEO for use in structured data'),
@@ -47,16 +50,16 @@ function ding_seo_token_info() {
     'description' => t('Country of the location'),
   ];
 
-  // Logo dimensions and URL tokens
-  $info['tokens']['ding_seo_node_tokens']['logo_width'] = [
+  // Ding SEO logo tokens.
+  $info['tokens']['ding_seo_logo_tokens']['width'] = [
     'name' => t("Logo width"),
     'description' => t('Width of the logo'),
   ];
-  $info['tokens']['ding_seo_node_tokens']['logo_height'] = [
+  $info['tokens']['ding_seo_logo_tokens']['height'] = [
     'name' => t("Logo height"),
     'description' => t('Height of the logo'),
   ];
-  $info['tokens']['ding_seo_node_tokens']['logo_url'] = [
+  $info['tokens']['ding_seo_logo_tokens']['url'] = [
     'name' => t("Logo URL"),
     'description' => t('URL of the logo'),
   ];
@@ -90,18 +93,6 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
       $library_node = node_load($ding_library_nid);
       /** @var \EntityDrupalWrapper */
       $library_node_wrapper = entity_metadata_wrapper('node', $library_node);
-    }
-
-    // Get logo dimensions.
-    global $base_url;
-    drupal_theme_initialize();
-    $logo_url = theme_get_setting('logo');
-    if (!empty($logo_url)) {
-      // Get relative internal for getimagesize. Add 1 to remove leading slash.
-      $logo_path = drupal_substr($logo_url, drupal_strlen($base_url) + 1);
-      $logo_info = getimagesize($logo_path);
-      $logo_width = $logo_info[0];
-      $logo_height = $logo_info[1];
     }
 
     foreach ($ding_seo_node_tokens as $name => $original) {
@@ -159,19 +150,36 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
             ]);
           }
           break;
+      }
+    }
+  }
 
-        // Logo.
-        case 'logo_height':
+  if ($type == 'ding_seo_logo_tokens') {
+    // Get logo URL and dimensions.
+    global $base_url;
+    drupal_theme_initialize();
+    $logo_url = theme_get_setting('logo');
+    if (!empty($logo_url)) {
+      // Get relative internal for getimagesize. Add 1 to remove leading slash.
+      $logo_path = drupal_substr($logo_url, drupal_strlen($base_url) + 1);
+      $logo_info = getimagesize($logo_path);
+      $logo_width = $logo_info[0];
+      $logo_height = $logo_info[1];
+    }
+
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'height':
           if (isset($logo_height))  {
             $replacements[$original] = $logo_height;
           }
           break;
-        case 'logo_width':
+        case 'width':
           if (isset($logo_width)) {
             $replacements[$original] = $logo_width;
           }
           break;
-        case 'logo_url':
+        case 'url':
           if (isset($logo_url)) {
             $replacements[$original] = $logo_url;
           }
