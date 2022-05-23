@@ -159,6 +159,14 @@ interface TingObjectSchemaWrapperInterface {
   public function getDatePublished();
 
   /**
+   * Get dateCreated of the wrapped ting object.
+   *
+   * @return string|false
+   *   The date the content was created.
+   */
+  public function getDateCreated();
+
+  /**
    * Get the ISBN of the wrapped ting object.
    *
    * @return string|false

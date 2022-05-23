@@ -143,7 +143,7 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
       // The first entry in $names array is language full name in english.
       // Attempt to translate it to danish and compare with the danish value
       // returned from opensearch.
-      $translated_name = t("$names[0]");
+      $translated_name = t($names[0]);
 
       if (drupal_strtolower($translated_name) == $language) {
         return $code;

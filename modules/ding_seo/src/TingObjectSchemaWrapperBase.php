@@ -160,6 +160,13 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
   /**
    * {@inheritdoc}
    */
+  public function getDateCreated() {
+    return $this->tingObject->getYear();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getIsbn() {
     $isbn_list = $this->tingObject->getIsbn();
 
@@ -188,9 +195,9 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
     $this->hasBorrowAction = FALSE;
 
     /** @var \TingEntity $ting_entity */
-    $ting_entity = ding_entity_load($this->ting_object->getId());
+    $ting_entity = ding_entity_load($this->tingObject->getId());
     if ($ting_entity->is('library_material')) {
-      $local_id = $this->ting_object->getSourceId();
+      $local_id = $this->tingObject->getSourceId();
       $reservability = ding_provider_invoke('reservation', 'is_reservable', [$local_id]);
       $this->hasBorrowAction = $reservability[$local_id];
     }

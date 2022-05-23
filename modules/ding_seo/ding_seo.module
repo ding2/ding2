@@ -139,7 +139,6 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
     'name' => $schema_wrapper->getName(),
     'description' => $schema_wrapper->getDescription(),
     'url' => $schema_wrapper->getUrl(),
-    'datePublished' => $schema_wrapper->getDatePublished(),
     'sameAs' => $schema_wrapper->getSameAs(),
   ];
 
@@ -206,6 +205,7 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
     case TingObjectSchemaWrapperInterface::SCHEMA_MOVIE:
       $node += [
         'duration' => $schema_wrapper->getDuration(),
+        'dateCreated' => $schema_wrapper->getDateCreated(),
         'actor' => ding_seo_get_person_nodes($schema_wrapper->getActors()),
         'director' => ding_seo_get_person_nodes($schema_wrapper->getDirectors()),
         'musicBy' => ding_seo_get_person_nodes($schema_wrapper->getComposers()),
