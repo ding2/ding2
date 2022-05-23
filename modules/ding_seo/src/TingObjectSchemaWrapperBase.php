@@ -174,11 +174,20 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
    * {@inheritdoc}
    */
   public function hasBorrowAction() {
-    if (!isset($this->has_borrow_action)) {
+    if (isset($this->has_borrow_action)) {
+      return $this->has_borrow_action;
+    }
+
+    $this->has_borrow_action = FALSE;
+
+    /** @var \TingEntity $ting_entity */
+    $ting_entity = ding_entity_load($this->ting_object->getId());
+    if ($ting_entity->is('library_material')) {
       $local_id = $this->ting_object->getSourceId();
       $reservability = ding_provider_invoke('reservation', 'is_reservable', [$local_id]);
       $this->has_borrow_action = $reservability[$local_id];
     }
+
     return $this->has_borrow_action;
   }
 
