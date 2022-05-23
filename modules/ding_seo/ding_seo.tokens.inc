@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_token_info()
+ * Implements hook_token_info().
  */
 function ding_seo_token_info() {
   // Define ding_seo_node_tokens token type.
@@ -170,15 +170,17 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'height':
-          if (isset($logo_height))  {
+          if (isset($logo_height)) {
             $replacements[$original] = $logo_height;
           }
           break;
+
         case 'width':
           if (isset($logo_width)) {
             $replacements[$original] = $logo_width;
           }
           break;
+
         case 'url':
           if (isset($logo_url)) {
             $replacements[$original] = $logo_url;

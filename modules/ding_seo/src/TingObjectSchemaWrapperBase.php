@@ -1,64 +1,67 @@
 <?php
-/**
- * @file
- * Defines \DingSEO\TingObjectSchemaWrapperBase.
- *
- * A base class with common functionality across search providers that can be
- * extended by provider specific implementations of schema wrappers.
- */
 
 namespace DingSEO;
 
 use Ting\TingObjectInterface;
 
+/**
+ * Class TingObjectSchemaWrapperBase.
+ *
+ * A base class with common functionality across search providers that can be
+ * extended by provider specific implementations of schema wrappers.
+ */
 abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInterface {
   /**
-   * @var \Ting\TingObjectInterface.
-   *   The wrapped ting object.
+   * The wrapped ting object.
+   *
+   * @var \Ting\TingObjectInterface
    */
-  protected $ting_object;
+  protected $tingObject;
 
   /**
+   * The URL to the cover image of the material (static cache).
+   *
    * @var string
-   *   The URL to the cover image of the material (static cache).
    */
-  protected $image_url;
+  protected $imageUrl;
 
   /**
+   * Whether the work example has borrow action.
+   *
    * @var bool|null
-   *   Whether the work example has borrow action.
    */
-  protected $has_borrow_action;
+  protected $hasBorrowAction;
 
   /**
    * TingObjectSchemaWrapperBase constructor.
    */
   public function __construct(TingObjectInterface $ting_object, $has_borrow_action = NULL) {
-    $this->ting_object = $ting_object;
-    $this->has_borrow_action = $has_borrow_action;
+    $this->tingObject = $ting_object;
+    $this->hasBorrowAction = $has_borrow_action;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getId() {
-    return $this->getObjectURL();
+    return $this->getObjectUrl();
   }
 
   /**
    * {@inheritdoc}
    */
   public function getUrl() {
-    return $this->getObjectURL();
+    return $this->getObjectUrl();
   }
 
   /**
    * Get the absolute URL of the ting object.
    *
    * @return string
+   *   The URL of the ting object.
    */
-  protected function getObjectURL() {
-    $object_path = entity_uri('ting_object', $this->ting_object)['path'];
+  protected function getObjectUrl() {
+    $object_path = entity_uri('ting_object', $this->tingObject)['path'];
     return url($object_path, [
       'absolute' => TRUE,
     ]);
@@ -67,28 +70,28 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
   /**
    * {@inheritdoc}
    */
-  public function getImageURL() {
-    if (isset($this->image_url)) {
-      return $this->image_url;
+  public function getImageUrl() {
+    if (isset($this->imageUrl)) {
+      return $this->imageUrl;
     }
-    $this->image_url = FALSE;
+    $this->imageUrl = FALSE;
 
-    $ting_object_id = $this->ting_object->getId();
+    $ting_object_id = $this->tingObject->getId();
     $covers = ting_covers_get([$ting_object_id]);
 
     if (isset($covers[$ting_object_id])) {
       // The return value is a public:// URI.
-      $this->image_url = file_create_url($covers[$ting_object_id]);
+      $this->imageUrl = file_create_url($covers[$ting_object_id]);
     }
 
-    return $this->image_url;
+    return $this->imageUrl;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getImageDimensions() {
-    $image_path = ting_covers_object_path($this->ting_object->getId());
+    $image_path = ting_covers_object_path($this->tingObject->getId());
     if (file_exists($image_path) && $size = getimagesize(drupal_realpath($image_path))) {
       return array_slice($size, 0, 2);
     }
@@ -99,27 +102,27 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
    * {@inheritdoc}
    */
   public function getWorkExamples() {
-    $collection = ting_collection_load($this->ting_object->getId());
+    $collection = ting_collection_load($this->tingObject->getId());
     /** @var \TingEntity[] $ting_entities */
     $ting_entities = $collection->getEntities();
 
     // Instead of deferring reservability check, use the opportunity now to
     // check reservability for all 'library_material' work examples at once.
-    $localIds = array_map(function ($ting_entity) {
+    $local_ids = array_map(function ($ting_entity) {
       if ($ting_entity->is('library_material')) {
         return $ting_entity->localId;
       }
     }, $ting_entities);
-    $localIds = array_filter($localIds);
+    $local_ids = array_filter($local_ids);
 
     $reservability = [];
-    if (!empty($localIds)) {
-      $reservability = ding_provider_invoke('reservation', 'is_reservable', $localIds);
+    if (!empty($local_ids)) {
+      $reservability = ding_provider_invoke('reservation', 'is_reservable', $local_ids);
     }
 
     $work_examples = array_map(function ($ting_entity) use ($reservability) {
-      $localId = $ting_entity->localId;
-      $has_borrow_action = isset($reservability[$localId]) ? $reservability[$localId] : FALSE;
+      $local_id = $ting_entity->localId;
+      $has_borrow_action = isset($reservability[$local_id]) ? $reservability[$local_id] : FALSE;
       return new static($ting_entity->getTingObject(), $has_borrow_action);
     }, $ting_entities);
 
@@ -130,35 +133,35 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
    * {@inheritdoc}
    */
   public function getName() {
-    return $this->ting_object->getTitle();
+    return $this->tingObject->getTitle();
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDescription() {
-    return $this->ting_object->getAbstract();
+    return $this->tingObject->getAbstract();
   }
 
   /**
    * {@inheritdoc}
    */
   public function getBookEdition() {
-    return reset($this->ting_object->getVersion());
+    return reset($this->tingObject->getVersion());
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDatePublished() {
-    return $this->ting_object->getYear();
+    return $this->tingObject->getYear();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getISBN() {
-    $isbn_list = $this->ting_object->getIsbn();
+  public function getIsbn() {
+    $isbn_list = $this->tingObject->getIsbn();
 
     // Prefer 13 digit ISBN-13 nunbers.
     $isbn13_list = array_filter($isbn_list, function ($isbn) {
@@ -178,21 +181,21 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
    * {@inheritdoc}
    */
   public function hasBorrowAction() {
-    if (isset($this->has_borrow_action)) {
-      return $this->has_borrow_action;
+    if (isset($this->hasBorrowAction)) {
+      return $this->hasBorrowAction;
     }
 
-    $this->has_borrow_action = FALSE;
+    $this->hasBorrowAction = FALSE;
 
     /** @var \TingEntity $ting_entity */
     $ting_entity = ding_entity_load($this->ting_object->getId());
     if ($ting_entity->is('library_material')) {
       $local_id = $this->ting_object->getSourceId();
       $reservability = ding_provider_invoke('reservation', 'is_reservable', [$local_id]);
-      $this->has_borrow_action = $reservability[$local_id];
+      $this->hasBorrowAction = $reservability[$local_id];
     }
 
-    return $this->has_borrow_action;
+    return $this->hasBorrowAction;
   }
 
   /**
@@ -214,7 +217,7 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
    * {@inheritdoc}
    */
   public function getBorrowActionTargetUrl() {
-    return $this->getObjectURL();
+    return $this->getObjectUrl();
   }
 
   /**
@@ -225,4 +228,5 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
       'https://schema.org/DesktopWebPlatform',
     ];
   }
+
 }

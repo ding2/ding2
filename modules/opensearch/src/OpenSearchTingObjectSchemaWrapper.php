@@ -1,15 +1,17 @@
 <?php
-/**
- * @file
- * OpenSearchTingObjectSchemaWrapper class.
- */
 
 namespace OpenSearch;
 
 use DingSEO\TingObjectSchemaWrapperBase;
 use DingSEO\TingObjectSchemaWrapperInterface;
 
+/**
+ * Class OpenSearchTingObjectSchemaWrapper.
+ *
+ * Opensearch provider implementaion of ting ojbect Schema.org wrapper.
+ */
 class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
+
   /**
    * {@inheritdoc}
    */
@@ -19,7 +21,7 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
     // distinguish between movies and tv-series for example.
     // For now this is opensearch speficic anb based and DKABM types:
     // http://www.danbib.dk/docs/abm/types.xml.
-    $material_type = drupal_strtolower($this->ting_object->getType());
+    $material_type = drupal_strtolower($this->tingObject->getType());
 
     $schema_type_mapping = [
       TingObjectSchemaWrapperInterface::SCHEMA_BOOK => [
@@ -42,7 +44,7 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
         'film',
         'film (net)',
         'video',
-      ]
+      ],
     ];
 
     foreach ($schema_type_mapping as $schema_type => $material_types) {
@@ -97,14 +99,10 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
    * {@inheritdoc}
    */
   public function getBookFormat() {
+    // Not possible to map anything to SCHEMA_BOOK_FORMAT_PAPERBACK.
     $book_format_mapping = [
       TingObjectSchemaWrapperInterface::SCHEMA_BOOK_FORMAT_EBOOK => [
-        'ebog'
-      ],
-      // TODO: Can differentiaie between Hardcove and Paperback?
-      // For now map all physical books to Hardcover.
-      TingObjectSchemaWrapperInterface::SCHEMA_BOOK_FORMAT_PAPERBACK => [
-        // Nothing.
+        'ebog',
       ],
       TingObjectSchemaWrapperInterface::SCHEMA_BOOK_FORMAT_HARDCOVER => [
         'bog',
@@ -119,7 +117,7 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
       ],
     ];
 
-    $material_type = drupal_strtolower($this->ting_object->getType());
+    $material_type = drupal_strtolower($this->tingObject->getType());
     foreach ($book_format_mapping as $book_format => $material_types) {
       if (in_array($material_type, $material_types)) {
         return $book_format;
@@ -133,7 +131,7 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
    */
   public function getInLanguage() {
     // Returns language in full name in danish e.g. "Dansk", "Spansk".
-    $language = $this->ting_object->getLanguage();
+    $language = $this->tingObject->getLanguage();
     $language = drupal_strtolower($language);
 
     // Drupal maintains a list of languages keyed by ISO 639-1 language codes,
@@ -145,7 +143,7 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
       // The first entry in $names array is language full name in english.
       // Attempt to translate it to danish and compare with the danish value
       // returned from opensearch.
-      $translated_name = t($names[0]);
+      $translated_name = t("$names[0]");
 
       if (drupal_strtolower($translated_name) == $language) {
         return $code;
@@ -159,7 +157,7 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
    * {@inheritdoc}
    */
   public function getDuration() {
-    $extent = $this->ting_object->getExtent();
+    $extent = $this->tingObject->getExtent();
 
     if (empty($extent)) {
       return FALSE;
@@ -201,6 +199,8 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
   }
 
   /**
+   * Get all creators and contributors combined.
+   *
    * Helper function to get all creators and contributors combined and preserve
    * DKABM function codes. Some function codes can be on both dc:creator and
    * dc:contributor, so this is useful to ensure we don't miss any.
@@ -209,7 +209,7 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
    *   An array of creators and contributor names keyed by DKABM function codes.
    */
   private function getCreatorsContributorsCombined() {
-    $record = $this->ting_object->record;
+    $record = $this->tingObject->record;
     $creators = isset($record['dc:creator']) ? $record['dc:creator'] : [];
     $contributers = isset($record['dc:contributor']) ? $record['dc:contributor'] : [];
     // We don't know if a given function code can be on both so merge them
@@ -222,7 +222,8 @@ class OpenSearchTingObjectSchemaWrapper extends TingObjectSchemaWrapperBase {
    */
   public function getSameAs() {
     // Link to work on bibliotek.dk using basis namespace.
-    $id = '870970-basis' . ':' . $this->ting_object->getSourceId();
+    $id = "870970-basis:{$this->tingObject->getSourceId()}";
     return url("https://bibliotek.dk/work/$id", ['external' => TRUE]);
   }
+
 }

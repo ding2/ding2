@@ -52,8 +52,8 @@ function ding_seo_schema() {
 }
 
  /**
- * Implements hook_uninstall().
- */
+  * Implements hook_uninstall().
+  */
 function ding_seo_uninstall() {
   // Unset variables.
   variable_del('ding_seo_last_run_sitemap');

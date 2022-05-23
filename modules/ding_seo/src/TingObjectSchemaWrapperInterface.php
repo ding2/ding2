@@ -1,26 +1,32 @@
 <?php
+
+namespace DingSEO;
+
 /**
- * @file
- * Defines \DingSEO\TingObjectSchemaWrapperInterface.
+ * Inteface TingObjectSchemaWrapperInterface.
  *
  * Implemented by search providers to provide a compatible data interface for
  * producing JSON-LD for ting objects.
  */
-
-namespace DingSEO;
-
 interface TingObjectSchemaWrapperInterface {
   /**
-   * https://schema.org/Book.
+   * Schema.org "Book" type.
+   *
+   * @see https://schema.org/Book.
    */
   const SCHEMA_BOOK = 'Book';
+
   /**
-   * https://schema.org/Movie.
+   * Schema.org "Movie" type.
+   *
+   * @see https://schema.org/Movie.
    */
   const SCHEMA_MOVIE = 'Movie';
 
   /**
-   * https://schema.org/bookFormat.
+   * Schema.org "BookFormat" properties.
+   *
+   * @see https://schema.org/bookFormat.
    */
   const SCHEMA_BOOK_FORMAT_EBOOK = 'http://schema.org/EBook';
   const SCHEMA_BOOK_FORMAT_PAPERBACK = 'http://schema.org/Paperback';
@@ -31,6 +37,7 @@ interface TingObjectSchemaWrapperInterface {
    * Get the schema.org @id of the wrapped ting object.
    *
    * @return string
+   *   The @id of the ting object.
    */
   public function getId();
 
@@ -38,6 +45,7 @@ interface TingObjectSchemaWrapperInterface {
    * Get the URL of the wrapped ting object.
    *
    * @return string
+   *   The URL of the ting object.
    */
   public function getUrl();
 
@@ -53,15 +61,15 @@ interface TingObjectSchemaWrapperInterface {
   /**
    * Get image URL for the wrapped ting object.
    *
-   * @return string|FALSE
+   * @return string|false
    *   URL to the cover image of the material. FALSE if no cover was found.
    */
-  public function getImageURL();
+  public function getImageUrl();
 
   /**
    * Get dimensions for the image for the wrapped ting object.
    *
-   * @return int[]|FALSE
+   * @return int[]|false
    *   And array with the dimensions of the image, with width at index 0 and
    *   height at index 1. FALSE if no valid cover image exists.
    */
@@ -70,7 +78,7 @@ interface TingObjectSchemaWrapperInterface {
   /**
    * Get the schema type for the wrapped ting object.
    *
-   * @return string|FALSE
+   * @return string|false
    *   A string with one of the supported schema types for ting objects:
    *    - \DingSEO\TingObjectSchemaWrapperInterface::SCHEMA_BOOK.
    *    - \DingSEO\TingObjectSchemaWrapperInterface::SCHEMA_MOVIE.
@@ -129,7 +137,7 @@ interface TingObjectSchemaWrapperInterface {
   /**
    * Get the description of the wrapped ting object.
    *
-   * @return string|FALSE
+   * @return string|false
    *   The description of the material or FALSE if not present.
    */
   public function getDescription();
@@ -137,7 +145,7 @@ interface TingObjectSchemaWrapperInterface {
   /**
    * Get the Book edition.
    *
-   * @return string|FALSE
+   * @return string|false
    *   The edition of the material or FALSE if it was not present.
    */
   public function getBookEdition();
@@ -145,7 +153,7 @@ interface TingObjectSchemaWrapperInterface {
   /**
    * Get datePublished of the wrapped ting object.
    *
-   * @return string|FALSE
+   * @return string|false
    *   The year of the published date or FALSE if it was not present.
    */
   public function getDatePublished();
@@ -153,15 +161,15 @@ interface TingObjectSchemaWrapperInterface {
   /**
    * Get the ISBN of the wrapped ting object.
    *
-   * @return string|FALSE
+   * @return string|false
    *   The ISBN of the Book or FALSE if none present.
    */
-  public function getISBN();
+  public function getIsbn();
 
   /**
    * Get the Schema.org bookFormat of the wrapped ting object.
    *
-   * @return string|FALSE
+   * @return string|false
    *   A string with one of the possible bookFormat values:
    *     - \DingSEO\TingObjectSchemaWrapperInterface::SCHEMA_BOOK_FORMAT_EBOOK
    *     - \DingSEO\TingObjectSchemaWrapperInterface::SCHEMA_BOOK_FORMAT_PAPERBACK
@@ -174,14 +182,15 @@ interface TingObjectSchemaWrapperInterface {
   /**
    * Get the ISO 639-1 two-letter language code of the material.
    *
-   * @return string|FALSE
+   * @return string|false
+   *   The language code of the material.
    */
   public function getInLanguage();
 
   /**
    * Get duration of the wrapped ting object.
    *
-   * @return string|FALSE
+   * @return string|false
    *   The duration in ISO 8601 date format or FALSE if it could not be
    *   determined.
    */
@@ -191,6 +200,7 @@ interface TingObjectSchemaWrapperInterface {
    * Whether the wrapped ting_object has borrow action.
    *
    * @return bool
+   *   Whether the ting object should have borrow action.
    */
   public function hasBorrowAction();
 
@@ -198,6 +208,7 @@ interface TingObjectSchemaWrapperInterface {
    * The @id of the Library to use as "lender" on borrow actions.
    *
    * @return string
+   *   The lender library @id.
    */
   public function getLenderLibraryId();
 
@@ -205,6 +216,7 @@ interface TingObjectSchemaWrapperInterface {
    * Get target URL for the material's borrow action.
    *
    * @return string
+   *   The borrow action target URL.
    */
   public function getBorrowActionTargetUrl();
 
@@ -212,13 +224,16 @@ interface TingObjectSchemaWrapperInterface {
    * Get array of target action platforms for the material's borrow action.
    *
    * @return array
+   *   An array of target action platforms.
    */
   public function getBorrowActionTargetPlatform();
 
   /**
    * URL of a reference page that identifies the material.
    *
-   * @return string|FALSE
+   * @return string|false
+   *   The sameAs URL.
    */
   public function getSameAs();
+
 }

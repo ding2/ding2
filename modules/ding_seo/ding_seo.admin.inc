@@ -5,8 +5,8 @@
  */
 
  /**
- * Administration settings form for the module.
- */
+  * Administration settings form for the module.
+  */
 function ding_seo_admin_settings($form, &$form_state) {
   $metatag_config = metatag_config_load('global')->config;
 
@@ -71,15 +71,15 @@ function ding_seo_admin_settings($form, &$form_state) {
  * Submit handler for the administration settings form.
  */
 function ding_seo_admin_settings_submit($form, &$form_state) {
-  // Save the google site verification code to the metatag verification module
+  // Save the google site verification code to the metatag verification module.
   $config = metatag_config_load('global');
-  $config->config['google-site-verification']['value'] = $form_state['input']['ding_seo_google_site_verification'];
+  $config->config['google-site-verification']['value'] = $form_state['values']['ding_seo_google_site_verification'];
   metatag_config_save($config);
 
-  $maximum_links = $form_state['input']['ding_seo_maximum_links_in_sitemap'];
+  $maximum_links = $form_state['values']['ding_seo_maximum_links_in_sitemap'];
   variable_set('ding_seo_maximum_links_in_sitemap', $maximum_links);
 
-  $lender_library = $form_state['input']['ding_seo_lender_library'];
+  $lender_library = $form_state['values']['ding_seo_lender_library'];
   variable_set('ding_seo_lender_library', $lender_library);
 
   drupal_set_message(t('Ding seo configuration has been saved.'));
