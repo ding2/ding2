@@ -111,11 +111,15 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
       }
     }, $ting_entities);
     $localIds = array_filter($localIds);
-    $reservability = ding_provider_invoke('reservation', 'is_reservable', $localIds);
+
+    $reservability = [];
+    if (!empty($localIds)) {
+      $reservability = ding_provider_invoke('reservation', 'is_reservable', $localIds);
+    }
 
     $work_examples = array_map(function ($ting_entity) use ($reservability) {
       $localId = $ting_entity->localId;
-      $has_borrow_action = isset($reservability[$localId]) ? $reservability[$localId] : NULL;
+      $has_borrow_action = isset($reservability[$localId]) ? $reservability[$localId] : FALSE;
       return new static($ting_entity->getTingObject(), $has_borrow_action);
     }, $ting_entities);
 
