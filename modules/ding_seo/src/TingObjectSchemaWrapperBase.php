@@ -21,7 +21,7 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
   /**
    * The URL to the cover image of the material (static cache).
    *
-   * @var string
+   * @var string|null
    */
   protected $imageUrl;
 
