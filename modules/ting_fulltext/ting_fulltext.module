@@ -23,6 +23,14 @@ function ting_fulltext_menu() {
     'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
   );
 
+  $items['ting/fulltext/ajax/%'] = array(
+    'title' => 'Retrieves review off the object',
+    'page callback' => 'ting_fulltext_get_review',
+    'page arguments' => array(3),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -67,7 +75,6 @@ function ting_fulltext_object_load($object_id) {
 function ting_fulltext_preprocess_ting_relation(&$variables) {
   /** @var \TingRelation $relation */
   $relation = $variables['relation'];
-
   if (!$variables['online'] && (NULL !== $relation->getObject() && NULL != $relation->getObject()->getTingObject())) {
     /** @var \OpenSearch\OpenSearchTingObject $ting_object */
     $ting_object = $relation->getObject()->getTingObject();
@@ -75,7 +82,10 @@ function ting_fulltext_preprocess_ting_relation(&$variables) {
     // This will only work for the opensearch search provider, so check what
     // type of object we have.
     if ($ting_object instanceof OpenSearchTingObject && in_array('docbook', $relation->getObject()->getTingObject()->getFormatsAvailable())) {
-      $variables['fulltext_link'] = l(t('See the full-text version'), 'ting/object/' . $relation->uri . '/fulltext');
+      // For performance reasons we load the review in full text as ajax.
+      drupal_add_js(drupal_get_path('module', 'ting_fulltext') . '/js/ting_fulltext.js');
+      drupal_add_js(array('tingFulltext' => array('url' => '/ting/fulltext/ajax/' . $relation->uri)), 'setting');
+      $variables['abstract'] = '<div id="ting-lektor-fulltext">' . $variables['abstract'] . '</div>';
     }
   }
 }
@@ -90,5 +100,32 @@ function ting_fulltext_preprocess_ting_relation(&$variables) {
 function ting_fulltext_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return "plugins/$plugin";
+  }
+}
+
+/**
+ * Ajax call function wich returns the review in full text.
+ */
+function ting_fulltext_get_review($object_id) {
+  try {
+    $path = drupal_get_path('module', 'ting_fulltext');
+    // Include functions to parse the xml.
+    include_once $path . '/includes/ting_fulltext.pages.inc';
+
+    $xml = ting_fulltext_object_load($object_id);
+    $full_text = ting_fulltext_parse($xml);
+    // We dont need to display the title again.
+    unset($full_text['title']);
+
+    $results = array(
+      '#theme' => 'ting_fulltext',
+      '#fields' => $full_text,
+    );
+    $output = drupal_render($results);
+
+    return drupal_json_output($output );
+  } catch (Exception $e) {
+    watchdog_exception('ting_fulltext', $e);
+    return drupal_json_output('');
   }
 }
