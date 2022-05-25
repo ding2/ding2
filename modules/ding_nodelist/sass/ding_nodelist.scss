@@ -1277,10 +1277,22 @@ $label-bg: url('../images/p.png');
       z-index: 2;
     }
   }
+
   .more-links {
     margin-right: 25px;
     float: left;
     clear: left;
+
+    @include media($mobile) {
+      ul {
+        display: block;
+        padding-left: 0;
+        margin-bottom: 0;
+        li {
+          margin: 80px 0 0 0;
+        }
+      }
+    }
   }
 }
 
