@@ -127,6 +127,7 @@ function ting_fulltext_get_review($object_id) {
   }
   catch (Exception $e) {
     watchdog_exception('ting_fulltext', $e);
-    return drupal_json_output('');
+    drupal_add_http_header('Status', '500 Internal Server Error');
+    drupal_exit();
   }
 }
