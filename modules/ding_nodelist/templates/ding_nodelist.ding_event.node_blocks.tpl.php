@@ -6,7 +6,7 @@
 
 ?>
 
-<article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
+<article data-id="<?php print $ai_id; ?>" data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
          class="node node-ding-event node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>"<?php print $attributes; ?>>
   <a href="<?php print '/node/' . $item->nid; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>">
     <?php if (!empty($item->image)): ?>

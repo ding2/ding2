@@ -1,0 +1,248 @@
+diff --git a/modules/ding_nodelist/css/ding_nodelist.css b/modules/ding_nodelist/css/ding_nodelist.css
+index 8ae425c68..1392e4fe4 100644
+--- a/modules/ding_nodelist/css/ding_nodelist.css
++++ b/modules/ding_nodelist/css/ding_nodelist.css
+@@ -106,11 +106,7 @@
+   content: "\e907";
+ }
+ 
+-.ding_nodelist-carousel .icon-prev::after,
+-.ding_nodelist-carousel .icon-next::after,
+-.ding_nodelist-slider .next-prev .next::after,
+-.ding_nodelist-slider .next-prev .prev::after,
+-.ding_nodelist-taxonomy .event-list-leaf ~ .item .event-arrow-link a::after {
++.ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-slider .next-prev .next::after, .ding_nodelist-slider .next-prev .prev::after, .ding_nodelist-taxonomy .event-list-leaf ~ .item .event-arrow-link a::after {
+   content: "\e903";
+ }
+ 
+@@ -158,11 +154,7 @@
+   content: "\e907";
+ }
+ 
+-.ding_nodelist-carousel .icon-prev::after,
+-.ding_nodelist-carousel .icon-next::after,
+-.ding_nodelist-slider .next-prev .next::after,
+-.ding_nodelist-slider .next-prev .prev::after,
+-.ding_nodelist-taxonomy .event-list-leaf ~ .item .event-arrow-link a::after {
++.ding_nodelist-carousel .icon-prev::after, .ding_nodelist-carousel .icon-next::after, .ding_nodelist-slider .next-prev .next::after, .ding_nodelist-slider .next-prev .prev::after, .ding_nodelist-taxonomy .event-list-leaf ~ .item .event-arrow-link a::after {
+   content: "\e903";
+ }
+ 
+diff --git a/modules/ding_nodelist/js/node_blocks.js b/modules/ding_nodelist/js/node_blocks.js
+index 8e21f9c85..314d04aae 100644
+--- a/modules/ding_nodelist/js/node_blocks.js
++++ b/modules/ding_nodelist/js/node_blocks.js
+@@ -3,7 +3,7 @@
+ 
+   // Set height for nodes teasers.
+   $(window).bind('resize.node_teaser', function () {
+-    var panes = $('.ding_nodelist-node_blocks').each(function () {
++    $('.ding_nodelist-node_blocks').each(function () {
+       var id = 0, height = 0,
+           $row = $(this).find('[data-row="' + id + '"]');
+ 
+@@ -33,9 +33,11 @@
+   });
+ 
+   Drupal.behaviors.ding_nodelist_nodeblocks_hover = {
+-    attach: function (context) {
++    attach: function (context, settings) {
++      var nodeBlocksSettings = settings.ding_nodelist.node_blocks;
+       var hovered,
+-          $pane = $('.ding_nodelist-items', context);
++          $pane = $('.ding_nodelist-items', context),
++          isMobile = window.innerWidth <= 600;
+       $pane.trigger('resize.node_teaser');
+ 
+       $pane.find('article').mouseenter(function() {
+@@ -58,6 +60,66 @@
+ 
+         $(this).find('.title-and-lead').css('min-height', title_and_lead_height);
+       });
++
++      /**
++       * Node Blocks DOM manipulation.
++       */
++      // Build default config parameters.
++      var config = [];
++      $pane.find('article').each(function (i, val) {
++        var data = {};
++        data.id = $(val).data('id');
++        data.hasImage = $(val).hasClass('has-image');
++        data.marginTop = 0;
++
++        if ($(val).hasClass('has-image') && i !== 0 || !$(val).hasClass('has-image') && i !== 0) {
++          data.marginTop = 200;
++        }
++        config.push(data);
++      });
++
++      // Add corrections to the configs conditionally.
++      config.map(function (val) {
++        var current = config[val.id];
++        var next = config[val.id + 1];
++
++        if (next === undefined) {
++          return;
++        }
++
++        if (current.hasImage === true && next.hasImage === false) {
++          next.marginTop = 200;
++        }
++        else if (current.hasImage === false && next.hasImage === true) {
++          next.marginTop = 0;
++        }
++        else if (current.hasImage === false && next.hasImage === false) {
++          next.marginTop = 0;
++        }
++      });
++
++      // Process items rendering.
++      config.forEach(function (e) {
++        if (isMobile) {
++          if (nodeBlocksSettings.displayMobileImage === 1) {
++            if (e.hasImage === true) {
++              $pane.find("article[data-id=" + e.id + "]").find('.nb-image').css('display', 'block');
++
++              $pane.find("article[data-id=" + e.id + "]").css('margin-top', e.marginTop);
++              $pane.find("article[data-id=" + e.id + "] .inner").css('margin-top', e.marginTop);
++              if (e.marginTop === 0) {
++                $pane.find("article[data-id=" + e.id + "] .inner").css('margin-top', 200);
++              }
++              if (e.id === config.length - 1) {
++                $pane.find("article[data-id=" + e.id + "]").css('margin-bottom', $pane.find("article[data-id=" + e.id + "]").height());
++              }
++            }
++            else {
++              $pane.find("article[data-id=" + e.id + "]").css('margin-top', e.marginTop);
++            }
++          }
++        }
++      });
+     }
+   };
+ })(jQuery);
+diff --git a/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc b/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc
+index 7deb5f0d3..aa587c921 100644
+--- a/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc
++++ b/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc
+@@ -105,6 +105,16 @@ function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
+   }
+   $theme_func = 'ding_nodelist_widget_' . $conf['widget_type'];
+ 
++  if ($conf['widget_type'] == DING_NODELIST_WIDGET_NODE_BLOCKS) {
++    drupal_add_js([
++      'ding_nodelist' => [
++        'node_blocks' => [
++          'displayMobileImage' => isset($conf['display_mobile_image']) ? $conf['display_mobile_image'] : 0,
++        ],
++      ],
++    ], 'setting');
++  }
++
+   $block->content = theme($theme_func, array(
+     'items' => $nodes,
+     'links' => $conf['more_links'],
+@@ -403,6 +413,7 @@ function _ding_nodelist_content_type_form_save(&$form_state, $rebuild = FALSE) {
+   $form_state['conf']['content_filter_date'] = $form_state['values']['content_filter_date'];
+   $form_state['conf']['content_types'] = $form_state['values']['content_types'];
+ 
++  $form_state['conf']['display_mobile_image'] = $form_state['values']['display_mobile_image'];
+   $form_state['conf']['limit'] = $form_state['values']['limit'];
+   $form_state['conf']['more_links'] = !empty($form_state['values']['more_links']) ? $form_state['values']['more_links'] : array();
+   $form_state['conf']['override_title'] = $form_state['values']['override_title'];
+@@ -844,6 +855,19 @@ function _ding_nodelist_plugin_various_section(&$form = array(), $node_type = ar
+     ),
+   );
+ 
++  $form['ding_nodelist_wrapper']['nodelist_various_settings']['display_mobile_image'] = [
++    '#type' => 'checkbox',
++    '#title' => t('View images on mobile devices.'),
++    '#default_value' => isset($conf['display_mobile_image']) ? $conf['display_mobile_image'] : FALSE,
++    '#states' => [
++      'visible' => [
++        'select[name=widget_type]' => [
++          ['value' => DING_NODELIST_WIDGET_NODE_BLOCKS],
++        ],
++      ],
++    ],
++  ];
++
+   // Initialize drop-down array's values.
+   $options = array(0 => 'none') +
+     array_combine(range(1, 25), range(1, 25)) +
+diff --git a/modules/ding_nodelist/templates/ding_nodelist.ding_eresource.node_blocks.tpl.php b/modules/ding_nodelist/templates/ding_nodelist.ding_eresource.node_blocks.tpl.php
+index e3172c06f..a7cf61d0c 100644
+--- a/modules/ding_nodelist/templates/ding_nodelist.ding_eresource.node_blocks.tpl.php
++++ b/modules/ding_nodelist/templates/ding_nodelist.ding_eresource.node_blocks.tpl.php
+@@ -9,7 +9,7 @@
+  */
+ 
+ ?>
+-<article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
++<article data-id="<?php print $ai_id; ?>" data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
+          class="node node-ding-eresource node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>" <?php print $attributes; ?>>
+   <a href="<?php print '/node/' . $item->nid; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>">
+     <div class="inner">
+diff --git a/modules/ding_nodelist/templates/ding_nodelist.ding_event.node_blocks.tpl.php b/modules/ding_nodelist/templates/ding_nodelist.ding_event.node_blocks.tpl.php
+index 9e01974ac..59005638a 100644
+--- a/modules/ding_nodelist/templates/ding_nodelist.ding_event.node_blocks.tpl.php
++++ b/modules/ding_nodelist/templates/ding_nodelist.ding_event.node_blocks.tpl.php
+@@ -6,7 +6,7 @@
+ 
+ ?>
+ 
+-<article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
++<article data-id="<?php print $ai_id; ?>" data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
+          class="node node-ding-event node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>"<?php print $attributes; ?>>
+   <a href="<?php print '/node/' . $item->nid; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>">
+     <?php if (!empty($item->image)): ?>
+diff --git a/modules/ding_nodelist/templates/ding_nodelist.ding_news.node_blocks.tpl.php b/modules/ding_nodelist/templates/ding_nodelist.ding_news.node_blocks.tpl.php
+index ac8bfff61..259b72ae9 100644
+--- a/modules/ding_nodelist/templates/ding_nodelist.ding_news.node_blocks.tpl.php
++++ b/modules/ding_nodelist/templates/ding_nodelist.ding_news.node_blocks.tpl.php
+@@ -13,9 +13,10 @@ if (!empty($item->image)) {
+   $image = '<div class="ding-news-list-image nb-image" style="background-image:url(' . $item->image . ');"></div>';
+ }
+ ?>
+-<article data-row="<?php print $row; ?>" data-column=" <?php print $column; ?>"
++<article data-id="<?php print $ai_id; ?>" data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
+          class="node node-ding-news node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>"<?php print $attributes; ?>>
+   <a href="<?php print '/node/' . $item->nid; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>">
++    <?php print $image; ?>
+     <div class="inner">
+       <div class="background">
+         <div class="button"><?php print t('Read more'); ?></div>
+@@ -38,6 +39,6 @@ if (!empty($item->image)) {
+         </div>
+       </div>
+     </div>
+-    <?php print $image; ?>
++
+   </a>
+ </article>
+diff --git a/modules/ding_nodelist/templates/ding_nodelist.ding_page.node_blocks.tpl.php b/modules/ding_nodelist/templates/ding_nodelist.ding_page.node_blocks.tpl.php
+index 65c19445d..f5da2f3c2 100644
+--- a/modules/ding_nodelist/templates/ding_nodelist.ding_page.node_blocks.tpl.php
++++ b/modules/ding_nodelist/templates/ding_nodelist.ding_page.node_blocks.tpl.php
+@@ -6,7 +6,7 @@
+  */
+ ?>
+ 
+-<article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>" class="node node-ding-page node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>"<?php print $attributes; ?>>
++<article data-id="<?php print $ai_id; ?>" data-row="<?php print $row; ?>" data-column="<?php print $column; ?>" class="node node-ding-page node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>"<?php print $attributes; ?>>
+   <a href="<?php print '/node/' . $item->nid; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>">
+     <div class="inner">
+       <div class="background">
+diff --git a/modules/ding_nodelist/templates/ding_nodelist_widget_node_blocks.tpl.php b/modules/ding_nodelist/templates/ding_nodelist_widget_node_blocks.tpl.php
+index a794177b9..c6a8bfe86 100644
+--- a/modules/ding_nodelist/templates/ding_nodelist_widget_node_blocks.tpl.php
++++ b/modules/ding_nodelist/templates/ding_nodelist_widget_node_blocks.tpl.php
+@@ -17,6 +17,7 @@
+           'conf' => $conf,
+           'row' => (int) ($i / 3),
+           'column' => $i % 3,
++          'ai_id' => $i,
+         ));
+         $i++;
+       }

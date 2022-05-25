@@ -17,6 +17,7 @@
           'conf' => $conf,
           'row' => (int) ($i / 3),
           'column' => $i % 3,
+          'ai_id' => $i,
         ));
         $i++;
       }

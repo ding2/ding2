@@ -3,7 +3,7 @@
 
   // Set height for nodes teasers.
   $(window).bind('resize.node_teaser', function () {
-    var panes = $('.ding_nodelist-node_blocks').each(function () {
+    $('.ding_nodelist-node_blocks').each(function () {
       var id = 0, height = 0,
           $row = $(this).find('[data-row="' + id + '"]');
 
@@ -33,9 +33,11 @@
   });
 
   Drupal.behaviors.ding_nodelist_nodeblocks_hover = {
-    attach: function (context) {
+    attach: function (context, settings) {
+      var nodeBlocksSettings = settings.ding_nodelist.node_blocks;
       var hovered,
-          $pane = $('.ding_nodelist-items', context);
+          $pane = $('.ding_nodelist-items', context),
+          isMobile = window.innerWidth <= 600;
       $pane.trigger('resize.node_teaser');
 
       $pane.find('article').mouseenter(function() {
@@ -57,6 +59,71 @@
         title_and_lead_height = $(this).find('.title-and-lead').outerHeight(true) + $(this).find('.field-type-text-long').outerHeight(true) + 20;
 
         $(this).find('.title-and-lead').css('min-height', title_and_lead_height);
+      });
+
+      /**
+       * Node Blocks DOM manipulation.
+       */
+      var nbPanes = $('.ding_nodelist-node_blocks .ding_nodelist-items', context);
+      nbPanes.each(function (key, pane) {
+        var $pane = $(pane);
+
+        // Build default config parameters.
+        var config = [];
+        $pane.find('article').each(function (i, val) {
+          var data = {};
+          data.id = $(val).data('id');
+          data.hasImage = $(val).hasClass('has-image');
+          data.marginTop = 0;
+
+          if ($(val).hasClass('has-image') && i !== 0 || !$(val).hasClass('has-image') && i !== 0) {
+            data.marginTop = 200;
+          }
+          config.push(data);
+        });
+
+        // Add corrections to the configs conditionally.
+        config.map(function (val) {
+          var current = config[val.id];
+          var next = config[val.id + 1];
+
+          if (next === undefined) {
+            return;
+          }
+
+          if (current.hasImage === true && next.hasImage === false) {
+            next.marginTop = 200;
+          }
+          else if (current.hasImage === false && next.hasImage === true) {
+            next.marginTop = 0;
+          }
+          else if (current.hasImage === false && next.hasImage === false) {
+            next.marginTop = 0;
+          }
+        });
+
+        // Process items rendering.
+        config.forEach(function (e) {
+          if (isMobile) {
+            if (nodeBlocksSettings.displayMobileImage === 1) {
+              if (e.hasImage === true) {
+                $pane.find("article[data-id=" + e.id + "]").find('.nb-image').css('display', 'block');
+
+                $pane.find("article[data-id=" + e.id + "]").css('margin-top', e.marginTop);
+                $pane.find("article[data-id=" + e.id + "] .inner").css('margin-top', e.marginTop);
+                if (e.marginTop === 0) {
+                  $pane.find("article[data-id=" + e.id + "] .inner").css('margin-top', 200);
+                }
+                if (e.id === config.length - 1) {
+                  $pane.find("article[data-id=" + e.id + "]").css('margin-bottom', $pane.find("article[data-id=" + e.id + "]").height());
+                }
+              }
+              else {
+                $pane.find("article[data-id=" + e.id + "]").css('margin-top', e.marginTop);
+              }
+            }
+          }
+        });
       });
     }
   };
