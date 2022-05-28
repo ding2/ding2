@@ -51,11 +51,12 @@ function ding_seo_admin_settings($form, &$form_state) {
     return check_plain($library_node->title);
   }, ding_seo_get_library_nodes());
 
-  $form['metadata']['ding_seo_lender_library'] = [
+  $form['metadata']['ding_seo_borrow_action_library'] = [
     '#type' => 'select',
-    '#title' => t('Lender library'),
-    '#description' => t('Select which library to reference as <em>lender</em> in JSON-LD structured data for material borrow actions.'),
-    '#default_value' => variable_get('ding_seo_lender_library'),
+    '#title' => t('Borrow actions'),
+    '#description' => t('Select which library to reference as <em>lender</em> in JSON-LD structured data to enable borrow actions for material views. The borrow action will only be added if the material is reservable in the library system.'),
+    '#default_value' => variable_get('ding_seo_borrow_action_library', ''),
+    '#empty_option' => t('- Disable Borrow Actions -'),
     '#options' => $options,
   ];
 
@@ -79,8 +80,8 @@ function ding_seo_admin_settings_submit($form, &$form_state) {
   $maximum_links = $form_state['values']['ding_seo_maximum_links_in_sitemap'];
   variable_set('ding_seo_maximum_links_in_sitemap', $maximum_links);
 
-  $lender_library = $form_state['values']['ding_seo_lender_library'];
-  variable_set('ding_seo_lender_library', $lender_library);
+  $borrow_action_library = $form_state['values']['ding_seo_borrow_action_library'];
+  variable_set('ding_seo_borrow_action_library', $borrow_action_library);
 
   drupal_set_message(t('Ding seo configuration has been saved.'));
 }

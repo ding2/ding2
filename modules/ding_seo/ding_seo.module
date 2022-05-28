@@ -7,6 +7,7 @@
 
 use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
 use DingSEO\TingObjectSchemaWrapperInterface;
+use Ting\TingObjectCollectionInterface;
 use Ting\TingObjectInterface;
 
 include_once 'ding_seo.features.inc';
@@ -120,7 +121,7 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
   /** @var \Ting\TingObjectInterface */
   $ting_object = ting_search_object_load($ting_object_id);
   if (isset($ting_object)) {
-    /** @var DingSEO\TingObjectSchemaWrapperInterface */
+    /** @var \DingSEO\TingObjectSchemaWrapperInterface */
     $schema_wrapper = ding_seo_get_ting_object_schema_wrapper($ting_object);
   }
 
@@ -131,6 +132,15 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
     drupal_add_http_header('Status', '404 Not Found');
     drupal_exit();
   }
+
+  // We attach borrow actions to reservable materials. But this requires that
+  // a borrow action library has been set.
+  $borrow_action_library = NULL;
+  $borrow_action_library_nid = variable_get('ding_seo_borrow_action_library', '');
+  if (!empty($borrow_action_library_nid)) {
+    $borrow_action_library = node_load($borrow_action_library_nid);
+  }
+  $attach_borrow_actions = !empty($borrow_action_library);
 
   // Common properties.
   $node = [
@@ -164,7 +174,34 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
       $authors = $schema_wrapper->getAuthors();
       $node['author'] = ding_seo_get_person_nodes($authors);
 
-      foreach ($schema_wrapper->getWorkExamples() as $work_example_wrapper) {
+      // Generate work examples for each ting_object in the associated
+      // ting_collection.
+      $collection = ting_collection_load($ting_object->getId());
+      /** @var \TingEntity[] $ting_entities */
+      $ting_entities = $collection->getEntities();
+
+      // Check reservability now for all library materials at once if borrow
+      // acitons should be attached.
+      $reservability = [];
+      if ($attach_borrow_actions) {
+        $local_ids = array_filter(array_map(function ($ting_entity) {
+          if ($ting_entity->is('library_material')) {
+            return $ting_entity->localId;
+          }
+        }, $ting_entities));
+        if (!empty($local_ids)) {
+          $reservability = ding_provider_invoke('reservation', 'is_reservable', $local_ids);
+        }
+      }
+
+      foreach ($ting_entities as $ting_entity) {
+        /** @var \DingSEO\TingObjectSchemaWrapperInterface */
+        $work_example_wrapper = ding_seo_get_ting_object_schema_wrapper($ting_entity->getTingObject());
+
+        if ($work_example_wrapper->getSchemaType() != TingObjectSchemaWrapperInterface::SCHEMA_BOOK) {
+          continue;
+        }
+
         $work_example = [
           '@type' => $schema_type,
           '@id' => $work_example_wrapper->getId(),
@@ -193,8 +230,8 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
           $work_example['sameAs'] = $work_example_same_as_url;
         }
 
-        if ($work_example_wrapper->hasBorrowAction()) {
-          $work_example['potentialAction'] = ding_seo_generate_borrow_action($work_example_wrapper);
+        if (!empty($reservability[$ting_entity->localId])) {
+          $work_example['potentialAction'] = ding_seo_generate_borrow_action($work_example_wrapper, $borrow_action_library);
         }
 
         // Filter out any empty fields before adding to node.
@@ -212,9 +249,13 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
         'producer' => ding_seo_get_person_nodes($schema_wrapper->getProducers()),
       ];
 
-      if ($schema_wrapper->hasBorrowAction()) {
-        $node['potentialAction'] = ding_seo_generate_borrow_action($schema_wrapper);
+      if ($attach_borrow_actions) {
+        $reservability = ding_provider_invoke('reservation', 'is_reservable', [$ting_object->getSourceId()]);
+        if ($reservability[$ting_object->getSourceId()]) {
+          $node['potentialAction'] = ding_seo_generate_borrow_action($schema_wrapper, $borrow_action_library);
+        }
       }
+
       break;
   }
 
@@ -255,19 +296,30 @@ function ding_seo_get_person_nodes(array $names) {
  *   The wrapped ting_object to generate borrow action for.
  *
  * @return array
- *   Array describing borrow action.
+ *   Array describing borrow action JSON-LD.
  */
-function ding_seo_generate_borrow_action(TingObjectSchemaWrapperInterface $schema_wrapper) {
+function ding_seo_generate_borrow_action(TingObjectSchemaWrapperInterface $schema_wrapper, $borrow_action_library) {
+  /** @var \EntityDrupalWrapper */
+  $library_wrapper = entity_metadata_wrapper('node', $borrow_action_library);
+
+  $library_url = url('node/' . $library_wrapper->getIdentifier(), [
+    'absolute' => TRUE,
+  ]);
+  $library_image = $library_wrapper->field_ding_library_title_image->value();
+
   return [
     '@type' => 'BorrowAction',
     'lender' => [
       '@type' => 'Library',
-      '@id' => $schema_wrapper->getLenderLibraryId(),
+      '@id' => $library_url,
+      'url' => $library_url,
+      'name' => $borrow_action_library->title,
+      'image' => file_create_url($library_image['uri']),
     ],
     'target' => [
       '@type' => 'EntryPoint',
-      'urlTemplate' => $schema_wrapper->getBorrowActionTargetUrl(),
-      'actionPlatform' => $schema_wrapper->getBorrowActionTargetPlatform(),
+      'urlTemplate' => $schema_wrapper->getUrl(),
+      'actionPlatform' => 'https://schema.org/DesktopWebPlatform',
     ],
   ];
 }

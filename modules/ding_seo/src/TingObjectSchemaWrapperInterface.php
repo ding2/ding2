@@ -50,15 +50,6 @@ interface TingObjectSchemaWrapperInterface {
   public function getUrl();
 
   /**
-   * Get work examples (editions) of the wrapped ting object.
-   *
-   * @return \DingSEO\TingObjectSchemaWrapperInterface[]
-   *   An array of work examples/editions of this book, which are opensearch
-   *   ting object wrappers themselves.
-   */
-  public function getWorkExamples();
-
-  /**
    * Get image URL for the wrapped ting object.
    *
    * @return string|false
@@ -203,38 +194,6 @@ interface TingObjectSchemaWrapperInterface {
    *   determined.
    */
   public function getDuration();
-
-  /**
-   * Whether the wrapped ting_object has borrow action.
-   *
-   * @return bool
-   *   Whether the ting object should have borrow action.
-   */
-  public function hasBorrowAction();
-
-  /**
-   * The @id of the Library to use as "lender" on borrow actions.
-   *
-   * @return string
-   *   The lender library @id.
-   */
-  public function getLenderLibraryId();
-
-  /**
-   * Get target URL for the material's borrow action.
-   *
-   * @return string
-   *   The borrow action target URL.
-   */
-  public function getBorrowActionTargetUrl();
-
-  /**
-   * Get array of target action platforms for the material's borrow action.
-   *
-   * @return array
-   *   An array of target action platforms.
-   */
-  public function getBorrowActionTargetPlatform();
 
   /**
    * URL of a reference page that identifies the material.

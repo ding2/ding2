@@ -26,18 +26,10 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
   protected $imageUrl;
 
   /**
-   * Whether the work example has borrow action.
-   *
-   * @var bool|null
-   */
-  protected $hasBorrowAction;
-
-  /**
    * TingObjectSchemaWrapperBase constructor.
    */
-  public function __construct(TingObjectInterface $ting_object, $has_borrow_action = NULL) {
+  public function __construct(TingObjectInterface $ting_object) {
     $this->tingObject = $ting_object;
-    $this->hasBorrowAction = $has_borrow_action;
   }
 
   /**
@@ -101,37 +93,6 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
   /**
    * {@inheritdoc}
    */
-  public function getWorkExamples() {
-    $collection = ting_collection_load($this->tingObject->getId());
-    /** @var \TingEntity[] $ting_entities */
-    $ting_entities = $collection->getEntities();
-
-    // Instead of deferring reservability check, use the opportunity now to
-    // check reservability for all 'library_material' work examples at once.
-    $local_ids = array_map(function ($ting_entity) {
-      if ($ting_entity->is('library_material')) {
-        return $ting_entity->localId;
-      }
-    }, $ting_entities);
-    $local_ids = array_filter($local_ids);
-
-    $reservability = [];
-    if (!empty($local_ids)) {
-      $reservability = ding_provider_invoke('reservation', 'is_reservable', $local_ids);
-    }
-
-    $work_examples = array_map(function ($ting_entity) use ($reservability) {
-      $local_id = $ting_entity->localId;
-      $has_borrow_action = isset($reservability[$local_id]) ? $reservability[$local_id] : FALSE;
-      return new static($ting_entity->getTingObject(), $has_borrow_action);
-    }, $ting_entities);
-
-    return $work_examples;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getName() {
     return $this->tingObject->getTitle();
   }
@@ -182,58 +143,6 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
       return reset($isbn13_list);
     }
     return reset($isbn_list);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function hasBorrowAction() {
-    if (isset($this->hasBorrowAction)) {
-      return $this->hasBorrowAction;
-    }
-
-    $this->hasBorrowAction = FALSE;
-
-    /** @var \TingEntity $ting_entity */
-    $ting_entity = ding_entity_load($this->tingObject->getId());
-    if ($ting_entity->is('library_material')) {
-      $local_id = $this->tingObject->getSourceId();
-      $reservability = ding_provider_invoke('reservation', 'is_reservable', [$local_id]);
-      $this->hasBorrowAction = $reservability[$local_id];
-    }
-
-    return $this->hasBorrowAction;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLenderLibraryId() {
-    $lender_library_id = variable_get('ding_seo_lender_library', NULL);
-    if (!isset($lender_library_id)) {
-      // Fallback to picking first library. This should be the correct in most
-      // cases since it will be the first created.
-      $library_nodes = ding_seo_get_library_nodes();
-      $lender_library_id = reset(array_keys($library_nodes));
-    }
-
-    return url("node/$lender_library_id", ['absolute' => TRUE]);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getBorrowActionTargetUrl() {
-    return $this->getObjectUrl();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getBorrowActionTargetPlatform() {
-    return [
-      'https://schema.org/DesktopWebPlatform',
-    ];
   }
 
 }
