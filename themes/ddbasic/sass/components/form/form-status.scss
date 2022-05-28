@@ -14,10 +14,7 @@
 
   > div {
     > .select-all {
-      position: relative;
-      float: left;
       width: 100%;
-      float: left;
       padding: 23px 20px;
       margin: 10px 0;
       background-color: $grey-dark;
@@ -28,8 +25,10 @@
       .form-item {
         margin: 0;
         color: $white;
+
         &.form-disabled {
-          label::before {
+          label::before,
+          input[disabled="disabled"] {
             visibility: hidden;
           }
         }
