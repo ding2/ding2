@@ -351,6 +351,7 @@ function ding_seo_get_library_nodes() {
  */
 function ding_seo_cron() {
   $last_run = variable_get('ding_seo_last_run_sitemap', 0);
+
   // Run once every day.
   if (REQUEST_TIME > $last_run + 86400) {
     ding_seo_update_sitemap();
@@ -370,20 +371,34 @@ function ding_seo_xmlsitemap_link_info() {
 }
 
 /**
- * Updates the xmlsitemaptable with new links.
+ * Updates the sitemap with new links. Trims objects if there are to many.
  */
 function ding_seo_update_sitemap() {
   try {
-    ding_seo_check_sitemap_size();
+    // Check wether to trim any links.
+    $number_of_objects_deleted = ding_seo_check_sitemap_size();
+
     $last_check = variable_get('ding_seo_sitemap_last_check', 0);
-    $objects = ding_seo_get_objects($last_check);
+    // We save the Request time before we do any database operations. So we dont miss
+    // any objects added after we started.
+    $now = REQUEST_TIME;
+
+    // Get the objects added since last check.
+    $objects = db_select('ting_object_sitemap', 't')
+      ->condition('t.created', $last_check, '>')
+      ->fields('t', ['xmlsitemap_link_id', 'ting_object_id'])
+      ->execute()
+      ->fetchAllKeyed();
 
     if (count($objects) > 0) {
+      // Insert the new links into the sitemap table.
       ding_seo_update_sitemap_table($objects);
+
       variable_set('xmlsitemap_regenerate_needed', TRUE);
-      variable_set('ding_seo_sitemap_last_check', time());
+      variable_set('ding_seo_sitemap_last_check', $now);
     }
-    watchdog('ding_seo', 'Updated sitemap: %time', array('%time' => REQUEST_TIME), WATCHDOG_INFO);
+    $replacements = ['%deleted' => $number_of_objects_deleted, '%added' => count($objects)];
+    watchdog('ding_seo', 'Updated sitemap. %deleted objects deleted. %added objects added',$replacements , WATCHDOG_INFO);
   }
   catch (Exception $exception) {
     watchdog_exception('ding_seo', $exception);
@@ -391,50 +406,20 @@ function ding_seo_update_sitemap() {
 }
 
 /**
- * Get the new links from last update.
- */
-function ding_seo_get_objects($last_check) {
-  $objects = [];
-
-  $query = db_select('ting_object_sitemap', 't')
-    ->condition('t.created', $last_check, '>')
-    ->fields('t', ['tid', 'ting_object_id'])
-    ->execute();
-
-  while ($value = $query->fetchAssoc()) {
-    $tid = $value['tid'];
-    $objects[$tid] = $value['ting_object_id'];
-  }
-
-  return $objects;
-}
-
-/**
  * Insert the new links into xmlsitemaptable.
  */
 function ding_seo_update_sitemap_table($objects) {
   $maxid = (int) db_query("SELECT max(id) FROM {xmlsitemap} WHERE type = 'ting_object'")->fetchField() ?: 0;
-  $chunks = array_chunk($objects, 1000, TRUE);
-  foreach ($chunks as $chunk) {
-    // We could use xmlsitemap_link_save but it takes only one link at a time.
-    // For performance reasons we update the database table our selves.
-    $query = db_insert('xmlsitemap')
-      ->fields(array('id', 'type', 'loc', 'language', 'priority'));
-    foreach ($chunk as $id => $object) {
-      // If our id isn't the largest somthings wrong.
-      if ($id > $maxid) {
-        $query->values(
-          [
-            'id' => $id,
-            'type' => 'ting_object',
-            'loc' => 'ting/object/' . $object,
-            'language' => 'und',
-            'priority' => 0.5,
-          ]
-        );
-      }
+  foreach ($objects as $id => $object) {
+    // If our id isn't the largest somthings wrong.
+    if ($id > $maxid) {
+      $link = [
+        'id' => $id,
+        'type' => 'ting_object',
+        'loc' => 'ting/object/' . $object,
+      ];
+      xmlsitemap_link_save($link);
     }
-    $query->execute();
   }
 }
 
@@ -450,11 +435,11 @@ function ding_seo_check_object_for_sitemap($ting_object) {
       db_merge('ting_object_sitemap')
         ->insertFields([
           'ting_object_id' => $ting_object->getId(),
-          'created' => time(),
-          'changed' => time(),
+          'created' => REQUEST_TIME,
+          'changed' => REQUEST_TIME,
         ])
         ->updateFields([
-          'changed' => time(),
+          'changed' => REQUEST_TIME,
         ])
         ->key(['ting_object_id' => $ting_object->getId()])
         ->execute();
@@ -471,54 +456,30 @@ function ding_seo_check_object_for_sitemap($ting_object) {
  * We trim the links which haven't been visited for the longest time.
  */
 function ding_seo_check_sitemap_size() {
+  $number_to_delete = 0;
   $max_size = variable_get('ding_seo_maximum_links_in_sitemap', DING_SEO_DEFAULT_MAXIMUM_SITEMAP_LINKS);
-  $size = (int) db_query("SELECT count(*) FROM {ting_object_sitemap}")->fetchField() ?: 0;
+  $size = (int) db_select('ting_object_sitemap')->fields(NULL, array('field'))->countQuery()->execute()->fetchField();
 
   if ($size > $max_size) {
     $number_to_delete = $size - $max_size;
-    $objects = ding_seo_get_objects_to_delete($number_to_delete);
-    ding_seo_delete_from_table_xmlsitemap($objects);
-    ding_seo_delete_from_sitemap_table($objects);
+    // Get the objects to delete.
+    $objects = db_select('ting_object_sitemap', 't')
+      ->fields('t', ['xmlsitemap_link_id'])
+      ->range(0, $number_to_delete)
+      ->orderBy('t.changed', 'ASC')
+      ->execute()
+      ->fetchCol();
+
+    // Delete objects from xmlsitemap table.
+    db_delete('xmlsitemap')
+      ->condition('id', $objects, 'IN')
+      ->condition('type', 'ting_object')
+      ->execute();
+
+    // Delete objects from ting_object_sitemap table.
+    db_delete('ting_object_sitemap')
+      ->condition('xmlsitemap_link_id', $objects, 'IN')
+      ->execute();
   }
-}
-
-/**
- * Get the old links to delete.
- */
-function ding_seo_get_objects_to_delete($number_to_delete) {
-  $objects = [];
-
-  $query = db_select('ting_object_sitemap', 't')
-    ->fields('t', ['tid'])
-    ->range(0, $number_to_delete)
-    ->orderBy('t.changed', 'ASC')
-    ->execute();
-
-  while ($value = $query->fetchAssoc()) {
-    $objects[] = $value['tid'];
-  }
-  return $objects;
-}
-
-/**
- * Delete old links from xmlsitemaptable.
- */
-function ding_seo_delete_from_table_xmlsitemap($objects) {
-  foreach ($objects as $tid) {
-    $query = db_delete('xmlsitemap');
-    $query->condition('id', $tid);
-    $query->condition('type', 'ting_object');
-    $query->execute();
-  }
-}
-
-/**
- * Delete old links from ting_object_sitemap table.
- */
-function ding_seo_delete_from_sitemap_table($objects) {
-  foreach ($objects as $tid) {
-    $query = db_delete('ting_object_sitemap');
-    $query->condition('tid', $tid);
-    $query->execute();
-  }
+  return $number_to_delete;
 }

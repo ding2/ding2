@@ -14,8 +14,8 @@ function ding_seo_schema() {
   $schema['ting_object_sitemap'] = [
     'description' => 'Local proxy table for ting objects.',
     'fields' => [
-      'tid' => [
-        'description' => 'The primary local identifier for a ting object.',
+      'xmlsitemap_link_id' => [
+        'description' => 'The primary local identifier for a ting object. Used to reference id in xmlsitemaptable',
         'type' => 'serial',
         'unsigned' => TRUE,
         'not null' => TRUE,
@@ -42,10 +42,14 @@ function ding_seo_schema() {
         'default' => 0,
       ],
     ],
-    'indexes' => [
+    'unique keys' => [
       'ding_seo_ting_object_id' => ['ting_object_id'],
     ],
-    'primary key' => ['tid'],
+    'indexes' => [
+      'ding_seo_created' => ['created'],
+      'ding_seo_changed' => ['changed'],
+    ],
+    'primary key' => ['xmlsitemap_link_id'],
   ];
 
   return $schema;
