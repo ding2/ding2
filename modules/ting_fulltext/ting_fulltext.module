@@ -84,7 +84,7 @@ function ting_fulltext_preprocess_ting_relation(&$variables) {
     if ($ting_object instanceof OpenSearchTingObject && in_array('docbook', $relation->getObject()->getTingObject()->getFormatsAvailable())) {
       // For performance reasons we load the review in full text as ajax.
       drupal_add_js(drupal_get_path('module', 'ting_fulltext') . '/js/ting_fulltext.js');
-      $url = url('ting/object/' . $relation->uri . '/fulltext/ajax') ;
+      $url = url('ting/object/' . $relation->uri . '/fulltext/ajax');
       $variables['abstract'] = '<div id="js-ting-lektor-fulltext" data-fulltext-url="' . $url . '">' . $variables['abstract'] . '</div>';
     }
   }
