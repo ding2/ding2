@@ -1012,35 +1012,3 @@ function ding_base_taxonomy_autocomplete($vid, $tag) {
     drupal_json_output($items);
   }
 }
-
-/**
- * Implements hook_cron().
- */
-function ding_base_cron() {
-  // Cleanup stale fields.
-  foreach (field_info_fields() as $field) {
-    if ($field['storage']['type'] != 'field_sql_storage') {
-      continue;
-    }
-
-    foreach ($field['bundles'] as $entity => $bundles) {
-      $entity_info = entity_get_info($entity);
-      if (empty($entity_info)) {
-        $instances = field_read_instances([
-          'field_name' => $field['field_name'],
-          'entity_type' => $entity,
-        ], ['include_inactive' => TRUE]);
-
-        if (!empty($instances)) {
-          foreach ($instances as $instance) {
-            field_delete_instance($instance);
-            field_purge_instance($instance);
-          }
-        }
-
-        field_delete_field($field['field_name']);
-        watchdog('Fields cleanup', t('Deleted field %field', ['%field' => $field['field_name']]));
-      }
-    }
-  }
-}
