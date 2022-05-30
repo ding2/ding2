@@ -352,6 +352,7 @@ function ding_seo_get_library_nodes() {
 function ding_seo_cron() {
   $last_run = variable_get('ding_seo_last_run_sitemap', 0);
 
+  $last_run -= 86400;
   // Run once every day.
   if (REQUEST_TIME > $last_run + 86400) {
     ding_seo_update_sitemap();
@@ -409,17 +410,13 @@ function ding_seo_update_sitemap() {
  * Insert the new links into xmlsitemaptable.
  */
 function ding_seo_update_sitemap_table($objects) {
-  $maxid = (int) db_query("SELECT max(id) FROM {xmlsitemap} WHERE type = 'ting_object'")->fetchField() ?: 0;
   foreach ($objects as $id => $object) {
-    // If our id isn't the largest somthings wrong.
-    if ($id > $maxid) {
-      $link = [
-        'id' => $id,
-        'type' => 'ting_object',
-        'loc' => 'ting/object/' . $object,
-      ];
-      xmlsitemap_link_save($link);
-    }
+    $link = [
+      'id' => $id,
+      'type' => 'ting_object',
+      'loc' => 'ting/object/' . $object,
+    ];
+    xmlsitemap_link_save($link);
   }
 }
 
