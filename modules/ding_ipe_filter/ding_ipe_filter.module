@@ -369,15 +369,16 @@ function ding_ipe_filter_banner_mode_form_submit($form, &$form_state) {
     }
   }
 
-  db_update('panels_pane')
-    ->fields([
-      'configuration' => serialize($pane->configuration),
-    ])
-    ->condition('pid', $pane->pid, '=')
-    ->condition('type', 'custom', '=')
-    ->condition('subtype', 'custom', '=')
-    ->condition('subtype', 'custom', '=')
-    ->execute();
+  if ($pane->pid !== 'new') {
+    db_update('panels_pane')
+      ->fields([
+        'configuration' => serialize($pane->configuration),
+      ])
+      ->condition('pid', $pane->pid, '=')
+      ->condition('type', 'custom', '=')
+      ->condition('subtype', 'custom', '=')
+      ->execute();
+  }
 }
 
 /**
