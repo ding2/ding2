@@ -117,6 +117,13 @@ projects[ding_event_subscriptions][download][url]    = "git@github.com:easySuite
 ;projects[ding_event_subscriptions][download][tag]    = ""
 projects[ding_event_subscriptions][download][branch] = "development"
 
+projects[ding_event_unpublishing][type]             = "module"
+projects[ding_event_unpublishing][subdir]           = ""
+projects[ding_event_unpublishing][download][type]   = "git"
+projects[ding_event_unpublishing][download][url]    = "git@github.com:easySuite/ding_event_unpublishing.git"
+;projects[ding_event_unpublishing][download][tag]    = ""
+projects[ding_event_unpublishing][download][branch] = "development"
+
 projects[ding_header_opening_hours][type]             = "module"
 projects[ding_header_opening_hours][subdir]           = ""
 projects[ding_header_opening_hours][download][type]   = "git"

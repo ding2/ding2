@@ -136,12 +136,8 @@
 
   // Specific style for messages on material item
   .messages {
-    position: absolute;
-    top: 16px;
-    right: 0;
-    width: 190px;
     padding: 10px;
-    margin: 0;
+    margin: 0 0 10px 0;
     background-image: none;
     color: $white;
     border: 0;
