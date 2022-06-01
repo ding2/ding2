@@ -246,3 +246,34 @@ function ding_base_update_7011() {
     ->condition('name', 'samesite_cookie', '=')
     ->execute();
 }
+
+/**
+ * Cleanup stale fields.
+ */
+function ding_base_update_7012() {
+  foreach (field_info_fields() as $field) {
+    if ($field['storage']['type'] != 'field_sql_storage') {
+      continue;
+    }
+
+    foreach ($field['bundles'] as $entity => $bundles) {
+      $entity_info = entity_get_info($entity);
+      if (empty($entity_info)) {
+        $instances = field_read_instances([
+          'field_name' => $field['field_name'],
+          'entity_type' => $entity,
+        ], ['include_inactive' => TRUE]);
+
+        if (!empty($instances)) {
+          foreach ($instances as $instance) {
+            field_delete_instance($instance);
+            field_purge_instance($instance);
+          }
+        }
+
+        field_delete_field($field['field_name']);
+        watchdog('ding_base', t('Deleted field %field', ['%field' => $field['field_name']]));
+      }
+    }
+  }
+}
