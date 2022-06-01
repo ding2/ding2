@@ -995,6 +995,9 @@ $label-bg: url('../images/p.png');
     &.has-image {
       .inner {
         padding: 0 $box-padding 10px $box-padding;
+        @include media($mobile) {
+          margin-top: 200px;
+        }
       }
 
       .text {
@@ -1276,23 +1279,18 @@ $label-bg: url('../images/p.png');
     &:hover {
       z-index: 2;
     }
+
+    @include media($mobile) {
+      .nb-image {
+        display: block;
+      }
+    }
   }
 
   .more-links {
     margin-right: 25px;
     float: left;
     clear: left;
-
-    @include media($mobile) {
-      ul {
-        display: block;
-        padding-left: 0;
-        margin-bottom: 0;
-        li {
-          margin: 80px 0 0 0;
-        }
-      }
-    }
   }
 }
 

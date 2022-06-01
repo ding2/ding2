@@ -1223,6 +1223,11 @@
 .ding_nodelist-node_blocks .nb-item.has-image .inner {
   padding: 0 15px 10px 15px;
 }
+@media screen and (max-width: 600px) {
+  .ding_nodelist-node_blocks .nb-item.has-image .inner {
+    margin-top: 200px;
+  }
+}
 .ding_nodelist-node_blocks .nb-item.has-image .text {
   padding-top: 215px;
 }
@@ -1499,20 +1504,15 @@
 .ding_nodelist-node_blocks .nb-item:hover {
   z-index: 2;
 }
+@media screen and (max-width: 600px) {
+  .ding_nodelist-node_blocks .nb-item .nb-image {
+    display: block;
+  }
+}
 .ding_nodelist-node_blocks .more-links {
   margin-right: 25px;
   float: left;
   clear: left;
-}
-@media screen and (max-width: 600px) {
-  .ding_nodelist-node_blocks .more-links ul {
-    display: block;
-    padding-left: 0;
-    margin-bottom: 0;
-  }
-  .ding_nodelist-node_blocks .more-links ul li {
-    margin: 80px 0 0 0;
-  }
 }
 
 .ding_nodelist-grid_images .ding_nodelist-items {

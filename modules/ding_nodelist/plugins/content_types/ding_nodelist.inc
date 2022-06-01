@@ -105,27 +105,25 @@ function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
   }
   $theme_func = 'ding_nodelist_widget_' . $conf['widget_type'];
 
+  $widget_conf = [
+    'title' => $title,
+    'classes' => implode(' ', $classes),
+    'image_style' => _ding_nodelist_init_image_style($conf['widget_type']),
+    'sorting' => $conf['sort_field'],
+    'image_field' => !empty($conf['image_field']) ? $conf['image_field'] : '',
+    'unique_id' => $conf['unique_id'],
+  ];
+
   if ($conf['widget_type'] == DING_NODELIST_WIDGET_NODE_BLOCKS) {
-    drupal_add_js([
-      'ding_nodelist' => [
-        'node_blocks' => [
-          'displayMobileImage' => isset($conf['display_mobile_image']) ? $conf['display_mobile_image'] : 0,
-        ],
-      ],
-    ], 'setting');
+    $widget_conf += [
+      'display_mobile_image' => isset($conf['display_mobile_image']) ? $conf['display_mobile_image'] : 0
+    ];
   }
 
   $block->content = theme($theme_func, array(
     'items' => $nodes,
     'links' => $conf['more_links'],
-    'conf' => array(
-      'title' => $title,
-      'classes' => implode(' ', $classes),
-      'image_style' => _ding_nodelist_init_image_style($conf['widget_type']),
-      'sorting' => $conf['sort_field'],
-      'image_field' => !empty($conf['image_field']) ? $conf['image_field'] : '',
-      'unique_id' => $conf['unique_id'],
-    ),
+    'conf' => $widget_conf,
   ));
 
   return $block;
