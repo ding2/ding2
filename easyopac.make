@@ -453,6 +453,13 @@ projects[emailkanon][download][url]    = "git@github.com:easySuite/emailkanon.gi
 ;projects[emailkanon][download][branch] = "master"
 projects[emailkanon][download][branch] = "development"
 
+projects[ims][type]             = "module"
+projects[ims][subdir]           = ""
+projects[ims][download][type]   = "git"
+projects[ims][download][url]    = "git@github.com:easySuite/ims.git"
+;projects[ims][download][branch] = "main"
+projects[ims][download][branch] = "development"
+
 projects[kultunaut_events][type]             = "module"
 projects[kultunaut_events][subdir]           = ""
 projects[kultunaut_events][download][type]   = "git"
