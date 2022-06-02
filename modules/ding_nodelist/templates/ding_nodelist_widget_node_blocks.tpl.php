@@ -8,7 +8,7 @@
 ?>
 <?php if ($items): ?>
   <div class="<?php print $conf['classes'] ?>">
-    <div class="ding_nodelist-items">
+    <div class="ding_nodelist-items" data-display-images-on-mobile="<?php print $conf['display_mobile_image']; ?>">
       <?php
       $i = 0;
       foreach ($items as $k => $node) {

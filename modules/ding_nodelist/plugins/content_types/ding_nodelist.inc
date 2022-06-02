@@ -105,17 +105,25 @@ function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
   }
   $theme_func = 'ding_nodelist_widget_' . $conf['widget_type'];
 
+  $widget_conf = [
+    'title' => $title,
+    'classes' => implode(' ', $classes),
+    'image_style' => _ding_nodelist_init_image_style($conf['widget_type']),
+    'sorting' => $conf['sort_field'],
+    'image_field' => !empty($conf['image_field']) ? $conf['image_field'] : '',
+    'unique_id' => $conf['unique_id'],
+  ];
+
+  if ($conf['widget_type'] == DING_NODELIST_WIDGET_NODE_BLOCKS) {
+    $widget_conf += [
+      'display_mobile_image' => isset($conf['display_mobile_image']) ? $conf['display_mobile_image'] : 0
+    ];
+  }
+
   $block->content = theme($theme_func, array(
     'items' => $nodes,
     'links' => $conf['more_links'],
-    'conf' => array(
-      'title' => $title,
-      'classes' => implode(' ', $classes),
-      'image_style' => _ding_nodelist_init_image_style($conf['widget_type']),
-      'sorting' => $conf['sort_field'],
-      'image_field' => !empty($conf['image_field']) ? $conf['image_field'] : '',
-      'unique_id' => $conf['unique_id'],
-    ),
+    'conf' => $widget_conf,
   ));
 
   return $block;
@@ -403,6 +411,7 @@ function _ding_nodelist_content_type_form_save(&$form_state, $rebuild = FALSE) {
   $form_state['conf']['content_filter_date'] = $form_state['values']['content_filter_date'];
   $form_state['conf']['content_types'] = $form_state['values']['content_types'];
 
+  $form_state['conf']['display_mobile_image'] = $form_state['values']['display_mobile_image'];
   $form_state['conf']['limit'] = $form_state['values']['limit'];
   $form_state['conf']['more_links'] = !empty($form_state['values']['more_links']) ? $form_state['values']['more_links'] : array();
   $form_state['conf']['override_title'] = $form_state['values']['override_title'];
@@ -843,6 +852,19 @@ function _ding_nodelist_plugin_various_section(&$form = array(), $node_type = ar
       ),
     ),
   );
+
+  $form['ding_nodelist_wrapper']['nodelist_various_settings']['display_mobile_image'] = [
+    '#type' => 'checkbox',
+    '#title' => t('View images on mobile devices.'),
+    '#default_value' => isset($conf['display_mobile_image']) ? $conf['display_mobile_image'] : FALSE,
+    '#states' => [
+      'visible' => [
+        'select[name=widget_type]' => [
+          ['value' => DING_NODELIST_WIDGET_NODE_BLOCKS],
+        ],
+      ],
+    ],
+  ];
 
   // Initialize drop-down array's values.
   $options = array(0 => 'none') +

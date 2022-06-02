@@ -13,7 +13,7 @@ if (!empty($item->image)) {
   $image = '<div class="ding-news-list-image nb-image" style="background-image:url(' . $item->image . ');"></div>';
 }
 ?>
-<article data-row="<?php print $row; ?>" data-column=" <?php print $column; ?>"
+<article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
          class="node node-ding-news node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>"<?php print $attributes; ?>>
   <a href="<?php print '/node/' . $item->nid; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>">
     <div class="inner">
