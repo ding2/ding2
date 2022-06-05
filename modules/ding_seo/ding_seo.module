@@ -380,9 +380,6 @@ function ding_seo_update_sitemap() {
     $number_of_objects_deleted = ding_seo_check_sitemap_size();
 
     $last_check = variable_get('ding_seo_sitemap_last_check', 0);
-    // We save the Request time before we do any database operations. So we dont miss
-    // any objects added after we started.
-    $now = REQUEST_TIME;
 
     // Get the objects added since last check.
     $objects = db_select('ting_object_sitemap', 't')
@@ -396,7 +393,8 @@ function ding_seo_update_sitemap() {
       ding_seo_update_sitemap_table($objects);
 
       variable_set('xmlsitemap_regenerate_needed', TRUE);
-      variable_set('ding_seo_sitemap_last_check', $now);
+      // Use REQUEST_TIME so we don't miss any objects.
+      variable_set('ding_seo_sitemap_last_check', REQUEST_TIME);
     }
     $replacements = ['%deleted' => $number_of_objects_deleted, '%added' => count($objects)];
     watchdog('ding_seo', 'Updated sitemap. %deleted objects deleted. %added objects added',$replacements , WATCHDOG_INFO);
