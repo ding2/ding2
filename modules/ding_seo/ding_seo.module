@@ -249,9 +249,13 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
       ];
 
       if ($attach_borrow_actions) {
-        $reservability = ding_provider_invoke('reservation', 'is_reservable', [$ting_object->getSourceId()]);
-        if ($reservability[$ting_object->getSourceId()]) {
-          $node['potentialAction'] = ding_seo_generate_borrow_action($schema_wrapper, $borrow_action_library);
+        /** @var \TingEntity $ting_entity */
+        $ting_entity = ding_entity_load($ting_object->getId());
+        if ($ting_entity->is('library_material')) {
+          $reservability = ding_provider_invoke('reservation', 'is_reservable', [$ting_object->getSourceId()]);
+          if ($reservability[$ting_object->getSourceId()]) {
+            $node['potentialAction'] = ding_seo_generate_borrow_action($schema_wrapper, $borrow_action_library);
+          }
         }
       }
 
