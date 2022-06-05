@@ -314,7 +314,7 @@ function ding_seo_generate_borrow_action(TingObjectSchemaWrapperInterface $schem
     '@type' => 'BorrowAction',
     'lender' => [
       '@type' => 'Library',
-      '@id' => $library_url,
+      '@id' => $library_wrapper->getIdentifier(),
       'url' => $library_url,
       'name' => $borrow_action_library->title,
       'image' => file_create_url($library_image['uri']),

@@ -36,7 +36,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[node:url:absolute]',
       ),
       'og:title' => array(
-        'value' => 'node:title]',
+        'value' => '[node:title]',
       ),
       'og:description' => array(
         'value' => '[node:field_ding_event_lead]',
@@ -56,23 +56,11 @@ function ding_seo_metatag_export_default() {
       'og:image:height' => array(
         'value' => '[node:field_ding_event_title_image:ding_secondary_large:height]',
       ),
-      'og:street_address' => array(
-        'value' => '[node:ding_seo_node_tokens:street_address]',
-      ),
-      'og:locality' => array(
-        'value' => '[node:ding_seo_node_tokens:address_locality]',
-      ),
-      'og:postal_code' => array(
-        'value' => '[node:ding_seo_node_tokens:postal_code]',
-      ),
-      'og:country_name' => array(
-        'value' => '[node:ding_seo_node_tokens:address_country]',
-      ),
       'schema_event.@type' => array(
         'value' => 'Event',
       ),
       'schema_event.@id' => array(
-        'value' => '[node:url]',
+        'value' => '[node:nid]',
       ),
       'schema_event.name' => array(
         'value' => '[node:title]',
@@ -93,7 +81,7 @@ function ding_seo_metatag_export_default() {
         'value' => 'a:5:{s:5:"@type";s:5:"Place";s:4:"name";s:41:"[node:ding_seo_node_tokens:location_name]";s:3:"url";s:40:"[node:ding_seo_node_tokens:location_url]";s:7:"address";a:5:{s:5:"@type";s:13:"PostalAddress";s:13:"streetAddress";s:42:"[node:ding_seo_node_tokens:street_address]";s:15:"addressLocality";s:44:"[node:ding_seo_node_tokens:address_locality]";s:10:"postalCode";s:39:"[node:ding_seo_node_tokens:postal_code]";s:14:"addressCountry";s:43:"[node:ding_seo_node_tokens:address_country]";}s:3:"geo";a:3:{s:5:"@type";s:14:"GeoCoordinates";s:8:"latitude";s:52:"[node:og-group-ref:0:field-ding-library-geocode:lat]";s:9:"longitude";s:52:"[node:og-group-ref:0:field-ding-library-geocode:lon]";}}',
       ),
       'schema_event.url' => array(
-        'value' => '[node:url]',
+        'value' => '[node:url:absolute]',
       ),
     ),
   );
@@ -107,7 +95,7 @@ function ding_seo_metatag_export_default() {
         'value' => 'Library',
       ),
       'schema_organization.@id' => array(
-        'value' => '[node:url]',
+        'value' => '[node:nid]',
       ),
       'schema_organization.name' => array(
         'value' => '[node:title]',
@@ -145,7 +133,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[node:url:absolute]',
       ),
       'og:title' => array(
-        'value' => 'node:title]',
+        'value' => '[node:title]',
       ),
       'og:description' => array(
         'value' => '[node:field_ding_news_lead]',
@@ -210,6 +198,7 @@ function ding_seo_metatag_export_default() {
   // Exported Metatag config instance: node:ding_page.
   $config['node:ding_page'] = array(
     'instance' => 'node:ding_page',
+    'disabled' => FALSE,
     'config' => array(
       'og:type' => array(
         'value' => 'website',

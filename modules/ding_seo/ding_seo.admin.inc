@@ -53,7 +53,7 @@ function ding_seo_admin_settings($form, &$form_state) {
 
   $form['metadata']['ding_seo_borrow_action_library'] = [
     '#type' => 'select',
-    '#title' => t('Borrow actions'),
+    '#title' => t('Borrow action library'),
     '#description' => t('Select which library to reference as <em>lender</em> in JSON-LD structured data to enable borrow actions for material views. The borrow action will only be added if the material is reservable in the library system.'),
     '#default_value' => variable_get('ding_seo_borrow_action_library', ''),
     '#empty_option' => t('- Disable Borrow Actions -'),
