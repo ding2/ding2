@@ -91,6 +91,33 @@ function ding_seo_metatag_export_default() {
     'instance' => 'node:ding_library',
     'disabled' => FALSE,
     'config' => array(
+      'og:type' => array(
+        'value' => 'website',
+      ),
+      'og:url' => array(
+        'value' => 'node:url:absolute]',
+      ),
+      'og:title' => array(
+        'value' => 'node:title]',
+      ),
+      'og:description' => array(
+        'value' => '[node:field_ding_library_lead]',
+      ),
+      'og:updated_time' => array(
+        'value' => '[node:changed:custom:c]',
+      ),
+      'og:image' => array(
+        'value' => '[node:field_ding_library_title_image:ding_primary_large:path]',
+      ),
+      'og:image:type' => array(
+        'value' => '[node:field_ding_event_title_image:ding_secondary_large:mimetype]',
+      ),
+      'og:image:width' => array(
+        'value' => '[node:field_ding_library_title_image:ding_primary_large:width]',
+      ),
+      'og:image:height' => array(
+        'value' => '[node:field_ding_page_title_image:ding_panorama_primary_large:height]',
+      ),
       'schema_organization.@type' => array(
         'value' => 'Library',
       ),

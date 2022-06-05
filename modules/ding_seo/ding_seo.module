@@ -63,7 +63,7 @@ function ding_seo_xautoload(LocalDirectoryAdapter $adapter) {
  * @param \Ting\TingObjectInterface $ting_object
  *   The ting object to be wrapped.
  *
- * @return \Ting\TingObjectSchemaWrapperInterface|null
+ * @return \DingSeo\TingObjectSchemaWrapperInterface|null
  *   provider specific ting object schema wrapper. NULL if search provider
  *   doesn't implement or the wrapper didn't implement required interface.
  */

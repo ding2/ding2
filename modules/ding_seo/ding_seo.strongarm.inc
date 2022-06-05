@@ -137,9 +137,9 @@ function ding_seo_strongarm() {
   $strongarm->value = array(
     'basic' => 'basic',
     'advanced' => 'advanced',
+    'open-graph' => 'open-graph',
     'verification' => 'verification',
     'schema_organization' => 'schema_organization',
-    'open-graph' => 0,
     'schema_article' => 0,
     'schema_event' => 0,
   );
