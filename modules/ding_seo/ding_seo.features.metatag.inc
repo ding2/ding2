@@ -199,7 +199,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[node:field_ding_news_lead]',
       ),
       'schema_article.author' => array(
-        'value' => 'a:5:{s:5:"@type";s:12:"Organization";s:3:"@id";s:10:"[site:url]";s:4:"name";s:11:"[site:name]";s:3:"url";s:10:"[site:url]";s:4:"logo";a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:26:"[ding_seo_logo_tokens:url]";s:5:"width";s:28:"[ding_seo_logo_tokens:width]";s:6:"height";s:29:"[ding_seo_logo_tokens:height]";}}',
+        'value' => 'a:5:{s:5:"@type";s:6:"Person";s:3:"@id";s:17:"[node:author:uid]";s:4:"name";s:18:"[node:author:name]";s:3:"url";s:17:"[node:author:url]";s:4:"logo";a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:26:"[ding_seo_logo_tokens:url]";s:5:"width";s:28:"[ding_seo_logo_tokens:width]";s:6:"height";s:29:"[ding_seo_logo_tokens:height]";}}',
       ),
       'schema_article.publisher' => array(
         'value' => 'a:5:{s:5:"@type";s:12:"Organization";s:3:"@id";s:10:"[site:url]";s:4:"name";s:11:"[site:name]";s:3:"url";s:10:"[site:url]";s:4:"logo";a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:26:"[ding_seo_logo_tokens:url]";s:5:"width";s:28:"[ding_seo_logo_tokens:width]";s:6:"height";s:29:"[ding_seo_logo_tokens:height]";}}',
@@ -214,7 +214,7 @@ function ding_seo_metatag_export_default() {
         'value' => 'a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:60:"[node:field_ding_news_title_image:ding_secondary_large:path]";s:5:"width";s:61:"[node:field_ding_news_title_image:ding_secondary_large:width]";s:6:"height";s:62:"[node:field_ding_news_title_image:ding_secondary_large:height]";}',
       ),
       'schema_article.mainEntityOfPage' => array(
-        'value' => '[current-page:url]',
+        'value' => '[node:url:absolute]',
       ),
       'schema_article.about' => array(
         'value' => '[node:field_ding_news_tags]',
