@@ -254,6 +254,24 @@ function ding_seo_metatag_export_default() {
       'og:image:height' => array(
         'value' => '[node:field_ding_page_title_image:ding_panorama_primary_large:height]',
       ),
+      'schema_web_page.@id' => array(
+        'value' => '[node:nid]',
+      ),
+      'schema_web_page.name' => array(
+        'value' => '[node:title]',
+      ),
+      'schema_web_page.description' => array(
+        'value' => '[node:field_ding_page_lead]',
+      ),
+      'schema_web_page.publisher' => array(
+        'value' => 'a:5:{s:5:"@type";s:12:"Organization";s:3:"@id";s:10:"[site:url]";s:4:"name";s:11:"[site:name]";s:3:"url";s:10:"[site:url]";s:4:"logo";a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:26:"[ding_seo_logo_tokens:url]";s:5:"width";s:28:"[ding_seo_logo_tokens:width]";s:6:"height";s:29:"[ding_seo_logo_tokens:height]";}}',
+      ),
+      'schema_web_page.url' => array(
+        'value' => '[node:url:absolute]',
+      ),
+      'schema_web_page.inLanguage' => array(
+        'value' => '[node:ding_seo_node_tokens:language]',
+      ),
     ),
   );
 

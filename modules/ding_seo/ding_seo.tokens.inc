@@ -19,48 +19,52 @@ function ding_seo_token_info() {
     'name' => t('Ding SEO logo tokens'),
   ];
   $info['tokens']['node']['ding_seo_node_tokens'] = array(
-    'name' => t("Ding SEO node tokens"),
+    'name' => t('Ding SEO node tokens'),
     'description' => t('Group of node tokens defined by Ding SEO for use in structured data'),
     'type' => 'ding_seo_node_tokens',
   );
 
   // Define tokens supported on ding_seo_node_tokens.
   $info['tokens']['ding_seo_node_tokens']['location_name'] = array(
-    'name' => t("Location Name"),
+    'name' => t('Location Name'),
     'description' => t('The name of the location'),
   );
   $info['tokens']['ding_seo_node_tokens']['location_url'] = [
-    'name' => t("Location Url"),
+    'name' => t('Location Url'),
     'description' => t('The URL of the location'),
   ];
   $info['tokens']['ding_seo_node_tokens']['postal_code'] = [
-    'name' => t("Postal Code"),
+    'name' => t('Postal Code'),
     'description' => t('Postal Code of the location'),
   ];
   $info['tokens']['ding_seo_node_tokens']['street_address'] = [
-    'name' => t("Street Address"),
+    'name' => t('Street Address'),
     'description' => t('Street Address of the location'),
   ];
   $info['tokens']['ding_seo_node_tokens']['address_locality'] = [
-    'name' => t("Address Locality"),
+    'name' => t('Address Locality'),
     'description' => t('City area of the location'),
   ];
   $info['tokens']['ding_seo_node_tokens']['address_country'] = [
-    'name' => t("Address Country"),
+    'name' => t('Address Country'),
     'description' => t('Country of the location'),
+  ];
+  $info['tokens']['ding_seo_node_tokens']['language'] = [
+    'name' => t('Language'),
+    'description' => t('Language of the node if defined otherwise default to <em>da</em> (danish)'),
   ];
 
   // Ding SEO logo tokens.
   $info['tokens']['ding_seo_logo_tokens']['width'] = [
-    'name' => t("Logo width"),
+    'name' => t('Logo width'),
     'description' => t('Width of the logo'),
   ];
   $info['tokens']['ding_seo_logo_tokens']['height'] = [
-    'name' => t("Logo height"),
+    'name' => t('Logo height'),
     'description' => t('Height of the logo'),
   ];
   $info['tokens']['ding_seo_logo_tokens']['url'] = [
-    'name' => t("Logo URL"),
+    'name' => t('Logo URL'),
     'description' => t('URL of the logo'),
   ];
 
@@ -149,6 +153,11 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
               'absolute' => TRUE,
             ]);
           }
+          break;
+
+        case 'language':
+          $language = $node->language;
+          $replacements[$original] = $language != LANGUAGE_NONE ? $language : 'da';
           break;
       }
     }

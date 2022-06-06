@@ -22,6 +22,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_file_audio'] = $strongarm;
 
@@ -37,6 +38,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_file_document'] = $strongarm;
 
@@ -52,6 +54,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_file_image'] = $strongarm;
 
@@ -67,6 +70,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_file_video'] = $strongarm;
 
@@ -82,6 +86,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_campaign_plus'] = $strongarm;
 
@@ -97,6 +102,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_eresource'] = $strongarm;
 
@@ -112,6 +118,7 @@ function ding_seo_strongarm() {
     'schema_event' => 'schema_event',
     'schema_article' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_event'] = $strongarm;
 
@@ -127,6 +134,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_group'] = $strongarm;
 
@@ -142,6 +150,7 @@ function ding_seo_strongarm() {
     'schema_organization' => 'schema_organization',
     'schema_article' => 0,
     'schema_event' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_library'] = $strongarm;
 
@@ -157,6 +166,7 @@ function ding_seo_strongarm() {
     'schema_article' => 'schema_article',
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_news'] = $strongarm;
 
@@ -169,6 +179,7 @@ function ding_seo_strongarm() {
     'advanced' => 'advanced',
     'open-graph' => 'open-graph',
     'verification' => 'verification',
+    'schema_web_page' => 'schema_web_page',
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
@@ -187,6 +198,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_node_ding_rolltab'] = $strongarm;
 
@@ -202,6 +214,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_node_panel'] = $strongarm;
 
@@ -217,6 +230,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_node_webform'] = $strongarm;
 
@@ -232,6 +246,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_profile2_ding_staff_profile'] = $strongarm;
 
@@ -247,6 +262,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_profile2_provider_fbs'] = $strongarm;
 
@@ -262,6 +278,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_category'] = $strongarm;
 
@@ -277,6 +294,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_ding_content_tags'] = $strongarm;
 
@@ -292,6 +310,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_ding_staff_department'] = $strongarm;
 
@@ -307,6 +326,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_event_category'] = $strongarm;
 
@@ -322,6 +342,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_event_organizer'] = $strongarm;
 
@@ -337,6 +358,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_event_target'] = $strongarm;
 
@@ -352,6 +374,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_e_resource_availability'] = $strongarm;
 
@@ -367,6 +390,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_e_resource_category'] = $strongarm;
 
@@ -382,6 +406,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_group_category'] = $strongarm;
 
@@ -397,6 +422,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_news_category'] = $strongarm;
 
@@ -412,6 +438,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_taxonomy_term_section'] = $strongarm;
 
@@ -427,6 +454,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_ting_collection_ting_collection'] = $strongarm;
 
@@ -442,6 +470,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_ting_object_ting_object'] = $strongarm;
 
@@ -457,6 +486,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_ting_type_smart_search_string'] = $strongarm;
 
@@ -472,6 +502,7 @@ function ding_seo_strongarm() {
     'schema_article' => 0,
     'schema_event' => 0,
     'schema_organization' => 0,
+    'schema_web_page' => 0,
   );
   $export['metatag_entity_type_groups_user_user'] = $strongarm;
 

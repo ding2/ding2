@@ -19,6 +19,7 @@ dependencies[] = metatag:metatag_verification
 dependencies[] = schema_article
 dependencies[] = schema_event
 dependencies[] = schema_organization
+dependencies[] = schema_web_page
 dependencies[] = strongarm
 dependencies[] = xmlsitemap_custom
 dependencies[] = xmlsitemap_engines
