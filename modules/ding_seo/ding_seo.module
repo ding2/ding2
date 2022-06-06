@@ -403,8 +403,11 @@ function ding_seo_update_sitemap() {
       // Use REQUEST_TIME so we don't miss any objects.
       variable_set('ding_seo_sitemap_last_check', REQUEST_TIME);
     }
-    $replacements = ['%deleted' => $number_of_objects_deleted, '%added' => count($objects)];
-    watchdog('ding_seo', 'Updated sitemap. %deleted objects deleted. %added objects added',$replacements , WATCHDOG_INFO);
+    $replacements = [
+      '%deleted' => $number_of_objects_deleted,
+      '%added' => count($objects),
+    ];
+    watchdog('ding_seo', 'Updated sitemap. %deleted objects deleted. %added objects added', $replacements, WATCHDOG_INFO);
   }
   catch (Exception $exception) {
     watchdog_exception('ding_seo', $exception);
