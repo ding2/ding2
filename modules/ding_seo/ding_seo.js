@@ -10,8 +10,8 @@
   // once and have no need to interact with other elements on the page.
   $(function() {
     var tingObjectId = Drupal.settings.dingSeo.tingObjectId;
-    $.get(`/ding_seo/jsonld/ting_object/${tingObjectId}`, function(jsonld) {
-      $('head').append(jsonld);
+    $.getJSON(`/ding_seo/jsonld/ting_object/${tingObjectId}`, function(data) {
+      $('head').append(data.jsonLd);
     });
   });
 })(jQuery);

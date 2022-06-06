@@ -273,7 +273,10 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
   ];
   $jsonld = SchemaMetatagManager::encodeJsonld($jsonld);
   $jsonld = SchemaMetatagManager::renderArrayJsonLd($jsonld);
-  print drupal_render($jsonld);
+  $output = [
+    'jsonLd' => drupal_render($jsonld),
+  ];
+  drupal_json_output($output);
   drupal_exit();
 }
 
