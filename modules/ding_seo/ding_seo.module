@@ -168,6 +168,9 @@ function ding_seo_jsonld_ting_object_callback($ting_object_id) {
     }
   }
 
+  // Currently we only support "Book" and "Movie" schema.org types. We have
+  // prioritized these, since these are featured in the google guidelines for
+  // structured data and we expect these to have the greatest effect.
   switch ($schema_type) {
     case TingObjectSchemaWrapperInterface::SCHEMA_BOOK:
       $authors = $schema_wrapper->getAuthors();
