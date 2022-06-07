@@ -125,7 +125,7 @@
           linkId: 'Slet valgte reservering',
           customClickParameter: {}
         };
-        eventData.customClickParameter[DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_SELECTED] = numberSelected;
+        eventData.customClickParameter[DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_SELECTED] = numberSelected.toString();
         pushEvent('click', eventData);
       }
 

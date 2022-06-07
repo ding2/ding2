@@ -400,7 +400,7 @@ function _ding_webtrekk_delete_alle_reservations_event(&$form, &$form_state) {
   ding_webtrekk_attach_event(
     $form['actions_container']['actions_top']['delete_all']['#attributes'],
     'Slet alle reserveringer',
-    [DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_ALL => $count_reservations]
+    [DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_ALL => (string) $count_reservations]
   );
 
   // The delete selected is handled in js.
