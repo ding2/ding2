@@ -98,7 +98,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[node:url:absolute]',
       ),
       'og:title' => array(
-        'value' => 'node:title]',
+        'value' => '[node:title]',
       ),
       'og:description' => array(
         'value' => '[node:field_ding_library_lead]',
