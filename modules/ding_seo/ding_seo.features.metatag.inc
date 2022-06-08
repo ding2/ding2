@@ -95,7 +95,7 @@ function ding_seo_metatag_export_default() {
         'value' => 'website',
       ),
       'og:url' => array(
-        'value' => 'node:url:absolute]',
+        'value' => '[node:url:absolute]',
       ),
       'og:title' => array(
         'value' => 'node:title]',
