@@ -362,7 +362,6 @@ function ding_seo_get_library_nodes() {
 function ding_seo_cron() {
   $last_run = variable_get('ding_seo_last_run_sitemap', 0);
 
-  $last_run -= 86400;
   // Run once every day.
   if (REQUEST_TIME > $last_run + 86400) {
     ding_seo_update_sitemap();
