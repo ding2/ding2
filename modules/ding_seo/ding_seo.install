@@ -55,6 +55,23 @@ function ding_seo_schema() {
   return $schema;
 }
 
+/**
+ * Implements hook_install()
+ */
+function ding_seo_install() {
+  // We want the libraries to have borrow actions enabled on automatically on
+  // release and a reasonable default is to pick the first ding_library node
+  // in the 'ding_library_listing' nodequeue as borrow action library.
+  $queue = nodequeue_load_queue_by_name('ding_library_listing');
+  $sub_queues = nodequeue_load_subqueues_by_queue($queue->qid);
+  $sub_queue = reset($sub_queues);
+  $sub_queue_nodes = nodequeue_load_nodes($sub_queue->sqid);
+  if (!empty($sub_queue_nodes)) {
+    $first_library_node = reset($sub_queue_nodes);
+    variable_set('ding_seo_borrow_action_library', $first_library_node->nid);
+  }
+}
+
  /**
   * Implements hook_uninstall().
   */
