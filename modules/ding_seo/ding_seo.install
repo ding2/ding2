@@ -56,7 +56,7 @@ function ding_seo_schema() {
 }
 
 /**
- * Implements hook_install()
+ * Implements hook_install().
  */
 function ding_seo_install() {
   // We want the libraries to have borrow actions enabled on automatically on
