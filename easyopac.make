@@ -439,6 +439,13 @@ projects[easyopac_status][download][url]    = "git@github.com:easySuite/easyopac
 ;projects[easyopac_status][download][tag]    = ""
 projects[easyopac_status][download][branch] = "development"
 
+projects[easyopac_second_menu][type]             = "module"
+projects[easyopac_second_menu][subdir]           = ""
+projects[easyopac_second_menu][download][type]   = "git"
+projects[easyopac_second_menu][download][url]    = "git@github.com:easySuite/easyopac_second_menu.git"
+;projects[easyopac_second_menu][download][tag]    = ""
+projects[easyopac_second_menu][download][branch] = "development"
+
 projects[easyopac_wysiwyg_button][type]             = "module"
 projects[easyopac_wysiwyg_button][subdir]           = ""
 projects[easyopac_wysiwyg_button][download][type]   = "git"
