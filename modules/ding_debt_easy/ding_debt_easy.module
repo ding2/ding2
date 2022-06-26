@@ -95,7 +95,7 @@ function ding_debt_easy_menu() {
     'page callback' => '_ding_debt_easy_webhook',
     // Allow all to make the callback regardless of permissions. This ensures
     // that nets always can call this callback.
-    'access arguments' => TRUE,
+    'access callback' => TRUE,
   ];
 
   return $items;
