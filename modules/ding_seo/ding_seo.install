@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @file
+ * Ding SEO install file.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_seo_schema() {
+  $schema = [];
+
+  $schema['ting_object_sitemap'] = [
+    'description' => 'Local proxy table for ting objects.',
+    'fields' => [
+      'xmlsitemap_link_id' => [
+        'description' => 'The primary local identifier for a ting object. Used to reference id in xmlsitemaptable',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'ting_object_id' => [
+        'description' => 'The ting object id.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'created' => [
+        'description' => 'Timestamp for creation of record',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'changed' => [
+        'description' => 'Timestamp for changing of record',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'unique keys' => [
+      'ding_seo_ting_object_id' => ['ting_object_id'],
+    ],
+    'indexes' => [
+      'ding_seo_created' => ['created'],
+      'ding_seo_changed' => ['changed'],
+    ],
+    'primary key' => ['xmlsitemap_link_id'],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function ding_seo_install() {
+  // We want the libraries to have borrow actions enabled on automatically on
+  // release and a reasonable default is to pick the first ding_library node
+  // in the 'ding_library_listing' nodequeue as borrow action library.
+  $queue = nodequeue_load_queue_by_name('ding_library_listing');
+  $sub_queues = nodequeue_load_subqueues_by_queue($queue->qid);
+  $sub_queue = reset($sub_queues);
+  $sub_queue_nodes = nodequeue_load_nodes($sub_queue->sqid);
+  if (!empty($sub_queue_nodes)) {
+    $first_library_node = reset($sub_queue_nodes);
+    variable_set('ding_seo_borrow_action_library', $first_library_node->nid);
+  }
+}
+
+ /**
+  * Implements hook_uninstall().
+  */
+function ding_seo_uninstall() {
+  // Unset variables.
+  variable_del('ding_seo_last_run_sitemap');
+  variable_del('ding_seo_maximum_links_in_sitemap');
+  variable_del('ding_seo_sitemap_last_check');
+  variable_del('ding_seo_borrow_action_library');
+}

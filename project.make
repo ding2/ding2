@@ -166,6 +166,9 @@ projects[htmlmail][version] = "2.65"
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.25"
 
+projects[imagecache_token][subdir] = "contrib"
+projects[imagecache_token][version] = "1.0"
+
 projects[image_resize_filter][subdir] = "contrib"
 projects[image_resize_filter][version] = "1.14"
 
@@ -268,7 +271,13 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.12"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.21"
+projects[metatag][version] = "1.28"
+; Improve performance of metatag when using schema.org modules.
+; See: https://www.drupal.org/project/metatag/issues/2981238
+projects[metatag][patch][] = "https://git.drupalcode.org/project/metatag/-/merge_requests/15.diff"
+; Fix error on panel pages after 1.28 update.
+; See: https://www.drupal.org/project/metatag/issues/3224758
+projects[metatag][patch][] = "https://www.drupal.org/files/issues/2021-07-21/metatag-n3224758-2.patch"
 
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
@@ -378,6 +387,9 @@ projects[samesite_cookie][version] = "1.0-rc1"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
+
+projects[schema_metatag][subdir] = "contrib"
+projects[schema_metatag][version] = "1.3"
 
 ; Patched with "Secure Permissions fails with features and multilingual"
 projects[secure_permissions][type] = "module"
@@ -509,6 +521,9 @@ projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
+
+projects[xmlsitemap][subdir] = "contrib"
+projects[xmlsitemap][version] = "2.6"
 
 ; Libraries
 ; For ding_libs.

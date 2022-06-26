@@ -1104,3 +1104,10 @@ function ding2_update_7098() {
 function ding2_update_7099() {
   ding2_translation_update();
 }
+
+/**
+ * Enable Ding SEO module.
+ */
+function ding2_update_7100() {
+  module_enable(['ding_seo']);
+}
