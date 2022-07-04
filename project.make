@@ -37,6 +37,9 @@ projects[cache_actions][version] = "2.0-alpha5"
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.2"
 
+projects[cookieinformation][subdir] = "contrib"
+projects[cookieinformation][version] = "1.0"
+
 projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
@@ -99,11 +102,6 @@ projects[entityreference][version] = "1.1"
 
 projects[entityreference_filter][subdir] = "contrib"
 projects[entityreference_filter][version] = "1.7"
-
-projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.31"
-; Cookie-agreed data is not saved if the cookie has a non-default name.
-projects[eu_cookie_compliance][patch][] = "https://www.drupal.org/files/issues/2019-11-27/3097097-2.patch"
 
 projects[environment_indicator][subdir] = "contrib"
 projects[environment_indicator][version] = "2.8"

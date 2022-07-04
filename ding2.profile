@@ -186,9 +186,6 @@ function ding2_add_settings(&$install_state) {
   // Set cookie page.
   ding2_set_cookie_page();
 
-  // Set EU cookie compliance settings.
-  ding2_set_eu_cookie_compliance_settings();
-
   // Add menu item to secondary menu.
   $link = array(
     'menu_name' => 'menu-secondary-menu',
@@ -827,83 +824,6 @@ function ding2_get_cookie_node_nid() {
   return FALSE;
 }
 
-/**
- * Sets the standard ding2 settings for EU cookie compliance module.
- */
-function ding2_set_eu_cookie_compliance_settings() {
-  // Ensure that translation variables are enabled for EU Cookie Compliance.
-  $controller = variable_realm_controller('language');
-  $old_variables = $controller->getEnabledVariables();
-  $old_list = variable_children($old_variables);
-  $variables = array_merge($old_list, array('eu_cookie_compliance'));
-  $controller->setRealmVariable('list', $variables);
-
-  // Set cookie compliance variables.
-  $eu_cookie_compliance = i18n_variable_get('eu_cookie_compliance', 'da', []);
-
-  // Ding2 whitelisted cookies. If more are needed: add to array and call this
-  // function again in an update.
-  $whitelisted_cookies = [
-    'has_js',
-  ];
-
-  // Ensure we don't override any whitelisted cookies added by administrators or
-  // other modules.
-  if (empty($eu_cookie_compliance['whitelisted_cookies'])) {
-    $eu_cookie_compliance['whitelisted_cookies'] = implode("\r\n", $whitelisted_cookies);
-  }
-  else {
-    foreach ($whitelisted_cookies as $cookie) {
-      if (strpos($eu_cookie_compliance['whitelisted_cookies'], $cookie) === FALSE) {
-        $eu_cookie_compliance['whitelisted_cookies'] .= "\r\n" . $cookie;
-      }
-    }
-  }
-
-  $eu_cookie_compliance = array_merge($eu_cookie_compliance, [
-    'method' => 'opt_in',
-    'show_disagree_button' => TRUE,
-    'popup_enabled' => TRUE,
-    'popup_info' => [
-      'value' => '<h2>Hjælp os med at forbedre oplevelsen på hjemmesiden ved at acceptere cookies.</h2>',
-      'format' => 'ding_wysiwyg',
-    ],
-    'popup_agreed' => array(
-      // We do not use the module in a mode where text is displayed after the
-      // user agrees but the module expects a value so set an empty string.
-      'value' => '',
-      'format' => 'ding_wysiwyg',
-    ),
-    // Ensure that this is disabled as it will prevent changing the default text
-    // of the popup_agree_button_message on ECC settings form.
-    'enable_save_preferences_button' => FALSE,
-    'popup_agree_button_message' => 'Acceptér alle',
-    'popup_agreed_enabled' => FALSE,
-    'popup_disagree_button_message' => 'Mere info',
-    'disagree_button_label' => 'Kun nødvendige',
-    'withdraw_enabled' => TRUE,
-    'withdraw_message' => [
-      'value' => '<h2>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse</h2><p>Du har givet os samtykke. Tryk her for at tilbagekalde.</p>',
-      'format' => 'ding_wysiwyg',
-    ],
-    'withdraw_tab_button_label' => 'Privatlivsindstillinger',
-    'withdraw_action_button_label' => 'Tilbagekald samtykke',
-    // This will make the popup use the bottom position.
-    'popup_position' => FALSE,
-    'popup_link' => 'cookies',
-    'popup_bg_hex' => '0D0D26',
-    'popup_text_hex' => 'FFFFFF',
-    'popup_height' => '',
-    'popup_width' => '100%',
-    'popup_delay' => 1000,
-    'exclude_admin_pages' => TRUE,
-    'consent_storage_method' => 'provider',
-    // Use the name of the latest ding2 update hook to change the provider
-    // settings to ensure that users have to agree again.
-    'cookie_name' => 'cookie-agreed-7083',
-  ]);
-  i18n_variable_set('eu_cookie_compliance', $eu_cookie_compliance, 'da');
-}
 
 /**
  * Setup customerror pages for 403 and 404 status codes.
