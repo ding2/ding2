@@ -241,16 +241,4 @@
     }
   };
 
-  // EU cookie compliance integration.
-  if (typeof Drupal.eu_cookie_compliance !== 'undefined') {
-    var method = Drupal.settings.eu_cookie_compliance.method;
-    // When using opt-in enable no-cookie tracking if user hasn't agreed.
-    // When using opt-out enable no-cookie tracking if user has disagreed. Since
-    // there's no method for that, we check for the value explicitly.
-    if ((method === 'opt_in' && !Drupal.eu_cookie_compliance.hasAgreed())
-        || (method === 'opt_out' && Drupal.eu_cookie_compliance.getCurrentStatus() === 0)) {
-      noCookieTracking();
-    }
-  }
-
 })(jQuery);

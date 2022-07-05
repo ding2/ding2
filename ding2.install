@@ -320,7 +320,7 @@ function ding2_update_7010() {
   //
   // That has been removed due to the decision
   // to shift to cookieinformation as cookie consent provider. Read more about this
-  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // issue in https://platform.dandigbib.org/issues/5447 and
   // https://platform.dandigbib.org/issues/5448.
 }
 
@@ -339,7 +339,7 @@ function ding2_update_7012() {
   //
   // The contents of this function has been removed due to the decision
   // to shift to cookieinformation as cookie consent provider. Read more about this
-  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // issue in https://platform.dandigbib.org/issues/5447 and
   // https://platform.dandigbib.org/issues/5448.
   //
   // The function has been left empty, since some distrubitons have
@@ -751,7 +751,7 @@ function ding2_update_7064() {
   //
   // The contents of this function has been removed due to the decision
   // to shift to cookieinformation as cookie consent provider. Read more about this
-  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // issue in https://platform.dandigbib.org/issues/5447 and
   // https://platform.dandigbib.org/issues/5448.
   //
   // The function has been left empty, since some distrubitons have
@@ -969,7 +969,7 @@ function ding2_update_7083() {
   //
   // The contents of this function has been removed due to the decision
   // to shift to cookieinformation as cookie consent provider. Read more about this
-  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // issue in https://platform.dandigbib.org/issues/5447 and
   // https://platform.dandigbib.org/issues/5448.
   //
   // The function has been left empty, since some distrubitons have
@@ -1006,7 +1006,7 @@ function ding2_update_7087() {
   //
   // The contents of this function has been removed due to the decision
   // to shift to cookieinformation as cookie consent provider. Read more about this
-  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // issue in https://platform.dandigbib.org/issues/5447 and
   // https://platform.dandigbib.org/issues/5448.
   //
   // The function has been left empty, since some distrubitons have
@@ -1035,7 +1035,7 @@ function ding2_update_7090() {
   //
   // The contents of this function has been removed due to the decision
   // to shift to cookieinformation as cookie consent provider. Read more about this
-  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // issue in https://platform.dandigbib.org/issues/5447 and
   // https://platform.dandigbib.org/issues/5448.
   //
   // The function has been left empty, since some distrubitons have
@@ -1050,7 +1050,7 @@ function ding2_update_7091() {
   //
   // The contents of this function has been removed due to the decision
   // to shift to cookieinformation as cookie consent provider. Read more about this
-  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // issue in https://platform.dandigbib.org/issues/5447 and
   // https://platform.dandigbib.org/issues/5448.
   //
   // The function has been left empty, since some distrubitons have
