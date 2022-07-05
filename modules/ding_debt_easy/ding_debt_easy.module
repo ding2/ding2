@@ -721,7 +721,7 @@ function _ding_debt_easy_process_payment($payment_id, array $local_record, $amou
       }
     }
     if ($payed) {
-      watchdog_exception('ding_debt_easy', $exception, 'The order contains one or more ids already payed for. (Order ID: %order_id)', [
+      watchdog('ding_debt_easy', 'The order contains one or more ids already payed for. (Order ID: %order_id)', [
         '%order_id' => $local_record['order_id'],
       ]);
       _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_FAILED);
