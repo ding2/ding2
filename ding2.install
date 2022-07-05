@@ -1148,5 +1148,6 @@ function ding2_update_7101() {
   cache_clear_all('variables', 'cache');
 
   module_enable(['cookieinformation']);
+  variable_set('cookieinformation_enable_popup', TRUE);
   ding2_update_cookie_page();
 }
