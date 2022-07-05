@@ -251,7 +251,7 @@ function ding2_update_7002() {
  */
 function ding2_update_7003() {
   module_enable(array('cookiecontrol'));
-  ding2_set_cookie_page();
+
 }
 
 /**
@@ -312,7 +312,6 @@ function ding2_update_7010() {
     variable_del('cookiecontrol_fulltext');
   }
 
-  ding2_set_cookie_page(); TODO remove
   if (module_exists('secure_permissions')) {
     secure_permissions_build_permissions();
   }
@@ -948,13 +947,6 @@ function ding2_update_7086() {
 }
 
 /**
- * Remove Webtrends specific info from cookie page.
- */
-function ding2_update_7087() {
-  ding2_update_cookie_page();
-}
-
-/**
  * Update translations.
  */
 function ding2_update_7088() {
@@ -986,13 +978,6 @@ function ding2_update_7092() {
  */
 function ding2_update_7093() {
   ding2_translation_update();
-}
-
-/**
- * Update default text on cookie page. A backup of existing will be created.
- */
-function ding2_update_7094() {
-  ding2_update_cookie_page();
 }
 
 /**
@@ -1051,4 +1036,5 @@ function ding2_update_7101() {
   cache_clear_all('variables', 'cache');
 
   module_enable(['cookieinformation']);
+  ding2_update_cookie_page();
 }
