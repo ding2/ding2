@@ -315,6 +315,13 @@ function ding2_update_7010() {
   if (module_exists('secure_permissions')) {
     secure_permissions_build_permissions();
   }
+
+  // This function previously enabled eu_cookie_compliance module.
+  //
+  // That has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // https://platform.dandigbib.org/issues/5448.
 }
 
 /**
@@ -322,6 +329,21 @@ function ding2_update_7010() {
  */
 function ding2_update_7011() {
   module_enable(array('maintenance_mode_api'));
+}
+
+/**
+ * Update the eu-cookie-compliance Danish "No thanks" text to "Læs mere".
+ */
+function ding2_update_7012() {
+  // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
@@ -722,6 +744,21 @@ function ding2_update_7063() {
 }
 
 /**
+ * Update EU Cookie Compliance settings.
+ */
+function ding2_update_7064() {
+  // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
+}
+
+/**
   * Update translations.
  */
 function ding2_update_7065() {
@@ -925,6 +962,21 @@ function ding2_update_7082() {
 }
 
 /**
+ * Update EU cookie compliance settings.
+ */
+function ding2_update_7083() {
+  // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
+}
+
+/**
  * Update translations.
  */
 function ding2_update_7084() {
@@ -947,6 +999,21 @@ function ding2_update_7086() {
 }
 
 /**
+ * Remove Webtrends specific info from cookie page..
+ */
+function ding2_update_7087() {
+  // This function previously had updates to the cookie information page.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
+}
+
+/**
  * Update translations.
  */
 function ding2_update_7088() {
@@ -958,6 +1025,36 @@ function ding2_update_7088() {
  */
 function ding2_update_7089() {
   ding2_translation_update();
+}
+
+/**
+ * Update cookie compliance settings.
+ */
+function ding2_update_7090() {
+   // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
+}
+
+/**
+ * Update cookie compliance settings.
+ */
+function ding2_update_7091() {
+  // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and 
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
@@ -978,6 +1075,21 @@ function ding2_update_7092() {
  */
 function ding2_update_7093() {
   ding2_translation_update();
+}
+
+/**
+ * Remove Webtrends specific info from cookie page..
+ */
+function ding2_update_7094() {
+  // This function previously had updates to the cookie information page.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
