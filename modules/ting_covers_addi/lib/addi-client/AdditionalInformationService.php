@@ -105,7 +105,13 @@ class AdditionalInformationService {
       }
       // Otherwise, just map the ID type to the ID number.
       else {
-        $identifiers[] = array($id_type => $id);
+        if ($id_type === 'faust') {
+          $faust_parts = explode(':', $id);
+          $identifiers[] = [$id_type => $faust_parts[1]];
+        }
+        else {
+          $identifiers[] = [$id_type => $id];
+        }
       }
     }
 

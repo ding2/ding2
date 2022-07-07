@@ -43,7 +43,8 @@ function ting_covers_addi_ding_install_tasks() {
  * Fetch covers from AdditionalInformation service.
  */
 function ting_covers_addi_ting_covers($entities) {
-  $covers = array();
+  $covers = [];
+  $retrieved = [];
 
   // Exceptions should only be thrown if something is so wrong,
   // that no images can be fetched whatsoever.
@@ -51,9 +52,20 @@ function ting_covers_addi_ting_covers($entities) {
     $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'), variable_get('ting_covers_addi_enforce_url', FALSE));
 
     // Retrieve covers by PID.
-    $retrieved = $service->getByPid(array_keys($entities));
+    $retrieved += $service->getByPid(array_keys($entities));
+    // Retrieve covers by Faust.
+    $retrieved += $service->getByFaustNumber(array_keys($entities));
 
-    foreach ($retrieved as $pid=> $cover) {
+    // Since the faust number is only the numeric part of PID, need to normalize
+    // (translate fausts to PID) the retrieved data in order to have covers
+    // rendered.
+    foreach (array_keys($entities) as $ding_entity_id) {
+      $parts = explode(':', $ding_entity_id);
+      $retrieved[$ding_entity_id] = $retrieved[$parts[1]];
+      unset($retrieved[$parts[1]]);
+    }
+
+    foreach ($retrieved as $pid => $cover) {
       // Try to extract the image url from the result.
       $source_url = FALSE;
       if ($cover->detailUrl) {
@@ -79,10 +91,10 @@ function ting_covers_addi_ting_covers($entities) {
     }
   }
   catch (Exception $e) {
-    watchdog('ting_covers_addi', 'Unable to retrieve covers from ADDI: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+    watchdog('ting_covers_addi', 'Unable to retrieve covers from ADDI: %message', ['%message' => $e->getMessage()], WATCHDOG_ERROR);
 
     // Error in fetching, return no covers.
-    return array();
+    return [];
   }
 
   // Return all image information.
