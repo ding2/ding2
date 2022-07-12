@@ -999,7 +999,7 @@ function ding2_update_7086() {
 }
 
 /**
- * Remove Webtrends specific info from cookie page..
+ * Remove Webtrends specific info from cookie page.
  */
 function ding2_update_7087() {
   // This function previously had updates to the cookie information page.

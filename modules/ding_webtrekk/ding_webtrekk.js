@@ -237,7 +237,13 @@
             sendCoverEvent(id);
           }
           $(this).unbind('DOMSubtreeModified');
-        })
+        });
+
+      // Cookieinformation compliance integration.
+      if (!CookieInformation.getConsentGivenFor('cookie_cat_statistic')) {
+        // If the user has not yet consented or opted out of statistic cookies we use nocookietracking.
+        noCookieTracking();
+      }
     }
   };
 
