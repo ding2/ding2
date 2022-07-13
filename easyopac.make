@@ -633,3 +633,9 @@ projects[easyopac_redirect][download][type]   = "git"
 projects[easyopac_redirect][download][url]    = "git@github.com:easySuite/easyopac_redirect.git"
 ;projects[easyopac_redirect][download][tag]    = ""
 projects[easyopac_redirect][download][branch] = "development"
+
+; Other modules (narrowly focused)
+projects[inlead_forbid_crawling][type]                = "module"
+projects[inlead_forbid_crawling][download][type]      = "git"
+projects[inlead_forbid_crawling][download][url]       = "git@github.com:inleadmedia/inlead_forbid_crawling.git"
+projects[inlead_forbid_crawling][download][branch]    = "development"
