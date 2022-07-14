@@ -51,18 +51,22 @@ function ting_covers_addi_ting_covers($entities) {
   try {
     $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'), variable_get('ting_covers_addi_enforce_url', FALSE));
 
-    // Retrieve covers by PID.
-    $retrieved += $service->getByPid(array_keys($entities));
-    // Retrieve covers by Faust.
-    $retrieved += $service->getByFaustNumber(array_keys($entities));
+    if (variable_get('ting_covers_addi_request_by_faust', FALSE)) {
+      // Retrieve covers by Faust.
+      $retrieved += $service->getByFaustNumber(array_keys($entities));
 
-    // Since the faust number is only the numeric part of PID, need to normalize
-    // (translate fausts to PID) the retrieved data in order to have covers
-    // rendered.
-    foreach (array_keys($entities) as $ding_entity_id) {
-      $parts = explode(':', $ding_entity_id);
-      $retrieved[$ding_entity_id] = $retrieved[$parts[1]];
-      unset($retrieved[$parts[1]]);
+      // Since the faust number is only the numeric part of PID, need to normalize
+      // (translate Faust number to PID) the retrieved data in order to have covers
+      // rendered.
+      foreach (array_keys($entities) as $ding_entity_id) {
+        $parts = explode(':', $ding_entity_id);
+        $retrieved[$ding_entity_id] = $retrieved[$parts[1]];
+        unset($retrieved[$parts[1]]);
+      }
+    }
+    else {
+      // Retrieve covers by PID.
+      $retrieved += $service->getByPid(array_keys($entities));
     }
 
     foreach ($retrieved as $pid => $cover) {
