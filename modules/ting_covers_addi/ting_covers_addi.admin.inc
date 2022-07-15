@@ -66,6 +66,13 @@ function ting_covers_addi_admin_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_covers_addi_enforce_url', FALSE),
   );
 
+  $form['addi']['ting_covers_addi_request_by_faust'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Request covers by Faust number'),
+    '#description' => t('By default covers are requested by their PID identifiers. By enabling this option the covers will be requested by their Faust number.'),
+    '#default_value' => variable_get('ting_covers_addi_request_by_faust', FALSE),
+  ];
+
   $form['addi']['external_url'] = array(
     '#type' => 'fieldset',
     '#title' => t('External URL'),
