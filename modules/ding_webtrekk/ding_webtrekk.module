@@ -32,8 +32,8 @@ function ding_webtrekk_menu() {
 
 /**
  * Implements hook_library_alter().
- * 
- * We need the function removeCookies so we provide our own version of jquery cookie. 
+ *
+ * We need the function removeCookies so we provide our own version of jquery cookie.
  * Based on the implementation in the Eu cookie complieance module.
  */
 function ding_webtrekk_library_alter(&$libraries, $module) {
