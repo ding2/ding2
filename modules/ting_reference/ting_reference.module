@@ -570,8 +570,8 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
     }
   }
 
-  // Don't bother validating empty fields.
-  if (!empty($ting_object_id)) {
+  // Don't bother validating empty fields or materials imported from the BPI service which the library does not have.
+  if (!empty($ting_object_id) && !(substr( $ting_object_id, 0, 20) === "Invalid material id:")) {
     // If the colon was URL-encoded, decode it - and trim whitespace from
     // both ends of the input string.
     $ting_object_id = trim(str_replace('%3A', ':', $ting_object_id));
