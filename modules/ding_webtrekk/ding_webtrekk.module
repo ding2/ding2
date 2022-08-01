@@ -30,20 +30,6 @@ function ding_webtrekk_menu() {
   return $items;
 }
 
-/**
- * Implements hook_library_alter().
- *
- * We need the function removeCookies so we provide our own version of jquery cookie.
- * Based on the implementation in the Eu cookie complieance module.
- */
-function ding_webtrekk_library_alter(&$libraries, $module) {
-  if ($module != 'system') {
-    return;
-  }
-  $libraries['jquery.cookie']['js']['misc/jquery.cookie.js']['data'] = drupal_get_path('module', 'ding_webtrekk') . '/js/jquery.cookie-1.4.1.min.js';
-  $libraries['jquery.cookie']['version'] = '1.4.1';
-}
-
 
 /**
  * Implements hook_page_alter().
@@ -531,12 +517,10 @@ function ding_webtrekk_preprocess_html() {
   ));
 
   $cookie_string = variable_get('webtrekk_cookies_to_remove', DING_WEBTREKK_COOKIES_TO_REMOVE);
-  $cookies = explode(',', $cookie_string);
-
   drupal_add_js([
     'dingWebtrekk' => [
       'debugMode' => variable_get('webtrekk_debug', FALSE),
-      'cookies' => $cookies,
+      'cookiesToRemove' => explode(',', $cookie_string),
     ],
   ], 'setting');
   drupal_add_library('system', 'jquery.cookie');
