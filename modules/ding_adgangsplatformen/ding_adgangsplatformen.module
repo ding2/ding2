@@ -335,8 +335,9 @@ function ding_adgangsplatformen_login() {
  *   If required libraries are not loaded.
  */
 function ding_adgangsplatformen_login_provider_user() {
-  // We save the current page including query parameters before sending the user to the login page.
-  ding_user_set_destination(request_uri());
+  // We save the current page including query parameters as destination parameters. That gets saved in the
+  // ding_adgangsplatformen_generate_login_url method.
+  $_REQUEST['destination'] = request_uri();
   ding_adgangsplatformen_login();
 }
 
