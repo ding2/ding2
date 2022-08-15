@@ -335,10 +335,10 @@ function ding_adgangsplatformen_login() {
  *   If required libraries are not loaded.
  */
 function ding_adgangsplatformen_login_provider_user() {
-  // We save the current page including query parameters as destination parameters. That gets saved in the
-  // ding_adgangsplatformen_generate_login_url method.
-  $_REQUEST['destination'] = request_uri();
-  ding_adgangsplatformen_login();
+  // We save the current page as destination.
+  $options = ['query' => ['destination' => request_uri()]];
+  // The classes in the oauth2-client don't get loaded unless we go to the login page.
+  drupal_goto(DING_ADGANGSPLATFORMEN_LOGIN_URL, $options);
 }
 
 /**
