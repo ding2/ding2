@@ -1,0 +1,20 @@
+.ding-ipe-filter {
+  &--banner-mode {
+    text-align: center;
+    text-transform: uppercase;
+    height: auto;
+    line-height: 80px;
+    font-size: 24px;
+    font-weight: 700;
+
+    @media (max-width: 768px) {
+      font-size: 18px;
+      line-height: 32px;
+      font-weight: 600;
+
+      p {
+        padding: 15px;
+      }
+    }
+  }
+}

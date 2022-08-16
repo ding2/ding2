@@ -396,12 +396,6 @@ function ding_ipe_filter_preprocess_panels_pane(&$variables) {
     $conf = $pane->configuration;
 
     $styles = [
-      'text-align: center',
-      'text-transform: uppercase',
-      'height: 80px',
-      'line-height: 80px',
-      'font-size: 24px',
-      'font-weight: 700',
       'background-color: ' . $conf['banner_bg_color'],
       'color: ' . $conf['banner_text_color'],
     ];
@@ -409,6 +403,7 @@ function ding_ipe_filter_preprocess_panels_pane(&$variables) {
     $container = [
       '#type' => 'container',
       '#attributes' => [
+        'class' => ['ding-ipe-filter--banner-mode'],
         'style' => implode(';', $styles),
       ],
       'text' => [

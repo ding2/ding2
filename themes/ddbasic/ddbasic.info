@@ -73,6 +73,7 @@
 
   stylesheets[all][] = sass_css/module/christmas_calendar.css
   stylesheets[all][] = sass_css/module/ding_toggle.css
+  stylesheets[all][] = sass_css/module/ding_ipe_filter.css
 
   stylesheets[all][] = sass_css/add-ons/factbox.css
   stylesheets[all][] = sass_css/add-ons/frontpage-header.css
