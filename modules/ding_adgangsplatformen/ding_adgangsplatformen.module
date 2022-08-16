@@ -331,8 +331,6 @@ function ding_adgangsplatformen_login() {
  *
  * Saves the current path and sends the user to the login page.
  *
- * @throws Exception
- *   If required libraries are not loaded.
  */
 function ding_adgangsplatformen_login_provider_user() {
   // We save the current page as destination.
