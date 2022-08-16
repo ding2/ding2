@@ -333,7 +333,7 @@ function ding_adgangsplatformen_login() {
  */
 function ding_adgangsplatformen_login_provider_user() {
   // We save the current page as destination.
-  $options = ['query' => ['destination' => request_uri()]];
+  $options = ['query' => drupal_get_destination()];
   // The classes in the oauth2-client don't get loaded unless we go to the login page.
   drupal_goto(DING_ADGANGSPLATFORMEN_LOGIN_URL, $options);
 }
