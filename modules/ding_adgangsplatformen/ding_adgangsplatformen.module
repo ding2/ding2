@@ -327,10 +327,9 @@ function ding_adgangsplatformen_login() {
 }
 
 /**
- * Implements hooK_login_provider_user.
+ * Implements hook_login_provider_user().
  *
  * Saves the current path and sends the user to the login page.
- *
  */
 function ding_adgangsplatformen_login_provider_user() {
   // We save the current page as destination.
