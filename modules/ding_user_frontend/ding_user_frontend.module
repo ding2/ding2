@@ -307,7 +307,8 @@ function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_lang
       if (isset($matches[1])) {
         $path .= '/' . $matches[1];
       }
-    } else {
+    }
+    else {
       // Send the user to a login page if there is a module that implements the login_provider_user hook.
       module_invoke_all('login_provider_user');
     }
