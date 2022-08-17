@@ -247,7 +247,6 @@
           $.cookie(cookie, null, { path: '/', domain: window.location.hostname });
         });
       }
-
       // This code fires multiple times. But we need to make sure that the cookies are removed after they are
       // set and on any change in consent.
       if (!CookieInformation.getConsentGivenFor('cookie_cat_statistic')) {
