@@ -85,14 +85,14 @@ function ting_oembed_field_is_empty($item, $field) {
  *
  * We ensure the cookie consent is set before showing videos because video providers set their own cookies.
  *
- * @param array $response
+ * @param mixed $response
  *   oEmbed response data.
  */
 function ting_oembed_oembed_response_alter(&$response) {
   // If the oembed response is from Ekurser we need to make sure that cookieinformation consent is given before we
   // show the video.
   if (isset($response['provider']) && isset($response['html']) && $response['provider'] == 'default:eKurser') {
-    $dom = new DomDocument;
+    $dom = new DomDocument();
 
     // If no charset is given Domdocument treats the input as ISO-8859-1. So we make sure it is treated as UTF-8.
     // Based on this article: https://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly
@@ -100,7 +100,7 @@ function ting_oembed_oembed_response_alter(&$response) {
     $iframes = $dom->getElementsByTagName('iframe');
 
     // This is only relevant in case of a iframe.
-    foreach ($iframes  as $iframe) {
+    foreach ($iframes as $iframe) {
       $src = $iframe->getAttribute('src');
       $iframe->setAttribute('src', '');
       $iframe->setAttribute('data-consent-src', $src);

@@ -30,7 +30,6 @@ function ding_webtrekk_menu() {
   return $items;
 }
 
-
 /**
  * Implements hook_page_alter().
  */
@@ -516,7 +515,7 @@ function ding_webtrekk_preprocess_html() {
     'weight' => 1,
   ));
 
-  $cookie_string = variable_get('webtrekk_cookies_to_remove', DING_WEBTREKK_COOKIES_TO_REMOVE);
+  $cookie_string = variable_get('ding_webtrekk_cookies_to_remove', DING_WEBTREKK_COOKIES_TO_REMOVE);
   drupal_add_js([
     'dingWebtrekk' => [
       'debugMode' => variable_get('webtrekk_debug', FALSE),

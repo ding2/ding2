@@ -1,8 +1,7 @@
 <?php
 
 /**
- * @file media_vimeo/themes/media-vimeo-video.tpl.php
- *
+ * @file
  * Template file for theme('media_vimeo_video').
  *
  * Variables available:
@@ -18,9 +17,7 @@
  *  $title - The Media: YouTube file's title.
  *  $alternative_content - Text to display for browsers that don't support
  *  iframes.
- *
  */
-
 ?>
 <div class="<?php print $classes; ?> media-vimeo-<?php print $id; ?>">
   <iframe class="media-vimeo-player" data-category-consent="cookie_cat_statistic" <?php print $api_id_attribute; ?>width="<?php print $width; ?>" height="<?php print $height; ?>" title="<?php print $title; ?>" src="" data-consent-src="<?php print $url; ?>" frameborder="0" allowfullscreen><?php print $alternative_content; ?></iframe>

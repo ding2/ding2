@@ -760,7 +760,6 @@ function ding2_get_cookie_node_nid() {
   return FALSE;
 }
 
-
 /**
  * Setup customerror pages for 403 and 404 status codes.
  */
