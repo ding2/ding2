@@ -1151,3 +1151,10 @@ function ding2_update_7101() {
   variable_set('cookieinformation_enable_popup', TRUE);
   ding2_update_cookie_page();
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7102() {
+  ding2_translation_update();
+}
