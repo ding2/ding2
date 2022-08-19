@@ -22,6 +22,12 @@ function ding_webtrekk_admin_settings_form() {
     '#description' => t('Enter your TagIntegration customer ID here.'),
     '#default_value' => variable_get('webtrekk_ti_id', ''),
   ];
+  $form['ding_webtrekk_cookies_to_remove'] = [
+    '#type' => 'textfield',
+    '#title' => t('Cookies to remove'),
+    '#description' => t('Enter the cookies which should be removed if the user doesnt consent. Cookiename should be seperated by ","'),
+    '#default_value' => variable_get('ding_webtrekk_cookies_to_remove', DING_WEBTREKK_COOKIES_TO_REMOVE),
+  ];
   $form['webtrekk_debug'] = [
     '#type' => 'checkbox',
     '#title' => t('Enable debug mode'),

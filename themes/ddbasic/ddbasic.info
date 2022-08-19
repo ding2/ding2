@@ -22,7 +22,6 @@
   stylesheets[all][] = sass_css/components/search.css
   stylesheets[all][] = sass_css/components/select-list.css
   stylesheets[all][] = sass_css/components/popupbar.css
-  stylesheets[all][] = sass_css/components/cookie.css
   stylesheets[all][] = sass_css/components/ui-datepicker.css
   stylesheets[all][] = sass_css/components/ui-dialog.css
   stylesheets[all][] = sass_css/components/entity-profile2.css

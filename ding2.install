@@ -127,13 +127,6 @@ function ding2_update_dependencies() {
     'ting' => 7014,
   );
 
-  // Update hook which sets custom configuration for EU Cookie Compliance.
-  $dependencies['ding2'][7064] = array(
-    // Update hook that updates the configuration format for EU Cookie
-    // Compliance module.
-    'eu_cookie_compliance' => 7010,
-  );
-
   return $dependencies;
 }
 
@@ -258,7 +251,7 @@ function ding2_update_7002() {
  */
 function ding2_update_7003() {
   module_enable(array('cookiecontrol'));
-  ding2_set_cookie_page();
+
 }
 
 /**
@@ -318,11 +311,17 @@ function ding2_update_7010() {
     variable_del('cookiecontrol_text');
     variable_del('cookiecontrol_fulltext');
   }
-  module_enable(array('eu_cookie_compliance'));
-  ding2_set_cookie_page();
+
   if (module_exists('secure_permissions')) {
     secure_permissions_build_permissions();
   }
+
+  // This function previously enabled eu_cookie_compliance module.
+  //
+  // That has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and
+  // https://platform.dandigbib.org/issues/5448.
 }
 
 /**
@@ -336,9 +335,15 @@ function ding2_update_7011() {
  * Update the eu-cookie-compliance Danish "No thanks" text to "Læs mere".
  */
 function ding2_update_7012() {
-  $eu_cookie_compliance_da = variable_get('eu_cookie_compliance_da');
-  $eu_cookie_compliance_da['popup_disagree_button_message'] = 'Læs mere';
-  variable_set('eu_cookie_compliance_da', $eu_cookie_compliance_da);
+  // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
@@ -742,13 +747,15 @@ function ding2_update_7063() {
  * Update EU Cookie Compliance settings.
  */
 function ding2_update_7064() {
-  if (!module_exists('i18n_variable')) {
-    module_enable(array('i18n_variable'));
-  }
-  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da');
-  $ecc_settings['method'] = 'default';
-  $ecc_settings['show_disagree_button'] = 0;
-  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
+  // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
@@ -958,22 +965,15 @@ function ding2_update_7082() {
  * Update EU cookie compliance settings.
  */
 function ding2_update_7083() {
-  ding2_set_eu_cookie_compliance_settings();
-
-  // jquery_update will override the version of jquery.cookie that EU cookie
-  // compliance needs, if module weights are not changed. ECC 1.31 takes care
-  // of this on update and fresh install,  but 1.28 (we used in last release)
-  // only did on update. So we ensure it's called here if someone is testing
-  // from a fresh install on last release.
-  // https://www.drupal.org/project/eu_cookie_compliance/issues/2991113
-  eu_cookie_compliance_module_set_weight();
-
-  // Update the cookie name used by ECC to enforce all users to the new opt-out
-  // model and make them agree again. The name can be whatever so we choose the
-  // number of this update function where the settings were changed.
-  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da', []);
-  $ecc_settings['cookie_name'] = 'cookie-agreed-7083';
-  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
+  // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
@@ -1002,7 +1002,15 @@ function ding2_update_7086() {
  * Remove Webtrends specific info from cookie page.
  */
 function ding2_update_7087() {
-  ding2_update_cookie_page();
+  // This function previously had updates to the cookie information page.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
@@ -1023,24 +1031,30 @@ function ding2_update_7089() {
  * Update cookie compliance settings.
  */
 function ding2_update_7090() {
-  ding2_set_eu_cookie_compliance_settings();
+   // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
  * Update cookie compliance settings.
  */
 function ding2_update_7091() {
-  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da', []);
-
-  // Ensure that this is disabled as it will prevent changing the default text
-  // of the popup_agree_button_message on ECC settings form.
-  $ecc_settings['enable_save_preferences_button'] = FALSE;
-
-  // Change default text on popup agree and disagree buttons.
-  $ecc_settings['popup_agree_button_message'] = 'Acceptér alle';
-  $ecc_settings['disagree_button_label'] = 'Kun nødvendige';
-
-  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
+  // This function previously had updates to EU cookie compliance settings.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
@@ -1064,10 +1078,18 @@ function ding2_update_7093() {
 }
 
 /**
- * Update default text on cookie page. A backup of existing will be created.
+ * Remove Webtrends specific info from cookie page..
  */
 function ding2_update_7094() {
-  ding2_update_cookie_page();
+  // This function previously had updates to the cookie information page.
+  //
+  // The contents of this function has been removed due to the decision
+  // to shift to cookieinformation as cookie consent provider. Read more about this
+  // issue in https://platform.dandigbib.org/issues/5447 and
+  // https://platform.dandigbib.org/issues/5448.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
@@ -1110,4 +1132,22 @@ function ding2_update_7099() {
  */
 function ding2_update_7100() {
   module_enable(['ding_seo']);
+}
+
+/**
+ * Enable cookie consent module. Remove eu_cookie_compliance.
+ */
+function ding2_update_7101() {
+  ding2_remove_module('eu_cookie_compliance');
+  // Eu cookie complience uninstall code.
+  db_drop_table('eu_cookie_compliance_basic_consent');
+  variable_del('eu_cookie_compliance');
+  variable_del('eu_cookie_compliance_cookie_lifetime');
+  variable_del('eu_cookie_compliance_domain');
+  variable_del('eu_cookie_compliance_domain_all_sites');
+  cache_clear_all('variables', 'cache');
+
+  module_enable(['cookieinformation']);
+  variable_set('cookieinformation_enable_popup', TRUE);
+  ding2_update_cookie_page();
 }

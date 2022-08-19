@@ -11,6 +11,7 @@ define('DING_WEBTREKK_PARAMETER_RENEW_ALL', 56);
 define('DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TITLE', 62);
 define('DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_ID', 63);
 define('DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_ALL', 68);
+define('DING_WEBTREKK_COOKIES_TO_REMOVE', 'wt3_eid,wt3_sid,wt_rla,wt_cbdeid,wt_nbg_Q3');
 
 /**
  * Implements hook_menu().
@@ -514,9 +515,12 @@ function ding_webtrekk_preprocess_html() {
     'weight' => 1,
   ));
 
+  $cookie_string = variable_get('ding_webtrekk_cookies_to_remove', DING_WEBTREKK_COOKIES_TO_REMOVE);
   drupal_add_js([
     'dingWebtrekk' => [
       'debugMode' => variable_get('webtrekk_debug', FALSE),
+      'cookiesToRemove' => explode(',', $cookie_string),
     ],
   ], 'setting');
+  drupal_add_library('system', 'jquery.cookie');
 }

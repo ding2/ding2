@@ -237,20 +237,30 @@
             sendCoverEvent(id);
           }
           $(this).unbind('DOMSubtreeModified');
-        })
+        });
+
+      const noCookieTracking = function (name) {
+        var cookiesToDelete = Drupal.settings.dingWebtrekk.cookiesToRemove;
+        cookiesToDelete.forEach(cookie => {
+          // The version of jquery.cookie which comes with this version of Drupal does not have
+          // removeCookie function so we use this method instead.
+          $.cookie(cookie, null, { path: '/', domain: window.location.hostname });
+        });
+      }
+      // This code fires multiple times. But we need to make sure that the cookies are removed after they are
+      // set and on any change in consent.
+      if (!CookieInformation.getConsentGivenFor('cookie_cat_statistic')) {
+          // If the user has not yet consented or opted out of statistic cookies we use nocookietracking.
+          noCookieTracking();
+      }
+
+      window.addEventListener('CookieInformationConsentGiven', function (event) {
+        if (!CookieInformation.getConsentGivenFor('cookie_cat_statistic')) {
+          // If the user has opted out of statistic cookies we use nocookietracking.
+          noCookieTracking();
+        }
+      });
     }
   };
-
-  // EU cookie compliance integration.
-  if (typeof Drupal.eu_cookie_compliance !== 'undefined') {
-    var method = Drupal.settings.eu_cookie_compliance.method;
-    // When using opt-in enable no-cookie tracking if user hasn't agreed.
-    // When using opt-out enable no-cookie tracking if user has disagreed. Since
-    // there's no method for that, we check for the value explicitly.
-    if ((method === 'opt_in' && !Drupal.eu_cookie_compliance.hasAgreed())
-        || (method === 'opt_out' && Drupal.eu_cookie_compliance.getCurrentStatus() === 0)) {
-      noCookieTracking();
-    }
-  }
 
 })(jQuery);
