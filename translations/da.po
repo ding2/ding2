@@ -68170,3 +68170,13 @@ msgstr "Der er ikke forbindelse til betalingssite. Prøv igen senere."
 #: profiles/ding2/modules/ding_debt_easy/includes/easy.payment.inc:80 yy
 msgid "There is an error with the payment gateway. Please try again later or contact the library with order ID: %order_id"
 msgstr "Der opstod en fejl på betalingssitet. Prøv igen eller kontakt biblioteket med dette ordrenummer: %order_id"
+
+msgid "Your payment of @amount is begin processed. Transaction ID: @transaction, order no.: @order."
+msgstr "Din betaling af @amount kr. bliver behandlet. Transaktions ID: "
+"@transaction, ordrenummer.: @order. "
+
+msgid "We have 0 copies available."
+msgstr "Vi har ingen eksemplarer hjemme."
+
+msgid "You already have an account, so you have been logged in. Please check your profile information, and update your pincode."
+msgstr "Du er allerede oprettet som bruger på biblioteket. Tryk på Log ind knappen for at få adgang."
