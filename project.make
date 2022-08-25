@@ -39,6 +39,7 @@ projects[conditional_styles][version] = "2.2"
 
 projects[cookieinformation][subdir] = "contrib"
 projects[cookieinformation][version] = "1.0"
+projects[cookieinformation][patch][] = "patches/cookieinformation-downgrade-php-requirements.patch"
 
 projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"

@@ -1,0 +1,35 @@
+diff --git a/cookieinformation.info b/cookieinformation.info
+index fdbfb49..601305b 100644
+--- a/cookieinformation.info
++++ b/cookieinformation.info
+@@ -2,7 +2,6 @@ name = Cookie Information
+ description = Integrating cookie consent popup from Cookieinformation.com.
+ core = 7.x
+ configure = admin/config/system/cookieinformation
+-php = 7.1
+ 
+ ; Information added by Drupal.org packaging script on 2020-06-08
+ version = "7.x-1.0"
+diff --git a/cookieinformation.module b/cookieinformation.module
+index 80408dc..15081e0 100644
+--- a/cookieinformation.module
++++ b/cookieinformation.module
+@@ -8,7 +8,7 @@
+ /**
+  *  Implements hook_help().
+  */
+-function cookieinformation_help(string $path, array $arg) {
++function cookieinformation_help($path, array $arg) {
+   if ($path !== 'admin/help#cookieinformation') {
+     return;
+   }
+@@ -16,8 +16,7 @@ function cookieinformation_help(string $path, array $arg) {
+     '@cookieinformation_website' => 'https://cookieinformation.com',
+     '@project_page' => 'https://drupal.org/project/cookieinformation',
+   ];
+-  $output = '';
+-  $output .= '<h3>' . t('About') . '</h3>';
++  $output = '<h3>' . t('About') . '</h3>';
+   $output .= '<p>' . t('The Cookie Information module provides a simple way of adding the Cookie Information consent popup to any Drupal site with an active Cookie Information subscription. See the <a href="@cookieinformation_website">Cookie Information website</a> for general information about Cookie Information. For more module help, see the <a href="@project_page">module project page</a>.', $links) . '</p>';
+   return $output;
+ }
