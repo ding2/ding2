@@ -1,0 +1,8 @@
+/* The cookieinformation service puts a definition of tables that overrides the definition in
+   admin pages so we need a more specific rule.
+   This happens in the admin theme so we have to add our css somewhere.
+*/
+.page-admin table td,
+.page-admin table th {
+  padding: 8px 10px;
+}
