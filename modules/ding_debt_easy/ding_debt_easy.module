@@ -696,13 +696,37 @@ function _ding_debt_easy_process_payment($payment_id, array $local_record, $amou
     }
   }
   else {
-    watchdog('ding_debt_easy', 'There is a communication problem with the provider (Order ID: %order_id)', [
-      '%order_id' => $local_record['order_id'],
-    ]);
+    // Check order status at the provider.
+    /** @var \DingProviderDebt[] $fees */
+    $fees = ding_provider_invoke('debt', 'list', NULL, TRUE, $local_record['patron_id'], TRUE);
+    foreach ($local_record['provider_ids'] as $id) {
+      // Check if the order contains one or more ids marked as payed at the
+      // provider. (This can happen if a user is presented with a stale list
+      // of debts and the user tries to pay the same id once more. Stale list
+      // can arise when user prematurely closes the browser window before
+      // _ding_debt_easy_callback() has been run.
+      $payed = FALSE;
+      if (isset($fees[$id]) && $fees[$id]->paid_date) {
+        $payed = TRUE;
+        break;
+      }
+    }
+    if ($payed) {
+      watchdog('ding_debt_easy', 'The order contains one or more ids already payed for. (Order ID: %order_id)', [
+        '%order_id' => $local_record['order_id'],
+      ]);
+      _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_FAILED);
+    }
+    else {
+      watchdog('ding_debt_easy', 'There is a communication problem with the provider (Order ID: %order_id)', [
+        '%order_id' => $local_record['order_id'],
+      ]);
 
-    // As the amount has not been marked as paid at the provider. The local
-    // order will be set to pending for retry via cron.
-    _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
+      // As the amount has not been marked as paid at the provider. The local
+      // order will be set to pending for retry via cron.
+      _ding_debt_easy_update_status_local($local_record['order_id'], DING_DEBT_EASY_STATUS_PENDING);
+
+    }
   }
 }
 
