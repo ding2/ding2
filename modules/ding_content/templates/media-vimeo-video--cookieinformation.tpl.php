@@ -20,5 +20,9 @@
  */
 ?>
 <div class="<?php print $classes; ?> media-vimeo-<?php print $id; ?>">
+  <div class="consent-placeholder" data-category="cookie_cat_statistic">
+    <p><?php print t("This video is not accessible as you haven't accepted marketing-cookies"); ?></p>
+    <a href="#" class="js-cookie-popup-trigger"><?php print t('Click here to change your consent'); ?></a>
+  </div>
   <iframe class="media-vimeo-player" data-category-consent="cookie_cat_statistic" <?php print $api_id_attribute; ?>width="<?php print $width; ?>" height="<?php print $height; ?>" title="<?php print $title; ?>" src="" data-consent-src="<?php print $url; ?>" frameborder="0" allowfullscreen><?php print $alternative_content; ?></iframe>
 </div>
