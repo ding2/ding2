@@ -105,6 +105,18 @@ function ting_oembed_oembed_response_alter(&$response) {
       $iframe->setAttribute('src', '');
       $iframe->setAttribute('data-consent-src', $src);
       $iframe->setAttribute('data-category-consent', "cookie_cat_statistic");
+
+      $consent = $dom->createNode('div');
+      $consent->setAttribute('class', 'consent-placeholder');
+      $concent->setAttribute('data-category', "cookie_cat_statistic");
+
+      $concent->append($dom->createNode('p', t("This video is not accessible as you haven't accepted marketing-cookies")));
+      $a = $dom->createNode('a', t('Click here to change your consent'));
+      $a->setAttribute('class', 'js-cookie-popup-trigger');
+      $a->setAttribute('href', '#');
+      $concent->append($a);
+
+      $iframe->parentNode->prepend($concent);
     }
     $response['html'] = $dom->saveHTML();
   }
