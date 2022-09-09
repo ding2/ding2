@@ -19,9 +19,7 @@
 //
 // Styleguide 1.3
 
-// The cookieinformation service puts a css definition of table elements in so we need
-// to be more specific here. Therefore the body tag in front of table.
-body table {
+table {
   width: 100%;
   border-collapse: collapse;
   thead {
