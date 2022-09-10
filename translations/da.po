@@ -68180,3 +68180,9 @@ msgstr "Vi har ingen eksemplarer hjemme."
 
 msgid "You already have an account, so you have been logged in. Please check your profile information, and update your pincode."
 msgstr "Du er allerede oprettet som bruger på biblioteket. Tryk på Log ind knappen for at få adgang."
+
+msgid "This video is not accessible as you haven't accepted marketing-cookies"
+msgstr "Denne video er ikke tilgængelig, da du ikke har accepteret Marketing cookies"
+
+msgid "Click here to change your consent"
+msgstr "Klik her for at ændre dit samtykke"
