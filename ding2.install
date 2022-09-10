@@ -1158,3 +1158,10 @@ function ding2_update_7101() {
 function ding2_update_7102() {
   ding2_translation_update();
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7103() {
+  ding2_translation_update();
+}
