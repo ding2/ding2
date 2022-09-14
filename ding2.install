@@ -126,6 +126,11 @@ function ding2_update_dependencies() {
     // provider is present.
     'ting' => 7014,
   );
+  // Update hook which accesses the cache.
+  $dependencies['ding2'][7102] = array(
+    // The update hook that modifies user tables related to entity cache.
+    'user' => 7020,
+  );
 
   return $dependencies;
 }
