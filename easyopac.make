@@ -369,6 +369,13 @@ projects[easyopac_collection_links][download][url]    = "git@github.com:easySuit
 ;projects[easyopac_collection_links][download][tag]    = ""
 projects[easyopac_collection_links][download][branch] = "development"
 
+projects[easyopac_easyapp][type]             = "module"
+projects[easyopac_easyapp][subdir]           = ""
+projects[easyopac_easyapp][download][type]   = "git"
+projects[easyopac_easyapp][download][url]    = "git@github.com:easySuite/easyopac_easyapp.git"
+;projects[easyopac_easyapp][download][tag]    = ""
+projects[easyopac_easyapp][download][branch] = "development"
+
 projects[easyopac_external_videos][type]             = "module"
 projects[easyopac_external_videos][subdir]           = ""
 projects[easyopac_external_videos][download][type]   = "git"
@@ -604,6 +611,13 @@ projects[easyddb_search_expand][download][type]   = "git"
 projects[easyddb_search_expand][download][url]    = "git@github.com:easySuite/easyddb_search_expand.git"
 ;projects[easyddb_search_expand][download][tag]    = ""
 projects[easyddb_search_expand][download][branch] = "development"
+
+projects[easyopac-app-theme][type]             = "theme"
+projects[easyopac-app-theme][subdir]           = ""
+projects[easyopac-app-theme][download][type]   = "git"
+projects[easyopac-app-theme][download][url]    = "git@github.com:easySuite/easyopac-app-theme.git"
+;projects[easyopac-app-theme][download][tag]    = ""
+projects[easyopac-app-theme][download][branch] = "development"
 
 ; Bibliofil
 projects[bibliofil-subtheme][type]             = "theme"
