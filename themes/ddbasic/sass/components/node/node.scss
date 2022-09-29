@@ -76,15 +76,10 @@
 
 // Styling of cookie consent placeholders. They can be on any node type
 // and on ekursus objects.
-// The cookieinformation script automatically sets style="display: block;" on the element.
-// Therefore the need for !important override.
 .consent-placeholder {
-  display: flex !important;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #e5e5e5;
-  padding: 0 20px;
+  background-color: $grey;
+  padding: 100px 20px;
+	text-align: center;
 }
 
 .ekursus .consent-placeholder {
