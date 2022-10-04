@@ -45,9 +45,12 @@ function ding_app_variables_display() {
     $variables_configs[$variable] = variable_get($variable, '');
   }
 
+  $menu_items = _ding_app_variables_main_menu_items();
+
   return [
     'variables' => $variables_configs,
     'carousels' => $carousel_configs,
+    'menu-items' => $menu_items,
   ];
 }
 
@@ -80,4 +83,50 @@ function _ding_app_variables_get_carousel_configs() {
   }
 
   return $carousels;
+}
+
+/**
+ * Fetch the 2 levels of items from main menu.
+ *
+ * @return array
+ *   Returns a list of menu items.
+ */
+function _ding_app_variables_main_menu_items() {
+  $items = [];
+  $main_menu = menu_tree_all_data('main-menu');
+
+  $pos = 0;
+  foreach ($main_menu as $menu_item) {
+    $link = $menu_item['link'];
+    if ($link['hidden'] !== '1') {
+      $items[$pos] = _ding_app_varaibles_menu_item_structure($link);
+
+      if ($link['has_children'] === '1') {
+        foreach ($menu_item['below'] as $child) {
+          $items[$pos]['childs'][] = _ding_app_varaibles_menu_item_structure($child['link']);
+        }
+      }
+      ++$pos;
+    }
+  }
+
+  return $items;
+}
+
+/**
+ * Build exposed menu item.
+ *
+ * @param array $item
+ *   Menu item.
+ *
+ * @return array
+ *   Custom menu item structure.
+ */
+function _ding_app_varaibles_menu_item_structure(array $item) {
+  return [
+    'id' => $item['mlid'],
+    'title' => $item['title'],
+    'href' => $item['href'],
+    'weight' => $item['weight'],
+  ];
 }

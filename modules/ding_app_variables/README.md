@@ -1,5 +1,5 @@
 # Ding App Variables
-Expose Drupal variables and carousels configurations as an array in JSON format.
+Expose Drupal variables, carousels and menu configurations as an array in JSON format.
 
 ### List of exposed variables
 * opensearch_search_profile
@@ -13,3 +13,6 @@ Expose Drupal variables and carousels configurations as an array in JSON format.
 
 ### List of included carousels
 * Ting search carousel
+
+### List of included menus
+* Main menu
