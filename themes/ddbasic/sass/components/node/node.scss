@@ -73,3 +73,15 @@
     }
   }
 }
+
+// Styling of cookie consent placeholders. They can be on any node type
+// and on ekursus objects.
+.consent-placeholder {
+  background-color: $grey;
+  padding: 100px 20px;
+	text-align: center;
+}
+
+.ekursus .consent-placeholder {
+  height: 300px;
+}
