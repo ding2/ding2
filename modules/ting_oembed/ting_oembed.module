@@ -104,11 +104,11 @@ function ting_oembed_oembed_response_alter(&$response) {
       $src = $iframe->getAttribute('src');
       $iframe->setAttribute('src', '');
       $iframe->setAttribute('data-consent-src', $src);
-      $iframe->setAttribute('data-category-consent', "cookie_cat_statistic");
+      $iframe->setAttribute('data-category-consent', "cookie_cat_marketing");
 
       $consent = $dom->createElement('div');
       $consent->setAttribute('class', 'consent-placeholder');
-      $consent->setAttribute('data-category', "cookie_cat_statistic");
+      $consent->setAttribute('data-category', "cookie_cat_marketing");
 
       $consent->appendChild($dom->createElement('p', t("This video is not accessible as you haven't accepted marketing-cookies")));
       $a = $dom->createElement('a', t('Click here to change your consent'));

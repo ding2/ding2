@@ -256,17 +256,19 @@
       }
       // This code fires multiple times. But we need to make sure that the cookies are removed after they are
       // set and on any change in consent.
-      if (!CookieInformation.getConsentGivenFor('cookie_cat_statistic')) {
+      if (typeof CookieInformation !== 'undefined' && CookieInformation !== null) {
+        if (!CookieInformation.getConsentGivenFor("cookie_cat_statistic")) {
           // If the user has not yet consented or opted out of statistic cookies we use nocookietracking.
           noCookieTracking();
-      }
-
-      window.addEventListener('CookieInformationConsentGiven', function (event) {
-        if (!CookieInformation.getConsentGivenFor('cookie_cat_statistic')) {
-          // If the user has opted out of statistic cookies we use nocookietracking.
-          noCookieTracking();
         }
-      });
+
+        window.addEventListener("CookieInformationConsentGiven", function (event) {
+          if (!CookieInformation.getConsentGivenFor("cookie_cat_statistic")) {
+            // If the user has opted out of statistic cookies we use nocookietracking.
+            noCookieTracking();
+          }
+        });
+      }
     }
   };
 
