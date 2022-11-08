@@ -290,6 +290,9 @@
     margin: 10px 0 10px 19%;
     padding-left: 50px;
 
+    // Align total to the right to keep amounts above each other.
+    text-align: right;
+
     @include media($mobile) {
       margin: 0;
       padding: 20px 10px;
