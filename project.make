@@ -8,10 +8,10 @@ projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc5"
+projects[admin_menu][version] = "3.0-rc6"
 
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.7"
+projects[admin_views][version] = "1.8"
 
 projects[antibot][subdir] = "contrib"
 projects[antibot][version] = "1.2"
@@ -54,6 +54,8 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/deprecating_php
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-uniform-variable-syntax-2635876-6.patch"
 ; Check for jQuery differences regarding prop() vs attr().
 projects[ctools][patch][] = "https://git.drupalcode.org/project/ctools/commit/18385421a277097d8a92672808f656cc7470b69d.patch"
+; Avoid PHP 7.4 warnings
+projects[ctools][patch][] = "https://git.drupalcode.org/project/ctools/-/commit/5d711f5.patch"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -61,8 +63,7 @@ projects[customerror][patch][] = "https://www.drupal.org/files/issues/customerro
 projects[customerror][patch][] = "patches/customerror-disable_auto_redirect.ding2.patch"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.8"
-projects[date][patch][] = "https://www.drupal.org/files/issues/2019-01-16/2843367-php71-string-offset-47.patch"
+projects[date][version] = "2.11"
 
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
@@ -91,12 +92,16 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.8"
+projects[entity][version] = "1.9"
 
 projects[entitycache][subdir] = "contrib"
-projects[entitycache][version] = "1.2"
+projects[entitycache][version] = "1.5"
 ; https://drupal.org/node/2146543, profile 2 blank fields.
-projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
+projects[entitycache][patch][] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
+; Avoid notice "array_flip(): Can only flip STRING and INTEGER values"
+projects[entitycache][patch][] = "https://www.drupal.org/files/issues/2020-03-12/2516094-1-entitycache_fix_arry_flip.patch"
+; Fix upgrade path from version 1.2
+projects[entitycache][patch][] = "https://git.drupalcode.org/project/entitycache/-/commit/b9b9865.patch"
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
@@ -111,7 +116,7 @@ projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.10"
+projects[features][version] = "2.11"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
@@ -134,6 +139,9 @@ projects[file_entity][version] = "2.0-beta3"
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "2.2"
+; Prevent PHP notices when using 7.4. It can be removed when upgrade to Flag 3.x
+; or newer.
+projects[flag][patch][] = "patches/flag-fix-entities-no-base-table-notice-1862710-2.x.patch"
 
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
@@ -342,7 +350,8 @@ projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"
 ; Fix PHP7 errors - PHP 4 style constructors - (https://www.drupal.org/node/2557061)
 projects[panels][patch][] = "https://www.drupal.org/files/issues/deprecated-constructor-in-php-7-2557061-3.patch"
-
+; Fix PHP 7.1 Warning: Illegal string offset
+projects[panels][patch][] = "https://git.drupalcode.org/project/panels/-/commit/c7ff5a6.patch"
 
 projects[panels_breadcrumbs][subdir] = "contrib"
 projects[panels_breadcrumbs][version] = "2.1"
@@ -379,7 +388,7 @@ projects[role_delegation][subdir] = "contrib"
 projects[role_delegation][version] = "1.3"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.7"
+projects[rules][version] = "2.11"
 
 projects[samesite_cookie][subdir] = "contrib"
 projects[samesite_cookie][version] = "1.0-rc1"
@@ -406,7 +415,7 @@ projects[services_views][subdir] = "contrib"
 projects[services_views][version] = "1.1"
 
 projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.18"
+projects[search_api][version] = "1.26"
 
 projects[search_api_multi][subdir] = "contrib"
 projects[search_api_multi][version] = "1.3"
@@ -431,7 +440,7 @@ projects[tipsy][subdir] = "contrib"
 projects[tipsy][version] = "1.0-rc1"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.8"
+projects[token][version] = "1.9"
 
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
@@ -457,7 +466,7 @@ projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.23"
+projects[views][version] = "3.25"
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.1"
@@ -494,6 +503,8 @@ projects[watchdog_filtering][version] = "1.3"
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.24"
 projects[webform][patch][] = "https://www.drupal.org/files/issues/2021-09-20/2972651-webform-no-ip-addresses-34.patch"
+; Patch to ensure PHP 7.4 compatability for existing webforms
+projects[webform][patch][] = "https://www.drupal.org/files/issues/2022-04-22/3256149-php74-attributes-array.patch"
 
 projects[webform_purge][subdir] = "contrib"
 projects[webform_purge][version] = "1.3"
@@ -519,7 +530,7 @@ projects[ask_vopros][download][url] = "https://github.com/vopros-dk/ask_vopros.g
 projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
-projects[xautoload][version] = "5.7"
+projects[xautoload][version] = "5.8"
 
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.6"
@@ -557,7 +568,7 @@ libraries[oauth2-client][destination] = "libraries"
 ; For ding_libs.
 libraries[guzzle][download][type] = "git"
 libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
-libraries[guzzle][download][tag] = "6.2.2"
+libraries[guzzle][download][tag] = "6.3.3"
 libraries[guzzle][destination] = "libraries"
 
 ; For ding_libs.

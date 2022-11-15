@@ -10,46 +10,12 @@
 function ding_eresource_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance:
-  // 'comment-comment_node_ding_eresource-comment_body'.
-  $field_instances['comment-comment_node_ding_eresource-comment_body'] = array(
-    'bundle' => 'comment_node_ding_eresource',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'comment',
-    'field_name' => 'comment_body',
-    'label' => 'Comment',
-    'required' => TRUE,
-    'settings' => array(
-      'text_processing' => 1,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 0,
-    ),
-  );
-
   // Exported field_instance: 'node-ding_eresource-field_ding_eresource_access'.
   $field_instances['node-ding_eresource-field_ding_eresource_access'] = array(
     'bundle' => 'ding_eresource',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'For an e-resource with free access, leave this field empty. Otherwise the chosen access category is displayed to the user. 
+    'description' => 'For an e-resource with free access, leave this field empty. Otherwise the chosen access category is displayed to the user.
 If proxy is enabled, this category also controls whether or not prefix the e-resource link with the proxy. ',
     'display' => array(
       'alternative_layout_full' => array(
@@ -793,7 +759,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
   t('Category');
   t('Comment');
   t('Files');
-  t('For an e-resource with free access, leave this field empty. Otherwise the chosen access category is displayed to the user. 
+  t('For an e-resource with free access, leave this field empty. Otherwise the chosen access category is displayed to the user.
 If proxy is enabled, this category also controls whether or not prefix the e-resource link with the proxy. ');
   t('Lead');
   t('Link');

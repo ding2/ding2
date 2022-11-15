@@ -194,3 +194,11 @@ function ding_content_update_7001() {
 function ding_content_update_7002() {
   module_disable(['comment']);
 }
+
+/**
+ * Delete leftover comment body field.
+ */
+function ding_content_update_7003() {
+  field_delete_field('comment_body');
+  field_purge_batch(1000);
+}

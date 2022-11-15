@@ -315,4 +315,50 @@ class PageBase extends LogMessages
       }
       return 'Failed - ' . $txt . ' is still on page.';
   }
+
+  /**
+   * Convert a relative path to an absolute url using an absolute base url.
+   *
+   * @source https://gist.github.com/vian/8140421
+   *
+   * @param string $rel
+   *   The relative url.
+   * @param string $base
+   *   The absolute base url.
+   *
+   * @return string
+   *   The absolute version of the relative url.
+   */
+  function makePathAbsolute($rel, $base)
+  {
+    if (strpos($rel, "//") === 0) {
+      return "http:" . $rel;
+    }
+    /* return if  already absolute URL */
+    if (parse_url($rel, PHP_URL_SCHEME) != '') {
+      return $rel;
+    }
+    /* queries and  anchors */
+    if ($rel[0] == '#' || $rel[0] == '?') {
+      return $base . $rel;
+    }
+    /* parse base URL  and convert to local variables:
+    $scheme, $host,  $path */
+    extract(parse_url($base));
+    /* remove  non-directory element from path */
+    $path = preg_replace('#/[^/]*$#', '', $path);
+    /* destroy path if  relative url points to root */
+    if ($rel[0] == '/') {
+      $path = '';
+    }
+    /* dirty absolute  URL */
+    $abs = "$host$path/$rel";
+    /* replace '//' or  '/./' or '/foo/../' with '/' */
+    $re = ['#(/\.?/)#', '#/(?!\.\.)[^/]+/\.\./#'];
+    for ($n = 1; $n > 0; $abs = preg_replace($re, '/', $abs, -1, $n)) {
+    }
+    /* absolute URL is  ready! */
+    return $scheme . '://' . $abs;
+  }
+
 }
