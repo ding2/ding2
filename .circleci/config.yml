@@ -15,7 +15,7 @@ jobs:
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
           source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+          composer global require drush/drush:8.* --prefer-source --no-interaction
     - run:
         name: Download installation profile dependencies using Drush make
         command: drush make project.make --no-core --contrib-destination=. -y --concurrency=8
@@ -137,7 +137,7 @@ jobs:
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
           source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+          composer global require drush/drush:8.* --prefer-source --no-interaction
     - run:
         name: Install Ding2 site
         command: |
@@ -197,7 +197,7 @@ jobs:
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
           source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+          composer global require drush/drush:8.* --prefer-source --no-interaction
     - run:
         name: Import database
         command: drush sqlq --file=$HOME/db/db.sql
@@ -265,7 +265,7 @@ jobs:
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
           source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+          composer global require drush/drush:8.* --prefer-source --no-interaction
     - run:
         name: Import database
         command: drush sqlq --file=$HOME/db/db.sql
