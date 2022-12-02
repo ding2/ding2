@@ -8,10 +8,10 @@ projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc5"
+projects[admin_menu][version] = "3.0-rc6"
 
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.7"
+projects[admin_views][version] = "1.8"
 
 projects[antibot][subdir] = "contrib"
 projects[antibot][version] = "1.2"
@@ -45,15 +45,7 @@ projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.9"
-; Fix regression. See https://www.drupal.org/node/2209775
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_access_callback_params-2209775-24.patch"
-; Fix PHP7 errors - PHP 4 style constructors - https://www.drupal.org/node/2528736
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/deprecating_php4_style-2528736-23.patch"
-; PHP7 - Uniform Variable Syntax updates are causing exported pages to not have names.
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-uniform-variable-syntax-2635876-6.patch"
-; Check for jQuery differences regarding prop() vs attr().
-projects[ctools][patch][] = "https://git.drupalcode.org/project/ctools/commit/18385421a277097d8a92672808f656cc7470b69d.patch"
+projects[ctools][version] = "1.20"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -61,8 +53,7 @@ projects[customerror][patch][] = "https://www.drupal.org/files/issues/customerro
 projects[customerror][patch][] = "patches/customerror-disable_auto_redirect.ding2.patch"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.8"
-projects[date][patch][] = "https://www.drupal.org/files/issues/2019-01-16/2843367-php71-string-offset-47.patch"
+projects[date][version] = "2.13"
 
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
@@ -73,7 +64,7 @@ projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
 projects[dibs][patch][] = "https://www.drupal.org/files/issues/mysql_5.7_compatibility-2812891-2.patch"
 
 projects[diff][subdir] = "contrib"
-projects[diff][version] = "3.3"
+projects[diff][version] = "3.4"
 
 ; The patch ensures that file upload patch is created on file upload. It normally
 ; created on settings form save, but as we use feature this do not work.
@@ -91,15 +82,19 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.8"
+projects[entity][version] = "1.9"
 
 projects[entitycache][subdir] = "contrib"
-projects[entitycache][version] = "1.2"
-; https://drupal.org/node/2146543, profile 2 blank fields.
-projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
+projects[entitycache][version] = "1.5"
+projects[entitycache][patch][] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
+; Avoid notice "array_flip(): Can only flip STRING and INTEGER values"
+projects[entitycache][patch][] = "https://www.drupal.org/files/issues/2020-03-12/2516094-1-entitycache_fix_arry_flip.patch"
+; Fix upgrade path from version 1.2
+projects[entitycache][patch][] = "https://git.drupalcode.org/project/entitycache/-/commit/b9b9865.patch"
 
 projects[entityreference][subdir] = "contrib"
-projects[entityreference][version] = "1.1"
+projects[entityreference][version] = "1.5"
+projects[entityreference][patch][] = "patches/entityreference.patch"
 
 projects[entityreference_filter][subdir] = "contrib"
 projects[entityreference_filter][version] = "1.7"
@@ -111,10 +106,10 @@ projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.10"
+projects[features][version] = "2.14"
 
 projects[features_extra][subdir] = "contrib"
-projects[features_extra][version] = "1.0-beta1"
+projects[features_extra][version] = "1.0"
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-alpha8"
@@ -125,15 +120,13 @@ projects[fences][version] = "1.0"
 projects[fences][patch][0] = "http://drupal.org/files/field_for_wrapper_css_class-1679684-3.patch"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.5"
-; PHP7 - Uniform Variable Syntax updates are causing exported field_groups to not have names.
-projects[field_group][patch][] = "https://www.drupal.org/files/issues/php7_uniform_variable-2649648-5.patch"
+projects[field_group][version] = "1.8"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-beta3"
+projects[file_entity][version] = "2.36"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "2.2"
+projects[flag][version] = "3.9"
 
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
@@ -160,7 +153,7 @@ projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
 projects[htmlmail][subdir] = "contrib"
-projects[htmlmail][version] = "2.65"
+projects[htmlmail][version] = "2.71"
 
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.25"
@@ -199,15 +192,15 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.6"
+projects[link][version] = "1.11"
 ; Link sanitizes external URLs too much, rendering some external links broken.
 ; Patch changes external URL handling to pass it through unmolested.
-; Patch from https://www.drupal.org/files/issues/link-external-1914072-22.patch
-projects[link][patch][] = "https://www.drupal.org/files/issues/link_module_displays-1914072-34.patch"
+; Patch from https://www.drupal.org/project/link/issues/1914072
+projects[link][patch][] = "https://www.drupal.org/files/issues/2022-05-06/link_module_displays-1914072-38.patch"
 
 projects[l10n_update][type] = "module"
 projects[l10n_update][subdir] = "contrib"
-projects[l10n_update][version] = "1.0"
+projects[l10n_update][version] = "2.7"
 
 projects[l10n_client][type] = "module"
 projects[l10n_client][subdir] = "contrib"
@@ -217,7 +210,7 @@ projects[l10n_client][version] = "1.3"
 projects[l10n_client][patch][] = "https://www.drupal.org/files/issues/l10n_client-browser_is_undefined_jquery_gt_19-2191771-3.patch"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.11"
+projects[i18n][version] = "1.31"
 
 projects[manualcrop][subdir] = "contrib"
 projects[manualcrop][version] = "1.6"
@@ -249,7 +242,7 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.10"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.6"
+projects[memcache][version] = "1.8"
 
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.7"
@@ -260,7 +253,8 @@ projects[menu_block][version] = "2.7"
 projects[menu_block][patch][0] = "patches/menu_block-2x-ctools_exportables-693302-163.ding2.patch"
 
 projects[menu_breadcrumb][subdir] = "contrib"
-projects[menu_breadcrumb][version] = "1.5"
+projects[menu_breadcrumb][version] = "1.6"
+projects[menu_breadcrumb][patch][] = "patches/menu_breadcrumb.patch"
 
 projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
@@ -282,7 +276,7 @@ projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
 
 projects[module_filter][subdir] = "contrib"
-projects[module_filter][version] = "2.0"
+projects[module_filter][version] = "2.2"
 
 ; NanoSOAP is currently not placed in contrib at this was not the case
 ; when using recursive make files.
@@ -291,7 +285,7 @@ projects[nanosoap][version] = "1.0"
 projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
 projects[nodequeue][subdir] = "contrib"
-projects[nodequeue][version] = "2.2"
+projects[nodequeue][version] = "2.5"
 
 projects[node_clone][subdir] = "contrib"
 projects[node_clone][version] = "1.0-rc2"
@@ -310,12 +304,12 @@ projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch
 ; Embedly scheme regex too long (back-port to rc1)
 projects[oembed][patch][] = "patches/split-up-regex-2739023-1.patch"
 
-
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.9"
+projects[og][version] = "2.10"
+projects[og][patch][] = "patches/og.patch"
 
 projects[og_menu][subdir] = "contrib"
-projects[og_menu][version] = "3.0"
+projects[og_menu][version] = "3.3"
 
 projects[opening_hours][subdir] = "contrib"
 projects[opening_hours][version] = "1.6"
@@ -339,20 +333,17 @@ projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.4"
-; Fix PHP7 errors - PHP 4 style constructors - (https://www.drupal.org/node/2557061)
-projects[panels][patch][] = "https://www.drupal.org/files/issues/deprecated-constructor-in-php-7-2557061-3.patch"
-
+projects[panels][version] = "3.11"
 
 projects[panels_breadcrumbs][subdir] = "contrib"
-projects[panels_breadcrumbs][version] = "2.1"
+projects[panels_breadcrumbs][version] = "2.6"
 
 projects[panels_everywhere][subdir] = "contrib"
-projects[panels_everywhere][version] = "1.0-rc1"
+projects[panels_everywhere][version] = "1.0"
 projects[panels_everywhere][type] = "module"
 
 projects[pathauto][subdir] = "contrib"
-projects[pathauto][version] = "1.2"
+projects[pathauto][version] = "1.3"
 
 projects[pm_existing_pages][subdir] = "contrib"
 projects[pm_existing_pages][version] = "1.4"
@@ -373,19 +364,19 @@ projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc3"
 
 projects[relation][subdir] = "contrib"
-projects[relation][version] = "1.0"
+projects[relation][version] = "1.2"
 
 projects[role_delegation][subdir] = "contrib"
 projects[role_delegation][version] = "1.3"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.7"
+projects[rules][version] = "2.13"
 
 projects[samesite_cookie][subdir] = "contrib"
 projects[samesite_cookie][version] = "1.0-rc1"
 
 projects[scheduler][subdir] = "contrib"
-projects[scheduler][version] = "1.5"
+projects[scheduler][version] = "1.6"
 
 projects[schema_metatag][subdir] = "contrib"
 projects[schema_metatag][version] = "1.3"
@@ -406,7 +397,7 @@ projects[services_views][subdir] = "contrib"
 projects[services_views][version] = "1.1"
 
 projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.18"
+projects[search_api][version] = "1.28
 
 projects[search_api_multi][subdir] = "contrib"
 projects[search_api_multi][version] = "1.3"
@@ -431,10 +422,13 @@ projects[tipsy][subdir] = "contrib"
 projects[tipsy][version] = "1.0-rc1"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.8"
+projects[token][version] = "1.9"
 
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
+
+projects[translation_helpers][subdir] = "contrib"
+projects[translation_helpers][version] = "1.0"
 
 ; Using dev release, as the "stable" version is making errors in the install profile.
 projects[uuid][subdir] = "contrib"
@@ -446,24 +440,19 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[varnish][subdir] = "contrib"
-projects[varnish][version] = "1.0-beta3"
-projects[varnish][patch][0] = "http://drupal.org/files/issues/notification_level_settings-2169271-3.patch"
-; Fixes "Connection reset by peer" on large purge list by batching paths, https://www.drupal.org/node/1481136
-projects[varnish][patch][] = "https://www.drupal.org/files/issues/varnish_purge_limit-1481136-11_1.patch"
-; Fixes missing leading slash from ban URLs, https://www.drupal.org/node/2340829
-projects[varnish][patch][] = "https://www.drupal.org/files/issues/varnish-leave_base_path_in_urls-2340829-26.patch"
+projects[varnish][version] = "1.10"
 
 projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.23"
+projects[views][version] = "3.27"
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.1"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.3"
+projects[views_bulk_operations][version] = "3.7"
 
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
@@ -493,6 +482,7 @@ projects[watchdog_filtering][version] = "1.3"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.24"
+projects[webform][patch][] = "https://www.drupal.org/files/issues/2022-04-22/3256149-php74-attributes-array.patch"
 projects[webform][patch][] = "https://www.drupal.org/files/issues/2021-09-20/2972651-webform-no-ip-addresses-34.patch"
 
 projects[webform_purge][subdir] = "contrib"
@@ -519,7 +509,7 @@ projects[ask_vopros][download][url] = "https://github.com/vopros-dk/ask_vopros.g
 projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
-projects[xautoload][version] = "5.7"
+projects[xautoload][version] = "5.8"
 
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.6"

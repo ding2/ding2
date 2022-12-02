@@ -1,0 +1,39 @@
+diff --git a/og.module b/og.module
+index 2338d34..f844382 100755
+--- a/og.module
++++ b/og.module
+@@ -2389,7 +2389,7 @@ function og_get_entity_groups($entity_type = 'user', $entity = NULL, $states = a
+  */
+ function og_is_group_audience_field($field_name) {
+   $field = field_info_field($field_name);
+-  return $field['type'] == 'entityreference' && ($field['settings']['handler'] == 'og' || strpos($field['settings']['handler'], 'og_') === 0);
++  return (isset($field) && $field['type'] == 'entityreference') && (isset($field['settings']['handler']) && ($field['settings']['handler'] == 'og' || strpos($field['settings']['handler'], 'og_') === 0));
+ }
+ 
+ /**
+diff --git a/og_context/og_context.module b/og_context/og_context.module
+index ea73021..5e7f9f2 100644
+--- a/og_context/og_context.module
++++ b/og_context/og_context.module
+@@ -424,7 +424,7 @@ function og_context_determine_context($group_type, $item = NULL, $check_access =
+     $invoke = FALSE;
+     if (!empty($provider['menu path'])) {
+       foreach ($provider['menu path'] as $path) {
+-        if (strpos($item['path'], $path) === 0) {
++        if ($item && strpos($item['path'], $path) === 0) {
+           $invoke = TRUE;
+           // Path matches, so we can break.
+           break;
+diff --git a/og_ui/og_ui.module b/og_ui/og_ui.module
+index 879480c..9cf4cff 100644
+--- a/og_ui/og_ui.module
++++ b/og_ui/og_ui.module
+@@ -814,7 +814,7 @@ function og_ui_field_formatter_settings_summary($field, $instance, $view_mode) {
+ function og_ui_field_access($op, $field, $entity_type, $entity, $account) {
+   global $user;
+ 
+-  if (!og_is_group_audience_field($field['field_name'])) {
++  if (!is_array($field) || !og_is_group_audience_field($field['field_name'])) {
+     return;
+   }
+ 

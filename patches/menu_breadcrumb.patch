@@ -1,0 +1,20 @@
+diff --git a/menu_breadcrumb.module b/menu_breadcrumb.module
+index c57a51e..c86d9e9 100644
+--- a/menu_breadcrumb.module
++++ b/menu_breadcrumb.module
+@@ -311,10 +311,12 @@ function menu_breadcrumb_init() {
+   if (variable_get('menu_breadcrumb_determine_menu', 1) && !$is_front) {
+     // Find the set of menus containing a link for the current page.
+     $menu_item = menu_get_item();
+-    $result = db_query("SELECT mlid, menu_name FROM {menu_links} WHERE link_path = :menu_item", array(':menu_item' => $menu_item['href']));
+     $menu_link_menus = array();
+-    foreach ($result as $menu_link) {
+-      $menu_link_menus[$menu_link->menu_name] = TRUE;
++    if ($menu_item) {
++      $result = db_query("SELECT mlid, menu_name FROM {menu_links} WHERE link_path = :menu_item", array(':menu_item' => $menu_item['href']));
++      foreach ($result as $menu_link) {
++        $menu_link_menus[$menu_link->menu_name] = TRUE;
++      }
+     }
+ 
+     // Choose the highest-priority 'Enabled' menu.

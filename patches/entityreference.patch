@@ -1,0 +1,19 @@
+diff --git a/entityreference.module b/entityreference.module
+index bdcb562..5a26fe6 100644
+--- a/entityreference.module
++++ b/entityreference.module
+@@ -185,9 +185,12 @@ function _entityreference_get_behavior_handler($behavior) {
+  */
+ function entityreference_get_selection_handler($field, $instance = NULL, $entity_type = NULL, $entity = NULL) {
+   ctools_include('plugins');
+-  $handler = $field['settings']['handler'];
+-  $class = ctools_plugin_load_class('entityreference', 'selection', $handler, 'class');
+ 
++  $class = null;
++  if (isset($field['settings']['handler'])) {
++    $handler = $field['settings']['handler'];
++    $class = ctools_plugin_load_class('entityreference', 'selection', $handler, 'class');
++  }
+   if (class_exists($class)) {
+     return call_user_func(array($class, 'getInstance'), $field, $instance, $entity_type, $entity);
+   }
