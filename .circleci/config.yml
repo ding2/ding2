@@ -1,21 +1,33 @@
-version: 2
+version: 2.1
+
+commands:
+  setup_composer:
+    steps:
+      - run:
+          name: Update Composer
+          command: sudo composer self-update
+      - run:
+          name: Add global Composer binaries to path
+          command: |
+            composer global config bin-dir ~/.composer/vendor/bin
+            echo 'export PATH=~/.composer/vendor/bin:$PATH' >> $BASH_ENV
+            source $BASH_ENV
+
+  install_drush:
+      steps:
+        - setup_composer
+        - run:
+            name: Install Drush
+            command: |
+              composer global require drush/drush:8.* --prefer-source --no-interaction
 
 jobs:
   drush_make:
     docker:
-      - image: circleci/php:7.0-cli
+      - image: circleci/php:7.4-cli
     steps:
     - checkout
-    - run:
-        name: Update composer
-        command: |
-          sudo composer self-update
-    - run:
-        name: Install Drush
-        command: |
-          echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
-          source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+    - install_drush
     - run:
         name: Download installation profile dependencies using Drush make
         command: drush make project.make --no-core --contrib-destination=. -y --concurrency=8
@@ -32,17 +44,10 @@ jobs:
         command: |
           mkdir -p ~/drupal/profiles/ding2
           cp -R ./* ~/drupal/profiles/ding2
-    - run:
-        name: Save lets-encrypt root certificates
-        command: |
-          mkdir -p ~/certs/extra
-          cp .circleci/certs/* ~/certs/extra/
-          cp .circleci/ca-certificates.conf ~/certs/
     - persist_to_workspace:
         root: ~/
         paths:
           - drupal
-          - certs
 
   gulp:
     docker:
@@ -72,72 +77,45 @@ jobs:
           - drupal/profiles/ding2/themes/ddbasic/sass_css
           - drupal/profiles/ding2/themes/ddbasic/scripts/min
 
-  php_lint_70:
+  php_lint:
+    parameters:
+      php_version:
+        description: "Which PH version to lint against"
+        type: string
+        default: "7.0"
     docker:
-    - image: circleci/php:7.0-cli
+    - image: circleci/php:<< parameters.php_version >>-cli
+    working_directory: ~/drupal
     steps:
-    - checkout
-    - run:
-        name: Update composer
-        command: |
-          sudo composer self-update
+    - attach_workspace:
+        at: ~/
+    - setup_composer
     - run:
         name: Install PHP linter
-        command: |
-          echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
-          source $BASH_ENV
-          composer global require php-parallel-lint/php-parallel-lint:^1 --no-interaction
+        command: composer global require php-parallel-lint/php-parallel-lint:^1 --no-interaction
     - run:
         name: Lint PHP files
         command: parallel-lint -e php,inc,module,theme,install,profile .
 
-  php_lint_56:
-    docker:
-      - image: circleci/php:5.6-cli
-    steps:
-      - checkout
-      - run:
-          name: Update composer
-          command: |
-            sudo composer self-update
-      - run:
-          name: Install PHP linter
-          command: |
-            echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
-            source $BASH_ENV
-            composer global require php-parallel-lint/php-parallel-lint:^1 --no-interaction
-      - run:
-          name: Lint PHP files
-          command: parallel-lint -e php,inc,module,theme,install,profile .
-
   site_install:
     docker:
-    - image: circleci/php:7.0-cli
+    - image: circleci/php:7.4-cli
     - image: circleci/mysql:5.7.20-ram
     working_directory: ~/drupal
     steps:
     - attach_workspace:
         at: ~/
     - run:
-        name: Update composer
-        command: |
-          sudo composer self-update
-    - run:
         name: Configure PHP for Drupal
         command: |
           sudo apt-get update
-          sudo apt install -y libpng-dev mysql-client
+          sudo apt install -y libpng-dev mariadb-client
           sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 $PHP_INI_DIR/conf.d
           echo "memory_limit = 512M" >> $PHP_INI_DIR/conf.d/docker-php-drupal.ini
           rm -f $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
           php -i
-    - run:
-        name: Install Drush
-        command: |
-          echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
-          source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+    - install_drush
     - run:
         name: Install Ding2 site
         command: |
@@ -164,46 +142,30 @@ jobs:
 
   unit_tests:
     docker:
-    - image: circleci/php:7.0-cli
+    - image: circleci/php:7.4-cli
     - image: circleci/mysql:5.7.20-ram
     working_directory: ~/drupal
     steps:
     - attach_workspace:
         at: ~/
-    - run:
-        name: Update composer
-        command: |
-          sudo composer self-update
-    - run:
-        name: Update root certificates
-        command: |
-          sudo cp /home/circleci/certs/ca-certificates.conf /etc/ca-certificates.conf
-          sudo mkdir /usr/share/ca-certificates/extra
-          sudo cp /home/circleci/certs/extra/* /usr/share/ca-certificates/extra/
-          sudo rm /etc/ssl/certs/*
-          sudo update-ca-certificates
+    - setup_composer
     - run:
         name: Configure PHP for Drupal
         command: |
           sudo apt-get update
-          sudo apt install -y libpng-dev mysql-client
+          sudo apt install -y libpng-dev mariadb-client
           sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 $PHP_INI_DIR/conf.d
           echo "memory_limit = 512M" >> $PHP_INI_DIR/conf.d/docker-php-drupal.ini
           rm -f $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
           php -i
-    - run:
-        name: Install Drush
-        command: |
-          echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
-          source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+    - install_drush
     - run:
         name: Import database
         command: drush sqlq --file=$HOME/db/db.sql
     - run:
         name: Install unit test dependencies
-        command: composer install
+        command: composer install --no-interaction
         working_directory: ~/drupal/profiles/ding2/modules/ding_test
     - run:
         name: Configure site for unit tests
@@ -222,7 +184,7 @@ jobs:
 
   behat_tests:
     docker:
-    - image: circleci/php:7.0-apache
+    - image: circleci/php:7.4-apache
     - image: circleci/mysql:5.7.20-ram
     - image: justinribeiro/chrome-headless:stable
     working_directory: ~/drupal
@@ -230,23 +192,12 @@ jobs:
     steps:
     - attach_workspace:
         at: ~/
-    - run:
-        name: Update composer
-        command: |
-          sudo composer self-update
-    - run:
-        name: Update root certificates
-        command: |
-          sudo cp /home/circleci/certs/ca-certificates.conf /etc/ca-certificates.conf
-          sudo mkdir /usr/share/ca-certificates/extra
-          sudo cp /home/circleci/certs/extra/* /usr/share/ca-certificates/extra/
-          sudo rm /etc/ssl/certs/*
-          sudo update-ca-certificates
+    - setup_composer
     - run:
         name: Configure PHP for Drupal
         command: |
           sudo apt-get update
-          sudo apt install -y libpng-dev mysql-client
+          sudo apt install -y libpng-dev mariadb-client
           sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 $PHP_INI_DIR/conf.d
           echo "memory_limit = 512M" >> $PHP_INI_DIR/conf.d/docker-php-drupal.ini
@@ -260,12 +211,7 @@ jobs:
           sudo chmod -R 0777 /var/www/html/sites/default
           sudo a2enmod rewrite
           sudo service apache2 restart
-    - run:
-        name: Install Drush
-        command: |
-          echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
-          source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+    - install_drush
     - run:
         name: Import database
         command: drush sqlq --file=$HOME/db/db.sql
@@ -283,7 +229,7 @@ jobs:
           sudo chown -R 33:33 /var/www/html/sites/default/files
     - run:
         name: Install Behat
-        command: composer install
+        command: composer install --no-interaction
         working_directory: ~/drupal/profiles/ding2/tests/behat
     - run:
         name: Run Behat tests
@@ -353,7 +299,7 @@ jobs:
     - run:
         name: Build Docker database image
         command: |
-          docker build -t mysql . -f-<<EOF
+          docker build -t mysql . -f-\<<EOF
           FROM mysql:5.7.23
           COPY db.sql /docker-entrypoint-initdb.d/db.sql
           EOF
@@ -378,14 +324,16 @@ workflows:
     jobs:
     - drush_make
     - gulp
-    - php_lint_56
-    - php_lint_70
+    - php_lint:
+        requires:
+          - drush_make
+        matrix:
+          parameters:
+            php_version: ["5.6", "7.0", "7.4"]
     - site_install:
         requires:
           - drush_make
           - gulp
-          - php_lint_56
-          - php_lint_70
     - unit_tests:
         requires:
           - site_install
@@ -401,6 +349,7 @@ workflows:
           - package
           - unit_tests
           - behat_tests
+          - php_lint
         filters:
           branches:
             only:

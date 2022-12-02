@@ -108,7 +108,8 @@ abstract class TingObjectSchemaWrapperBase implements TingObjectSchemaWrapperInt
    * {@inheritdoc}
    */
   public function getBookEdition() {
-    return reset($this->tingObject->getVersion());
+    $versions = $this->tingObject->getVersion();
+    return reset($versions);
   }
 
   /**

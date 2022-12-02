@@ -1507,23 +1507,28 @@ function _ding_nodelist_get_event_location($item, $islink = false) {
   // Prevents that country is printes out, without any other values.
     if (!empty($event_location[0]['name_line'])) {
       return array('#markup' => $event_location[0]['name_line']);
-    } 
+    }
     elseif (!empty($event_location[0]['thoroughfare'])) {
       return array('#markup' => $event_location[0]['thoroughfare']);
     }
   }
 
-  $library = field_view_field('node', $item, 'og_group_ref', array(
-    'label' => 'hidden',
-    'type' => 'entityreference_label',
-    'settings' => array('link' => $islink),
-  ));
 
-  $event_place = field_get_items('node', $item, 'field_ding_event_place');
+  $library = array();
+  $exist = field_get_items('node', $item, 'og_group_ref');
+  if ($exist) {
+    $library = field_view_field('node', $item, 'og_group_ref', array(
+      'label' => 'hidden',
+      'type' => 'entityreference_label',
+      'settings' => array('link' => $islink),
+    ));
 
-  if ($event_place && isset($event_place[0])) {
-    if (isset($library[0]) && isset($library[0]['#markup'])) {
-      $library[0]['#markup'] = $event_place[0]['value'] . ', ' . $library[0]['#markup'];
+    $event_place = field_get_items('node', $item, 'field_ding_event_place');
+
+    if ($event_place && isset($event_place[0])) {
+      if (isset($library[0]) && isset($library[0]['#markup'])) {
+        $library[0]['#markup'] = $event_place[0]['value'] . ', ' . $library[0]['#markup'];
+      }
     }
   }
 
@@ -1705,7 +1710,9 @@ function _ding_nodelist_trim($node, array $settings) {
   foreach ($settings as $field_name => $setting) {
     if (isset($setting['column'])) {
       $field = field_get_items('node', $node, $field_name);
-      $node->{$field_name}[LANGUAGE_NONE][0][$setting['column']] = truncate_utf8($field[0][$setting['column']], $setting['length'], FALSE, TRUE);
+      if (isset($field[0][$setting['column']]) && !is_bool($field[0][$setting['column']])) {
+        $node->{$field_name}[LANGUAGE_NONE][0][$setting['column']] = truncate_utf8($field[0][$setting['column']], $setting['length'], FALSE, TRUE);
+      }
     }
     else {
       $node->{$field_name} = truncate_utf8($node->{$field_name}, $setting['length'], FALSE, TRUE);

@@ -26,6 +26,18 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   $structured = array();
   $categories = array();
 
+  // Load all categories.
+  $machine_name = variable_get('opening_hours_category_vocabulary_ding_library', 0);
+  if (!empty($machine_name)) {
+    $vocabulary = taxonomy_vocabulary_machine_name_load($machine_name);
+
+    if ($vocabulary) {
+      foreach (taxonomy_get_tree($vocabulary->vid, 0, 1) as $term) {
+        $categories[ding_ddbasic_opening_hours_get_category_weight($term->tid)] = $term->name;
+      }
+    }
+  }
+
   if (!empty($variables['timespan'])) {
     $timespan = $variables['timespan'];
   }
@@ -38,16 +50,6 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   );
   $instances = array_filter($instances, '_opening_hours_exclude_blocked');
 
-  $category_tids = array_unique(array_map(function (stdClass $instance) {
-    return $instance->category_tid;
-  }, $instances));
-
-  // If there are no instances we have no knowledge of what categories are in
-  // use, and we will fallback to the default category only.
-  if (empty($instances)) {
-    $category_tids = [NULL];
-  }
-
   // Add closed days.
   for ($day = $timespan[0]; $day <= $timespan[1]; $day += DING_DDBASIC_OPENING_HOURS_ONE_DAY) {
     $date = date('Y-m-d', $day);
@@ -59,21 +61,16 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
     }
 
     if ($closed === TRUE) {
-      // If a day is closed then generate closed instanced for each available
-      // category.
-      $closed_instances = array_map(function ($category_tid) use ($variables, $date) {
-        return (object) [
-          'instance_id' => -1,
-          'nid' => $variables['node']->nid,
-          'start_time' => '0',
-          'end_time' => '0',
-          'category_tid' => $category_tid,
-          'date' => $date,
-          'closed' => true,
-          'notice' => t('Closed'),
-        ];
-      }, $category_tids);
-      $instances = array_merge($instances, $closed_instances);
+      $instances[] = (object) array(
+        'instance_id' => -1,
+        'nid' => $variables['node']->nid,
+        'start_time' => '0',
+        'end_time' => '0',
+        'category_tid' => NULL,
+        'date' => $date,
+        'closed' => TRUE,
+        'notice' => t('Closed'),
+      );
     }
   }
 
@@ -141,6 +138,46 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
     '@to' => format_date($timespan[1], 'custom', 'd.m'),
   ));
 
+  // Set first real category for "closed" days (-1).
+  $default = -1;
+  foreach ($structured as $day) {
+    $weights = array_keys($day['cols']);
+    foreach ($weights as $weight) {
+      if ($weight !== $default) {
+        $default = $weight;
+        break 2;
+      }
+    }
+  }
+
+  // Remove the -1 category.
+  unset($categories[-1]);
+
+  // Close notice.
+  $notice = '<span class="opening-hours-table-notice">' . t('Closed') . '</span>';
+
+  // Default category found, so move data around.
+  foreach ($structured as &$day) {
+    if (array_key_exists(-1, $day['cols'])) {
+      if (isset($day['cols'][$default]) && is_numeric($day['cols'][-1])) {
+        $day['cols'][$default] += $day['cols'][-1];
+      }
+      else {
+        $day['cols'][$default] = $day['cols'][-1];
+      }
+      unset($day['cols'][-1]);
+    }
+
+    // Fill in closed in empty fields.
+    if (count($day['cols']) !== count($categories)) {
+      foreach ($categories as $key => $category) {
+        if (!isset($day['cols'][$key])) {
+          $day['cols'][$key] = $notice;
+        }
+      }
+    }
+  }
+
   $variables['table'] = ding_ddbasic_opening_hours_table(
     $title,
     $categories,
@@ -195,8 +232,6 @@ function theme_ding_ddbasic_opening_hours_all($variables) {
  * Preprocessor for ding_ddbasic_opening_hours_all.
  */
 function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
-  module_load_include('inc', 'opening_hours', 'includes/opening_hours.pages');
-
   $today = strtotime('today');
 
   if (!empty($variables['today'])) {
@@ -220,7 +255,6 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
     date('Y-m-d', $today),
     date('Y-m-d', $today)
   );
-  $instances = array_filter($instances, '_opening_hours_exclude_blocked');
 
   // Fill in closed instances.
   foreach ($order as $library_nid) {
