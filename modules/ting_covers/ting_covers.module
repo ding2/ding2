@@ -147,7 +147,7 @@ function ting_covers_get(array $requested_covers) {
       continue;
     }
 
-    // If we we already have a valid cover image, use it.
+    // If we already have a valid cover image, use it.
     $path = ting_covers_object_path($id);
     if (file_exists($path)) {
       $covers[$id] = $path;
@@ -159,15 +159,18 @@ function ting_covers_get(array $requested_covers) {
   }
 
   // Fetch covers by calling hook.
-  foreach (module_implements('ting_covers') as $module) {
-    foreach (module_invoke($module, 'ting_covers', $entities) as $id => $uri) {
-      if ($uri && $path = _ting_covers_get_file($id, $uri)) {
-        $covers[$id] = $path;
+  if (!empty($entities)) {
+    foreach (module_implements('ting_covers') as $module) {
+      foreach (module_invoke($module, 'ting_covers', $entities) as $id => $uri) {
+        if ($uri && $path = _ting_covers_get_file($id, $uri)) {
+          $covers[$id] = $path;
+        }
+        // Remove elements where a cover has been found, or suppressed.
+        unset($entities[$id]);
       }
-      // Remove elements where a cover has been found, or suppressed.
-      unset($entities[$id]);
     }
   }
+
 
   // Mark all remaining as not found in cache.
   foreach ($entities as $id => $entity) {

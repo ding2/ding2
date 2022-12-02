@@ -247,7 +247,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         $variables['content']['og_group_ref']['#access'] = FALSE;
       }
       elseif (!$variables['alt_location_is_set'] && !empty($variables['field_ding_event_place'])) {
-        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['content']['og_group_ref'][0]['#markup'];
+        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['content']['og_group_ref'][0]['#label'];
         // Hide library from render array.
         $variables['content']['og_group_ref']['#access'] = FALSE;
       }

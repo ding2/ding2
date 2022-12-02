@@ -252,7 +252,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
           );
         }
         // See online button.
-        elseif (isset($button['#attributes']) && in_array('button-see-online', $button['#attributes']['class'])) {
+        elseif (isset($button['#attributes']['class']) && in_array('button-see-online', $button['#attributes']['class'])) {
           ding_webtrekk_attach_event(
             $button['#attributes'],
             'Se online',

@@ -81,7 +81,9 @@ function ding_ting_frontend_ding_entity_view($entity, $view_mode) {
     return;
   }
 
-  $entity->content['#groups']['group_holdings_available']->format_settings['formatter'] = $modified_view_mode;
+  if (isset($entity->content['#groups']['group_holdings_available'])) {
+    $entity->content['#groups']['group_holdings_available']->format_settings['formatter'] = $modified_view_mode;
+  }
 }
 
 /**

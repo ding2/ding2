@@ -25,7 +25,7 @@ function ding_ddbasic_opening_hours_menu() {
   $items['ding-ddbasic/opening-hours/week/%node/%/%'] = $items['ding-ddbasic/opening-hours/week/%node/%/%/%'] = array(
     'title' => 'Opening hours',
     'page callback' => 'ding_ddbasic_opening_hours_week_callback',
-    'page arguments' => array(3, 4, 5),
+    'page arguments' => array(3, 4, 5, 6),
     'delivery callback' => 'ajax_deliver',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
