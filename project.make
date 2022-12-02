@@ -397,7 +397,7 @@ projects[services_views][subdir] = "contrib"
 projects[services_views][version] = "1.1"
 
 projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.28
+projects[search_api][version] = "1.28"
 
 projects[search_api_multi][subdir] = "contrib"
 projects[search_api_multi][version] = "1.3"
