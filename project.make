@@ -328,6 +328,7 @@ projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-
 ; Delete opening hours when node is deleted.
 ; https://www.drupal.org/project/opening_hours/issues/3007293
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/2018-10-17/3007293-2.patch"
+projects[opening_hours][patch][] = "https://storage.easyting.dk/oh-repeat-monthly.patch"
 
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
@@ -837,4 +838,3 @@ libraries[jsrender][download][type]         = "get"
 libraries[jsrender][download][url]          = https://github.com/BorisMoore/jsrender/archive/master.zip
 libraries[jsrender][directory_name]         = "jsrender"
 libraries[jsrender][destination]            = "libraries"
-
