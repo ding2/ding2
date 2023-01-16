@@ -619,41 +619,12 @@ projects[easyddb_search_expand][download][url]    = "git@github.com:easySuite/ea
 ;projects[easyddb_search_expand][download][tag]    = ""
 projects[easyddb_search_expand][download][branch] = "development"
 
-projects[easyopac-app-theme][type]             = "theme"
-projects[easyopac-app-theme][subdir]           = ""
-projects[easyopac-app-theme][download][type]   = "git"
-projects[easyopac-app-theme][download][url]    = "git@github.com:easySuite/easyopac-app-theme.git"
-;projects[easyopac-app-theme][download][tag]    = ""
-projects[easyopac-app-theme][download][branch] = "development"
-
-; Bibliofil
-projects[bibliofil-subtheme][type]             = "theme"
-projects[bibliofil-subtheme][subdir]           = ""
-projects[bibliofil-subtheme][download][type]   = "git"
-projects[bibliofil-subtheme][download][url]    = "git@github.com:easySuite/bibliofil-subtheme.git"
-;projects[bibliofil-subtheme][download][tag]    = ""
-projects[bibliofil-subtheme][download][branch] = "development"
-
-projects[lms][type]             = "module"
-projects[lms][subdir]           = ""
-projects[lms][download][type]   = "git"
-projects[lms][download][url]    = "git@github.com:easySuite/lms.git"
-;projects[lms][download][tag]    = ""
-projects[lms][download][branch] = "development"
-
-projects[easyopac_nodereferences][type]             = "module"
-projects[easyopac_nodereferences][subdir]           = ""
-projects[easyopac_nodereferences][download][type]   = "git"
-projects[easyopac_nodereferences][download][url]    = "git@github.com:easySuite/easyopac_nodereferences.git"
-;projects[easyopac_nodereferences][download][tag]    = ""
-projects[easyopac_nodereferences][download][branch] = "development"
-
-projects[easyopac_redirect][type]             = "module"
-projects[easyopac_redirect][subdir]           = ""
-projects[easyopac_redirect][download][type]   = "git"
-projects[easyopac_redirect][download][url]    = "git@github.com:easySuite/easyopac_redirect.git"
-;projects[easyopac_redirect][download][tag]    = ""
-projects[easyopac_redirect][download][branch] = "development"
+projects[easyopac_app_theme][type]             = "theme"
+projects[easyopac_app_theme][subdir]           = ""
+projects[easyopac_app_theme][download][type]   = "git"
+projects[easyopac_app_theme][download][url]    = "git@github.com:easySuite/easyopac-app-theme.git"
+;projects[easyopac_app_theme][download][tag]    = ""
+projects[easyopac_app_theme][download][branch] = "development"
 
 ; Other modules (narrowly focused)
 projects[inlead_forbid_crawling][type]                = "module"
