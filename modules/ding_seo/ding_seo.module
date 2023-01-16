@@ -1,0 +1,492 @@
+<?php
+
+/**
+ * @file
+ * Ding SEO module file.
+ */
+
+use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+use DingSEO\TingObjectSchemaWrapperInterface;
+use Ting\TingObjectInterface;
+
+include_once 'ding_seo.features.inc';
+
+define('DING_SEO_DEFAULT_MAXIMUM_SITEMAP_LINKS', 50000);
+
+/**
+ * Implements hook_menu().
+ */
+function ding_seo_menu() {
+  $items = [];
+
+  $items['admin/config/ding/ding_seo'] = [
+    'title' => 'Ding SEO',
+    'description' => 'Configure the SEO module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ding_seo_admin_settings'],
+    'access arguments' => ['configure seo settings'],
+    'file' => 'ding_seo.admin.inc',
+  ];
+
+  $items['ding_seo/jsonld/ting_object/%'] = [
+    'title' => 'Ding SEO JSON-LD',
+    'page callback' => 'ding_seo_jsonld_ting_object_callback',
+    'page arguments' => [3],
+    'access arguments' => ['access content'],
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_seo_permission() {
+  return [
+    'configure seo' => [
+      'title' => t('Configure SEO settings'),
+      'description' => t('Configure settings of the SEO module'),
+    ],
+  ];
+}
+
+/**
+ * Implements hook_xautoload().
+ */
+function ding_seo_xautoload(LocalDirectoryAdapter $adapter) {
+  $adapter->addPsr4('DingSEO', 'src');
+}
+
+/**
+ * Get provider specific ting object schema wrapper.
+ *
+ * @param \Ting\TingObjectInterface $ting_object
+ *   The ting object to be wrapped.
+ *
+ * @return \DingSeo\TingObjectSchemaWrapperInterface|null
+ *   provider specific ting object schema wrapper. NULL if search provider
+ *   doesn't implement or the wrapper didn't implement required interface.
+ */
+function ding_seo_get_ting_object_schema_wrapper(TingObjectInterface $ting_object) {
+  if (ding_provider_implements('search', 'ting_object_schema_wrapper')) {
+    $schema_wrapper = ding_provider_invoke('search', 'ting_object_schema_wrapper', $ting_object);
+
+    if ($schema_wrapper instanceof TingObjectSchemaWrapperInterface) {
+      return $schema_wrapper;
+    }
+  }
+  return NULL;
+}
+
+/**
+ * Implements hook_ding_entity_view().
+ */
+function ding_seo_ding_entity_view($ting_object, $view_mode) {
+  if ($view_mode == 'full' || $view_mode == 'collection_list') {
+    ding_seo_check_object_for_sitemap($ting_object);
+  }
+
+  // Only proceed if this is the main page of the ting object.
+  $ting_object_path = entity_uri('ting_object', $ting_object)['path'];
+  if ($view_mode != 'full' || current_path() != $ting_object_path) {
+    return;
+  }
+
+  /** @var \Ting\TingObjectInterface */
+  $ting_object = $ting_object->getTingObject();
+
+  // Get the wrapper to check if a schema type can be determined.
+  $schema_wrapper = ding_seo_get_ting_object_schema_wrapper($ting_object);
+  if (!isset($schema_wrapper) || !$schema_wrapper->getSchemaType()) {
+    return;
+  }
+
+  drupal_add_js(drupal_get_path('module', 'ding_seo') . '/ding_seo.js', [
+    'scope' => 'footer',
+  ]);
+  drupal_add_js([
+    'dingSeo' => [
+      'tingObjectId' => $ting_object->getId(),
+    ],
+  ], 'setting');
+}
+
+/**
+ * Callback for async JSON-LD for ting objects.
+ */
+function ding_seo_jsonld_ting_object_callback($ting_object_id) {
+  $schema_wrapper = NULL;
+
+  /** @var \Ting\TingObjectInterface */
+  $ting_object = ting_search_object_load($ting_object_id);
+  if (isset($ting_object)) {
+    /** @var \DingSEO\TingObjectSchemaWrapperInterface */
+    $schema_wrapper = ding_seo_get_ting_object_schema_wrapper($ting_object);
+  }
+
+  // Bail out if we were not able to produce a schema wrapper or the schema
+  // type could not be determined.
+  $schema_type = NULL;
+  if (!isset($schema_wrapper) || !$schema_type = $schema_wrapper->getSchemaType()) {
+    drupal_add_http_header('Status', '404 Not Found');
+    drupal_exit();
+  }
+
+  // We attach borrow actions to reservable materials. But this requires that
+  // a borrow action library has been set.
+  $borrow_action_library = NULL;
+  $borrow_action_library_nid = variable_get('ding_seo_borrow_action_library', '');
+  if (!empty($borrow_action_library_nid)) {
+    $borrow_action_library = node_load($borrow_action_library_nid);
+  }
+  $attach_borrow_actions = !empty($borrow_action_library);
+
+  // Common properties.
+  $node = [
+    '@type' => $schema_type,
+    '@id' => $schema_wrapper->getId(),
+    'name' => $schema_wrapper->getName(),
+    'description' => $schema_wrapper->getDescription(),
+    'url' => $schema_wrapper->getUrl(),
+    'sameAs' => $schema_wrapper->getSameAs(),
+  ];
+
+  if ($image_url = $schema_wrapper->getImageUrl()) {
+    $node['image'] = [
+      '@type' => 'ImageObject',
+      'representativeOfPage' => 'True',
+      'url' => $image_url,
+    ];
+
+    // Add optional image dimensions.
+    if ($image_dimensions = $schema_wrapper->getImageDimensions()) {
+      list($width, $height) = $image_dimensions;
+      $node['image'] += [
+        'width' => "$width",
+        'height' => "$height",
+      ];
+    }
+  }
+
+  // Currently we only support "Book" and "Movie" schema.org types. We have
+  // prioritized these, since these are featured in the google guidelines for
+  // structured data and we expect these to have the greatest effect.
+  switch ($schema_type) {
+    case TingObjectSchemaWrapperInterface::SCHEMA_BOOK:
+      $authors = $schema_wrapper->getAuthors();
+      $node['author'] = ding_seo_get_person_nodes($authors);
+
+      // Generate work examples for each ting_object in the associated
+      // ting_collection.
+      $collection = ting_collection_load($ting_object->getId());
+      /** @var \TingEntity[] $ting_entities */
+      $ting_entities = $collection->getEntities();
+
+      // Check reservability now for all library materials at once if borrow
+      // acitons should be attached.
+      $reservability = [];
+      if ($attach_borrow_actions) {
+        $local_ids = array_filter(array_map(function ($ting_entity) {
+          if ($ting_entity->is('library_material')) {
+            return $ting_entity->localId;
+          }
+        }, $ting_entities));
+        if (!empty($local_ids)) {
+          $reservability = ding_provider_invoke('reservation', 'is_reservable', $local_ids);
+        }
+      }
+
+      foreach ($ting_entities as $ting_entity) {
+        /** @var \DingSEO\TingObjectSchemaWrapperInterface */
+        $work_example_wrapper = ding_seo_get_ting_object_schema_wrapper($ting_entity->getTingObject());
+
+        if ($work_example_wrapper->getSchemaType() != TingObjectSchemaWrapperInterface::SCHEMA_BOOK) {
+          continue;
+        }
+
+        $work_example = [
+          '@type' => $schema_type,
+          '@id' => $work_example_wrapper->getId(),
+          'url' => $work_example_wrapper->getUrl(),
+          'name' => $work_example_wrapper->getName(),
+          'bookEdition' => $work_example_wrapper->getBookEdition(),
+          'datePublished' => $work_example_wrapper->getDatePublished(),
+          'isbn' => $work_example_wrapper->getIsbn(),
+          'inLanguage' => $schema_wrapper->getInLanguage(),
+          'bookFormat' => $work_example_wrapper->getBookFormat(),
+        ];
+
+        // Following Google's guidelines the following properties should only
+        // be included if they differ from the top-level work.
+        // https://developers.google.com/search/docs/advanced/structured-data/book#book-edition
+        $work_example_name = $work_example_wrapper->getName();
+        $work_example_authors = $work_example_wrapper->getAuthors();
+        $work_example_same_as_url = $work_example_wrapper->getSameAs();
+        if ($work_example_authors !== $authors) {
+          $work_example['author'] = ding_seo_get_person_nodes($work_example_authors);
+        }
+        if ($work_example_name !== $schema_wrapper->getName()) {
+          $work_example['name'] = $work_example_name;
+        }
+        if ($work_example_same_as_url !== $schema_wrapper->getSameAs()) {
+          $work_example['sameAs'] = $work_example_same_as_url;
+        }
+
+        if (!empty($reservability[$ting_entity->localId])) {
+          $work_example['potentialAction'] = ding_seo_generate_borrow_action($work_example_wrapper, $borrow_action_library);
+        }
+
+        // Filter out any empty fields before adding to node.
+        $node['workExample'][] = array_filter($work_example);
+      }
+      break;
+
+    case TingObjectSchemaWrapperInterface::SCHEMA_MOVIE:
+      $node += [
+        'duration' => $schema_wrapper->getDuration(),
+        'dateCreated' => $schema_wrapper->getDateCreated(),
+        'actor' => ding_seo_get_person_nodes($schema_wrapper->getActors()),
+        'director' => ding_seo_get_person_nodes($schema_wrapper->getDirectors()),
+        'musicBy' => ding_seo_get_person_nodes($schema_wrapper->getComposers()),
+        'producer' => ding_seo_get_person_nodes($schema_wrapper->getProducers()),
+      ];
+
+      if ($attach_borrow_actions) {
+        /** @var \TingEntity $ting_entity */
+        $ting_entity = ding_entity_load($ting_object->getId());
+        if ($ting_entity->is('library_material')) {
+          $reservability = ding_provider_invoke('reservation', 'is_reservable', [$ting_object->getSourceId()]);
+          if ($reservability[$ting_object->getSourceId()]) {
+            $node['potentialAction'] = ding_seo_generate_borrow_action($schema_wrapper, $borrow_action_library);
+          }
+        }
+      }
+
+      break;
+  }
+
+  // Filter out any empty fields.
+  $node = array_filter($node);
+  $jsonld = [
+    '@context' => 'https://schema.org',
+    '@graph' => [$node],
+  ];
+  $jsonld = SchemaMetatagManager::encodeJsonld($jsonld);
+  $jsonld = SchemaMetatagManager::renderArrayJsonLd($jsonld);
+  $output = [
+    'jsonLd' => drupal_render($jsonld),
+  ];
+  drupal_json_output($output);
+  drupal_exit();
+}
+
+/**
+ * Generate array of person nodes.
+ *
+ * @param string[] $names
+ *   The array of names to use in person nodes.
+ *
+ * @return array
+ *   An array of person nodes (arrays).
+ */
+function ding_seo_get_person_nodes(array $names) {
+  return array_map(function ($name) {
+    return [
+      '@type' => 'Person',
+      'name' => $name,
+    ];
+  }, $names);
+}
+
+/**
+ * Generate borrow action.
+ *
+ * @param \DingSeo\TingObjectSchemaWrapperInterface $schema_wrapper
+ *   The wrapped ting_object to generate borrow action for.
+ *
+ * @return array
+ *   Array describing borrow action JSON-LD.
+ */
+function ding_seo_generate_borrow_action(TingObjectSchemaWrapperInterface $schema_wrapper, $borrow_action_library) {
+  /** @var \EntityDrupalWrapper */
+  $library_wrapper = entity_metadata_wrapper('node', $borrow_action_library);
+
+  $library_url = url('node/' . $library_wrapper->getIdentifier(), [
+    'absolute' => TRUE,
+  ]);
+  $library_image = $library_wrapper->field_ding_library_title_image->value();
+
+  return [
+    '@type' => 'BorrowAction',
+    'lender' => [
+      '@type' => 'Library',
+      '@id' => $library_wrapper->getIdentifier(),
+      'url' => $library_url,
+      'name' => $borrow_action_library->title,
+      'image' => file_create_url($library_image['uri']),
+    ],
+    'target' => [
+      '@type' => 'EntryPoint',
+      'urlTemplate' => $schema_wrapper->getUrl(),
+      'actionPlatform' => 'https://schema.org/DesktopWebPlatform',
+    ],
+  ];
+}
+
+/**
+ * Get all library nodes.
+ *
+ * @return array
+ *   An array of library nodes keyed by nid.
+ */
+function ding_seo_get_library_nodes() {
+  $query = new \EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ding_library')
+    ->execute();
+
+  $library_nodes = [];
+  if (isset($result['node'])) {
+    $library_nodes_nids = array_keys($result['node']);
+    $library_nodes = entity_load('node', $library_nodes_nids);
+  }
+
+  return $library_nodes;
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Updates the xmlsitemaptable with new links once a day.
+ */
+function ding_seo_cron() {
+  $last_run = variable_get('ding_seo_last_run_sitemap', 0);
+
+  // Run once every day.
+  if (REQUEST_TIME > $last_run + 86400) {
+    ding_seo_update_sitemap();
+    variable_set('ding_seo_last_run_sitemap', REQUEST_TIME);
+  }
+}
+
+/**
+ * Implements hook_xmlsitemap_link_info().
+ */
+function ding_seo_xmlsitemap_link_info() {
+  return [
+    'ting_object' => [
+      'label' => t('Ting objects'),
+    ],
+  ];
+}
+
+/**
+ * Updates the sitemap with new links. Trims objects if there are to many.
+ */
+function ding_seo_update_sitemap() {
+  try {
+    // Check wether to trim any links.
+    $number_of_objects_deleted = ding_seo_check_sitemap_size();
+
+    $last_check = variable_get('ding_seo_sitemap_last_check', 0);
+
+    // Get the objects added since last check.
+    $objects = db_select('ting_object_sitemap', 't')
+      ->condition('t.created', $last_check, '>')
+      ->fields('t', ['xmlsitemap_link_id', 'ting_object_id'])
+      ->execute()
+      ->fetchAllKeyed();
+
+    if (count($objects) > 0) {
+      // Insert the new links into the sitemap table.
+      ding_seo_update_sitemap_table($objects);
+
+      variable_set('xmlsitemap_regenerate_needed', TRUE);
+      // Use REQUEST_TIME so we don't miss any objects.
+      variable_set('ding_seo_sitemap_last_check', REQUEST_TIME);
+    }
+    $replacements = [
+      '%deleted' => $number_of_objects_deleted,
+      '%added' => count($objects),
+    ];
+    watchdog('ding_seo', 'Updated sitemap. %deleted objects deleted. %added objects added', $replacements, WATCHDOG_INFO);
+  }
+  catch (Exception $exception) {
+    watchdog_exception('ding_seo', $exception);
+  }
+}
+
+/**
+ * Insert the new links into xmlsitemaptable.
+ */
+function ding_seo_update_sitemap_table($objects) {
+  foreach ($objects as $id => $object) {
+    $link = [
+      'id' => $id,
+      'type' => 'ting_object',
+      'loc' => 'ting/object/' . $object,
+    ];
+    xmlsitemap_link_save($link);
+  }
+}
+
+/**
+ * Checks wether to put the ting_object into a sitemaps.
+ *
+ * We only want ting_objects from the Library's own collection.
+ * And we only want the ones the users have viewed as object or collection.
+ */
+function ding_seo_check_object_for_sitemap($ting_object) {
+  if ($ting_object->is('library_material')) {
+    try {
+      db_merge('ting_object_sitemap')
+        ->insertFields([
+          'ting_object_id' => $ting_object->getId(),
+          'created' => REQUEST_TIME,
+          'changed' => REQUEST_TIME,
+        ])
+        ->updateFields([
+          'changed' => REQUEST_TIME,
+        ])
+        ->key(['ting_object_id' => $ting_object->getId()])
+        ->execute();
+    }
+    catch (Exception $exception) {
+      watchdog_exception('ding_seo', $exception);
+    }
+  }
+}
+
+/**
+ * Check if our ting_object_sitemap table exceedes the maximum number of link.
+ *
+ * We trim the links which haven't been visited for the longest time.
+ */
+function ding_seo_check_sitemap_size() {
+  $number_to_delete = 0;
+  $max_size = variable_get('ding_seo_maximum_links_in_sitemap', DING_SEO_DEFAULT_MAXIMUM_SITEMAP_LINKS);
+  $size = (int) db_select('ting_object_sitemap')->fields(NULL, array('field'))->countQuery()->execute()->fetchField();
+
+  if ($size > $max_size) {
+    $number_to_delete = $size - $max_size;
+    // Get the objects to delete.
+    $objects = db_select('ting_object_sitemap', 't')
+      ->fields('t', ['xmlsitemap_link_id'])
+      ->range(0, $number_to_delete)
+      ->orderBy('t.changed', 'ASC')
+      ->execute()
+      ->fetchCol();
+
+    // Delete objects from xmlsitemap table.
+    db_delete('xmlsitemap')
+      ->condition('id', $objects, 'IN')
+      ->condition('type', 'ting_object')
+      ->execute();
+
+    // Delete objects from ting_object_sitemap table.
+    db_delete('ting_object_sitemap')
+      ->condition('xmlsitemap_link_id', $objects, 'IN')
+      ->execute();
+  }
+  return $number_to_delete;
+}

@@ -28,6 +28,25 @@ function ding_content_menu() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function ding_content_theme($existing, $type, $theme, $path) {
+  return [
+    'media_youtube_video__cookieinformation' => [
+      'variables' => ['uri' => NULL, 'options' => []],
+      'path' => $path . '/templates',
+      'template' => 'media-youtube-video--cookieinformation',
+    ],
+
+    'media_vimeo_video__cookieinformation' => [
+      'variables' => ['uri' => NULL, 'options' => []],
+      'path' => $path . '/templates',
+      'template' => 'media-vimeo-video--cookieinformation',
+    ],
+  ];
+}
+
+/**
  * Implements hook_media_browser_plugin_info().
  */
 function ding_content_media_browser_plugin_info() {
@@ -133,4 +152,24 @@ function ding_content_form_alter(&$form, &$form_state, $form_id) {
       $form['override_title_markup']['#markup'] = t("The default value %title uses the panel's default title. For better accesibility it's recommended to change it and use a title more specific to the context.");
     }
   }
+}
+
+/**
+ * Preprocess function for theme('media_youtube_video').
+ *
+ * We use our own template in order to ensure cookie information consent before
+ * Youtube adds its cookies.
+ */
+function ding_content_preprocess_media_youtube_video(&$variables) {
+  $variables['theme_hook_suggestions'][] = 'media_youtube_video__cookieinformation';
+}
+
+/**
+ * Preprocess function for theme('media_vimeo_video').
+ *
+ * We use our own template in order to ensure cookie information consent before
+ * Vimeo adds its cookies.
+ */
+function ding_content_preprocess_media_vimeo_video(&$variables) {
+  $variables['theme_hook_suggestions'][] = 'media_vimeo_video__cookieinformation';
 }

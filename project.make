@@ -39,6 +39,10 @@ projects[cache_actions][version] = "2.0-alpha5"
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.2"
 
+projects[cookieinformation][subdir] = "contrib"
+projects[cookieinformation][version] = "1.0"
+projects[cookieinformation][patch][] = "patches/cookieinformation-downgrade-php-requirements.patch"
+
 projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
@@ -97,11 +101,6 @@ projects[entityreference][version] = "1.1"
 
 projects[entityreference_filter][subdir] = "contrib"
 projects[entityreference_filter][version] = "1.7"
-
-projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.31"
-; Cookie-agreed data is not saved if the cookie has a non-default name.
-projects[eu_cookie_compliance][patch][] = "https://www.drupal.org/files/issues/2019-11-27/3097097-2.patch"
 
 projects[environment_indicator][subdir] = "contrib"
 projects[environment_indicator][version] = "2.8"
@@ -164,6 +163,9 @@ projects[htmlmail][version] = "2.65"
 
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.25"
+
+projects[imagecache_token][subdir] = "contrib"
+projects[imagecache_token][version] = "1.0"
 
 projects[image_resize_filter][subdir] = "contrib"
 projects[image_resize_filter][version] = "1.14"
@@ -267,8 +269,13 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.12"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.21"
-projects[metatag][patch][] = "https://www.drupal.org/files/issues/metatag-n2946145-5.patch"
+projects[metatag][version] = "1.28"
+; Improve performance of metatag when using schema.org modules.
+; See: https://www.drupal.org/project/metatag/issues/2981238
+projects[metatag][patch][] = "https://git.drupalcode.org/project/metatag/-/merge_requests/15.diff"
+; Fix error on panel pages after 1.28 update.
+; See: https://www.drupal.org/project/metatag/issues/3224758
+projects[metatag][patch][] = "https://www.drupal.org/files/issues/2021-07-21/metatag-n3224758-2.patch
 
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
@@ -378,7 +385,7 @@ projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0"
 
 projects[role_delegation][subdir] = "contrib"
-projects[role_delegation][version] = "1.1"
+projects[role_delegation][version] = "1.3"
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.7"
@@ -391,6 +398,10 @@ projects[samesite_cookie][version] = "1.0-rc1"
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
 
+projects[schema_metatag][subdir] = "contrib"
+projects[schema_metatag][version] = "1.3"
+
+; Patched with "Secure Permissions fails with features and multilingual"
 projects[secure_permissions][type] = "module"
 projects[secure_permissions][subdir] = "contrib"
 projects[secure_permissions][download][type] = "git"
@@ -512,7 +523,7 @@ projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-php_
 projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-add_nid_index-2569801-3.patch"
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.5"
+projects[wysiwyg][version] = "2.9"
 
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
@@ -523,16 +534,19 @@ projects[ask_vopros][download][tag] = "1.5"
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.8"
 
+projects[xmlsitemap][subdir] = "contrib"
+projects[xmlsitemap][version] = "2.6"
+
 ; Libraries
 ; For ding_libs.
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-6.5.0"
+libraries[bpi-client][download][tag] = "7.x-6.6.0"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.16.2/ckeditor_4.16.2_standard.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.17.1/ckeditor_4.17.1_standard.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
@@ -605,7 +619,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-6.5.0"
+libraries[ting-client][download][tag] = "7.x-6.6.0"
 
 ; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"

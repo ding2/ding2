@@ -79,3 +79,45 @@ function ting_oembed_field_formatter_view($entity_type, TingEntity $entity, $fie
 function ting_oembed_field_is_empty($item, $field) {
   return FALSE;
 }
+
+/**
+ * Alters an oEmbed response.
+ *
+ * We ensure the cookie consent is set before showing videos because video providers set their own cookies.
+ *
+ * @param mixed $response
+ *   oEmbed response data.
+ */
+function ting_oembed_oembed_response_alter(&$response) {
+  // If the oembed response is from Ekurser we need to make sure that cookieinformation consent is given before we
+  // show the video.
+  if (isset($response['provider']) && isset($response['html']) && $response['provider'] == 'default:eKurser') {
+    $dom = new DomDocument();
+
+    // If no charset is given Domdocument treats the input as ISO-8859-1. So we make sure it is treated as UTF-8.
+    // Based on this article: https://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly
+    $dom->loadHTML(mb_convert_encoding($response['html'], 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    $iframes = $dom->getElementsByTagName('iframe');
+
+    // This is only relevant in case of a iframe.
+    foreach ($iframes as $iframe) {
+      $src = $iframe->getAttribute('src');
+      $iframe->setAttribute('src', '');
+      $iframe->setAttribute('data-consent-src', $src);
+      $iframe->setAttribute('data-category-consent', "cookie_cat_marketing");
+
+      $consent = $dom->createElement('div');
+      $consent->setAttribute('class', 'consent-placeholder');
+      $consent->setAttribute('data-category', "cookie_cat_marketing");
+
+      $consent->appendChild($dom->createElement('p', t("This video is not accessible as you haven't accepted marketing-cookies")));
+      $a = $dom->createElement('a', t('Click here to change your consent'));
+      $a->setAttribute('class', 'js-cookie-popup-trigger');
+      $a->setAttribute('href', '#');
+      $consent->appendChild($a);
+
+      $iframe->parentNode->insertBefore($consent);
+    }
+    $response['html'] = $dom->saveHTML();
+  }
+}

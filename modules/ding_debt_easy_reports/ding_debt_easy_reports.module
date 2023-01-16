@@ -170,8 +170,8 @@ function _ding_debt_easy_reports_mail_html_content() {
     $rows[] = [
       $order->order_id,
       $order->provider_ids,
-      $order->amount,
-      $order->changed,
+      number_format($order->amount / 100, 2, ',', '.'),
+      format_date($order->changed, 'short'),
       $order->status,
     ];
   }

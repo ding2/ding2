@@ -3,6 +3,7 @@ description = Create panels panes for Ding!
 core = 7.x
 package = Ding!
 project = ding_content
+scripts[] = js/ding_content.cookie_consent.js
 dependencies[] = clone
 dependencies[] = ctools
 dependencies[] = ctools_custom_content

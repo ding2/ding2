@@ -331,6 +331,18 @@ function ding_adgangsplatformen_login() {
 }
 
 /**
+ * Implements hook_login_provider_user().
+ *
+ * Saves the current path and sends the user to the login page.
+ */
+function ding_adgangsplatformen_login_provider_user() {
+  // We save the current page as destination.
+  $options = ['query' => drupal_get_destination()];
+  // The classes in the oauth2-client don't get loaded unless we go to the login page.
+  drupal_goto(DING_ADGANGSPLATFORMEN_LOGIN_URL, $options);
+}
+
+/**
  * Logout the user from adgangsplatformen.
  *
  * @param bool $regen_session

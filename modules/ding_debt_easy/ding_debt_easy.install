@@ -69,6 +69,13 @@ function ding_debt_easy_schema() {
         'not null' => FALSE,
         'default' => 0,
       ],
+      'auth' => [
+        'description' => 'Authentication key used with web-hooks.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => FALSE,
+        'default' => '',
+      ],
       'changed' => [
         'description' => 'The Unix timestamp when the status was most recently updated.',
         'type' => 'int',
@@ -96,4 +103,12 @@ function ding_debt_easy_uninstall() {
   variable_del('ding_debt_easy_keys');
   variable_del('ding_debt_easy_privacy');
   variable_del('ding_debt_easy_terms');
+}
+
+/**
+ * Add auth field to database.
+ */
+function ding_debt_easy_update_7100() {
+  $schema = ding_debt_easy_schema();
+  db_add_field('ding_debt_easy', 'auth', $schema['ding_debt_easy']['fields']['auth']);
 }

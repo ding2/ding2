@@ -19,6 +19,8 @@
   var DING_WEBTREKK_PARAMETER_RENEW_RATING = 58;
   var DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT = 59;
   var DING_WEBTREKK_PARAMETER_CAROUSEL_PREV = 60;
+  var DING_WEBTREKK_PARAMETER_COVER_PRESENT = 49;
+  var DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_SELECTED = 67;
 
   var appendQueryParameter = function appendQueryParameter(url, key, value) {
     var seperator = (url.indexOf('?') !== -1) ? '&' : '?';
@@ -54,6 +56,8 @@
   Drupal.dingWebtrekkAppendQueryParameter = appendQueryParameter;
   Drupal.dingWebtrekkPushEvent = pushEvent;
   Drupal.dingWebtrekkNoCookieTracking= noCookieTracking;
+
+  Drupal.dingWebtrekkCoverFound = false;
 
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
@@ -109,6 +113,33 @@
           };
           eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_SELECTED] = selectedMaterials.join(';');
           pushEvent('click', eventData);
+      });
+
+      // Track ding reservation selected events.
+      //
+      // The delete all button is attached completely on the server, but for
+      // delete selected, we need information about selected reservations in the UI,
+      // before we send event.
+      //
+      // There is defined a click events which hinders ours from firing so we use mousedown in stead.
+      var deleteReservationHandler = function (e) {
+        var numberSelected = $('.material-item input[type=checkbox]:checked').length;
+        var eventData = {
+          linkId: 'Slet valgte reservering',
+          customClickParameter: {}
+        };
+        eventData.customClickParameter[DING_WEBTREKK_PARAMETER_DELETE_RESERVATION_SELECTED] = numberSelected.toString();
+        pushEvent('click', eventData);
+      }
+
+      $('.js-ding-webtrekk-event-delete-selected', context)
+        .once('js-ding-webtrekk')
+        .mousedown(deleteReservationHandler);
+
+      // We dont want send parameters twice. The delete all buttons selects all reserverations
+      // and fires off the delete select reservation handler. So we unbind it.
+      $('.delete-all', context).click(function(e) {
+        $('.js-ding-webtrekk-event-delete-selected').unbind('mousedown', deleteReservationHandler);
       });
 
       // Special handling for ding_carousel.
@@ -176,19 +207,69 @@
         // data to Webtrekk.
         pushEvent('click', eventData);
       });
+
+      // Handling of covers on collection and object pages. Covers can come either on
+      // page load or on ajax calls so we need to handle both cases. In order not to
+      // send the same event multiple times we use global variable Drupal.dingWebtrekkCoverFound
+      // to keep track of previously sent events.
+
+      var sendCoverEvent = function (id) {
+        if (!Drupal.dingWebtrekkCoverFound) {
+          var eventData = {
+            linkId: 'Materiale billede event',
+            customClickParameter: {}
+          };
+          eventData.customClickParameter[DING_WEBTREKK_PARAMETER_COVER_PRESENT] = id;
+          pushEvent('click', eventData);
+          Drupal.dingWebtrekkCoverFound = true;
+        }
+      };
+
+      $('.view-mode-collection-list .ting-cover, .view-mode-full .ting-cover', context)
+        .has('img').once('js-ding-webtrekk', function () {
+          var id = $(this).data('ting-cover-object-id');
+          sendCoverEvent(id);
+        });
+      $('.view-mode-collection-list .ting-cover, .view-mode-full .ting-cover', context)
+        .once('js-ding-webtrekk').on('DOMSubtreeModified', function () {
+          if ($(this).has('img')) {
+            var id = $(this).data('ting-cover-object-id');
+            sendCoverEvent(id);
+          }
+          $(this).unbind('DOMSubtreeModified');
+        });
+
+      const noCookieTracking = function (name) {
+        var cookiesToDelete = Drupal.settings.dingWebtrekk.cookiesToRemove;
+        cookiesToDelete.forEach(cookie => {
+          var hostname = window.location.hostname;
+          while (hostname !== '') {
+          // The version of jquery.cookie which comes with this version of Drupal does not have
+          // removeCookie function so we use this method instead.
+            $.cookie(cookie, null, { path: '/', domain: hostname });
+
+            var index = hostname.indexOf('.');
+            // We can be on a sub-domain, so keep checking the main domain as well.
+            hostname = (index === -1) ? '' : hostname.substring(index + 1);
+          }
+        });
+      }
+      // This code fires multiple times. But we need to make sure that the cookies are removed after they are
+      // set and on any change in consent.
+      if (typeof CookieInformation !== 'undefined' && CookieInformation !== null) {
+        if (!CookieInformation.getConsentGivenFor("cookie_cat_statistic")) {
+          // If the user has not yet consented or opted out of statistic cookies we use nocookietracking.
+          noCookieTracking();
+        }
+
+        window.addEventListener("CookieInformationConsentGiven", function (event) {
+          if (!CookieInformation.getConsentGivenFor("cookie_cat_statistic")) {
+            // If the user has opted out of statistic cookies we use nocookietracking.
+            noCookieTracking();
+          }
+        });
+      }
     }
   };
-
-  // EU cookie compliance integration.
-  if (typeof Drupal.eu_cookie_compliance !== 'undefined') {
-    var method = Drupal.settings.eu_cookie_compliance.method;
-    // When using opt-in enable no-cookie tracking if user hasn't agreed.
-    // When using opt-out enable no-cookie tracking if user has disagreed. Since
-    // there's no method for that, we check for the value explicitly.
-    if ((method === 'opt_in' && !Drupal.eu_cookie_compliance.hasAgreed())
-        || (method === 'opt_out' && Drupal.eu_cookie_compliance.getCurrentStatus() === 0)) {
-      noCookieTracking();
-    }
-  }
 
 })(jQuery);
