@@ -275,7 +275,7 @@ projects[metatag][version] = "1.28"
 projects[metatag][patch][] = "https://git.drupalcode.org/project/metatag/-/merge_requests/15.diff"
 ; Fix error on panel pages after 1.28 update.
 ; See: https://www.drupal.org/project/metatag/issues/3224758
-projects[metatag][patch][] = "https://www.drupal.org/files/issues/2021-07-21/metatag-n3224758-2.patch
+projects[metatag][patch][] = "https://www.drupal.org/files/issues/2021-07-21/metatag-n3224758-2.patch"
 
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
