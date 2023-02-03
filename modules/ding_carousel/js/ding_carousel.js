@@ -234,7 +234,7 @@
     }
     var slidesToScroll = Math.floor(slick.$slider.width() / slick.$slides.eq(0).outerWidth(true)) - scrollCount;
     slick.options.slidesToScroll = Math.max(slidesToScroll, scrollCount);
-    slick.options.slidesToShow = slick.$slider.width() / slick.$slides.eq(0).outerWidth(true);
+    slick.options.slidesToShow = Math.max(Math.round(slick.$slider.width() / slick.$slides.eq(0).outerWidth(true)), 1);
   };
 
   /**

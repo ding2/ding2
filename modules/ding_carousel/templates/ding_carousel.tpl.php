@@ -17,5 +17,5 @@
   data-path="<?php print $path; ?>"
   data-settings="<?php print htmlentities(json_encode($slick_settings)); ?>"
   >
-  <ul class="carousel"><?php print render($items); ?></ul>
+  <div class="carousel"><?php print render($items); ?></div>
 </div>

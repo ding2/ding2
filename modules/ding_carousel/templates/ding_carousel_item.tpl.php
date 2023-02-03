@@ -8,6 +8,6 @@
  * - $content: Item content.
  */
 ?>
-<li class="<?php print $classes; ?>">
+<div class="<?php print $classes; ?>">
   <?php print render($content); ?>
-</li>
+</div>

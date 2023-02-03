@@ -52,6 +52,8 @@ function template_preprocess_ding_carousel(&$vars) {
     // Use variableWidth to allow the theme to control cover sizes.
     'variableWidth' => TRUE,
     'outerEdgeLimit' => TRUE,
+    'slidesToShow' => 5,
+    'slidesToScroll' => 3,
   );
 
   if (isset($carousel['#hidden']) && $carousel['#hidden']) {
