@@ -2,13 +2,17 @@
 /**
  * @file
  * Ding event node blocks template.
+ *
+ * @var object $item
+ * @var string $category
  */
 
+$aria_label = trim("{$category} {$item->title}");
 ?>
 
 <article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
-         class="node node-ding-event node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>"<?php print $attributes; ?>>
-  <a href="<?php print '/node/' . $item->nid; ?>" aria-labelledby="<?php print 'link-id-' . $item->nid; ?>">
+         class="node node-ding-event node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>" aria-label="<?php print $aria_label; ?>"<?php print $attributes; ?>>
+  <a href="<?php print '/node/' . $item->nid; ?>">
     <div class="inner">
       <div class="background">
         <div class="button"><?php print t('Read more'); ?></div>
