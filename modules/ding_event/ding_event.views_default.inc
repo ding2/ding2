@@ -56,7 +56,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'No events were found.';
   $handler->display->display_options['empty']['area']['format'] = 'ding_wysiwyg';
-  /* Relationship: OG membership: OG membership from Node */
+  /* Relationship: OG membership: OG membership from Content */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
@@ -308,7 +308,7 @@ function ding_event_views_default_views() {
         'datepicker_options' => '',
       ),
     ),
-    'field_ding_event_date_value_1' => array(
+    'field_ding_event_date_value2' => array(
       'bef_format' => 'default',
       'more_options' => array(
         'autosubmit' => 0,
@@ -417,11 +417,11 @@ function ding_event_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: OG membership: OG membership from Node */
+  /* Relationship: OG membership: OG membership from Content */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Relationship: OG membership: Group Node from OG membership */
+  /* Relationship: OG membership: Group Content from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -639,18 +639,18 @@ function ding_event_views_default_views() {
   );
   $handler->display->display_options['filters']['field_ding_event_date_value']['form_type'] = 'date_popup';
   $handler->display->display_options['filters']['field_ding_event_date_value']['default_date'] = 'now';
-  /* Filter criterion: Content: Date -  start date (field_ding_event_date) */
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['id'] = 'field_ding_event_date_value_1';
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['table'] = 'field_data_field_ding_event_date';
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['field'] = 'field_ding_event_date_value';
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['operator'] = '<=';
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['group'] = 1;
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['expose']['operator_id'] = 'field_ding_event_date_value_1_op';
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['expose']['label'] = 'To';
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['expose']['operator'] = 'field_ding_event_date_value_1_op';
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['expose']['identifier'] = 'field_ding_event_date_value_1';
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['expose']['remember_roles'] = array(
+  /* Filter criterion: Content: Date - end date (field_ding_event_date:value2) */
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['id'] = 'field_ding_event_date_value2';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['field'] = 'field_ding_event_date_value2';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['group'] = 1;
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['expose']['operator_id'] = 'field_ding_event_date_value2_op';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['expose']['label'] = 'To';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['expose']['operator'] = 'field_ding_event_date_value2_op';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['expose']['identifier'] = 'field_ding_event_date_value2';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
     3 => 0,
@@ -661,7 +661,7 @@ function ding_event_views_default_views() {
     8 => 0,
     9 => 0,
   );
-  $handler->display->display_options['filters']['field_ding_event_date_value_1']['form_type'] = 'date_popup';
+  $handler->display->display_options['filters']['field_ding_event_date_value2']['form_type'] = 'date_popup';
   /* Filter criterion: Content: Has taxonomy terms (with depth) */
   $handler->display->display_options['filters']['term_node_tid_depth']['id'] = 'term_node_tid_depth';
   $handler->display->display_options['filters']['term_node_tid_depth']['table'] = 'node';
@@ -717,6 +717,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['filters']['field_ding_event_target_tid']['id'] = 'field_ding_event_target_tid';
   $handler->display->display_options['filters']['field_ding_event_target_tid']['table'] = 'field_data_field_ding_event_target';
   $handler->display->display_options['filters']['field_ding_event_target_tid']['field'] = 'field_ding_event_target_tid';
+  $handler->display->display_options['filters']['field_ding_event_target_tid']['group'] = 1;
   $handler->display->display_options['filters']['field_ding_event_target_tid']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_ding_event_target_tid']['expose']['operator_id'] = 'field_ding_event_target_tid_op';
   $handler->display->display_options['filters']['field_ding_event_target_tid']['expose']['label'] = 'Event target';
@@ -780,11 +781,11 @@ function ding_event_views_default_views() {
   $handler->display->display_options['row_options']['links'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: OG membership: OG membership from Node */
+  /* Relationship: OG membership: OG membership from Content */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Relationship: OG membership: Group Node from OG membership */
+  /* Relationship: OG membership: Group Content from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -901,11 +902,11 @@ function ding_event_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: OG membership: OG membership from Node */
+  /* Relationship: OG membership: OG membership from Content */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Relationship: OG membership: Group Node from OG membership */
+  /* Relationship: OG membership: Group Content from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -1002,11 +1003,11 @@ function ding_event_views_default_views() {
   $handler->display->display_options['row_options']['links'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: OG membership: OG membership from Node */
+  /* Relationship: OG membership: OG membership from Content */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Relationship: OG membership: Group Node from OG membership */
+  /* Relationship: OG membership: Group Content from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
