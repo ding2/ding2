@@ -87,21 +87,21 @@
  */
 ?>
 <article class="<?php print $classes; ?>" aria-labelledby="news-article-<?php print $node->nid; ?>" <?php print $attributes; ?>>
-  <div class="inner">
-    <?php print $news_teaser_image; ?>
-    <div class="news-text">
-      <h3 class="title" id="news-article-<?php print $node->nid; ?>">
-        <a href="<?php print $node_url; ?>" aria-label="<?php print t('Read more about') . ' ' . $title; ?>"><?php print $title; ?></a>
-      </h3>
-      <div class="category-and-submitted">
-        <?php print render($content['field_ding_news_category']); ?>
-        <?php if (isset($content['field_ding_section'])) : ?>
-          <?php print render($content['field_ding_section']); ?>
-        <?php endif; ?>
-        <div class="info-dash">-</div>
-        <div class="submitted"><?php print $news_submitted; ?></div>
+  <a href="<?php print $node_url; ?>" aria-label="<?php print t('Read more about') . ' ' . $title; ?>">
+    <div class="inner">
+      <?php print $news_teaser_image; ?>
+      <div class="news-text">
+        <h3 class="title" id="news-article-<?php print $node->nid; ?>"><?php print $title; ?></h3>
+        <div class="category-and-submitted">
+          <?php print render($content['field_ding_news_category']); ?>
+          <?php if (isset($content['field_ding_section'])) : ?>
+            <?php print render($content['field_ding_section']); ?>
+          <?php endif; ?>
+          <div class="info-dash">-</div>
+          <div class="submitted"><?php print $news_submitted; ?></div>
+        </div>
+        <?php print render($content['field_ding_news_lead']); ?>
       </div>
-      <?php print render($content['field_ding_news_lead']); ?>
     </div>
-  </div>
+  </a>
 </article>
