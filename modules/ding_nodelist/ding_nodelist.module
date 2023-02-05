@@ -705,9 +705,6 @@ function ding_nodelist_theme() {
         'item' => NULL,
         'conf' => NULL,
       ),
-      'preprocess functions' => [
-        'ding_nodelist_preprocess_core_templates',
-      ],
     );
   }
 
@@ -720,18 +717,6 @@ function ding_nodelist_theme() {
   );
 
   return $themes;
-}
-
-/**
- * Custom preprocess function for dynamic theme hooks implementation.
- *
- * @param array $variables
- *   Variables array.
- *
- * @see ding_nodelist_theme()
- */
-function ding_nodelist_preprocess_core_templates(&$variables) {
-  $variables['category'] = field_get_items('node', $variables['item'], 'category')['#markup'] ?? '';
 }
 
 /**
