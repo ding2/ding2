@@ -370,7 +370,7 @@ function ding_event_form_views_exposed_form_alter(&$form, &$form_state) {
 function ding_event_preprocess_views_exposed_form(&$variables) {
   if (arg(0) == 'arrangementer') {
     $form = $variables['form'];
-    $excluded_widgets = ['title', 'date', 'field_ding_event_date_value_1'];
+    $excluded_widgets = ['title', 'date', 'field_ding_event_date_value', 'field_ding_event_date_value2'];
     foreach ($form['#info'] as $widget => $item) {
       if (!in_array($item['value'], $excluded_widgets)) {
         $items = [];

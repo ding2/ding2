@@ -1388,6 +1388,7 @@ function ddbasic_select($variables) {
 function ddbasic_form_views_exposed_form_alter(&$form, &$form_state) {
   // Only modify event list exposed form.
   if ($form['#id'] == 'views-exposed-form-ding-event-ding-event-list') {
+    $form['title']['#attributes']['aria-expanded'] = 'false';
     $form['date']['value']['#attributes']['aria-labelledby'] = 'edit-date';
     $form['field_ding_event_date_value_1']['value']['#attributes']['aria-labelledby'] = 'edit-field-ding-event-date-value-1';
     // Some elements are not yet added to the form so we setup a prerender function.

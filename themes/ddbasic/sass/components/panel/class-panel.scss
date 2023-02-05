@@ -556,7 +556,7 @@
     }
   }
   .views-widget-filter-field_ding_event_date_value,
-  .views-widget-filter-field_ding_event_date_value_1 {
+  .views-widget-filter-field_ding_event_date_value2 {
     @include span-columns(2 of 4);
 
     // Tablet
@@ -570,7 +570,7 @@
       margin-right: 0;
     }
   }
-  .views-widget-filter-field_ding_event_date_value_1 {
+  .views-widget-filter-field_ding_event_date_value2 {
     @include omega();
   }
   .form-type-bef-checkbox {

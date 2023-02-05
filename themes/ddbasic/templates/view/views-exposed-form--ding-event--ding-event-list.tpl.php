@@ -43,11 +43,11 @@
               <?php print $widget->label; ?>
             </label>
           <?php elseif ($widget->id == 'edit-field-ding-event-date-value-1'): ?>
-            <label for="edit-field-ding-event-date-value-1-value-datepicker-popup-0" id="<?php print $widget->id; ?>">
+            <label for="edit-field-ding-event-date-value-1-value-datepicker-popup-0">
               <?php print $widget->label; ?>
             </label>
           <?php else : ?>
-            <label for="<?php print $widget->id; ?>" id="<?php print $widget->id; ?>">
+            <label for="<?php print $widget->id; ?>">
               <?php print $widget->label; ?>
             </label>
           <?php endif; ?>
@@ -66,7 +66,7 @@
           </div>
         <?php endif; ?>
       </div>
-      <?php if($widget->id == 'edit-field-ding-event-date-value-1') : ?>
+      <?php if($widget->id == 'edit-field-ding-event-date-value2') : ?>
         <div class="views-exposed-widget views-submit-button">
           <?php print $button; ?>
         </div>
