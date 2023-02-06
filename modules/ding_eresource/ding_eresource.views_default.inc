@@ -88,7 +88,7 @@ function ding_eresource_views_default_views() {
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
   $handler->display->display_options['sorts']['title']['field'] = 'title';
-  /* Filter criterion: Content: Published */
+  /* Filter criterion: Content: Published status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -168,7 +168,7 @@ function ding_eresource_views_default_views() {
   $handler->display->display_options['arguments']['title']['path_case'] = 'lower';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Content: Published */
+  /* Filter criterion: Content: Published status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -196,6 +196,7 @@ function ding_eresource_views_default_views() {
   $handler->display->display_options['filters']['field_ding_eresource_access_tid']['field'] = 'field_ding_eresource_access_tid';
   $handler->display->display_options['filters']['field_ding_eresource_access_tid']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_ding_eresource_access_tid']['expose']['operator_id'] = 'field_ding_eresource_access_tid_op';
+  $handler->display->display_options['filters']['field_ding_eresource_access_tid']['expose']['label'] = 'Access';
   $handler->display->display_options['filters']['field_ding_eresource_access_tid']['expose']['operator'] = 'field_ding_eresource_access_tid_op';
   $handler->display->display_options['filters']['field_ding_eresource_access_tid']['expose']['identifier'] = 'access';
   $handler->display->display_options['filters']['field_ding_eresource_access_tid']['expose']['remember_roles'] = array(

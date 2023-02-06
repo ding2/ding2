@@ -52,7 +52,7 @@ function ding_eresource_form_alter(&$form, &$form_state, $form_id) {
   // Change all-text in select list in exposed filter for e-resources.
   if ($form['#id'] == 'views-exposed-form-ding-eresource-ding-eresource-list') {
     if (!empty($form['access']['#options']['All'])) {
-      $form['access']['#options']['All'] = t('Access: All e-materials');
+      $form['access']['#options']['All'] = t('All e-materials');
     }
   }
 }

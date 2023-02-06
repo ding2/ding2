@@ -449,6 +449,7 @@ function ding_eresource_default_page_manager_pages() {
       'attachment_2_1' => NULL,
       'attachment_2_2' => NULL,
       'attachment_1_1' => NULL,
+      'top_banner' => NULL,
     ),
   );
   $display->cache = array();
@@ -461,7 +462,7 @@ function ding_eresource_default_page_manager_pages() {
     $pane->panel = 'left_sidebar';
     $pane->type = 'menu_title';
     $pane->subtype = 'menu_title';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 0,
@@ -535,7 +536,7 @@ function ding_eresource_default_page_manager_pages() {
     $pane->panel = 'main_content';
     $pane->type = 'ding_eresource_index';
     $pane->subtype = 'ding_eresource_index';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
