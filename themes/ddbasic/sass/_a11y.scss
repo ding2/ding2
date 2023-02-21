@@ -1,0 +1,102 @@
+html {
+  &.a11y,
+  &.a11y body {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  &.a11y-contrast {
+    & *,
+    input[type="text"]::placeholder {
+      color: $color-text-on-primary !important;
+      background-color: $charcoal !important;
+    }
+
+    .node-ding-eresource.node-full > .inner > .buttons a::after {
+      color: $color-text-on-primary !important;
+    }
+
+    select {
+      background-color: transparent !important;
+      color: $color-text-on-primary !important;
+    }
+
+    ul.pager .pager-current {
+      background-color: $color-text-on-primary !important;
+      color: $charcoal !important;
+    }
+
+    .ding_nodelist-node_blocks {
+      .text {
+        background: transparent !important;
+        & * {
+          background: transparent !important;
+        }
+      }
+    }
+
+    article.node .event-text,
+    article.node .event-text * {
+      background: 0 0 !important;
+    }
+
+    .view-ding-eresource .pager-previous a::after,
+    .view-ding-eresource .pager-next a::after,
+    .node-ding-eresource .buttons a,
+    .node-ding-event.node-teaser .background .button,
+    .more-link a,
+    .ding-carousel .slick-slider .slick-arrow.slick-next::after,
+    .ding-carousel .slick-slider .slick-arrow.slick-prev::after,
+    ul.pager li.pager-next a::after,
+    ul.pager li.pager-previous a::after,
+    #ui-datepicker-div .ui-datepicker-calendar td a.ui-state-highlight,
+    .opening-hours-week .button-previous::after,
+    .opening-hours-week .button-next::after,
+    a.opening-hours-toggle.collapsed::after,
+    a.opening-hours-toggle::after,
+    .no-touch .ding_nodelist-node_blocks .ding_nodelist-items .nb-item.is-hovered .background,
+    .no-touch .ding_nodelist-node_blocks .ding_nodelist-items .nb-item:hover .background,
+    article.node-ding-event.node-teaser a:hover .inner,
+    article.node-ding-event.node-teaser a:hover .event-text,
+    article.node-ding-event.node-teaser a:hover .background {
+      background-color: $charcoal !important;
+    }
+
+    #ui-datepicker-div .ui-datepicker-calendar td a:hover,
+    .more-link a:hover,
+    .more-link a:hover::after,
+    .nb-item .button,
+    article.node a:hover .background .button,
+    input[type="submit"],
+    .no-touch a.opening-hours-toggle:hover::after,
+    .no-touch .opening-hours-week .button-previous:hover::after,
+    .no-touch .opening-hours-week .button-next:hover::after {
+      background-color: $charcoal-lighter !important;
+    }
+
+    .nb-item .button,
+    .node-ding-event.node-teaser .background .button {
+      z-index: 5;
+    }
+  }
+}
+
+.a11y {
+  background-color: $color-primary;
+  position: fixed;
+  left: 1%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+  border-radius: 10px;
+
+  i {
+    font-size: 1rem;
+  }
+
+  a {
+    color: $color-text-on-primary;
+  }
+}
