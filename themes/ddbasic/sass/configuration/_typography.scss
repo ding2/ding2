@@ -39,40 +39,40 @@ $weight-normal: 400;
 
   @if $name == 'display-large-bold' {
     font-family: $font-family-bold;
-    font-size: 40px;
-    line-height: 44px;
+    font-size: 2.5rem;
+    line-height: 2.75rem;
     // Mobile
     @include media($mobile) {
-      font-size: 30px;
-      line-height: 36px;
+      font-size: 1.875rem;
+      line-height: 2.25rem;
     }
   }
 
   @if $name == 'display-large' {
     font-family: $font-family-light;
-    font-size: 40px;
-    line-height: 44px;
+    font-size: 2.5rem;
+    line-height: 2.75rem;
     // Mobile
     @include media($mobile) {
-      font-size: 30px;
-      line-height: 36px;
+      font-size: 1.875rem;
+      line-height: 2.25rem;
     }
   }
 
   @if $name == 'display' {
     font-family: $font-family-bold;
-    font-size: 24px;
-    line-height: 28px;
+    font-size: 1.5rem;
+    line-height: 1.75rem;
     // Mobile
     @include media($mobile) {
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 1.125rem;
+      line-height: 1.5rem;
     }
   }
 
   @if $name == 'display-small' {
     font-family: $font-family-bold;
-    font-size: 18px;
-    line-height: 24px;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
   }
 }
