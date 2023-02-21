@@ -58,5 +58,6 @@
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
+  <?php if(!empty($a11y)): ?><?php print $a11y; ?><?php endif; ?>
 </body>
 </html>
