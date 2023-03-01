@@ -158,6 +158,9 @@ projects[globalredirect][version] = "1.6"
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
+projects[gtranslate][subdir] = "contrib"
+projects[gtranslate][version] = "1.15"
+
 projects[htmlmail][subdir] = "contrib"
 projects[htmlmail][version] = "2.65"
 
