@@ -1475,7 +1475,7 @@ function ddbasic_theme($existing, $type, $theme, $path) {
  * Create a11y controls.
  */
 function ddbasic_preprocess_a11y(&$variables) {
-  $variables['size'] = l('<i class="fa fa-font"></i>', '#', [
+  $variables['size'] = l('', '#', [
     'attributes' => [
       'class' => [
         'a11y-trigger',
@@ -1483,10 +1483,9 @@ function ddbasic_preprocess_a11y(&$variables) {
       ],
       'title' => t('Toggle font size'),
     ],
-    'html' => TRUE,
   ]);
 
-  $variables['contrast'] = l('<i class="fa fa-adjust"></i>', '#', [
+  $variables['contrast'] = l('', '#', [
     'attributes' => [
       'class' => [
         'a11y-trigger',
@@ -1494,7 +1493,6 @@ function ddbasic_preprocess_a11y(&$variables) {
       ],
       'title' => t('Toggle high contrast'),
     ],
-    'html' => TRUE,
   ]);
 
   drupal_add_js(drupal_get_path('theme', 'ddbasic') . '/scripts/a11y.js');

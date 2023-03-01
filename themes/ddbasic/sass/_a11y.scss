@@ -112,11 +112,21 @@ html {
   padding: 5px;
   border-radius: 10px;
 
-  i {
-    font-size: 1rem;
-  }
-
   a {
+    font-size: 1.5rem;
     color: $color-text-on-primary;
+    text-align: center;
+
+    &.font-size-trigger {
+      &::before {
+        content: 'a';
+      }
+    }
+
+    &.contrast-trigger {
+      &::before {
+        content: '\263c';
+      }
+    }
   }
 }
