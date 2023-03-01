@@ -6,7 +6,7 @@
 // -------------------------------------------------------------------------------------------------
 
 // Include contribs.
-@import 'contrib/bourbon/bourbon', 'configuration/grid-settings', 'contrib/neat/neat';
+@import 'contrib/bourbon/bourbon', 'configuration/grid-settings', 'contrib/neat/neat', 'contrib/gtranslate/gtranslate';
 
 // Include the rest.
 @import 'configuration/variables', 'configuration/typography', 'configuration/mixin', 'configuration/function', 'configuration/animation', 'configuration/extend';
