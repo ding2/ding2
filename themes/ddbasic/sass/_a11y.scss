@@ -1,8 +1,28 @@
 html {
   &.a11y,
   &.a11y body {
-    font-size: 24px;
-    line-height: 30px;
+    font-size: 22px;
+    line-height: 26px;
+
+    .search-form-extended.admin-menu .site-header .pane-search-form {
+      top: 276px;
+    }
+
+    select,
+    input[type="submit"],
+    input[type="text"],
+    input[type="text"]::placeholder,
+    .carousel-tabs .carousel-list-tabs .carousel-item a,
+    .panel-pane.pane-current-user-name h2,
+    .field-group-format.collapsible > h2 {
+      font-size: 1rem;
+      line-height: 1.12rem;
+    }
+
+    .ddb-btn {
+      font-size: 0.875rem;
+      line-height: 1rem;
+    }
   }
 
   &.a11y-contrast {
@@ -81,7 +101,7 @@ html {
   }
 }
 
-.a11y {
+.a11y-controls {
   background-color: $color-primary;
   position: fixed;
   left: 1%;
