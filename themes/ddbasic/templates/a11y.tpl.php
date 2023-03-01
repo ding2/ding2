@@ -7,7 +7,7 @@
  * @var $contrast
  */
 ?>
-<div id="a11y" class="a11y">
+<div id="a11y-controls" class="a11y-controls">
   <?php print $size; ?>
   <?php print $contrast; ?>
 </div>
