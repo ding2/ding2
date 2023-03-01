@@ -479,7 +479,7 @@ projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.1"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.3"
+projects[views_bulk_operations][version] = "3.7"
 
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
