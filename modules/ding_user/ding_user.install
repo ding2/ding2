@@ -200,3 +200,39 @@ function ding_user_update_7102(&$sandbox) {
 
   $sandbox['#finished'] = $sandbox['progress'] >= $sandbox['max'] ? TRUE : $sandbox['progress'] / $sandbox['max'];
 }
+
+/**
+ * Pseudonymize patron accounts mails.
+ */
+function ding_user_update_7103(&$sandbox) {
+  if (!array_key_exists('progress', $sandbox)) {
+    $staff_uids = db_query("SELECT p.uid FROM {profile} p WHERE p.type = 'ding_staff_profile'")
+      ->fetchCol();
+
+    $sandbox['skip_uids'] = implode(',', $staff_uids);
+    $sandbox['progress'] = 0;
+    $sandbox['total'] = db_query("SELECT COUNT(u.uid) FROM {users} u WHERE u.uid <> 0 and u.uid <> 1 and u.uid NOT IN (:staff_uids) AND mail <> '' AND mail IS NOT NULL", [
+      ':staff_uids' => $sandbox['skip_uids']
+    ])->fetchField();
+  }
+
+  $queued_uids = db_query("SELECT u.uid FROM {users} u WHERE u.uid <> 0 and u.uid <> 1 AND u.uid NOT IN (:staff_uids) LIMIT {$sandbox['progress']}, 50", [
+    ':staff_uids' => $sandbox['skip_uids']
+  ])->fetchCol();
+
+  $users = user_load_multiple($queued_uids);
+  foreach ($users as $user) {
+    if (empty($user->mail)) {
+      continue;
+    }
+
+    $mail = _ding_user_pseudonymize_email($user->mail);
+    user_save($user, ['mail' => $mail]);
+    $sandbox['progress']++;
+  }
+
+  watchdog('ding_user', 'Pseudonymized %num users emails.', [
+    '%num' => $sandbox['progress'],
+  ], WATCHDOG_INFO);
+  $sandbox['#finished'] = $sandbox['progress'] / $sandbox['total'];
+}

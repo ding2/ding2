@@ -196,7 +196,7 @@ function ding_user_authenticate(array $user_info) {
       foreach ($auth_res['messages'] as $message) {
         $type = 'warning';
         if (is_array($message)) {
-          list($message, $type) = $message;
+          [$message, $type] = $message;
         }
         drupal_set_message(check_plain($message), $type);
       }
@@ -408,7 +408,7 @@ function ding_user_get_pincode_length_range_string() {
  * Form element validation handler for pincode elements.
  */
 function ding_user_element_validate_pincode($element, &$form_state, $form) {
-  list($min, $max) = ding_user_get_pincode_length_range();
+  [$min, $max] = ding_user_get_pincode_length_range();
   $pincode = $element['#value'];
   if (!empty($pincode) && !preg_match('/^\d{' . $min . ',' . $max . '}$/', $pincode)) {
     form_error($element, t('The pincode must consist of %number digits and only contain integers.', ['%number' => ding_user_get_pincode_length_range_string()]));
@@ -428,7 +428,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     $profile_type = ding_user_get_provider_profile_type();
     if ($form_state['profile2']->type == $profile_type->type) {
       // Add pin-code change field.
-      list(, $maxlength) = ding_user_get_pincode_length_range();
+      [, $maxlength] = ding_user_get_pincode_length_range();
       $form['pass'] = array(
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
@@ -768,7 +768,7 @@ function _ding_user_create_account($auth_name, array $auth_res) {
   $blocks = FALSE;
   if (isset($auth_res['user'])) {
     if (isset($auth_res['user']['mail'])) {
-      $mail = $auth_res['user']['mail'];
+      $mail = _ding_user_pseudonymize_email($auth_res['user']['mail']);
     }
 
     if (isset($auth_res['user']['data']['display_name'])) {
@@ -836,6 +836,26 @@ function _ding_user_create_account($auth_name, array $auth_res) {
   ding_user_save_creds($auth_res);
 
   return $account;
+}
+
+/**
+ * Creates a hash-like email address.
+ *
+ * @param string $email
+ *   Original email.
+ *
+ * @return string
+ *   Pseudonymized email.
+ */
+function _ding_user_pseudonymize_email(string $email): string {
+  if (valid_email_address($email)) {
+    [$left, $right] = explode('@', $email);
+
+    return hash('sha1', $left) . '@' . hash('sha1', $right) . '.com';
+  }
+  else {
+    return hash('sha1', $email) . '@example.com';
+  }
 }
 
 /**
