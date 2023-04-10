@@ -68,14 +68,17 @@ modules/easyopac_external_videos/
 modules/easyopac_facets/
 modules/easyopac_facets_translate/
 modules/easyopac_marc_references/
+modules/easyopac_nodereferences/
 modules/easyopac_page_custom/
 modules/easyopac_recommender/
+modules/easyopac_redirect/
 modules/easyopac_reset_password/
 modules/easyopac_second_menu/
 modules/easyopac_status/
 modules/easyopac_wysiwyg_button/
 modules/emailkanon/
 modules/ims/
+modules/lms/
 modules/kultunaut_events/
 modules/social_services/
 modules/ting_covers_backside/
@@ -92,3 +95,4 @@ modules/ting_search_terms/
 modules/ting_subjects_override/
 modules/ting_titles_decoration/
 themes/easyopac_app_theme/
+themes/bibliofil-subtheme/
