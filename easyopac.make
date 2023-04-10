@@ -626,6 +626,13 @@ projects[easyopac_app_theme][download][url]    = "git@github.com:easySuite/easyo
 ;projects[easyopac_app_theme][download][tag]    = ""
 projects[easyopac_app_theme][download][branch] = "development"
 
+projects[lms][type]             = "module"
+projects[lms][subdir]           = ""
+projects[lms][download][type]   = "git"
+projects[lms][download][url]    = "git@github.com:easySuite/lms.git"
+;projects[lms][download][tag]    = "7.x-6.1.0"
+projects[lms][download][branch] = "development"
+
 ; Other modules (narrowly focused)
 projects[inlead_forbid_crawling][type]                = "module"
 projects[inlead_forbid_crawling][download][type]      = "git"
