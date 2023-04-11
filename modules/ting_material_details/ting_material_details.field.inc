@@ -609,7 +609,8 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
 
         case 'ting_details_linked_dk5':
           $dk5_text = $entity->getClassificationText();
-          $val = l($val, 'search/ting/phrase.subject="' . $val . '"');
+          $search_string = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
+          $val = l($val, 'search/ting/' . strtr($search_string, '@subject', $val));
           if (!empty($dk5_text)) {
             $val .= ' (' . $dk5_text . ')';
           }
@@ -624,8 +625,9 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
             $val = array($val);
           }
           $links = array();
+          $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
           foreach ($val as $value) {
-            $links[] = l($value, 'search/ting/phrase.creator="' . $value . '"');
+            $links[] = l($value, 'search/ting/' . strtr($search_string, '@author', $value));
           }
           $element[$delta] = array(
             '#markup' => implode(', ', $links),
@@ -637,8 +639,9 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
             $val = array($val);
           }
           $links = array();
+          $search_string = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
           foreach ($val as $value) {
-            $links[] = l($value, 'search/ting/phrase.subject=' . $value);
+            $links[] = l($value, 'search/ting/'. strtr($search_string, '@subject', $value));
           }
           $element[$delta] = array(
             '#markup' => implode(', ', $links),
