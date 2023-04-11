@@ -150,8 +150,8 @@ function ting_subsearch_bibdk_subsearch_query($new_value = NULL) {
  *
  * @throws \Exception
  */
-function ting_subsearch_bibdk_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result) {
-  if (variable_get('ting_subsearch_bibdk_position', 'after') == 'before') {
+function ting_subsearch_bibdk_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result = NULL) {
+  if ($search_result && variable_get('ting_subsearch_bibdk_position', 'after') === 'before') {
     return _ting_subsearch_bibdk_trigger_ajax_placeholder($search_result);
   }
 }
@@ -161,8 +161,8 @@ function ting_subsearch_bibdk_ting_search_results_prefix($keys, $conditions, Tin
  *
  * @throws \Exception
  */
-function ting_subsearch_bibdk_ting_search_results_suffix($keys, $conditions, TingSearchResultInterface $search_result) {
-  if (variable_get('ting_subsearch_bibdk_position', 'after') == 'after') {
+function ting_subsearch_bibdk_ting_search_results_suffix($keys, $conditions, TingSearchResultInterface $search_result = NULL) {
+  if ($search_result && variable_get('ting_subsearch_bibdk_position', 'after') === 'after') {
     return _ting_subsearch_bibdk_trigger_ajax_placeholder($search_result);
   }
 }

@@ -85,8 +85,8 @@ function ting_subsearch_suggestions_ting_subsearch_ajax_placeholder_content(Ting
  * suggestion with results. This hook has the best timing for implementing a
  * redirect right after ting_search is executed.
  */
-function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result) {
-  if ($search_result->getNumTotalObjects() > 0) {
+function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, TingSearchResultInterface $search_result = NULL) {
+  if (!$search_result || $search_result->getNumTotalObjects() > 0) {
     return '';
   }
 
