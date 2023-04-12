@@ -23,3 +23,4 @@ features[rules_config][] = rules_ding_app_content_rss_news_update_cache_clear
 features[views_view][] = ding_app_content_event_rss
 features[views_view][] = ding_app_content_news_rss
 files[] = views/ding_app_content_rss_handler_library_id.inc
+files[] = views/ding_app_content_rss_handler_sales_status.inc
