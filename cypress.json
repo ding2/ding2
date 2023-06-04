@@ -1,0 +1,28 @@
+{
+  "chromeWebSecurity": false,
+  "defaultCommandTimeout": 3000,
+  "videosFolder": "cypress/videos",
+  "e2e": {
+    "slowTestThreshold": 3000
+  },
+  "viewportWidth": 1920,
+  "viewportHeight": 2080,
+  "component": {
+    "slowTestThreshold": 150
+  },
+  "env": {
+    "cypress-plugin-snapshots": {
+      "imageConfig": {
+        "threshold": 1,
+        "thresholdType": "pixel"
+      }
+    }
+    
+  },
+  "ignoreTestFiles": [
+    "**/1-getting-started/*",
+    "**/2-advanced-examples/*",
+    "**/__snapshots__/*",
+    "**/__image_snapshots__/*"
+  ]
+}
