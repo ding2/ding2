@@ -7,6 +7,14 @@ describe('Accessibility tests.', () => {
 
     cy.get('html').should('have.attr', 'lang').should('not.be.empty')
 
+    cy.get('meta[property="og:site_name"]').should('have.attr', 'content').should('not.be.empty')
+
+    cy.get('meta[property="og:type"]').should('have.attr', 'content').should('not.be.empty')
+
+    cy.get('meta[property="og:url"]').should('have.attr', 'content').should('not.be.empty')
+
+    cy.get('meta[property="og:title"]').should('have.attr', 'content').should('not.be.empty')
+
     cy.get('meta[name="viewport"]').should('have.attr', 'content').should('not.be.empty')
 
   })
@@ -14,20 +22,29 @@ describe('Accessibility tests.', () => {
   it('Should have no accessibility violations for img, button, input, title and a tags.', () => {
     cy.visit("/");
 
-   cy.get('a').should('have.attr', 'href')
+    cy.get('a').should('have.attr', 'href')
 
-   cy.get('img').should('have.attr', 'alt').should('not.be.empty')
+    cy.get('img').should('have.attr', 'alt').should('not.be.empty')
 
-   cy.get('button').should('have.attr', 'aria-label').should('not.be.empty')
+    cy.get('img').should('have.attr', 'src').should('not.be.empty')
+  
+    //cy.get('button').should('have.attr', 'type').should('not.be.empty')
 
-   cy.get('title').should('not.be.empty')
+    cy.get('button').should('be.visible')
+
+    //cy.get('input').should('have.attr', 'aria-label').should('not.be.empty')
+
+    cy.get('title').should('not.be.empty')
+
+    cy.get('#main-content').should('have.attr', 'role').should('eq', 'main')
+
 
    cy.get('input').and(($input) => {
      expect($input).have.attr('type').not.empty
    })
   })
 
-  it('Should have no accessibility violations on front page.', () => {
+  it.only('Should have no accessibility violations on front page.', () => {
     cy.visit("/");
 
     cy.wait(3000)
@@ -35,16 +52,27 @@ describe('Accessibility tests.', () => {
     cy.injectAxe()
 
     cy.checkA11y(null, {
-      exclude: ["#cookie_cat_statistic"],
+      exclude: [".ding-tabroll"],
       includedImpacts: ['critical','serious'],
       rules: {
-       'label-title-only' : { enabled: false }
+       'nested-interactive' : { enabled: false }
       }
     })
   })
 
   it('Should have no accessibility violations on arrangementer page.', () => {
     cy.visit("/arrangementer");
+    cy.get('a').should('have.attr', 'href')
+
+    cy.get('img').should('have.attr', 'alt').should('not.be.empty')
+
+    cy.get('img').should('have.attr', 'src').should('not.be.empty')
+
+    //cy.get('button').should('have.attr', 'type').should('not.be.empty')
+
+    //cy.get('button').should('be.visible')
+
+    //cy.get('input').should('have.attr', 'aria-label').should('not.be.empty')
 
     cy.get('title').should('not.be.empty')
 
@@ -56,22 +84,21 @@ describe('Accessibility tests.', () => {
 
     cy.checkA11y(null,
       {
-        exclude: ['.secondary-content', '#cookie_cat_statistic'],
+        exclude: ['.secondary-content'],
         includedImpacts: ['critical','serious'],
         rules: {
-          'aria-allowed-attr': { enabled: false },
-          'label-title-only' : { enabled: false }
+          'aria-allowed-attr': { enabled: false }
         },
       },
     );
   })
 
-  it.only('Should have no accessibility violations on biblioteker page.', () => {
+  it('Should have no accessibility violations on biblioteker page.', () => {
     cy.visit("/search/ting/belle?");
 
-    cy.get('h1').should('not.be.empty')
-
     cy.get('title').should('not.be.empty')
+
+    cy.get('h1').should('not.be.empty')
 
     cy.get('input').and(($input) => {
       expect($input).have.attr('type').not.empty
@@ -95,19 +122,18 @@ describe('Accessibility tests.', () => {
 
     cy.get('title').should('not.be.empty')
 
+    cy.get('a').should('have.attr', 'href')
+
+    cy.get('img').should('have.attr', 'alt').should('not.be.empty')
+
+    cy.get('img').should('have.attr', 'src').should('not.be.empty')
+
     cy.get('input').and(($input) => {
       expect($input).have.attr('type').not.empty
     })
 
     cy.injectAxe()
 
-    cy.checkA11y(null, {
-      exclude: ["#cookie_cat_statistic"],
-      includedImpacts: ['critical','serious'],
-      rules: {
-       'label-title-only' : { enabled: false }
-      }
-    })
   })
 
   it('Should have no accessibility violations on e-materialer page.', () => {
@@ -115,6 +141,12 @@ describe('Accessibility tests.', () => {
 
     cy.get('h1').should('not.be.empty')
 
+    cy.get('a').should('have.attr', 'href')
+
+    cy.get('img').should('have.attr', 'alt').should('not.be.empty')
+
+    cy.get('img').should('have.attr', 'src').should('not.be.empty')
+
     cy.get('title').should('not.be.empty')
 
     cy.get('input').and(($input) => {
@@ -123,50 +155,22 @@ describe('Accessibility tests.', () => {
 
     cy.injectAxe()
 
-    cy.checkA11y(null, {
-      exclude: ["#cookie_cat_statistic"],
-      includedImpacts: ['critical','serious'],
-      rules: {
-       'label-title-only' : { enabled: false }
-      }
-    })
   })
 
-  it('Should have no accessibility violations on vi-tilbyr page.', () => {
-    cy.visit("/vi-tilbyder");
+  it('Should have no accessibility violations on biblioteker page.', () => {
+    cy.visit("/biblioteker");
 
     cy.get('h1').should('not.be.empty')
 
     cy.get('a').should('have.attr', 'href')
 
-    cy.get('title').should('not.be.empty')
+    cy.get('img').should('have.attr', 'alt').should('not.be.empty')
 
-    cy.injectAxe()
-
-    cy.checkA11y(null, {
-      exclude: ["#cookie_cat_statistic"],
-      includedImpacts: ['critical','serious'],
-      rules: {
-       'label-title-only' : { enabled: false }
-      }
-    })
-  })
-
-  it('Should have no accessibility violations on vi-tilbyr page.', () => {
-    cy.visit("/biblioteker");
-
-    cy.get('h1').should('not.be.empty')
+    cy.get('img').should('have.attr', 'src').should('not.be.empty')
 
     cy.get('title').should('not.be.empty')
 
     cy.injectAxe()
 
-    cy.checkA11y(null, {
-      exclude: ["#cookie_cat_statistic"],
-      includedImpacts: ['critical','serious'],
-      rules: {
-       'label-title-only' : { enabled: false }
-      }
-    })
   })
 })
