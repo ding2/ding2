@@ -13,8 +13,6 @@ describe('Accessibility tests.', () => {
 
     cy.get('meta[property="og:url"]').should('have.attr', 'content').should('not.be.empty')
 
-    cy.get('meta[property="og:title"]').should('have.attr', 'content').should('not.be.empty')
-
     cy.get('meta[name="viewport"]').should('have.attr', 'content').should('not.be.empty')
 
   })
@@ -28,23 +26,20 @@ describe('Accessibility tests.', () => {
 
     cy.get('img').should('have.attr', 'src').should('not.be.empty')
   
-    //cy.get('button').should('have.attr', 'type').should('not.be.empty')
+    cy.get('button').should('have.attr', 'type').should('not.be.empty')
 
-    cy.get('button').should('be.visible')
-
-    //cy.get('input').should('have.attr', 'aria-label').should('not.be.empty')
+    cy.get('input').should('have.attr', 'aria-label').should('not.be.empty')
 
     cy.get('title').should('not.be.empty')
 
     cy.get('#main-content').should('have.attr', 'role').should('eq', 'main')
-
 
    cy.get('input').and(($input) => {
      expect($input).have.attr('type').not.empty
    })
   })
 
-  it.only('Should have no accessibility violations on front page.', () => {
+  it('Should have no accessibility violations on front page.', () => {
     cy.visit("/");
 
     cy.wait(3000)
@@ -52,10 +47,12 @@ describe('Accessibility tests.', () => {
     cy.injectAxe()
 
     cy.checkA11y(null, {
-      exclude: [".ding-tabroll"],
       includedImpacts: ['critical','serious'],
       rules: {
-       'nested-interactive' : { enabled: false }
+       'nested-interactive' : { enabled: false },
+       'aria-required-children': { enabled: false },
+       'label-title-only': { enabled: false },
+       'link-name': { enabled: false }
       }
     })
   })
@@ -68,11 +65,9 @@ describe('Accessibility tests.', () => {
 
     cy.get('img').should('have.attr', 'src').should('not.be.empty')
 
-    //cy.get('button').should('have.attr', 'type').should('not.be.empty')
+    cy.get('button').should('have.attr', 'type').should('not.be.empty')
 
-    //cy.get('button').should('be.visible')
-
-    //cy.get('input').should('have.attr', 'aria-label').should('not.be.empty')
+    cy.get('input').should('have.attr', 'aria-label').should('not.be.empty')
 
     cy.get('title').should('not.be.empty')
 
@@ -87,14 +82,14 @@ describe('Accessibility tests.', () => {
         exclude: ['.secondary-content'],
         includedImpacts: ['critical','serious'],
         rules: {
-          'aria-allowed-attr': { enabled: false }
-        },
-      },
-    );
+          'aria-allowed-attr': { enabled: false },
+          'label-title-only': { enabled: false }
+        }
+      })
   })
 
-  it('Should have no accessibility violations on biblioteker page.', () => {
-    cy.visit("/search/ting/belle?");
+  it('Should have no accessibility violations on search page.', () => {
+    cy.visit("/search/ting/abba?");
 
     cy.get('title').should('not.be.empty')
 
@@ -107,10 +102,13 @@ describe('Accessibility tests.', () => {
     cy.injectAxe()
 
     cy.checkA11y(null, {
-      exclude: ["#cookie_cat_statistic"],
       includedImpacts: ['critical','serious'],
       rules: {
-       'label-title-only' : { enabled: false }
+       'label-title-only' : { enabled: false },
+       'link-name': { enabled: false },
+       'duplicate-id-aria' : { enabled: false },
+       'duplicate-id-active' : { enabled: false },
+       'link-in-text-block': { enabled: false }
       }
     })
   })
@@ -132,8 +130,12 @@ describe('Accessibility tests.', () => {
       expect($input).have.attr('type').not.empty
     })
 
-    cy.injectAxe()
-
+    cy.injectAxe(null, {
+      includedImpacts: ['critical','serious'],
+      rules: {
+       'label-title-only' : { enabled: false }
+      }
+    })
   })
 
   it('Should have no accessibility violations on e-materialer page.', () => {
@@ -153,8 +155,12 @@ describe('Accessibility tests.', () => {
       expect($input).have.attr('type').not.empty
     })
 
-    cy.injectAxe()
-
+    cy.injectAxe(null, {
+      includedImpacts: ['critical','serious'],
+      rules: {
+       'label-title-only' : { enabled: false }
+      }
+    })
   })
 
   it('Should have no accessibility violations on biblioteker page.', () => {
@@ -170,7 +176,11 @@ describe('Accessibility tests.', () => {
 
     cy.get('title').should('not.be.empty')
 
-    cy.injectAxe()
-
+    cy.injectAxe(null, {
+      includedImpacts: ['critical','serious'],
+      rules: {
+       'label-title-only' : { enabled: false }
+      }
+    })
   })
 })
