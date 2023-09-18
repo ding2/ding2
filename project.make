@@ -185,6 +185,9 @@ projects[jquery_update][patch][] = "https://www.drupal.org/files/issues/2018-12-
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
 
+projects[lang_dropdown][subdir] = "contrib"
+projects[lang_dropdown][version] = "2.7"
+
 projects[lazy_pane][subdir] = "contrib"
 projects[lazy_pane][version] = "1.2"
 ; Patch from https://www.drupal.org/project/lazy_pane/issues/3012604
