@@ -216,6 +216,11 @@ function ding_user_update_7103(&$sandbox) {
     ])->fetchField();
   }
 
+  if ((int) $sandbox['total'] === 0) {
+    $sandbox['#finished'] = 1;
+    return;
+  }
+
   $queued_uids = db_query("SELECT u.uid FROM {users} u WHERE u.uid <> 0 and u.uid <> 1 AND u.uid NOT IN (:staff_uids) LIMIT {$sandbox['progress']}, 50", [
     ':staff_uids' => $sandbox['skip_uids']
   ])->fetchCol();
