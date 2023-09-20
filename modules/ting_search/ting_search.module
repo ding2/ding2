@@ -204,6 +204,9 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   // Set the placeholder.
   $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
 
+  // Set the aria-label.
+  $form['search_block_form']['#attributes']['aria-label'] = t('Search the library');
+
   $form['sort'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : FALSE,
