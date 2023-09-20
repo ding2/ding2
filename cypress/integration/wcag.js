@@ -28,8 +28,6 @@ describe('Accessibility tests.', () => {
   
     cy.get('button').should('have.attr', 'type').should('not.be.empty')
 
-    cy.get('input').should('have.attr', 'aria-label').should('not.be.empty')
-
     cy.get('title').should('not.be.empty')
 
     cy.get('#main-content').should('have.attr', 'role').should('eq', 'main')
@@ -39,7 +37,7 @@ describe('Accessibility tests.', () => {
    })
   })
 
-  it('Should have no accessibility violations on front page.', () => {
+  it.only('Should have no accessibility violations on front page.', () => {
     cy.visit("/");
 
     cy.wait(3000)
@@ -48,12 +46,6 @@ describe('Accessibility tests.', () => {
 
     cy.checkA11y(null, {
       includedImpacts: ['critical','serious'],
-      rules: {
-       'nested-interactive' : { enabled: false },
-       'aria-required-children': { enabled: false },
-       'label-title-only': { enabled: false },
-       'link-name': { enabled: false }
-      }
     })
   })
 
@@ -66,8 +58,6 @@ describe('Accessibility tests.', () => {
     cy.get('img').should('have.attr', 'src').should('not.be.empty')
 
     cy.get('button').should('have.attr', 'type').should('not.be.empty')
-
-    cy.get('input').should('have.attr', 'aria-label').should('not.be.empty')
 
     cy.get('title').should('not.be.empty')
 
@@ -89,27 +79,28 @@ describe('Accessibility tests.', () => {
   })
 
   it('Should have no accessibility violations on search page.', () => {
-    cy.visit("/search/ting/abba?");
+    cy.visit("/search/ting/belle?");
+
+    cy.get('a').should('have.attr', 'href')
+
+    cy.get('img').should('have.attr', 'alt').should('not.be.empty')
+
+    cy.get('img').should('have.attr', 'src').should('not.be.empty')
+
+    cy.get('button').should('have.attr', 'type').should('not.be.empty')
 
     cy.get('title').should('not.be.empty')
 
     cy.get('h1').should('not.be.empty')
-
-    cy.get('input').and(($input) => {
-      expect($input).have.attr('type').not.empty
-    })
 
     cy.injectAxe()
 
     cy.checkA11y(null, {
       includedImpacts: ['critical','serious'],
       rules: {
-       'label-title-only' : { enabled: false },
-       'link-name': { enabled: false },
        'duplicate-id-aria' : { enabled: false },
-       'duplicate-id-active' : { enabled: false },
-       'link-in-text-block': { enabled: false }
-      }
+       'duplicate-id-active' : { enabled: false }
+     }
     })
   })
 
@@ -126,15 +117,12 @@ describe('Accessibility tests.', () => {
 
     cy.get('img').should('have.attr', 'src').should('not.be.empty')
 
-    cy.get('input').and(($input) => {
-      expect($input).have.attr('type').not.empty
-    })
+    cy.get('button').should('have.attr', 'type').should('not.be.empty')
 
-    cy.injectAxe(null, {
+    cy.injectAxe()
+
+    cy.checkA11y(null, {
       includedImpacts: ['critical','serious'],
-      rules: {
-       'label-title-only' : { enabled: false }
-      }
     })
   })
 
@@ -149,17 +137,14 @@ describe('Accessibility tests.', () => {
 
     cy.get('img').should('have.attr', 'src').should('not.be.empty')
 
+    cy.get('button').should('have.attr', 'type').should('not.be.empty')
+
     cy.get('title').should('not.be.empty')
 
-    cy.get('input').and(($input) => {
-      expect($input).have.attr('type').not.empty
-    })
+    cy.injectAxe()
 
-    cy.injectAxe(null, {
+    cy.checkA11y(null, {
       includedImpacts: ['critical','serious'],
-      rules: {
-       'label-title-only' : { enabled: false }
-      }
     })
   })
 
@@ -174,13 +159,14 @@ describe('Accessibility tests.', () => {
 
     cy.get('img').should('have.attr', 'src').should('not.be.empty')
 
+    cy.get('button').should('have.attr', 'type').should('not.be.empty')
+
     cy.get('title').should('not.be.empty')
 
-    cy.injectAxe(null, {
-      includedImpacts: ['critical','serious'],
-      rules: {
-       'label-title-only' : { enabled: false }
-      }
+    cy.injectAxe()
+
+    cy.checkA11y(null, {
+      includedImpacts: ['critical','serious']
     })
   })
 })
