@@ -84,7 +84,7 @@ function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
     if (is_array($node)) {
       $node = array_shift($node);
     }
-    $node->item_template = 'ding_nodelist.' . $node->type . '.' . $conf['widget_type'];
+    $node->item_template = 'nodelist__' . $node->type . '__' . $conf['widget_type'];
     $field = "field_{$node->type}_list_image";
     if (!empty($node->{$field})) {
       $media_field = field_view_field('node', $node, $field);

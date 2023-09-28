@@ -1066,12 +1066,13 @@ function _ding_nodelist_get_templates($include_hidden = TRUE, $content_type = NU
 
     if (isset($templates[$template_name])) {
       // Fetch content type from filename.
-      $ct_name = explode('.', $template_name);
+      $ct_name = explode('__', $template_name);
 
       // Filter by CT.
       if (!$content_type || ($content_type && $content_type == $ct_name[1])) {
         $templates[$template_name] = $template;
         $templates[$template_name]['content_type'] = $ct_name[1];
+        $templates[$template_name]['default_widget'] = $ct_name[2];
       }
       elseif ($content_type != $ct_name[1]) {
         unset($templates[$template_name]);
@@ -1401,7 +1402,7 @@ function _ding_nodelist_get_core_templates() {
   // Get core templates from files.
   $templates = array();
   $path = drupal_get_path('module', 'ding_nodelist') . '/templates';
-  $template_files = drupal_system_listing('/^ding_nodelist\..+\.tpl\.php$/', $path, 'filename', 0);
+  $template_files = drupal_system_listing('/^nodelist.+\.tpl\.php$/', $path, 'filename', 0);
   foreach ($template_files as $template_name => $file) {
     $template_name = str_replace('.tpl.php', '', $template_name);
     $templates[$template_name] = array(
@@ -1597,7 +1598,7 @@ function _ding_nodelist_get_event_location($item, $islink = false) {
   // Prevents that country is printes out, without any other values.
     if (!empty($event_location[0]['name_line'])) {
       return array('#markup' => $event_location[0]['name_line']);
-    } 
+    }
     elseif (!empty($event_location[0]['thoroughfare'])) {
       return array('#markup' => $event_location[0]['thoroughfare']);
     }
