@@ -75,7 +75,6 @@ function ding_nodelist_templates_form($form, &$form_state) {
   );
 
   $templates = _ding_nodelist_get_templates();
-
   foreach ($templates as $template_name => $template) {
     $form['templates'][$template_name]['template_name'] = array(
       '#type' => 'hidden',
@@ -94,12 +93,17 @@ function ding_nodelist_templates_form($form, &$form_state) {
       $ct[$template['content_type']] : t('Missing (@ctname)', array('@ctname' => $template['content_type'])),
     );
 
+    $form['templates'][$template_name]['content_type_value'] = array(
+      '#type' => 'hidden',
+      '#value' => $template['content_type'],
+    );
+
     $widgets = _ding_nodelist_get_widget_types();
     $form['templates'][$template_name]['widget'] = array(
       '#type' => 'select',
       '#empty_value' => '',
       '#required' => FALSE,
-      '#default_value' => isset($template['widget']) ? $template['widget'] : '',
+      '#default_value' => !empty($template['widget']) ? $template['widget'] : $template['default_widget'],
       '#options' => $widgets,
     );
 
@@ -126,6 +130,7 @@ function ding_nodelist_templates_form_submit($form, &$form_state) {
     $tpl_record = array(
       'title' => $template['title'],
       'status' => $template['visible'] ? DING_NODELIST_TPL_ACTIVE : DING_NODELIST_TPL_HIDDEN,
+      'content_type' => $template['content_type_value'],
       'widget' => $template['widget'],
     );
     db_update('ding_nodelist_templates')->fields($tpl_record)
