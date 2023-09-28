@@ -854,7 +854,6 @@ function theme_ding_nodelist_templates_table($variables) {
       $form[$key]['template_name']['#value'],
       drupal_render($form[$key]['title']),
       drupal_render($form[$key]['content_type']),
-//      drupal_render($form[$key]['content_type_value']),
       drupal_render($form[$key]['widget']),
       drupal_render($form[$key]['visible']),
     );
