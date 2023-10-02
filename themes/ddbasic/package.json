@@ -8,21 +8,31 @@
   "author": "",
   "homepage": "https://github.com/ding2/ding2",
   "dependencies": {
-    "gulp": "^3.9.0",
-    "gulp-clean-css": "^3.0.3",
-    "gulp-concat": "^2.6.1",
-    "gulp-help": "^1.6.1",
-    "gulp-jshint": "^1.11.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
-    "gulp-stylelint": "^3.9.0",
-    "gulp-uglify": "^2.0.1",
-    "gulp-util": "^3.0.6",
-    "jshint-stylish": "^2.0.1",
-    "stylelint-config-standard": "^16.0.0"
+    "node-sass": "^9.0.0",
+    "postcss-sass": "^0.5.0",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-scss": "^5.2.1"
   },
   "devDependencies": {
-    "kss": "^3.0.0-beta.18"
+    "@applitools/eyes-cypress": "^3.29.1",
+    "axe-core": "^4.3.5",
+    "cy-mobile-commands": "^0.3.0",
+    "cypress": "^9.7.0",
+    "cypress-axe": "^0.14.0",
+    "cypress-html-validate": "^5.1.2",
+    "cypress-if": "^1.10.1",
+    "cypress-iframe": "^1.0.1",
+    "cypress-localstorage-commands": "^1.7.0",
+    "cypress-wait-until": "^1.7.2",
+    "cypress-xpath": "^2.0.1",
+    "html-validate": "^7.13.2"
+  },
+  "scripts": {
+    "sass-dev": "node-sass sass -o sass_css --sourceMap=true --indentWidth=4",
+    "sass-validate": "stylelint sass --custom-syntax=postcss-sass",
+    "sass": "node-sass sass -o sass_css --outputStyle=compressed",
+    "cypress:open": "cypress open"
   },
   "stylelint": {
     "extends": "stylelint-config-standard",
