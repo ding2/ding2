@@ -92,7 +92,7 @@ function ding_event_theme() {
         'items' => NULL,
         'element' => NULL,
       ),
-      'template' => 'templates/views-exposed-form-widget',
+      'template' => 'templates/views-exposed-form-widgets',
     ),
   );
 }
