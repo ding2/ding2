@@ -222,7 +222,7 @@ projects[l10n_client][version] = "1.3"
 projects[l10n_client][patch][] = "https://www.drupal.org/files/issues/l10n_client-browser_is_undefined_jquery_gt_19-2191771-3.patch"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.15"
+projects[i18n][version] = "1.22"
 
 projects[manualcrop][subdir] = "contrib"
 projects[manualcrop][version] = "1.7"
