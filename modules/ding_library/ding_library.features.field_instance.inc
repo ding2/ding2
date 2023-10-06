@@ -32,6 +32,18 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'culture' => array(
+        'label' => 'hidden',
+        'module' => 'addressfield',
+        'settings' => array(
+          'format_handlers' => array(
+            0 => 'address',
+          ),
+          'use_widget_handlers' => 1,
+        ),
+        'type' => 'addressfield_default',
+        'weight' => 1,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'addressfield',
@@ -119,6 +131,12 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'culture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -182,6 +200,13 @@ function ding_library_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'culture' => array(
+        'label' => 'inline',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 4,
       ),
       'default' => array(
         'label' => 'above',
@@ -247,6 +272,12 @@ function ding_library_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'culture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
       ),
       'default' => array(
         'label' => 'above',
@@ -321,6 +352,12 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'culture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 11,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -385,6 +422,13 @@ function ding_library_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'culture' => array(
+        'label' => 'inline',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 6,
       ),
       'default' => array(
         'label' => 'above',
@@ -467,6 +511,13 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'culture' => array(
+        'label' => 'inline',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 5,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'email',
@@ -531,6 +582,13 @@ function ding_library_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'culture' => array(
+        'label' => 'inline',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'above',
@@ -597,6 +655,12 @@ function ding_library_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'culture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -660,6 +724,16 @@ function ding_library_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'culture' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'ding_panorama_list_small',
+        ),
+        'type' => 'image',
+        'weight' => 3,
       ),
       'default' => array(
         'label' => 'above',
@@ -769,8 +843,7 @@ function ding_library_field_default_field_instances() {
     ),
   );
 
-  // @todo This should be moved to separate module.
-  // Exported field_instance: 'node-ding_library-field_hide_news_and_events'
+  // Exported field_instance: 'node-ding_library-field_hide_news_and_events'.
   $field_instances['node-ding_library-field_hide_news_and_events'] = array(
     'bundle' => 'ding_library',
     'default_value' => array(
@@ -781,6 +854,18 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'News and events on library page will be hidden if checked.',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'culture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'list',
@@ -801,6 +886,12 @@ function ding_library_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -841,6 +932,12 @@ function ding_library_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'culture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
       ),
       'default' => array(
         'label' => 'above',

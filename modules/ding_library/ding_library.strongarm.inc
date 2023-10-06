@@ -153,6 +153,22 @@ function ding_library_strongarm() {
             'weight' => 0,
             'label' => 'above',
           ),
+          'culture' => array(
+            'weight' => '7',
+            'visible' => FALSE,
+          ),
+        ),
+        'ding_serendipity_info' => array(
+          'culture' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+        'language' => array(
+          'culture' => array(
+            'weight' => '8',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),
