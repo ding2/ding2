@@ -853,9 +853,8 @@ function _ding_user_pseudonymize_email(string $email): string {
 
     return hash('sha1', $left) . '@' . hash('sha1', $right) . '.com';
   }
-  else {
-    return hash('sha1', $email) . '@example.com';
-  }
+
+  return hash('sha1', $email) . '@example.com';
 }
 
 /**

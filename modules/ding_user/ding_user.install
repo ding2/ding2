@@ -206,14 +206,12 @@ function ding_user_update_7102(&$sandbox) {
  */
 function ding_user_update_7103(&$sandbox) {
   if (!array_key_exists('progress', $sandbox)) {
-    $staff_uids = db_query("SELECT p.uid FROM {profile} p WHERE p.type = 'ding_staff_profile'")
-      ->fetchCol();
-
-    $sandbox['skip_uids'] = implode(',', $staff_uids);
     $sandbox['progress'] = 0;
-    $sandbox['total'] = db_query("SELECT COUNT(u.uid) FROM {users} u WHERE u.uid <> 0 and u.uid <> 1 and u.uid NOT IN (:staff_uids) AND mail <> '' AND mail IS NOT NULL", [
-      ':staff_uids' => $sandbox['skip_uids']
-    ])->fetchField();
+    $sandbox['total'] = db_query("SELECT COUNT(u.uid) FROM {users} u
+INNER JOIN {users_roles} ur ON u.uid = ur.uid
+INNER JOIN {role} r ON ur.rid = r.rid
+WHERE r.name = 'provider' AND r.name NOT IN (SELECT name FROM {role} WHERE name <> 'provider')")
+      ->fetchField();
   }
 
   if ((int) $sandbox['total'] === 0) {
@@ -221,23 +219,32 @@ function ding_user_update_7103(&$sandbox) {
     return;
   }
 
-  $queued_uids = db_query("SELECT u.uid FROM {users} u WHERE u.uid <> 0 and u.uid <> 1 AND u.uid NOT IN (:staff_uids) LIMIT {$sandbox['progress']}, 50", [
-    ':staff_uids' => $sandbox['skip_uids']
-  ])->fetchCol();
+  $queued_uids = db_query("SELECT u.uid FROM {users} u
+INNER JOIN {users_roles} ur ON u.uid = ur.uid
+INNER JOIN {role} r ON ur.rid = r.rid
+WHERE r.name = 'provider' AND r.name NOT IN (SELECT name FROM {role} WHERE name <> 'provider') LIMIT {$sandbox['progress']}, 50")
+    ->fetchCol();
 
-  $users = user_load_multiple($queued_uids);
-  foreach ($users as $user) {
+  foreach (user_load_multiple($queued_uids) as $user) {
+    $sandbox['progress']++;
+
     if (empty($user->mail)) {
       continue;
     }
 
-    $mail = _ding_user_pseudonymize_email($user->mail);
-    user_save($user, ['mail' => $mail]);
-    $sandbox['progress']++;
+    db_update('users')
+      ->fields([
+        'mail' => _ding_user_pseudonymize_email($user->mail),
+      ])
+      ->condition('uid', $user->uid)
+      ->execute();
   }
 
-  watchdog('ding_user', 'Pseudonymized %num users emails.', [
+  entity_get_controller('user')->resetCache($queued_uids);
+
+  watchdog('ding_user', 'Pseudonymized (%num/%total) user emails.', [
     '%num' => $sandbox['progress'],
+    '%total' => $sandbox['total'],
   ], WATCHDOG_INFO);
   $sandbox['#finished'] = $sandbox['progress'] / $sandbox['total'];
 }
