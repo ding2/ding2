@@ -234,6 +234,8 @@
         window.addEventListener("CookieInformationConsentGiven", function (event) {
           if (!CookieInformation.getConsentGivenFor("cookie_cat_statistic")) {
             wts.push(['removeIdentifierOptOut']);
+          } else {
+            wts.push(['setIdentifierOptOut']);
           }
         });
       }
