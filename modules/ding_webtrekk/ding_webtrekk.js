@@ -40,22 +40,10 @@
     }
   };
 
-  // Enables tracking without cookies. This method uses IP + user agent
-  // fingerprinting instead to keep sessions together. Cross session analysis
-  // will no longer be possible.
-  // TODO: Insert link to documentation when available. As of writing this is
-  // very new stuff.
-  var noCookieTracking = function noCookieTracking() {
-    if (typeof wts !== 'undefined') {
-      wts.push(['setIdentifierOptOut']);
-    }
-  }
-
   // Other modules dealing with client side webtrekk tracking might find these
   // functions useful, so make them available on the global Drupal object.
   Drupal.dingWebtrekkAppendQueryParameter = appendQueryParameter;
   Drupal.dingWebtrekkPushEvent = pushEvent;
-  Drupal.dingWebtrekkNoCookieTracking= noCookieTracking;
 
   Drupal.dingWebtrekkCoverFound = false;
 
@@ -239,33 +227,15 @@
           $(this).unbind('DOMSubtreeModified');
         });
 
-      const noCookieTracking = function (name) {
-        var cookiesToDelete = Drupal.settings.dingWebtrekk.cookiesToRemove;
-        cookiesToDelete.forEach(cookie => {
-          var hostname = window.location.hostname;
-          while (hostname !== '') {
-          // The version of jquery.cookie which comes with this version of Drupal does not have
-          // removeCookie function so we use this method instead.
-            $.cookie(cookie, null, { path: '/', domain: hostname });
-
-            var index = hostname.indexOf('.');
-            // We can be on a sub-domain, so keep checking the main domain as well.
-            hostname = (index === -1) ? '' : hostname.substring(index + 1);
-          }
-        });
-      }
       // This code fires multiple times. But we need to make sure that the cookies are removed after they are
       // set and on any change in consent.
-      if (typeof CookieInformation !== 'undefined' && CookieInformation !== null) {
-        if (!CookieInformation.getConsentGivenFor("cookie_cat_statistic")) {
-          // If the user has not yet consented or opted out of statistic cookies we use nocookietracking.
-          noCookieTracking();
-        }
-
+      if ((typeof CookieInformation !== 'undefined' && CookieInformation !== null) &&
+        (typeof wts !== 'undefined' && wts !== null)) {
         window.addEventListener("CookieInformationConsentGiven", function (event) {
           if (!CookieInformation.getConsentGivenFor("cookie_cat_statistic")) {
-            // If the user has opted out of statistic cookies we use nocookietracking.
-            noCookieTracking();
+            wts.push(['removeIdentifierOptOut']);
+          } else {
+            wts.push(['setIdentifierOptOut']);
           }
         });
       }
