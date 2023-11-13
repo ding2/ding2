@@ -159,12 +159,12 @@ textarea {
 @supports(-webkit-appearance: none) or (-moz-appearance: none) {
   input[type='checkbox'],
   input[type='radio'] {
-    --active: $color-primary;
+    --active: #{$color-primary};
     --active-inner: #fff;
-    --focus: 2px $color-primary;
-    --border: $grey;
-    --border-hover: $color-primary;
-    --background: $grey;
+    --focus: 2px #{$color-primary};
+    --border: #{$grey};
+    --border-hover: #{$color-primary};
+    --background: #{$grey};
     --disabled: #F6F8FF;
     --disabled-inner: #E1E6F9;
     -webkit-appearance: none;
