@@ -285,6 +285,13 @@ projects[easyddb_ee_import][download][url]    = "git@github.com:easySuite/easydd
 ;projects[easyddb_ee_import][download][tag]    = ""
 projects[easyddb_ee_import][download][branch] = "development"
 
+projects[easyddb_ee_pdf][type]             = "module"
+projects[easyddb_ee_pdf][subdir]           = ""
+projects[easyddb_ee_pdf][download][type]   = "git"
+projects[easyddb_ee_pdf][download][url]    = "git@github.com:easySuite/easyddb_ee_pdf.git"
+;projects[easyddb_ee_pdf][download][tag]    = ""
+projects[easyddb_ee_pdf][download][branch] = "development"
+
 projects[easyddb_dams][type]             = "module"
 projects[easyddb_dams][subdir]           = ""
 projects[easyddb_dams][download][type]   = "git"
