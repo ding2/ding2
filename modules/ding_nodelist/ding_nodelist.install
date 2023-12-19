@@ -500,3 +500,26 @@ function ding_nodelist_update_7009() {
   variable_del('ding_nodelist_horizontal_accordion_teaser_trim');
   variable_del('ding_nodelist_horizontal_accordion_title_trim');
 }
+
+/**
+ * Adding 'Carousel' display type for ding_page.
+ */
+function ding_nodelist_update_7010() {
+  $mappings = array(
+    'ding_nodelist.ding_page.carousel' => array(
+      'widget' => 'carousel',
+      'content_type' => 'ding_page',
+    ),
+  );
+
+  foreach ($mappings as $filename => $mapping) {
+    db_update('ding_nodelist_templates')
+      ->fields(array(
+        'content_type' => $mapping['content_type'],
+        'widget' => $mapping['widget'],
+        'status' => 0,
+      ))
+      ->condition('filename', $filename)
+      ->execute();
+  }
+}
