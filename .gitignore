@@ -7,6 +7,7 @@ config.php
 tests/behat/.idea/
 modules/bibdk_subject_hierarchy/
 modules/bibliofil_lists/
+modules/culture_frontend/
 modules/ding_bibliotek_info/
 modules/ding_billetexpressen_import/
 modules/ding_billettendk_import/
@@ -49,6 +50,7 @@ modules/ding_video/
 modules/easyddb_dams/
 modules/easyddb_direct_link/
 modules/easyddb_ee_import/
+modules/easyddb_ee_pdf/
 modules/easyddb_event_status/
 modules/easyddb_extlink_settings/
 modules/easyddb_facebookshare/
@@ -96,3 +98,4 @@ modules/ting_subjects_override/
 modules/ting_titles_decoration/
 themes/easyopac_app_theme/
 themes/bibliofil-subtheme/
+themes/Kulture_Theme/
