@@ -913,29 +913,3 @@ function ding_place2book_field_group_info_alter(&$groups) {
     $groups['group_left|node|ding_event|default']->data['children'][] = 'field_place2book';
   }
 }
-
-/**
- * Implements hook_ding_mobilesearch_node_export_mapping().
- */
-function ding_place2book_ding_mobilesearch_node_export_mapping($node) {
-  if ($node->type !== 'ding_event') {
-    return [];
-  }
-
-  $node_wrapper = entity_metadata_wrapper('node', $node);
-
-  $ticket_url = '';
-  if (field_get_items('node', $node, 'field_ding_event_ticket_link')) {
-    $ticket_url = $node_wrapper->field_ding_event_ticket_link->url->value();
-  }
-
-  return [
-    'fields' => [
-      'field_ding_event_ticket_link' => [
-        'name' => t('Ticket link'),
-        'value' => $ticket_url,
-        'attr' => [],
-      ],
-    ],
-  ];
-}

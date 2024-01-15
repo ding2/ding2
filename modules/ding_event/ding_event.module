@@ -555,3 +555,29 @@ function ding_event_preprocess_node(&$variables) {
     }
   }
 }
+
+/**
+ * Implements hook_ding_mobilesearch_node_export_mapping().
+ */
+function ding_event_ding_mobilesearch_node_export_mapping($node) {
+  if ($node->type !== 'ding_event') {
+    return [];
+  }
+
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  $ticket_url = '';
+  if (field_get_items('node', $node, 'field_ding_event_ticket_link')) {
+    $ticket_url = $node_wrapper->field_ding_event_ticket_link->url->value();
+  }
+
+  return [
+    'fields' => [
+      'field_ding_event_ticket_link' => [
+        'name' => t('Ticket link'),
+        'value' => $ticket_url,
+        'attr' => [],
+      ],
+    ],
+  ];
+}
