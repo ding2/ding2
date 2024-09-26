@@ -15,7 +15,7 @@
   <div class="layout-wrapper">
     <div class="pane-content">
       <div class="primary-content ding-auth">
-        <h2 class="pane-title"><?php print t('Self registration form'); ?></h2>
+        <h1 class="pane-title"><?php print t('Self registration form'); ?></h1>
         <div class="ding-auth--registration-acceptance">
           <?php print $variables['element']['#children'] ?>
         </div>
