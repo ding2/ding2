@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Module for disabling ding functionality needing a user GUID.
+ */
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function ding_no_guid_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'ding_entity_buttons') {
+    // Remove ding_react buttons.
+    unset($implementations['ding_react']);
+  }
+
+  if ($hook === 'form_search_block_form_alter') {
+    // Remove ding_react buttons.
+    unset($implementations['ding_react']);
+  }
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_no_guid_menu_alter(&$items) {
+  // Remove checklist user page.
+  if (isset($items['user/%pm_arg/checklist'])) {
+    unset($items['user/%pm_arg/checklist']);
+  }
+
+  // Remove saved searches user page.
+  if (isset($items['user/%pm_arg/followed-searches'])) {
+    unset($items['user/%pm_arg/followed-searches']);
+  }
+}

@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ding_no_guid module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_no_guid_install() {
+  // Set module weight so our hook_menu_alter is called after page_manager has
+  // used it to insert menu items for custom pages.
+  db_update('system')
+    ->fields(array('weight' => 9999))
+    ->condition('name', 'ding_no_guid', '=')
+    ->execute();
+}
