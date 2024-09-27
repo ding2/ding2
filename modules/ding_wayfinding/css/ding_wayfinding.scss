@@ -1,0 +1,114 @@
+$color-light: #fff;
+$color-dark: #222;
+$color-gray-300: #f0f0f0;
+
+$spacer: 1em;
+
+$map-popover-width: 300px;
+
+.map-info-wrapper {
+  position: absolute;
+  left: calc(50% - #{$map-popover-width/2});
+  top: 60%;
+}
+
+.map-marker {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacer;
+}
+
+.map-popover {
+  font-family: "FaktPro-Light", Arial, sans-serif;
+  position: relative;
+  width: $map-popover-width;
+  border-radius: $spacer/2;
+  background-color: $color-light;
+  box-shadow: 0 4px 16px transparentize($color-dark, 0.8);
+  overflow: hidden;
+
+  &__toggle-information {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    border: 0;
+    background: none;
+    margin: 0;
+    padding: 0 $spacer/2;
+    text-decoration: none;
+    color: $color-dark;
+    font-size: $spacer;
+    vertical-alig: middle;
+    transition: transform .2s ease-in;
+    border-radius: $spacer/2;
+    z-index: 1010;
+
+    svg {
+      margin-top: 5px;
+    }
+
+    &.hidden {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__top {
+    display: flex;
+    padding: $spacer $spacer*2.5 $spacer $spacer;
+    max-height: 400px;
+    transition: max-height .2s ease-in, opacity .2s .2s ease-in;
+
+    &.hidden {
+      max-height: 0;
+      opacity: 0;
+      padding: 0;
+      transition: max-height .4s .2s  ease-out, opacity .2s ease-out, padding .4s .2s ease-out;
+    }
+  }
+
+  &__bottom {
+    border-top: 1px solid $color-gray-300;
+    padding: 0 $spacer;
+    margin: 0;
+
+    p {
+      margin: $spacer 0;
+    }
+  }
+
+  &__left {
+    flex: 1 1 auto;
+  }
+
+  &__right {
+    padding: 0 0 0 $spacer;
+    flex: 1 1 auto;
+    height: 100%;
+  }
+
+  &__image img{
+    border-radius: $spacer/2;
+    width: 80px;
+  }
+
+  &__title{
+    margin: 0;
+    font-size: $spacer*1.10;
+    word-break: break-word;
+    hyphens: auto;
+    line-height: 1.25;
+  }
+
+  &__author {
+    margin: $spacer 0;
+  }
+
+  &__btn {
+    border: 0;
+    background-color: $color-dark;
+    color: $color-light;
+    padding: $spacer/2 $spacer;
+    border-radius: $spacer/4;
+    margin: 0;
+  }
+}
